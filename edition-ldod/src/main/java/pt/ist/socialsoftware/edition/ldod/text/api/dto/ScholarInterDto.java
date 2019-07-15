@@ -101,4 +101,12 @@ public class ScholarInterDto {
     public ScholarInterDto getPrevScholarInter() {
         return this.textProvidesInterface.getPrevScholarInter(this.xmlId);
     }
+
+    public String getVolume() {
+        return this.textProvidesInterface.getExpertEditionInterVolume(this.xmlId);
+    }
+
+    public String getCompleteNumber() {
+        return this.textProvidesInterface.getExpertInterCompleteNumber(this.xmlId);
+    }
 }

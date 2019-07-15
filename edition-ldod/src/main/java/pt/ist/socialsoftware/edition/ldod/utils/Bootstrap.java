@@ -98,8 +98,6 @@ public class Bootstrap implements WebApplicationInitializer {
             String customName = FenixFramework.getDomainRoot().getModuleSet().stream().map(EditionModule::getName)
                     .map(s -> s.replace("edition-", "")).collect(Collectors.joining("-"));
 
-            logger.debug(customName);
-
             if(Arrays.asList(directory.list()).contains(customName + ".txt")){ //custom config specified.
                 EditionModule module = new EditionModule("Custom");
                 UiComponent uiComponent = new UiComponent(module);

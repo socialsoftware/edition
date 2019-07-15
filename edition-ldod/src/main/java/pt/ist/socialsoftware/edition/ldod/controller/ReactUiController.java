@@ -16,7 +16,9 @@ import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.LdoDDateDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.SourceDto;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
@@ -228,74 +230,61 @@ public class ReactUiController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-
         Map<String, Object> metaInfo = new LinkedHashMap<>();
 
-        UiInterface uiInterface = new UiInterface();
+        ScholarInterDto scholarInterDto = this.textProvidesInterface.getScholarInter(scholarInter.getXmlId());
+        SourceDto sourceDto = scholarInterDto.isSourceInter() ? scholarInterDto.getSourceDto() : null;
 
-        boolean isEditorial = uiInterface.getSourceTypeOfInter(urlId.replace("_", ".")).equals(FragInterDto.InterType.EDITORIAL);
-        boolean isManuscript = uiInterface.getSourceTypeOfInter(urlId.replace("_", ".")).equals(FragInterDto.InterType.AUTHORIAL)
-                && ((SourceInter) scholarInter).getSource().getType().equals(MANUSCRIPT);
-        boolean isPublication = uiInterface.getSourceTypeOfInter(urlId.replace("_", ".")).equals(FragInterDto.InterType.AUTHORIAL)
-                && ((SourceInter) scholarInter).getSource().getType().equals(PRINTED);
+        boolean isEditorial = !scholarInterDto.isSourceInter();
+        boolean isManuscript = scholarInterDto.isSourceInter()
+                && sourceDto.getType().equals(MANUSCRIPT);
+        boolean isPublication =  scholarInterDto.isSourceInter()
+                && sourceDto.getType().equals(PRINTED);
 
         if (isEditorial) {
-            metaInfo.put("title", scholarInter.getTitle());
+            metaInfo.put("title", scholarInterDto.getTitle());
         } else if (isPublication) {
-            PrintedSource source = (PrintedSource) ((SourceInter) scholarInter).getSource();
-            metaInfo.put("title", source.getTitle());
+            metaInfo.put("title", sourceDto.getTitle());
         } else {
             metaInfo.put("title", "");
         }
 
 
         if (isManuscript) {
-            ManuscriptSource source = (ManuscriptSource) ((SourceInter) scholarInter).getSource();
-            metaInfo.put("idno", source.getIdno());
+            metaInfo.put("idno", sourceDto.getIdno());
         }
 
 
-        metaInfo.put("heteronym", scholarInter.getHeteronym().getName());
+        metaInfo.put("heteronym", scholarInterDto.getHeteronym().getName());
 
         if (isManuscript) {
-            ManuscriptSource source = (ManuscriptSource) ((SourceInter) scholarInter).getSource();
+            metaInfo.put("dimension", sourceDto.getFormattedDimensions());
 
-            String dimension = source.getDimensionsSet().stream().map(dimensions -> dimensions.getHeight() + "x" + dimensions.getWidth())
-                    .collect(Collectors.joining(";"));
-            metaInfo.put("dimension", dimension);
+            metaInfo.put("material", sourceDto.getMaterial());
 
-            metaInfo.put("material", source.getMaterial());
+            metaInfo.put("columns", sourceDto.getColumns());
 
-            metaInfo.put("columns", source.getColumns());
+            metaInfo.put("ldoDKey", sourceDto.hasLdoDLabel());
 
-            metaInfo.put("ldoDKey", ((ManuscriptSource) ((SourceInter) scholarInter).getSource()).getHasLdoDLabel());
+            metaInfo.put("handNotes", sourceDto.getFormattedHandNote());
 
-            List<AbstractMap.SimpleEntry<String, String>> handNotes = source.getHandNoteSet().stream().map(handNote ->
-                    new AbstractMap.SimpleEntry<>((handNote.getMedium() != null ? handNote.getMedium().getDesc() : ""), handNote.getNote())).collect(Collectors.toList());
-
-            metaInfo.put("handNotes", handNotes);
-
-            List<AbstractMap.SimpleEntry<String, String>> typeNotes = source.getTypeNoteSet().stream().map(typeNote ->
-                    new AbstractMap.SimpleEntry<>((typeNote.getMedium() != null ? typeNote.getMedium().getDesc() : ""), typeNote.getNote())).collect(Collectors.toList());
-
-            metaInfo.put("typeNotes", typeNotes);
+            metaInfo.put("typeNotes", sourceDto.getFormattedTypeNote());
         }
 
         if (isEditorial) {
-            metaInfo.put("volume", ((ExpertEditionInter) scholarInter).getVolume());
+            metaInfo.put("volume", scholarInterDto.getVolume());
         }
 
         if (isPublication) {
-            PrintedSource source = (PrintedSource) ((SourceInter) scholarInter).getSource();
-            metaInfo.put("journal", source.getJournal());
+            metaInfo.put("journal", sourceDto.getJournal());
         }
 
 
         if (isEditorial) {
-            metaInfo.put("number", ((ExpertEditionInter) scholarInter).getCompleteNumber());
+            metaInfo.put("number", scholarInterDto.getCompleteNumber());
         } else if (isPublication) {
             PrintedSource source = (PrintedSource) ((SourceInter) scholarInter).getSource();
-            metaInfo.put("number", source.getIssue());
+            metaInfo.put("number", sourceDto.getIssue());
         } else {
             metaInfo.put("number", "");
         }
@@ -304,26 +293,24 @@ public class ReactUiController {
             metaInfo.put("startPage", ((ExpertEditionInter) scholarInter).getStartPage());
             metaInfo.put("endPage", ((ExpertEditionInter) scholarInter).getEndPage());
         } else if (isPublication) {
-            PrintedSource source = (PrintedSource) ((SourceInter) scholarInter).getSource();
-            metaInfo.put("startPage", source.getStartPage());
-            metaInfo.put("endPage", source.getEndPage());
+            metaInfo.put("startPage", sourceDto.getStartPage());
+            metaInfo.put("endPage", sourceDto.getEndPage());
         } else {
             metaInfo.put("startPage", 0);
         }
 
         if (isPublication) {
-            PrintedSource source = (PrintedSource) ((SourceInter) scholarInter).getSource();
-            metaInfo.put("pubPlace", source.getPubPlace());
+            metaInfo.put("pubPlace", sourceDto.getPubPlace());
         }
 
         if (isEditorial) {
-            LdoDDate ldoDDate = scholarInter.getLdoDDate();
+            LdoDDateDto ldoDDate = scholarInterDto.getLdoDDate();
             metaInfo.put("date", (ldoDDate != null ? ldoDDate.print() : ""));
             if (ldoDDate != null && ldoDDate.getPrecision() != null) {
                 metaInfo.put("datePrecision", ldoDDate.getPrecision().getDesc());
             }
         } else {
-            LdoDDate ldoDDate = ((SourceInter) scholarInter).getSource().getLdoDDate();
+            LdoDDateDto ldoDDate = sourceDto.getLdoDDateDto();
             metaInfo.put("date", (ldoDDate != null ? ldoDDate.print() : ""));
             if (ldoDDate != null && ldoDDate.getPrecision() != null) {
                 metaInfo.put("datePrecision", ldoDDate.getPrecision().getDesc());
@@ -333,8 +320,7 @@ public class ReactUiController {
         if (isEditorial) {
             metaInfo.put("notes", ((ExpertEditionInter) scholarInter).getNotes());
         } else if (isManuscript) {
-            ManuscriptSource source = (ManuscriptSource) ((SourceInter) scholarInter).getSource();
-            metaInfo.put("notes", source.getNotes());
+            metaInfo.put("notes", sourceDto.getNotes());
         } else {
             metaInfo.put("notes", "");
         }
