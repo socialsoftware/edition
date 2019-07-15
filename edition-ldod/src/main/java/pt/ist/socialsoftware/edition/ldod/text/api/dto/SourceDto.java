@@ -1,13 +1,13 @@
 package pt.ist.socialsoftware.edition.ldod.text.api.dto;
 
 import org.joda.time.LocalDate;
-import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
-import pt.ist.socialsoftware.edition.ldod.domain.PrintedSource;
-import pt.ist.socialsoftware.edition.ldod.domain.Source;
-import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
+import java.util.AbstractMap;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class SourceDto {
     private String xmlId;
@@ -29,6 +29,110 @@ public class SourceDto {
                 .filter(PrintedSource.class::isInstance)
                 .map(PrintedSource.class::cast)
                 .map(printedSource -> printedSource.getTitle())
+                .orElseThrow(LdoDException::new);
+    }
+
+    public String getIdno(){
+        return getSourceByXmlId(this.xmlId)
+                .filter(ManuscriptSource.class::isInstance)
+                .map(ManuscriptSource.class::cast)
+                .map(ManuscriptSource::getIdno)
+                .orElseThrow(LdoDException::new);
+    }
+
+    public ManuscriptSource.Material getMaterial(){
+        return getSourceByXmlId(this.xmlId)
+                .filter(ManuscriptSource.class::isInstance)
+                .map(ManuscriptSource.class::cast)
+                .map(ManuscriptSource::getMaterial)
+                .orElseThrow(LdoDException::new);
+    }
+
+    public String getFormattedDimensions(){
+        return getSourceByXmlId(this.xmlId)
+                .filter(ManuscriptSource.class::isInstance)
+                .map(ManuscriptSource.class::cast)
+                .map(ManuscriptSource::getDimensionsSet)
+                .orElseThrow(LdoDException::new)
+                .stream().map(dimensions -> dimensions.getHeight() + "x" + dimensions.getWidth())
+                .collect(Collectors.joining(";"));
+    }
+
+    public List<AbstractMap.SimpleEntry<String, String>> getFormattedHandNote(){
+        return getSourceByXmlId(this.xmlId)
+                .filter(ManuscriptSource.class::isInstance)
+                .map(ManuscriptSource.class::cast)
+                .map(ManuscriptSource::getHandNoteSet)
+                .orElseThrow(LdoDException::new)
+                .stream().map(handNote ->
+                        new AbstractMap.SimpleEntry<>((handNote.getMedium() != null ? handNote.getMedium().getDesc() : ""), handNote.getNote()))
+                .collect(Collectors.toList());
+    }
+
+    public List<AbstractMap.SimpleEntry<String, String>> getFormattedTypeNote(){
+        return getSourceByXmlId(this.xmlId)
+                .filter(ManuscriptSource.class::isInstance)
+                .map(ManuscriptSource.class::cast)
+                .map(ManuscriptSource::getTypeNoteSet)
+                .orElseThrow(LdoDException::new)
+                .stream().map(typeNote ->
+                        new AbstractMap.SimpleEntry<>((typeNote.getMedium() != null ? typeNote.getMedium().getDesc() : ""), typeNote.getNote()))
+                .collect(Collectors.toList());
+    }
+
+    public int getColumns(){
+        return getSourceByXmlId(this.xmlId)
+                .filter(ManuscriptSource.class::isInstance)
+                .map(ManuscriptSource.class::cast)
+                .map(ManuscriptSource::getColumns)
+                .orElseThrow(LdoDException::new);
+    }
+
+    public String getJournal(){
+        return getSourceByXmlId(this.xmlId)
+                .filter(PrintedSource.class::isInstance)
+                .map(PrintedSource.class::cast)
+                .map(PrintedSource::getJournal)
+                .orElseThrow(LdoDException::new);
+    }
+
+    public String getIssue(){
+        return getSourceByXmlId(this.xmlId)
+                .filter(PrintedSource.class::isInstance)
+                .map(PrintedSource.class::cast)
+                .map(PrintedSource::getIssue)
+                .orElseThrow(LdoDException::new);
+    }
+
+    public String getNotes(){
+        return getSourceByXmlId(this.xmlId)
+                .filter(PrintedSource.class::isInstance)
+                .map(ManuscriptSource.class::cast)
+                .map(ManuscriptSource::getNotes)
+                .orElseThrow(LdoDException::new);
+    }
+
+    public int getStartPage(){
+        return getSourceByXmlId(this.xmlId)
+                .filter(PrintedSource.class::isInstance)
+                .map(PrintedSource.class::cast)
+                .map(PrintedSource::getStartPage)
+                .orElseThrow(LdoDException::new);
+    }
+
+    public int getEndPage(){
+        return getSourceByXmlId(this.xmlId)
+                .filter(PrintedSource.class::isInstance)
+                .map(PrintedSource.class::cast)
+                .map(PrintedSource::getEndPage)
+                .orElseThrow(LdoDException::new);
+    }
+
+    public String getPubPlace(){
+        return getSourceByXmlId(this.xmlId)
+                .filter(PrintedSource.class::isInstance)
+                .map(PrintedSource.class::cast)
+                .map(PrintedSource::getPubPlace)
                 .orElseThrow(LdoDException::new);
     }
 
@@ -59,6 +163,13 @@ public class SourceDto {
     public LocalDate getLdoDDate() {
         return getSourceByXmlId(this.xmlId)
                 .map(source -> source.getLdoDDate() != null ? source.getLdoDDate().getDate() : null)
+                .orElse(null);
+    }
+
+    public LdoDDateDto getLdoDDateDto() {
+        return getSourceByXmlId(this.xmlId)
+                .map(Source_Base::getLdoDDate)
+                .map(LdoDDateDto::new)
                 .orElse(null);
     }
 

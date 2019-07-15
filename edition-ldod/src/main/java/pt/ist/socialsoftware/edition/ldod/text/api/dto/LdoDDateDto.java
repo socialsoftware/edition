@@ -1,15 +1,18 @@
 package pt.ist.socialsoftware.edition.ldod.text.api.dto;
 
 import org.joda.time.LocalDate;
+import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDDate;
 
 public class LdoDDateDto {
     private LdoDDate.DateType type;
     private LocalDate date;
+    private Fragment.PrecisionType precisionType;
 
     public LdoDDateDto(LdoDDate ldoDDate) {
         setType(ldoDDate.getType());
         setDate(ldoDDate.getDate());
+        setPrecision(ldoDDate.getPrecision());
     }
 
     public String print() {
@@ -41,5 +44,11 @@ public class LdoDDateDto {
         this.date = date;
     }
 
+    public Fragment.PrecisionType getPrecision() {
+        return precisionType;
+    }
 
+    public void setPrecision(Fragment.PrecisionType precisionType) {
+        this.precisionType = precisionType;
+    }
 }

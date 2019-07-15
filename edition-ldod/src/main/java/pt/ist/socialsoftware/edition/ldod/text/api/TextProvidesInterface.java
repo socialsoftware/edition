@@ -59,6 +59,10 @@ public class TextProvidesInterface {
         return getScholarInterByXmlId(scholarInterId).orElseThrow(LdoDException::new).getNumber();
     }
 
+    public String getExpertInterCompleteNumber(String scholarInterId) {
+        return getScholarInterByXmlId(scholarInterId).map(ExpertEditionInter.class::cast).orElseThrow(LdoDException::new).getCompleteNumber();
+    }
+
     public String getScholarInterShortName(String scholarInterId) {
         return getScholarInterByXmlId(scholarInterId).orElseThrow(LdoDException::new).getShortName();
     }
@@ -97,6 +101,11 @@ public class TextProvidesInterface {
 
     public String getExpertEditionEditorByScholarInter(String scholarInterId) {
         return getExpertEditionByExpertEditionInterId(scholarInterId).map(expertEdition -> expertEdition.getEditor()).orElse(null);
+    }
+
+    public String getExpertEditionInterVolume(String xmlId){
+        return getScholarInterByXmlId(xmlId).map(ExpertEditionInter.class::cast)
+                .map(ExpertEditionInter::getVolume).orElse(null);
     }
 
     public List<ScholarInterDto> getExpertEditionScholarInterDtoList(String acronym) {

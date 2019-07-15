@@ -36,4 +36,15 @@ public class VirtualEditionDto {
     public Set<VirtualEditionInterDto> getVirtualEditionInterDtoSet() {
         return this.virtualProvidesInterface.getVirtualEditionInterDtoSet(this.acronym);
     }
+    public Set<VirtualEditionInterDto> getVirtualEditionInterSetForFragment(String xmlId){
+        return this.virtualProvidesInterface.getVirtualEditionInterOfFragmentForVirtualEdition(this.acronym, xmlId);
+    }
+
+    public String getReference() {
+        return this.virtualProvidesInterface.getVirtualEditionReference(this.acronym);
+    }
+
+    public boolean getTaxonomyVocabularyStatus(){
+        return this.virtualProvidesInterface.getVirtualEditionTaxonomyVocabularyStatus(this.acronym);
+    }
 }

@@ -4,10 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.Category;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
@@ -35,8 +32,23 @@ public class VirtualProvidesInterface {
         return null;
     }
 
+
     public Set<VirtualEditionDto> getPublicVirtualEditionSet() {
         return VirtualModule.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getPub()).map(VirtualEditionDto::new).collect(Collectors.toSet());
+    }
+
+    public Set<VirtualEditionDto> getVirtualEditions() {
+        return VirtualModule.getInstance().getVirtualEditionsSet().stream().map(VirtualEditionDto::new).collect(Collectors.toSet());
+    }
+
+    public String getVirtualEditionReference(String acronym) {
+        return getVirtualEditionByAcronym(acronym).map(VirtualEdition::getReference).orElse(null);
+    }
+
+    public Set<VirtualEditionInterDto> getVirtualEditionInterOfFragmentForVirtualEdition(String acronym, String xmlId) {
+        List<VirtualEditionInter> virtualEditionInters = getVirtualEditionByAcronym(acronym)
+                .map(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters()).orElse(new ArrayList<>());
+        return virtualEditionInters.stream().map(VirtualEditionInterDto::new).filter(dto -> dto.getFragmentXmlId().equals(xmlId)).collect(Collectors.toSet());
     }
 
     public Set<VirtualEditionDto> getPublicVirtualEditionsOrUserIsParticipant(String username) {
@@ -86,12 +98,24 @@ public class VirtualProvidesInterface {
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getUrlId).orElse(null);
     }
 
+    public String getVirtualEditionInterReference(String xmlId) {
+        return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getReference).orElse(null);
+    }
+
     public String getVirtualEditionInterShortName(String xmlId) {
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getShortName).orElse(null);
     }
 
     public ScholarInterDto getVirtualEditionLastUsedScholarInter(String xmlId) {
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getLastUsed).orElse(null);
+    }
+
+    public VirtualEditionInterDto getVirtualEditionInterUses(String xmlId) {
+        return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getUses).map(VirtualEditionInterDto::new).orElse(null);
+    }
+
+    public String getUsesVirtualEditionInterId(String xmlId) {
+        return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getUsesXmlId).orElse(null);
     }
 
     public Set<String> getTagsForVirtualEditionInter(String xmlId) {
@@ -130,6 +154,11 @@ public class VirtualProvidesInterface {
 
     public int getVirtualEditionInterNumber(String xmlId) {
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getNumber).orElse(null);
+    }
+
+
+    public boolean getVirtualEditionTaxonomyVocabularyStatus(String acronym) {
+        return getVirtualEditionByAcronym(acronym).map(VirtualEdition::getTaxonomy).map(Taxonomy::getOpenVocabulary).orElse(false);
     }
 
     public VirtualEditionInterDto getNextVirtualInter(String xmlId) {
