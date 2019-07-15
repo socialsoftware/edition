@@ -15,10 +15,7 @@ import pt.ist.socialsoftware.edition.ldod.api.ui.FragInterDto;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
-import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
-import pt.ist.socialsoftware.edition.ldod.text.api.dto.LdoDDateDto;
-import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.ldod.text.api.dto.SourceDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.*;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
@@ -201,7 +198,7 @@ public class ReactUiController {
         String result;
 
         if (scholarInter != null) {
-            result = this.textProvidesInterface.getScholarInterTranscription(scholarInter.getXmlId());
+            result = scholarInter.getTranscription();
         } else {
             VirtualEditionInterDto virtualEditionInter = this.virtualProvidesInterface.getVirtualEditionInterSet().stream()
                     .filter(dto -> dto.getUrlId().equals(urlId)).findAny().orElse(null);
@@ -209,7 +206,8 @@ public class ReactUiController {
                 logger.debug("Inter not found");
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            result = this.textProvidesInterface.getScholarInterTranscription(virtualEditionInter.getUsesScholarInterId());
+            scholarInter = this.textProvidesInterface.getScholarInter(virtualEditionInter.getUsesScholarInterId());
+            result = scholarInter.getTranscription();
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -283,15 +281,14 @@ public class ReactUiController {
         if (isEditorial) {
             metaInfo.put("number", scholarInterDto.getCompleteNumber());
         } else if (isPublication) {
-            PrintedSource source = (PrintedSource) ((SourceInter) scholarInter).getSource();
             metaInfo.put("number", sourceDto.getIssue());
         } else {
             metaInfo.put("number", "");
         }
 
         if (isEditorial) {
-            metaInfo.put("startPage", ((ExpertEditionInter) scholarInter).getStartPage());
-            metaInfo.put("endPage", ((ExpertEditionInter) scholarInter).getEndPage());
+            metaInfo.put("startPage", scholarInterDto.getStartPage());
+            metaInfo.put("endPage", scholarInterDto.getEndPage());
         } else if (isPublication) {
             metaInfo.put("startPage", sourceDto.getStartPage());
             metaInfo.put("endPage", sourceDto.getEndPage());
@@ -318,21 +315,20 @@ public class ReactUiController {
         }
 
         if (isEditorial) {
-            metaInfo.put("notes", ((ExpertEditionInter) scholarInter).getNotes());
+            metaInfo.put("notes", scholarInterDto.getNotes());
         } else if (isManuscript) {
             metaInfo.put("notes", sourceDto.getNotes());
         } else {
             metaInfo.put("notes", "");
         }
 
-        List<String> notes = scholarInter.getSortedAnnexNote().stream().map(annexNote -> annexNote.getNoteText().generatePresentationText())
+        List<String> notes = scholarInterDto.getSortedAnnexNote().stream().map(AnnexNoteDto::getText)
                 .collect(Collectors.toList());
         metaInfo.put("annexNotes", notes);
 
         if (isManuscript || isPublication) {
-            Source source = ((SourceInter) scholarInter).getSource();
-            List<AbstractMap.SimpleEntry<String, String>> surfaces = source.getFacsimile().getSurfaces().stream()
-                    .map(surface -> new AbstractMap.SimpleEntry<>("/facs/" + surface.getGraphic(), source.getAltIdentifier())).collect(Collectors.toList());
+            List<AbstractMap.SimpleEntry<String, String>> surfaces = sourceDto.getSurfaces().stream()
+                    .map(surface -> new AbstractMap.SimpleEntry<>("/facs/" + surface.getGraphic(), sourceDto.getAltIdentifier())).collect(Collectors.toList());
             metaInfo.put("surfaces", surfaces);
         }
 
@@ -359,7 +355,7 @@ public class ReactUiController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        String result = this.textProvidesInterface.getSourceInterTranscription(inter.getXmlId(),diff, del, ins, subst, notes);
+        String result = inter.getSourceTranscription(diff, del, ins, subst, notes);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -382,7 +378,7 @@ public class ReactUiController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        String result = this.textProvidesInterface.getExpertInterTranscription(inter.getXmlId(), diff);
+        String result = inter.getExpertTranscription(diff);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -485,9 +481,9 @@ public class ReactUiController {
         editionInfo.put("editionTitle", virtualEdition.getTitle());
         editionInfo.put("externalId", inter.getExternalId());
 
-        if (this.virtualProvidesInterface.getVirtualEditionInterUses(inter.getXmlId()) != null) {
+        if (inter.getUsesInter() != null) {
             editionInfo.put("editionReference", virtualEdition.getReference());
-            editionInfo.put("interReference", this.virtualProvidesInterface.getVirtualEditionInterUses(inter.getXmlId()).getReference());
+            editionInfo.put("interReference", inter.getUsesInter().getReference());
         } else {
             ScholarInterDto scholarInter = this.textProvidesInterface.getScholarInter(inter.getUsesScholarInterId());
             editionInfo.put("editionReference", scholarInter.getEditionReference());

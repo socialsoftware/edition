@@ -75,4 +75,8 @@ public class VirtualEditionInterDto {
     public VirtualEditionInterDto getPrevInter() {
         return this.virtualProvidesInterface.getPrevVirtualInter(this.xmlId);
     }
+
+    public VirtualEditionInterDto getUsesInter(){
+        return this.virtualProvidesInterface.getVirtualEditionInterUses(this.xmlId);
+    }
 }

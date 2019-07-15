@@ -104,8 +104,27 @@ public class TextProvidesInterface {
     }
 
     public String getExpertEditionInterVolume(String xmlId){
-        return getScholarInterByXmlId(xmlId).map(ExpertEditionInter.class::cast)
-                .map(ExpertEditionInter::getVolume).orElse(null);
+        return getScholarInterByXmlId(xmlId).filter(ExpertEditionInter.class::isInstance)
+                .map(ExpertEditionInter.class::cast)
+                .map(ExpertEditionInter::getVolume).orElseThrow(LdoDException::new);
+    }
+
+    public String getExpertEditionInterNotes(String xmlId){
+        return getScholarInterByXmlId(xmlId).filter(ExpertEditionInter.class::isInstance)
+                .map(ExpertEditionInter.class::cast)
+                .map(ExpertEditionInter::getNotes).orElseThrow(LdoDException::new);
+    }
+
+    public int getExpertEditionInterStartPage(String xmlId){
+        return getScholarInterByXmlId(xmlId).filter(ExpertEditionInter.class::isInstance)
+                .map(ExpertEditionInter.class::cast)
+                .map(ExpertEditionInter::getStartPage).orElseThrow(LdoDException::new);
+    }
+
+    public int getExpertEditionInterEndPage(String xmlId){
+        return getScholarInterByXmlId(xmlId).filter(ExpertEditionInter.class::isInstance)
+                .map(ExpertEditionInter.class::cast)
+                .map(ExpertEditionInter::getEndPage).orElseThrow(LdoDException::new);
     }
 
     public List<ScholarInterDto> getExpertEditionScholarInterDtoList(String acronym) {
@@ -231,6 +250,11 @@ public class TextProvidesInterface {
         List<Surface> surfaces = getScholarInterByXmlId(xmlId).map(SourceInter.class::cast).map(SourceInter::getSource)
                 .map(Source::getFacsimile).map(Facsimile::getSurfaces).orElse(null);
         return surfaces != null ? surfaces.stream().map(Surface::getGraphic).collect(Collectors.toList()) : new ArrayList<>();
+    }
+
+    public List<AnnexNoteDto> getScholarInterSortedAnnexNotes(String xmlId){
+        List<AnnexNote> notes = getScholarInterByXmlId(xmlId).map(ScholarInter::getSortedAnnexNote).orElse(new ArrayList<>());
+        return notes.stream().map(AnnexNoteDto::new).collect(Collectors.toList());
     }
 
     public List<Map.Entry<String, Double>> getScholarInterTermFrequency(ScholarInterDto scholarInterDto) {

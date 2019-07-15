@@ -4,6 +4,8 @@ import pt.ist.socialsoftware.edition.ldod.api.ui.FragInterDto;
 import pt.ist.socialsoftware.edition.ldod.domain.ScholarInter;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 
+import java.util.List;
+
 
 public class ScholarInterDto {
     private final TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
@@ -106,7 +108,36 @@ public class ScholarInterDto {
         return this.textProvidesInterface.getExpertEditionInterVolume(this.xmlId);
     }
 
+    public String getTranscription() {
+        return this.textProvidesInterface.getScholarInterTranscription(this.xmlId);
+    }
+
+    public String getSourceTranscription(boolean diff, boolean del, boolean ins,
+                                         boolean subst, boolean notes) {
+        return this.textProvidesInterface.getSourceInterTranscription(this.xmlId,diff, del, ins, subst, notes);
+    }
+
+    public String getExpertTranscription(boolean diff) {
+        return this.textProvidesInterface.getExpertInterTranscription(this.xmlId, diff);
+    }
+
     public String getCompleteNumber() {
         return this.textProvidesInterface.getExpertInterCompleteNumber(this.xmlId);
+    }
+
+    public int getStartPage(){
+        return this.textProvidesInterface.getExpertEditionInterStartPage(this.xmlId);
+    }
+
+    public int getEndPage(){
+        return this.textProvidesInterface.getExpertEditionInterEndPage(this.xmlId);
+    }
+
+    public String getNotes() {
+        return this.textProvidesInterface.getExpertEditionInterNotes(this.xmlId);
+    }
+
+    public List<AnnexNoteDto> getSortedAnnexNote(){
+        return this.textProvidesInterface.getScholarInterSortedAnnexNotes(this.xmlId);
     }
 }
