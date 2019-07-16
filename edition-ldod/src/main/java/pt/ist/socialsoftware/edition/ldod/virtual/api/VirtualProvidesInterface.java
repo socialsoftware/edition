@@ -164,6 +164,18 @@ public class VirtualProvidesInterface {
         return categories.stream().map(category -> new CategoryDto(category, inter)).collect(Collectors.toList());
     }
 
+    public List<CategoryDto> getVirtualEditionInterAssignedCategoriesForUser(String xmlId, String username){
+        VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
+        List<Category> categories = getVirtualEditionInterByXmlId(xmlId).map(virtualEditionInter -> virtualEditionInter.getAssignedCategories(username)).orElse(new ArrayList<>());
+        return categories.stream().map(category -> new CategoryDto(category, inter)).collect(Collectors.toList());
+    }
+
+    public List<CategoryDto> getVirtualEditionInterNonAssignedCategoriesForUser(String xmlId, String username){
+        VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
+        List<Category> categories = getVirtualEditionInterByXmlId(xmlId).map(virtualEditionInter -> virtualEditionInter.getNonAssignedCategories(username)).orElse(new ArrayList<>());
+        return categories.stream().map(category -> new CategoryDto(category, inter)).collect(Collectors.toList());
+    }
+
     public boolean getVirtualEditionTaxonomyVocabularyStatus(String acronym) {
         return getVirtualEditionByAcronym(acronym).map(VirtualEdition::getTaxonomy).map(Taxonomy::getOpenVocabulary).orElse(false);
     }

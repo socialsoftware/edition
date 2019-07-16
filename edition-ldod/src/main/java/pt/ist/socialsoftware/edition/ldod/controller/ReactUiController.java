@@ -543,14 +543,14 @@ public class ReactUiController {
     @GetMapping(value = "/categories", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getCategoriesForInter(@RequestParam String xmlId, @RequestParam String urlId) {
 
-        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.textProvidesInterface.getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             logger.debug("Could find frag");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        VirtualEditionInter inter = VirtualModule.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).stream()
+        VirtualEditionInterDto inter = this.virtualProvidesInterface.getVirtualEditionInterSet().stream()
                 .filter(virtualEditionInter -> virtualEditionInter.getUrlId().equals(urlId)).findFirst().orElse(null);
 
         if (inter == null) {
@@ -564,15 +564,15 @@ public class ReactUiController {
 
         if (this.userProvidesInterface.getUser(user) != null) {
             List<String> assignedInfo = new ArrayList<>();
-            for (Category category : inter.getAssignedCategories(user)) {
-                assignedInfo.add(category.getNameInEditionContext(inter.getEdition()));
+            for (CategoryDto category : inter.getAssignedCategoriesForUser(user)) {
+                assignedInfo.add(category.getName());
             }
 
             catInfo.put("assigned", assignedInfo);
 
             List<String> nonAssignedInfo = new ArrayList<>();
-            for (Category category : inter.getNonAssignedCategories(user)) {
-                nonAssignedInfo.add(category.getNameInEditionContext(inter.getEdition()));
+            for (CategoryDto category : inter.getNonAssignedCategoriesForUser(user)) {
+                nonAssignedInfo.add(category.getName());
             }
 
             catInfo.put("nonAssigned", nonAssignedInfo);
