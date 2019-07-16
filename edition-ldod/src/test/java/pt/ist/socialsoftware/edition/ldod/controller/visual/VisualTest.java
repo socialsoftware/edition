@@ -27,7 +27,7 @@ import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.utils.controller.LdoDExceptionHandler;
-import pt.ist.socialsoftware.edition.ldod.visual.api.remote.VisualProvidesController;
+import pt.ist.socialsoftware.edition.ldod.visual.api.remote.VisualRemoteController;
 
 import java.io.FileNotFoundException;
 
@@ -47,7 +47,7 @@ public class VisualTest {
     private static final Logger log = LoggerFactory.getLogger(VirtualEditionTest.class);
 
     @InjectMocks
-    VisualProvidesController visualProvidesController;
+    VisualRemoteController visualRemoteController;
 
     protected MockMvc mockMvc;
 
@@ -68,7 +68,7 @@ public class VisualTest {
 
     @BeforeEach
     public void setUp() throws FileNotFoundException {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(this.visualProvidesController)
+        this.mockMvc = MockMvcBuilders.standaloneSetup(this.visualRemoteController)
                 .setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
     }
 

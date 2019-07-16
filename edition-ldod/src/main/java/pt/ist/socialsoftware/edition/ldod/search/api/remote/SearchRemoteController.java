@@ -27,8 +27,8 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/search")
-public class SearchProvidesController {
-    private static final Logger logger = LoggerFactory.getLogger(SearchProvidesController.class);
+public class SearchRemoteController {
+    private static final Logger logger = LoggerFactory.getLogger(SearchRemoteController.class);
 
     SearchRequiresInterface searchRequiresInterface = new SearchRequiresInterface();
 

@@ -28,8 +28,8 @@ import java.util.Map;
 @Controller
 @SessionAttributes({"ldoDSession"})
 @RequestMapping("/visual/editions")
-public class VisualProvidesController {
-    private static final Logger logger = LoggerFactory.getLogger(VisualProvidesController.class);
+public class VisualRemoteController {
+    private static final Logger logger = LoggerFactory.getLogger(VisualRemoteController.class);
 
     private final VisualRequiresInterface visualRequiresInterface = new VisualRequiresInterface();
 

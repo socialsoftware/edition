@@ -20,7 +20,7 @@ import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.frontend.search.SearchFrontendController;
-import pt.ist.socialsoftware.edition.ldod.search.api.remote.SearchProvidesController;
+import pt.ist.socialsoftware.edition.ldod.search.api.remote.SearchRemoteController;
 import pt.ist.socialsoftware.edition.ldod.utils.controller.LdoDExceptionHandler;
 
 import java.io.FileNotFoundException;
@@ -44,7 +44,7 @@ public class SearchTest {
     SearchFrontendController searchFrontEndController;
 
     @InjectMocks
-    SearchProvidesController searchProvidesController;
+    SearchRemoteController searchRemoteController;
 
 
     protected MockMvc mockMvcFrontend;
@@ -69,7 +69,7 @@ public class SearchTest {
     public void setUp() throws FileNotFoundException {
         this.mockMvcFrontend = MockMvcBuilders.standaloneSetup(this.searchFrontEndController)
                 .setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
-        this.mockMvcSearch = MockMvcBuilders.standaloneSetup(this.searchProvidesController)
+        this.mockMvcSearch = MockMvcBuilders.standaloneSetup(this.searchRemoteController)
                 .setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
     }
 

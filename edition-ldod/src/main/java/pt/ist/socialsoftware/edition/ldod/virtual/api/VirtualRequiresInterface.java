@@ -6,7 +6,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 
 public class VirtualRequiresInterface {
-    // Requires assynchronous events
+    // Requires asynchronous events
     public void notifyEvent(Event event) {
         if (event.getType().equals(Event.EventType.FRAGMENT_REMOVE)) {
             VirtualModule.getInstance().getVirtualEditionsSet().stream()
@@ -52,7 +52,7 @@ public class VirtualRequiresInterface {
         vei.remove();
     }
 
-    // Requires from Virtual Module
+    // Requires from User Module
     private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
 
     public String getAuthenticatedUser() {
