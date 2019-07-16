@@ -4,9 +4,7 @@ import org.joda.time.LocalDate;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
-import java.util.AbstractMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class SourceDto {
@@ -37,7 +35,7 @@ public class SourceDto {
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
                 .map(ManuscriptSource::getIdno)
-                .orElseThrow(LdoDException::new);
+                .orElse(null);
     }
 
     public ManuscriptSource.Material getMaterial(){
@@ -53,7 +51,7 @@ public class SourceDto {
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
                 .map(ManuscriptSource::getDimensionsSet)
-                .orElseThrow(LdoDException::new)
+                .orElse(new HashSet<>())
                 .stream().map(dimensions -> dimensions.getHeight() + "x" + dimensions.getWidth())
                 .collect(Collectors.joining(";"));
     }
@@ -63,7 +61,7 @@ public class SourceDto {
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
                 .map(ManuscriptSource::getHandNoteSet)
-                .orElseThrow(LdoDException::new)
+                .orElse(new HashSet<>())
                 .stream().map(handNote ->
                         new AbstractMap.SimpleEntry<>((handNote.getMedium() != null ? handNote.getMedium().getDesc() : ""), handNote.getNote()))
                 .collect(Collectors.toList());
@@ -74,7 +72,7 @@ public class SourceDto {
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
                 .map(ManuscriptSource::getTypeNoteSet)
-                .orElseThrow(LdoDException::new)
+                .orElse(new HashSet<>())
                 .stream().map(typeNote ->
                         new AbstractMap.SimpleEntry<>((typeNote.getMedium() != null ? typeNote.getMedium().getDesc() : ""), typeNote.getNote()))
                 .collect(Collectors.toList());
@@ -93,7 +91,7 @@ public class SourceDto {
                 .filter(PrintedSource.class::isInstance)
                 .map(PrintedSource.class::cast)
                 .map(PrintedSource::getJournal)
-                .orElseThrow(LdoDException::new);
+                .orElse(null);
     }
 
     public String getIssue(){
@@ -101,7 +99,13 @@ public class SourceDto {
                 .filter(PrintedSource.class::isInstance)
                 .map(PrintedSource.class::cast)
                 .map(PrintedSource::getIssue)
-                .orElseThrow(LdoDException::new);
+                .orElse(null);
+    }
+
+    public String getAltIdentifier(){
+        return getSourceByXmlId(this.xmlId)
+                .map(Source::getAltIdentifier)
+                .orElse(null);
     }
 
     public String getNotes(){
@@ -109,7 +113,7 @@ public class SourceDto {
                 .filter(PrintedSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
                 .map(ManuscriptSource::getNotes)
-                .orElseThrow(LdoDException::new);
+                .orElse(null);
     }
 
     public int getStartPage(){
@@ -133,7 +137,7 @@ public class SourceDto {
                 .filter(PrintedSource.class::isInstance)
                 .map(PrintedSource.class::cast)
                 .map(PrintedSource::getPubPlace)
-                .orElseThrow(LdoDException::new);
+                .orElse(null);
     }
 
     public boolean hasLdoDLabel() {
@@ -171,6 +175,13 @@ public class SourceDto {
                 .map(Source_Base::getLdoDDate)
                 .map(LdoDDateDto::new)
                 .orElse(null);
+    }
+
+    public List<SurfaceDto> getSurfaces(){
+      List<Surface> surfaces =  getSourceByXmlId(this.xmlId)
+                .map(Source_Base::getFacsimile)
+                .map(Facsimile::getSurfaces).orElse(new ArrayList<>());
+      return surfaces.stream().map(SurfaceDto::new).collect(Collectors.toList());
     }
 
     public Source.SourceType getType() {
