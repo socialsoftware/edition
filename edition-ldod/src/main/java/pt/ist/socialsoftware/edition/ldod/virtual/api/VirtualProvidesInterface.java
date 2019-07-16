@@ -8,6 +8,8 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.CategoryDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.ldod.visual.api.dto.EditionInterListDto;
@@ -156,6 +158,11 @@ public class VirtualProvidesInterface {
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getNumber).orElse(null);
     }
 
+    public List<CategoryDto> getVirtualEditionInterAssignedCategories(String xmlId){
+        VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
+        List<Category> categories = getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getAssignedCategories).orElse(new ArrayList<>());
+        return categories.stream().map(category -> new CategoryDto(category, inter)).collect(Collectors.toList());
+    }
 
     public boolean getVirtualEditionTaxonomyVocabularyStatus(String acronym) {
         return getVirtualEditionByAcronym(acronym).map(VirtualEdition::getTaxonomy).map(Taxonomy::getOpenVocabulary).orElse(false);

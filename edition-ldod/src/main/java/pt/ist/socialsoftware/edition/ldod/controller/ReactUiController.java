@@ -26,6 +26,7 @@ import pt.ist.socialsoftware.edition.ldod.utils.AnnotationSearchJson;
 import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.CategoryDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
@@ -498,14 +499,14 @@ public class ReactUiController {
     @GetMapping(value = "/taxonomy", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getTaxonomyForInter(@RequestParam String xmlId, @RequestParam String urlId) {
 
-        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.textProvidesInterface.getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             logger.debug("Could find frag");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        VirtualEditionInter inter = VirtualModule.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).stream()
+        VirtualEditionInterDto inter = this.virtualProvidesInterface.getVirtualEditionInterSet().stream()
                 .filter(virtualEditionInter -> virtualEditionInter.getUrlId().equals(urlId)).findFirst().orElse(null);
 
         if (inter == null) {
@@ -515,16 +516,16 @@ public class ReactUiController {
 
         List<Map<String, Object>> categoryInfo = new ArrayList<>();
 
-        for (Category category : inter.getAssignedCategories()) {
+        for (CategoryDto category : inter.getAssignedCategories()) {
             Map<String, Object> infoMap = new LinkedHashMap<>();
             infoMap.put("interExternal", inter.getExternalId());
-            infoMap.put("acronym", category.getTaxonomy().getEdition().getAcronym());
+            infoMap.put("acronym", category.getAcronym());
             infoMap.put("urlId", category.getUrlId());
-            infoMap.put("name", category.getNameInEditionContext(inter.getEdition().getTaxonomy().getEdition()));
+            infoMap.put("name", category.getName());
             infoMap.put("categoryExternal", category.getExternalId());
 
             List<Map<String, String>> userList = new ArrayList<>();
-            inter.getContributorSet(category).stream().map(UserDto::new).forEach(userDto -> {
+            category.getUsers().forEach(userDto -> {
                 Map<String, String> userInfo = new LinkedHashMap<>();
                 userInfo.put("username", userDto.getUsername());
                 userInfo.put("firstName", userDto.getFirstName());

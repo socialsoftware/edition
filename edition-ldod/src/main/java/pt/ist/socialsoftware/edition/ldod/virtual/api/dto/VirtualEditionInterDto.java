@@ -79,4 +79,8 @@ public class VirtualEditionInterDto {
     public VirtualEditionInterDto getUsesInter(){
         return this.virtualProvidesInterface.getVirtualEditionInterUses(this.xmlId);
     }
+
+    public List<CategoryDto> getAssignedCategories(){
+        return this.virtualProvidesInterface.getVirtualEditionInterAssignedCategories(this.xmlId);
+    }
 }
