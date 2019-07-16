@@ -587,41 +587,41 @@ public class ReactUiController {
                                                     @RequestParam(required = false, defaultValue = "false") boolean showSpaces) {
 
         List<ScholarInter> inters = new ArrayList<>();
+        List<ScholarInterDto> interDtos = new ArrayList<>();
 
         for (String id : interIds.split("%2C")) {
             ScholarInter inter = FenixFramework.getDomainObject(id);
             if (inter != null) {
                 inters.add(inter);
             }
+            ScholarInterDto dto = this.textProvidesInterface.getScholarInterbyExternalId(id);
+            if (dto != null){
+                interDtos.add(dto);
+            }
         }
 
-        if (inters.size() == 1) {
-            ScholarInter inter = inters.get(0);
-            PlainHtmlWriter4OneInter writer4One = new PlainHtmlWriter4OneInter(inter);
-            writer4One.write(false);
-            return new ResponseEntity<>(writer4One.getTranscription(), HttpStatus.OK);
+        if (interDtos.size() == 1) {
+            return new ResponseEntity<>(interDtos.get(0).getTranscription(), HttpStatus.OK);
         }
 
         if (inters.size() > 2) {
             lineByLine = true;
         }
 
-        HtmlWriter2CompInters writer = new HtmlWriter2CompInters(inters);
-
         Map<String, Object> results = new LinkedHashMap<>();
 
-        writer.write(lineByLine, showSpaces);
+        Map<String, String> transcriptions = this.textProvidesInterface.getMultipleInterTranscription(Arrays.asList(interIds.split("%2C")), lineByLine, showSpaces);
 
         if (!lineByLine) {
-            for (ScholarInter inter : inters) {
+            for (ScholarInterDto inter : interDtos) {
                 Map<String, String> interInfo = new LinkedHashMap<>();
-                interInfo.put("transcription", writer.getTranscription(inter));
+                interInfo.put("transcription", transcriptions.get(inter.getExternalId()));
                 interInfo.put("urlId", inter.getUrlId());
-                interInfo.put("fragId", inter.getFragment().getXmlId());
+                interInfo.put("fragId", inter.getFragmentDto().getXmlId());
                 results.put(inter.getExternalId(), interInfo);
             }
         } else {
-            results.put("transcription", writer.getTranscriptionLineByLine());
+            results.put("transcription", transcriptions.get("transcription"));
         }
 
         List<AppText> apps = new ArrayList<>();
@@ -641,7 +641,7 @@ public class ReactUiController {
         }
 
         results.put("variations", variations);
-        results.put("title", inters.get(0).getTitle());
+        results.put("title", interDtos.get(0).getTitle());
         results.put("lineByLine", lineByLine);
         results.put("showSpaces", showSpaces);
 
