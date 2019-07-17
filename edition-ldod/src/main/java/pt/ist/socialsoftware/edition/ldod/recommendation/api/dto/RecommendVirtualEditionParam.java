@@ -1,7 +1,7 @@
-package pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.dto;
+package pt.ist.socialsoftware.edition.ldod.recommendation.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.properties.Property;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.Property;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
-package pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation;
+package pt.ist.socialsoftware.edition.ldod.recommendation.feature;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.properties.Property;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.Property;
 
 import java.util.*;
 import java.util.Map.Entry;

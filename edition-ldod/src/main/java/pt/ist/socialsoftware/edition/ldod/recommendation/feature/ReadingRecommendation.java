@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation;
+package pt.ist.socialsoftware.edition.ldod.recommendation.feature;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +7,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
-import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.properties.*;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;

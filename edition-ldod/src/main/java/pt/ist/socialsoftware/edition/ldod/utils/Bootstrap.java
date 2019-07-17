@@ -10,10 +10,10 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMFragmentRecommender;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.*;
 import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
-import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.VSMFragmentRecommender;
-import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.properties.*;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.topicmodeling.TopicModeler;
 
 import javax.servlet.ServletContext;
@@ -98,7 +98,7 @@ public class Bootstrap implements WebApplicationInitializer {
             String customName = FenixFramework.getDomainRoot().getModuleSet().stream().map(EditionModule::getName)
                     .map(s -> s.replace("edition-", "")).collect(Collectors.joining("-"));
 
-            if(Arrays.asList(directory.list()).contains(customName + ".txt")){ //custom config specified.
+            if (Arrays.asList(directory.list()).contains(customName + ".txt")) { //custom config specified.
                 EditionModule module = new EditionModule("Custom");
                 UiComponent uiComponent = new UiComponent(module);
 

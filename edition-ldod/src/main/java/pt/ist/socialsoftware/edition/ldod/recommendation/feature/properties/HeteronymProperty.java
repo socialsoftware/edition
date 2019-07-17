@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.properties;
+package pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import pt.ist.socialsoftware.edition.ldod.domain.*;

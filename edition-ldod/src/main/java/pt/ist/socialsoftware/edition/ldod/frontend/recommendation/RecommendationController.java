@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.frontend.virtual;
+package pt.ist.socialsoftware.edition.ldod.frontend.recommendation;
 
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -13,10 +13,10 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.validator.VirtualEditionValidator;
+import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.RecommendVirtualEditionParam;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDCreateVirtualEditionException;
-import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.dto.RecommendVirtualEditionParam;
 
 import java.util.List;
 import java.util.stream.Collectors;

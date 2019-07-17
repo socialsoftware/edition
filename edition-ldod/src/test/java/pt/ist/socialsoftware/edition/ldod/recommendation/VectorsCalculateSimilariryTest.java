@@ -1,6 +1,7 @@
-package pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation;
+package pt.ist.socialsoftware.edition.ldod.recommendation;
 
 import org.junit.jupiter.api.Test;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.Vectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

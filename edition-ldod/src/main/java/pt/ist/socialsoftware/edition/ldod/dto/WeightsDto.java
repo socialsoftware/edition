@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.dto;
 
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.properties.*;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.*;
 
 import java.util.ArrayList;
 import java.util.List;

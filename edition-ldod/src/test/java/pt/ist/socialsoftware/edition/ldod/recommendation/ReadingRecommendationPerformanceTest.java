@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation;
+package pt.ist.socialsoftware.edition.ldod.recommendation;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.junit.jupiter.api.AfterAll;
@@ -9,8 +9,11 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.properties.*;
-import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.properties.Property.PropertyCache;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.ReadingRecommendation;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMRecommender;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMVirtualEditionInterRecommender;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.*;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.Property.PropertyCache;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

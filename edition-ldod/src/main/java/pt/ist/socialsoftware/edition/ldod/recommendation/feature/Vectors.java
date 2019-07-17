@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation;
+package pt.ist.socialsoftware.edition.ldod.recommendation.feature;
 
 import org.jblas.DoubleMatrix;
 import org.slf4j.Logger;
@@ -9,8 +9,8 @@ public class Vectors {
 
     public static double calculateSimilarity(double[] t1, double[] t2) {
         if (t1 == null || t2 == null) {
-			return 0.0;
-		}
+            return 0.0;
+        }
 
         DoubleMatrix matrix1 = new DoubleMatrix(t1);
         DoubleMatrix matrix2 = new DoubleMatrix(t2);

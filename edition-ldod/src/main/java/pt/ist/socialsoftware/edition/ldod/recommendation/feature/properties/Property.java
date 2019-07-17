@@ -1,9 +1,9 @@
-package pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.properties;
+package pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.StoredVectors;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.StoredVectors;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type")
 @JsonSubTypes({@JsonSubTypes.Type(value = HeteronymProperty.class, name = Property.HETERONYM),

@@ -21,9 +21,9 @@ import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
-import pt.ist.socialsoftware.edition.ldod.frontend.virtual.RecommendationController;
+import pt.ist.socialsoftware.edition.ldod.frontend.recommendation.RecommendationController;
+import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.RecommendVirtualEditionParam;
 import pt.ist.socialsoftware.edition.ldod.utils.controller.LdoDExceptionHandler;
-import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.dto.RecommendVirtualEditionParam;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

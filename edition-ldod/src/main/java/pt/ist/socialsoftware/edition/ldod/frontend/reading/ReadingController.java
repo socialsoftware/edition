@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.frontend.virtual;
+package pt.ist.socialsoftware.edition.ldod.frontend.reading;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

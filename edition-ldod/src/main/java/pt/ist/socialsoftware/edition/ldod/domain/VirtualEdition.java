@@ -10,6 +10,8 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMVirtualEditionInterRecommender;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.Property;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
@@ -17,8 +19,6 @@ import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDDuplicateAcronymException;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualRequiresInterface;
-import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.VSMVirtualEditionInterRecommender;
-import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.properties.Property;
 
 import java.io.File;
 import java.io.IOException;

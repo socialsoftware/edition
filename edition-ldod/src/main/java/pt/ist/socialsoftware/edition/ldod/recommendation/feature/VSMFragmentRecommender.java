@@ -1,7 +1,7 @@
-package pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation;
+package pt.ist.socialsoftware.edition.ldod.recommendation.feature;
 
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.properties.Property;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.Property;
 
 public class VSMFragmentRecommender extends VSMRecommender<Fragment> {
 

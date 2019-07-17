@@ -3,8 +3,8 @@ package pt.ist.socialsoftware.edition.ldod.domain;
 import org.joda.time.LocalDate;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
-import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.VSMExpertEditionInterRecommender;
-import pt.ist.socialsoftware.edition.ldod.virtual.feature.recommendation.properties.Property;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMExpertEditionInterRecommender;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.Property;
 
 import java.util.*;
 import java.util.stream.Collectors;
