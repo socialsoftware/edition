@@ -9,9 +9,7 @@ import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
-import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.CategoryDto;
-import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.*;
 import pt.ist.socialsoftware.edition.ldod.visual.api.dto.EditionInterListDto;
 
 import java.util.*;
@@ -208,6 +206,27 @@ public class VirtualProvidesInterface {
         }
 
         return null;
+    }
+
+    public List<TagDto> getVirtualEditionInterTags(String xmlId){
+        VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
+        return inter.getTagsCompleteInter().stream().map(tag -> new TagDto(tag, inter)).collect(Collectors.toList());
+    }
+
+    public List<HumanAnnotationDto> getVirtualEditionInterHumanAnnotations(String xmlId){
+        VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
+        return inter.getAllDepthAnnotations().stream().filter(HumanAnnotation.class::isInstance)
+                .map(HumanAnnotation.class::cast)
+                .map(annotation -> new HumanAnnotationDto(annotation,inter))
+                .collect(Collectors.toList());
+    }
+
+    public List<AwareAnnotationDto> getVirtualEditionInterAwareAnnotations(String xmlId){
+        return getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new).getAllDepthAnnotations()
+                .stream().filter(AwareAnnotation.class::isInstance)
+                .map(AwareAnnotation.class::cast)
+                .map(AwareAnnotationDto::new)
+                .collect(Collectors.toList());
     }
 
     private Optional<VirtualEditionInter> getVirtualEditionInterByXmlId(String xmlId) {

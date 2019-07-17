@@ -91,4 +91,16 @@ public class VirtualEditionInterDto {
     public List<CategoryDto> getNonAssignedCategoriesForUser(String username){
         return this.virtualProvidesInterface.getVirtualEditionInterNonAssignedCategoriesForUser(this.xmlId, username);
     }
+
+    public List<TagDto> getTagsCompleteInter(){
+        return this.virtualProvidesInterface.getVirtualEditionInterTags(this.xmlId);
+    }
+
+    public List<HumanAnnotationDto> getHumanAnnotations(){
+        return this.virtualProvidesInterface.getVirtualEditionInterHumanAnnotations(this.xmlId);
+    }
+
+    public List<AwareAnnotationDto> getAwareAnnotations(){
+        return this.virtualProvidesInterface.getVirtualEditionInterAwareAnnotations(this.xmlId);
+    }
 }
