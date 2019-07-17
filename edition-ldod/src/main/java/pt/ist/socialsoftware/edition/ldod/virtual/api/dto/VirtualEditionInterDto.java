@@ -79,4 +79,16 @@ public class VirtualEditionInterDto {
     public VirtualEditionInterDto getUsesInter(){
         return this.virtualProvidesInterface.getVirtualEditionInterUses(this.xmlId);
     }
+
+    public List<CategoryDto> getAssignedCategories(){
+        return this.virtualProvidesInterface.getVirtualEditionInterAssignedCategories(this.xmlId);
+    }
+
+    public List<CategoryDto> getAssignedCategoriesForUser(String username){
+        return this.virtualProvidesInterface.getVirtualEditionInterAssignedCategoriesForUser(this.xmlId, username);
+    }
+
+    public List<CategoryDto> getNonAssignedCategoriesForUser(String username){
+        return this.virtualProvidesInterface.getVirtualEditionInterNonAssignedCategoriesForUser(this.xmlId, username);
+    }
 }

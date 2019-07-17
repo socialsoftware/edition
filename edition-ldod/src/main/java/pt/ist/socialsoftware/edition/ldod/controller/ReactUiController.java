@@ -26,6 +26,7 @@ import pt.ist.socialsoftware.edition.ldod.utils.AnnotationSearchJson;
 import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.CategoryDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
@@ -498,14 +499,14 @@ public class ReactUiController {
     @GetMapping(value = "/taxonomy", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getTaxonomyForInter(@RequestParam String xmlId, @RequestParam String urlId) {
 
-        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.textProvidesInterface.getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             logger.debug("Could find frag");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        VirtualEditionInter inter = VirtualModule.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).stream()
+        VirtualEditionInterDto inter = this.virtualProvidesInterface.getVirtualEditionInterSet().stream()
                 .filter(virtualEditionInter -> virtualEditionInter.getUrlId().equals(urlId)).findFirst().orElse(null);
 
         if (inter == null) {
@@ -515,16 +516,16 @@ public class ReactUiController {
 
         List<Map<String, Object>> categoryInfo = new ArrayList<>();
 
-        for (Category category : inter.getAssignedCategories()) {
+        for (CategoryDto category : inter.getAssignedCategories()) {
             Map<String, Object> infoMap = new LinkedHashMap<>();
             infoMap.put("interExternal", inter.getExternalId());
-            infoMap.put("acronym", category.getTaxonomy().getEdition().getAcronym());
+            infoMap.put("acronym", category.getAcronym());
             infoMap.put("urlId", category.getUrlId());
-            infoMap.put("name", category.getNameInEditionContext(inter.getEdition().getTaxonomy().getEdition()));
+            infoMap.put("name", category.getName());
             infoMap.put("categoryExternal", category.getExternalId());
 
             List<Map<String, String>> userList = new ArrayList<>();
-            inter.getContributorSet(category).stream().map(UserDto::new).forEach(userDto -> {
+            category.getUsers().forEach(userDto -> {
                 Map<String, String> userInfo = new LinkedHashMap<>();
                 userInfo.put("username", userDto.getUsername());
                 userInfo.put("firstName", userDto.getFirstName());
@@ -542,14 +543,14 @@ public class ReactUiController {
     @GetMapping(value = "/categories", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getCategoriesForInter(@RequestParam String xmlId, @RequestParam String urlId) {
 
-        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.textProvidesInterface.getFragmentByXmlId(xmlId);
 
         if (fragment == null) {
             logger.debug("Could find frag");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        VirtualEditionInter inter = VirtualModule.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).stream()
+        VirtualEditionInterDto inter = this.virtualProvidesInterface.getVirtualEditionInterSet().stream()
                 .filter(virtualEditionInter -> virtualEditionInter.getUrlId().equals(urlId)).findFirst().orElse(null);
 
         if (inter == null) {
@@ -563,15 +564,15 @@ public class ReactUiController {
 
         if (this.userProvidesInterface.getUser(user) != null) {
             List<String> assignedInfo = new ArrayList<>();
-            for (Category category : inter.getAssignedCategories(user)) {
-                assignedInfo.add(category.getNameInEditionContext(inter.getEdition()));
+            for (CategoryDto category : inter.getAssignedCategoriesForUser(user)) {
+                assignedInfo.add(category.getName());
             }
 
             catInfo.put("assigned", assignedInfo);
 
             List<String> nonAssignedInfo = new ArrayList<>();
-            for (Category category : inter.getNonAssignedCategories(user)) {
-                nonAssignedInfo.add(category.getNameInEditionContext(inter.getEdition()));
+            for (CategoryDto category : inter.getNonAssignedCategoriesForUser(user)) {
+                nonAssignedInfo.add(category.getName());
             }
 
             catInfo.put("nonAssigned", nonAssignedInfo);
@@ -586,41 +587,41 @@ public class ReactUiController {
                                                     @RequestParam(required = false, defaultValue = "false") boolean showSpaces) {
 
         List<ScholarInter> inters = new ArrayList<>();
+        List<ScholarInterDto> interDtos = new ArrayList<>();
 
         for (String id : interIds.split("%2C")) {
             ScholarInter inter = FenixFramework.getDomainObject(id);
             if (inter != null) {
                 inters.add(inter);
             }
+            ScholarInterDto dto = this.textProvidesInterface.getScholarInterbyExternalId(id);
+            if (dto != null){
+                interDtos.add(dto);
+            }
         }
 
-        if (inters.size() == 1) {
-            ScholarInter inter = inters.get(0);
-            PlainHtmlWriter4OneInter writer4One = new PlainHtmlWriter4OneInter(inter);
-            writer4One.write(false);
-            return new ResponseEntity<>(writer4One.getTranscription(), HttpStatus.OK);
+        if (interDtos.size() == 1) {
+            return new ResponseEntity<>(interDtos.get(0).getTranscription(), HttpStatus.OK);
         }
 
         if (inters.size() > 2) {
             lineByLine = true;
         }
 
-        HtmlWriter2CompInters writer = new HtmlWriter2CompInters(inters);
-
         Map<String, Object> results = new LinkedHashMap<>();
 
-        writer.write(lineByLine, showSpaces);
+        Map<String, String> transcriptions = this.textProvidesInterface.getMultipleInterTranscription(Arrays.asList(interIds.split("%2C")), lineByLine, showSpaces);
 
         if (!lineByLine) {
-            for (ScholarInter inter : inters) {
+            for (ScholarInterDto inter : interDtos) {
                 Map<String, String> interInfo = new LinkedHashMap<>();
-                interInfo.put("transcription", writer.getTranscription(inter));
+                interInfo.put("transcription", transcriptions.get(inter.getExternalId()));
                 interInfo.put("urlId", inter.getUrlId());
-                interInfo.put("fragId", inter.getFragment().getXmlId());
+                interInfo.put("fragId", inter.getFragmentDto().getXmlId());
                 results.put(inter.getExternalId(), interInfo);
             }
         } else {
-            results.put("transcription", writer.getTranscriptionLineByLine());
+            results.put("transcription", transcriptions.get("transcription"));
         }
 
         List<AppText> apps = new ArrayList<>();
@@ -640,7 +641,7 @@ public class ReactUiController {
         }
 
         results.put("variations", variations);
-        results.put("title", inters.get(0).getTitle());
+        results.put("title", interDtos.get(0).getTitle());
         results.put("lineByLine", lineByLine);
         results.put("showSpaces", showSpaces);
 

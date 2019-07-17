@@ -9,6 +9,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.*;
+import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
@@ -244,6 +245,31 @@ public class TextProvidesInterface {
         PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
         writer.write(diff);
         return writer.getTranscription();
+    }
+
+    public Map<String,String> getMultipleInterTranscription(List<String> externalIds, boolean lineByLine, boolean showSpaces){
+        List<ScholarInter> inters = new ArrayList<>();
+
+        for(String id : externalIds){
+            ScholarInter inter = FenixFramework.getDomainObject(id);
+            if(inter != null)
+                inters.add(inter);
+        }
+
+        HtmlWriter2CompInters writer = new HtmlWriter2CompInters(inters);
+
+        writer.write(lineByLine, showSpaces);
+
+        Map<String, String> result = new LinkedHashMap<>();
+
+        if(!lineByLine)
+            for(ScholarInter inter : inters){
+                result.put(inter.getExternalId(), writer.getTranscription(inter));
+            }
+        else
+            result.put("transcription", writer.getTranscriptionLineByLine());
+
+        return result;
     }
 
     public List<String> getSourceInterFacUrls(String xmlId) {
