@@ -108,4 +108,8 @@ public class VirtualEditionInterDto {
     public void associate(String username, Set<String> categories){
         this.virtualProvidesInterface.associateVirtualEditionInterCategories(this.xmlId, username, categories);
     }
+
+    public void dissociate(String username, String categories){
+        this.virtualProvidesInterface.dissociateVirtualEditionInterCategory(this.xmlId, username, categories);
+    }
 }

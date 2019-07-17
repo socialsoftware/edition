@@ -720,17 +720,21 @@ public class ReactUiController {
 
     @PostMapping("/restricted/dissociate-category")
     public ResponseEntity<?> dissociateCategoryFromInter(@RequestParam String externalId, @RequestParam String categoryId) {
-        DomainObject object = FenixFramework.getDomainObject(externalId);
 
-        Category category = FenixFramework.getDomainObject(categoryId);
+        VirtualEditionInterDto inter = this.virtualProvidesInterface.getVirtualEditionInterByExternalId(externalId);
 
-        if (!(object instanceof VirtualEditionInter) || category == null) {
+        if (inter == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        VirtualEditionInter inter = (VirtualEditionInter) object;
+        CategoryDto category = inter.getAssignedCategories().stream().filter(categoryDto -> categoryDto.getExternalId().equals(categoryId))
+                .findAny().orElse(null);
 
-        inter.dissociate(this.userProvidesInterface.getAuthenticatedUser(), category);
+        if (category == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        inter.dissociate(this.userProvidesInterface.getAuthenticatedUser(), category.getName());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

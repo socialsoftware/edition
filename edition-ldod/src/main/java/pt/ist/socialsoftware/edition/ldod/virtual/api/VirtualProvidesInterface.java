@@ -237,6 +237,13 @@ public class VirtualProvidesInterface {
         getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new).associate(username, categories);
     }
 
+    public void dissociateVirtualEditionInterCategory(String xmlId, String username, String categoryName){
+        VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
+        Category category = inter.getAllDepthCategories().stream().filter(cat -> cat.getNameInEditionContext(inter.getEdition()).equals(categoryName))
+                .findAny().orElseThrow(LdoDException::new);
+        inter.dissociate(username, category);
+    }
+
     private Optional<VirtualEditionInter> getVirtualEditionInterByXmlId(String xmlId) {
         return VirtualModule.getInstance().getVirtualEditionInterSet().stream()
                 .filter(virtualEditionInter -> virtualEditionInter.getXmlId().equals(xmlId)).findAny();
