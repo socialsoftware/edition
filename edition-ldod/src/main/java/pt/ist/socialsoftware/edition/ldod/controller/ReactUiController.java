@@ -585,15 +585,9 @@ public class ReactUiController {
     public ResponseEntity<?> getMultipleInterWriter(@RequestParam String interIds,
                                                     @RequestParam(required = false, defaultValue = "false") boolean lineByLine,
                                                     @RequestParam(required = false, defaultValue = "false") boolean showSpaces) {
-
-        List<ScholarInter> inters = new ArrayList<>();
         List<ScholarInterDto> interDtos = new ArrayList<>();
 
         for (String id : interIds.split("%2C")) {
-            ScholarInter inter = FenixFramework.getDomainObject(id);
-            if (inter != null) {
-                inters.add(inter);
-            }
             ScholarInterDto dto = this.textProvidesInterface.getScholarInterbyExternalId(id);
             if (dto != null){
                 interDtos.add(dto);
@@ -604,7 +598,7 @@ public class ReactUiController {
             return new ResponseEntity<>(interDtos.get(0).getTranscription(), HttpStatus.OK);
         }
 
-        if (inters.size() > 2) {
+        if (interDtos.size() > 2) {
             lineByLine = true;
         }
 
@@ -624,23 +618,7 @@ public class ReactUiController {
             results.put("transcription", transcriptions.get("transcription"));
         }
 
-        List<AppText> apps = new ArrayList<>();
-        inters.get(0).getFragment().getTextPortion().putAppTextWithVariations(apps, inters);
-        Collections.reverse(apps);
-
-        Map<String, List<String>> variations = new HashMap<>();
-
-        for (ScholarInter scholarInter : inters) {
-            List<String> interVariation = new ArrayList<>();
-            for (AppText app : apps) {
-                HtmlWriter4Variations writer4Variations = new HtmlWriter4Variations(scholarInter);
-                interVariation.add(writer4Variations.getAppTranscription(app));
-
-            }
-            variations.put(scholarInter.getShortName() + "#" + scholarInter.getTitle(), interVariation);
-        }
-
-        results.put("variations", variations);
+        results.put("variations", this.textProvidesInterface.getMultipleInterVariations(Arrays.asList(interIds.split("%2C"))));
         results.put("title", interDtos.get(0).getTitle());
         results.put("lineByLine", lineByLine);
         results.put("showSpaces", showSpaces);
