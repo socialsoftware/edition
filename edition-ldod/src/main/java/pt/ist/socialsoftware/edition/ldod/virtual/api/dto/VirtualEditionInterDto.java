@@ -5,6 +5,7 @@ import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 
 import java.util.List;
+import java.util.Set;
 
 
 public class VirtualEditionInterDto {
@@ -102,5 +103,9 @@ public class VirtualEditionInterDto {
 
     public List<AwareAnnotationDto> getAwareAnnotations(){
         return this.virtualProvidesInterface.getVirtualEditionInterAwareAnnotations(this.xmlId);
+    }
+
+    public void associate(String username, Set<String> categories){
+        this.virtualProvidesInterface.associateVirtualEditionInterCategories(this.xmlId, username, categories);
     }
 }

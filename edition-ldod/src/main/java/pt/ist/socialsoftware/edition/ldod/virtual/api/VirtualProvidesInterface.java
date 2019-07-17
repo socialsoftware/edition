@@ -45,6 +45,10 @@ public class VirtualProvidesInterface {
         return getVirtualEditionByAcronym(acronym).map(VirtualEdition::getReference).orElse(null);
     }
 
+    public boolean isVirtualEditionPublicOrIsUserParticipant(String acronym){
+        return getVirtualEditionByAcronym(acronym).orElseThrow(LdoDException::new).isPublicOrIsParticipant();
+    }
+
     public Set<VirtualEditionInterDto> getVirtualEditionInterOfFragmentForVirtualEdition(String acronym, String xmlId) {
         List<VirtualEditionInter> virtualEditionInters = getVirtualEditionByAcronym(acronym)
                 .map(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters()).orElse(new ArrayList<>());
@@ -227,6 +231,10 @@ public class VirtualProvidesInterface {
                 .map(AwareAnnotation.class::cast)
                 .map(AwareAnnotationDto::new)
                 .collect(Collectors.toList());
+    }
+
+    public void associateVirtualEditionInterCategories(String xmlId, String username, Set<String> categories){
+        getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new).associate(username, categories);
     }
 
     private Optional<VirtualEditionInter> getVirtualEditionInterByXmlId(String xmlId) {

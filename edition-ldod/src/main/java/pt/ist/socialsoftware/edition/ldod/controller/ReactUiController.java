@@ -11,16 +11,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.api.ui.FragInterDto;
-import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.*;
-import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter2CompInters;
-import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter4Variations;
-import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
-import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationSearchJson;
 import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
@@ -703,17 +697,17 @@ public class ReactUiController {
     @PostMapping("/restricted/associate-category")
     public ResponseEntity<?> associateCategoriesToInter(@RequestParam String externalId, @RequestParam String categories) {
 
-        DomainObject object = FenixFramework.getDomainObject(externalId);
+        VirtualEditionInterDto inter = this.virtualProvidesInterface.getVirtualEditionInterByExternalId(externalId);
 
-        if (!(object instanceof VirtualEditionInter)) {
+        if (inter == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        VirtualEditionInter inter = (VirtualEditionInter) object;
+        VirtualEditionDto virtualEditionDto = this.virtualProvidesInterface.getVirtualEditions().stream()
+                .filter(dto -> this.virtualProvidesInterface.isInterInVirtualEdition(inter.getXmlId(),dto.getAcronym()))
+                .findAny().orElseThrow(LdoDException::new);
 
-        User user = User.getAuthenticatedUser();
-
-        if (user == null || !inter.getEdition().isPublicOrIsParticipant()) {
+        if (this.userProvidesInterface.getAuthenticatedUser() == null || !virtualEditionDto.isPublicOrIsParticipant()) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 

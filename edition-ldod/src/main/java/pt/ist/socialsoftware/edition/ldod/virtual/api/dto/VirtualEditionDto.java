@@ -47,4 +47,8 @@ public class VirtualEditionDto {
     public boolean getTaxonomyVocabularyStatus(){
         return this.virtualProvidesInterface.getVirtualEditionTaxonomyVocabularyStatus(this.acronym);
     }
+
+    public boolean isPublicOrIsParticipant(){
+        return this.virtualProvidesInterface.isVirtualEditionPublicOrIsUserParticipant(this.acronym);
+    }
 }
