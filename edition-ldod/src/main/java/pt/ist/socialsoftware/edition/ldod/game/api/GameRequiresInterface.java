@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.api.event.Event;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationModule;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 
 public class GameRequiresInterface {
     private static final Logger logger = LoggerFactory.getLogger(GameRequiresInterface.class);
@@ -22,5 +23,16 @@ public class GameRequiresInterface {
             String interId = event.getIdentifier();
 
         }
+
+        else if (event.getType().equals(Event.EventType.TAG_REMOVE)){
+            String externalId = event.getIdentifier();
+        }
     }
+
+    private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+
+    public void removeTag(String externalId){
+        this.virtualProvidesInterface.removeTagFromInter(externalId);
+    }
+
 }

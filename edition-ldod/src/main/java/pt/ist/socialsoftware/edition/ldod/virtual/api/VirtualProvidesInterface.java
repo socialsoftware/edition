@@ -217,6 +217,14 @@ public class VirtualProvidesInterface {
         return inter.getTagsCompleteInter().stream().map(tag -> new TagDto(tag, inter)).collect(Collectors.toList());
     }
 
+    public void removeTagFromInter(String externalId){
+        DomainObject domainObject = FenixFramework.getDomainObject(externalId);
+
+        if(domainObject instanceof Tag){
+            ((Tag) domainObject).remove();
+        }
+    }
+
     public List<HumanAnnotationDto> getVirtualEditionInterHumanAnnotations(String xmlId){
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         return inter.getAllDepthAnnotations().stream().filter(HumanAnnotation.class::isInstance)
