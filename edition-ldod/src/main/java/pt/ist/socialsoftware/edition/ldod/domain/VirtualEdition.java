@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.api.event.Event;
+import pt.ist.socialsoftware.edition.ldod.api.event.EventInterface;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMVirtualEditionInterRecommender;
@@ -119,6 +121,9 @@ public class VirtualEdition extends VirtualEdition_Base {
         setVirtualModule4Virtual(null);
 
         getClassificationGameSet().stream().forEach(g -> g.remove());
+
+        EventInterface eventInterface = new EventInterface();
+        eventInterface.publish(new Event(Event.EventType.VIRTUAL_EDITION_REMOVE, getXmlId()));
 
         getTaxonomy().remove();
 

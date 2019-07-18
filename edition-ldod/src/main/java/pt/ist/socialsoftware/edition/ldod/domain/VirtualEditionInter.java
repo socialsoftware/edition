@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.api.event.Event;
+import pt.ist.socialsoftware.edition.ldod.api.event.EventInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.HeteronymDto;
@@ -62,6 +64,9 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     }
 
     public void remove() {
+
+        EventInterface eventInterface = new EventInterface();
+        eventInterface.publish(new Event(Event.EventType.VIRTUAL_INTER_REMOVE, getXmlId()));
 
         for (VirtualEditionInter inter : getIsUsedBySet()) {
             inter.setUses(getUses());
@@ -120,6 +125,9 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     }
 
     public ScholarInterDto getLastUsed() {
+       /* logger.debug(String.valueOf(getUses() == null));
+        logger.debug(getUsesScholarInterId());
+        logger.debug("==============");*/
         return getUses() != null ? getUses().getLastUsed() : (new TextProvidesInterface()).getScholarInter(getUsesScholarInterId());
     }
 

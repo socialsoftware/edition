@@ -789,6 +789,9 @@ relation DomainRootHasClassificationModule  {
 }
 
 class ClassificationGame {
+    String editionId;
+    String interId;
+    String tagId;
     ClassificationGameState state;
 	String description;
 	DateTime dateTime;

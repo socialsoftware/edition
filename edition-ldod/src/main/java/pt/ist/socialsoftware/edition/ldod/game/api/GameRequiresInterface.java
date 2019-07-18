@@ -14,5 +14,13 @@ public class GameRequiresInterface {
 
             ClassificationModule.getInstance().getPlayerSet().stream().filter(player -> player.getUser().equals(username)).forEach(player -> player.remove());
         }
+        else if (event.getType().equals(Event.EventType.VIRTUAL_EDITION_REMOVE)){
+            String editionId = event.getIdentifier();
+
+        }
+        else if (event.getType().equals(Event.EventType.VIRTUAL_INTER_REMOVE)){
+            String interId = event.getIdentifier();
+
+        }
     }
 }
