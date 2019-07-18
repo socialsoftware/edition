@@ -109,7 +109,7 @@ public class EditionController {
             model.addAttribute("userDto", userDto);
             model.addAttribute("publicVirtualEditionsOrUserIsParticipant", VirtualModule.getInstance().getPublicVirtualEditionsOrUserIsParticipant(username));
             model.addAttribute("virtualEditionIntersUserIsContributor", VirtualModule.getInstance().getVirtualEditionIntersUserIsContributor(username));
-            Player player = VirtualModule.getInstance().getPlayerByUsername(username);
+            Player player = ClassificationModule.getInstance().getPlayerByUsername(username); //TODO : this should be a dto from the game module
             if (player != null) {
                 model.addAttribute("player", player);
                 List<ClassificationGame> games = player.getClassificationGameParticipantSet().stream().map

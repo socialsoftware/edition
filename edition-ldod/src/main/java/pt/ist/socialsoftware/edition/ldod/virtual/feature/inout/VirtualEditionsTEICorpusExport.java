@@ -36,7 +36,7 @@ public class VirtualEditionsTEICorpusExport {
 
 
         Element listPlayer = generatePlayerList(teiHeader);
-        for (Player player : VirtualModule.getInstance().getPlayerSet()) {
+        for (Player player : ClassificationModule.getInstance().getPlayerSet()) { //TODO: this should be exported through the game module
             exportPlayer(listPlayer, player);
         }
 

@@ -39,7 +39,6 @@ public class VirtualRequiresInterface {
             virtualModule.getVirtualEditionsSet().stream().flatMap(virtualEdition -> virtualEdition.getRecommendationWeightsSet().stream())
                     .filter(recommendationWeights -> recommendationWeights.getUser().equals(username))
                     .forEach(recommendationWeights -> recommendationWeights.remove());
-            virtualModule.getPlayerSet().stream().filter(player -> player.getUser().equals(username)).forEach(player -> player.remove());
             virtualModule.getVirtualEditionInterSet().stream().flatMap(virtualEditionInter -> virtualEditionInter.getClassificationGameSet().stream())
                     .filter(classificationGame -> classificationGame.getResponsible().equals(username)).forEach(classificationGame -> classificationGame.remove());
         }

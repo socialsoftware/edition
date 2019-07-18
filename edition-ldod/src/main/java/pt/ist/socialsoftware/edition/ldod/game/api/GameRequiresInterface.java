@@ -1,0 +1,18 @@
+package pt.ist.socialsoftware.edition.ldod.game.api;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pt.ist.socialsoftware.edition.ldod.api.event.Event;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationModule;
+
+public class GameRequiresInterface {
+    private static final Logger logger = LoggerFactory.getLogger(GameRequiresInterface.class);
+
+    public void notifyEvent(Event event) {
+        if (event.getType().equals(Event.EventType.USER_REMOVE)) {
+            String username = event.getIdentifier();
+
+            ClassificationModule.getInstance().getPlayerSet().stream().filter(player -> player.getUser().equals(username)).forEach(player -> player.remove());
+        }
+    }
+}

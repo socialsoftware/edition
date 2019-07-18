@@ -774,6 +774,20 @@ relation VirtualModuleHasTweets {
 	Tweet playsRole tweet {multiplicity 0..*;}
 }
 
+// Classification game domain entities and relations
+
+class ClassificationModule{
+}
+
+relation DomainRootHasClassificationModule  {
+    .pt.ist.fenixframework.DomainRoot playsRole root {
+    		multiplicity 1..1;
+    }
+    ClassificationModule playsRole classificationModule {
+        multiplicity 0..1;
+    }
+}
+
 class ClassificationGame {
     ClassificationGameState state;
 	String description;
@@ -787,8 +801,8 @@ class Player {
 	double score;
 }
 
-relation VirtualModuleHasPlayers {
-	VirtualModule playsRole virtualModule {multiplicity 1..1;}
+relation ClassificationModuleHasPlayers {
+	ClassificationModule playsRole classificationModule {multiplicity 1..1;}
 	Player playsRole player {multiplicity 0..*;}
 }
 
