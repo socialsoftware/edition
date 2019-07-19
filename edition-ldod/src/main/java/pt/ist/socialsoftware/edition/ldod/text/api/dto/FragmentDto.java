@@ -38,6 +38,10 @@ public class FragmentDto {
         return this.textProvidesInterface.getFragmentScholarInterDtoSetForExpertEdtion(getXmlId(), acronym);
     }
 
+    public ScholarInterDto getScholarInterByUrlId(String urlId) {
+        return this.textProvidesInterface.getFragmentScholarInterByUrlId(this.xmlId, urlId);
+    }
+
     // Only necessary due to manual ordering of virtual edition javascript code
     public String getExternalId() {
         return this.textProvidesInterface.getFragmentExternalId(getXmlId());
@@ -64,4 +68,6 @@ public class FragmentDto {
     public int hashCode() {
         return this.xmlId.hashCode();
     }
+
+
 }

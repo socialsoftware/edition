@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.frontend.game.validator.ClassificationGameValidator;
-import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.*;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
@@ -29,11 +28,6 @@ public class GameController {
 
     private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
     private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
-
-    @ModelAttribute("ldoDSession")
-    public LdoDSession getLdoDSession() {
-        return LdoDSession.getLdoDSession();
-    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/classificationGame")
     @PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")

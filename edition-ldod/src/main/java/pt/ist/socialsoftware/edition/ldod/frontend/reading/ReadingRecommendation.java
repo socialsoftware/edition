@@ -1,11 +1,11 @@
-package pt.ist.socialsoftware.edition.ldod.recommendation.feature;
+package pt.ist.socialsoftware.edition.ldod.frontend.reading;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.ScholarInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
@@ -67,10 +67,10 @@ public class ReadingRecommendation implements Serializable {
         // this.read);
 
         List<FragmentDto> readFragments = this.read.stream()
-                .map(id -> (ExpertEditionInter) FenixFramework.getDomainObject(id)).map(inter -> new FragmentDto(inter.getFragment()))
+                .map(id -> this.textProvidesInterface.getScholarInterbyExternalId(id)).map(ScholarInterDto::getFragmentDto)
                 .collect(Collectors.toList());
 
-        ScholarInterDto toReadInter = new ScholarInterDto((ScholarInter) FenixFramework.getDomainObject(expertEditionInterId));
+        ScholarInterDto toReadInter = this.textProvidesInterface.getScholarInterbyExternalId(expertEditionInterId);
         FragmentDto toReadFragment = toReadInter.getFragmentDto();
 
         // if the fragment that is going to be read was already read, return to

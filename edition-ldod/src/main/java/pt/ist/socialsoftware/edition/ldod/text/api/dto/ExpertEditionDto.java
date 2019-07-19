@@ -25,4 +25,8 @@ public class ExpertEditionDto {
     public List<ScholarInterDto> getExpertEditionInters() {
         return this.textProvidesInterface.getExpertEditionScholarInterDtoList(this.acronym);
     }
+
+    public List<ScholarInterDto> getSortedInter4Frag(String fragmentXmlId) {
+        return this.textProvidesInterface.getExpertEditionSortedInter4Frag(this.acronym, fragmentXmlId);
+    }
 }

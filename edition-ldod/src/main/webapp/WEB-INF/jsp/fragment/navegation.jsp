@@ -233,10 +233,10 @@
 
         <!-- OTHER VIRTUAL EDITIONS -->
         <c:if
-                test="${(ldoDSession != null) && (ldoDSession.materializeVirtualEditions().size() != 0)}">
+                test="${(frontendSession != null) && (frontendSession.materializeVirtualEditions().size() != 0)}">
             <div class="text-center">
                 <c:forEach var="virtualEdition"
-                           items='${ldoDSession.materializeVirtualEditions()}'>
+                           items='${frontendSession.materializeVirtualEditions()}'>
                     <div class="text-center" style="padding: 8px">
                         <a
                                 href="${contextPath}/edition/acronym/${virtualEdition.getAcronym()}">

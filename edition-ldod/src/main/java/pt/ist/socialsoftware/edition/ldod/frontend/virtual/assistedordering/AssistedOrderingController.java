@@ -10,9 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.frontend.session.FrontendSession;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.validator.VirtualEditionValidator;
 import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.RecommendVirtualEditionParam;
-import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
@@ -108,7 +108,7 @@ public class AssistedOrderingController {
 
     @RequestMapping(value = "/linear/create", method = RequestMethod.POST)
     @PreAuthorize("hasPermission(#acronym, 'editionacronym.participant')")
-    public String createLinearVirtualEdition(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+    public String createLinearVirtualEdition(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
                                              @RequestParam("acronym") String acronym, @RequestParam("title") String title,
                                              @RequestParam("pub") boolean pub, @RequestParam("inter[]") String[] inters) {
 

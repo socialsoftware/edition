@@ -10,7 +10,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.game.api.dto.VirtualEditionInterGameDto;
-import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
+import pt.ist.socialsoftware.edition.ldod.frontend.session.FrontendSession;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
@@ -72,7 +72,7 @@ public class APIVirtualEditionController {
 
         if (userDto != null) {
             List<VirtualEdition> virtualEditionList = VirtualModule.getInstance().getVirtualEditionsUserIsParticipant(username,
-                    LdoDSession.getLdoDSession());
+                    FrontendSession.getLdoDSession());
             List<EditionInterListDto> result = virtualEditionList.stream()
                     .filter(virtualEdition -> virtualEdition.getParticipantSet().contains(username))
                     .map(ve -> new EditionInterListDto(ve, true)).collect(Collectors.toList());

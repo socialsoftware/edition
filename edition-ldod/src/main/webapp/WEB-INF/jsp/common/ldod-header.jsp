@@ -138,7 +138,7 @@
                     <li><a href="${contextPath}/edition/acronym/LdoD-Arquivo">Arquivo
                         LdoD</a></li>
                     <li class="divider"></li>
-                    <c:forEach var="acronym" items='${ldoDSession.selectedVEAcr}'>
+                    <c:forEach var="acronym" items='${frontendSession.selectedVEAcr}'>
                         <li><a href="${contextPath}/edition/acronym/${acronym}">${acronym}</a></li>
                     </c:forEach>
                 </ul>

@@ -10,7 +10,7 @@ import org.springframework.web.context.request.WebRequest;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
-import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
+import pt.ist.socialsoftware.edition.ldod.frontend.session.FrontendSession;
 
 public class SigninUtils {
     private static final Logger log = LoggerFactory.getLogger(SigninUtils.class);
@@ -27,9 +27,9 @@ public class SigninUtils {
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()));
 
-        LdoDSession ldoDSession = new LdoDSession();
-        request.setAttribute("ldoDSession", ldoDSession, WebRequest.SCOPE_SESSION);
-        ldoDSession.updateSession(user);
+        FrontendSession frontendSession = new FrontendSession();
+        request.setAttribute("frontendSession", frontendSession, WebRequest.SCOPE_SESSION);
+        frontendSession.updateSession(user);
 
         log.debug("signin authentication:{}, user:{}", SecurityContextHolder.getContext().getAuthentication(),
                 User.getAuthenticatedUser() == null ? "NULL" : User.getAuthenticatedUser().getUsername());
