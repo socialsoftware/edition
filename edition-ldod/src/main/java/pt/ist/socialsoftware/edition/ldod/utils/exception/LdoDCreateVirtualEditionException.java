@@ -1,6 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.utils.exception;
 
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +12,11 @@ public class LdoDCreateVirtualEditionException extends LdoDException {
     private String acronym = null;
     private String title = null;
     private boolean pub = false;
-    private List<VirtualEdition> virtualEditions = null;
+    private List<VirtualEditionDto> virtualEditions = null;
     private String user = null;
 
     public LdoDCreateVirtualEditionException(List<String> errors, String acronym, String title, boolean pub,
-                                             List<VirtualEdition> virtualEditions, String user) {
+                                             List<VirtualEditionDto> virtualEditions, String user) {
         this.errors = errors;
         this.acronym = acronym;
         this.title = title;
@@ -41,7 +41,7 @@ public class LdoDCreateVirtualEditionException extends LdoDException {
         return this.pub;
     }
 
-    public List<VirtualEdition> getVirtualEditions() {
+    public List<VirtualEditionDto> getVirtualEditions() {
         return this.virtualEditions;
     }
 

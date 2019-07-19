@@ -4,6 +4,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -57,11 +58,7 @@ public class VirtualEditionInterDto {
         return getLastUsed().getXmlId();
     }
 
-    public List<String> getCategorySet() {
-        return this.virtualProvidesInterface.getVirtualEditionInterCategoryList(this.xmlId);
-    }
-
-    public String getReference(){
+    public String getReference() {
         return this.virtualProvidesInterface.getVirtualEditionInterReference(this.xmlId);
     }
 
@@ -77,39 +74,77 @@ public class VirtualEditionInterDto {
         return this.virtualProvidesInterface.getPrevVirtualInter(this.xmlId);
     }
 
-    public VirtualEditionInterDto getUsesInter(){
+    public VirtualEditionInterDto getUsesInter() {
         return this.virtualProvidesInterface.getVirtualEditionInterUses(this.xmlId);
     }
 
-    public List<CategoryDto> getAssignedCategories(){
+    public List<String> getSortedCategories() {
+        return this.virtualProvidesInterface.getSortedVirtualEditionInterCategories(this.xmlId);
+    }
+
+    public List<CategoryDto> getAssignedCategories() {
         return this.virtualProvidesInterface.getVirtualEditionInterAssignedCategories(this.xmlId);
     }
 
-    public List<CategoryDto> getAssignedCategoriesForUser(String username){
+    public List<CategoryDto> getAssignedCategoriesForUser(String username) {
         return this.virtualProvidesInterface.getVirtualEditionInterAssignedCategoriesForUser(this.xmlId, username);
     }
 
-    public List<CategoryDto> getNonAssignedCategoriesForUser(String username){
+    public List<CategoryDto> getNonAssignedCategoriesForUser(String username) {
         return this.virtualProvidesInterface.getVirtualEditionInterNonAssignedCategoriesForUser(this.xmlId, username);
     }
 
-    public List<TagDto> getTagsCompleteInter(){
+    public VirtualEditionDto getVirtualEditionDto() {
+        return this.virtualProvidesInterface.getVirtualEditionOfVirtualEditionInter(this.xmlId);
+    }
+
+    public List<TagDto> getTagsCompleteInter() {
         return this.virtualProvidesInterface.getVirtualEditionInterTags(this.xmlId);
     }
 
-    public List<HumanAnnotationDto> getHumanAnnotations(){
+    public List<HumanAnnotationDto> getHumanAnnotations() {
         return this.virtualProvidesInterface.getVirtualEditionInterHumanAnnotations(this.xmlId);
     }
 
-    public List<AwareAnnotationDto> getAwareAnnotations(){
+    public List<AwareAnnotationDto> getAwareAnnotations() {
         return this.virtualProvidesInterface.getVirtualEditionInterAwareAnnotations(this.xmlId);
     }
 
-    public void associate(String username, Set<String> categories){
+    public void associate(String username, Set<String> categories) {
         this.virtualProvidesInterface.associateVirtualEditionInterCategories(this.xmlId, username, categories);
     }
 
-    public void dissociate(String username, String categories){
+    public void dissociate(String username, String categories) {
         this.virtualProvidesInterface.dissociateVirtualEditionInterCategory(this.xmlId, username, categories);
     }
+
+
+    public List<VirtualEditionInterDto> getUsesPath() {
+        List<VirtualEditionInterDto> usesPath = new ArrayList<>();
+        VirtualEditionInterDto uses = getUsesInter();
+        while (uses != null) {
+            usesPath.add(uses);
+            uses = uses.getUsesInter();
+        }
+
+        return usesPath;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        VirtualEditionInterDto other = (VirtualEditionInterDto) o;
+        return this.xmlId.equals(other.getXmlId());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.xmlId.hashCode();
+    }
+
 }

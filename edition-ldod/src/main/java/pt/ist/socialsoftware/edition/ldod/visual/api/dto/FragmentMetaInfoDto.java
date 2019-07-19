@@ -7,7 +7,6 @@ import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class FragmentMetaInfoDto {
     private String title;
@@ -38,7 +37,7 @@ public class FragmentMetaInfoDto {
     public FragmentMetaInfoDto(VirtualEditionInterDto inter) {
         this(inter.getLastUsed());
 
-        this.categories = inter.getCategorySet().stream().sorted().collect(Collectors.toList());
+        this.categories = inter.getSortedCategories();
     }
 
     public String getTitle() {

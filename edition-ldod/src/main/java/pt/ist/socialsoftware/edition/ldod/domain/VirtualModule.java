@@ -87,13 +87,8 @@ public class VirtualModule extends VirtualModule_Base {
         return new VirtualEdition(this, user, acronym, title, date, pub, acronymOfUsed);
     }
 
-    @Atomic(mode = TxMode.WRITE)
-    public RecommendationWeights createRecommendationWeights(String user, VirtualEdition virtualEdition) {
-        return new RecommendationWeights(user, virtualEdition);
-    }
-
     public VirtualEdition getArchiveEdition() {
-        return getVirtualEditionsSet().stream().filter(ve -> ve.getAcronym().equals(ExpertEdition.ARCHIVE_EDITION_ACRONYM))
+        return getVirtualEditionsSet().stream().filter(ve -> ve.getAcronym().equals(VirtualEdition.ARCHIVE_EDITION_ACRONYM))
                 .findAny().orElse(null);
     }
 

@@ -24,7 +24,7 @@ public class TaxonomySearchOption extends SearchOption {
         SearchRequiresInterface searchRequiresInterface = new SearchRequiresInterface();
 
         return Arrays.stream(this.tags)
-                .allMatch(tt -> searchRequiresInterface.getTagsForVirtualEditionInter(inter.getXmlId())
+                .allMatch(tt -> searchRequiresInterface.getVirtualEditionSortedCategoryList(inter.getXmlId())
                         .stream().anyMatch(t -> t.equals(tt)));
     }
 

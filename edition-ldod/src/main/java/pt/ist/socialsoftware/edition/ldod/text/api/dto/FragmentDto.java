@@ -34,6 +34,10 @@ public class FragmentDto {
         return this.textProvidesInterface.getScholarInterDto4FragmentXmlId(getXmlId());
     }
 
+    public Set<ScholarInterDto> getScholarInterDtoSetForExpertEdtion(String acronym) {
+        return this.textProvidesInterface.getFragmentScholarInterDtoSetForExpertEdtion(getXmlId(), acronym);
+    }
+
     // Only necessary due to manual ordering of virtual edition javascript code
     public String getExternalId() {
         return this.textProvidesInterface.getFragmentExternalId(getXmlId());
@@ -41,5 +45,23 @@ public class FragmentDto {
 
     public Set<SourceDto> getSourcesSet() {
         return this.textProvidesInterface.getFragmentSourceSet(this.xmlId);
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        FragmentDto other = (FragmentDto) o;
+        return this.xmlId.equals(other.getXmlId());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.xmlId.hashCode();
     }
 }

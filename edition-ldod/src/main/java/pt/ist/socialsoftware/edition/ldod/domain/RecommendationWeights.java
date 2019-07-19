@@ -9,19 +9,20 @@ import java.util.List;
 
 public class RecommendationWeights extends RecommendationWeights_Base {
 
-    public RecommendationWeights(String user, VirtualEdition virtualEdition) {
-        super();
+    public RecommendationWeights(String user, String virtualEditionAcronym) {
         setUser(user);
-        setVirtualEdition(virtualEdition);
+        setVirtualEditionAcronym(virtualEditionAcronym);
         setHeteronymWeight(0.);
         setDateWeight(0.);
         setTextWeight(0.);
         setTaxonomyWeight(0.);
+
+        setRecommendationModule(RecommendationModule.getInstance());
     }
 
     @Atomic(mode = TxMode.WRITE)
     public void remove() {
-        setVirtualEdition(null);
+        setRecommendationModule(null);
 
         deleteDomainObject();
     }
@@ -53,7 +54,7 @@ public class RecommendationWeights extends RecommendationWeights_Base {
             result.add(new TextProperty(getTextWeight()));
         }
         if (getTaxonomyWeight() > 0.0) {
-            result.add(new TaxonomyProperty(getTaxonomyWeight(), getVirtualEdition().getTaxonomy(),
+            result.add(new TaxonomyProperty(getTaxonomyWeight(), getVirtualEditionAcronym(),
                     Property.PropertyCache.OFF));
         }
 

@@ -59,7 +59,7 @@ public class TestLoadUtils {
             virtualModule.getCitationSet().forEach(c -> c.remove());
             userModule.getUserConnectionSet().forEach(uc -> uc.remove());
             userModule.getTokenSet().forEach(t -> t.remove());
-            virtualModule.getVirtualEditionsSet().stream().filter(ve -> !ve.getAcronym().equals(ExpertEdition.ARCHIVE_EDITION_ACRONYM))
+            virtualModule.getVirtualEditionsSet().stream().filter(ve -> !ve.getAcronym().equals(VirtualEdition.ARCHIVE_EDITION_ACRONYM))
                     .forEach(ve -> ve.remove());
             virtualModule.getTweetSet().forEach(t -> t.remove());
         }

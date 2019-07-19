@@ -38,7 +38,7 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
         double max = Double.NEGATIVE_INFINITY;
         double similarity;
         for (T otherItem : items) {
-            if (otherItem != item) {
+            if (!otherItem.equals(item)) {
                 similarity = calculateSimilarity(item, otherItem, properties);
                 if (similarity > max) {
                     result = otherItem;
@@ -54,7 +54,7 @@ public abstract class VSMRecommender<T> implements Recommender<T, Property> {
         double similarity;
         Map<T, Double> map = new HashMap<>();
         for (T otherItem : items) {
-            if (otherItem != item) {
+            if (!otherItem.equals(item)) {
                 similarity = calculateSimilarity(item, otherItem, properties);
                 if (similarity >= Double.NEGATIVE_INFINITY) {
                     map.put(otherItem, similarity);

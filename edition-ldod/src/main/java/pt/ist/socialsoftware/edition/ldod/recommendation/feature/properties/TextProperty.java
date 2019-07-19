@@ -1,17 +1,12 @@
 package pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.lucene.queryparser.classic.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
-import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,29 +22,25 @@ public class TextProperty extends Property {
 
     private List<String> commonTerms;
 
-    private Fragment fragment1;
-    private Fragment fragment2;
+    private FragmentDto fragment1;
+    private FragmentDto fragment2;
 
     public TextProperty(double weigth) {
         super(weigth, PropertyCache.OFF);
     }
 
-    public TextProperty(@JsonProperty("weight") String weight) {
-        this(Double.parseDouble(weight));
+    @Override
+    public void prepareToLoadProperty(ScholarInterDto inter1, ScholarInterDto inter2) {
+        prepareToLoadProperty(inter1.getFragmentDto(), inter2.getFragmentDto());
     }
 
     @Override
-    public void prepareToLoadProperty(ExpertEditionInter inter1, ExpertEditionInter inter2) {
-        prepareToLoadProperty(inter1.getFragment(), inter2.getFragment());
+    public void prepareToLoadProperty(VirtualEditionInterDto inter1, VirtualEditionInterDto inter2) {
+        prepareToLoadProperty(inter1.getLastUsed(), inter2.getLastUsed());
     }
 
     @Override
-    public void prepareToLoadProperty(VirtualEditionInter inter1, VirtualEditionInter inter2) {
-        prepareToLoadProperty(getFragment(inter1), getFragment(inter2));
-    }
-
-    @Override
-    public void prepareToLoadProperty(Fragment fragment1, Fragment fragment2) {
+    public void prepareToLoadProperty(FragmentDto fragment1, FragmentDto fragment2) {
         this.fragment1 = fragment1;
         this.fragment2 = fragment2;
         double[] vector = getFromVectorsCache(fragment1);
@@ -76,62 +67,53 @@ public class TextProperty extends Property {
     }
 
     @Override
-    protected double[] extractVector(ExpertEditionInter expertEditionInter) {
-        return extractVector(expertEditionInter.getFragment());
+    protected double[] extractVector(ScholarInterDto scholarInter) {
+        return extractVector(scholarInter.getFragmentDto());
     }
 
     @Override
-    protected double[] extractVector(VirtualEditionInter virtualEditionInter) {
-        return getFromVectorsCache(getFragment(virtualEditionInter));
+    protected double[] extractVector(VirtualEditionInterDto virtualEditionInter) {
+        return extractVector(virtualEditionInter.getLastUsed());
     }
 
     @Override
-    protected double[] extractVector(Fragment fragment) {
+    protected double[] extractVector(FragmentDto fragment) {
         return getFromVectorsCache(fragment);
     }
 
-    private double[] getFromVectorsCache(Fragment fragment) {
-        Fragment fragmentOther = fragment == this.fragment1 ? this.fragment2 : this.fragment1;
-        Map<String, double[]> map = vectorsCache.get(fragment.getExternalId());
+    private double[] getFromVectorsCache(FragmentDto fragment) {
+        FragmentDto fragmentOther = fragment.getXmlId().equals(this.fragment1.getXmlId()) ? this.fragment2 : this.fragment1;
+        Map<String, double[]> map = vectorsCache.get(fragment.getXmlId());
         if (map == null) {
             return null;
         }
-        double[] tmp = map.get(fragmentOther.getExternalId());
+        double[] tmp = map.get(fragmentOther.getXmlId());
         return tmp;
     }
 
-    private void putIntoVectorsCache(Fragment fragment, double[] vector) {
-        Fragment fragmentOther = fragment == this.fragment1 ? this.fragment2 : this.fragment1;
-        Map<String, double[]> map = vectorsCache.get(fragment.getExternalId());
+    private void putIntoVectorsCache(FragmentDto fragment, double[] vector) {
+        FragmentDto fragmentOther = fragment.getXmlId().equals(this.fragment1.getXmlId()) ? this.fragment2 : this.fragment1;
+        Map<String, double[]> map = vectorsCache.get(fragment.getXmlId());
         if (map == null) {
             map = new ConcurrentHashMap<>();
-            vectorsCache.put(fragment.getExternalId(), map);
+            vectorsCache.put(fragment.getXmlId(), map);
         }
-        map.put(fragmentOther.getExternalId(), vector);
+        map.put(fragmentOther.getXmlId(), vector);
     }
 
-    private double[] generateFragmentVector(Fragment fragment) {
-        double[] vector;
-        Map<String, Double> tfidf;
-        try {
-            this.commonTerms = getFragmentsCommonTerms(this.fragment1, this.fragment2);
-            tfidf = Indexer.getIndexer().getTFIDF(fragment, this.commonTerms);
-        } catch (IOException | ParseException e) {
-            throw new LdoDException("Indexer error when extractVector in TextProperty");
-        }
-        vector = buildVector(tfidf);
-        return vector;
+    private double[] generateFragmentVector(FragmentDto fragment) {
+        this.commonTerms = getFragmentsCommonTerms(this.fragment1, this.fragment2);
+
+        Map<String, Double> tfidf = this.recommendationRequiresInterface.getFragmentTFIDF(fragment.getXmlId(), this.commonTerms);
+
+        return buildVector(tfidf);
     }
 
-    private List<String> getFragmentsCommonTerms(Fragment fragment1, Fragment fragment2) {
-        Indexer indexer = Indexer.getIndexer();
+    private List<String> getFragmentsCommonTerms(FragmentDto fragment1, FragmentDto fragment2) {
         List<String> result = new ArrayList<>();
-        try {
-            result.addAll(indexer.getTFIDFTerms(fragment1, NUMBER_OF_TERMS));
-            result.addAll(indexer.getTFIDFTerms(fragment2, NUMBER_OF_TERMS));
-        } catch (ParseException | IOException e) {
-            throw new LdoDException("prepareToLoadProperty in class TextProperty failed when invoking indexer");
-        }
+        result.addAll(this.recommendationRequiresInterface.getFragmentTFIDF(fragment1.getXmlId(), NUMBER_OF_TERMS));
+        result.addAll(this.recommendationRequiresInterface.getFragmentTFIDF(fragment2.getXmlId(), NUMBER_OF_TERMS));
+
         return result;
     }
 

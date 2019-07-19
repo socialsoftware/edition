@@ -1,20 +1,14 @@
 package pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
+import pt.ist.socialsoftware.edition.ldod.recommendation.api.RecommendationRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.StoredVectors;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type")
-@JsonSubTypes({@JsonSubTypes.Type(value = HeteronymProperty.class, name = Property.HETERONYM),
-        @JsonSubTypes.Type(value = DateProperty.class, name = Property.DATE),
-        @JsonSubTypes.Type(value = TextProperty.class, name = Property.TEXT),
-        @JsonSubTypes.Type(value = TaxonomyProperty.class, name = Property.TAXONOMY)})
 public abstract class Property {
-    public static final String HETERONYM = "heteronym";
-    public static final String DATE = "date";
-    public static final String TEXT = "text";
-    public static final String TAXONOMY = "taxonomy";
+    protected RecommendationRequiresInterface recommendationRequiresInterface = new RecommendationRequiresInterface();
 
     public enum PropertyCache {
         ON, OFF
@@ -32,20 +26,20 @@ public abstract class Property {
 
     public abstract void userWeight(RecommendationWeights recommendationWeights);
 
-    abstract double[] extractVector(ExpertEditionInter expertEditionInter);
+    abstract double[] extractVector(ScholarInterDto scholarInterDto);
 
-    abstract double[] extractVector(VirtualEditionInter virtualEditionInter);
+    abstract double[] extractVector(VirtualEditionInterDto virtualEditionInter);
 
-    abstract double[] extractVector(Fragment fragmnet);
+    abstract double[] extractVector(FragmentDto fragmnet);
 
-    public void prepareToLoadProperty(ExpertEditionInter t1, ExpertEditionInter t2) {
+    public void prepareToLoadProperty(ScholarInterDto t1, ScholarInterDto t2) {
     }
 
-    public void prepareToLoadProperty(VirtualEditionInter virtualEditionInter1,
-                                      VirtualEditionInter virtualEditionInter2) {
+    public void prepareToLoadProperty(VirtualEditionInterDto virtualEditionInter1,
+                                      VirtualEditionInterDto virtualEditionInter2) {
     }
 
-    public void prepareToLoadProperty(Fragment fragment1, Fragment fragment2) {
+    public void prepareToLoadProperty(FragmentDto fragment1, FragmentDto fragment2) {
     }
 
     private double[] applyWeights(double[] vector, double weight) {
@@ -62,27 +56,27 @@ public abstract class Property {
         }
     }
 
-    public final double[] loadProperty(ExpertEditionInter expertEditionInter) {
+    public final double[] loadProperty(ScholarInterDto scholarInterDto) {
         if (this.cached.equals(PropertyCache.ON)) {
-            String interExternalId = expertEditionInter.getExternalId();
-            double[] vector = StoredVectors.getInstance().get(this, interExternalId);
+            String interXmlId = scholarInterDto.getXmlId();
+            double[] vector = StoredVectors.getInstance().get(this, interXmlId);
             if (vector == null) {
-                vector = extractVector(expertEditionInter);
-                StoredVectors.getInstance().put(this, interExternalId, vector);
+                vector = extractVector(scholarInterDto);
+                StoredVectors.getInstance().put(this, interXmlId, vector);
             }
             return applyWeights(vector, getWeight());
         } else {
-            return applyWeights(extractVector(expertEditionInter), getWeight());
+            return applyWeights(extractVector(scholarInterDto), getWeight());
         }
     }
 
-    public final double[] loadProperty(VirtualEditionInter virtualEditionInter) {
+    public final double[] loadProperty(VirtualEditionInterDto virtualEditionInter) {
         if (this.cached.equals(PropertyCache.ON)) {
-            String externalId = getLastUsedScholarEditionInter(virtualEditionInter).getExternalId();
-            double[] vector = StoredVectors.getInstance().get(this, externalId);
+            String xmlId = virtualEditionInter.getUsesScholarInterId();
+            double[] vector = StoredVectors.getInstance().get(this, xmlId);
             if (vector == null) {
                 vector = extractVector(virtualEditionInter);
-                StoredVectors.getInstance().put(this, externalId, vector);
+                StoredVectors.getInstance().put(this, xmlId, vector);
             }
             return applyWeights(vector, getWeight());
         } else {
@@ -90,9 +84,9 @@ public abstract class Property {
         }
     }
 
-    public final double[] loadProperty(Fragment fragment) {
+    public final double[] loadProperty(FragmentDto fragment) {
         if (this.cached.equals(PropertyCache.ON)) {
-            double[] vector = StoredVectors.getInstance().get(this, fragment.getExternalId());
+            double[] vector = StoredVectors.getInstance().get(this, fragment.getXmlId());
             if (vector == null) {
                 vector = extractVector(fragment);
                 StoredVectors.getInstance().put(this, fragment.getExternalId(), vector);
@@ -105,16 +99,6 @@ public abstract class Property {
 
     public double getWeight() {
         return this.weight;
-    }
-
-    // TODO: to be addressed when the recommendations become a module on their own
-    protected Fragment getFragment(VirtualEditionInter virtualEditionInter) {
-        return TextModule.getInstance().getFragmentByXmlId(virtualEditionInter.getFragmentXmlId());
-    }
-
-    // TODO: to be addressed when the recommendations become a module on their own
-    protected ScholarInter getLastUsedScholarEditionInter(VirtualEditionInter virtualEditionInter) {
-        return TextModule.getInstance().getScholarInterByXmlId(virtualEditionInter.getLastUsed().getXmlId());
     }
 
 }

@@ -12,6 +12,7 @@ import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMVirtualEditi
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.*;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.Property.PropertyCache;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.topicmodeling.TopicModeler;
 
 import java.io.FileNotFoundException;
@@ -25,13 +26,14 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.assertTrue;
 
 public class VSMVirtualEditionInterRecomenderPerformanceTest {
+    public static final String TEST_PIZARRO_ACRONYM = "TestPizarroRecommendations";
     private static VirtualEdition pizarroVirtualEdition = null;
-    private static Set<VirtualEditionInter> pizarroVirtualEditionInters = null;
+    private static Set<VirtualEditionInterDto> pizarroVirtualEditionInters = null;
     private static VirtualEdition zenithVirtualEdition = null;
-    private static Set<VirtualEditionInter> zenithVirtualEditionInters = null;
+    private static Set<VirtualEditionInterDto> zenithVirtualEditionInters = null;
     private static VirtualEdition cunhaVirtualEdition = null;
-    private static Set<VirtualEditionInter> cunhaVirtualEditionInters = null;
-    private static VSMRecommender<VirtualEditionInter> recommender;
+    private static Set<VirtualEditionInterDto> cunhaVirtualEditionInters = null;
+    private static VSMRecommender<VirtualEditionInterDto> recommender;
 
     @BeforeAll
     @Atomic(mode = TxMode.WRITE)
@@ -60,9 +62,9 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
         ExpertEdition cunhaEdition = text.getTSCEdition();
 
         // create pizarro virtual edition
-        pizarroVirtualEdition = virtualModule.createVirtualEdition(User.USER_ARS, "TestPizarroRecommendations",
+        pizarroVirtualEdition = virtualModule.createVirtualEdition(User.USER_ARS, TEST_PIZARRO_ACRONYM,
                 "TestPizarroRecommendations", LocalDate.now(), true, pizarroEdition.getAcronym());
-        pizarroVirtualEditionInters = pizarroVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
+        pizarroVirtualEditionInters = pizarroVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast).map(VirtualEditionInterDto::new)
                 .collect(Collectors.toSet());
 
         // create pizarro taxonomy
@@ -80,13 +82,13 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 
         zenithVirtualEdition = virtualModule.createVirtualEdition(User.USER_ARS, "TestZenithRecommendations",
                 "TestZenithRecommendations", LocalDate.now(), true, zenithEdition.getAcronym());
-        zenithVirtualEditionInters = zenithVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
+        zenithVirtualEditionInters = zenithVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast).map(VirtualEditionInterDto::new)
                 .collect(Collectors.toSet());
 
         // create cunha virtual edition
         cunhaVirtualEdition = virtualModule.createVirtualEdition(User.USER_ARS, "TestCunhaRecommendations", "TestCunhaRecommendations",
                 LocalDate.now(), true, cunhaEdition.getAcronym());
-        cunhaVirtualEditionInters = cunhaVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast)
+        cunhaVirtualEditionInters = cunhaVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast).map(VirtualEditionInterDto::new)
                 .collect(Collectors.toSet());
 
         // create recommender
@@ -113,10 +115,10 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
         List<Property> properties = new ArrayList<>();
         properties.add(new HeteronymProperty(1.0));
         properties.add(new DateProperty(1.0));
-        properties.add(new TaxonomyProperty(1.0, pizarroVirtualEdition.getTaxonomy(), PropertyCache.OFF));
+        properties.add(new TaxonomyProperty(1.0, TEST_PIZARRO_ACRONYM, PropertyCache.OFF));
         properties.add(new TextProperty(1.0));
 
-        List<VirtualEditionInter> result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+        List<VirtualEditionInterDto> result = recommender.getMostSimilarItemsAsList(new VirtualEditionInterDto(virtualEditionInter),
                 new HashSet<>(pizarroVirtualEditionInters), properties);
 
         assertTrue(result.size() != 0);
@@ -134,10 +136,10 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
         List<Property> properties = new ArrayList<>();
         properties.add(new HeteronymProperty(1.0));
         properties.add(new DateProperty(1.0));
-        properties.add(new TaxonomyProperty(1.0, pizarroVirtualEdition.getTaxonomy(), PropertyCache.OFF));
+        properties.add(new TaxonomyProperty(1.0, TEST_PIZARRO_ACRONYM, PropertyCache.OFF));
         properties.add(new TextProperty(1.0));
 
-        List<VirtualEditionInter> result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+        List<VirtualEditionInterDto> result = recommender.getMostSimilarItemsAsList(new VirtualEditionInterDto(virtualEditionInter),
                 new HashSet<>(pizarroVirtualEditionInters), properties);
 
         assertTrue(result.size() != 0);
@@ -155,7 +157,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
         List<Property> properties = new ArrayList<>();
         properties.add(new DateProperty(1.0));
 
-        List<VirtualEditionInter> result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+        List<VirtualEditionInterDto> result = recommender.getMostSimilarItemsAsList(new VirtualEditionInterDto(virtualEditionInter),
                 new HashSet<>(pizarroVirtualEditionInters), properties);
 
         assertTrue(result.size() != 0);
@@ -173,7 +175,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
         List<Property> properties = new ArrayList<>();
         properties.add(new DateProperty(1.0));
 
-        List<VirtualEditionInter> result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+        List<VirtualEditionInterDto> result = recommender.getMostSimilarItemsAsList(new VirtualEditionInterDto(virtualEditionInter),
                 new HashSet<>(pizarroVirtualEditionInters), properties);
 
         assertTrue(result.size() != 0);
@@ -191,7 +193,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
         List<Property> properties = new ArrayList<>();
         properties.add(new HeteronymProperty(1.0));
 
-        List<VirtualEditionInter> result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+        List<VirtualEditionInterDto> result = recommender.getMostSimilarItemsAsList(new VirtualEditionInterDto(virtualEditionInter),
                 new HashSet<>(cunhaVirtualEditionInters), properties);
 
         assertTrue(result.size() != 0);
@@ -209,7 +211,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
         List<Property> properties = new ArrayList<>();
         properties.add(new HeteronymProperty(1.0));
 
-        List<VirtualEditionInter> result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+        List<VirtualEditionInterDto> result = recommender.getMostSimilarItemsAsList(new VirtualEditionInterDto(virtualEditionInter),
                 new HashSet<>(cunhaVirtualEditionInters), properties);
 
         assertTrue(result.size() != 0);
@@ -225,9 +227,9 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
         }
 
         List<Property> properties = new ArrayList<>();
-        properties.add(new TaxonomyProperty(1.0, pizarroVirtualEdition.getTaxonomy(), PropertyCache.OFF));
+        properties.add(new TaxonomyProperty(1.0, TEST_PIZARRO_ACRONYM, PropertyCache.OFF));
 
-        List<VirtualEditionInter> result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+        List<VirtualEditionInterDto> result = recommender.getMostSimilarItemsAsList(new VirtualEditionInterDto(virtualEditionInter),
                 new HashSet<>(pizarroVirtualEditionInters), properties);
 
         assertTrue(result.size() != 0);
@@ -243,9 +245,9 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
         }
 
         List<Property> properties = new ArrayList<>();
-        properties.add(new TaxonomyProperty(1.0, pizarroVirtualEdition.getTaxonomy(), PropertyCache.ON));
+        properties.add(new TaxonomyProperty(1.0, TEST_PIZARRO_ACRONYM, PropertyCache.ON));
 
-        List<VirtualEditionInter> result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+        List<VirtualEditionInterDto> result = recommender.getMostSimilarItemsAsList(new VirtualEditionInterDto(virtualEditionInter),
                 new HashSet<>(pizarroVirtualEditionInters), properties);
 
         assertTrue(result.size() != 0);
@@ -263,7 +265,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
         List<Property> properties = new ArrayList<>();
         properties.add(new TextProperty(1.0));
 
-        List<VirtualEditionInter> result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+        List<VirtualEditionInterDto> result = recommender.getMostSimilarItemsAsList(new VirtualEditionInterDto(virtualEditionInter),
                 new HashSet<>(pizarroVirtualEditionInters), properties);
 
         assertTrue(result.size() != 0);
@@ -281,7 +283,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
         List<Property> properties = new ArrayList<>();
         properties.add(new TextProperty(1.0));
 
-        List<VirtualEditionInter> result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+        List<VirtualEditionInterDto> result = recommender.getMostSimilarItemsAsList(new VirtualEditionInterDto(virtualEditionInter),
                 new HashSet<>(cunhaVirtualEditionInters), properties);
 
         assertTrue(result.size() != 0);
@@ -299,7 +301,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
         List<Property> properties = new ArrayList<>();
         properties.add(new TextProperty(1.0));
 
-        List<VirtualEditionInter> result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+        List<VirtualEditionInterDto> result = recommender.getMostSimilarItemsAsList(new VirtualEditionInterDto(virtualEditionInter),
                 new HashSet<>(zenithVirtualEditionInters), properties);
 
         assertTrue(result.size() != 0);
@@ -317,7 +319,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
         List<Property> properties = new ArrayList<>();
         properties.add(new TextProperty(1.0));
 
-        List<VirtualEditionInter> result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+        List<VirtualEditionInterDto> result = recommender.getMostSimilarItemsAsList(new VirtualEditionInterDto(virtualEditionInter),
                 new HashSet<>(pizarroVirtualEditionInters), properties);
 
         assertTrue(result.size() != 0);
@@ -335,12 +337,12 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
         List<Property> properties = new ArrayList<>();
         properties.add(new TextProperty(1.0));
 
-        List<VirtualEditionInter> result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+        List<VirtualEditionInterDto> result = recommender.getMostSimilarItemsAsList(new VirtualEditionInterDto(virtualEditionInter),
                 new HashSet<>(pizarroVirtualEditionInters), properties);
 
         assertTrue(result.size() != 0);
 
-        result = recommender.getMostSimilarItemsAsList(virtualEditionInter,
+        result = recommender.getMostSimilarItemsAsList(new VirtualEditionInterDto(virtualEditionInter),
                 new HashSet<>(pizarroVirtualEditionInters), properties);
 
         assertTrue(result.size() != 0);

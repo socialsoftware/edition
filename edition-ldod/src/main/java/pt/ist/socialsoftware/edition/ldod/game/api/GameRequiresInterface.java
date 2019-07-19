@@ -55,7 +55,7 @@ public class GameRequiresInterface {
     }
 
     public Set<VirtualEditionInterDto> getVirtualEditionInterDtoSet(String acronym){
-        return this.virtualProvidesInterface.getVirtualEditionInterDtoSet(acronym);
+        return this.virtualProvidesInterface.getVirtualEditionInterSet(acronym);
     }
 
     public boolean getOpenVocabularyStatus(String acronym){

@@ -30,7 +30,7 @@ public class SourceDto {
                 .orElseThrow(LdoDException::new);
     }
 
-    public String getIdno(){
+    public String getIdno() {
         return getSourceByXmlId(this.xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
@@ -38,7 +38,7 @@ public class SourceDto {
                 .orElse(null);
     }
 
-    public ManuscriptSource.Material getMaterial(){
+    public ManuscriptSource.Material getMaterial() {
         return getSourceByXmlId(this.xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
@@ -46,7 +46,7 @@ public class SourceDto {
                 .orElseThrow(LdoDException::new);
     }
 
-    public String getFormattedDimensions(){
+    public String getFormattedDimensions() {
         return getSourceByXmlId(this.xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
@@ -56,7 +56,7 @@ public class SourceDto {
                 .collect(Collectors.joining(";"));
     }
 
-    public List<AbstractMap.SimpleEntry<String, String>> getFormattedHandNote(){
+    public List<AbstractMap.SimpleEntry<String, String>> getFormattedHandNote() {
         return getSourceByXmlId(this.xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
@@ -67,7 +67,7 @@ public class SourceDto {
                 .collect(Collectors.toList());
     }
 
-    public List<AbstractMap.SimpleEntry<String, String>> getFormattedTypeNote(){
+    public List<AbstractMap.SimpleEntry<String, String>> getFormattedTypeNote() {
         return getSourceByXmlId(this.xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
@@ -78,7 +78,7 @@ public class SourceDto {
                 .collect(Collectors.toList());
     }
 
-    public int getColumns(){
+    public int getColumns() {
         return getSourceByXmlId(this.xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
@@ -86,7 +86,7 @@ public class SourceDto {
                 .orElseThrow(LdoDException::new);
     }
 
-    public String getJournal(){
+    public String getJournal() {
         return getSourceByXmlId(this.xmlId)
                 .filter(PrintedSource.class::isInstance)
                 .map(PrintedSource.class::cast)
@@ -94,7 +94,7 @@ public class SourceDto {
                 .orElse(null);
     }
 
-    public String getIssue(){
+    public String getIssue() {
         return getSourceByXmlId(this.xmlId)
                 .filter(PrintedSource.class::isInstance)
                 .map(PrintedSource.class::cast)
@@ -102,13 +102,13 @@ public class SourceDto {
                 .orElse(null);
     }
 
-    public String getAltIdentifier(){
+    public String getAltIdentifier() {
         return getSourceByXmlId(this.xmlId)
                 .map(Source::getAltIdentifier)
                 .orElse(null);
     }
 
-    public String getNotes(){
+    public String getNotes() {
         return getSourceByXmlId(this.xmlId)
                 .filter(PrintedSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
@@ -116,7 +116,7 @@ public class SourceDto {
                 .orElse(null);
     }
 
-    public int getStartPage(){
+    public int getStartPage() {
         return getSourceByXmlId(this.xmlId)
                 .filter(PrintedSource.class::isInstance)
                 .map(PrintedSource.class::cast)
@@ -124,7 +124,7 @@ public class SourceDto {
                 .orElseThrow(LdoDException::new);
     }
 
-    public int getEndPage(){
+    public int getEndPage() {
         return getSourceByXmlId(this.xmlId)
                 .filter(PrintedSource.class::isInstance)
                 .map(PrintedSource.class::cast)
@@ -132,7 +132,7 @@ public class SourceDto {
                 .orElseThrow(LdoDException::new);
     }
 
-    public String getPubPlace(){
+    public String getPubPlace() {
         return getSourceByXmlId(this.xmlId)
                 .filter(PrintedSource.class::isInstance)
                 .map(PrintedSource.class::cast)
@@ -177,11 +177,11 @@ public class SourceDto {
                 .orElse(null);
     }
 
-    public List<SurfaceDto> getSurfaces(){
-      List<Surface> surfaces =  getSourceByXmlId(this.xmlId)
+    public List<SurfaceDto> getSurfaces() {
+        List<Surface> surfaces = getSourceByXmlId(this.xmlId)
                 .map(Source_Base::getFacsimile)
                 .map(Facsimile::getSurfaces).orElse(new ArrayList<>());
-      return surfaces.stream().map(SurfaceDto::new).collect(Collectors.toList());
+        return surfaces.stream().map(SurfaceDto::new).collect(Collectors.toList());
     }
 
     public Source.SourceType getType() {
@@ -195,4 +195,10 @@ public class SourceDto {
                 .findAny();
     }
 
+    public HeteronymDto getHeteronym() {
+        return getSourceByXmlId(this.xmlId)
+                .map(Source::getHeteronym)
+                .map(HeteronymDto::new)
+                .orElse(null);
+    }
 }

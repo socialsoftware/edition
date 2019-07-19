@@ -4,7 +4,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
@@ -32,19 +31,19 @@ public class LdoDSession implements Serializable {
         LdoDSession ldoDSession = null;
         if (request.getSession().getAttribute("ldoDSession") == null) {
             ldoDSession = new LdoDSession();
-            VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition("VirtualModule-JPC-anot");
+            VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition("LdoD-JPC-anot");
             if (virtualEdition != null) {
                 ldoDSession.addSelectedVE(virtualEdition);
             }
-            virtualEdition = VirtualModule.getInstance().getVirtualEdition("VirtualModule-Mallet");
+            virtualEdition = VirtualModule.getInstance().getVirtualEdition("LdoD-Mallet");
             if (virtualEdition != null) {
                 ldoDSession.addSelectedVE(virtualEdition);
             }
-            virtualEdition = VirtualModule.getInstance().getVirtualEdition("VirtualModule-Twitter");
+            virtualEdition = VirtualModule.getInstance().getVirtualEdition("LdoD-Twitter");
             if (virtualEdition != null) {
                 ldoDSession.addSelectedVE(virtualEdition);
             }
-            virtualEdition = VirtualModule.getInstance().getVirtualEdition("VirtualModule-Jogo-Class");
+            virtualEdition = VirtualModule.getInstance().getVirtualEdition("LdoD-Jogo-Class");
             if (virtualEdition != null) {
                 ldoDSession.addSelectedVE(virtualEdition);
             }
@@ -76,7 +75,7 @@ public class LdoDSession implements Serializable {
 
         // do not add the archive virtual edition because it is already
         // hardcoded in the menu
-        if (!this.selectedVEAcr.contains(toAddAcr) && !toAddAcr.equals(ExpertEdition.ARCHIVE_EDITION_ACRONYM)) {
+        if (!this.selectedVEAcr.contains(toAddAcr) && !toAddAcr.equals(VirtualEdition.ARCHIVE_EDITION_ACRONYM)) {
             this.selectedVEAcr.add(toAddAcr);
             Collections.sort(this.selectedVEAcr);
         }

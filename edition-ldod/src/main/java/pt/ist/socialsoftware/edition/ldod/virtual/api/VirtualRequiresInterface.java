@@ -36,9 +36,6 @@ public class VirtualRequiresInterface {
                     .flatMap(virtualEditionInter -> virtualEditionInter.getAnnotationSet().stream())
                     .filter(annotation -> annotation.getUser().equals(username))
                     .forEach(annotation -> annotation.remove());
-            virtualModule.getVirtualEditionsSet().stream().flatMap(virtualEdition -> virtualEdition.getRecommendationWeightsSet().stream())
-                    .filter(recommendationWeights -> recommendationWeights.getUser().equals(username))
-                    .forEach(recommendationWeights -> recommendationWeights.remove());
         }
     }
 

@@ -10,8 +10,10 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
+import pt.ist.socialsoftware.edition.ldod.recommendation.api.RecommendationRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.*;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.topicmodeling.TopicModeler;
@@ -61,6 +63,9 @@ public class Bootstrap implements WebApplicationInitializer {
             cleanLucene();
             createVirtualEditionsForTest();
             createLdoDArchiveVirtualEdition();
+        }
+        if (RecommendationModule.getInstance() == null) {
+            new RecommendationModule();
         } else {
             loadRecommendationCache();
         }
@@ -378,7 +383,7 @@ public class Bootstrap implements WebApplicationInitializer {
     }
 
     private static void createLdoDArchiveVirtualEdition() {
-        VirtualEdition ldoDArchiveEdition = new VirtualEdition(VirtualModule.getInstance(), ARS, ExpertEdition.ARCHIVE_EDITION_ACRONYM,
+        VirtualEdition ldoDArchiveEdition = new VirtualEdition(VirtualModule.getInstance(), ARS, VirtualEdition.ARCHIVE_EDITION_ACRONYM,
                 VirtualEdition.ARCHIVE_EDITION_NAME, new LocalDate(), true, null);
 
         ldoDArchiveEdition.addMember(ARS, Member.MemberRole.ADMIN, true);
@@ -386,18 +391,19 @@ public class Bootstrap implements WebApplicationInitializer {
 
     @Atomic(mode = TxMode.WRITE)
     public static void loadRecommendationCache() {
-        Set<Fragment> fragments = TextModule.getInstance().getFragmentsSet(); //TODO: should this use the interface?
+        RecommendationRequiresInterface recommendationRequiresInterface = new RecommendationRequiresInterface();
+        Set<FragmentDto> fragments = recommendationRequiresInterface.getFragments();
 
         if (fragments.size() > 500) {
             List<Property> properties = new ArrayList<>();
             properties.add(new TextProperty(1.0));
             properties.add(new HeteronymProperty(1.0));
             properties.add(new DateProperty(1.0));
-            properties.add(new TaxonomyProperty(1.0, VirtualModule.getInstance().getArchiveEdition().getTaxonomy(),
+            properties.add(new TaxonomyProperty(1.0, VirtualEdition.ARCHIVE_EDITION_ACRONYM,
                     Property.PropertyCache.ON));
 
             VSMFragmentRecommender recommender = new VSMFragmentRecommender();
-            for (Fragment fragment : fragments) {
+            for (FragmentDto fragment : fragments) {
                 recommender.getMostSimilarItem(fragment, fragments, properties);
             }
         }

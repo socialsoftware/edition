@@ -18,10 +18,10 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/search")
-public class SearchFrontendController {
-    private static final Logger logger = LoggerFactory.getLogger(SearchFrontendController.class);
+public class SearchController {
+    private static final Logger logger = LoggerFactory.getLogger(SearchController.class);
 
-    SearchFrontendRequiresInterface frontendRequiresInterface = new SearchFrontendRequiresInterface();
+    SearchRequiresInterface frontendRequiresInterface = new SearchRequiresInterface();
 
 
     @ModelAttribute("ldoDSession")
@@ -53,7 +53,7 @@ public class SearchFrontendController {
         model.addAttribute("fragCount", results.size());
         model.addAttribute("interCount", results.values().stream().mapToInt(List::size).sum());
         model.addAttribute("results", results);
-        model.addAttribute("frontendRequiresInterface", new SearchFrontendRequiresInterface());
+        model.addAttribute("frontendRequiresInterface", new SearchRequiresInterface());
         return "search/simpleResultTable";
     }
 
@@ -88,7 +88,7 @@ public class SearchFrontendController {
 
         model.addAttribute("search", searchOptions);
         model.addAttribute("searchLenght", searchOptions.length);
-        model.addAttribute("frontendRequiresInterface", new SearchFrontendRequiresInterface());
+        model.addAttribute("frontendRequiresInterface", new SearchRequiresInterface());
         return "search/resultTable";
     }
 

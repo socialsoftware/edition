@@ -1,16 +1,16 @@
 package pt.ist.socialsoftware.edition.ldod.recommendation.feature;
 
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.Property;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
-public class VSMVirtualEditionInterRecommender extends VSMRecommender<VirtualEditionInter> {
+public class VSMVirtualEditionInterRecommender extends VSMRecommender<VirtualEditionInterDto> {
     @Override
-    protected void prepareToLoadProperty(VirtualEditionInter t1, VirtualEditionInter t2, Property property) {
+    protected void prepareToLoadProperty(VirtualEditionInterDto t1, VirtualEditionInterDto t2, Property property) {
         property.prepareToLoadProperty(t1, t2);
     }
 
     @Override
-    protected double[] loadProperty(VirtualEditionInter t1, Property property) {
+    protected double[] loadProperty(VirtualEditionInterDto t1, Property property) {
         return property.loadProperty(t1);
     }
 

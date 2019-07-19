@@ -13,29 +13,23 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.*;
-import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
-import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
-import pt.ist.socialsoftware.edition.ldod.virtual.feature.topicmodeling.TopicModeler;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoading {
     private static final String ACRONYM = "TestRecommendations";
 
     private static final Logger logger = LoggerFactory.getLogger(VSMVirtualEditionInterRecomenderTest.class);
 
-    private static VSMRecommender<VirtualEditionInter> recommender;
-
-    private final TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
+    private static VSMRecommender<VirtualEditionInterDto> recommender;
 
     private VirtualEdition virtualEdition;
 
@@ -57,16 +51,8 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
         this.virtualEdition = virtualModule.createVirtualEdition(User.USER_ARS, ACRONYM, "Name", LocalDate.now(), true,
                 pizarroEdition.getAcronym());
 
-        // create taxonomy
-        TopicModeler modeler = new TopicModeler();
-        TopicListDTO topicListDTO = null;
-        try {
-            topicListDTO = modeler.generate(User.USER_ARS, this.virtualEdition, 50, 6, 11, 10);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        this.virtualEdition.getTaxonomy().createGeneratedCategories(topicListDTO);
+        // set open vocabulary taxonomy
+        this.virtualEdition.getTaxonomy().setOpenVocabulary(true);
 
         // create recommender
         recommender = new VSMVirtualEditionInterRecommender();
@@ -92,11 +78,14 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
         List<Property> properties = new ArrayList<>();
         properties.add(new HeteronymProperty(1.0));
 
-        VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter, new HashSet<>(virtualEdition
-                .getIntersSet().stream().map(VirtualEditionInter.class::cast).collect(Collectors.toSet())), properties);
+        VirtualEditionInterDto virtualEditionInterDto = new VirtualEditionInterDto(virtualEditionInter);
 
-        assertTrue(virtualEditionInter != result);
+        VirtualEditionInterDto result = recommender.getMostSimilarItem(virtualEditionInterDto, virtualEdition
+                .getIntersSet().stream().map(VirtualEditionInterDto::new).collect(Collectors.toSet()), properties);
+
+        assertFalse(virtualEditionInterDto.getXmlId().equals(result.getXmlId()));
         assertEquals(virtualEditionInter.getLastUsed().getHeteronym().getXmlId(), result.getLastUsed().getHeteronym().getXmlId());
+        assertEquals(1.0, recommender.calculateSimilarity(virtualEditionInterDto, result, properties), 0.001);
     }
 
     @Test
@@ -114,11 +103,14 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
         List<Property> properties = new ArrayList<>();
         properties.add(new HeteronymProperty(1.0));
 
-        VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter, new HashSet<>(virtualEdition
-                .getIntersSet().stream().map(VirtualEditionInter.class::cast).collect(Collectors.toSet())), properties);
+        VirtualEditionInterDto virtualEditionInterDto = new VirtualEditionInterDto(virtualEditionInter);
 
-        assertTrue(virtualEditionInter != result);
+        VirtualEditionInterDto result = recommender.getMostSimilarItem(virtualEditionInterDto, virtualEdition
+                .getIntersSet().stream().map(VirtualEditionInterDto::new).collect(Collectors.toSet()), properties);
+
+        assertFalse(virtualEditionInterDto.getXmlId().equals(result.getXmlId()));
         assertEquals(NullHeteronym.getNullHeteronym().getXmlId(), result.getLastUsed().getHeteronym().getXmlId());
+        assertEquals(1.0, recommender.calculateSimilarity(virtualEditionInterDto, result, properties), 0.001);
     }
 
     @Test
@@ -137,12 +129,16 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
         List<Property> properties = new ArrayList<>();
         properties.add(new DateProperty(1.0));
 
-        VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter, new HashSet<>(virtualEdition
-                .getIntersSet().stream().map(VirtualEditionInter.class::cast).collect(Collectors.toSet())), properties);
+        VirtualEditionInterDto virtualEditionInterDto = new VirtualEditionInterDto(virtualEditionInter);
 
-        assertTrue(virtualEditionInter != result);
+
+        VirtualEditionInterDto result = recommender.getMostSimilarItem(virtualEditionInterDto, virtualEdition
+                .getIntersSet().stream().map(VirtualEditionInterDto::new).collect(Collectors.toSet()), properties);
+
+        assertFalse(virtualEditionInterDto.getXmlId().equals(result.getXmlId()));
         assertEquals(virtualEditionInter.getLastUsed().getLdoDDate().getDate().getYear(),
                 result.getLastUsed().getLdoDDate().getDate().getYear());
+        assertEquals(1.0, recommender.calculateSimilarity(virtualEditionInterDto, result, properties), 0.001);
     }
 
     @Test
@@ -160,35 +156,49 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
         List<Property> properties = new ArrayList<>();
         properties.add(new DateProperty(1.0));
 
-        VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter, new HashSet<>(virtualEdition
-                .getIntersSet().stream().map(VirtualEditionInter.class::cast).collect(Collectors.toSet())), properties);
+        VirtualEditionInterDto virtualEditionInterDto = new VirtualEditionInterDto(virtualEditionInter);
 
-        assertTrue(virtualEditionInter != result);
+        VirtualEditionInterDto result = recommender.getMostSimilarItem(virtualEditionInterDto, virtualEdition
+                .getIntersSet().stream().map(VirtualEditionInterDto::new).collect(Collectors.toSet()), properties);
+
+        assertFalse(virtualEditionInterDto.getXmlId().equals(result.getXmlId()));
         assertNotNull(result.getLastUsed().getLdoDDate());
         assertNull(virtualEditionInter.getLastUsed().getLdoDDate());
+        assertEquals(0.0, recommender.calculateSimilarity(virtualEditionInterDto, result, properties), 0.001);
     }
 
     @Test
     @Atomic
     public void testGetMostSimilarItemForTaxonomy() {
         VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(ACRONYM);
-        VirtualEditionInter virtualEditionInter = null;
+        Category category = new Category();
+        category.init(virtualEdition.getTaxonomy(), "car");
+        VirtualEditionInter virtualEditionInter1 = null;
+        VirtualEditionInter virtualEditionInter2 = null;
         for (VirtualEditionInter inter : virtualEdition.getIntersSet()) {
-            if (!(inter).getTagSet().isEmpty()) {
-                virtualEditionInter = inter;
+            new Tag().init(inter, category, "ars");
+            if (virtualEditionInter1 == null) {
+                new Tag().init(inter, category, "ars");
+                virtualEditionInter1 = inter;
+            } else if (virtualEditionInter2 == null
+                    && !inter.getFragmentXmlId().equals(virtualEditionInter1.getFragmentXmlId())) {
+                new Tag().init(inter, category, "ars");
+                virtualEditionInter2 = inter;
                 break;
             }
         }
 
         List<Property> properties = new ArrayList<>();
-        properties.add(new TaxonomyProperty(1.0, virtualEdition.getTaxonomy(), Property.PropertyCache.OFF));
+        properties.add(new TaxonomyProperty(1.0, ACRONYM, Property.PropertyCache.OFF));
 
-        VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter, new HashSet<>(virtualEdition
-                .getIntersSet().stream().map(VirtualEditionInter.class::cast).collect(Collectors.toSet())), properties);
+        VirtualEditionInterDto virtualEditionInterDto = new VirtualEditionInterDto(virtualEditionInter1);
 
-        assertTrue(virtualEditionInter != result);
-        assertFalse(virtualEditionInter.getTagSet().stream().map(t -> t.getCategory())
-                .anyMatch(result.getTagSet().stream().map(t -> t.getCategory()).collect(Collectors.toSet())::contains));
+        VirtualEditionInterDto result = recommender.getMostSimilarItem(virtualEditionInterDto, virtualEdition
+                .getIntersSet().stream().map(VirtualEditionInterDto::new).collect(Collectors.toSet()), properties);
+
+        assertFalse(virtualEditionInterDto.getXmlId().equals(result.getXmlId()));
+        assertEquals(new VirtualEditionInterDto(virtualEditionInter2), result);
+        assertEquals(1.0, recommender.calculateSimilarity(virtualEditionInterDto, result, properties), 0.001);
     }
 
     @Test
@@ -198,8 +208,10 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
         VirtualEditionInter virtualEditionInter = null;
         Indexer indexer = Indexer.getIndexer();
 
+        List<String> tfidfWords = new ArrayList<>();
         for (VirtualEditionInter inter : virtualEdition.getIntersSet()) {
-            if (indexer.getTFIDFTerms(getFragment(inter), TextProperty.NUMBER_OF_TERMS).contains("cadeira")) {
+            tfidfWords = indexer.getTFIDFTerms(getFragment(inter), TextProperty.NUMBER_OF_TERMS);
+            if (tfidfWords.contains("noite")) {
                 virtualEditionInter = inter;
                 break;
             }
@@ -208,12 +220,13 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
         List<Property> properties = new ArrayList<>();
         properties.add(new TextProperty(1.0));
 
-        VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter, new HashSet<>(virtualEdition
-                .getIntersSet().stream().map(VirtualEditionInter.class::cast).collect(Collectors.toSet())), properties);
+        VirtualEditionInterDto virtualEditionInterDto = new VirtualEditionInterDto(virtualEditionInter);
 
-        assertTrue(virtualEditionInter != result);
-        assertTrue(indexer.getTFIDFTerms(getFragment(virtualEditionInter), TextProperty.NUMBER_OF_TERMS).stream()
-                .anyMatch(indexer.getTFIDFTerms(getFragment(result), TextProperty.NUMBER_OF_TERMS)::contains));
+        VirtualEditionInterDto result = recommender.getMostSimilarItem(virtualEditionInterDto, virtualEdition
+                .getIntersSet().stream().map(VirtualEditionInterDto::new).collect(Collectors.toSet()), properties);
+
+        assertFalse(virtualEditionInterDto.getXmlId().equals(result.getXmlId()));
+        assertEquals(0.01, recommender.calculateSimilarity(virtualEditionInterDto, result, properties), 0.1);
     }
 
     @Test
@@ -223,8 +236,10 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
         VirtualEditionInter virtualEditionInter = null;
         Indexer indexer = Indexer.getIndexer();
 
+        List<String> tfidfWords = new ArrayList<>();
         for (VirtualEditionInter inter : virtualEdition.getIntersSet()) {
-            if (indexer.getTFIDFTerms(getFragment(inter), TextProperty.NUMBER_OF_TERMS).contains("cadeira")) {
+            tfidfWords = indexer.getTFIDFTerms(getFragment(inter), TextProperty.NUMBER_OF_TERMS);
+            if (tfidfWords.contains("noite")) {
                 virtualEditionInter = inter;
                 break;
             }
@@ -233,20 +248,21 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
         List<Property> properties = new ArrayList<>();
         properties.add(new HeteronymProperty(1.0));
         properties.add(new DateProperty(1.0));
-        properties.add(new TaxonomyProperty(1.0, virtualEdition.getTaxonomy(), Property.PropertyCache.OFF));
+        properties.add(new TaxonomyProperty(1.0, ACRONYM, Property.PropertyCache.OFF));
         properties.add(new TextProperty(1.0));
 
-        VirtualEditionInter result = recommender.getMostSimilarItem(virtualEditionInter, new HashSet<>(virtualEdition
-                .getIntersSet().stream().map(VirtualEditionInter.class::cast).collect(Collectors.toSet())), properties);
+        VirtualEditionInterDto virtualEditionInterDto = new VirtualEditionInterDto(virtualEditionInter);
 
-        assertTrue(virtualEditionInter != result);
+        VirtualEditionInterDto result = recommender.getMostSimilarItem(virtualEditionInterDto, virtualEdition
+                .getIntersSet().stream().map(VirtualEditionInterDto::new).collect(Collectors.toSet()), properties);
+
+
+        assertFalse(virtualEditionInterDto.getXmlId().equals(result.getXmlId()));
         assertEquals(virtualEditionInter.getLastUsed().getHeteronym().getXmlId(), result.getLastUsed().getHeteronym().getXmlId());
         assertEquals(virtualEditionInter.getLastUsed().getLdoDDate().getDate().getYear(),
                 result.getLastUsed().getLdoDDate().getDate().getYear());
-        assertFalse(virtualEditionInter.getTagSet().stream().map(t -> t.getCategory())
-                .anyMatch(result.getTagSet().stream().map(t -> t.getCategory()).collect(Collectors.toSet())::contains));
-        assertFalse(indexer.getTFIDFTerms(getFragment(virtualEditionInter), TextProperty.NUMBER_OF_TERMS).stream()
-                .anyMatch(indexer.getTFIDFTerms(getFragment(result), TextProperty.NUMBER_OF_TERMS)::contains));
+
+        assertEquals(0.9, recommender.calculateSimilarity(virtualEditionInterDto, result, properties), 0.1);
     }
 
 
