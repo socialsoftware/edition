@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
@@ -20,10 +19,6 @@ public class TaxonomyProperty extends Property {
         super(weight, cached);
         this.acronym = acronym;
         this.sortedCategories = this.recommendationRequiresInterface.getVirtualEditionSortedCategoryList(acronym);
-    }
-
-    public TaxonomyProperty(@JsonProperty("weight") String weight, @JsonProperty("acronym") String acronym) {
-        this(Double.parseDouble(weight), acronym, PropertyCache.OFF);
     }
 
     @Override

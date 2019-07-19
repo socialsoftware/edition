@@ -1,11 +1,10 @@
 package pt.ist.socialsoftware.edition.ldod.recommendation
 
-
 import org.slf4j.LoggerFactory
 import pt.ist.socialsoftware.edition.ldod.SpockRollbackTestAbstractClass
 import pt.ist.socialsoftware.edition.ldod.domain.*
-import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto
 import pt.ist.socialsoftware.edition.ldod.recommendation.api.RecommendationProvidesInterface
+import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.WeightsDto
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto
 
 import java.util.concurrent.atomic.AtomicInteger

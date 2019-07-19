@@ -1,7 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.ldod.recommendation.api.RecommendationRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.StoredVectors;
@@ -9,18 +7,8 @@ import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type")
-@JsonSubTypes({@JsonSubTypes.Type(value = HeteronymProperty.class, name = Property.HETERONYM),
-        @JsonSubTypes.Type(value = DateProperty.class, name = Property.DATE),
-        @JsonSubTypes.Type(value = TextProperty.class, name = Property.TEXT),
-        @JsonSubTypes.Type(value = TaxonomyProperty.class, name = Property.TAXONOMY)})
 public abstract class Property {
     protected RecommendationRequiresInterface recommendationRequiresInterface = new RecommendationRequiresInterface();
-
-    public static final String HETERONYM = "heteronym";
-    public static final String DATE = "date";
-    public static final String TEXT = "text";
-    public static final String TAXONOMY = "taxonomy";
 
     public enum PropertyCache {
         ON, OFF

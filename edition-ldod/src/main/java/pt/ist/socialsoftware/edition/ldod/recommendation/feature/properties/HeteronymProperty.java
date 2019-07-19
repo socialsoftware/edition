@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.HeteronymDto;
@@ -16,10 +15,6 @@ public class HeteronymProperty extends Property {
 
     public HeteronymProperty(double weight) {
         super(weight, PropertyCache.ON);
-    }
-
-    public HeteronymProperty(@JsonProperty("weight") String weight) {
-        this(Double.parseDouble(weight));
     }
 
     private double[] buildVector(List<String> foundHeteronyms) {

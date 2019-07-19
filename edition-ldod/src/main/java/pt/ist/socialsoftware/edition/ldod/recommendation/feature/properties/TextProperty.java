@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
@@ -28,10 +27,6 @@ public class TextProperty extends Property {
 
     public TextProperty(double weigth) {
         super(weigth, PropertyCache.OFF);
-    }
-
-    public TextProperty(@JsonProperty("weight") String weight) {
-        this(Double.parseDouble(weight));
     }
 
     @Override

@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
@@ -24,10 +23,6 @@ public class DateProperty extends Property {
 
     public DateProperty(double weight) {
         super(weight, PropertyCache.ON);
-    }
-
-    public DateProperty(@JsonProperty("weight") String weight) {
-        this(Double.parseDouble(weight));
     }
 
     private double[] addDateToVector(int date, double[] vector) {

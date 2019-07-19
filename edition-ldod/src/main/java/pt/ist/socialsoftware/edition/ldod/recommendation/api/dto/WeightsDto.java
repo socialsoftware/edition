@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.dto;
+package pt.ist.socialsoftware.edition.ldod.recommendation.api.dto;
 
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.*;
 
