@@ -30,7 +30,6 @@ public class VirtualModule extends VirtualModule_Base {
     }
 
     public void remove() {
-        getPlayerSet().stream().forEach(player -> player.remove());
         getCitationSet().forEach(c -> c.remove());
         getPublicClassificationGames().forEach(g -> g.remove());
         getTweetSet().forEach(t -> t.remove());
@@ -298,10 +297,6 @@ public class VirtualModule extends VirtualModule_Base {
         Set<ClassificationGame> allClassificationGames4User = new HashSet<>(getPublicClassificationGames());
         allClassificationGames4User.addAll(classificationGamesOfUser);
         return allClassificationGames4User;
-    }
-
-    public Player getPlayerByUsername(String user) {
-        return getPlayerSet().stream().filter(player -> player.getUser().equals(user)).findAny().orElse(null);
     }
 
     public Map<String, Double> getOverallLeaderboard() {

@@ -7,9 +7,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
-import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.CategoryDto;
-import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.*;
 import pt.ist.socialsoftware.edition.ldod.visual.api.dto.EditionInterListDto;
 
 import java.util.ArrayList;
@@ -41,6 +39,10 @@ public class VirtualProvidesInterface {
 
     public String getVirtualEditionReference(String acronym) {
         return getVirtualEditionByAcronymUtil(acronym).map(VirtualEdition::getReference).orElse(null);
+    }
+
+    public boolean isVirtualEditionPublicOrIsUserParticipant(String acronym) {
+        return getVirtualEditionByAcronymUtil(acronym).orElseThrow(LdoDException::new).isPublicOrIsParticipant();
     }
 
     public Set<VirtualEditionInterDto> getVirtualEditionInterOfFragmentForVirtualEdition(String acronym, String xmlId) {
@@ -203,6 +205,46 @@ public class VirtualProvidesInterface {
 
     public String getVirtualEditionExternalIdByAcronym(String acronym) {
         return getVirtualEditionByAcronymUtil(acronym).map(VirtualEdition::getExternalId).orElse(null);
+    }
+
+    public List<TagDto> getVirtualEditionInterTags(String xmlId) {
+        VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
+        return inter.getTagsCompleteInter().stream().map(tag -> new TagDto(tag, inter)).collect(Collectors.toList());
+    }
+
+    public void removeTagFromInter(String externalId) {
+        DomainObject domainObject = FenixFramework.getDomainObject(externalId);
+
+        if (domainObject instanceof Tag) {
+            ((Tag) domainObject).remove();
+        }
+    }
+
+    public List<HumanAnnotationDto> getVirtualEditionInterHumanAnnotations(String xmlId) {
+        VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
+        return inter.getAllDepthAnnotations().stream().filter(HumanAnnotation.class::isInstance)
+                .map(HumanAnnotation.class::cast)
+                .map(annotation -> new HumanAnnotationDto(annotation, inter))
+                .collect(Collectors.toList());
+    }
+
+    public List<AwareAnnotationDto> getVirtualEditionInterAwareAnnotations(String xmlId) {
+        return getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new).getAllDepthAnnotations()
+                .stream().filter(AwareAnnotation.class::isInstance)
+                .map(AwareAnnotation.class::cast)
+                .map(AwareAnnotationDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public void associateVirtualEditionInterCategories(String xmlId, String username, Set<String> categories) {
+        getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new).associate(username, categories);
+    }
+
+    public void dissociateVirtualEditionInterCategory(String xmlId, String username, String categoryName) {
+        VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
+        Category category = inter.getAllDepthCategories().stream().filter(cat -> cat.getNameInEditionContext(inter.getEdition()).equals(categoryName))
+                .findAny().orElseThrow(LdoDException::new);
+        inter.dissociate(username, category);
     }
 
     private Optional<VirtualEditionInter> getVirtualEditionInterByXmlId(String xmlId) {

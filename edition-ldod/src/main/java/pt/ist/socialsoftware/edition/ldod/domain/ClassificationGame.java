@@ -40,10 +40,14 @@ public class ClassificationGame extends ClassificationGame_Base {
         setState(ClassificationGameState.CREATED);
         setDescription(description);
         setDateTime(date);
+
         setVirtualEditionInter(inter);
+        setInterId(inter.getXmlId());
+
         setResponsible(user);
 
         setVirtualEdition(virtualEdition);
+        setEditionId(virtualEdition.getXmlId());
     }
 
     @Atomic(mode = TxMode.WRITE)
@@ -97,6 +101,7 @@ public class ClassificationGame extends ClassificationGame_Base {
         Tag tag = getVirtualEdition().getTaxonomy().createTag(getVirtualEditionInter(), tagName, null, winner);
 
         setTag(tag);
+        setTagId(tag.getExternalId());
 
         /*
          * Set<User> users = players.keySet().stream().map(p ->

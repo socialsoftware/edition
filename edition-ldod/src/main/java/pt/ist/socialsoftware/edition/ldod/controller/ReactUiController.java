@@ -11,24 +11,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.api.ui.FragInterDto;
-import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.*;
-import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter2CompInters;
-import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter4Variations;
-import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
-import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationSearchJson;
 import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
-import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.CategoryDto;
-import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.*;
 
 import javax.inject.Inject;
 import java.util.*;
@@ -585,15 +577,9 @@ public class ReactUiController {
     public ResponseEntity<?> getMultipleInterWriter(@RequestParam String interIds,
                                                     @RequestParam(required = false, defaultValue = "false") boolean lineByLine,
                                                     @RequestParam(required = false, defaultValue = "false") boolean showSpaces) {
-
-        List<ScholarInter> inters = new ArrayList<>();
         List<ScholarInterDto> interDtos = new ArrayList<>();
 
         for (String id : interIds.split("%2C")) {
-            ScholarInter inter = FenixFramework.getDomainObject(id);
-            if (inter != null) {
-                inters.add(inter);
-            }
             ScholarInterDto dto = this.textProvidesInterface.getScholarInterbyExternalId(id);
             if (dto != null){
                 interDtos.add(dto);
@@ -604,7 +590,7 @@ public class ReactUiController {
             return new ResponseEntity<>(interDtos.get(0).getTranscription(), HttpStatus.OK);
         }
 
-        if (inters.size() > 2) {
+        if (interDtos.size() > 2) {
             lineByLine = true;
         }
 
@@ -624,23 +610,7 @@ public class ReactUiController {
             results.put("transcription", transcriptions.get("transcription"));
         }
 
-        List<AppText> apps = new ArrayList<>();
-        inters.get(0).getFragment().getTextPortion().putAppTextWithVariations(apps, inters);
-        Collections.reverse(apps);
-
-        Map<String, List<String>> variations = new HashMap<>();
-
-        for (ScholarInter scholarInter : inters) {
-            List<String> interVariation = new ArrayList<>();
-            for (AppText app : apps) {
-                HtmlWriter4Variations writer4Variations = new HtmlWriter4Variations(scholarInter);
-                interVariation.add(writer4Variations.getAppTranscription(app));
-
-            }
-            variations.put(scholarInter.getShortName() + "#" + scholarInter.getTitle(), interVariation);
-        }
-
-        results.put("variations", variations);
+        results.put("variations", this.textProvidesInterface.getMultipleInterVariations(Arrays.asList(interIds.split("%2C"))));
         results.put("title", interDtos.get(0).getTitle());
         results.put("lineByLine", lineByLine);
         results.put("showSpaces", showSpaces);
@@ -651,10 +621,10 @@ public class ReactUiController {
     @GetMapping(value = "/multiple-virtual", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<?> getMultipleVirtualInfo(@RequestParam String interIds) {
 
-        List<VirtualEditionInter> inters = new ArrayList<>();
+        List<VirtualEditionInterDto> inters = new ArrayList<>();
 
         for (String id : interIds.split("%2C")) {
-            VirtualEditionInter vei = FenixFramework.getDomainObject(id);
+            VirtualEditionInterDto vei = this.virtualProvidesInterface.getVirtualEditionInterByExternalId(id);
             if (vei != null) {
                 inters.add(vei);
             }
@@ -662,49 +632,56 @@ public class ReactUiController {
 
         Map<String, Object> results = new LinkedHashMap<>();
 
-        for (VirtualEditionInter inter : inters) {
+        for (VirtualEditionInterDto inter : inters) {
             Map<String, Object> info = new LinkedHashMap<>();
 
-            info.put("reference", inter.getEdition().getReference());
+            VirtualEditionDto virtualEditionDto = this.virtualProvidesInterface.getVirtualEditions().stream()
+                    .filter(dto -> this.virtualProvidesInterface.isInterInVirtualEdition(inter.getXmlId(),dto.getAcronym()))
+                    .findAny().orElseThrow(LdoDException::new);
+
+            info.put("reference", virtualEditionDto.getReference());
 
             List<Object> tags = new ArrayList<>();
-            for (Tag tag : inter.getTagsCompleteInter()) {
+            for (TagDto tag : inter.getTagsCompleteInter()) {
                 Map<String, String> tagInfo = new LinkedHashMap<>();
-                tagInfo.put("username", tag.getContributor());
-                tagInfo.put("acronym", tag.getCategory().getTaxonomy().getEdition().getAcronym());
-                tagInfo.put("urlId", tag.getCategory().getUrlId());
-                tagInfo.put("name", tag.getCategory().getNameInEditionContext(inter.getEdition()));
+                tagInfo.put("username", tag.getUsername());
+                tagInfo.put("acronym", tag.getAcronym());
+                tagInfo.put("urlId", tag.getUrlId());
+                tagInfo.put("name", tag.getName());
                 tags.add(tagInfo);
             }
             info.put("tags", tags);
 
             List<Object> annotations = new ArrayList<>();
 
-            for (Annotation annotation : inter.getAllDepthAnnotations()) {
+            for (HumanAnnotationDto annotation : inter.getHumanAnnotations()) {
                 Map<String, Object> annotationInfo = new LinkedHashMap<>();
                 annotationInfo.put("quote", annotation.getQuote());
+                annotationInfo.put("text", annotation.getText());
 
-                if (annotation.isHumanAnnotation()) {
-                    annotationInfo.put("text", annotation.getText());
-
-                    List<Object> annotationTags = new ArrayList<>();
-                    for (Tag tag : ((HumanAnnotation) annotation).getTagSet()) {
-                        Map<String, String> tagInfo = new LinkedHashMap<>();
-                        tagInfo.put("acronym", tag.getCategory().getTaxonomy().getEdition().getAcronym());
-                        tagInfo.put("urlId", tag.getCategory().getUrlId());
-                        tagInfo.put("name", tag.getCategory().getNameInEditionContext(inter.getEdition()));
-                        annotationTags.add(tagInfo);
-                    }
-
-                    annotationInfo.put("tags", annotationTags);
-                } else {
-                    annotationInfo.put("source", ((AwareAnnotation) annotation).getSourceLink());
-                    annotationInfo.put("profile", ((AwareAnnotation) annotation).getProfileURL());
-                    annotationInfo.put("date", ((AwareAnnotation) annotation).getDate());
-                    annotationInfo.put("country", ((AwareAnnotation) annotation).getCountry());
+                List<Object> annotationTags = new ArrayList<>();
+                for (TagDto tag : annotation.getTags()) {
+                    Map<String, String> tagInfo = new LinkedHashMap<>();
+                    tagInfo.put("acronym", tag.getAcronym());
+                    tagInfo.put("urlId", tag.getUrlId());
+                    tagInfo.put("name", tag.getName());
+                    annotationTags.add(tagInfo);
                 }
 
-                annotationInfo.put("username", annotation.getUser());
+                annotationInfo.put("tags", annotationTags);
+                annotationInfo.put("username", annotation.getUsername());
+
+                annotations.add(annotationInfo);
+            }
+
+            for (AwareAnnotationDto annotation : inter.getAwareAnnotations()) {
+                Map<String, Object> annotationInfo = new LinkedHashMap<>();
+                annotationInfo.put("quote", annotation.getQuote());
+                annotationInfo.put("source", annotation.getSource());
+                annotationInfo.put("profile", annotation.getProfile());
+                annotationInfo.put("date", annotation.getDate());
+                annotationInfo.put("country", annotation.getCountry());
+                annotationInfo.put("username", annotation.getUsername());
 
                 annotations.add(annotationInfo);
             }
@@ -720,17 +697,17 @@ public class ReactUiController {
     @PostMapping("/restricted/associate-category")
     public ResponseEntity<?> associateCategoriesToInter(@RequestParam String externalId, @RequestParam String categories) {
 
-        DomainObject object = FenixFramework.getDomainObject(externalId);
+        VirtualEditionInterDto inter = this.virtualProvidesInterface.getVirtualEditionInterByExternalId(externalId);
 
-        if (!(object instanceof VirtualEditionInter)) {
+        if (inter == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        VirtualEditionInter inter = (VirtualEditionInter) object;
+        VirtualEditionDto virtualEditionDto = this.virtualProvidesInterface.getVirtualEditions().stream()
+                .filter(dto -> this.virtualProvidesInterface.isInterInVirtualEdition(inter.getXmlId(),dto.getAcronym()))
+                .findAny().orElseThrow(LdoDException::new);
 
-        User user = User.getAuthenticatedUser();
-
-        if (user == null || !inter.getEdition().isPublicOrIsParticipant()) {
+        if (this.userProvidesInterface.getAuthenticatedUser() == null || !virtualEditionDto.isPublicOrIsParticipant()) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
@@ -743,17 +720,21 @@ public class ReactUiController {
 
     @PostMapping("/restricted/dissociate-category")
     public ResponseEntity<?> dissociateCategoryFromInter(@RequestParam String externalId, @RequestParam String categoryId) {
-        DomainObject object = FenixFramework.getDomainObject(externalId);
 
-        Category category = FenixFramework.getDomainObject(categoryId);
+        VirtualEditionInterDto inter = this.virtualProvidesInterface.getVirtualEditionInterByExternalId(externalId);
 
-        if (!(object instanceof VirtualEditionInter) || category == null) {
+        if (inter == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        VirtualEditionInter inter = (VirtualEditionInter) object;
+        CategoryDto category = inter.getAssignedCategories().stream().filter(categoryDto -> categoryDto.getExternalId().equals(categoryId))
+                .findAny().orElse(null);
 
-        inter.dissociate(this.userProvidesInterface.getAuthenticatedUser(), category);
+        if (category == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        inter.dissociate(this.userProvidesInterface.getAuthenticatedUser(), category.getName());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

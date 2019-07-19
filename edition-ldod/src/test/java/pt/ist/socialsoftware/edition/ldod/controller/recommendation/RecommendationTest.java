@@ -131,7 +131,7 @@ public class RecommendationTest {
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/recommendation/restricted/" +
-                        VirtualModule.getInstance().getArchiveEdition().getExternalId()));
+                        VirtualModule.getInstance().getArchiveEdition().getAcronym()));
     }
 
     @Test

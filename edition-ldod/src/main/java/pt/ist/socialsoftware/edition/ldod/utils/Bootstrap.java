@@ -70,6 +70,10 @@ public class Bootstrap implements WebApplicationInitializer {
             loadRecommendationCache();
         }
 
+        if (ClassificationModule.getInstance() == null){
+            new ClassificationModule();
+        }
+
         // clean existing module info.
         FenixFramework.getDomainRoot().getModuleSet().forEach(EditionModule::remove);
 

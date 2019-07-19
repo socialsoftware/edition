@@ -8,6 +8,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.*;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter2CompInters;
+import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
@@ -295,6 +296,34 @@ public class TextProvidesInterface {
         }
 
         return result;
+    }
+
+    public Map<String,List<String>> getMultipleInterVariations(List<String> externalIds){
+        List<ScholarInter> inters = new ArrayList<>();
+
+        for(String id : externalIds){
+            ScholarInter inter = FenixFramework.getDomainObject(id);
+            if(inter != null)
+                inters.add(inter);
+        }
+
+        List<AppText> apps = new ArrayList<>();
+        inters.get(0).getFragment().getTextPortion().putAppTextWithVariations(apps, inters);
+        Collections.reverse(apps);
+
+        Map<String, List<String>> variations = new HashMap<>();
+
+        for (ScholarInter scholarInter : inters) {
+            List<String> interVariation = new ArrayList<>();
+            for (AppText app : apps) {
+                HtmlWriter4Variations writer4Variations = new HtmlWriter4Variations(scholarInter);
+                interVariation.add(writer4Variations.getAppTranscription(app));
+
+            }
+            variations.put(scholarInter.getShortName() + "#" + scholarInter.getTitle(), interVariation);
+        }
+
+        return variations;
     }
 
     public List<String> getSourceInterFacUrls(String xmlId) {

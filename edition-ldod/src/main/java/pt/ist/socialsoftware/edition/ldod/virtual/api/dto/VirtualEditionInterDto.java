@@ -6,6 +6,7 @@ import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 public class VirtualEditionInterDto {
@@ -96,6 +97,27 @@ public class VirtualEditionInterDto {
     public VirtualEditionDto getVirtualEditionDto() {
         return this.virtualProvidesInterface.getVirtualEditionOfVirtualEditionInter(this.xmlId);
     }
+
+    public List<TagDto> getTagsCompleteInter() {
+        return this.virtualProvidesInterface.getVirtualEditionInterTags(this.xmlId);
+    }
+
+    public List<HumanAnnotationDto> getHumanAnnotations() {
+        return this.virtualProvidesInterface.getVirtualEditionInterHumanAnnotations(this.xmlId);
+    }
+
+    public List<AwareAnnotationDto> getAwareAnnotations() {
+        return this.virtualProvidesInterface.getVirtualEditionInterAwareAnnotations(this.xmlId);
+    }
+
+    public void associate(String username, Set<String> categories) {
+        this.virtualProvidesInterface.associateVirtualEditionInterCategories(this.xmlId, username, categories);
+    }
+
+    public void dissociate(String username, String categories) {
+        this.virtualProvidesInterface.dissociateVirtualEditionInterCategory(this.xmlId, username, categories);
+    }
+
 
     public List<VirtualEditionInterDto> getUsesPath() {
         List<VirtualEditionInterDto> usesPath = new ArrayList<>();
