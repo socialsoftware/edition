@@ -29,11 +29,11 @@
                         <spring:message code="recommendation.setinitial"/>
                     </button>
                 </c:if></td>
-                <td><c:forEach var="used" items="${inter.getUsesPath()}" varStatus="status">< <a
+                <td><c:forEach var="used" items="${inter.getUsesPath()}" varStatus="status">-> <a
                         href="${contextPath}/fragments/fragment/${used.getFragmentXmlId()}/inter/${used.getUrlId()}">${used.getShortName()}</a>
-                    <c:if test="status.last"><a
-                            href="${contextPath}/fragments/fragment/${used.getFragmentXmlId()}/inter/${used.getUsesScholarInterId().getUrlId()}">${used.getUsesScholarInterId().getShortName()}</a></c:if>
-                </c:forEach></td>
+                </c:forEach>
+                    -><a href="${contextPath}/fragments/fragment/${inter.getFragmentXmlId()}/inter/${inter.getLastUsed().getUrlId()}">${inter.getLastUsed().getShortName()}</a>
+                </td>
             </tr>
         </c:forEach>
     </c:if>
