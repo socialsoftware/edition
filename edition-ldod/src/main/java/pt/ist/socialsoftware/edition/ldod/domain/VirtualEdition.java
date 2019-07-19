@@ -120,8 +120,6 @@ public class VirtualEdition extends VirtualEdition_Base {
 
         setVirtualModule4Virtual(null);
 
-        getClassificationGameSet().stream().forEach(g -> g.remove());
-
         EventInterface eventInterface = new EventInterface();
         eventInterface.publish(new Event(Event.EventType.VIRTUAL_EDITION_REMOVE, getXmlId()));
 
@@ -783,12 +781,6 @@ public class VirtualEdition extends VirtualEdition_Base {
             }
         }
         return null;
-    }
-
-    @Atomic(mode = TxMode.WRITE)
-    public void createClassificationGame(String description, DateTime date, VirtualEditionInter inter, String
-            user) {
-        new ClassificationGame(this, description, date, inter, user);
     }
 
     public boolean isLdoDEdition() {

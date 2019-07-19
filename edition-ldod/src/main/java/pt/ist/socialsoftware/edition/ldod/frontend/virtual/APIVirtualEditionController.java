@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
-import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterDto;
+import pt.ist.socialsoftware.edition.ldod.game.api.dto.VirtualEditionInterGameDto;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.ldod.visual.api.dto.EditionInterListDto;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public class APIVirtualEditionController {
     @GetMapping("/edition/{acronym}/inter/{urlId}")
     @PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
     public @ResponseBody
-    ResponseEntity<VirtualEditionInterDto> getVirtualEditionInterText(
+    ResponseEntity<VirtualEditionInterGameDto> getVirtualEditionInterText(
             @PathVariable(value = "acronym") String acronym, @PathVariable(value = "urlId") String urlId) {
         logger.debug("getVirtualEditionInterText acronym:{} urlId:{}", acronym, urlId);
         VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
@@ -56,7 +57,7 @@ public class APIVirtualEditionController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        VirtualEditionInterDto result = new VirtualEditionInterDto(inter);
+        VirtualEditionInterGameDto result = new VirtualEditionInterGameDto(new VirtualEditionInterDto(inter));
         return new ResponseEntity<>(result, HttpStatus.OK);
 
     }

@@ -115,7 +115,7 @@ public class EditionController {
                 List<ClassificationGame> games = player.getClassificationGameParticipantSet().stream().map
                         (ClassificationGameParticipant::getClassificationGame).collect(Collectors.toList());
                 model.addAttribute("games", games);
-                model.addAttribute("position", VirtualModule.getInstance().getOverallUserPosition(username));
+                model.addAttribute("position", ClassificationModule.getInstance().getOverallUserPosition(username));
             }
             model.addAttribute("uiInterface", new UiInterface());
             return "edition/userContributions";

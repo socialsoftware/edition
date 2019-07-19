@@ -49,6 +49,11 @@ public class VirtualProvidesInterface {
         return getVirtualEditionByAcronym(acronym).orElseThrow(LdoDException::new).isPublicOrIsParticipant();
     }
 
+    public boolean isUserParticipant(String acronym, String username){
+        return getVirtualEditionByAcronym(acronym).orElseThrow(LdoDException::new).getActiveMemberSet()
+                .stream().anyMatch(m -> m.getUser().equals(username));
+    }
+
     public Set<VirtualEditionInterDto> getVirtualEditionInterOfFragmentForVirtualEdition(String acronym, String xmlId) {
         List<VirtualEditionInter> virtualEditionInters = getVirtualEditionByAcronym(acronym)
                 .map(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters()).orElse(new ArrayList<>());
@@ -57,6 +62,10 @@ public class VirtualProvidesInterface {
 
     public Set<VirtualEditionDto> getPublicVirtualEditionsOrUserIsParticipant(String username) {
         return VirtualModule.getInstance().getPublicVirtualEditionsOrUserIsParticipant(username).stream().map(VirtualEditionDto::new).collect(Collectors.toSet());
+    }
+
+    public Set<VirtualEditionDto> getVirtualEditionsUserIsParticipant(String username) {
+        return VirtualModule.getInstance().getVirtualEditionsUserIsParticipant(username).stream().map(VirtualEditionDto::new).collect(Collectors.toSet());
     }
 
     public String getVirtualEditionAcronymByVirtualEditionInterXmlId(String interXmlId) {
@@ -182,6 +191,10 @@ public class VirtualProvidesInterface {
         return getVirtualEditionByAcronym(acronym).map(VirtualEdition::getTaxonomy).map(Taxonomy::getOpenVocabulary).orElse(false);
     }
 
+    public boolean getVirtualEditionTaxonomyAnnotationStatus(String acronym) {
+        return getVirtualEditionByAcronym(acronym).map(VirtualEdition::getTaxonomy).map(Taxonomy::getOpenAnnotation).orElse(false);
+    }
+
     public VirtualEditionInterDto getNextVirtualInter(String xmlId) {
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter.class::cast)
                 .map(VirtualEditionInter::getNextNumberInter).map(VirtualEditionInterDto::new).orElse(null);
@@ -202,6 +215,10 @@ public class VirtualProvidesInterface {
         return null;
     }
 
+    public VirtualEditionInterDto getVirtualEditionInter(String xmlId) {
+        return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInterDto::new).orElseThrow(LdoDException::new);
+    }
+
     public VirtualEditionInterDto getVirtualEditionInterByExternalId(String externalId) {
         DomainObject domainObject = FenixFramework.getDomainObject(externalId);
 
@@ -212,9 +229,28 @@ public class VirtualProvidesInterface {
         return null;
     }
 
+    public VirtualEditionDto getVirtualEditionByExternalId(String externalId) {
+        DomainObject domainObject = FenixFramework.getDomainObject(externalId);
+
+        if (domainObject instanceof VirtualEdition) {
+            return new VirtualEditionDto((VirtualEdition) domainObject);
+        }
+
+        return null;
+    }
+
     public List<TagDto> getVirtualEditionInterTags(String xmlId){
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         return inter.getTagsCompleteInter().stream().map(tag -> new TagDto(tag, inter)).collect(Collectors.toList());
+    }
+
+    public TagDto createTagInInter(String editionId, String interId, String tagName, String user){
+        VirtualEditionInter virtualEditionInter = getVirtualEditionInterByXmlId(interId).orElseThrow(LdoDException::new);
+        VirtualEdition edition = VirtualModule.getInstance().getVirtualEdition(editionId);
+
+        Tag tag = edition.getTaxonomy().createTag(virtualEditionInter,tagName,null,user);
+
+        return new TagDto(tag, virtualEditionInter);
     }
 
     public void removeTagFromInter(String externalId){

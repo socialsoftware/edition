@@ -18,6 +18,8 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
@@ -274,6 +276,7 @@ public class VirtualEditionFragmentsTEIImport {
         return TextModule.getInstance().getFragmentByXmlId(xmlId);
     }
 
+    //TODO : these class game related functions should be moved to their own importer in the game module
     private void importClassificationGames(Element textClass, VirtualEditionInter inter) {
         if (textClass.getChild("classificationGameList", this.namespace) == null) {
             return;
@@ -288,8 +291,8 @@ public class VirtualEditionFragmentsTEIImport {
             String responsible = gameElement.getAttributeValue("responsible");
             String winner = gameElement.getAttributeValue("winningUser");
 
-            ClassificationGame game = new ClassificationGame(inter.getVirtualEdition(), description, dateTime, inter,
-                    responsible);
+            ClassificationGame game = new ClassificationGame(new VirtualEditionDto(inter.getVirtualEdition()), description, dateTime,
+                    new VirtualEditionInterDto(inter), responsible);
 
             game.setState(state);
             game.setSync(sync);
@@ -299,7 +302,7 @@ public class VirtualEditionFragmentsTEIImport {
                         .filter(t -> t.getCategory().getName().equals(gameElement.getAttributeValue("tag"))
                                 && t.getContributor().equals(winner))
                         .findFirst().get();
-                game.setTag(tag);
+                game.setTagId(tag.getExternalId());
             }
             importClassificationGameParticipants(gameElement, game);
             importClassificationGameRounds(gameElement, game);

@@ -822,19 +822,9 @@ class ClassificationGameParticipant {
     double score;
 }
 
-relation VirtualEditionHasClassificationGames {
-	VirtualEdition playsRole virtualEdition {multiplicity 1..1;}
+relation ClassificationModuleHasClassificationGames {
+	ClassificationModule playsRole classificationModule {multiplicity 1..1;}
 	ClassificationGame playsRole classificationGame {multiplicity 0..*;}
-}
-
-relation ClassificationGameForVirtualEditionInter {
-	ClassificationGame playsRole classificationGame {multiplicity 0..*;}
-	VirtualEditionInter playsRole virtualEditionInter {multiplicity 1..1;}
-}
-
-relation ClassificationGameProducesTag {
-	ClassificationGame playsRole classificationGame {multiplicity 0..1;}
-	Tag playsRole tag {multiplicity 0..1;}
 }
 
 relation ClassificationGameParticipantIsPlayer {

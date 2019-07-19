@@ -4,14 +4,15 @@ import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserViewDto;
 import pt.ist.socialsoftware.edition.ldod.dto.TaxonomyDto;
-import pt.ist.socialsoftware.edition.ldod.dto.VirtualEditionInterDto;
+import pt.ist.socialsoftware.edition.ldod.game.api.dto.VirtualEditionInterGameDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class EditionInterListDto {
-    private List<VirtualEditionInterDto> virtualEditionInterList = new ArrayList<>();
+    private List<VirtualEditionInterGameDto> virtualEditionInterList = new ArrayList<>();
     private String title;
     private String acronym;
     private String type;
@@ -34,8 +35,8 @@ public class EditionInterListDto {
     public EditionInterListDto(VirtualEdition virtualEdition, boolean deep) {
         if (deep) {
             this.setVirtualEditionInterList(virtualEdition.getIntersSet().stream().sorted()
-                    .map(i -> new VirtualEditionInterDto(
-                            virtualEdition.getFragInterByUrlId(i.getUrlId())))
+                    .map(i -> new VirtualEditionInterGameDto(new VirtualEditionInterDto(
+                            virtualEdition.getFragInterByUrlId(i.getUrlId()))))
                     .collect(Collectors.toList()));
         }
         this.setTitle(virtualEdition.getTitle());
@@ -51,11 +52,11 @@ public class EditionInterListDto {
         }
     }
 
-    public List<VirtualEditionInterDto> getVirtualEditionInterList() {
+    public List<VirtualEditionInterGameDto> getVirtualEditionInterList() {
         return this.virtualEditionInterList;
     }
 
-    public void setVirtualEditionInterList(List<VirtualEditionInterDto> virtualEditionInterList) {
+    public void setVirtualEditionInterList(List<VirtualEditionInterGameDto> virtualEditionInterList) {
         this.virtualEditionInterList = virtualEditionInterList;
     }
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationModule;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.game.feature.classification.GameRunner;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.WriteVirtualEditonsToFile;
@@ -44,8 +45,7 @@ public class ScheduledTasks {
     private List<String> getGames() {
         DateTime now = DateTime.now();
 
-        return VirtualModule.getInstance().getVirtualEditionsSet().stream()
-                .flatMap(virtualEdition -> virtualEdition.getClassificationGameSet().stream())
+        return ClassificationModule.getInstance().getClassificationGameSet().stream()
                 .filter(g -> g.getState().equals(ClassificationGame.ClassificationGameState.CREATED)
                         && g.getDateTime().isAfter(now) && g.getDateTime().isBefore(now.plusMinutes(2)))
                 .sorted(Comparator.comparing(ClassificationGame::getDateTime)).map(g -> g.getExternalId())
@@ -90,7 +90,7 @@ public class ScheduledTasks {
     @Scheduled(cron = "0 0 12 * * *")
     public void generateGames() throws IOException {
         logger.debug("generateGames");
-        VirtualModule.manageDailyClassificationGames(DateTime.now());
+        ClassificationModule.manageDailyClassificationGames(DateTime.now());
     }
 
 }
