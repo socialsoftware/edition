@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.virtual.api.dto;
 
+import org.joda.time.LocalDate;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 
@@ -53,7 +54,33 @@ public class VirtualEditionDto {
         return this.virtualProvidesInterface.getVirtualEditionTaxonomyVocabularyStatus(this.acronym);
     }
 
-    public boolean isPublicOrIsParticipant(){
+    public boolean isLdoDEdition() {
+        return this.virtualProvidesInterface.isLdoDEdition(this.acronym);
+    }
+
+    public boolean isPublicOrIsParticipant() {
         return this.virtualProvidesInterface.isVirtualEditionPublicOrIsUserParticipant(this.acronym);
     }
+
+    public Set<String> getAdminSet() {
+        return this.virtualProvidesInterface.getVirtualEditionAdminSet(this.acronym);
+    }
+
+    public Set<String> getParticipantSet() {
+        return this.virtualProvidesInterface.getVirtualEditionParticipantSet(this.acronym);
+    }
+
+    public Set<String> getPendingSet() {
+        return this.virtualProvidesInterface.getVirtualEditionPendingSet(this.acronym);
+    }
+
+    public boolean getPub() {
+        return this.virtualProvidesInterface.getVirtualEditionPub(this.acronym);
+    }
+
+    public LocalDate getDate() {
+        return this.virtualProvidesInterface.getVirtualEditionDate(this.acronym);
+    }
+
+
 }

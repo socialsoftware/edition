@@ -21,7 +21,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
-import pt.ist.socialsoftware.edition.ldod.frontend.recommendation.VirtualInterRecommendationSortingController;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.assistedordering.AssistedOrderingController;
 import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.RecommendVirtualEditionParam;
 import pt.ist.socialsoftware.edition.ldod.utils.controller.LdoDExceptionHandler;
 
@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RecommendationTest {
 
     @InjectMocks
-    VirtualInterRecommendationSortingController virtualInterRecommendationSortingController;
+    AssistedOrderingController assistedOrderingController;
 
     protected MockMvc mockMvc;
 
@@ -62,7 +62,7 @@ public class RecommendationTest {
 
     @BeforeEach
     public void setUp() throws FileNotFoundException {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(this.virtualInterRecommendationSortingController)
+        this.mockMvc = MockMvcBuilders.standaloneSetup(this.assistedOrderingController)
                 .setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
     }
 

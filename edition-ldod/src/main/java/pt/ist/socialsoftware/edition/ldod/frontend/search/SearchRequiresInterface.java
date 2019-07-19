@@ -14,7 +14,7 @@ import pt.ist.socialsoftware.edition.ldod.text.api.dto.SourceDto;
 import java.util.List;
 import java.util.Map;
 
-public class SearchFrontendRequiresInterface {
+public class SearchRequiresInterface {
     // Requires from Text Module
     TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
 

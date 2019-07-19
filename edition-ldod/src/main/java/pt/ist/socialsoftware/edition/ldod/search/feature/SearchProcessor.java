@@ -3,7 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.search.feature;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.ist.socialsoftware.edition.ldod.frontend.search.SearchFrontendController;
+import pt.ist.socialsoftware.edition.ldod.frontend.search.SearchController;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.AdvancedSearchResultDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class SearchProcessor {
-    private static final Logger logger = LoggerFactory.getLogger(SearchFrontendController.class);
+    private static final Logger logger = LoggerFactory.getLogger(SearchController.class);
 
     public Map<String, List<ScholarInterDto>> simpleSearch(String params) {
         String split;

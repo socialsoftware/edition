@@ -19,7 +19,7 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
-import pt.ist.socialsoftware.edition.ldod.frontend.search.SearchFrontendController;
+import pt.ist.socialsoftware.edition.ldod.frontend.search.SearchController;
 import pt.ist.socialsoftware.edition.ldod.search.api.remote.SearchRemoteController;
 import pt.ist.socialsoftware.edition.ldod.utils.controller.LdoDExceptionHandler;
 
@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class SearchTest {
 
     @InjectMocks
-    SearchFrontendController searchFrontEndController;
+    SearchController searchFrontEndController;
 
     @InjectMocks
     SearchRemoteController searchRemoteController;

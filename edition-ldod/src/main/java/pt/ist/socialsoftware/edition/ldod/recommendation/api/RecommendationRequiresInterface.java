@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class RecommendationRequiresInterface {
-
     public void notifyEvent(Event event) {
         if (event.getType().equals(Event.EventType.USER_REMOVE)) {
             String username = event.getIdentifier();

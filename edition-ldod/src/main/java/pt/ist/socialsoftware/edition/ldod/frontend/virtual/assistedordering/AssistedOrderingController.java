@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.frontend.recommendation;
+package pt.ist.socialsoftware.edition.ldod.frontend.virtual.assistedordering;
 
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -9,18 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.Section;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.validator.VirtualEditionValidator;
-import pt.ist.socialsoftware.edition.ldod.recommendation.api.RecommendationProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.RecommendVirtualEditionParam;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
-import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDCreateVirtualEditionException;
-import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
@@ -30,12 +23,10 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/recommendation")
-public class VirtualInterRecommendationSortingController {
-    private static final Logger logger = LoggerFactory.getLogger(VirtualInterRecommendationSortingController.class);
+public class AssistedOrderingController {
+    private static final Logger logger = LoggerFactory.getLogger(AssistedOrderingController.class);
 
-    private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
-    private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
-    private final RecommendationProvidesInterface recommendationProvidesInterface = new RecommendationProvidesInterface();
+    private final AssistedOrderingRequiresInterface requiresInterface = new AssistedOrderingRequiresInterface();
 
     /*
      * Sets all the empty boxes to null instead of the empty string ""
@@ -50,15 +41,15 @@ public class VirtualInterRecommendationSortingController {
     public String presentEditionWithRecommendation(Model model, @PathVariable String acronym) {
         // logger.debug("presentEditionWithRecommendation");
 
-        VirtualEditionDto virtualEdition = this.virtualProvidesInterface.getVirtualEditionByAcronym(acronym);
+        VirtualEditionDto virtualEdition = this.requiresInterface.getVirtualEditionByAcronym(acronym);
 
         if (virtualEdition == null) {
             return "redirect:/error";
         }
 
         List<VirtualEditionInterDto> recommendedEdition =
-                this.recommendationProvidesInterface.generateRecommendationFromVirtualEditionInter(
-                        null, this.userProvidesInterface.getAuthenticatedUser(), virtualEdition, new ArrayList<>());
+                this.requiresInterface.generateRecommendationFromVirtualEditionInter(
+                        null, this.requiresInterface.getAuthenticatedUser(), virtualEdition, new ArrayList<>());
 
         model.addAttribute("edition", virtualEdition);
         model.addAttribute("taxonomyWeight", 0.0);
@@ -84,18 +75,18 @@ public class VirtualInterRecommendationSortingController {
                                 + p.getWeight())
                         .collect(Collectors.joining(";")));
 
-        VirtualEditionDto virtualEdition = this.virtualProvidesInterface.getVirtualEditionByAcronym(params.getAcronym());
+        VirtualEditionDto virtualEdition = this.requiresInterface.getVirtualEditionByAcronym(params.getAcronym());
 
         if (virtualEdition == null) {
             return "redirect:/error";
         }
 
         if (params.getId() != null && !params.getId().equals("")) {
-            VirtualEditionInterDto inter = this.virtualProvidesInterface.getVirtualEditionInterByExternalId(params.getId());
+            VirtualEditionInterDto inter = this.requiresInterface.getVirtualEditionInterByExternalId(params.getId());
 
             List<VirtualEditionInterDto> recommendedEdition =
-                    this.recommendationProvidesInterface.generateRecommendationFromVirtualEditionInter(
-                            inter, this.userProvidesInterface.getAuthenticatedUser(), virtualEdition, params.getProperties());
+                    this.requiresInterface.generateRecommendationFromVirtualEditionInter(
+                            inter, this.requiresInterface.getAuthenticatedUser(), virtualEdition, params.getProperties());
 
             model.addAttribute("inters", recommendedEdition);
             model.addAttribute("selected", params.getId());
@@ -109,21 +100,10 @@ public class VirtualInterRecommendationSortingController {
     @PreAuthorize("hasPermission(#acronym, 'editionacronym.participant')")
     public String saveLinearVirtualEdition(Model model, @RequestParam("acronym") String acronym,
                                            @RequestParam(value = "inter[]", required = false) String[] inters) {
-        VirtualModule ldod = VirtualModule.getInstance();
 
-        VirtualEdition virtualEdition = ldod.getVirtualEdition(acronym);
-        if (inters != null) {
-            Section section = virtualEdition.createSection(Section.DEFAULT);
-            VirtualEditionInter VirtualEditionInter;
-            int i = 0;
-            for (String externalId : inters) {
-                VirtualEditionInter = FenixFramework.getDomainObject(externalId);
-                section.addVirtualEditionInter(VirtualEditionInter, ++i);
-            }
-            virtualEdition.clearEmptySections();
-        }
+        this.requiresInterface.saveVirtualEdition(acronym, inters);
 
-        return "redirect:/recommendation/restricted/" + virtualEdition.getAcronym();
+        return "redirect:/recommendation/restricted/" + acronym;
     }
 
     @RequestMapping(value = "/linear/create", method = RequestMethod.POST)
@@ -141,19 +121,16 @@ public class VirtualInterRecommendationSortingController {
         List<String> errors = validator.getErrors();
 
         if (errors.size() > 0) {
+            String username = this.requiresInterface.getAuthenticatedUser();
             throw new LdoDCreateVirtualEditionException(errors, acronym, title, pub,
-                    VirtualModule.getInstance().getVirtualEditionsUserIsParticipant(this.userProvidesInterface.getAuthenticatedUser(), ldoDSession),
-                    this.userProvidesInterface.getAuthenticatedUser());
+                    this.requiresInterface.getVirtualEditionsUserIsParticipant(username),
+                    username);
         }
 
-        VirtualEdition virtualEdition = VirtualModule.getInstance().createVirtualEdition(this.userProvidesInterface.getAuthenticatedUser(),
-                VirtualEdition.ACRONYM_PREFIX + acronym, title, new LocalDate(), pub, null);
-        VirtualEditionInter virtualInter;
-        for (int i = 0; i < inters.length; i++) {
-            virtualInter = FenixFramework.getDomainObject(inters[i]);
-            virtualEdition.createVirtualEditionInter(virtualInter, i + 1);
-        }
-        return "redirect:/recommendation/restricted/" + virtualEdition.getExternalId();
+        this.requiresInterface.createVirtualEdition(this.requiresInterface.getAuthenticatedUser(),
+                VirtualEdition.ACRONYM_PREFIX + acronym, title, new LocalDate(), pub, inters);
+
+        return "redirect:/recommendation/restricted/" + acronym;
     }
 
 }

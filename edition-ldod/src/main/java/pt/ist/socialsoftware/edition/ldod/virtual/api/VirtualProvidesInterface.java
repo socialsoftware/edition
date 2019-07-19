@@ -1,7 +1,9 @@
 package pt.ist.socialsoftware.edition.ldod.virtual.api;
 
+import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
@@ -10,10 +12,7 @@ import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.*;
 import pt.ist.socialsoftware.edition.ldod.visual.api.dto.EditionInterListDto;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class VirtualProvidesInterface {
@@ -53,6 +52,10 @@ public class VirtualProvidesInterface {
 
     public Set<VirtualEditionDto> getPublicVirtualEditionsOrUserIsParticipant(String username) {
         return VirtualModule.getInstance().getPublicVirtualEditionsOrUserIsParticipant(username).stream().map(VirtualEditionDto::new).collect(Collectors.toSet());
+    }
+
+    public Set<VirtualEditionDto> getVirtualEditionsUserIsParticipant(String username) {
+        return VirtualModule.getInstance().getVirtualEditionsUserIsParticipant(username).stream().map(VirtualEditionDto::new).collect(Collectors.toSet());
     }
 
     public String getVirtualEditionAcronymByVirtualEditionInterXmlId(String interXmlId) {
@@ -247,6 +250,56 @@ public class VirtualProvidesInterface {
         inter.dissociate(username, category);
     }
 
+    public void saveVirtualEdition(String acronym, String[] inters) {
+        if (inters != null) {
+            VirtualEdition virtualEdition = getVirtualEditionByAcronymUtil(acronym).get();
+
+            List<VirtualEditionInter> virtualEditionInters =
+                    Arrays.stream(inters).map(externalId -> (VirtualEditionInter) FenixFramework.getDomainObject(externalId)).collect(Collectors.toList());
+
+            virtualEdition.save(virtualEditionInters);
+        }
+    }
+
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void createVirtualEdition(String username, String acronym, String title, LocalDate localDate, boolean pub, String[] inters) {
+        VirtualEdition virtualEdition = VirtualModule.getInstance().createVirtualEdition(username,
+                acronym, title, new LocalDate(), pub, null);
+
+        VirtualEditionInter virtualInter;
+        for (int i = 0; i < inters.length; i++) {
+            virtualInter = FenixFramework.getDomainObject(inters[i]);
+            virtualEdition.createVirtualEditionInter(virtualInter, i + 1);
+        }
+    }
+
+    public boolean isLdoDEdition(String acronym) {
+        return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.isLdoDEdition()).orElse(null);
+    }
+
+    public Set<String> getVirtualEditionAdminSet(String acronym) {
+        return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.getAdminSet()).orElse(new HashSet<>());
+    }
+
+    public Set<String> getVirtualEditionParticipantSet(String acronym) {
+        return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.getParticipantSet()).orElse(new HashSet<>());
+    }
+
+    public Set<String> getVirtualEditionPendingSet(String acronym) {
+        return getVirtualEditionByAcronymUtil(acronym)
+                .map(virtualEdition -> virtualEdition.getPendingSet().stream()
+                        .map(userDto -> userDto.getUsername()).collect(Collectors.toSet()))
+                .orElse(new HashSet<>());
+    }
+
+    public boolean getVirtualEditionPub(String acronym) {
+        return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.getPub()).orElse(false);
+    }
+
+    public LocalDate getVirtualEditionDate(String acronym) {
+        return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.getDate()).orElse(null);
+    }
+
     private Optional<VirtualEditionInter> getVirtualEditionInterByXmlId(String xmlId) {
         return VirtualModule.getInstance().getVirtualEditionInterSet().stream()
                 .filter(virtualEditionInter -> virtualEditionInter.getXmlId().equals(xmlId)).findAny();
@@ -257,4 +310,8 @@ public class VirtualProvidesInterface {
                 .filter(virtualEdition -> virtualEdition.getAcronym().equals(acronym)).findAny();
     }
 
+
 }
+
+
+

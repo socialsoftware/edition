@@ -741,4 +741,13 @@ public class VirtualEdition extends VirtualEdition_Base {
     }
 
 
+    @Atomic(mode = TxMode.WRITE)
+    public void save(List<VirtualEditionInter> virtualEditionInters) {
+        Section section = createSection(Section.DEFAULT);
+        int i = 0;
+        for (VirtualEditionInter virtualEditionInter : virtualEditionInters) {
+            section.addVirtualEditionInter(virtualEditionInter, ++i);
+        }
+        clearEmptySections();
+    }
 }

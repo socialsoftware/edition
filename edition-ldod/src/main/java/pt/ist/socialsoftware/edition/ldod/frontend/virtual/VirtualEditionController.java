@@ -26,6 +26,7 @@ import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.user.feature.security.UserModuleUserDetails;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.*;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.socialaware.AwareAnnotationFactory;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.topicmodeling.TopicModeler;
 
@@ -40,6 +41,7 @@ public class VirtualEditionController {
     private static final Logger logger = LoggerFactory.getLogger(VirtualEditionController.class);
 
     private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
+    private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
 
     @ModelAttribute("ldoDSession")
     public LdoDSession getLdoDSession() {
@@ -52,7 +54,7 @@ public class VirtualEditionController {
         model.addAttribute("ldod", VirtualModule.getInstance());
         model.addAttribute("expertEditions", TextModule.getInstance().getSortedExpertEdition());
         model.addAttribute("virtualEditions",
-                VirtualModule.getInstance().getVirtualEditionsUserIsParticipant(this.userProvidesInterface.getAuthenticatedUser(), ldoDSession));
+                this.virtualProvidesInterface.getVirtualEditionsUserIsParticipant(this.userProvidesInterface.getAuthenticatedUser()));
         model.addAttribute("user", this.userProvidesInterface.getAuthenticatedUser());
 
         return "virtual/editions";
@@ -82,7 +84,7 @@ public class VirtualEditionController {
 
         if (errors.size() > 0) {
             throw new LdoDCreateVirtualEditionException(errors, acronym, title, pub,
-                    VirtualModule.getInstance().getVirtualEditionsUserIsParticipant(this.userProvidesInterface.getAuthenticatedUser(), ldoDSession),
+                    new ArrayList<>(this.virtualProvidesInterface.getVirtualEditionsUserIsParticipant(this.userProvidesInterface.getAuthenticatedUser())),
                     this.userProvidesInterface.getAuthenticatedUser());
         }
 
@@ -95,7 +97,7 @@ public class VirtualEditionController {
         } catch (LdoDDuplicateAcronymException ex) {
             errors.add("virtualedition.acronym.duplicate");
             throw new LdoDCreateVirtualEditionException(errors, acronym, title, pub,
-                    VirtualModule.getInstance().getVirtualEditionsUserIsParticipant(this.userProvidesInterface.getAuthenticatedUser(), ldoDSession),
+                    new ArrayList<>(this.virtualProvidesInterface.getVirtualEditionsUserIsParticipant(this.userProvidesInterface.getAuthenticatedUser())),
                     this.userProvidesInterface.getAuthenticatedUser());
         }
 
