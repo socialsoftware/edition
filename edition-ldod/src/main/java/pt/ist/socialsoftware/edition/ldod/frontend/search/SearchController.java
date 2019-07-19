@@ -7,10 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import pt.ist.socialsoftware.edition.ldod.frontend.session.FrontendSession;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.AdvancedSearchResultDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchOptionDto;
-import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 
 import java.util.List;
@@ -25,8 +25,8 @@ public class SearchController {
 
 
     @ModelAttribute("ldoDSession")
-    public LdoDSession getLdoDSession() {
-        return LdoDSession.getLdoDSession();
+    public FrontendSession getLdoDSession() {
+        return FrontendSession.getLdoDSession();
     }
 
     /*

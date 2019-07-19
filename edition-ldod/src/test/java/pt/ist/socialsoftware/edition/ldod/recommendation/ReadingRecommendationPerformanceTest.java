@@ -11,7 +11,7 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
-import pt.ist.socialsoftware.edition.ldod.recommendation.feature.ReadingRecommendation;
+import pt.ist.socialsoftware.edition.ldod.frontend.reading.ReadingRecommendation;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.*;

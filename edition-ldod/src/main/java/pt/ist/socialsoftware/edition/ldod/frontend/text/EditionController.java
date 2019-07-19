@@ -14,7 +14,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.EditionDto;
-import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
+import pt.ist.socialsoftware.edition.ldod.frontend.session.FrontendSession;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 
@@ -29,8 +29,8 @@ public class EditionController {
     private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
 
     @ModelAttribute("ldoDSession")
-    public LdoDSession getLdoDSession() {
-        return LdoDSession.getLdoDSession();
+    public FrontendSession getLdoDSession() {
+        return FrontendSession.getLdoDSession();
     }
 
     @RequestMapping(method = RequestMethod.GET)

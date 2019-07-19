@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
+import pt.ist.socialsoftware.edition.ldod.frontend.session.FrontendSession;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 
@@ -51,7 +51,7 @@ public class VirtualModule extends VirtualModule_Base {
     }
 
     public List<VirtualEdition> getVirtualEditionsUserIsParticipant(
-            String user, LdoDSession session) {
+            String user, FrontendSession session) {
         List<VirtualEdition> manageVE = new ArrayList<>();
         List<VirtualEdition> selectedVE = new ArrayList<>();
         List<VirtualEdition> mineVE = new ArrayList<>();

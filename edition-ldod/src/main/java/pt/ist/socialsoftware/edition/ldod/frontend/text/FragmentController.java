@@ -13,7 +13,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.MainFragmentDto;
-import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
+import pt.ist.socialsoftware.edition.ldod.frontend.session.FrontendSession;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
@@ -35,8 +35,8 @@ public class FragmentController {
     private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
 
     @ModelAttribute("ldoDSession")
-    public LdoDSession getLdoDSession() {
-        return LdoDSession.getLdoDSession();
+    public FrontendSession getLdoDSession() {
+        return FrontendSession.getLdoDSession();
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -74,7 +74,7 @@ public class FragmentController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}")
     @PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
-    public String getFragmentWithInterForUrlId(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+    public String getFragmentWithInterForUrlId(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
                                                @PathVariable String xmlId, @PathVariable String urlId) {
         logger.debug("getFragmentWithInterForUrlId xmlId:{}, urlId:{} ", xmlId, urlId);
 
@@ -104,8 +104,8 @@ public class FragmentController {
             VirtualEdition virtualEdition = virtualEditionInter.getEdition();
             String user = this.userProvidesInterface.getAuthenticatedUser();
             if (virtualEdition.isPublicOrIsParticipant()) {
-                if (!ldoDSession.hasSelectedVE(virtualEdition.getAcronym())) {
-                    ldoDSession.toggleSelectedVirtualEdition(user, virtualEdition);
+                if (!frontendSession.hasSelectedVE(virtualEdition.getAcronym())) {
+                    frontendSession.toggleSelectedVirtualEdition(user, virtualEdition);
                 }
             } else {
                 // TODO: a userfriendly reimplementation
@@ -152,7 +152,7 @@ public class FragmentController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/inter/{externalId}/taxonomy")
     @PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
-    public String getTaxonomy(Model model, @ModelAttribute("ldoDSession") LdoDSession ldoDSession,
+    public String getTaxonomy(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
                               @PathVariable String externalId) {
 
         VirtualEditionInter inter = FenixFramework.getDomainObject(externalId);
@@ -165,8 +165,8 @@ public class FragmentController {
 
         String user = this.userProvidesInterface.getAuthenticatedUser();
         if (virtualEdition.isPublicOrIsParticipant()) {
-            if (!ldoDSession.hasSelectedVE(virtualEdition.getAcronym())) {
-                ldoDSession.toggleSelectedVirtualEdition(user, virtualEdition);
+            if (!frontendSession.hasSelectedVE(virtualEdition.getAcronym())) {
+                frontendSession.toggleSelectedVirtualEdition(user, virtualEdition);
             }
         } else {
             // TODO: a userfriendly reimplementation

@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
@@ -61,7 +60,7 @@ public class ReactUiController {
         EditionModule customModule = FenixFramework.getDomainRoot().getModuleSet().stream()
                 .filter(editionModule -> editionModule.getName().equals("Custom")).findAny().orElse(null);
 
-        if(customModule != null){
+        if (customModule != null) {
             Map<String, List<AbstractMap.SimpleEntry<String, String>>> temp = new LinkedHashMap<>();
             for (Menu menu : customModule.getUiComponent().getMenuSet().stream().sorted(Comparator.comparingInt(Menu::getPosition)).collect(Collectors.toList())) {
                 List<AbstractMap.SimpleEntry<String, String>> links = menu.getOptionSet().stream().sorted(Comparator.comparingInt(Option::getPosition))
@@ -69,8 +68,7 @@ public class ReactUiController {
                 temp.put(menu.getName(), links);
             }
             results.add(temp);
-        }
-        else {
+        } else {
             for (EditionModule module : moduleSet) {
                 Map<String, List<AbstractMap.SimpleEntry<String, String>>> temp = new LinkedHashMap<>();
                 for (Menu menu : module.getUiComponent().getMenuSet().stream().sorted(Comparator.comparingInt(Menu::getPosition)).collect(Collectors.toList())) {
@@ -229,7 +227,7 @@ public class ReactUiController {
         boolean isEditorial = !scholarInterDto.isSourceInter();
         boolean isManuscript = scholarInterDto.isSourceInter()
                 && sourceDto.getType().equals(MANUSCRIPT);
-        boolean isPublication =  scholarInterDto.isSourceInter()
+        boolean isPublication = scholarInterDto.isSourceInter()
                 && sourceDto.getType().equals(PRINTED);
 
         if (isEditorial) {
@@ -415,7 +413,7 @@ public class ReactUiController {
         // login capabilities are added to react frontend and a way to select virtual editions is possible
         Set<VirtualEditionDto> virtualEditions = this.virtualProvidesInterface.getVirtualEditions();
 
-        /*Set<VirtualEdition> virtualEditions = new LinkedHashSet<>(LdoDSession.getLdoDSession().materializeVirtualEditions());
+        /*Set<VirtualEdition> virtualEditions = new LinkedHashSet<>(FrontendSession.getLdoDSession().materializeVirtualEditions());
 
         virtualEditions.addAll((User.getAuthenticatedUser() != null ? User.getAuthenticatedUser().getSelectedVirtualEditionsSet() : new LinkedHashSet<>()));
 
@@ -581,7 +579,7 @@ public class ReactUiController {
 
         for (String id : interIds.split("%2C")) {
             ScholarInterDto dto = this.textProvidesInterface.getScholarInterbyExternalId(id);
-            if (dto != null){
+            if (dto != null) {
                 interDtos.add(dto);
             }
         }
@@ -636,7 +634,7 @@ public class ReactUiController {
             Map<String, Object> info = new LinkedHashMap<>();
 
             VirtualEditionDto virtualEditionDto = this.virtualProvidesInterface.getVirtualEditions().stream()
-                    .filter(dto -> this.virtualProvidesInterface.isInterInVirtualEdition(inter.getXmlId(),dto.getAcronym()))
+                    .filter(dto -> this.virtualProvidesInterface.isInterInVirtualEdition(inter.getXmlId(), dto.getAcronym()))
                     .findAny().orElseThrow(LdoDException::new);
 
             info.put("reference", virtualEditionDto.getReference());
@@ -704,7 +702,7 @@ public class ReactUiController {
         }
 
         VirtualEditionDto virtualEditionDto = this.virtualProvidesInterface.getVirtualEditions().stream()
-                .filter(dto -> this.virtualProvidesInterface.isInterInVirtualEdition(inter.getXmlId(),dto.getAcronym()))
+                .filter(dto -> this.virtualProvidesInterface.isInterInVirtualEdition(inter.getXmlId(), dto.getAcronym()))
                 .findAny().orElseThrow(LdoDException::new);
 
         if (this.userProvidesInterface.getAuthenticatedUser() == null || !virtualEditionDto.isPublicOrIsParticipant()) {

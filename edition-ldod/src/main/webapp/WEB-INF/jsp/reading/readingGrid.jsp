@@ -53,12 +53,12 @@
 
 
     <c:if test="${inter != null}">
-        <c:set var="fragment" value="${inter.getFragment()}"/>
+        <c:set var="fragment" value="${inter.getFragmentDto()}"/>
     </c:if>
 
 
     <!--
-${inter.getEdition().getAcronym()}
+${inter.getExpertEdition().getAcronym()}
  ${expertEdition.getAcronym()}-->
 
     <div class="row reading-grid">
@@ -88,11 +88,11 @@ ${inter.getEdition().getAcronym()}
         </c:choose>
 
 
-        <c:forEach var="expertEdition" items='${text.sortedExpertEdition}'>
+        <c:forEach var="expertEdition" items='${sortedExpertEditions}'>
 
 
         <c:choose>
-        <c:when test="${inter.getEdition().getAcronym().equals(expertEdition.getAcronym())}">
+        <c:when test="${inter.getExpertEdition().getAcronym().equals(expertEdition.getAcronym())}">
         <div class="reading__column--open col-xs-12 col-sm-1 no-pad">
             </c:when>
             <c:otherwise>
@@ -122,7 +122,7 @@ ${inter.getEdition().getAcronym()}
 
                         <!-- ###################### interpretations ###################### -->
                         <c:forEach var="expertEditionInter"
-                                   items="${expertEdition.getSortedInter4Frag(fragment)}">
+                                   items="${expertEdition.getSortedInter4Frag(fragment.xmlId)}">
 
                             <!-- ###################### interpretations desktop ###################### -->
                             <div class="hidden-xs" style="margin-bottom:25px">
@@ -165,14 +165,14 @@ ${inter.getEdition().getAcronym()}
                 </c:choose>
             </div>
 
-            <c:if test="${inter.getEdition().getAcronym() == expertEdition.getAcronym()}">
+            <c:if test="${inter.getExpertEdition().getAcronym() == expertEdition.getAcronym()}">
                 <div class="reading__text col-xs-12 col-sm-7 no-pad style-point">
                     <h1>
-                        <a href="${contextPath}/fragments/fragment/${inter.getFragment().getXmlId()}/inter/${inter.getUrlId()}">${inter.title}</a>
+                        <a href="${contextPath}/fragments/fragment/${inter.getFragmentXmlId()}/inter/${inter.getUrlId()}">${inter.title}</a>
                     </h1>
                     <br><br>
                     <p>
-                            ${writer.getTranscription()}
+                            ${inter.getExpertTranscription(false)}
                     </p>
                 </div>
             </c:if>
@@ -202,7 +202,7 @@ ${inter.getEdition().getAcronym()}
                         <div>
                             <a href="${contextPath}/reading/fragment/${fragment.xmlId}/inter/${inter.urlId}">
                                 <!--<span class="glyphicon glyphicon-play"></span>-->
-                                <h3 style="color:#FC1B27">${inter.getEdition().getAcronym()}</h3>
+                                <h3 style="color:#FC1B27">${inter.getExpertEdition().getAcronym()}</h3>
                                 <h2 style="color:#FC1B27">${inter.number}</h2></a>
                         </div>
 
@@ -310,28 +310,28 @@ ${inter.getEdition().getAcronym()}
                             <spring:message code="general.heteronym"/>
                             <input type="range" class="range"
                                    onChange="changeWeight('heteronym', value)"
-                                   value='${ldoDSession.getRecommendation().getHeteronymWeight()}'
+                                   value='${frontendSession.getRecommendation().getHeteronymWeight()}'
                                    max="1" min="0" step="0.2">
                         </div>
                         <div class="col-md-3 col-sm-4">
                             <spring:message code="general.date"/>
                             <input type="range" class="range"
                                    onChange="changeWeight('date', value)"
-                                   value='${ldoDSession.getRecommendation().getDateWeight()}'
+                                   value='${frontendSession.getRecommendation().getDateWeight()}'
                                    max="1" min="0" step="0.2">
                         </div>
                         <div class="col-md-3 col-sm-4">
                             <spring:message code="general.text"/>
                             <input type="range" class="range"
                                    onChange="changeWeight('text', value)"
-                                   value='${ldoDSession.getRecommendation().getTextWeight()}'
+                                   value='${frontendSession.getRecommendation().getTextWeight()}'
                                    max="1" min="0" step="0.2">
                         </div>
                         <div class="col-md-3 col-sm-4">
                             <spring:message code="general.taxonomy"/>
                             <input type="range" class="range"
                                    onChange="changeWeight('taxonomy', value)"
-                                   value="${ldoDSession.getRecommendation().getTaxonomyWeight()}"
+                                   value="${frontendSession.getRecommendation().getTaxonomyWeight()}"
                                    max="1.0" min="0.0" step="0.2">
                         </div>
                     </div>

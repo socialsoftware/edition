@@ -208,12 +208,12 @@ public class TextProvidesInterface {
         }
     }
 
-    public ScholarInterDto getNextScholarInter(String xmlId) {
+    public ScholarInterDto getScholarInterNextNumberInter(String xmlId) {
         return getScholarInterByXmlId(xmlId).map(ExpertEditionInter.class::cast)
                 .map(ExpertEditionInter::getNextNumberInter).map(ScholarInterDto::new).orElse(null);
     }
 
-    public ScholarInterDto getPrevScholarInter(String xmlId) {
+    public ScholarInterDto getScholarInterPrevNumberInter(String xmlId) {
         return getScholarInterByXmlId(xmlId).map(ExpertEditionInter.class::cast)
                 .map(ExpertEditionInter::getNextNumberInter).map(ScholarInterDto::new).orElse(null);
     }
@@ -298,13 +298,14 @@ public class TextProvidesInterface {
         return result;
     }
 
-    public Map<String,List<String>> getMultipleInterVariations(List<String> externalIds){
+    public Map<String, List<String>> getMultipleInterVariations(List<String> externalIds) {
         List<ScholarInter> inters = new ArrayList<>();
 
-        for(String id : externalIds){
+        for (String id : externalIds) {
             ScholarInter inter = FenixFramework.getDomainObject(id);
-            if(inter != null)
+            if (inter != null) {
                 inters.add(inter);
+            }
         }
 
         List<AppText> apps = new ArrayList<>();
@@ -365,6 +366,21 @@ public class TextProvidesInterface {
                 .filter(scholarInter -> scholarInter.getEdition().getAcronym().equals(acronym)).map(ScholarInterDto::new).collect(Collectors.toSet());
     }
 
+    public ScholarInterDto getExpertEditionFirstInterpretation(String acronym) {
+        return getExpertEditionByAcronym(acronym).map(ExpertEdition::getFirstInterpretation).map(ScholarInterDto::new).orElse(null);
+    }
+
+    public ScholarInterDto getFragmentScholarInterByUrlId(String fragmentXmlId, String urlId) {
+        return getFragmentByFragmentXmlId(fragmentXmlId).map(fragment -> fragment.getScholarInterByUrlId(urlId)).map(ScholarInterDto::new).orElse(null);
+    }
+
+    public List<ScholarInterDto> getExpertEditionSortedInter4Frag(String acronym, String fragmentXmlId) {
+        Fragment fragment = getFragmentByFragmentXmlId(fragmentXmlId).orElse(null);
+        return getExpertEditionByAcronym(acronym)
+                .map(expertEdition -> expertEdition.getSortedInter4Frag(fragment).stream()
+                        .map(ScholarInterDto::new).collect(Collectors.toList()))
+                .orElse(new ArrayList<>());
+    }
 
     private Optional<ScholarInter> getScholarInterByXmlId(String xmlId) {
         return TextModule.getInstance().getFragmentsSet().stream()
@@ -388,6 +404,5 @@ public class TextProvidesInterface {
         return TextModule.getInstance().getExpertEditionsSet().stream().filter(expertEdition -> expertEdition.getFragInterByXmlId(expertEditionInterId) != null)
                 .findAny();
     }
-
 
 }

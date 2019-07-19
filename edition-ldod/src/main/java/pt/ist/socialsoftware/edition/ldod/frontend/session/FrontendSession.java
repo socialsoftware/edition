@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.session;
+package pt.ist.socialsoftware.edition.ldod.frontend.session;
 
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -7,7 +7,7 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
-import pt.ist.socialsoftware.edition.ldod.recommendation.feature.ReadingRecommendation;
+import pt.ist.socialsoftware.edition.ldod.frontend.reading.ReadingRecommendation;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,42 +17,42 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class LdoDSession implements Serializable {
+public class FrontendSession implements Serializable {
     private static final long serialVersionUID = 3742738985902099143L;
 
     private final List<String> selectedVEAcr = new ArrayList<>();
 
     private final ReadingRecommendation recommendation = new ReadingRecommendation();
 
-    public static LdoDSession getLdoDSession() {
+    public static FrontendSession getLdoDSession() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
                 .getRequest();
 
-        LdoDSession ldoDSession = null;
-        if (request.getSession().getAttribute("ldoDSession") == null) {
-            ldoDSession = new LdoDSession();
+        FrontendSession frontendSession = null;
+        if (request.getSession().getAttribute("frontendSession") == null) {
+            frontendSession = new FrontendSession();
             VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition("LdoD-JPC-anot");
             if (virtualEdition != null) {
-                ldoDSession.addSelectedVE(virtualEdition);
+                frontendSession.addSelectedVE(virtualEdition);
             }
             virtualEdition = VirtualModule.getInstance().getVirtualEdition("LdoD-Mallet");
             if (virtualEdition != null) {
-                ldoDSession.addSelectedVE(virtualEdition);
+                frontendSession.addSelectedVE(virtualEdition);
             }
             virtualEdition = VirtualModule.getInstance().getVirtualEdition("LdoD-Twitter");
             if (virtualEdition != null) {
-                ldoDSession.addSelectedVE(virtualEdition);
+                frontendSession.addSelectedVE(virtualEdition);
             }
             virtualEdition = VirtualModule.getInstance().getVirtualEdition("LdoD-Jogo-Class");
             if (virtualEdition != null) {
-                ldoDSession.addSelectedVE(virtualEdition);
+                frontendSession.addSelectedVE(virtualEdition);
             }
-            request.getSession().setAttribute("ldoDSession", ldoDSession);
+            request.getSession().setAttribute("ldoDSession", frontendSession);
         } else {
-            ldoDSession = (LdoDSession) request.getSession().getAttribute("ldoDSession");
+            frontendSession = (FrontendSession) request.getSession().getAttribute("frontendSession");
         }
 
-        return ldoDSession;
+        return frontendSession;
     }
 
     @Atomic(mode = TxMode.WRITE)

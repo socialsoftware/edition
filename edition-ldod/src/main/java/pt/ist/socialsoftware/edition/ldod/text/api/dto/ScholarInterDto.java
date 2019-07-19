@@ -101,11 +101,11 @@ public class ScholarInterDto {
     }
 
     public ScholarInterDto getNextScholarInter() {
-        return this.textProvidesInterface.getNextScholarInter(this.xmlId);
+        return this.textProvidesInterface.getScholarInterNextNumberInter(this.xmlId);
     }
 
     public ScholarInterDto getPrevScholarInter() {
-        return this.textProvidesInterface.getPrevScholarInter(this.xmlId);
+        return this.textProvidesInterface.getScholarInterPrevNumberInter(this.xmlId);
     }
 
     public String getVolume() {
@@ -145,6 +145,14 @@ public class ScholarInterDto {
         return this.textProvidesInterface.getScholarInterSortedAnnexNotes(this.xmlId);
     }
 
+    public ScholarInterDto getNextNumberInter() {
+        return this.textProvidesInterface.getScholarInterNextNumberInter(this.xmlId);
+    }
+
+    public ScholarInterDto getPrevNumberInter() {
+        return this.textProvidesInterface.getScholarInterPrevNumberInter(this.xmlId);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -161,6 +169,8 @@ public class ScholarInterDto {
     public int hashCode() {
         return this.xmlId.hashCode();
     }
+
+
 }
 
 

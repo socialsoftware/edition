@@ -8,7 +8,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
-import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
+import pt.ist.socialsoftware.edition.ldod.frontend.session.FrontendSession;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,9 +28,9 @@ public class UserModuleAuthenticationSuccessHandler extends SimpleUrlAuthenticat
         User user = User.getAuthenticatedUser();
         user.setLastLogin(LocalDate.now());
 
-        LdoDSession ldoDSession = new LdoDSession();
-        request.getSession().setAttribute("ldoDSession", ldoDSession);
-        ldoDSession.updateSession(user);
+        FrontendSession frontendSession = new FrontendSession();
+        request.getSession().setAttribute("ldoDSession", frontendSession);
+        frontendSession.updateSession(user);
 
         super.onAuthenticationSuccess(request, response, authentication);
         log.debug("onAuthenticationSuccess");
