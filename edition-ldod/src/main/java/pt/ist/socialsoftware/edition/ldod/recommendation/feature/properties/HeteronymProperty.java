@@ -1,13 +1,18 @@
 package pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.HeteronymDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.SourceDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HeteronymProperty extends Property {
-    private static final List<Heteronym> heteronymList = TextModule.getInstance().getSortedHeteronyms();
+    private final List<HeteronymDto> heteronymList = this.recommendationRequiresInterface.getSortedHeteronymsList();
 
     public HeteronymProperty(double weight) {
         super(weight, PropertyCache.ON);
@@ -17,11 +22,11 @@ public class HeteronymProperty extends Property {
         this(Double.parseDouble(weight));
     }
 
-    private double[] buildVector(List<Heteronym> foundHeteronyms) {
+    private double[] buildVector(List<String> foundHeteronyms) {
         double[] vector = getDefaultVector();
         int i = 0;
-        for (Heteronym heteronym : HeteronymProperty.heteronymList) {
-            if (foundHeteronyms.contains(heteronym)) {
+        for (HeteronymDto heteronym : this.heteronymList) {
+            if (foundHeteronyms.contains(heteronym.getName())) {
                 vector[i] = 1.0;
             } else {
                 vector[i] = 0.0;
@@ -32,40 +37,38 @@ public class HeteronymProperty extends Property {
     }
 
     @Override
-    double[] extractVector(ExpertEditionInter expertEditionInter) {
-        List<Heteronym> foundHeteronyms = new ArrayList<>();
+    double[] extractVector(ScholarInterDto scholarInterDto) {
+        List<String> foundHeteronyms = new ArrayList<>();
 
-        foundHeteronyms.add(expertEditionInter.getHeteronym());
-
-        return buildVector(foundHeteronyms);
-    }
-
-    @Override
-    public double[] extractVector(VirtualEditionInter virtualEditionInter) {
-        List<Heteronym> foundHeteronyms = new ArrayList<>();
-
-        foundHeteronyms.add(getLastUsedScholarEditionInter(virtualEditionInter).getHeteronym());
+        foundHeteronyms.add(scholarInterDto.getHeteronym().getName());
 
         return buildVector(foundHeteronyms);
     }
 
     @Override
-    public double[] extractVector(Fragment fragment) {
-        List<Heteronym> foundHeteronyms = new ArrayList<>();
-        for (ScholarInter inter : fragment.getScholarInterSet()) {
-            foundHeteronyms.add(inter.getHeteronym());
+    public double[] extractVector(VirtualEditionInterDto virtualEditionInter) {
+        List<String> foundHeteronyms = new ArrayList<>();
+
+        foundHeteronyms.add(virtualEditionInter.getLastUsed().getHeteronym().getName());
+
+        return buildVector(foundHeteronyms);
+    }
+
+    @Override
+    public double[] extractVector(FragmentDto fragment) {
+        List<String> foundHeteronyms = new ArrayList<>();
+        for (ScholarInterDto inter : fragment.getScholarInterDtoSet()) {
+            foundHeteronyms.add(inter.getHeteronym().getName());
         }
-        for (Source source : fragment.getSourcesSet()) {
-            for (SourceInter inter : source.getSourceIntersSet()) {
-                foundHeteronyms.add(inter.getHeteronym());
-            }
+        for (SourceDto source : fragment.getSourcesSet()) {
+            foundHeteronyms.add(source.getHeteronym().getName());
         }
         return buildVector(foundHeteronyms);
     }
 
     @Override
     protected double[] getDefaultVector() {
-        return new double[heteronymList.size()];
+        return new double[this.heteronymList.size()];
     }
 
     @Override

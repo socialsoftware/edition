@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.dto;
 
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.*;
 
 import java.util.ArrayList;
@@ -27,11 +26,11 @@ public class WeightsDto {
         return result;
     }
 
-    public List<Property> getProperties(VirtualEdition virtualEdition) {
+    public List<Property> getProperties(String editionAcronym) {
         List<Property> result = getProperties();
 
         if (getTaxonomyWeight() > 0.0) {
-            result.add(new TaxonomyProperty(getTaxonomyWeight(), virtualEdition.getTaxonomy(),
+            result.add(new TaxonomyProperty(getTaxonomyWeight(), editionAcronym,
                     Property.PropertyCache.OFF));
         }
 

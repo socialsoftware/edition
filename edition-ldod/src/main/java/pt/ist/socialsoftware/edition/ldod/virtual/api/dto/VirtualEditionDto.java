@@ -25,6 +25,10 @@ public class VirtualEditionDto {
         return this.acronym;
     }
 
+    public String getExternalId() {
+        return this.virtualProvidesInterface.getVirtualEditionExternalIdByAcronym(this.acronym);
+    }
+
     public String getTitle() {
         return this.virtualProvidesInterface.getVirtualEditionTitleByAcronym(this.acronym);
     }
@@ -33,10 +37,11 @@ public class VirtualEditionDto {
         return this.virtualProvidesInterface.getVirtualEditionSortedCategoryList(this.acronym);
     }
 
-    public Set<VirtualEditionInterDto> getVirtualEditionInterDtoSet() {
-        return this.virtualProvidesInterface.getVirtualEditionInterDtoSet(this.acronym);
+    public List<VirtualEditionInterDto> getSortedVirtualEditionInterDtoList() {
+        return this.virtualProvidesInterface.getSortedVirtualEditionInterDtoList(this.acronym);
     }
-    public Set<VirtualEditionInterDto> getVirtualEditionInterSetForFragment(String xmlId){
+
+    public Set<VirtualEditionInterDto> getVirtualEditionInterSetForFragment(String xmlId) {
         return this.virtualProvidesInterface.getVirtualEditionInterOfFragmentForVirtualEdition(this.acronym, xmlId);
     }
 
@@ -44,7 +49,7 @@ public class VirtualEditionDto {
         return this.virtualProvidesInterface.getVirtualEditionReference(this.acronym);
     }
 
-    public boolean getTaxonomyVocabularyStatus(){
+    public boolean getTaxonomyVocabularyStatus() {
         return this.virtualProvidesInterface.getVirtualEditionTaxonomyVocabularyStatus(this.acronym);
     }
 }

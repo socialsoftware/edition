@@ -3,51 +3,49 @@ package pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
 import java.util.List;
 
 public class TaxonomyProperty extends Property {
     private static final Logger logger = LoggerFactory.getLogger(TaxonomyProperty.class);
 
-    private final Taxonomy taxonomy;
-    private List<Category> sortedCategories = null;
+    private final String acronym;
+    private List<String> sortedCategories = null;
 
-    public TaxonomyProperty(double weight, Taxonomy taxonomy, PropertyCache cached) {
+    public TaxonomyProperty(double weight, String acronym, PropertyCache cached) {
         super(weight, cached);
-        this.taxonomy = taxonomy;
-        this.sortedCategories = taxonomy.getEdition().getAllDepthSortedCategories();
+        this.acronym = acronym;
+        this.sortedCategories = this.recommendationRequiresInterface.getVirtualEditionSortedCategoryList(acronym);
     }
 
     public TaxonomyProperty(@JsonProperty("weight") String weight, @JsonProperty("acronym") String acronym) {
-        this(Double.parseDouble(weight), (VirtualModule.getInstance().getVirtualEdition(acronym)).getTaxonomy(),
-                PropertyCache.OFF);
+        this(Double.parseDouble(weight), acronym, PropertyCache.OFF);
     }
 
     @Override
-    double[] extractVector(ExpertEditionInter expertEditionInter) {
+    double[] extractVector(ScholarInterDto scholarInterDto) {
         return new double[0];
     }
 
     @Override
-    protected double[] extractVector(VirtualEditionInter inter) {
+    protected double[] extractVector(VirtualEditionInterDto inter) {
         double[] vector = getDefaultVector();
-        for (Category category : inter.getCategories()) {
+        for (String category : inter.getSortedCategories()) {
             vector[this.sortedCategories.indexOf(category)] = 1.0;
         }
         return vector;
     }
 
     @Override
-    public double[] extractVector(Fragment fragment) {
+    public double[] extractVector(FragmentDto fragment) {
         double[] vector = getDefaultVector();
-        for (VirtualEditionInter inter : this.taxonomy.getEdition().getAllDepthVirtualEditionInters()) {
-            if (getFragment(inter) == fragment) {
-                for (Category category : inter.getCategories()) {
-                    if (this.sortedCategories.contains(category)) {
-                        vector[this.sortedCategories.indexOf(category)] = 1.0;
-                    }
-                }
+        for (String category : this.recommendationRequiresInterface.getFragmentCategoriesInVirtualEditon(this.acronym, fragment.getXmlId())) {
+            if (this.sortedCategories.contains(category)) {
+                vector[this.sortedCategories.indexOf(category)] = 1.0;
             }
         }
         return vector;

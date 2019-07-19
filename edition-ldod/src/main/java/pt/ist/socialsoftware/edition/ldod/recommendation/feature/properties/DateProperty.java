@@ -3,8 +3,11 @@ package pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.SourceDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -58,16 +61,16 @@ public class DateProperty extends Property {
     }
 
     @Override
-    double[] extractVector(ExpertEditionInter expertEditionInter) {
+    double[] extractVector(ScholarInterDto scholarInterDto) {
         Set<Integer> dates = new HashSet<>();
-        if (expertEditionInter.getLdoDDate() != null) {
-            dates.add(expertEditionInter.getLdoDDate().getDate().getYear());
+        if (scholarInterDto.getLdoDDate() != null) {
+            dates.add(scholarInterDto.getLdoDDate().getDate().getYear());
         }
         return buildVector(dates);
     }
 
     @Override
-    double[] extractVector(VirtualEditionInter virtualEditionInter) {
+    double[] extractVector(VirtualEditionInterDto virtualEditionInter) {
         Set<Integer> dates = new HashSet<>();
         ScholarInterDto scholarInterDto = virtualEditionInter.getLastUsed();
         if (scholarInterDto.getLdoDDate() != null) {
@@ -77,16 +80,16 @@ public class DateProperty extends Property {
     }
 
     @Override
-    double[] extractVector(Fragment fragment) {
+    double[] extractVector(FragmentDto fragment) {
         Set<Integer> dates = new HashSet<>();
-        for (ExpertEditionInter inter : fragment.getExpertEditionInterSet()) {
+        for (ScholarInterDto inter : fragment.getScholarInterDtoSet()) {
             if (inter.getLdoDDate() != null) {
                 dates.add(inter.getLdoDDate().getDate().getYear());
             }
         }
-        for (Source source : fragment.getSourcesSet()) {
+        for (SourceDto source : fragment.getSourcesSet()) {
             if (source.getLdoDDate() != null) {
-                dates.add(source.getLdoDDate().getDate().getYear());
+                dates.add(source.getLdoDDate().getYear());
             }
         }
         return buildVector(dates);

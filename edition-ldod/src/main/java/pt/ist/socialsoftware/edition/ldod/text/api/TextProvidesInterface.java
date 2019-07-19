@@ -6,8 +6,6 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
-import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.*;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
@@ -33,6 +31,11 @@ public class TextProvidesInterface {
 
     public Set<HeteronymDto> getHeteronymDtoSet() {
         return TextModule.getInstance().getHeteronymsSet().stream().map(HeteronymDto::new).collect(Collectors.toSet());
+    }
+
+    public List<HeteronymDto> getSortedHeteronymList() {
+        return TextModule.getInstance().getSortedHeteronyms().stream()
+                .map(HeteronymDto::new).collect(Collectors.toList());
     }
 
     // Due to Visual Module
@@ -76,6 +79,10 @@ public class TextProvidesInterface {
         return getScholarInterByXmlId(scholarInterId).map(ScholarInterDto::new).orElse(null);
     }
 
+    public ExpertEditionDto getScholarInterExpertEdition(String xmlId) {
+        return getExpertEditionByExpertEditionInterId(xmlId).map(ExpertEditionDto::new).orElse(null);
+    }
+
     public boolean isExpertInter(String scholarInterId) {
         return getScholarInterByXmlId(scholarInterId).orElseThrow(LdoDException::new).isExpertInter();
     }
@@ -104,25 +111,25 @@ public class TextProvidesInterface {
         return getExpertEditionByExpertEditionInterId(scholarInterId).map(expertEdition -> expertEdition.getEditor()).orElse(null);
     }
 
-    public String getExpertEditionInterVolume(String xmlId){
+    public String getExpertEditionInterVolume(String xmlId) {
         return getScholarInterByXmlId(xmlId).filter(ExpertEditionInter.class::isInstance)
                 .map(ExpertEditionInter.class::cast)
                 .map(ExpertEditionInter::getVolume).orElseThrow(LdoDException::new);
     }
 
-    public String getExpertEditionInterNotes(String xmlId){
+    public String getExpertEditionInterNotes(String xmlId) {
         return getScholarInterByXmlId(xmlId).filter(ExpertEditionInter.class::isInstance)
                 .map(ExpertEditionInter.class::cast)
                 .map(ExpertEditionInter::getNotes).orElseThrow(LdoDException::new);
     }
 
-    public int getExpertEditionInterStartPage(String xmlId){
+    public int getExpertEditionInterStartPage(String xmlId) {
         return getScholarInterByXmlId(xmlId).filter(ExpertEditionInter.class::isInstance)
                 .map(ExpertEditionInter.class::cast)
                 .map(ExpertEditionInter::getStartPage).orElseThrow(LdoDException::new);
     }
 
-    public int getExpertEditionInterEndPage(String xmlId){
+    public int getExpertEditionInterEndPage(String xmlId) {
         return getScholarInterByXmlId(xmlId).filter(ExpertEditionInter.class::isInstance)
                 .map(ExpertEditionInter.class::cast)
                 .map(ExpertEditionInter::getEndPage).orElseThrow(LdoDException::new);
@@ -182,6 +189,22 @@ public class TextProvidesInterface {
     // Only necessary due to manual ordering of virtual edition javascript code
     public String getFragmentExternalId(String xmlId) {
         return getFragmentByFragmentXmlId(xmlId).map(fragment -> fragment.getExternalId()).orElse(null);
+    }
+
+    public Map<String, Double> getFragmentTFIDF(String xmlId, List<String> commonTerms) {
+        try {
+            return Indexer.getIndexer().getTFIDF(getFragmentByFragmentXmlId(xmlId).get(), commonTerms);
+        } catch (IOException | ParseException e) {
+            throw new LdoDException("IO or Parse exception when getting tfidf from indexer");
+        }
+    }
+
+    public List<String> getFragmentTFIDF(String xmlId, int numberOfTerms) {
+        try {
+            return Indexer.getIndexer().getTFIDFTerms(getFragmentByFragmentXmlId(xmlId).get(), numberOfTerms);
+        } catch (IOException | ParseException e) {
+            throw new LdoDException("IO or Parse exception when getting tfidf from indexer");
+        }
     }
 
     public ScholarInterDto getNextScholarInter(String xmlId) {
@@ -247,13 +270,14 @@ public class TextProvidesInterface {
         return writer.getTranscription();
     }
 
-    public Map<String,String> getMultipleInterTranscription(List<String> externalIds, boolean lineByLine, boolean showSpaces){
+    public Map<String, String> getMultipleInterTranscription(List<String> externalIds, boolean lineByLine, boolean showSpaces) {
         List<ScholarInter> inters = new ArrayList<>();
 
-        for(String id : externalIds){
+        for (String id : externalIds) {
             ScholarInter inter = FenixFramework.getDomainObject(id);
-            if(inter != null)
+            if (inter != null) {
                 inters.add(inter);
+            }
         }
 
         HtmlWriter2CompInters writer = new HtmlWriter2CompInters(inters);
@@ -262,12 +286,13 @@ public class TextProvidesInterface {
 
         Map<String, String> result = new LinkedHashMap<>();
 
-        if(!lineByLine)
-            for(ScholarInter inter : inters){
+        if (!lineByLine) {
+            for (ScholarInter inter : inters) {
                 result.put(inter.getExternalId(), writer.getTranscription(inter));
             }
-        else
+        } else {
             result.put("transcription", writer.getTranscriptionLineByLine());
+        }
 
         return result;
     }
@@ -278,7 +303,7 @@ public class TextProvidesInterface {
         return surfaces != null ? surfaces.stream().map(Surface::getGraphic).collect(Collectors.toList()) : new ArrayList<>();
     }
 
-    public List<AnnexNoteDto> getScholarInterSortedAnnexNotes(String xmlId){
+    public List<AnnexNoteDto> getScholarInterSortedAnnexNotes(String xmlId) {
         List<AnnexNote> notes = getScholarInterByXmlId(xmlId).map(ScholarInter::getSortedAnnexNote).orElse(new ArrayList<>());
         return notes.stream().map(AnnexNoteDto::new).collect(Collectors.toList());
     }
@@ -306,17 +331,11 @@ public class TextProvidesInterface {
         return null;
     }
 
-    public List<InterIdDistancePairDto> getIntersByDistance(ScholarInterDto scholarInterDto, WeightsDto weights) {
-        ScholarInter scholarInter = getScholarInterByXmlId(scholarInterDto.getXmlId()).orElse(null);
-
-        if (scholarInter != null && scholarInter instanceof ExpertEditionInter) {
-            ExpertEditionInter expertEditionInter = (ExpertEditionInter) scholarInter;
-            return expertEditionInter.getExpertEdition()
-                    .getIntersByDistance(expertEditionInter, weights);
-        }
-
-        return null;
+    public Set<ScholarInterDto> getFragmentScholarInterDtoSetForExpertEdtion(String fragmentXmlId, String acronym) {
+        return getFragmentByFragmentXmlId(fragmentXmlId).map(fragment -> fragment.getScholarInterSet()).orElse(new HashSet<>()).stream()
+                .filter(scholarInter -> scholarInter.getEdition().getAcronym().equals(acronym)).map(ScholarInterDto::new).collect(Collectors.toSet());
     }
+
 
     private Optional<ScholarInter> getScholarInterByXmlId(String xmlId) {
         return TextModule.getInstance().getFragmentsSet().stream()
@@ -340,5 +359,6 @@ public class TextProvidesInterface {
         return TextModule.getInstance().getExpertEditionsSet().stream().filter(expertEdition -> expertEdition.getFragInterByXmlId(expertEditionInterId) != null)
                 .findAny();
     }
+
 
 }

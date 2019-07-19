@@ -18,7 +18,7 @@ import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto
 import pt.ist.socialsoftware.edition.ldod.visual.api.VisualRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.visual.api.dto.EditionFragmentsDto;
 import pt.ist.socialsoftware.edition.ldod.visual.api.dto.EditionInterListDto;
-import pt.ist.socialsoftware.edition.ldod.visual.api.dto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.visual.api.dto.Fragment4VisualDto;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -55,13 +55,13 @@ public class VisualRemoteController {
         if (expertEdition != null) {
             editionFragments.setCategories(new ArrayList<>());
 
-            List<FragmentDto> fragments = new ArrayList<>();
+            List<Fragment4VisualDto> fragments = new ArrayList<>();
 
             this.visualRequiresInterface.getExpertEditionScholarInterDtoList(acronym).stream().sorted(Comparator.comparing(ScholarInterDto::getTitle))
                     .forEach(inter -> {
                         PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter.getXmlId());
                         writer.write(false);
-                        FragmentDto fragment = new FragmentDto(inter, writer.getTranscription());
+                        Fragment4VisualDto fragment = new Fragment4VisualDto(inter, writer.getTranscription());
 
                         fragments.add(fragment);
                     });
@@ -75,13 +75,13 @@ public class VisualRemoteController {
             if (virtualEdition != null) {
                 editionFragments.setCategories(virtualEdition.getSortedCategorySet());
 
-                List<FragmentDto> fragments = new ArrayList<>();
+                List<Fragment4VisualDto> fragments = new ArrayList<>();
 
-                virtualEdition.getVirtualEditionInterDtoSet().stream().sorted(Comparator.comparing(VirtualEditionInterDto::getTitle))
+                virtualEdition.getSortedVirtualEditionInterDtoList().stream().sorted(Comparator.comparing(VirtualEditionInterDto::getTitle))
                         .forEach(inter -> {
                             PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter.getLastUsed().getXmlId());
                             writer.write(false);
-                            FragmentDto fragment = new FragmentDto(inter, writer.getTranscription());
+                            Fragment4VisualDto fragment = new Fragment4VisualDto(inter, writer.getTranscription());
 
                             fragments.add(fragment);
                         });

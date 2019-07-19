@@ -82,8 +82,8 @@ public class SearchRequiresInterface {
         return this.virtualProvidesInterface.getVirtualEditionInterSet();
     }
 
-    public Set<String> getTagsForVirtualEditionInter(String xmlId) {
-        return this.virtualProvidesInterface.getTagsForVirtualEditionInter(xmlId);
+    public List<String> getVirtualEditionSortedCategoryList(String xmlId) {
+        return this.virtualProvidesInterface.getVirtualEditionSortedCategoryList(xmlId);
     }
 
     public boolean isInterInVirtualEdition(String interXmlId, String virtualEditionAcronym) {

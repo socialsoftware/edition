@@ -4,10 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
+import pt.ist.socialsoftware.edition.ldod.domain.ScholarInter;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.*;
+import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,6 +23,8 @@ public class ReadingRecommendation implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private static final Logger logger = LoggerFactory.getLogger(ReadingRecommendation.class);
+
+    private final TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
 
     private final List<String> read = new ArrayList<>();
     private double heteronymWeight = 0.0;
@@ -51,23 +55,23 @@ public class ReadingRecommendation implements Serializable {
             properties.add(new TextProperty(this.textWeight));
         }
         if (this.taxonomyWeight > 0.0) {
-            properties.add(new TaxonomyProperty(this.taxonomyWeight,
-                    VirtualModule.getInstance().getArchiveEdition().getTaxonomy(), Property.PropertyCache.ON));
+            properties.add(new TaxonomyProperty(this.taxonomyWeight, VirtualEdition.ARCHIVE_EDITION_ACRONYM,
+                    Property.PropertyCache.ON));
         }
         return properties;
     }
 
-    public Set<ExpertEditionInter> getNextRecommendations(String expertEditionInterId) {
+    public Set<ScholarInterDto> getNextRecommendations(String expertEditionInterId) {
         // logger.debug("getNextRecommendations textWeight:{}, read size:{},
         // read:{}", this.textWeight, this.read.size(),
         // this.read);
 
-        List<Fragment> readFragments = this.read.stream()
-                .map(id -> (ExpertEditionInter) FenixFramework.getDomainObject(id)).map(inter -> inter.getFragment())
+        List<FragmentDto> readFragments = this.read.stream()
+                .map(id -> (ExpertEditionInter) FenixFramework.getDomainObject(id)).map(inter -> new FragmentDto(inter.getFragment()))
                 .collect(Collectors.toList());
 
-        ExpertEditionInter toReadInter = FenixFramework.getDomainObject(expertEditionInterId);
-        Fragment toReadFragment = toReadInter.getFragment();
+        ScholarInterDto toReadInter = new ScholarInterDto((ScholarInter) FenixFramework.getDomainObject(expertEditionInterId));
+        FragmentDto toReadFragment = toReadInter.getFragmentDto();
 
         // if the fragment that is going to be read was already read, return to
         // that position of recommendation
@@ -77,36 +81,39 @@ public class ReadingRecommendation implements Serializable {
             this.read.subList(index, this.read.size()).clear();
         }
 
+
+        Set<FragmentDto> fragments = this.textProvidesInterface.getFragmentDtoSet();
+
         // if all fragments minus 50 were already suggested clear the first 50
         // recommendations
-        if (readFragments.size() == TextModule.getInstance().getFragmentsSet().size() - 50) {
+        if (readFragments.size() == fragments.size() - 50) {
             readFragments.subList(0, 50).clear();
             this.read.subList(0, 50).clear();
         }
 
-        Set<Fragment> toBeRecommended = TextModule.getInstance().getFragmentsSet().stream()
+        Set<FragmentDto> toBeRecommended = fragments.stream()
                 .filter(f -> !readFragments.contains(f)).collect(Collectors.toSet());
 
         this.read.add(expertEditionInterId);
 
         VSMFragmentRecommender recommender = new VSMFragmentRecommender();
         List<Property> properties = getProperties();
-        List<Entry<Fragment, Double>> mostSimilars = recommender.getMostSimilarItems(toReadFragment, toBeRecommended,
+        List<Entry<FragmentDto, Double>> mostSimilars = recommender.getMostSimilarItems(toReadFragment, toBeRecommended,
                 properties);
 
-        Set<ExpertEditionInter> result = new HashSet<>();
+        Set<ScholarInterDto> result = new HashSet<>();
         Double value = mostSimilars.get(0).getValue();
-        for (Entry<Fragment, Double> entry : mostSimilars) {
+        for (Entry<FragmentDto, Double> entry : mostSimilars) {
             // logger.debug("ReadingRecommendation value1:{}, value2:{}", value,
             // entry.getValue());
             // add all interpretations that are similar
             if (Math.abs(value - entry.getValue()) < 0.001 && result.size() < 5) {
-                result.addAll(entry.getKey().getExpertEditionInters(toReadInter.getExpertEdition()));
+                result.addAll(entry.getKey().getScholarInterDtoSetForExpertEdtion(toReadInter.getExpertEditionAcronym()));
                 // if the most similar fragment does not have an interpretation
                 // in this edition, use the next most similar fragment
             } else if (result.size() == 0) {
                 value = entry.getValue();
-                result.addAll(entry.getKey().getExpertEditionInters(toReadInter.getExpertEdition()));
+                result.addAll(entry.getKey().getScholarInterDtoSetForExpertEdtion(toReadInter.getExpertEditionAcronym()));
             } else {
                 break;
             }

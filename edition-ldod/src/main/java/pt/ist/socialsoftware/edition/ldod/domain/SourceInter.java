@@ -4,9 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class SourceInter extends SourceInter_Base implements Comparable<SourceInter> {
     private static final Logger logger = LoggerFactory.getLogger(SourceInter.class);
 
@@ -163,27 +160,6 @@ public class SourceInter extends SourceInter_Base implements Comparable<SourceIn
         } else {
             return pbText.getNextPbText(this);
         }
-    }
-
-    public Set<Category> getAllDepthCategories() {
-        return new HashSet<>();
-    }
-
-    public Set<HumanAnnotation> getAllDepthHumanAnnotations() {
-        return new HashSet<>();
-    }
-
-    //solução para suportar os dois tipos de annotations
-    public Set<Annotation> getAllDepthAnnotations() {
-        return new HashSet<>();
-    }
-
-    public Set<Tag> getAllDepthTags() {
-        return new HashSet<>();
-    }
-
-    public int getUsesDepth() {
-        return 0;
     }
 
 }

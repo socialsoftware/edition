@@ -2,6 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.visual.api;
 
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
+import pt.ist.socialsoftware.edition.ldod.recommendation.api.RecommendationProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ExpertEditionDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
@@ -55,15 +56,18 @@ public class VisualRequiresInterface {
         return this.textProvidesInterface.getScholarInterTermFrequency(scholarInterDto);
     }
 
+    // Requires the Recommendation Module
+    RecommendationProvidesInterface recommendationProvidesInterface = new RecommendationProvidesInterface();
+
     public List<InterIdDistancePairDto> getIntersByDistance(String externalId, WeightsDto weights) {
         VirtualEditionInterDto virtualEditionInterDto = this.virtualProvidesInterface.getVirtualEditionInterByExternalId(externalId);
         if (virtualEditionInterDto != null) {
-            return this.virtualProvidesInterface.getIntersByDistance(virtualEditionInterDto, weights);
+            return this.recommendationProvidesInterface.getIntersByDistance(virtualEditionInterDto, weights);
         }
 
         ScholarInterDto scholarInterDto = this.textProvidesInterface.getScholarInterbyExternalId(externalId);
         if (scholarInterDto != null) {
-            return this.textProvidesInterface.getIntersByDistance(scholarInterDto, weights);
+            return this.recommendationProvidesInterface.getIntersByDistance(scholarInterDto, weights);
         }
 
         return null;

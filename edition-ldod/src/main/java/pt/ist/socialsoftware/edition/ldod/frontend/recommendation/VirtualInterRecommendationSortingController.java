@@ -10,23 +10,32 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.Section;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.validator.VirtualEditionValidator;
+import pt.ist.socialsoftware.edition.ldod.recommendation.api.RecommendationProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.RecommendVirtualEditionParam;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDCreateVirtualEditionException;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/recommendation")
-public class RecommendationController {
-    private static final Logger logger = LoggerFactory.getLogger(RecommendationController.class);
+public class VirtualInterRecommendationSortingController {
+    private static final Logger logger = LoggerFactory.getLogger(VirtualInterRecommendationSortingController.class);
 
     private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
+    private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+    private final RecommendationProvidesInterface recommendationProvidesInterface = new RecommendationProvidesInterface();
 
     /*
      * Sets all the empty boxes to null instead of the empty string ""
@@ -36,45 +45,34 @@ public class RecommendationController {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}")
-    @PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
-    public String presentEditionWithRecommendation(Model model, @PathVariable String externalId) {
+    @RequestMapping(method = RequestMethod.GET, value = "/restricted/{acronym}")
+    @PreAuthorize("hasPermission(#acronym, 'virtualedition.participant')")
+    public String presentEditionWithRecommendation(Model model, @PathVariable String acronym) {
         // logger.debug("presentEditionWithRecommendation");
 
-        VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
+        VirtualEditionDto virtualEdition = this.virtualProvidesInterface.getVirtualEditionByAcronym(acronym);
+
         if (virtualEdition == null) {
             return "redirect:/error";
-        } else {
-            // logger.debug("presentEditionWithRecommendation sections: {}",
-            // virtualEdition.getSectionsSet().stream().map(s ->
-            // s.print(1)).collect(Collectors.joining()));
-
-            RecommendationWeights recommendationWeights = virtualEdition.getRecommendationWeightsForUser(this.userProvidesInterface.getAuthenticatedUser());
-
-            recommendationWeights.setWeightsZero();
-
-            // logger.debug("presentEditionWithRecommendation sections: {}",
-            // virtualEdition.getSectionsSet().stream().map(s ->
-            // s.print(1)).collect(Collectors.joining()));
-
-            model.addAttribute("edition", virtualEdition);
-            model.addAttribute("taxonomyWeight", 0.0);
-            model.addAttribute("heteronymWeight", 0.0);
-            model.addAttribute("dateWeight", 0.0);
-            model.addAttribute("textWeight", 0.0);
-
-            if (!virtualEdition.getAllDepthVirtualEditionInters().isEmpty()) {
-                VirtualEditionInter inter = virtualEdition.getAllDepthVirtualEditionInters().get(0);
-
-                List<VirtualEditionInter> recommendedEdition = virtualEdition.generateRecommendation(inter,
-                        recommendationWeights);
-
-                model.addAttribute("inters", recommendedEdition);
-                model.addAttribute("selected", inter.getExternalId());
-            }
-
-            return "recommendation/tableOfContents";
         }
+
+        List<VirtualEditionInterDto> recommendedEdition =
+                this.recommendationProvidesInterface.generateRecommendationFromVirtualEditionInter(
+                        null, this.userProvidesInterface.getAuthenticatedUser(), virtualEdition, new ArrayList<>());
+
+        model.addAttribute("edition", virtualEdition);
+        model.addAttribute("taxonomyWeight", 0.0);
+        model.addAttribute("heteronymWeight", 0.0);
+        model.addAttribute("dateWeight", 0.0);
+        model.addAttribute("textWeight", 0.0);
+
+
+        if (!recommendedEdition.isEmpty()) {
+            model.addAttribute("inters", recommendedEdition);
+            model.addAttribute("selected", recommendedEdition.get(0).getExternalId());
+        }
+
+        return "recommendation/tableOfContents";
     }
 
     @RequestMapping(value = "/linear", method = RequestMethod.POST, headers = {
@@ -86,22 +84,23 @@ public class RecommendationController {
                                 + p.getWeight())
                         .collect(Collectors.joining(";")));
 
-        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(params.getAcronym());
+        VirtualEditionDto virtualEdition = this.virtualProvidesInterface.getVirtualEditionByAcronym(params.getAcronym());
 
-        RecommendationWeights recommendationWeights = virtualEdition.getRecommendationWeightsForUser(this.userProvidesInterface.getAuthenticatedUser());
-        recommendationWeights.setWeights(params.getProperties());
+        if (virtualEdition == null) {
+            return "redirect:/error";
+        }
 
         if (params.getId() != null && !params.getId().equals("")) {
-            VirtualEditionInter inter = FenixFramework.getDomainObject(params.getId());
+            VirtualEditionInterDto inter = this.virtualProvidesInterface.getVirtualEditionInterByExternalId(params.getId());
 
-            List<VirtualEditionInter> recommendedEdition = virtualEdition.generateRecommendation(inter,
-                    recommendationWeights);
+            List<VirtualEditionInterDto> recommendedEdition =
+                    this.recommendationProvidesInterface.generateRecommendationFromVirtualEditionInter(
+                            inter, this.userProvidesInterface.getAuthenticatedUser(), virtualEdition, params.getProperties());
 
             model.addAttribute("inters", recommendedEdition);
             model.addAttribute("selected", params.getId());
         }
         model.addAttribute("edition", virtualEdition);
-        model.addAttribute("uiInterface", new UiInterface());
 
         return "recommendation/virtualTable";
     }
@@ -110,8 +109,6 @@ public class RecommendationController {
     @PreAuthorize("hasPermission(#acronym, 'editionacronym.participant')")
     public String saveLinearVirtualEdition(Model model, @RequestParam("acronym") String acronym,
                                            @RequestParam(value = "inter[]", required = false) String[] inters) {
-        // logger.debug("saveLinearVirtualEdition");
-
         VirtualModule ldod = VirtualModule.getInstance();
 
         VirtualEdition virtualEdition = ldod.getVirtualEdition(acronym);
@@ -126,7 +123,7 @@ public class RecommendationController {
             virtualEdition.clearEmptySections();
         }
 
-        return "redirect:/recommendation/restricted/" + virtualEdition.getExternalId();
+        return "redirect:/recommendation/restricted/" + virtualEdition.getAcronym();
     }
 
     @RequestMapping(value = "/linear/create", method = RequestMethod.POST)

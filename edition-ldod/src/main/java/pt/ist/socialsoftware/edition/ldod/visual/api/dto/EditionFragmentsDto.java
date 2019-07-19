@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EditionFragmentsDto {
-    List<FragmentDto> fragments = new ArrayList<>();
+    List<Fragment4VisualDto> fragments = new ArrayList<>();
     private List<String> categories = new ArrayList<>();
 
     public EditionFragmentsDto() {
     }
 
-    public List<FragmentDto> getFragments() {
+    public List<Fragment4VisualDto> getFragments() {
         return this.fragments;
     }
 
-    public void setFragments(List<FragmentDto> fragments) {
+    public void setFragments(List<Fragment4VisualDto> fragments) {
         this.fragments = fragments;
     }
 

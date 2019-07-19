@@ -2,10 +2,8 @@ package pt.ist.socialsoftware.edition.ldod
 
 import pt.ist.fenixframework.FenixFramework
 import pt.ist.fenixframework.core.WriteOnReadError
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition
-import pt.ist.socialsoftware.edition.ldod.domain.TextModule
-import pt.ist.socialsoftware.edition.ldod.domain.UserModule
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule
+import pt.ist.socialsoftware.edition.ldod.domain.*
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.StoredVectors
 import pt.ist.socialsoftware.edition.ldod.text.feature.inout.LoadTEICorpus
 import pt.ist.socialsoftware.edition.ldod.text.feature.inout.LoadTEIFragments
 import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap
@@ -46,47 +44,51 @@ abstract class SpockRollbackTestAbstractClass extends Specification {
 
     def loadCorpus() {
         if (TextModule.getInstance().getExpertEditionsSet().isEmpty()) {
-            String testFilesDirectory = PropertiesManager.getProperties().getProperty("test.files.dir");
-            File directory = new File(testFilesDirectory);
-            String filename = "corpus.xml";
-            File file = new File(directory, filename);
-            LoadTEICorpus corpusLoader = new LoadTEICorpus();
-            corpusLoader.loadTEICorpus(new FileInputStream(file));
+            String testFilesDirectory = PropertiesManager.getProperties().getProperty("test.files.dir")
+            File directory = new File(testFilesDirectory)
+            String filename = "corpus.xml"
+            File file = new File(directory, filename)
+            LoadTEICorpus corpusLoader = new LoadTEICorpus()
+            corpusLoader.loadTEICorpus(new FileInputStream(file))
         }
     }
 
     def cleanDatabaseButCorpus() {
         TextModule text = TextModule.getInstance()
-        UserModule userModule = UserModule.getInstance();
-        VirtualModule ldoD = VirtualModule.getInstance();
+        UserModule userModule = UserModule.getInstance()
+        VirtualModule ldoD = VirtualModule.getInstance()
+        RecommendationModule recommendationModule = RecommendationModule.getInstance()
         if (ldoD != null) {
             for (def user : userModule.getUsersSet()) {
                 if (!(user.getUsername().equals("ars") || user.getUsername().equals("Twitter"))) {
-                    user.remove();
+                    user.remove()
                 }
             }
             for (def frag : text.getFragmentsSet()) {
-                frag.remove();
+                frag.remove()
             }
-            for (def cit : ldoD.getCitationSet())
-                cit.remove();
-        }
-        for (def uc :
-                userModule.getUserConnectionSet()) {
-            uc.remove()
-        }
-        for (def t : userModule.getTokenSet()) {
-            t.remove();
-        }
-        for (def ve : ldoD.getVirtualEditionsSet()) {
-            if (!ve.getAcronym().equals(ExpertEdition.ARCHIVE_EDITION_ACRONYM)) {
-                ve.remove();
+            for (def cit : ldoD.getCitationSet()) {
+                cit.remove()
             }
-            for (def t : ldoD.getTweetSet()) {
-                t.remove();
+            for (def uc : userModule.getUserConnectionSet()) {
+                uc.remove()
+            }
+            for (def t : userModule.getTokenSet()) {
+                t.remove()
+            }
+            for (def ve : ldoD.getVirtualEditionsSet()) {
+                if (!ve.getAcronym().equals(VirtualEdition.ARCHIVE_EDITION_ACRONYM)) {
+                    ve.remove()
+                }
+                for (def t : ldoD.getTweetSet()) {
+                    t.remove()
+                }
+            }
+            for (def r : recommendationModule.getRecommendationWeightsSet()) {
+                r.remove()
             }
         }
-
+        cleanRecommendationCache()
     }
 
     def loadFragments(def fragmentsToLoad) throws LdoDLoadException, FileNotFoundException {
@@ -101,6 +103,10 @@ abstract class SpockRollbackTestAbstractClass extends Specification {
             def fragmentLoader = new LoadTEIFragments();
             fragmentLoader.loadFragmentsAtOnce(new FileInputStream(file));
         }
+    }
+
+    def cleanRecommendationCache() {
+        StoredVectors.cleanCache()
     }
 
 }

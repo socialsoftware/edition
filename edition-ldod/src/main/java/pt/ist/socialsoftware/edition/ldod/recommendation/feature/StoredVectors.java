@@ -6,11 +6,15 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class StoredVectors {
-    private static final StoredVectors instance = new StoredVectors();
+    private static StoredVectors instance = new StoredVectors();
 
     // thread safe
     public static StoredVectors getInstance() {
         return instance;
+    }
+
+    public static void cleanCache() {
+        instance = new StoredVectors();
     }
 
     private final Map<Class<? extends Property>, Map<String, double[]>> weights;

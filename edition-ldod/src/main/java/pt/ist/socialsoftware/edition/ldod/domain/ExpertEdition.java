@@ -1,10 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
 import org.joda.time.LocalDate;
-import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
-import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
-import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMExpertEditionInterRecommender;
-import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.Property;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,7 +10,6 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
     public static final String CUNHA_EDITION_ACRONYM = "TSC";
     public static final String ZENITH_EDITION_ACRONYM = "RZ";
     public static final String PIZARRO_EDITION_ACRONYM = "JP";
-    public static final String ARCHIVE_EDITION_ACRONYM = "LdoD-Arquivo";
     public static final String COELHO_EDITION_NAME = "Jacinto do Prado Coelho";
     public static final String CUNHA_EDITION_NAME = "Teresa Sobral Cunha";
     public static final String ZENITH_EDITION_NAME = "Richard Zenith";
@@ -173,26 +168,5 @@ public class ExpertEdition extends ExpertEdition_Base implements Comparable<Expe
 
         return interps.get(0);
     }
-
-    public List<InterIdDistancePairDto> getIntersByDistance(ExpertEditionInter expertEditionInter, WeightsDto weights) {
-        List<ExpertEditionInter> inters = new ArrayList<>(getExpertEditionIntersSet());
-        VSMExpertEditionInterRecommender recommender = new VSMExpertEditionInterRecommender();
-
-        inters.remove(expertEditionInter);
-
-        List<InterIdDistancePairDto> recommendedEdition = new ArrayList<>();
-
-        List<Property> properties = weights.getProperties();
-        for (ExpertEditionInter inter : inters) {
-            recommendedEdition.add(new InterIdDistancePairDto(inter.getExternalId(),
-                    recommender.calculateSimilarity(expertEditionInter, inter, properties)));
-        }
-
-        recommendedEdition = recommendedEdition.stream().sorted(Comparator.comparing(InterIdDistancePairDto::getDistance).reversed()).collect(Collectors.toList());
-        recommendedEdition.add(0, new InterIdDistancePairDto(expertEditionInter.getExternalId(), 1.0d));
-
-        return recommendedEdition;
-    }
-
 
 }

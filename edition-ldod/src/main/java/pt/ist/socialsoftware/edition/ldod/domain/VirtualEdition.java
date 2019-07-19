@@ -8,10 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
-import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
-import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMVirtualEditionInterRecommender;
-import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.Property;
+import pt.ist.socialsoftware.edition.ldod.api.event.Event;
+import pt.ist.socialsoftware.edition.ldod.api.event.EventInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
@@ -28,6 +26,7 @@ import java.util.stream.Collectors;
 public class VirtualEdition extends VirtualEdition_Base {
     private static final Logger logger = LoggerFactory.getLogger(VirtualEdition.class);
 
+    public static final String ARCHIVE_EDITION_ACRONYM = "LdoD-Arquivo";
     public static final String ARCHIVE_EDITION_NAME = "Arquivo LdoD";
     public static String ACRONYM_PREFIX = "LdoD-";
 
@@ -51,7 +50,7 @@ public class VirtualEdition extends VirtualEdition_Base {
             }
 
             // cannot change acronym of the archive edition
-            if (getAcronym() == null || !getAcronym().equals(ExpertEdition.ARCHIVE_EDITION_ACRONYM)) {
+            if (getAcronym() == null || !getAcronym().equals(VirtualEdition.ARCHIVE_EDITION_ACRONYM)) {
 
                 TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
 
@@ -104,6 +103,9 @@ public class VirtualEdition extends VirtualEdition_Base {
 
     @Atomic(mode = TxMode.WRITE)
     public void remove() {
+        EventInterface eventInterface = new EventInterface();
+        eventInterface.publish(new Event(Event.EventType.VIRTUAL_EDITION_REMOVE, this.getXmlId()));
+
         // delete directory and all its files if it exists
         String path = PropertiesManager.getProperties().getProperty("corpus.dir");
         File directory = new File(path + getExternalId());
@@ -136,10 +138,6 @@ public class VirtualEdition extends VirtualEdition_Base {
 
         for (VirtualEditionInter inter : getAllDepthVirtualEditionInters()) {
             inter.remove();
-        }
-
-        for (RecommendationWeights weights : getRecommendationWeightsSet()) {
-            weights.remove();
         }
 
         deleteDomainObject();
@@ -653,54 +651,6 @@ public class VirtualEdition extends VirtualEdition_Base {
         return false;
     }
 
-    public List<InterIdDistancePairDto> getIntersByDistance(VirtualEditionInter virtualEditionInter, WeightsDto
-            weights) {
-        List<VirtualEditionInter> inters = getAllDepthVirtualEditionInters();
-        VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
-
-        inters.remove(virtualEditionInter);
-
-        List<InterIdDistancePairDto> recommendedEdition = new ArrayList<>();
-
-        recommendedEdition.add(new InterIdDistancePairDto(virtualEditionInter.getExternalId(), 1.0d));
-
-        List<Property> properties = weights.getProperties(virtualEditionInter.getVirtualEdition());
-        for (VirtualEditionInter inter : inters) {
-            recommendedEdition.add(new InterIdDistancePairDto(inter.getExternalId(),
-                    recommender.calculateSimilarity(virtualEditionInter, inter, properties)));
-        }
-
-        recommendedEdition = recommendedEdition.stream().sorted(Comparator.comparing(InterIdDistancePairDto::getDistance).reversed()).collect(Collectors.toList());
-
-        recommendedEdition.add(0, new InterIdDistancePairDto(virtualEditionInter.getExternalId(), 1.0d));
-
-        return recommendedEdition;
-    }
-
-    public List<VirtualEditionInter> generateRecommendation(VirtualEditionInter inter,
-                                                            RecommendationWeights recommendationWeights) {
-        List<VirtualEditionInter> inters = getAllDepthVirtualEditionInters();
-        VSMVirtualEditionInterRecommender recommender = new VSMVirtualEditionInterRecommender();
-
-        inters.remove(inter);
-
-        List<Property> properties = recommendationWeights.getPropertiesWithStoredWeights();
-        List<VirtualEditionInter> recommendedEdition = new ArrayList<>();
-        recommendedEdition.add(inter);
-        recommendedEdition.addAll(recommender.getMostSimilarItemsAsList(inter, inters, properties));
-        return recommendedEdition;
-    }
-
-    public RecommendationWeights getRecommendationWeightsForUser(String user) {
-        for (RecommendationWeights recommendationWeights : getRecommendationWeightsSet()) {
-            if (recommendationWeights.getUser().equals(user)) {
-                return recommendationWeights;
-            }
-        }
-        return VirtualModule.getInstance().createRecommendationWeights(user, this);
-    }
-
-
     public Set<Category> getAllDepthCategories() {
         Set<Category> result = new HashSet<>(getTaxonomy().getCategoriesSet());
 
@@ -787,7 +737,7 @@ public class VirtualEdition extends VirtualEdition_Base {
     }
 
     public boolean isLdoDEdition() {
-        return getAcronym().equals(ExpertEdition.ARCHIVE_EDITION_ACRONYM);
+        return getAcronym().equals(VirtualEdition.ARCHIVE_EDITION_ACRONYM);
     }
 
 

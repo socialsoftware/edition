@@ -56,6 +56,10 @@ public class ScholarInterDto {
         return this.textProvidesInterface.getScholarInterEditionReference(this.xmlId);
     }
 
+    public ExpertEditionDto getExpertEdition() {
+        return this.textProvidesInterface.getScholarInterExpertEdition(this.xmlId);
+    }
+
     public int getNumber() {
         return this.textProvidesInterface.getScholarInterNumber(this.xmlId);
     }
@@ -95,7 +99,7 @@ public class ScholarInterDto {
     public String getShortName() {
         return this.textProvidesInterface.getScholarInterShortName(this.xmlId);
     }
-    
+
     public ScholarInterDto getNextScholarInter() {
         return this.textProvidesInterface.getNextScholarInter(this.xmlId);
     }
@@ -114,7 +118,7 @@ public class ScholarInterDto {
 
     public String getSourceTranscription(boolean diff, boolean del, boolean ins,
                                          boolean subst, boolean notes) {
-        return this.textProvidesInterface.getSourceInterTranscription(this.xmlId,diff, del, ins, subst, notes);
+        return this.textProvidesInterface.getSourceInterTranscription(this.xmlId, diff, del, ins, subst, notes);
     }
 
     public String getExpertTranscription(boolean diff) {
@@ -125,11 +129,11 @@ public class ScholarInterDto {
         return this.textProvidesInterface.getExpertInterCompleteNumber(this.xmlId);
     }
 
-    public int getStartPage(){
+    public int getStartPage() {
         return this.textProvidesInterface.getExpertEditionInterStartPage(this.xmlId);
     }
 
-    public int getEndPage(){
+    public int getEndPage() {
         return this.textProvidesInterface.getExpertEditionInterEndPage(this.xmlId);
     }
 
@@ -137,7 +141,26 @@ public class ScholarInterDto {
         return this.textProvidesInterface.getExpertEditionInterNotes(this.xmlId);
     }
 
-    public List<AnnexNoteDto> getSortedAnnexNote(){
+    public List<AnnexNoteDto> getSortedAnnexNote() {
         return this.textProvidesInterface.getScholarInterSortedAnnexNotes(this.xmlId);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ScholarInterDto other = (ScholarInterDto) o;
+        return this.xmlId.equals(other.getXmlId());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.xmlId.hashCode();
+    }
 }
+
+

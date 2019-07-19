@@ -20,7 +20,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.virtual.VirtualEditionTest;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
@@ -77,7 +77,7 @@ public class VisualTest {
     @WithUserDetails("ars")
     public void getFragmentsTest() throws Exception {
 
-        this.mockMvc.perform(get("/visual/editions/acronym/{acronym}/fragments", ExpertEdition.ARCHIVE_EDITION_ACRONYM))
+        this.mockMvc.perform(get("/visual/editions/acronym/{acronym}/fragments", VirtualEdition.ARCHIVE_EDITION_ACRONYM))
                 .andDo(print()).andExpect(status().isOk()).andExpect(content().string(notNullValue()));
     }
 
@@ -96,7 +96,7 @@ public class VisualTest {
     public void getIntersByDistanceTest() throws Exception {
 
         VirtualEditionInter vi = VirtualModule.getInstance().getArchiveEdition()
-                .getAllDepthVirtualEditionInters().get(1);
+                .getAllDepthVirtualEditionInters().get(0);
 
         WeightsDto dto = new WeightsDto();
         dto.setDateWeight(0.0f);
@@ -116,9 +116,9 @@ public class VisualTest {
 
         String[] frags = res.split(";");
         System.out.println(res);
-        assertEquals(4, frags.length);
+        assertEquals(3, frags.length);
         ObjectMapper mapper = new ObjectMapper();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             InterIdDistancePairDto pair = mapper.readValue(frags[i], InterIdDistancePairDto.class);
             if (pair.getInterId().equals(vi.getExternalId())) {
                 assertEquals(1.0, pair.getDistance());

@@ -3,7 +3,9 @@ package pt.ist.socialsoftware.edition.ldod.domain;
 import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.topicmodeling.TopicModeler;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ExpertEditionInter extends ExpertEditionInter_Base implements Comparable<ExpertEditionInter> {
     public ExpertEditionInter() {
@@ -122,30 +124,8 @@ public class ExpertEditionInter extends ExpertEditionInter_Base implements Compa
         return Integer.toString(getNumber());
     }
 
-    public Set<Category> getAllDepthCategories() {
-        return new HashSet<>();
-    }
-
-    public Set<HumanAnnotation> getAllDepthHumanAnnotations() {
-        return new HashSet<>();
-    }
-
-    //solução para suportar os dois tipos de annotations
-    public Set<Annotation> getAllDepthAnnotations() {
-        return new HashSet<>();
-    }
-
-
-    public Set<Tag> getAllDepthTags() {
-        return new HashSet<>();
-    }
-
     public String getCompleteNumber() {
         return Integer.toString(getNumber()) + (!getSubNumber().equals("") ? "-" + getSubNumber() : getSubNumber());
-    }
-
-    public int getUsesDepth() {
-        return 0;
     }
 
     public ExpertEditionInter getNextNumberInter() {

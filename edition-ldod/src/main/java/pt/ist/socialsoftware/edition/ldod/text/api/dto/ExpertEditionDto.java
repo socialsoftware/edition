@@ -3,6 +3,8 @@ package pt.ist.socialsoftware.edition.ldod.text.api.dto;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 
+import java.util.List;
+
 public class ExpertEditionDto {
     private final TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
 
@@ -20,5 +22,7 @@ public class ExpertEditionDto {
         return this.textProvidesInterface.getExpertEditionEditorByEditionAcronym(this.acronym);
     }
 
-
+    public List<ScholarInterDto> getExpertEditionInters() {
+        return this.textProvidesInterface.getExpertEditionScholarInterDtoList(this.acronym);
+    }
 }

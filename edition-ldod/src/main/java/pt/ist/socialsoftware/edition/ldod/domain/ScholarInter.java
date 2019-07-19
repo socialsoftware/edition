@@ -34,7 +34,7 @@ public abstract class ScholarInter extends ScholarInter_Base {
     public void remove() {
         EventInterface eventInterface = new EventInterface();
         eventInterface.publish(new Event(Event.EventType.SCHOLAR_INTER_REMOVE, this.getXmlId()));
-        
+
         setFragment(null);
         setHeteronym(null);
 

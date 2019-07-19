@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.FenixFramework;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,7 +34,7 @@ public class TextModule extends TextModule_Base {
     }
 
     public List<Heteronym> getSortedHeteronyms() {
-        return getHeteronymsSet().stream().sorted((h1, h2) -> h1.getName().compareTo(h2.getName()))
+        return getHeteronymsSet().stream().sorted(Comparator.comparing(Heteronym_Base::getName))
                 .collect(Collectors.toList());
     }
 

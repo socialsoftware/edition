@@ -16,12 +16,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
-import pt.ist.socialsoftware.edition.ldod.frontend.recommendation.RecommendationController;
+import pt.ist.socialsoftware.edition.ldod.frontend.recommendation.VirtualInterRecommendationSortingController;
 import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.RecommendVirtualEditionParam;
 import pt.ist.socialsoftware.edition.ldod.utils.controller.LdoDExceptionHandler;
 
@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RecommendationTest {
 
     @InjectMocks
-    RecommendationController recommendationController;
+    VirtualInterRecommendationSortingController virtualInterRecommendationSortingController;
 
     protected MockMvc mockMvc;
 
@@ -62,7 +62,7 @@ public class RecommendationTest {
 
     @BeforeEach
     public void setUp() throws FileNotFoundException {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(this.recommendationController)
+        this.mockMvc = MockMvcBuilders.standaloneSetup(this.virtualInterRecommendationSortingController)
                 .setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
     }
 
@@ -70,10 +70,7 @@ public class RecommendationTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void getRecommendationTest() throws Exception {
-
-        String id = VirtualModule.getInstance().getArchiveEdition().getExternalId();
-
-        this.mockMvc.perform(get("/recommendation/restricted/{externalId}", id))
+        this.mockMvc.perform(get("/recommendation/restricted/{acronym}", VirtualEdition.ARCHIVE_EDITION_ACRONYM))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("recommendation/tableOfContents"))
@@ -111,7 +108,7 @@ public class RecommendationTest {
         VirtualEditionInter vi = VirtualModule.getInstance().getArchiveEdition()
                 .getAllDepthVirtualEditionInters().get(1);
 
-        RecommendVirtualEditionParam paramn = new RecommendVirtualEditionParam(ExpertEdition.ARCHIVE_EDITION_ACRONYM,
+        RecommendVirtualEditionParam paramn = new RecommendVirtualEditionParam(VirtualEdition.ARCHIVE_EDITION_ACRONYM,
                 vi.getExternalId(), new ArrayList<>());
 
         this.mockMvc.perform(post("/recommendation/linear")
@@ -130,7 +127,7 @@ public class RecommendationTest {
     public void saveLinearTest() throws Exception {
 
         this.mockMvc.perform(post("/recommendation/linear/save")
-                .param("acronym", ExpertEdition.ARCHIVE_EDITION_ACRONYM))
+                .param("acronym", VirtualEdition.ARCHIVE_EDITION_ACRONYM))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/recommendation/restricted/" +

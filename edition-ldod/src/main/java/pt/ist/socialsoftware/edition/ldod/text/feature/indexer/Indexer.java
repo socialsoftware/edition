@@ -234,7 +234,7 @@ public class Indexer {
         }
     }
 
-    private Map<String, Double> getTFIDF(Fragment fragment) throws IOException, ParseException {
+    public Map<String, Double> getTFIDF(Fragment fragment) throws IOException, ParseException {
         String id = fragment.getExternalId();
         if (termsTFIDFCache.containsKey(id)) {
             return termsTFIDFCache.get(id);

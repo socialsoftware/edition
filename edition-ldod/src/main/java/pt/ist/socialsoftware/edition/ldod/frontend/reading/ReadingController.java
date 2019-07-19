@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
@@ -48,7 +49,7 @@ public class ReadingController {
             return "redirect:/error";
         }
 
-        Set<ExpertEditionInter> recommendations = ldoDSession.getRecommendation()
+        Set<ScholarInterDto> recommendations = ldoDSession.getRecommendation()
                 .getNextRecommendations(expertEditionInter.getExternalId());
         ExpertEditionInter prevRecom = ldoDSession.getRecommendation().getPrevRecommendation();
 

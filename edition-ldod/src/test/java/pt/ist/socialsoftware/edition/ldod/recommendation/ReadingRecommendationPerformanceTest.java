@@ -8,12 +8,18 @@ import org.junit.jupiter.api.Test;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.ReadingRecommendation;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.*;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.Property.PropertyCache;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ExpertEditionDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -50,16 +56,15 @@ public class ReadingRecommendationPerformanceTest {
 
         VirtualModule virtualModule = VirtualModule.getInstance();
 
-        VirtualEdition archiveEdition = virtualModule.getArchiveEdition();
-        List<VirtualEditionInter> archiveVirtualEditionInters = archiveEdition.getIntersSet().stream()
-                .map(VirtualEditionInter.class::cast).collect(Collectors.toList());
+        VirtualEditionDto archiveEdition = new VirtualEditionDto(virtualModule.getArchiveEdition());
+        List<VirtualEditionInterDto> archiveVirtualEditionInters = archiveEdition.getSortedVirtualEditionInterDtoList();
 
-        VSMRecommender<VirtualEditionInter> recommender = new VSMVirtualEditionInterRecommender();
+        VSMRecommender<VirtualEditionInterDto> recommender = new VSMVirtualEditionInterRecommender();
 
         List<Property> properties = new ArrayList<>();
         properties.add(new HeteronymProperty(1.0));
         properties.add(new DateProperty(1.0));
-        properties.add(new TaxonomyProperty(1.0, archiveEdition.getTaxonomy(), PropertyCache.ON));
+        properties.add(new TaxonomyProperty(1.0, VirtualEdition.ARCHIVE_EDITION_ACRONYM, PropertyCache.ON));
         properties.add(new TextProperty(1.0));
 
         // warm the system in order to create all the caches
@@ -78,12 +83,12 @@ public class ReadingRecommendationPerformanceTest {
         recommender.setTextWeight(1.0);
         recommender.setTaxonomyWeight(1.0);
 
-        ExpertEdition pizarroEdition = TextModule.getInstance().getJPEdition();
-        ExpertEditionInter inter = pizarroEdition.getExpertEditionIntersSet().stream().collect(Collectors.toList())
+        ExpertEditionDto pizarroEdition = new ExpertEditionDto(TextModule.getInstance().getJPEdition());
+        ScholarInterDto inter = pizarroEdition.getExpertEditionInters().stream().collect(Collectors.toList())
                 .get(0);
 
         for (int i = 0; i < 100; i++) {
-            Set<ExpertEditionInter> nextInters = recommender.getNextRecommendations(inter.getExternalId());
+            Set<ScholarInterDto> nextInters = recommender.getNextRecommendations(inter.getExternalId());
             assertFalse(nextInters.isEmpty());
         }
 
