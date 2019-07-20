@@ -1,6 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.game.api.GameRequiresInterface;
@@ -12,6 +14,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ClassificationModule extends ClassificationModule_Base {
+    private static final Logger logger = LoggerFactory.getLogger(ClassificationModule.class);
 
     public static ClassificationModule getInstance() {
         return FenixFramework.getDomainRoot().getClassificationModule();
@@ -123,7 +126,7 @@ public class ClassificationModule extends ClassificationModule_Base {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public static void createClassificationGame(VirtualEditionDto virtualEdition, String description, DateTime date, VirtualEditionInterDto inter, String
             user) {
-
+        new ClassificationGame(virtualEdition,description,date,inter,user);
     }
 
 }

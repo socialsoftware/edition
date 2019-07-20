@@ -8,15 +8,15 @@
 <%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp"%>
 <h3 class="text-center">
     <spring:message code="general.classificationGame" />:
-    ${game.getVirtualEditionInter().getTitle()}
+    ${virtualInterface.getVirtualEditionInterTitle(game.getInterId())}
 </h3>
 <br />
 <h4 class="text-center">
     <spring:message code="general.winner" />:
-    ${game.getTag().getContributor().getUsername()}
+    ${virtualInterface.getTagInInter(game.getInterId(), game.getTagId()).getUsername()}
     <br />
     <spring:message code="general.category" />:
-    ${game.getTag().getCategory().getName()}
+    ${virtualInterface.getTagCategory(game.getInterId(), game.getTagId()).getName()}
 </h4>
 <div class="container">
     <div class="row col-md-12">

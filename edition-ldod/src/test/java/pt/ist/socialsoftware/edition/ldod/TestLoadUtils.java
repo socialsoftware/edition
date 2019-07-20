@@ -2,6 +2,8 @@ package pt.ist.socialsoftware.edition.ldod;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.text.feature.inout.LoadTEICorpus;
 import pt.ist.socialsoftware.edition.ldod.text.feature.inout.LoadTEIFragments;
@@ -17,6 +19,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class TestLoadUtils {
+    private static final Logger logger = LoggerFactory.getLogger(TestLoadUtils.class);
+
     public static void loadCorpus() throws FileNotFoundException {
         if (TextModule.getInstance().getExpertEditionsSet().isEmpty()) {
             String testFilesDirectory = PropertiesManager.getProperties().getProperty("test.files.dir");
@@ -52,6 +56,10 @@ public class TestLoadUtils {
         TextModule text = TextModule.getInstance();
         UserModule userModule = UserModule.getInstance();
         VirtualModule virtualModule = VirtualModule.getInstance();
+        ClassificationModule classificationModule = ClassificationModule.getInstance();
+        if(classificationModule != null){
+            classificationModule.getClassificationGameSet().forEach(classificationGame -> classificationGame.remove());
+        }
         if (userModule != null) {
             userModule.getUsersSet().stream()
                     .filter(u -> !(u.getUsername().equals(User.USER_ARS) || u.getUsername().equals(User.USER_TWITTER)))
