@@ -2,7 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.frontend.virtual.assistedordering;
 
 import org.joda.time.LocalDate;
 import pt.ist.socialsoftware.edition.ldod.recommendation.api.RecommendationProvidesInterface;
-import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.Property;
+import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.PropertyDto;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
@@ -10,6 +10,7 @@ import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AssistedOrderingRequiresInterface {
 
@@ -42,8 +43,8 @@ public class AssistedOrderingRequiresInterface {
     // Uses Recommendation Module
     private final RecommendationProvidesInterface recommendationProvidesInterface = new RecommendationProvidesInterface();
 
-    public List<VirtualEditionInterDto> generateRecommendationFromVirtualEditionInter(VirtualEditionInterDto virtualEditionInterDto, String username, VirtualEditionDto virtualEdition, List<Property> properties) {
-        return this.recommendationProvidesInterface.generateRecommendationFromVirtualEditionInter(virtualEditionInterDto, username, virtualEdition, properties);
+    public List<VirtualEditionInterDto> generateRecommendationFromVirtualEditionInter(VirtualEditionInterDto virtualEditionInterDto, String username, VirtualEditionDto virtualEdition, List<PropertyDto> properties) {
+        return this.recommendationProvidesInterface.generateRecommendationFromVirtualEditionInter(virtualEditionInterDto, username, virtualEdition, properties.stream().map(PropertyDto::getProperty).collect(Collectors.toList()));
     }
 
 

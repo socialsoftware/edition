@@ -300,6 +300,14 @@ public class VirtualProvidesInterface {
         return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.getDate()).orElse(null);
     }
 
+    public List<String> getSelectedVirtualEditionsByUser(String username) {
+        return VirtualModule.getInstance().getUserSelectedVirtualEditions(username);
+    }
+
+    public void addToUserSelectedVirtualEditions(String username, List<String> selectedAcronyms) {
+        VirtualModule.getInstance().addToUserSelectedVirtualEditions(username, selectedAcronyms);
+    }
+
     private Optional<VirtualEditionInter> getVirtualEditionInterByXmlId(String xmlId) {
         return VirtualModule.getInstance().getVirtualEditionInterSet().stream()
                 .filter(virtualEditionInter -> virtualEditionInter.getXmlId().equals(xmlId)).findAny();
@@ -310,8 +318,8 @@ public class VirtualProvidesInterface {
                 .filter(virtualEdition -> virtualEdition.getAcronym().equals(acronym)).findAny();
     }
 
-
 }
+
 
 
 

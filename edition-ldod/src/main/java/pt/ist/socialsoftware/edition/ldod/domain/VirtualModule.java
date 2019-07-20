@@ -354,4 +354,18 @@ public class VirtualModule extends VirtualModule_Base {
 
     }
 
+    public List<String> getUserSelectedVirtualEditions(String username) {
+        return getVirtualEditionsSet().stream()
+                .filter(virtualEdition -> virtualEdition.getSelectedBySet().stream().map(selectedBy -> selectedBy.getUser())
+                        .anyMatch(user -> user.equals(username)))
+                .map(virtualEdition -> virtualEdition.getAcronym())
+                .collect(Collectors.toList());
+
+    }
+
+    public void addToUserSelectedVirtualEditions(String username, List<String> selectedAcronyms) {
+        getVirtualEditionsSet().stream()
+                .filter(virtualEdition -> selectedAcronyms.contains(virtualEdition.getAcronym()))
+                .forEach(virtualEdition -> virtualEdition.addSelectedByUser(username));
+    }
 }

@@ -96,10 +96,7 @@ public class ReadingRecommendation implements Serializable {
 
         this.read.add(expertEditionInterId);
 
-        VSMFragmentRecommender recommender = new VSMFragmentRecommender();
-        List<Property> properties = getProperties();
-        List<Entry<FragmentDto, Double>> mostSimilars = recommender.getMostSimilarItems(toReadFragment, toBeRecommended,
-                properties);
+        List<Entry<FragmentDto, Double>> mostSimilars = getEntries(toReadFragment, toBeRecommended);
 
         Set<ScholarInterDto> result = new HashSet<>();
         Double value = mostSimilars.get(0).getValue();
@@ -120,6 +117,13 @@ public class ReadingRecommendation implements Serializable {
         }
 
         return result;
+    }
+
+    private List<Entry<FragmentDto, Double>> getEntries(FragmentDto toReadFragment, Set<FragmentDto> toBeRecommended) {
+        VSMFragmentRecommender recommender = new VSMFragmentRecommender();
+        List<Property> properties = getProperties();
+        return recommender.getMostSimilarItems(toReadFragment, toBeRecommended,
+                properties);
     }
 
     public String prevRecommendation() {
