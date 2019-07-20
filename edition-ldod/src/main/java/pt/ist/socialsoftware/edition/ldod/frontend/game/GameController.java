@@ -40,6 +40,7 @@ public class GameController {
             model.addAttribute("games", ClassificationModule.getInstance().getClassificationGamesForEdition(virtualEdition.getAcronym())
                     .stream().sorted(Comparator.comparing(ClassificationGame::getDateTime)).collect(Collectors.toList()));
             model.addAttribute("userInterface", this.userProvidesInterface);
+            model.addAttribute("virtualInterface", this.virtualProvidesInterface);
             return "virtual/classificationGame";
         }
     }
@@ -47,11 +48,13 @@ public class GameController {
     @RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/classificationGame/create")
     @PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
     public String createClassificationGameForm(Model model, @PathVariable String externalId) {
-        VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
+        VirtualEditionDto virtualEdition = this.virtualProvidesInterface.getVirtualEditionByExternalId(externalId);
         if (virtualEdition == null) {
             return "redirect:/error";
         } else {
             model.addAttribute("virtualEdition", virtualEdition);
+            model.addAttribute("userInterface", this.userProvidesInterface);
+            model.addAttribute("virtualInterface", this.virtualProvidesInterface);
             return "virtual/createClassificationGame";
         }
     }

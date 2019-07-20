@@ -254,6 +254,14 @@ public class VirtualProvidesInterface {
         return new TagDto(tag, virtualEditionInter);
     }
 
+    public CategoryDto getTagCategory(String xmlId, String urlId){
+        VirtualEditionInter virtualEditionInter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
+        Tag tag = virtualEditionInter.getTagSet()
+                .stream().filter(t -> t.getCategory().getUrlId().equals(urlId)).findAny().orElseThrow(LdoDException::new);
+
+        return new CategoryDto(tag.getCategory(), virtualEditionInter);
+    }
+
     public void removeTagFromInter(String externalId){
 
         DomainObject domainObject = FenixFramework.getDomainObject(externalId);

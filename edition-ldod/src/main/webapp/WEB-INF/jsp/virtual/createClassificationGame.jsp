@@ -59,7 +59,7 @@
                     <label class="control-label"><spring:message
                             code="general.players"/>: </label>
                     <c:choose>
-                        <c:when test="${virtualEdition.getTaxonomy().getOpenAnnotation()}">
+                        <c:when test="${virtualInterface.getVirtualEditionTaxonomyAnnotationStatus(virtualEdition.acronym)}">
                             <em><spring:message code="taxonomy.annotation.all"/></em>
                         </c:when>
                         <c:otherwise>
@@ -83,7 +83,7 @@
                 </button>
                 <div class="form-group form-group-sm">
                     <c:forEach var="inter"
-                               items='${virtualEdition.getAllDepthVirtualEditionInters()}'>
+                               items='${virtualEdition.getSortedVirtualEditionInterDtoList()}'>
                         <div class="col-sm-3">
                             <label class="radio-inline">
                                 <input class="form-check-label" name="interExternalId" type="radio"
