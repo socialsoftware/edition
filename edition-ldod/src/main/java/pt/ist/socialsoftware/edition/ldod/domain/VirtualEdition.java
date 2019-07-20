@@ -533,7 +533,7 @@ public class VirtualEdition extends VirtualEdition_Base {
     }
 
     public void removeSelectedByUser(String user) {
-        getSelectedBySet().stream().filter(selectedBy -> selectedBy.equals(user)).findAny().orElse(null).remove();
+        getSelectedBySet().stream().filter(selectedBy -> selectedBy.equals(user)).forEach(selectedBy -> selectedBy.remove());
     }
 
     @Atomic(mode = TxMode.WRITE)

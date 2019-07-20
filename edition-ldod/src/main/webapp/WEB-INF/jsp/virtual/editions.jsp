@@ -172,7 +172,7 @@
                                         <input type="checkbox" onChange="this.form.submit()"
                                         <c:choose>
                                         <c:when
-                                                test="${frontendSession.materializeVirtualEditions().contains(virtualEdition)}">
+                                                test="${frontendSession.materializeVirtualEditions().contains(virtualEdition.acronym)}">
                                                checked
                                         </c:when>
                                         </c:choose>>
@@ -181,7 +181,7 @@
 												<span class="glyphicon glyphicon-check"></span>
 												<c:choose>
 													<c:when
-														test="${frontendSession.materializeVirtualEditions().contains(virtualEdition)}">
+														test="${frontendSession.materializeVirtualEditions().contains(virtualEdition.acronym)}">
 														<spring:message code="general.deselect" />
 													</c:when>
 													<c:otherwise>

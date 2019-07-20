@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -279,6 +278,21 @@ public class VirtualModule extends VirtualModule_Base {
                 .filter(virtualEdition -> virtualEdition.getSelectedBySet().stream().
                         anyMatch(selectedBy -> selectedBy.getUser().equals(username)))
                 .collect(Collectors.toSet());
+    }
+
+    public List<String> getUserSelectedVirtualEditions(String username) {
+        return getVirtualEditionsSet().stream()
+                .filter(virtualEdition -> virtualEdition.getSelectedBySet().stream().map(selectedBy -> selectedBy.getUser())
+                        .anyMatch(user -> user.equals(username)))
+                .map(virtualEdition -> virtualEdition.getAcronym())
+                .collect(Collectors.toList());
+
+    }
+
+    public void addToUserSelectedVirtualEditions(String username, List<String> selectedAcronyms) {
+        getVirtualEditionsSet().stream()
+                .filter(virtualEdition -> selectedAcronyms.contains(virtualEdition.getAcronym()))
+                .forEach(virtualEdition -> virtualEdition.addSelectedByUser(username));
     }
 
 }

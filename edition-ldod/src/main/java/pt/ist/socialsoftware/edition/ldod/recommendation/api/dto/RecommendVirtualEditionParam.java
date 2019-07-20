@@ -1,18 +1,17 @@
 package pt.ist.socialsoftware.edition.ldod.recommendation.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.Property;
 
 import java.util.List;
 
 public class RecommendVirtualEditionParam {
     private final String acronym;
     private final String id;
-    private final List<Property> properties;
+    private final List<PropertyDto> properties;
 
     public RecommendVirtualEditionParam(@JsonProperty("acronym") String acronym,
                                         @JsonProperty("id") String id,
-                                        @JsonProperty("properties") List<Property> properties) {
+                                        @JsonProperty("properties") List<PropertyDto> properties) {
         this.acronym = acronym;
         this.id = id;
         this.properties = properties;
@@ -26,7 +25,7 @@ public class RecommendVirtualEditionParam {
         return this.id;
     }
 
-    public List<Property> getProperties() {
+    public List<PropertyDto> getProperties() {
         return this.properties;
     }
 

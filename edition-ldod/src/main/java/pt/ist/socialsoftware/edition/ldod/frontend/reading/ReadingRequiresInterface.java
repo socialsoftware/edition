@@ -12,7 +12,6 @@ public class ReadingRequiresInterface {
 
     public List<ExpertEditionDto> getSortedExpertEditionsDto() {
         return this.textProvidesInterface.getSortedExpertEditionsDto();
-
     }
 
     public FragmentDto getFragmentByXmlId(String xmlId) {

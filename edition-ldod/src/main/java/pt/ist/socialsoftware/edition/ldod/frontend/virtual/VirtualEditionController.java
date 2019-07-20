@@ -1,8 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.virtual;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,16 +15,13 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Member.MemberRole;
-import pt.ist.socialsoftware.edition.ldod.frontend.game.validator.ClassificationGameValidator;
 import pt.ist.socialsoftware.edition.ldod.frontend.session.FrontendSession;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.validator.VirtualEditionValidator;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.user.feature.security.UserModuleUserDetails;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.*;
-import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.socialaware.AwareAnnotationFactory;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.topicmodeling.TopicModeler;
 
@@ -40,8 +35,7 @@ import java.util.stream.Collectors;
 public class VirtualEditionController {
     private static final Logger logger = LoggerFactory.getLogger(VirtualEditionController.class);
 
-    private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
-    private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+    private final VirtualRequiresInterface virtualRequiresInterface = new VirtualRequiresInterface();
 
     @ModelAttribute("ldoDSession")
     public FrontendSession getLdoDSession() {
@@ -54,8 +48,8 @@ public class VirtualEditionController {
         model.addAttribute("ldod", VirtualModule.getInstance());
         model.addAttribute("expertEditions", TextModule.getInstance().getSortedExpertEdition());
         model.addAttribute("virtualEditions",
-                this.virtualProvidesInterface.getVirtualEditionsUserIsParticipant(this.userProvidesInterface.getAuthenticatedUser()));
-        model.addAttribute("user", this.userProvidesInterface.getAuthenticatedUser());
+                this.virtualRequiresInterface.getPublicVirtualEditionsOrUserIsParticipant(this.virtualRequiresInterface.getAuthenticatedUser()));
+        model.addAttribute("user", this.virtualRequiresInterface.getAuthenticatedUser());
 
         return "virtual/editions";
     }
@@ -84,21 +78,21 @@ public class VirtualEditionController {
 
         if (errors.size() > 0) {
             throw new LdoDCreateVirtualEditionException(errors, acronym, title, pub,
-                    new ArrayList<>(this.virtualProvidesInterface.getVirtualEditionsUserIsParticipant(this.userProvidesInterface.getAuthenticatedUser())),
-                    this.userProvidesInterface.getAuthenticatedUser());
+                    new ArrayList<>(this.virtualRequiresInterface.getPublicVirtualEditionsOrUserIsParticipant(this.virtualRequiresInterface.getAuthenticatedUser())),
+                    this.virtualRequiresInterface.getAuthenticatedUser());
         }
 
         try {
             String usedAcronym = usedEdition == null ? null : ((usedEdition instanceof ScholarEdition) ? ((ScholarEdition) usedEdition).getAcronym()
                     : ((VirtualEdition) usedEdition).getAcronym());
-            virtualEdition = VirtualModule.getInstance().createVirtualEdition(this.userProvidesInterface.getAuthenticatedUser(),
+            virtualEdition = VirtualModule.getInstance().createVirtualEdition(this.virtualRequiresInterface.getAuthenticatedUser(),
                     VirtualEdition.ACRONYM_PREFIX + acronym, title, date, pub, usedAcronym);
 
         } catch (LdoDDuplicateAcronymException ex) {
             errors.add("virtualedition.acronym.duplicate");
             throw new LdoDCreateVirtualEditionException(errors, acronym, title, pub,
-                    new ArrayList<>(this.virtualProvidesInterface.getVirtualEditionsUserIsParticipant(this.userProvidesInterface.getAuthenticatedUser())),
-                    this.userProvidesInterface.getAuthenticatedUser());
+                    new ArrayList<>(this.virtualRequiresInterface.getPublicVirtualEditionsOrUserIsParticipant(this.virtualRequiresInterface.getAuthenticatedUser())),
+                    this.virtualRequiresInterface.getAuthenticatedUser());
         }
 
         return "redirect:/virtualeditions";
@@ -135,7 +129,7 @@ public class VirtualEditionController {
             return "redirect:/error";
         } else {
             model.addAttribute("virtualEdition", virtualEdition);
-            model.addAttribute("user", this.userProvidesInterface.getAuthenticatedUser());
+            model.addAttribute("user", this.virtualRequiresInterface.getAuthenticatedUser());
 
             List<String> countriesList = new ArrayList<>();
             countriesList.add("Portugal");
@@ -269,7 +263,7 @@ public class VirtualEditionController {
             return "redirect:/error";
         }
 
-        String user = this.userProvidesInterface.getAuthenticatedUser();
+        String user = this.virtualRequiresInterface.getAuthenticatedUser();
 
         frontendSession.toggleSelectedVirtualEdition(user, virtualEdition);
 
@@ -288,7 +282,7 @@ public class VirtualEditionController {
             model.addAttribute("errors", errors);
             model.addAttribute("username", username);
             model.addAttribute("virtualEdition", virtualEdition);
-            model.addAttribute("userInterface", this.userProvidesInterface);
+            model.addAttribute("userInterface", this.virtualRequiresInterface);
             return "virtual/participants";
         }
     }
@@ -297,7 +291,7 @@ public class VirtualEditionController {
     public String submitParticipation(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
                                       @PathVariable String externalId) {
         VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
-        String user = this.userProvidesInterface.getAuthenticatedUser();
+        String user = this.virtualRequiresInterface.getAuthenticatedUser();
 
         if (virtualEdition == null || user == null) {
             return "redirect:/error";
@@ -311,7 +305,7 @@ public class VirtualEditionController {
     public String cancelParticipationSubmission(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
                                                 @PathVariable String externalId) {
         VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
-        String user = this.userProvidesInterface.getAuthenticatedUser();
+        String user = this.virtualRequiresInterface.getAuthenticatedUser();
 
         if (virtualEdition == null || user == null) {
             return "redirect:/error";
@@ -331,7 +325,7 @@ public class VirtualEditionController {
             return "redirect:/error";
         }
 
-        UserDto userDto = this.userProvidesInterface.getUser(username);
+        UserDto userDto = this.virtualRequiresInterface.getUser(username);
         if (userDto == null) {
             List<String> errors = new ArrayList<>();
             errors.add("user.unknown");
@@ -354,7 +348,7 @@ public class VirtualEditionController {
             return "redirect:/error";
         }
 
-        UserDto userDto = this.userProvidesInterface.getUser(username);
+        UserDto userDto = this.virtualRequiresInterface.getUser(username);
         if (userDto == null) {
             List<String> errors = new ArrayList<>();
             errors.add("user.unknown");
@@ -377,7 +371,7 @@ public class VirtualEditionController {
             return "redirect:/error";
         }
 
-        if (!virtualEdition.canSwitchRole(this.userProvidesInterface.getAuthenticatedUser(), username)) {
+        if (!virtualEdition.canSwitchRole(this.virtualRequiresInterface.getAuthenticatedUser(), username)) {
             throw new LdoDExceptionNonAuthorized();
         }
 
@@ -396,11 +390,11 @@ public class VirtualEditionController {
 
         VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 
-        if (virtualEdition == null || this.userProvidesInterface.getUser(user) == null) {
+        if (virtualEdition == null || this.virtualRequiresInterface.getUser(user) == null) {
             return "redirect:/error";
         }
 
-        if (!virtualEdition.canRemoveMember(this.userProvidesInterface.getAuthenticatedUser(), user)) {
+        if (!virtualEdition.canRemoveMember(this.virtualRequiresInterface.getAuthenticatedUser(), user)) {
             throw new LdoDExceptionNonAuthorized();
         }
 
@@ -409,7 +403,7 @@ public class VirtualEditionController {
             admin = virtualEdition.getAdminSet().iterator().next();
         }
 
-        if (this.userProvidesInterface.getUser(admin) != null && admin.equals(user)) {
+        if (this.virtualRequiresInterface.getUser(admin) != null && admin.equals(user)) {
             List<String> errors = new ArrayList<>();
             errors.add("user.one");
             redirectAttributes.addFlashAttribute("errors", errors);
@@ -418,7 +412,7 @@ public class VirtualEditionController {
         } else {
             virtualEdition.removeMember(user);
 
-            if (user == this.userProvidesInterface.getAuthenticatedUser()) {
+            if (user == this.virtualRequiresInterface.getAuthenticatedUser()) {
                 return "redirect:/virtualeditions";
             } else {
                 return "redirect:/virtualeditions/restricted/" + externalId + "/participants";
@@ -462,7 +456,7 @@ public class VirtualEditionController {
             List<String> errors = (List<String>) model.asMap().get("categoryErrors");
             model.addAttribute("categoryErrors", errors);
             model.addAttribute("virtualEdition", virtualEdition);
-            model.addAttribute("userInterface", this.userProvidesInterface);
+            model.addAttribute("userInterface", this.virtualRequiresInterface);
             return "virtual/taxonomy";
         }
     }
@@ -627,7 +621,7 @@ public class VirtualEditionController {
             List<String> errors = (List<String>) model.asMap().get("errors");
             model.addAttribute("errors", errors);
             model.addAttribute("category", category);
-            model.addAttribute("userInterface", this.userProvidesInterface);
+            model.addAttribute("userInterface", this.virtualRequiresInterface);
             return "virtual/category";
         }
     }
@@ -724,7 +718,7 @@ public class VirtualEditionController {
             return "redirect:/error";
         }
 
-        inter.dissociate(this.userProvidesInterface.getAuthenticatedUser(), category);
+        inter.dissociate(this.virtualRequiresInterface.getAuthenticatedUser(), category);
 
         return "redirect:/fragments/fragment/inter/" + inter.getExternalId();
     }
@@ -743,7 +737,7 @@ public class VirtualEditionController {
         }
 
         if (categories != null && categories.length > 0) {
-            inter.associate(this.userProvidesInterface.getAuthenticatedUser(), Arrays.stream(categories).collect(Collectors.toSet()));
+            inter.associate(this.virtualRequiresInterface.getAuthenticatedUser(), Arrays.stream(categories).collect(Collectors.toSet()));
         }
 
         return "redirect:/fragments/fragment/inter/" + inter.getExternalId();

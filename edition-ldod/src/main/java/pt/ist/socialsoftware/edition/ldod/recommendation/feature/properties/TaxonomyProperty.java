@@ -21,6 +21,12 @@ public class TaxonomyProperty extends Property {
         this.sortedCategories = this.recommendationRequiresInterface.getVirtualEditionSortedCategoryList(acronym);
     }
 
+    public TaxonomyProperty(double weight, String acronym) {
+        super(weight, PropertyCache.OFF);
+        this.acronym = acronym;
+        this.sortedCategories = this.recommendationRequiresInterface.getVirtualEditionSortedCategoryList(acronym);
+    }
+
     @Override
     double[] extractVector(ScholarInterDto scholarInterDto) {
         return new double[0];
