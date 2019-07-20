@@ -15,7 +15,8 @@ public abstract class Property {
     }
 
     private final double weight;
-    private final PropertyCache cached;
+
+    private PropertyCache cached;
 
     public Property(double weight, PropertyCache cached) {
         this.weight = weight;
@@ -100,5 +101,10 @@ public abstract class Property {
     public double getWeight() {
         return this.weight;
     }
+
+    public void setCached(PropertyCache cached) {
+        this.cached = cached;
+    }
+
 
 }

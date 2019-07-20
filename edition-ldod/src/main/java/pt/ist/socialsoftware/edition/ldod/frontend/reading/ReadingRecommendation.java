@@ -4,10 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMFragmentRecommender;
-import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.*;
-import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 
@@ -24,41 +21,23 @@ public class ReadingRecommendation implements Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(ReadingRecommendation.class);
 
-    private final TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
+    private final ReadingRequiresInterface readingRequiresInterface = new ReadingRequiresInterface();
 
     private final List<String> read = new ArrayList<>();
-    private double heteronymWeight = 0.0;
-    private double dateWeight = 0.0;
-    private double textWeight = 1.0;
-    private double taxonomyWeight = 0.0;
+    private float heteronymWeight = 0;
+    private float dateWeight = 0;
+    private float textWeight = 1;
+    private float taxonomyWeight = 0;
 
     public ReadingRecommendation() {
     }
 
     public void clean() {
         this.read.clear();
-        this.heteronymWeight = 0.0;
-        this.dateWeight = 0.0;
-        this.textWeight = 0.0;
-        this.taxonomyWeight = 0.0;
-    }
-
-    private List<Property> getProperties() {
-        List<Property> properties = new ArrayList<>();
-        if (this.heteronymWeight > 0.0) {
-            properties.add(new HeteronymProperty(this.heteronymWeight));
-        }
-        if (this.dateWeight > 0.0) {
-            properties.add(new DateProperty(this.dateWeight));
-        }
-        if (this.textWeight > 0.0) {
-            properties.add(new TextProperty(this.textWeight));
-        }
-        if (this.taxonomyWeight > 0.0) {
-            properties.add(new TaxonomyProperty(this.taxonomyWeight, VirtualEdition.ARCHIVE_EDITION_ACRONYM,
-                    Property.PropertyCache.ON));
-        }
-        return properties;
+        this.heteronymWeight = 0;
+        this.dateWeight = 0;
+        this.textWeight = 0;
+        this.taxonomyWeight = 0;
     }
 
     public Set<ScholarInterDto> getNextRecommendations(String expertEditionInterId) {
@@ -67,10 +46,10 @@ public class ReadingRecommendation implements Serializable {
         // this.read);
 
         List<FragmentDto> readFragments = this.read.stream()
-                .map(id -> this.textProvidesInterface.getScholarInterbyExternalId(id)).map(ScholarInterDto::getFragmentDto)
+                .map(id -> this.readingRequiresInterface.getScholarInterbyExternalId(id)).map(ScholarInterDto::getFragmentDto)
                 .collect(Collectors.toList());
 
-        ScholarInterDto toReadInter = this.textProvidesInterface.getScholarInterbyExternalId(expertEditionInterId);
+        ScholarInterDto toReadInter = this.readingRequiresInterface.getScholarInterbyExternalId(expertEditionInterId);
         FragmentDto toReadFragment = toReadInter.getFragmentDto();
 
         // if the fragment that is going to be read was already read, return to
@@ -82,7 +61,7 @@ public class ReadingRecommendation implements Serializable {
         }
 
 
-        Set<FragmentDto> fragments = this.textProvidesInterface.getFragmentDtoSet();
+        Set<FragmentDto> fragments = this.readingRequiresInterface.getFragmentDtoSet();
 
         // if all fragments minus 50 were already suggested clear the first 50
         // recommendations
@@ -96,7 +75,9 @@ public class ReadingRecommendation implements Serializable {
 
         this.read.add(expertEditionInterId);
 
-        List<Entry<FragmentDto, Double>> mostSimilars = getEntries(toReadFragment, toBeRecommended);
+        List<Entry<FragmentDto, Double>> mostSimilars = this.readingRequiresInterface.
+                getMostSimilarFragmentsOfGivenFragment(toReadFragment, toBeRecommended,
+                        new WeightsDto(getHeteronymWeight(), getDateWeight(), getTextWeight(), getTaxonomyWeight()));
 
         Set<ScholarInterDto> result = new HashSet<>();
         Double value = mostSimilars.get(0).getValue();
@@ -117,13 +98,6 @@ public class ReadingRecommendation implements Serializable {
         }
 
         return result;
-    }
-
-    private List<Entry<FragmentDto, Double>> getEntries(FragmentDto toReadFragment, Set<FragmentDto> toBeRecommended) {
-        VSMFragmentRecommender recommender = new VSMFragmentRecommender();
-        List<Property> properties = getProperties();
-        return recommender.getMostSimilarItems(toReadFragment, toBeRecommended,
-                properties);
     }
 
     public String prevRecommendation() {
@@ -153,36 +127,35 @@ public class ReadingRecommendation implements Serializable {
         return this.read.get(this.read.size() - 1);
     }
 
-    public double getHeteronymWeight() {
+    public float getHeteronymWeight() {
         return this.heteronymWeight;
     }
 
-    public void setHeteronymWeight(double heteronymWeight) {
+    public void setHeteronymWeight(float heteronymWeight) {
         this.heteronymWeight = heteronymWeight;
     }
 
-    public double getDateWeight() {
+    public float getDateWeight() {
         return this.dateWeight;
     }
 
-    public void setDateWeight(double dateWeight) {
+    public void setDateWeight(float dateWeight) {
         this.dateWeight = dateWeight;
     }
 
-    public double getTextWeight() {
+    public float getTextWeight() {
         return this.textWeight;
-
     }
 
-    public void setTextWeight(double textWeight) {
+    public void setTextWeight(float textWeight) {
         this.textWeight = textWeight;
     }
 
-    public double getTaxonomyWeight() {
+    public float getTaxonomyWeight() {
         return this.taxonomyWeight;
     }
 
-    public void setTaxonomyWeight(double taxonomyWeight) {
+    public void setTaxonomyWeight(float taxonomyWeight) {
         this.taxonomyWeight = taxonomyWeight;
     }
 

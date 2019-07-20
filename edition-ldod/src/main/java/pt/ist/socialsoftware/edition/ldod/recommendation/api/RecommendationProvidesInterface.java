@@ -6,16 +6,17 @@ import pt.ist.socialsoftware.edition.ldod.domain.RecommendationModule;
 import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.WeightsDto;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMScholarInterRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.Property;
+import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.TaxonomyProperty;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class RecommendationProvidesInterface {
@@ -103,4 +104,17 @@ public class RecommendationProvidesInterface {
         return recommendedEdition;
     }
 
+    public List<Map.Entry<FragmentDto, Double>> getMostSimilarFragmentsOfGivenFragment(FragmentDto toReadFragment, Set<FragmentDto> toBeRecommended, WeightsDto weightsDto) {
+        VSMFragmentRecommender recommender = new VSMFragmentRecommender();
+        List<Property> properties = weightsDto.getProperties().stream().map(property -> {
+            if (property instanceof TaxonomyProperty) {
+                property.setCached(Property.PropertyCache.ON);
+                return property;
+            } else {
+                return property;
+            }
+        }).collect(Collectors.toList());
+        return recommender.getMostSimilarItems(toReadFragment, toBeRecommended,
+                properties);
+    }
 }

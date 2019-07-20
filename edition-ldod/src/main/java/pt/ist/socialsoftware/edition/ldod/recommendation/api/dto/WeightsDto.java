@@ -11,6 +11,16 @@ public class WeightsDto {
     private float textWeight;
     private float taxonomyWeight;
 
+    public WeightsDto() {
+    }
+    
+    public WeightsDto(float heteronymWeight, float dateWeight, float textWeight, float taxonomyWeight) {
+        this.heteronymWeight = heteronymWeight;
+        this.dateWeight = dateWeight;
+        this.textWeight = textWeight;
+        this.taxonomyWeight = taxonomyWeight;
+    }
+
     public List<Property> getProperties() {
         List<Property> result = new ArrayList<>();
         if (getHeteronymWeight() > 0.0) {

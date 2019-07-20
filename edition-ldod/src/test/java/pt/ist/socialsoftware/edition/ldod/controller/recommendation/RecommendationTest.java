@@ -86,11 +86,7 @@ public class RecommendationTest {
     @WithUserDetails("ars")
     public void getIntersByDistanceErrorTest() throws Exception {
 
-        WeightsDto dto = new WeightsDto();
-        dto.setDateWeight(0.0f);
-        dto.setHeteronymWeight(0.0f);
-        dto.setTaxonomyWeight(0.0f);
-        dto.setTextWeight(0.0f);
+        WeightsDto dto = new WeightsDto(0.0f, 0.0f, 0.0f, 0.0f);
 
         this.mockMvc.perform(post("/recommendation/{externalId}/intersByDistance", "ERROR")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)

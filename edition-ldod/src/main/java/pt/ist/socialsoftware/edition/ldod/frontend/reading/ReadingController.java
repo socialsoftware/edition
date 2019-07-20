@@ -70,7 +70,7 @@ public class ReadingController {
         ScholarInterDto expertEditionInter = this.readingRequiresInterface.getExpertEditionFirstInterpretation(acronym);
 
         frontendSession.getRecommendation().clean();
-        frontendSession.getRecommendation().setTextWeight(1.0);
+        frontendSession.getRecommendation().setTextWeight(1);
 
         return "redirect:/reading/fragment/" + expertEditionInter.getFragmentXmlId() + "/inter/"
                 + expertEditionInter.getUrlId();
@@ -90,7 +90,7 @@ public class ReadingController {
         }
 
         frontendSession.getRecommendation().clean();
-        frontendSession.getRecommendation().setTextWeight(1.0);
+        frontendSession.getRecommendation().setTextWeight(1);
 
         return "redirect:/reading/fragment/" + expertEditionInter.getFragmentXmlId() + "/inter/"
                 + expertEditionInter.getUrlId();
@@ -159,7 +159,7 @@ public class ReadingController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/weight", produces = "application/json")
     public ResponseEntity<String> changeWeight(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
-                                               @RequestParam String type, @RequestParam double value) {
+                                               @RequestParam String type, @RequestParam float value) {
 
         switch (type) {
             case "heteronym":

@@ -62,10 +62,10 @@ public class ReadingRecommendationPerformanceTest {
         VSMRecommender<VirtualEditionInterDto> recommender = new VSMVirtualEditionInterRecommender();
 
         List<Property> properties = new ArrayList<>();
-        properties.add(new HeteronymProperty(1.0));
-        properties.add(new DateProperty(1.0));
-        properties.add(new TaxonomyProperty(1.0, VirtualEdition.ARCHIVE_EDITION_ACRONYM, PropertyCache.ON));
-        properties.add(new TextProperty(1.0));
+        properties.add(new HeteronymProperty(1));
+        properties.add(new DateProperty(1));
+        properties.add(new TaxonomyProperty(1, VirtualEdition.ARCHIVE_EDITION_ACRONYM, PropertyCache.ON));
+        properties.add(new TextProperty(1));
 
         // warm the system in order to create all the caches
         recommender.getMostSimilarItemsAsList(archiveVirtualEditionInters.get(2),
@@ -78,10 +78,10 @@ public class ReadingRecommendationPerformanceTest {
     public void testSeveralRecommendations() throws IOException, ParseException {
         ReadingRecommendation recommender = new ReadingRecommendation();
 
-        recommender.setDateWeight(1.0);
-        recommender.setHeteronymWeight(1.0);
-        recommender.setTextWeight(1.0);
-        recommender.setTaxonomyWeight(1.0);
+        recommender.setDateWeight(1);
+        recommender.setHeteronymWeight(1);
+        recommender.setTextWeight(1);
+        recommender.setTaxonomyWeight(1);
 
         ExpertEditionDto pizarroEdition = new ExpertEditionDto(TextModule.getInstance().getJPEdition());
         ScholarInterDto inter = pizarroEdition.getExpertEditionInters().stream().collect(Collectors.toList())

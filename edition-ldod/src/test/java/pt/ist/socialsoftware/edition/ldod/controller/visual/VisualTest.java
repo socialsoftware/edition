@@ -98,11 +98,7 @@ public class VisualTest {
         VirtualEditionInter vi = VirtualModule.getInstance().getArchiveEdition()
                 .getAllDepthVirtualEditionInters().get(0);
 
-        WeightsDto dto = new WeightsDto();
-        dto.setDateWeight(0.0f);
-        dto.setHeteronymWeight(0.0f);
-        dto.setTaxonomyWeight(0.0f);
-        dto.setTextWeight(0.0f);
+        WeightsDto dto = new WeightsDto(0.0f, 0.0f, 0.0f, 0.0f);
 
         String res = this.mockMvc.perform(post("/visual/editions/{externalId}/intersByDistance", vi.getExternalId())
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
