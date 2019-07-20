@@ -18,21 +18,33 @@ public class GameRequiresInterface {
         if (event.getType().equals(Event.EventType.USER_REMOVE)) {
             String username = event.getIdentifier();
 
-            ClassificationModule.getInstance().getPlayerSet().stream().filter(player -> player.getUser().equals(username)).forEach(Player::remove);
-            ClassificationModule.getInstance().getClassificationGameSet().stream().filter(classificationGame -> classificationGame.getResponsible().equals(username))
+            ClassificationModule.getInstance().getPlayerSet().stream().filter(player -> player.getUser().equals(username))
+                    .forEach(Player::remove);
+            ClassificationModule.getInstance().getClassificationGameSet().stream()
+                    .filter(classificationGame -> classificationGame.getResponsible().equals(username))
                     .forEach(ClassificationGame::remove);
         }
         else if (event.getType().equals(Event.EventType.VIRTUAL_EDITION_REMOVE)){
             String editionId = event.getIdentifier();
 
+            ClassificationModule.getInstance().getClassificationGameSet().stream()
+                    .filter(classificationGame -> classificationGame.getEditionId().equals(editionId))
+                    .forEach(ClassificationGame::remove);
         }
         else if (event.getType().equals(Event.EventType.VIRTUAL_INTER_REMOVE)){
             String interId = event.getIdentifier();
 
+            ClassificationModule.getInstance().getClassificationGameSet().stream()
+                    .filter(classificationGame -> classificationGame.getInterId().equals(interId))
+                    .forEach(ClassificationGame::remove);
         }
 
         else if (event.getType().equals(Event.EventType.TAG_REMOVE)){
-            String externalId = event.getIdentifier();
+            String urlId = event.getIdentifier();
+
+            ClassificationModule.getInstance().getClassificationGameSet().stream()
+                    .filter(classificationGame -> classificationGame.getTagId().equals(urlId))
+                    .forEach(ClassificationGame::remove);
         }
     }
 

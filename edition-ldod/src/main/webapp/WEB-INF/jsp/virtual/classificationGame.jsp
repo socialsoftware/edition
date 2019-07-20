@@ -71,12 +71,12 @@
                     <c:choose>
                         <c:when test="${game.isActive()}">
                             <td>
-                                <a href="/virtualeditions/${game.getVirtualEdition().getExternalId()}/classificationGame/${game.getExternalId()}">${game.getVirtualEditionInter().getTitle()}</a>
+                                <a href="/virtualeditions/${virtualInterface.getVirtualEditionExternalIdByAcronym(game.getEditionId())}/classificationGame/${game.getExternalId()}">${virtualInterface.getVirtualEditionInterTitle(game.getInterId())}</a>
                             </td>
                         </c:when>
                         <c:otherwise>
                             <td class="success"><span class="glyphicon glyphicon-asterisk"></span><a
-                                    href="/virtualeditions/${game.getVirtualEdition().getExternalId()}/classificationGame/${game.getExternalId()}">${game.getVirtualEditionInter().getTitle()}</a>
+                                    href="/virtualeditions/${virtualInterface.getVirtualEditionExternalIdByAcronym(game.getEditionId())}/classificationGame/${game.getExternalId()}">${virtualInterface.getVirtualEditionInterTitle(game.getInterId())}</a>
                             </td>
                         </c:otherwise>
                     </c:choose>
@@ -90,7 +90,7 @@
                             <br/>
                         </c:otherwise>
                     </c:choose></td>
-                    <td>${game.getTag().getCategory().getName()}</td>
+                    <td>${virtualInterface.getTagCategory(game.getInterId(), game.getTagId()).getName()}</td>
                     <td>
                         <c:forEach var="participant" items='${game.getClassificationGameParticipantSet()}'
                                    varStatus="loop">
@@ -100,8 +100,8 @@
                         <c:if test="${!loop.last}">, </c:if>
                         </c:forEach>
                     <td><c:if
-                            test="${game.getTag().getContributor()}">${userProvidesInterface.getFirstName(game.getTag().getContributor())}
-                        ${userProvidesInterface.getLastName(game.getTag().getContributor())}</c:if></td>
+                            test="${virtualInterface.getTagInInter(game.getInterId(), game.getTagId()).getUsername()}">${userProvidesInterface.getFirstName(virtualInterface.getTagInInter(game.getInterId(), game.getTagId()).getUsername())}
+                        ${userProvidesInterface.getLastName(virtualInterface.getTagInInter(game.getInterId(), game.getTagId()).getUsername().getContributor())}</c:if></td>
                     <td>${userProvidesInterface.getFirstName(game.getResponsible())}
                             ${userProvidesInterface.getLastName(game.getResponsible())}</td>
                     <td><c:if test="${isAdmin && game.canBeRemoved()}">

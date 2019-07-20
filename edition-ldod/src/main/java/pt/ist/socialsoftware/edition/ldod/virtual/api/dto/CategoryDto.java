@@ -13,6 +13,7 @@ public class CategoryDto {
     private String externalId;
     private String acronym;
     private String urlId;
+    private String nameInEdition;
     private String name;
     private List<UserDto> users;
 
@@ -20,7 +21,8 @@ public class CategoryDto {
         setExternalId(category.getExternalId());
         setAcronym(category.getTaxonomy().getEdition().getAcronym());
         setUrlId(category.getUrlId());
-        setName(category.getNameInEditionContext(inter.getEdition().getTaxonomy().getEdition()));
+        setNameInEdition(category.getNameInEditionContext(inter.getEdition().getTaxonomy().getEdition()));
+        setName(category.getName());
         setUsers(inter.getContributorSet().stream().map(UserDto::new).collect(Collectors.toList()));
     }
 
@@ -48,6 +50,14 @@ public class CategoryDto {
         this.urlId = urlId;
     }
 
+    public String getNameInEdition() {
+        return nameInEdition;
+    }
+
+    public void setNameInEdition(String name) {
+        this.nameInEdition = name;
+    }
+
     public String getName() {
         return name;
     }
@@ -55,6 +65,7 @@ public class CategoryDto {
     public void setName(String name) {
         this.name = name;
     }
+
 
     public List<UserDto> getUsers() {
         return users;

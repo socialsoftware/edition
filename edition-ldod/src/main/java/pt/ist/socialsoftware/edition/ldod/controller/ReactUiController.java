@@ -511,7 +511,7 @@ public class ReactUiController {
             infoMap.put("interExternal", inter.getExternalId());
             infoMap.put("acronym", category.getAcronym());
             infoMap.put("urlId", category.getUrlId());
-            infoMap.put("name", category.getName());
+            infoMap.put("name", category.getNameInEdition());
             infoMap.put("categoryExternal", category.getExternalId());
 
             List<Map<String, String>> userList = new ArrayList<>();
@@ -555,14 +555,14 @@ public class ReactUiController {
         if (this.userProvidesInterface.getUser(user) != null) {
             List<String> assignedInfo = new ArrayList<>();
             for (CategoryDto category : inter.getAssignedCategoriesForUser(user)) {
-                assignedInfo.add(category.getName());
+                assignedInfo.add(category.getNameInEdition());
             }
 
             catInfo.put("assigned", assignedInfo);
 
             List<String> nonAssignedInfo = new ArrayList<>();
             for (CategoryDto category : inter.getNonAssignedCategoriesForUser(user)) {
-                nonAssignedInfo.add(category.getName());
+                nonAssignedInfo.add(category.getNameInEdition());
             }
 
             catInfo.put("nonAssigned", nonAssignedInfo);
@@ -732,7 +732,7 @@ public class ReactUiController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        inter.dissociate(this.userProvidesInterface.getAuthenticatedUser(), category.getName());
+        inter.dissociate(this.userProvidesInterface.getAuthenticatedUser(), category.getNameInEdition());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

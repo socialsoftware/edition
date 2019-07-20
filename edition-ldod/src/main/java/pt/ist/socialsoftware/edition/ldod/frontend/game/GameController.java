@@ -92,7 +92,7 @@ public class GameController {
     public String removeClassificationGame(Model model, @PathVariable String externalId,
                                            @PathVariable String gameExternalId) {
         logger.debug("removeClassificationGame externalId: {}, gameExternalId: {}", externalId, gameExternalId);
-        VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
+        VirtualEditionDto virtualEdition = this.virtualProvidesInterface.getVirtualEditionByExternalId(externalId);
         ClassificationGame game = FenixFramework.getDomainObject(gameExternalId);
         if (virtualEdition == null || game == null) {
             return "redirect:/error";
@@ -110,7 +110,7 @@ public class GameController {
     @RequestMapping(method = RequestMethod.GET, value = "/{externalId}/classificationGame/{gameId}")
     public String getClassificationGameContent(Model model, @PathVariable String externalId,
                                                @PathVariable String gameId) {
-        VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
+        VirtualEditionDto virtualEdition = this.virtualProvidesInterface.getVirtualEditionByExternalId(externalId);
         ClassificationGame game = FenixFramework.getDomainObject(gameId);
         if (virtualEdition == null || game == null) {
             return "redirect:/error";
@@ -121,6 +121,7 @@ public class GameController {
                     game.getClassificationGameParticipantSet().stream()
                             .sorted(Comparator.comparing(ClassificationGameParticipant::getScore).reversed())
                             .collect(Collectors.toList()));
+            model.addAttribute("virtualInterface", this.virtualProvidesInterface);
             return "virtual/classificationGameContent";
         }
     }

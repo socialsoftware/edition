@@ -254,10 +254,26 @@ public class VirtualProvidesInterface {
         return new TagDto(tag, virtualEditionInter);
     }
 
+    public TagDto getTagInInter(String xmlId, String urlId){
+        VirtualEditionInter virtualEditionInter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
+        Tag tag = virtualEditionInter.getTagSet()
+                .stream().filter(t -> t.getCategory().getUrlId().equals(urlId)).findAny().orElse(null);
+
+        if(tag == null){
+            return null;
+        }
+
+        return new TagDto(tag, virtualEditionInter);
+    }
+
     public CategoryDto getTagCategory(String xmlId, String urlId){
         VirtualEditionInter virtualEditionInter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         Tag tag = virtualEditionInter.getTagSet()
-                .stream().filter(t -> t.getCategory().getUrlId().equals(urlId)).findAny().orElseThrow(LdoDException::new);
+                .stream().filter(t -> t.getCategory().getUrlId().equals(urlId)).findAny().orElse(null);
+
+        if(tag == null){
+            return null;
+        }
 
         return new CategoryDto(tag.getCategory(), virtualEditionInter);
     }

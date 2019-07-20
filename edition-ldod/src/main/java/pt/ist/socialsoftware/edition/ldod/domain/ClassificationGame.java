@@ -54,6 +54,8 @@ public class ClassificationGame extends ClassificationGame_Base {
         setResponsible(user);
 
         setEditionId(virtualEdition.getAcronym());
+
+        setClassificationModule(ClassificationModule.getInstance());
     }
 
     @Atomic(mode = TxMode.WRITE)
@@ -64,6 +66,8 @@ public class ClassificationGame extends ClassificationGame_Base {
         gameRequiresInterface.removeTag(getTagId());
 
         getClassificationGameParticipantSet().stream().forEach(p -> p.remove());
+
+        setClassificationModule(null);
 
         deleteDomainObject();
     }

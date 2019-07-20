@@ -35,6 +35,9 @@ public class Tag extends Tag_Base implements Comparable<Tag> {
     }
 
     public void remove() {
+        EventInterface eventInterface = new EventInterface();
+        eventInterface.publish(new Event(Event.EventType.TAG_REMOVE, getCategory().getUrlId()));
+
         setInter(null);
         if (getCategory() != null && getCategory().getTaxonomy().getOpenAnnotation()
                 && getCategory().getTagSet().size() == 1) {
@@ -45,9 +48,6 @@ public class Tag extends Tag_Base implements Comparable<Tag> {
             setCategory(null);
         }
         setAnnotation(null);
-
-        EventInterface eventInterface = new EventInterface();
-        eventInterface.publish(new Event(Event.EventType.TAG_REMOVE, getExternalId()));
 
         deleteDomainObject();
     }
