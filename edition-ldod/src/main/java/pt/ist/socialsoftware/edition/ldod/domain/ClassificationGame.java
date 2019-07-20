@@ -5,7 +5,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.game.api.GameRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.TagDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -31,9 +35,12 @@ public class ClassificationGame extends ClassificationGame_Base {
     public static final int VOTING_PARAGRAPH_ROUND = 2;
     public static final int VOTING_FINAL_ROUND = 3;
 
-    public ClassificationGame(VirtualEdition virtualEdition, String description, DateTime date,
-                              VirtualEditionInter inter, String user) {
-        if (!virtualEdition.getTaxonomy().getOpenVocabulary()) {
+    public ClassificationGame(VirtualEditionDto virtualEdition, String description, DateTime date,
+                              VirtualEditionInterDto inter, String user) {
+
+        GameRequiresInterface gameRequiresInterface = new GameRequiresInterface();
+
+        if (!gameRequiresInterface.getOpenVocabularyStatus(virtualEdition.getAcronym())) {
             throw new LdoDException("Cannot create game due to close vocabulary");
         }
 
@@ -41,26 +48,20 @@ public class ClassificationGame extends ClassificationGame_Base {
         setDescription(description);
         setDateTime(date);
 
-        setVirtualEditionInter(inter);
+
         setInterId(inter.getXmlId());
 
         setResponsible(user);
 
-        setVirtualEdition(virtualEdition);
-        setEditionId(virtualEdition.getXmlId());
+        setEditionId(virtualEdition.getAcronym());
     }
 
     @Atomic(mode = TxMode.WRITE)
     public void remove() {
-        setVirtualEdition(null);
 
-        Tag tag = getTag();
-        if (tag != null) {
-            setTag(null);
-            tag.remove();
-        }
+        GameRequiresInterface gameRequiresInterface = new GameRequiresInterface();
 
-        setVirtualEditionInter(null);
+        gameRequiresInterface.removeTag(getTagId());
 
         getClassificationGameParticipantSet().stream().forEach(p -> p.remove());
 
@@ -68,7 +69,8 @@ public class ClassificationGame extends ClassificationGame_Base {
     }
 
     public boolean getOpenAnnotation() {
-        return getVirtualEdition().getTaxonomy().getOpenAnnotation();
+        GameRequiresInterface gameRequiresInterface = new GameRequiresInterface();
+        return gameRequiresInterface.getOpenAnnotationStatus(getEditionId());
     }
 
     public boolean isActive() {
@@ -77,8 +79,10 @@ public class ClassificationGame extends ClassificationGame_Base {
 
     @Atomic(mode = TxMode.WRITE)
     public void addParticipant(String user) {
+        GameRequiresInterface gameRequiresInterface = new GameRequiresInterface();
+
         if (!getOpenAnnotation()
-                && !getVirtualEdition().getActiveMemberSet().stream().anyMatch(m -> m.getUser().equals(user))) {
+                && !gameRequiresInterface.isUserParticipant(getEditionId(), user)) {
             new LdoDException("User not allowed to play this game.");
         }
 
@@ -98,10 +102,11 @@ public class ClassificationGame extends ClassificationGame_Base {
         getClassificationGameParticipantSet().stream().filter(p -> p.getPlayer().getUser().equals(winner)).findFirst().get()
                 .setWinner(true);
 
-        Tag tag = getVirtualEdition().getTaxonomy().createTag(getVirtualEditionInter(), tagName, null, winner);
+        GameRequiresInterface gameRequiresInterface = new GameRequiresInterface();
 
-        setTag(tag);
-        setTagId(tag.getExternalId());
+        TagDto tag = gameRequiresInterface.createTag(getEditionId(), getInterId(), tagName, winner);
+
+        setTagId(tag.getUrlId());
 
         /*
          * Set<User> users = players.keySet().stream().map(p ->
@@ -121,7 +126,7 @@ public class ClassificationGame extends ClassificationGame_Base {
     }
 
     public boolean canBeRemoved() {
-        return getTag() == null;
+        return getTagId() == null;
     }
 
     public Map<String, Double> getLeaderboard() {

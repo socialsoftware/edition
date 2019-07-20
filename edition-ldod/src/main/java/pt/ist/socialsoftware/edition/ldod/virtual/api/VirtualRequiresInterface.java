@@ -36,8 +36,6 @@ public class VirtualRequiresInterface {
                     .flatMap(virtualEditionInter -> virtualEditionInter.getAnnotationSet().stream())
                     .filter(annotation -> annotation.getUser().equals(username))
                     .forEach(annotation -> annotation.remove());
-            virtualModule.getVirtualEditionInterSet().stream().flatMap(virtualEditionInter -> virtualEditionInter.getClassificationGameSet().stream())
-                    .filter(classificationGame -> classificationGame.getResponsible().equals(username)).forEach(classificationGame -> classificationGame.remove());
         }
     }
 

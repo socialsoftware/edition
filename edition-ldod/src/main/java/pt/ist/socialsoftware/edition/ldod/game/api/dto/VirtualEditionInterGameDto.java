@@ -1,28 +1,26 @@
-package pt.ist.socialsoftware.edition.ldod.dto;
+package pt.ist.socialsoftware.edition.ldod.game.api.dto;
 
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
-public class VirtualEditionInterDto {
+public class VirtualEditionInterGameDto {
     private String fragmentId;
     private String title;
     private int number;
     private String urlId;
     private String text;
 
-    public VirtualEditionInterDto() {
+    public VirtualEditionInterGameDto() {
     }
 
-    public VirtualEditionInterDto(VirtualEditionInter inter) {
+    public VirtualEditionInterGameDto(VirtualEditionInterDto inter) {
         this.setFragmentId(inter.getFragmentXmlId());
         this.title = inter.getTitle();
         this.number = inter.getNumber();
         this.urlId = inter.getUrlId();
 
-        PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter.getLastUsed().getXmlId());
-        writer.write(false);
-
-        this.text = writer.getTranscription();
+        this.text = inter.getLastUsed().getTranscription();
     }
 
     public String getFragmentId() {

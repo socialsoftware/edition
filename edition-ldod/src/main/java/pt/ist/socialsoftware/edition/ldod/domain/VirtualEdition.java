@@ -120,7 +120,6 @@ public class VirtualEdition extends VirtualEdition_Base {
 
         setVirtualModule4Virtual(null);
 
-        getClassificationGameSet().stream().forEach(g -> g.remove());
 
         getTaxonomy().remove();
 
@@ -728,12 +727,6 @@ public class VirtualEdition extends VirtualEdition_Base {
             }
         }
         return null;
-    }
-
-    @Atomic(mode = TxMode.WRITE)
-    public void createClassificationGame(String description, DateTime date, VirtualEditionInter inter, String
-            user) {
-        new ClassificationGame(this, description, date, inter, user);
     }
 
     public boolean isLdoDEdition() {

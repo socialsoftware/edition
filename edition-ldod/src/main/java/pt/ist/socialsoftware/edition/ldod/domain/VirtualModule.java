@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +30,6 @@ public class VirtualModule extends VirtualModule_Base {
 
     public void remove() {
         getCitationSet().forEach(c -> c.remove());
-        getPublicClassificationGames().forEach(g -> g.remove());
         getTweetSet().forEach(t -> t.remove());
         getVirtualEditionsSet().forEach(v -> v.remove());
         getLastTwitterID().remove();
@@ -282,78 +280,6 @@ public class VirtualModule extends VirtualModule_Base {
                 .collect(Collectors.toSet());
     }
 
-    public Set<ClassificationGame> getPublicClassificationGames() {
-        return getVirtualEditionsSet().stream().flatMap(virtualEdition -> virtualEdition.getClassificationGameSet()
-                .stream().filter(c -> c.getOpenAnnotation() && c.isActive())).collect(Collectors.toSet());
-    }
-
-    public Set<ClassificationGame> getActiveGames4User(String username) {
-        Set<VirtualEdition> virtualEditions4User = new HashSet<>(getVirtualEditionsUserIsParticipant(username));
-        Set<ClassificationGame> classificationGamesOfUser = virtualEditions4User.stream()
-                .flatMap(virtualEdition -> virtualEdition.getClassificationGameSet().stream()
-                        .filter(ClassificationGame::isActive))
-                .collect(Collectors.toSet());
-
-        Set<ClassificationGame> allClassificationGames4User = new HashSet<>(getPublicClassificationGames());
-        allClassificationGames4User.addAll(classificationGamesOfUser);
-        return allClassificationGames4User;
-    }
-
-    public Map<String, Double> getOverallLeaderboard() {
-        List<Map<String, Double>> collect = VirtualModule.getInstance().getVirtualEditionsSet().stream()
-                .flatMap(v -> v.getClassificationGameSet().stream().map(g -> g.getLeaderboard()))
-                .collect(Collectors.toList());
-        Map<String, Double> result = new LinkedHashMap<>();
-        for (Map<String, Double> m : collect) {
-            for (Map.Entry<String, Double> e : m.entrySet()) {
-                String key = e.getKey();
-                Double value = result.get(key);
-                result.put(key, value == null ? e.getValue() : e.getValue() + value);
-            }
-        }
-        return result;
-    }
-
-    public int getOverallUserPosition(String username) {
-        if (!getOverallLeaderboard().containsKey(username)) {
-            return -1;
-        }
-
-        Map<String, Double> temp = getOverallLeaderboard().entrySet().stream()
-                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
-
-        return new ArrayList<>(temp.keySet()).indexOf(username) + 1;
-    }
-
-    @Atomic(mode = TxMode.WRITE)
-    public static void manageDailyClassificationGames(DateTime initialDate) {
-        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition("VirtualModule-Jogo-Class");
-
-        // generate daily games
-        for (int i = 0; i < 96; i++) {
-            int index = (int) Math.floor(Math.random() * virtualEdition.getAllDepthVirtualEditionInters().size());
-            VirtualEditionInter inter = virtualEdition.getAllDepthVirtualEditionInters().stream()
-                    .sorted((i1, i2) -> i1.getTitle().compareTo(i2.getTitle())).collect(Collectors.toList()).get(index);
-            DateTime date = initialDate.plusMinutes(15 * (i + 48));
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-
-            String formatedDate = java.time.LocalDateTime.of(date.getYear(), date.getMonthOfYear(),
-                    date.getDayOfMonth(), date.getHourOfDay(), date.getMinuteOfHour()).format(formatter);
-
-            virtualEdition.createClassificationGame("Jogo " + formatedDate, date, inter, User.USER_ARS);
-        }
-
-        // delete non-played games
-        for (ClassificationGame game : virtualEdition.getClassificationGameSet()) {
-            if (game.getDateTime().isBefore(initialDate) && game.canBeRemoved()) {
-                game.remove();
-            }
-        }
-
-    }
-
     public List<String> getUserSelectedVirtualEditions(String username) {
         return getVirtualEditionsSet().stream()
                 .filter(virtualEdition -> virtualEdition.getSelectedBySet().stream().map(selectedBy -> selectedBy.getUser())
@@ -368,4 +294,5 @@ public class VirtualModule extends VirtualModule_Base {
                 .filter(virtualEdition -> selectedAcronyms.contains(virtualEdition.getAcronym()))
                 .forEach(virtualEdition -> virtualEdition.addSelectedByUser(username));
     }
+
 }

@@ -11,6 +11,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
 public class VirtualEditionFragmentsTEIExport {
     Namespace xmlns = Namespace.getNamespace("http://www.tei-c.org/ns/1.0");
@@ -233,19 +234,22 @@ public class VirtualEditionFragmentsTEIExport {
         }
     }
 
+
+    //TODO : these class game related functions should be moved to their own exporter in the game module
     private void exportClassificationGames(Element textClass, VirtualEditionInter virtualEditionInter) {
         Element classificationGameList = new Element("classificationGameList", this.xmlns);
         textClass.addContent(classificationGameList);
 
-        for (ClassificationGame game : virtualEditionInter.getClassificationGameSet()) {
+        for (ClassificationGame game : ClassificationModule.getInstance().getClassificationGamesForInter(virtualEditionInter.getXmlId())) {
             Element gameElement = new Element("classificationGame", this.xmlns);
             gameElement.setAttribute("state", game.getState().toString());
             gameElement.setAttribute("description", game.getDescription());
             gameElement.setAttribute("dateTime", String.valueOf(game.getDateTime()));
             gameElement.setAttribute("sync", Boolean.toString(game.getSync()));
             gameElement.setAttribute("responsible", game.getResponsible());
-            if (game.getTag() != null) {
-                gameElement.setAttribute("tag", game.getTag().getCategory().getName());
+            if (game.getTagId() != null) {
+                gameElement.setAttribute("tag", virtualEditionInter.getTagSet()
+                        .stream().filter(tag -> tag.getExternalId().equals(game.getTagId())).findAny().orElseThrow(LdoDException::new).getCategory().getName());
             }
             ClassificationGameParticipant participant = game.getClassificationGameParticipantSet().stream()
                     .filter(ClassificationGameParticipant::getWinner).findFirst().orElse(null);

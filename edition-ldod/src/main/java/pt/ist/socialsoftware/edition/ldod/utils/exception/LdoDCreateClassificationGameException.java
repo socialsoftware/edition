@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.utils.exception;
 
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +13,10 @@ public class LdoDCreateClassificationGameException extends LdoDException {
     private final String description;
     private final String interExternalId;
     private final String date;
-    private final VirtualEdition virtualEdition;
+    private final VirtualEditionDto virtualEdition;
 
     public LdoDCreateClassificationGameException(List<String> errors, String description, String date,
-												 String interExternalId, VirtualEdition virtualEdition) {
+												 String interExternalId, VirtualEditionDto virtualEdition) {
         this.errors = errors;
         this.description = description;
         this.date = date;
@@ -39,7 +40,7 @@ public class LdoDCreateClassificationGameException extends LdoDException {
         return this.interExternalId;
     }
 
-    public VirtualEdition getVirtualEdition() {
+    public VirtualEditionDto getVirtualEdition() {
         return this.virtualEdition;
     }
 

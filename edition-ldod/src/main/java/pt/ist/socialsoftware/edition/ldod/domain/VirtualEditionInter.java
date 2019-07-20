@@ -85,8 +85,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
             annotation.remove();
         }
 
-        getClassificationGameSet().stream().forEach(classificationGame -> classificationGame.remove());
-
         deleteDomainObject();
     }
 

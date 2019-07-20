@@ -46,12 +46,6 @@ public class Tag extends Tag_Base implements Comparable<Tag> {
         }
         setAnnotation(null);
 
-        ClassificationGame game = getClassificationGame();
-        if (game != null) {
-            setClassificationGame(null);
-            game.remove();
-        }
-
         EventInterface eventInterface = new EventInterface();
         eventInterface.publish(new Event(Event.EventType.TAG_REMOVE, getExternalId()));
 

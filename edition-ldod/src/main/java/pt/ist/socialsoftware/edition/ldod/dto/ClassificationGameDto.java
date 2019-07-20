@@ -1,6 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.dto;
 
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
+import pt.ist.socialsoftware.edition.ldod.game.api.GameRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.game.api.dto.VirtualEditionInterGameDto;
 
 public class ClassificationGameDto {
 	private String gameExternalId;
@@ -8,20 +10,22 @@ public class ClassificationGameDto {
 	private String virtualEditionTitle;
 	private boolean openAnnotation;
 	private long dateTime;
-	private VirtualEditionInterDto virtualEditionInterDto;
+	private VirtualEditionInterGameDto virtualEditionInterGameDto;
 
 	public ClassificationGameDto() {
 
 	}
 
 	public ClassificationGameDto(ClassificationGame game) {
+		GameRequiresInterface gameRequiresInterface = new GameRequiresInterface();
+
 		setGameExternalId(game.getExternalId());
 
-		setVirtualEditionAcronym(game.getVirtualEdition().getAcronym());
-		setVirtualEditionTitle(game.getVirtualEdition().getTitle());
+		setVirtualEditionAcronym(game.getEditionId());
+		setVirtualEditionTitle((gameRequiresInterface.getVirtualEdition(game.getEditionId())).getTitle());
 		setOpenAnnotation(game.getOpenAnnotation());
 		setDateTime(game.getDateTime().getMillis());
-		setVirtualEditionInterDto(new VirtualEditionInterDto(game.getVirtualEditionInter()));
+		setVirtualEditionInterGameDto(new VirtualEditionInterGameDto(gameRequiresInterface.getVirtualEditionInter(game.getInterId())));
 	}
 
 	public String getGameExternalId() {
@@ -64,12 +68,12 @@ public class ClassificationGameDto {
 		this.dateTime = dateTime;
 	}
 
-	public VirtualEditionInterDto getVirtualEditionInterDto() {
-		return this.virtualEditionInterDto;
+	public VirtualEditionInterGameDto getVirtualEditionInterGameDto() {
+		return this.virtualEditionInterGameDto;
 	}
 
-	public void setVirtualEditionInterDto(VirtualEditionInterDto virtualEditionInterDto) {
-		this.virtualEditionInterDto = virtualEditionInterDto;
+	public void setVirtualEditionInterGameDto(VirtualEditionInterGameDto virtualEditionInterGameDto) {
+		this.virtualEditionInterGameDto = virtualEditionInterGameDto;
 	}
 
 }
