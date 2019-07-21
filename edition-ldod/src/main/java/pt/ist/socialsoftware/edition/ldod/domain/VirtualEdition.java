@@ -2,7 +2,6 @@ package pt.ist.socialsoftware.edition.ldod.domain;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -104,7 +103,7 @@ public class VirtualEdition extends VirtualEdition_Base {
     @Atomic(mode = TxMode.WRITE)
     public void remove() {
         EventInterface eventInterface = new EventInterface();
-        eventInterface.publish(new Event(Event.EventType.VIRTUAL_EDITION_REMOVE, this.getXmlId()));
+        eventInterface.publish(new Event(Event.EventType.VIRTUAL_EDITION_REMOVE, this.getAcronym()));
 
         // delete directory and all its files if it exists
         String path = PropertiesManager.getProperties().getProperty("corpus.dir");
@@ -120,15 +119,14 @@ public class VirtualEdition extends VirtualEdition_Base {
 
         setVirtualModule4Virtual(null);
 
-
         getTaxonomy().remove();
 
         getMemberSet().stream().forEach(m -> m.remove());
 
         getCriteriaSet().stream().forEach(c -> c.remove());
 
-        for (SelectedBy user : getSelectedBySet()) {
-            user.remove();
+        for (SelectedBy selectedBy : getSelectedBySet()) {
+            selectedBy.remove();
         }
 
         for (Section section : getSectionsSet()) {
@@ -526,12 +524,14 @@ public class VirtualEdition extends VirtualEdition_Base {
         return getSelectedBySet().stream().anyMatch(selectedBy -> selectedBy.getUser().equals(user));
     }
 
+    @Atomic(mode = TxMode.WRITE)
     public void addSelectedByUser(String user) {
         if (!isSelectedBy(user)) {
             new SelectedBy(this, user);
         }
     }
 
+    @Atomic(mode = TxMode.WRITE)
     public void removeSelectedByUser(String user) {
         getSelectedBySet().stream().filter(selectedBy -> selectedBy.equals(user)).forEach(selectedBy -> selectedBy.remove());
     }

@@ -370,6 +370,15 @@ public class VirtualProvidesInterface {
         VirtualModule.getInstance().addToUserSelectedVirtualEditions(username, selectedAcronyms);
     }
 
+    public void removeVirtualEditionSelectedByUser(String user, String virtualEditionAcronym) {
+        getVirtualEditionByAcronymUtil(virtualEditionAcronym).get().removeSelectedByUser(user);
+    }
+
+    public void addVirtualEditionSelectedByUser(String user, String virtualEditionAcronym) {
+        getVirtualEditionByAcronymUtil(virtualEditionAcronym).get().addSelectedByUser(user);
+
+    }
+
     private Optional<VirtualEditionInter> getVirtualEditionInterByXmlId(String xmlId) {
         return VirtualModule.getInstance().getVirtualEditionInterSet().stream()
                 .filter(virtualEditionInter -> virtualEditionInter.getXmlId().equals(xmlId)).findAny();
@@ -380,14 +389,6 @@ public class VirtualProvidesInterface {
                 .filter(virtualEdition -> virtualEdition.getAcronym().equals(acronym)).findAny();
     }
 
-    public void removeVirtualEditionSelectedByUser(String user, String virtualEditionAcronym) {
-        getVirtualEditionByAcronymUtil(virtualEditionAcronym).get().removeSelectedByUser(user);
-    }
-
-    public void addVirtualEditionSelectedByUser(String user, String virtualEditionAcronym) {
-        getVirtualEditionByAcronymUtil(virtualEditionAcronym).get().addSelectedByUser(user);
-
-    }
 }
 
 

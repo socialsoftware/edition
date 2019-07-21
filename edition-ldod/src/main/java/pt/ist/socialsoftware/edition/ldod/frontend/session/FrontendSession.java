@@ -45,6 +45,9 @@ public class FrontendSession implements Serializable {
     }
 
     public List<String> getSelectedVEAcr() {
+        // deal with async information received from other modules
+        SessionRequiresInterface.processEvents();
+
         return this.selectedVEAcr;
     }
 
