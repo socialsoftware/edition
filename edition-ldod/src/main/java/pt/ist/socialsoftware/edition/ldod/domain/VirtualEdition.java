@@ -9,6 +9,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.api.event.Event;
 import pt.ist.socialsoftware.edition.ldod.api.event.EventInterface;
+import pt.ist.socialsoftware.edition.ldod.api.event.EventVirtualEditionUpdate;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
@@ -64,8 +65,7 @@ public class VirtualEdition extends VirtualEdition_Base {
                 }
 
                 EventInterface eventInterface = new EventInterface();
-                Event event = new Event(Event.EventType.VIRTUAL_EDITION_UPDATE, this.getAcronym());
-                event.setNewAcronym(acronym);
+                Event event = new EventVirtualEditionUpdate(this.getAcronym(), acronym);
                 eventInterface.publish(event);
 
                 super.setAcronym(acronym);

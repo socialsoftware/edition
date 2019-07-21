@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.session;
 
 import pt.ist.socialsoftware.edition.ldod.api.event.Event;
+import pt.ist.socialsoftware.edition.ldod.api.event.EventVirtualEditionUpdate;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
@@ -17,8 +18,10 @@ public class SessionRequiresInterface {
 
         events.stream().filter(event -> event.getType().equals(Event.EventType.VIRTUAL_EDITION_UPDATE))
                 .forEach(event -> {
-                    FrontendSession.getFrontendSession().removeSelectedVE(event.getIdentifier());
-                    FrontendSession.getFrontendSession().addSelectedVE(event.getNewAcronym());
+                    EventVirtualEditionUpdate eventVirtualEditionUpdate = (EventVirtualEditionUpdate) event;
+                    FrontendSession session = FrontendSession.getFrontendSession();
+                    session.removeSelectedVE(eventVirtualEditionUpdate.getIdentifier());
+                    session.addSelectedVE(eventVirtualEditionUpdate.getNewAcronym());
                 });
 
         events.clear();

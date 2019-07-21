@@ -11,7 +11,6 @@ public class Event {
 
     String identifier;
 
-    String newAcronym;
 
     public Event(EventType type, String identifier) {
         this.type = type;
@@ -22,24 +21,8 @@ public class Event {
         return this.type;
     }
 
-    public void setType(EventType type) {
-        this.type = type;
-    }
-
     public String getIdentifier() {
         return this.identifier;
-    }
-
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-
-    public String getNewAcronym() {
-        return this.newAcronym;
-    }
-
-    public void setNewAcronym(String newAcronym) {
-        this.newAcronym = newAcronym;
     }
 
 }
