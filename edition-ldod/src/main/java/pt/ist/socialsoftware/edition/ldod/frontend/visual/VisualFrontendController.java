@@ -9,9 +9,9 @@ import pt.ist.socialsoftware.edition.ldod.frontend.session.FrontendSession;
 @Controller
 public class VisualFrontendController {
 
-    @ModelAttribute("ldoDSession")
+    @ModelAttribute("frontendSession")
     public FrontendSession getLdoDSession() {
-        return FrontendSession.getLdoDSession();
+        return FrontendSession.getFrontendSession();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = {"/ldod-visual", "/ldod-visual/*"})

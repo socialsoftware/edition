@@ -17,20 +17,20 @@ import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 import java.util.Set;
 
 @Controller
-@SessionAttributes({"ldoDSession"})
+@SessionAttributes({"frontendSession"})
 @RequestMapping("/reading")
 public class ReadingController {
     private static final Logger logger = LoggerFactory.getLogger(ReadingController.class);
 
     private final ReadingRequiresInterface readingRequiresInterface = new ReadingRequiresInterface();
 
-    @ModelAttribute("ldoDSession")
+    @ModelAttribute("frontendSession")
     public FrontendSession getLdoDSession() {
-        return FrontendSession.getLdoDSession();
+        return FrontendSession.getFrontendSession();
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String startReading(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession) {
+    public String startReading(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession) {
         model.addAttribute("sortedExpertEditions", this.readingRequiresInterface.getSortedExpertEditionsDto());
         model.addAttribute("inter", null);
 
@@ -38,7 +38,7 @@ public class ReadingController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}")
-    public String readInterpretation(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
+    public String readInterpretation(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                      @PathVariable String xmlId, @PathVariable String urlId) {
         FragmentDto fragment = this.readingRequiresInterface.getFragmentByXmlId(xmlId);
         if (fragment == null) {
@@ -65,7 +65,7 @@ public class ReadingController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/edition/{acronym}/start")
-    public String startReadingEdition(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
+    public String startReadingEdition(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                       @PathVariable String acronym) {
         ScholarInterDto expertEditionInter = this.readingRequiresInterface.getExpertEditionFirstInterpretation(acronym);
 
@@ -77,7 +77,7 @@ public class ReadingController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/start")
-    public String startReadingFromInter(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
+    public String startReadingFromInter(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                         @PathVariable String xmlId, @PathVariable String urlId) {
         FragmentDto fragment = this.readingRequiresInterface.getFragmentByXmlId(xmlId);
         if (fragment == null) {
@@ -97,7 +97,7 @@ public class ReadingController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/next")
-    public String readNextInterpretation(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
+    public String readNextInterpretation(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                          @PathVariable String xmlId, @PathVariable String urlId) {
         FragmentDto fragment = this.readingRequiresInterface.getFragmentByXmlId(xmlId);
         if (fragment == null) {
@@ -116,7 +116,7 @@ public class ReadingController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/prev")
-    public String readPrevInterpretation(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
+    public String readPrevInterpretation(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                          @PathVariable String xmlId, @PathVariable String urlId) {
         FragmentDto fragment = this.readingRequiresInterface.getFragmentByXmlId(xmlId);
         if (fragment == null) {
@@ -135,7 +135,7 @@ public class ReadingController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/inter/prev/recom")
-    public String readPreviousRecommendedFragment(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession) {
+    public String readPreviousRecommendedFragment(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession) {
         String expertEditionInterId = frontendSession.getRecommendation().prevRecommendation();
 
         ScholarInterDto expertEditionInter = this.readingRequiresInterface.getScholarInterbyExternalId(expertEditionInterId);
@@ -146,7 +146,7 @@ public class ReadingController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/inter/prev/recom/reset")
     public String resetPreviousRecommendedFragments(Model model,
-                                                    @ModelAttribute("ldoDSession") FrontendSession frontendSession) {
+                                                    @ModelAttribute("frontendSession") FrontendSession frontendSession) {
 
         frontendSession.getRecommendation().resetPrevRecommendations();
 
@@ -158,7 +158,7 @@ public class ReadingController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/weight", produces = "application/json")
-    public ResponseEntity<String> changeWeight(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
+    public ResponseEntity<String> changeWeight(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                                @RequestParam String type, @RequestParam float value) {
 
         switch (type) {

@@ -22,9 +22,9 @@ import java.util.List;
 public class SourceController {
     private static final Logger logger = LoggerFactory.getLogger(SearchController.class);
 
-    @ModelAttribute("ldoDSession")
+    @ModelAttribute("frontendSession")
     public FrontendSession getLdoDSession() {
-        return FrontendSession.getLdoDSession();
+        return FrontendSession.getFrontendSession();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/list")

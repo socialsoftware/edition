@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.frontend.session.FrontendSession;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 
@@ -46,37 +45,6 @@ public class VirtualModule extends VirtualModule_Base {
         }
 
         return null;
-    }
-
-    public List<VirtualEdition> getVirtualEditionsUserIsParticipant(
-            String user, FrontendSession session) {
-        List<VirtualEdition> manageVE = new ArrayList<>();
-        List<VirtualEdition> selectedVE = new ArrayList<>();
-        List<VirtualEdition> mineVE = new ArrayList<>();
-        List<VirtualEdition> publicVE = new ArrayList<>();
-
-        session.synchronizeSession(user);
-
-        if (user == null) {
-            selectedVE.addAll(session.materializeVirtualEditions());
-        }
-
-        for (VirtualEdition virtualEdition : getVirtualEditionsSet()) {
-            if (user != null
-                    && virtualEdition.getSelectedBySet().stream().anyMatch(selectedBy -> selectedBy.getUser().equals(user))) {
-                selectedVE.add(virtualEdition);
-            } else if (virtualEdition.getParticipantSet().contains(user)) {
-                mineVE.add(virtualEdition);
-            } else if (virtualEdition.getPub() && !selectedVE.contains(virtualEdition)) {
-                publicVE.add(virtualEdition);
-            }
-        }
-
-        manageVE.addAll(selectedVE);
-        manageVE.addAll(mineVE);
-        manageVE.addAll(publicVE);
-
-        return manageVE;
     }
 
     @Atomic(mode = TxMode.WRITE)
@@ -244,6 +212,30 @@ public class VirtualModule extends VirtualModule_Base {
         return getVirtualEditionsSet().stream()
                 .filter(virtualEdition -> virtualEdition.getParticipantSet().contains(username))
                 .collect(Collectors.toList());
+    }
+
+    public List<VirtualEdition> getVirtualEditionsUserIsParticipantSelectedOrPublic(String user) {
+        List<VirtualEdition> manageVE = new ArrayList<>();
+        List<VirtualEdition> selectedVE = new ArrayList<>();
+        List<VirtualEdition> mineVE = new ArrayList<>();
+        List<VirtualEdition> publicVE = new ArrayList<>();
+
+        for (VirtualEdition virtualEdition : getVirtualEditionsSet()) {
+            if (user != null
+                    && virtualEdition.getSelectedBySet().stream().anyMatch(selectedBy -> selectedBy.getUser().equals(user))) {
+                selectedVE.add(virtualEdition);
+            } else if (virtualEdition.getParticipantSet().contains(user)) {
+                mineVE.add(virtualEdition);
+            } else if (virtualEdition.getPub() && !selectedVE.contains(virtualEdition)) {
+                publicVE.add(virtualEdition);
+            }
+        }
+
+        manageVE.addAll(selectedVE);
+        manageVE.addAll(mineVE);
+        manageVE.addAll(publicVE);
+
+        return manageVE;
     }
 
     public List<VirtualEditionInter> getVirtualEditionIntersUserIsContributor(String username) {

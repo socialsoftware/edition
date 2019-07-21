@@ -29,8 +29,8 @@ public class UserModuleAuthenticationSuccessHandler extends SimpleUrlAuthenticat
         user.setLastLogin(LocalDate.now());
 
         FrontendSession frontendSession = new FrontendSession();
-        request.getSession().setAttribute("ldoDSession", frontendSession);
-        frontendSession.updateSession(user);
+        request.getSession().setAttribute("frontendSession", frontendSession);
+        frontendSession.updateSession(user.getUsername());
 
         super.onAuthenticationSuccess(request, response, authentication);
         log.debug("onAuthenticationSuccess");

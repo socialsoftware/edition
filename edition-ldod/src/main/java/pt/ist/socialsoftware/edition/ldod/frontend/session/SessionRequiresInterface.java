@@ -10,12 +10,16 @@ public class SessionRequiresInterface {
     // Uses Virtual Module
     private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
 
-    public List<String> getSelectedVirtualEditionsByUser(String username) {
-        return this.virtualProvidesInterface.getSelectedVirtualEditionsByUser(username);
+    public void removeSelectedByUser(String user, String virtualEditionAcronym) {
+        this.virtualProvidesInterface.removeVirtualEditionSelectedByUser(user, virtualEditionAcronym);
     }
 
-    public void materializeVirtualEditions(String username, List<String> selectedAcronyms) {
-        this.virtualProvidesInterface.addToUserSelectedVirtualEditions(username, selectedAcronyms);
+    public void addSelectedByUser(String user, String virtualEditionAcronym) {
+        this.virtualProvidesInterface.addVirtualEditionSelectedByUser(user, virtualEditionAcronym);
+    }
+
+    public List<String> getSelectedVirtualEditionsByUser(String username) {
+        return this.virtualProvidesInterface.getSelectedVirtualEditionsByUser(username);
     }
 
     // Uses User Module

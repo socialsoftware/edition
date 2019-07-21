@@ -13,7 +13,7 @@ public class WeightsDto {
 
     public WeightsDto() {
     }
-    
+
     public WeightsDto(float heteronymWeight, float dateWeight, float textWeight, float taxonomyWeight) {
         this.heteronymWeight = heteronymWeight;
         this.dateWeight = dateWeight;

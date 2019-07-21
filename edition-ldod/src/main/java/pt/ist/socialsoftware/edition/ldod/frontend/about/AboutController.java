@@ -13,9 +13,9 @@ import pt.ist.socialsoftware.edition.ldod.frontend.session.FrontendSession;
 public class AboutController {
     private static final Logger logger = LoggerFactory.getLogger(AboutController.class);
 
-    @ModelAttribute("ldoDSession")
+    @ModelAttribute("frontendSession")
     public FrontendSession getLdoDSession() {
-        return FrontendSession.getLdoDSession();
+        return FrontendSession.getFrontendSession();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/archive")

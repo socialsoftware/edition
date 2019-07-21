@@ -413,7 +413,7 @@ public class ReactUiController {
         // login capabilities are added to react frontend and a way to select virtual editions is possible
         Set<VirtualEditionDto> virtualEditions = this.virtualProvidesInterface.getVirtualEditions();
 
-        /*Set<VirtualEdition> virtualEditions = new LinkedHashSet<>(FrontendSession.getLdoDSession().materializeVirtualEditions());
+        /*Set<VirtualEdition> virtualEditions = new LinkedHashSet<>(FrontendSession.getFrontendSession().materializeVirtualEditions());
 
         virtualEditions.addAll((User.getAuthenticatedUser() != null ? User.getAuthenticatedUser().getSelectedVirtualEditionsSet() : new LinkedHashSet<>()));
 

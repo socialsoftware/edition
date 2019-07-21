@@ -108,7 +108,7 @@ public class AssistedOrderingController {
 
     @RequestMapping(value = "/linear/create", method = RequestMethod.POST)
     @PreAuthorize("hasPermission(#acronym, 'editionacronym.participant')")
-    public String createLinearVirtualEdition(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
+    public String createLinearVirtualEdition(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                              @RequestParam("acronym") String acronym, @RequestParam("title") String title,
                                              @RequestParam("pub") boolean pub, @RequestParam("inter[]") String[] inters) {
 

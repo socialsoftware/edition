@@ -29,7 +29,7 @@ public class SigninUtils {
 
         FrontendSession frontendSession = new FrontendSession();
         request.setAttribute("frontendSession", frontendSession, WebRequest.SCOPE_SESSION);
-        frontendSession.updateSession(user);
+        frontendSession.updateSession(user.getUsername());
 
         log.debug("signin authentication:{}, user:{}", SecurityContextHolder.getContext().getAuthentication(),
                 User.getAuthenticatedUser() == null ? "NULL" : User.getAuthenticatedUser().getUsername());

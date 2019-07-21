@@ -24,9 +24,9 @@ public class SearchController {
     SearchRequiresInterface frontendRequiresInterface = new SearchRequiresInterface();
 
 
-    @ModelAttribute("ldoDSession")
+    @ModelAttribute("frontendSession")
     public FrontendSession getLdoDSession() {
-        return FrontendSession.getLdoDSession();
+        return FrontendSession.getFrontendSession();
     }
 
     /*

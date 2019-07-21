@@ -13,9 +13,9 @@ import pt.ist.socialsoftware.edition.ldod.frontend.session.FrontendSession;
 public class GameFrontendController {
     private static final Logger logger = LoggerFactory.getLogger(GameFrontendController.class);
 
-    @ModelAttribute("ldoDSession")
+    @ModelAttribute("frontendSession")
     public FrontendSession getLdoDSession() {
-        return FrontendSession.getLdoDSession();
+        return FrontendSession.getFrontendSession();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = {"/classification-game", "/classification-game/*"})

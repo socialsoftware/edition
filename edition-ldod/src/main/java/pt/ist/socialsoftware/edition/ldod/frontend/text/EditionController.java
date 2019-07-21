@@ -28,9 +28,9 @@ public class EditionController {
 
     private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
 
-    @ModelAttribute("ldoDSession")
+    @ModelAttribute("frontendSession")
     public FrontendSession getLdoDSession() {
-        return FrontendSession.getLdoDSession();
+        return FrontendSession.getFrontendSession();
     }
 
     @RequestMapping(method = RequestMethod.GET)

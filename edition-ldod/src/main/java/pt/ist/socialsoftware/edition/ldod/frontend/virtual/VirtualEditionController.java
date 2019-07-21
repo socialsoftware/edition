@@ -30,20 +30,20 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
-@SessionAttributes({"ldoDSession"})
+@SessionAttributes({"frontendSession"})
 @RequestMapping("/virtualeditions")
 public class VirtualEditionController {
     private static final Logger logger = LoggerFactory.getLogger(VirtualEditionController.class);
 
     private final VirtualRequiresInterface virtualRequiresInterface = new VirtualRequiresInterface();
 
-    @ModelAttribute("ldoDSession")
-    public FrontendSession getLdoDSession() {
-        return FrontendSession.getLdoDSession();
+    @ModelAttribute("frontendSession")
+    public FrontendSession getFrontendSession() {
+        return FrontendSession.getFrontendSession();
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String listVirtualEdition(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession) {
+    public String listVirtualEdition(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession) {
 
         model.addAttribute("ldod", VirtualModule.getInstance());
         model.addAttribute("expertEditions", TextModule.getInstance().getSortedExpertEdition());
@@ -55,7 +55,7 @@ public class VirtualEditionController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/restricted/create")
-    public String createVirtualEdition(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
+    public String createVirtualEdition(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                        @RequestParam("acronym") String acronym, @RequestParam("title") String title,
                                        @RequestParam("pub") boolean pub, @RequestParam("use") String editionID) {
 
@@ -100,7 +100,7 @@ public class VirtualEditionController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/restricted/delete")
     @PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
-    public String deleteVirtualEdition(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
+    public String deleteVirtualEdition(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                        @RequestParam("externalId") String externalId) {
         logger.debug("deleteVirtualEdition externalId:{}", externalId);
         VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
@@ -167,7 +167,7 @@ public class VirtualEditionController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/restricted/edit/{externalId}")
     @PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
-    public String editVirtualEdition(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
+    public String editVirtualEdition(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                      @PathVariable String externalId, @RequestParam("acronym") String acronym,
                                      @RequestParam("title") String title, @RequestParam("synopsis") String synopsis,
                                      @RequestParam("pub") boolean pub, @RequestParam("management") boolean management,
@@ -228,7 +228,7 @@ public class VirtualEditionController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/restricted/reorder/{externalId}")
     @PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
-    public String reorderVirtualEdition(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
+    public String reorderVirtualEdition(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                         @PathVariable String externalId, @RequestParam("fraginters") String fraginters) {
         logger.debug("reorderVirtualEdition externalId:{}, fraginters:{}", externalId, fraginters);
 
@@ -255,7 +255,7 @@ public class VirtualEditionController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/toggleselection")
     @PreAuthorize("hasPermission(#externalId, 'virtualedition.public')")
-    public String toggleSelectedVirtualEdition(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
+    public String toggleSelectedVirtualEdition(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                                @RequestParam("externalId") String externalId) {
         VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 
@@ -265,7 +265,7 @@ public class VirtualEditionController {
 
         String user = this.virtualRequiresInterface.getAuthenticatedUser();
 
-        frontendSession.toggleSelectedVirtualEdition(user, virtualEdition);
+        frontendSession.toggleSelectedVirtualEdition(user, virtualEdition.getAcronym());
 
         return "redirect:/virtualeditions";
     }
@@ -288,7 +288,7 @@ public class VirtualEditionController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/participants/submit")
-    public String submitParticipation(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
+    public String submitParticipation(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                       @PathVariable String externalId) {
         VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
         String user = this.virtualRequiresInterface.getAuthenticatedUser();
@@ -302,7 +302,7 @@ public class VirtualEditionController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/participants/cancel")
-    public String cancelParticipationSubmission(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
+    public String cancelParticipationSubmission(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                                 @PathVariable String externalId) {
         VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
         String user = this.virtualRequiresInterface.getAuthenticatedUser();
@@ -384,7 +384,7 @@ public class VirtualEditionController {
     @RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/participants/remove")
     @PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
     public String removeParticipant(RedirectAttributes redirectAttributes,
-                                    @ModelAttribute("ldoDSession") FrontendSession frontendSession, @PathVariable("externalId") String externalId,
+                                    @ModelAttribute("frontendSession") FrontendSession frontendSession, @PathVariable("externalId") String externalId,
                                     @RequestParam("user") String user) {
         logger.debug("removeParticipant user:{}", user);
 
@@ -480,7 +480,7 @@ public class VirtualEditionController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/taxonomy/generateTopics")
     @PreAuthorize("hasPermission(#externalId, 'virtualedition.taxonomy')")
-    public String generateTopicModelling(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
+    public String generateTopicModelling(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                          @PathVariable String externalId, @RequestParam("numTopics") int numTopics,
                                          @RequestParam("numWords") int numWords, @RequestParam("thresholdCategories") int thresholdCategories,
                                          @RequestParam("numIterations") int numIterations) throws IOException {
@@ -523,7 +523,7 @@ public class VirtualEditionController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/taxonomy/createTopics")
     @PreAuthorize("hasPermission(#externalId, 'virtualedition.taxonomy')")
-    public String createTopicModelling(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
+    public String createTopicModelling(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                        @PathVariable String externalId, @ModelAttribute("topicList") TopicListDTO topicList) throws IOException {
         logger.debug("createTopicModelling externalId:{}, username:{}", externalId, topicList.getUsername());
 

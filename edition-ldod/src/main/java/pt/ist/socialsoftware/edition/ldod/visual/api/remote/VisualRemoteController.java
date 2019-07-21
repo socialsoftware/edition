@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@SessionAttributes({"ldoDSession"})
+@SessionAttributes({"frontendSession"})
 @RequestMapping("/visual/editions")
 public class VisualRemoteController {
     private static final Logger logger = LoggerFactory.getLogger(VisualRemoteController.class);

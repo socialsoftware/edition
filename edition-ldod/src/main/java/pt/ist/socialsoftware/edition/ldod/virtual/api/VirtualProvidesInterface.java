@@ -7,8 +7,6 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
-import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.*;
@@ -46,7 +44,7 @@ public class VirtualProvidesInterface {
         return getVirtualEditionByAcronymUtil(acronym).orElseThrow(LdoDException::new).isPublicOrIsParticipant();
     }
 
-    public boolean isUserParticipant(String acronym, String username){
+    public boolean isUserParticipant(String acronym, String username) {
         return getVirtualEditionByAcronymUtil(acronym).orElseThrow(LdoDException::new).getActiveMemberSet()
                 .stream().anyMatch(m -> m.getUser().equals(username));
     }
@@ -245,40 +243,40 @@ public class VirtualProvidesInterface {
     }
 
 
-    public TagDto createTagInInter(String editionId, String interId, String tagName, String user){
+    public TagDto createTagInInter(String editionId, String interId, String tagName, String user) {
         VirtualEditionInter virtualEditionInter = getVirtualEditionInterByXmlId(interId).orElseThrow(LdoDException::new);
         VirtualEdition edition = VirtualModule.getInstance().getVirtualEdition(editionId);
 
-        Tag tag = edition.getTaxonomy().createTag(virtualEditionInter,tagName,null,user);
+        Tag tag = edition.getTaxonomy().createTag(virtualEditionInter, tagName, null, user);
 
         return new TagDto(tag, virtualEditionInter);
     }
 
-    public TagDto getTagInInter(String xmlId, String urlId){
+    public TagDto getTagInInter(String xmlId, String urlId) {
         VirtualEditionInter virtualEditionInter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         Tag tag = virtualEditionInter.getTagSet()
                 .stream().filter(t -> t.getCategory().getUrlId().equals(urlId)).findAny().orElse(null);
 
-        if(tag == null){
+        if (tag == null) {
             return null;
         }
 
         return new TagDto(tag, virtualEditionInter);
     }
 
-    public CategoryDto getTagCategory(String xmlId, String urlId){
+    public CategoryDto getTagCategory(String xmlId, String urlId) {
         VirtualEditionInter virtualEditionInter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         Tag tag = virtualEditionInter.getTagSet()
                 .stream().filter(t -> t.getCategory().getUrlId().equals(urlId)).findAny().orElse(null);
 
-        if(tag == null){
+        if (tag == null) {
             return null;
         }
 
         return new CategoryDto(tag.getCategory(), virtualEditionInter);
     }
 
-    public void removeTagFromInter(String externalId){
+    public void removeTagFromInter(String externalId) {
 
         DomainObject domainObject = FenixFramework.getDomainObject(externalId);
 
@@ -382,6 +380,14 @@ public class VirtualProvidesInterface {
                 .filter(virtualEdition -> virtualEdition.getAcronym().equals(acronym)).findAny();
     }
 
+    public void removeVirtualEditionSelectedByUser(String user, String virtualEditionAcronym) {
+        getVirtualEditionByAcronymUtil(virtualEditionAcronym).get().removeSelectedByUser(user);
+    }
+
+    public void addVirtualEditionSelectedByUser(String user, String virtualEditionAcronym) {
+        getVirtualEditionByAcronymUtil(virtualEditionAcronym).get().addSelectedByUser(user);
+
+    }
 }
 
 

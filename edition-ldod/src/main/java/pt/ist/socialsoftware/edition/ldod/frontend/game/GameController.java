@@ -9,19 +9,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameParticipant;
+import pt.ist.socialsoftware.edition.ldod.domain.ClassificationModule;
 import pt.ist.socialsoftware.edition.ldod.frontend.game.validator.ClassificationGameValidator;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
-import pt.ist.socialsoftware.edition.ldod.utils.exception.*;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDCreateClassificationGameException;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@SessionAttributes({"ldoDSession"})
+@SessionAttributes({"frontendSession"})
 @RequestMapping("/virtualeditions")
 public class GameController {
     private static final Logger logger = LoggerFactory.getLogger(GameController.class);
@@ -79,7 +83,7 @@ public class GameController {
                 throw new LdoDCreateClassificationGameException(errors, description, date, interExternalId,
                         virtualEdition);
             }
-            ClassificationModule.createClassificationGame(virtualEdition,description,
+            ClassificationModule.createClassificationGame(virtualEdition, description,
                     DateTime.parse(date, DateTimeFormat.forPattern("dd/MM/yyyy HH:mm")), inter,
                     this.userProvidesInterface.getAuthenticatedUser());
 

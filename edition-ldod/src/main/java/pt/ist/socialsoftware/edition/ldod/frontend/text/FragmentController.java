@@ -20,23 +20,22 @@ import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWrite
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationSearchJson;
-import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
-@SessionAttributes({"ldoDSession"})
+@SessionAttributes({"frontendSession"})
 @RequestMapping("/fragments")
 public class FragmentController {
     private static final Logger logger = LoggerFactory.getLogger(FragmentController.class);
 
     private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
 
-    @ModelAttribute("ldoDSession")
-    public FrontendSession getLdoDSession() {
-        return FrontendSession.getLdoDSession();
+    @ModelAttribute("frontendSession")
+    public FrontendSession getFrontendSession() {
+        return FrontendSession.getFrontendSession();
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -74,7 +73,7 @@ public class FragmentController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}")
     @PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
-    public String getFragmentWithInterForUrlId(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
+    public String getFragmentWithInterForUrlId(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                                @PathVariable String xmlId, @PathVariable String urlId) {
         logger.debug("getFragmentWithInterForUrlId xmlId:{}, urlId:{} ", xmlId, urlId);
 
@@ -99,18 +98,6 @@ public class FragmentController {
             writer = new PlainHtmlWriter4OneInter(virtualEditionInter.getLastUsed().getXmlId());
             inters.add(virtualEditionInter);
             model.addAttribute("inters", inters);
-
-            // if it is a virtual interpretation check access and set session
-            VirtualEdition virtualEdition = virtualEditionInter.getEdition();
-            String user = this.userProvidesInterface.getAuthenticatedUser();
-            if (virtualEdition.isPublicOrIsParticipant()) {
-                if (!frontendSession.hasSelectedVE(virtualEdition.getAcronym())) {
-                    frontendSession.toggleSelectedVirtualEdition(user, virtualEdition);
-                }
-            } else {
-                // TODO: a userfriendly reimplementation
-                throw new LdoDException("Não tem acesso a esta edição virtual");
-            }
         }
 
         writer.write(false);
@@ -152,7 +139,7 @@ public class FragmentController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/inter/{externalId}/taxonomy")
     @PreAuthorize("hasPermission(#externalId, 'fragInter.public')")
-    public String getTaxonomy(Model model, @ModelAttribute("ldoDSession") FrontendSession frontendSession,
+    public String getTaxonomy(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                               @PathVariable String externalId) {
 
         VirtualEditionInter inter = FenixFramework.getDomainObject(externalId);
@@ -162,16 +149,6 @@ public class FragmentController {
         }
 
         VirtualEdition virtualEdition = inter.getEdition();
-
-        String user = this.userProvidesInterface.getAuthenticatedUser();
-        if (virtualEdition.isPublicOrIsParticipant()) {
-            if (!frontendSession.hasSelectedVE(virtualEdition.getAcronym())) {
-                frontendSession.toggleSelectedVirtualEdition(user, virtualEdition);
-            }
-        } else {
-            // TODO: a userfriendly reimplementation
-            throw new LdoDException("Não tem acesso a esta edição virtual");
-        }
 
         List<VirtualEditionInter> inters = new ArrayList<>();
         inters.add(inter);

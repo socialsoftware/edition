@@ -7,11 +7,11 @@ import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualRequiresInterface;
 public class EventInterface {
     private final VirtualRequiresInterface virtualRequiresInterface = new VirtualRequiresInterface();
     private final GameRequiresInterface gameRequiresInterface = new GameRequiresInterface();
-    private final RecommendationRequiresInterface RecommendationRequiresInterface = new RecommendationRequiresInterface();
+    private final RecommendationRequiresInterface recommendationRequiresInterface = new RecommendationRequiresInterface();
 
     public void publish(Event event) {
         this.virtualRequiresInterface.notifyEvent(event);
         this.gameRequiresInterface.notifyEvent(event);
-        this.RecommendationRequiresInterface.notifyEvent(event);
+        this.recommendationRequiresInterface.notifyEvent(event);
     }
 }
