@@ -3,13 +3,15 @@ package pt.ist.socialsoftware.edition.ldod.api.event;
 public class Event {
 
     public enum EventType {
-        FRAGMENT_REMOVE, SCHOLAR_INTER_REMOVE, USER_REMOVE, VIRTUAL_EDITION_REMOVE,
+        FRAGMENT_REMOVE, SCHOLAR_INTER_REMOVE, USER_REMOVE, VIRTUAL_EDITION_REMOVE, VIRTUAL_EDITION_UPDATE,
         VIRTUAL_INTER_REMOVE, TAG_REMOVE
     }
 
     EventType type;
 
     String identifier;
+
+    String newAcronym;
 
     public Event(EventType type, String identifier) {
         this.type = type;
@@ -31,4 +33,13 @@ public class Event {
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
+
+    public String getNewAcronym() {
+        return this.newAcronym;
+    }
+
+    public void setNewAcronym(String newAcronym) {
+        this.newAcronym = newAcronym;
+    }
+
 }

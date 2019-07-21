@@ -63,6 +63,11 @@ public class VirtualEdition extends VirtualEdition_Base {
                     }
                 }
 
+                EventInterface eventInterface = new EventInterface();
+                Event event = new Event(Event.EventType.VIRTUAL_EDITION_UPDATE, this.getAcronym());
+                event.setNewAcronym(acronym);
+                eventInterface.publish(event);
+
                 super.setAcronym(acronym);
             }
         }
