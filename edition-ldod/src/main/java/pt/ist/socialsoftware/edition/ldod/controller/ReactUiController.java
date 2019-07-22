@@ -14,6 +14,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.*;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationSearchJson;
 import pt.ist.socialsoftware.edition.ldod.utils.CategoryDTO;
@@ -749,9 +750,9 @@ public class ReactUiController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        User user = UserModule.getInstance().getUser(username);
+        UserDto user = this.userProvidesInterface.getUser(username);
 
-        if (!this.passwordEncoder.matches(currentPassword, user.getPassword())) {
+        if(user == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 

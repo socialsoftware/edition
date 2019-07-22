@@ -2,9 +2,11 @@ package pt.ist.socialsoftware.edition.ldod.user.api;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
 import pt.ist.socialsoftware.edition.ldod.domain.UserModule;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
+import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
 import java.util.Optional;
 
@@ -35,6 +37,11 @@ public class UserProvidesInterface {
 
     public String getEmail(String username) {
         return getUserByUsername(username).orElse(null).getEmail();
+    }
+
+    public void updatePassword(String username, PasswordEncoder passwordEncoder, String currentPassword, String newPassword){
+        getUserByUsername(username).orElseThrow(LdoDException::new)
+                .updatePassword(passwordEncoder, currentPassword, newPassword);
     }
 
     public String getAuthenticatedUser() {

@@ -1,7 +1,9 @@
 package pt.ist.socialsoftware.edition.ldod.user.api.dto;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
+import sun.security.util.Password;
 
 public class UserDto {
     private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
@@ -39,5 +41,9 @@ public class UserDto {
 
     public boolean isActive() {
         return this.userProvidesInterface.isActive(this.username);
+    }
+
+    public void updatePassword(PasswordEncoder passwordEncoder, String currentPassword, String newPassword){
+        this.userProvidesInterface.updatePassword(this.username, passwordEncoder, currentPassword, newPassword);
     }
 }
