@@ -2,6 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.domain;
 
 import pt.ist.socialsoftware.edition.ldod.api.event.Event;
 import pt.ist.socialsoftware.edition.ldod.api.event.EventInterface;
+import pt.ist.socialsoftware.edition.ldod.api.event.EventTagRemove;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
 public class Tag extends Tag_Base implements Comparable<Tag> {
@@ -36,7 +37,7 @@ public class Tag extends Tag_Base implements Comparable<Tag> {
 
     public void remove() {
         EventInterface eventInterface = new EventInterface();
-        eventInterface.publish(new Event(Event.EventType.TAG_REMOVE, getCategory().getUrlId()));
+        eventInterface.publish(new EventTagRemove(getInter().getXmlId(), getCategory().getUrlId()));
 
         setInter(null);
         if (getCategory() != null && getCategory().getTaxonomy().getOpenAnnotation()

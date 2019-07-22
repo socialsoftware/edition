@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.game.api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.api.event.Event;
+import pt.ist.socialsoftware.edition.ldod.api.event.EventTagRemove;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.TagDto;
@@ -40,10 +41,13 @@ public class GameRequiresInterface {
         }
 
         else if (event.getType().equals(Event.EventType.TAG_REMOVE)){
-            String urlId = event.getIdentifier();
+            EventTagRemove tagRemove = (EventTagRemove) event;
+
+            String urlId = tagRemove.getIdentifier();
+            String interId = tagRemove.getInterId();
 
             ClassificationModule.getInstance().getClassificationGameSet().stream()
-                    .filter(classificationGame -> classificationGame.getTagId().equals(urlId))
+                    .filter(classificationGame -> classificationGame.getTagId().equals(urlId) && classificationGame.getInterId().equals(interId))
                     .forEach(ClassificationGame::remove);
         }
     }
