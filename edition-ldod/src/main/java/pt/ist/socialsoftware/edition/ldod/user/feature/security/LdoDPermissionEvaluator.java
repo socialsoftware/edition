@@ -107,7 +107,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 
             if (user != null) {
                 if (permissions[1].equals(LOGGED)) {
-                    hasPermission = loggedUser.equals(user.getUsername());
+                    hasPermission = loggedUser.getUsername().equals(user.getUsername());
                 }
             }
         }
