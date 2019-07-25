@@ -18,7 +18,7 @@ class VirtualEdition extends Component {
     }
     
     async componentDidMount() {
-        let request = await getVirtualEditionFragment(this.props.game.virtualEditionAcronym, this.props.game.virtualEditionInterDto.urlId);
+        let request = await getVirtualEditionFragment(this.props.game.virtualEditionAcronym, this.props.game.virtualEditionInterGameDto.urlId);
         this.setState({
             fragment: request,
             game: this.props.game,

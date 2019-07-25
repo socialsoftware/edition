@@ -101,7 +101,7 @@
                         </c:forEach>
                     <td><c:if
                             test="${virtualInterface.getTagInInter(game.getInterId(), game.getTagId()).getUsername()}">${userProvidesInterface.getFirstName(virtualInterface.getTagInInter(game.getInterId(), game.getTagId()).getUsername())}
-                        ${userProvidesInterface.getLastName(virtualInterface.getTagInInter(game.getInterId(), game.getTagId()).getUsername().getContributor())}</c:if></td>
+                        ${userProvidesInterface.getLastName(virtualInterface.getTagInInter(game.getInterId(), game.getTagId()).getUsername())}</c:if></td>
                     <td>${userProvidesInterface.getFirstName(game.getResponsible())}
                             ${userProvidesInterface.getLastName(game.getResponsible())}</td>
                     <td><c:if test="${isAdmin && game.canBeRemoved()}">

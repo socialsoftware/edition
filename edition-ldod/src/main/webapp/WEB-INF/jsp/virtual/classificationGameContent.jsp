@@ -32,7 +32,7 @@
             <c:forEach var="participant" items='${participants}' varStatus="loop">
             <tr>
                 <td>${loop.count}</td>
-                <td><a href="${contextPath}/edition/user/${participant.getPlayer().getUser().getUsername()}">${participant.getPlayer().getUser().getUsername()}</a></td>
+                <td><a href="${contextPath}/edition/user/${participant.getPlayer().getUser()}">${participant.getPlayer().getUser()}</a></td>
                 <td>${participant.getScore()}</td>
             </tr>
             </c:forEach>

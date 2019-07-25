@@ -253,6 +253,9 @@ public class VirtualProvidesInterface {
     }
 
     public TagDto getTagInInter(String xmlId, String urlId) {
+        logger.debug(xmlId);
+        logger.debug(urlId);
+
         VirtualEditionInter virtualEditionInter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         Tag tag = virtualEditionInter.getTagSet()
                 .stream().filter(t -> t.getCategory().getUrlId().equals(urlId)).findAny().orElse(null);
