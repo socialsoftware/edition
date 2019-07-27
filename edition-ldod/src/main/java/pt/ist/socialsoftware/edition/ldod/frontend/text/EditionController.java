@@ -15,10 +15,14 @@ import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.EditionDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.session.FrontendSession;
+import pt.ist.socialsoftware.edition.ldod.game.api.GameProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.game.api.dto.ClassificationGameDto;
+import pt.ist.socialsoftware.edition.ldod.game.api.dto.PlayerDto;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -27,6 +31,7 @@ public class EditionController {
     private static final Logger logger = LoggerFactory.getLogger(EditionController.class);
 
     private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
+    private final GameProvidesInterface gameProvidesInterface = new GameProvidesInterface();
 
     @ModelAttribute("frontendSession")
     public FrontendSession getLdoDSession() {
@@ -109,11 +114,10 @@ public class EditionController {
             model.addAttribute("userDto", userDto);
             model.addAttribute("publicVirtualEditionsOrUserIsParticipant", VirtualModule.getInstance().getPublicVirtualEditionsOrUserIsParticipant(username));
             model.addAttribute("virtualEditionIntersUserIsContributor", VirtualModule.getInstance().getVirtualEditionIntersUserIsContributor(username));
-            Player player = ClassificationModule.getInstance().getPlayerByUsername(username); //TODO : this should be a dto from the game module
+            PlayerDto player = this.gameProvidesInterface.getPlayerByUsername(username);
             if (player != null) {
                 model.addAttribute("player", player);
-                List<ClassificationGame> games = player.getClassificationGameParticipantSet().stream().map
-                        (ClassificationGameParticipant::getClassificationGame).collect(Collectors.toList());
+                Set<ClassificationGameDto> games = this.gameProvidesInterface.getClassificationGamesForPlayer(username);
                 model.addAttribute("games", games);
                 model.addAttribute("position", ClassificationModule.getInstance().getOverallUserPosition(username));
             }
