@@ -119,7 +119,7 @@ public class EditionController {
                 model.addAttribute("player", player);
                 Set<ClassificationGameDto> games = this.gameProvidesInterface.getClassificationGamesForPlayer(username);
                 model.addAttribute("games", games);
-                model.addAttribute("position", ClassificationModule.getInstance().getOverallUserPosition(username));
+                model.addAttribute("position", this.gameProvidesInterface.getOverallUserPosition(username));
             }
             model.addAttribute("uiInterface", new UiInterface());
             return "edition/userContributions";
