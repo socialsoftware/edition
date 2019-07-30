@@ -7,6 +7,7 @@ public class ClassificationGameDto {
     private String editionId;
     private String interId;
     private String tagId;
+    private String externalId;
     private String description;
     private String responsible;
 
@@ -14,6 +15,7 @@ public class ClassificationGameDto {
         setEditionId(game.getEditionId());
         setInterId(game.getInterId());
         setTagId(game.getTagId());
+        setExternalId(game.getExternalId());
         setDescription(game.getDescription());
         setResponsible(game.getResponsible());
     }
@@ -40,6 +42,14 @@ public class ClassificationGameDto {
 
     public void setTagId(String tagId) {
         this.tagId = tagId;
+    }
+
+    public String getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
     }
 
     public String getDescription() {

@@ -122,7 +122,6 @@ public class ClassificationModule extends ClassificationModule_Base {
 
     }
 
-    //TODO : create classification game
     @Atomic(mode = Atomic.TxMode.WRITE)
     public static void createClassificationGame(VirtualEditionDto virtualEdition, String description, DateTime date, VirtualEditionInterDto inter, String
             user) {

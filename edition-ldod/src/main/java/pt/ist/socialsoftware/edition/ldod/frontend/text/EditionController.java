@@ -20,6 +20,7 @@ import pt.ist.socialsoftware.edition.ldod.game.api.dto.ClassificationGameDto;
 import pt.ist.socialsoftware.edition.ldod.game.api.dto.PlayerDto;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 
 import java.util.List;
 import java.util.Set;
@@ -32,6 +33,7 @@ public class EditionController {
 
     private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
     private final GameProvidesInterface gameProvidesInterface = new GameProvidesInterface();
+    private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
 
     @ModelAttribute("frontendSession")
     public FrontendSession getLdoDSession() {
@@ -122,6 +124,7 @@ public class EditionController {
                 model.addAttribute("position", this.gameProvidesInterface.getOverallUserPosition(username));
             }
             model.addAttribute("uiInterface", new UiInterface());
+            model.addAttribute("virtualProvidesInterface", virtualProvidesInterface);
             return "edition/userContributions";
         } else {
             return "redirect:/error";
