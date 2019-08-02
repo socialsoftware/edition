@@ -249,7 +249,7 @@ public class VirtualEditionFragmentsTEIExport {
             gameElement.setAttribute("responsible", game.getResponsible());
             if (game.getTagId() != null) {
                 gameElement.setAttribute("tag", virtualEditionInter.getTagSet()
-                        .stream().filter(tag -> tag.getExternalId().equals(game.getTagId())).findAny().orElseThrow(LdoDException::new).getCategory().getName());
+                        .stream().filter(tag -> tag.getCategory().getUrlId().equals(game.getTagId())).findAny().orElseThrow(LdoDException::new).getCategory().getName());
             }
             ClassificationGameParticipant participant = game.getClassificationGameParticipantSet().stream()
                     .filter(ClassificationGameParticipant::getWinner).findFirst().orElse(null);
