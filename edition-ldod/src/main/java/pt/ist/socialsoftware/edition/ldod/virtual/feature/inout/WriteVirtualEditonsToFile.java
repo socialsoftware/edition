@@ -2,6 +2,8 @@ package pt.ist.socialsoftware.edition.ldod.virtual.feature.inout;
 
 import org.apache.commons.io.IOUtils;
 import pt.ist.fenixframework.Atomic;
+import pt.ist.socialsoftware.edition.ldod.api.event.Event;
+import pt.ist.socialsoftware.edition.ldod.api.event.EventInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.user.feature.inout.UsersXMLExport;
@@ -44,6 +46,10 @@ public class WriteVirtualEditonsToFile {
         }
 
         zos.close();
+
+        Event event = new Event(Event.EventType.VIRTUAL_EXPORT, filename);
+        EventInterface eventInterface = new EventInterface();
+        eventInterface.publish(event);
 
         return filename;
     }
