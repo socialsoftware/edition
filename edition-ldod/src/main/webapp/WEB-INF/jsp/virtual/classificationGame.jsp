@@ -8,7 +8,7 @@
 <%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp" %>
 
 <c:set var="user"
-       value='${pageContext.request.userPrincipal.principal.getUser().getUsername()}'/>
+       value='${pageContext.request.userPrincipal.principal.getUsername()}'/>
 <c:set var="isAdmin"
        value="${virtualEdition.getAdminSet().contains(user)}"/>
 <c:set var="isMember"

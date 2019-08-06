@@ -6,7 +6,6 @@ import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 public class VirtualEditionInterDto {
@@ -82,42 +81,33 @@ public class VirtualEditionInterDto {
         return this.virtualProvidesInterface.getSortedVirtualEditionInterCategories(this.xmlId);
     }
 
-    public List<CategoryDto> getAssignedCategories() {
-        return this.virtualProvidesInterface.getVirtualEditionInterAssignedCategories(this.xmlId);
+    public List<CategoryDto> getCategoriesUsedInTags(String username) {
+        return this.virtualProvidesInterface.getCategoriesUsedInTags(this.xmlId, username);
     }
 
-    public List<CategoryDto> getAssignedCategoriesForUser(String username) {
-        return this.virtualProvidesInterface.getVirtualEditionInterAssignedCategoriesForUser(this.xmlId, username);
+    public List<CategoryDto> getAllDepthCategoriesUsedByUserInTags(String username) {
+        return this.virtualProvidesInterface.getVirtualEditionInterAllDepthCategoriesUsedByUserInTags(this.xmlId, username);
     }
 
-    public List<CategoryDto> getNonAssignedCategoriesForUser(String username) {
-        return this.virtualProvidesInterface.getVirtualEditionInterNonAssignedCategoriesForUser(this.xmlId, username);
+    public List<CategoryDto> getAllDepthCategoriesNotUsedInTags(String username) {
+        return this.virtualProvidesInterface.getVirtualEditionInterAllDepthCategoriesNotUsedInTags(this.xmlId, username);
     }
 
     public VirtualEditionDto getVirtualEditionDto() {
         return this.virtualProvidesInterface.getVirtualEditionOfVirtualEditionInter(this.xmlId);
     }
 
-    public List<TagDto> getTagsCompleteInter() {
-        return this.virtualProvidesInterface.getVirtualEditionInterTags(this.xmlId);
+    public List<TagDto> getAllDepthTagsNotHumanAnnotationAccessibleByUser(String username) {
+        return this.virtualProvidesInterface.getAllDepthTagsNotHumanAnnotationAccessibleByUser(this.xmlId, username);
     }
 
-    public List<HumanAnnotationDto> getHumanAnnotations() {
-        return this.virtualProvidesInterface.getVirtualEditionInterHumanAnnotations(this.xmlId);
+    public List<HumanAnnotationDto> getVirtualEditionInterHumanAnnotationsAccessibleByUser(String username) {
+        return this.virtualProvidesInterface.getVirtualEditionInterHumanAnnotationsAccessibleByUser(this.xmlId, username);
     }
 
-    public List<AwareAnnotationDto> getAwareAnnotations() {
-        return this.virtualProvidesInterface.getVirtualEditionInterAwareAnnotations(this.xmlId);
+    public List<AwareAnnotationDto> getVirtualEditionInterAwareAnnotationsAccessibleByUser(String username) {
+        return this.virtualProvidesInterface.getVirtualEditionInterAwareAnnotationsAccessibleByUser(this.xmlId, username);
     }
-
-    public void associate(String username, Set<String> categories) {
-        this.virtualProvidesInterface.associateVirtualEditionInterCategories(this.xmlId, username, categories);
-    }
-
-    public void dissociate(String username, String categories) {
-        this.virtualProvidesInterface.dissociateVirtualEditionInterCategory(this.xmlId, username, categories);
-    }
-
 
     public List<VirtualEditionInterDto> getUsesPath() {
         List<VirtualEditionInterDto> usesPath = new ArrayList<>();

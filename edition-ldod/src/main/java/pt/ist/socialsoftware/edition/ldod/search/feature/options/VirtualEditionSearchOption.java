@@ -1,8 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.search.feature.options;
 
+import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.VirtualEditionSearchOptionDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
-import pt.ist.socialsoftware.edition.ldod.search.api.dto.VirtualEditionSearchOptionDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
 
 import java.util.Set;
@@ -12,10 +12,12 @@ import java.util.stream.Stream;
 public final class VirtualEditionSearchOption extends SearchOption {
     private final String virtualEditionAcronym;
     private final boolean inclusion;
+    private final String username;
 
     public VirtualEditionSearchOption(VirtualEditionSearchOptionDto virtualEditionSearchOptionDto) {
         this.inclusion = virtualEditionSearchOptionDto.isInclusion();
         this.virtualEditionAcronym = virtualEditionSearchOptionDto.getVirtualEditionAcronym();
+        this.username = virtualEditionSearchOptionDto.getUsername();
     }
 
     @Override
@@ -27,9 +29,7 @@ public final class VirtualEditionSearchOption extends SearchOption {
     public boolean verifiesSearchOption(SearchableElementDto inter) {
         SearchRequiresInterface searchRequiresInterface = new SearchRequiresInterface();
 
-        String username = searchRequiresInterface.getAuthenticatedUser();
-
-        Set<String> virtualEditionsAcronyms = searchRequiresInterface.getPublicVirtualEditionsOrUserIsParticipant(username).stream()
+        Set<String> virtualEditionsAcronyms = searchRequiresInterface.getPublicVirtualEditionsOrUserIsParticipant(this.username).stream()
                 .map(VirtualEditionDto::getAcronym).collect(Collectors.toSet());
 
 

@@ -13,10 +13,8 @@ import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameParticipant;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationModule;
 import pt.ist.socialsoftware.edition.ldod.frontend.game.validator.ClassificationGameValidator;
-import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDCreateClassificationGameException;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
-import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
@@ -30,20 +28,20 @@ import java.util.stream.Collectors;
 public class GameController {
     private static final Logger logger = LoggerFactory.getLogger(GameController.class);
 
-    private final GameRequiresInterface gameRequiresInterface = new GameRequiresInterface();
+    private final FEGameRequiresInterface FEGameRequiresInterface = new FEGameRequiresInterface();
 
     @RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/classificationGame")
     @PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
     public String classificationGame(Model model, @PathVariable String externalId) {
-        VirtualEditionDto virtualEdition = this.gameRequiresInterface.getVirtualEditionByExternalId(externalId);
+        VirtualEditionDto virtualEdition = this.FEGameRequiresInterface.getVirtualEditionByExternalId(externalId);
         if (virtualEdition == null) {
             return "redirect:/error";
         } else {
             model.addAttribute("virtualEdition", virtualEdition);
             model.addAttribute("games", ClassificationModule.getInstance().getClassificationGamesForEdition(virtualEdition.getAcronym())
                     .stream().sorted(Comparator.comparing(ClassificationGame::getDateTime)).collect(Collectors.toList()));
-            model.addAttribute("userInterface", this.gameRequiresInterface);
-            model.addAttribute("virtualInterface", this.gameRequiresInterface);
+            model.addAttribute("userInterface", this.FEGameRequiresInterface);
+            model.addAttribute("virtualInterface", this.FEGameRequiresInterface);
             return "virtual/classificationGame";
         }
     }
@@ -51,13 +49,13 @@ public class GameController {
     @RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/classificationGame/create")
     @PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
     public String createClassificationGameForm(Model model, @PathVariable String externalId) {
-        VirtualEditionDto virtualEdition = this.gameRequiresInterface.getVirtualEditionByExternalId(externalId);
+        VirtualEditionDto virtualEdition = this.FEGameRequiresInterface.getVirtualEditionByExternalId(externalId);
         if (virtualEdition == null) {
             return "redirect:/error";
         } else {
             model.addAttribute("virtualEdition", virtualEdition);
-            model.addAttribute("userInterface", this.gameRequiresInterface);
-            model.addAttribute("virtualInterface", this.gameRequiresInterface);
+            model.addAttribute("userInterface", this.FEGameRequiresInterface);
+            model.addAttribute("virtualInterface", this.FEGameRequiresInterface);
             return "virtual/createClassificationGame";
         }
     }
@@ -69,8 +67,8 @@ public class GameController {
                                            @RequestParam("interExternalId") String interExternalId) {
         logger.debug("createClassificationGame description: {}, date: {}, inter:{}", description, date,
                 interExternalId);
-        VirtualEditionDto virtualEdition = this.gameRequiresInterface.getVirtualEditionByExternalId(externalId);
-        VirtualEditionInterDto inter = this.gameRequiresInterface.getVirtualEditionInterByExternalId(interExternalId);
+        VirtualEditionDto virtualEdition = this.FEGameRequiresInterface.getVirtualEditionByExternalId(externalId);
+        VirtualEditionInterDto inter = this.FEGameRequiresInterface.getVirtualEditionInterByExternalId(interExternalId);
         if (virtualEdition == null) {
             return "redirect:/error";
         } else {
@@ -84,7 +82,7 @@ public class GameController {
             }
             ClassificationModule.createClassificationGame(virtualEdition, description,
                     DateTime.parse(date, DateTimeFormat.forPattern("dd/MM/yyyy HH:mm")), inter,
-                    this.gameRequiresInterface.getAuthenticatedUser());
+                    this.FEGameRequiresInterface.getAuthenticatedUser());
 
             return "redirect:/virtualeditions/restricted/" + externalId + "/classificationGame";
         }
@@ -95,7 +93,7 @@ public class GameController {
     public String removeClassificationGame(Model model, @PathVariable String externalId,
                                            @PathVariable String gameExternalId) {
         logger.debug("removeClassificationGame externalId: {}, gameExternalId: {}", externalId, gameExternalId);
-        VirtualEditionDto virtualEdition = this.gameRequiresInterface.getVirtualEditionByExternalId(externalId);
+        VirtualEditionDto virtualEdition = this.FEGameRequiresInterface.getVirtualEditionByExternalId(externalId);
         ClassificationGame game = FenixFramework.getDomainObject(gameExternalId);
         if (virtualEdition == null || game == null) {
             return "redirect:/error";
@@ -113,7 +111,7 @@ public class GameController {
     @RequestMapping(method = RequestMethod.GET, value = "/{externalId}/classificationGame/{gameId}")
     public String getClassificationGameContent(Model model, @PathVariable String externalId,
                                                @PathVariable String gameId) {
-        VirtualEditionDto virtualEdition = this.gameRequiresInterface.getVirtualEditionByExternalId(externalId);
+        VirtualEditionDto virtualEdition = this.FEGameRequiresInterface.getVirtualEditionByExternalId(externalId);
         ClassificationGame game = FenixFramework.getDomainObject(gameId);
         if (virtualEdition == null || game == null) {
             return "redirect:/error";
@@ -124,7 +122,7 @@ public class GameController {
                     game.getClassificationGameParticipantSet().stream()
                             .sorted(Comparator.comparing(ClassificationGameParticipant::getScore).reversed())
                             .collect(Collectors.toList()));
-            model.addAttribute("virtualInterface", this.gameRequiresInterface);
+            model.addAttribute("virtualInterface", this.FEGameRequiresInterface);
             return "virtual/classificationGameContent";
         }
     }

@@ -26,8 +26,9 @@
 <%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp" %>
 
 <c:set var="taxonomy" value="${category.getTaxonomy()}"/>
-<c:set var="userLdoD"
-       value='${pageContext.request.userPrincipal.principal.getUser().getUsername()}'/>
+<c:set var="username"
+       value='${pageContext.request.userPrincipal.principal.getUsername()}'/>
+value='${pageContext.request.userPrincipal.principal.getUsername()}'/>
 
 <div class="container">
     <br/>
@@ -66,7 +67,7 @@
     </div>
 
     <br/>
-    <c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
+    <c:if test="${taxonomy.canManipulateTaxonomy(username)}">
         <div class="row">
             <div class="col-md-4">
                 <form name="updateName" class="form-inline" method="POST"
@@ -145,7 +146,7 @@
             </tbody>
         </table>
     </div>
-    <c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
+    <c:if test="${taxonomy.canManipulateTaxonomy(username)}">
         <div class="row pull-right">
             <button class="btn btn-primary pull-right tip"
                     title="<spring:message code='taxonomies.tt.extractedcategory' />"

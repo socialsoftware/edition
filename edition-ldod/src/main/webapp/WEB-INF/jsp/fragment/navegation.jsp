@@ -157,11 +157,10 @@
             </a>
         </h5>
         <!-- ARCHIVE VIRTUAL EDITION -->
-        <c:set var="archiveEdition" value="${virtualModule.getArchiveEdition()}"/>
         <div class="text-center">
             <div class="text-center" style="padding: 8px">
                 <a
-                        href="${contextPath}/edition/acronym/${archiveEdition.getAcronym()}">
+                        href="${contextPath}/edition/acronym/${ldoDArchiveEdition.getAcronym()}">
                     Arquivo LdoD</a>
             </div>
             <table width="100%">
@@ -177,7 +176,7 @@
                 </thead>
                 <tbody>
                 <c:forEach var="virtualEditionInter"
-                           items="${archiveEdition.getSortedInter4Frag(fragment)}">
+                           items="${ldoDArchiveEdition.getVirtualEditionInterOfFragmentForVirtualEdition(fragment.xmlId)}">
                     <tr>
                         <td></td>
                         <td><c:choose>
@@ -205,7 +204,7 @@
                     </tr>
                 </c:forEach>
                 <c:if
-                        test="${archiveEdition.participantSet.contains(user.getUsername()) && (inters.size() == 1) && archiveEdition.canAddFragInter(inters.get(0).getXmlId())}">
+                        test="${ldoDArchiveEdition.participantSet.contains(user) && (inters.size() == 1) && archiveEdition.canAddFragInter(inters.get(0).getXmlId())}">
                     <tr>
                         <td></td>
                         <td></td>
@@ -233,10 +232,10 @@
 
         <!-- OTHER VIRTUAL EDITIONS -->
         <c:if
-                test="${(frontendSession != null) && (frontendSession.materializeVirtualEditions().size() != 0)}">
+                test="${(frontendSession != null) && (frontendSession.getSelectedVEAcr().size() != 0)}">
             <div class="text-center">
                 <c:forEach var="virtualEdition"
-                           items='${frontendSession.materializeVirtualEditions()}'>
+                           items='${frontendSession.getSelectedVirtualEditions()}'>
                     <div class="text-center" style="padding: 8px">
                         <a
                                 href="${contextPath}/edition/acronym/${virtualEdition.getAcronym()}">
@@ -255,7 +254,7 @@
                         </thead>
                         <tbody>
                         <c:forEach var="virtualEditionInter"
-                                   items="${virtualEdition.getSortedInter4Frag(fragment)}">
+                                   items="${virtualEdition.getVirtualEditionInterOfFragmentForVirtualEdition(fragment.xmlId)}">
                             <tr>
                                 <td></td>
                                 <td><c:choose>
@@ -283,7 +282,7 @@
                             </tr>
                         </c:forEach>
                         <c:if
-                                test="${virtualEdition.participantSet.contains(user.getUsername()) && (inters.size() == 1) && virtualEdition.canAddFragInter(inters.get(0).getXmlId())}">
+                                test="${virtualEdition.participantSet.contains(user) && (inters.size() == 1) && virtualEdition.canAddFragInter(inters.get(0).getXmlId())}">
                             <tr>
                                 <td></td>
                                 <td></td>

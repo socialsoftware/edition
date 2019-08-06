@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
-import pt.ist.socialsoftware.edition.ldod.frontend.session.FrontendSession;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
@@ -22,7 +22,7 @@ import java.util.Set;
 public class ReadingController {
     private static final Logger logger = LoggerFactory.getLogger(ReadingController.class);
 
-    private final ReadingRequiresInterface readingRequiresInterface = new ReadingRequiresInterface();
+    private final FEReadingRequiresInterface FEReadingRequiresInterface = new FEReadingRequiresInterface();
 
     @ModelAttribute("frontendSession")
     public FrontendSession getLdoDSession() {
@@ -31,7 +31,7 @@ public class ReadingController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String startReading(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession) {
-        model.addAttribute("sortedExpertEditions", this.readingRequiresInterface.getSortedExpertEditionsDto());
+        model.addAttribute("sortedExpertEditions", this.FEReadingRequiresInterface.getSortedExpertEditionsDto());
         model.addAttribute("inter", null);
 
         return "reading/readingMain";
@@ -40,7 +40,7 @@ public class ReadingController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}")
     public String readInterpretation(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                      @PathVariable String xmlId, @PathVariable String urlId) {
-        FragmentDto fragment = this.readingRequiresInterface.getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.FEReadingRequiresInterface.getFragmentByXmlId(xmlId);
         if (fragment == null) {
             return "redirect:/error";
         }
@@ -56,7 +56,7 @@ public class ReadingController {
         ExpertEditionInter prevRecom = frontendSession.getRecommendation().getPrevRecommendation();
 
         model.addAttribute("ldoD", VirtualModule.getInstance());
-        model.addAttribute("sortedExpertEditions", this.readingRequiresInterface.getSortedExpertEditionsDto());
+        model.addAttribute("sortedExpertEditions", this.FEReadingRequiresInterface.getSortedExpertEditionsDto());
         model.addAttribute("inter", expertEditionInter);
         model.addAttribute("recommendations", recommendations);
         model.addAttribute("prevRecom", prevRecom);
@@ -67,7 +67,7 @@ public class ReadingController {
     @RequestMapping(method = RequestMethod.GET, value = "/edition/{acronym}/start")
     public String startReadingEdition(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                       @PathVariable String acronym) {
-        ScholarInterDto expertEditionInter = this.readingRequiresInterface.getExpertEditionFirstInterpretation(acronym);
+        ScholarInterDto expertEditionInter = this.FEReadingRequiresInterface.getExpertEditionFirstInterpretation(acronym);
 
         frontendSession.getRecommendation().clean();
         frontendSession.getRecommendation().setTextWeight(1);
@@ -79,7 +79,7 @@ public class ReadingController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/start")
     public String startReadingFromInter(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                         @PathVariable String xmlId, @PathVariable String urlId) {
-        FragmentDto fragment = this.readingRequiresInterface.getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.FEReadingRequiresInterface.getFragmentByXmlId(xmlId);
         if (fragment == null) {
             return "redirect:/error";
         }
@@ -99,7 +99,7 @@ public class ReadingController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/next")
     public String readNextInterpretation(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                          @PathVariable String xmlId, @PathVariable String urlId) {
-        FragmentDto fragment = this.readingRequiresInterface.getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.FEReadingRequiresInterface.getFragmentByXmlId(xmlId);
         if (fragment == null) {
             return "redirect:/error";
         }
@@ -118,7 +118,7 @@ public class ReadingController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}/inter/{urlId}/prev")
     public String readPrevInterpretation(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                                          @PathVariable String xmlId, @PathVariable String urlId) {
-        FragmentDto fragment = this.readingRequiresInterface.getFragmentByXmlId(xmlId);
+        FragmentDto fragment = this.FEReadingRequiresInterface.getFragmentByXmlId(xmlId);
         if (fragment == null) {
             return "redirect:/error";
         }
@@ -138,7 +138,7 @@ public class ReadingController {
     public String readPreviousRecommendedFragment(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession) {
         String expertEditionInterId = frontendSession.getRecommendation().prevRecommendation();
 
-        ScholarInterDto expertEditionInter = this.readingRequiresInterface.getScholarInterbyExternalId(expertEditionInterId);
+        ScholarInterDto expertEditionInter = this.FEReadingRequiresInterface.getScholarInterbyExternalId(expertEditionInterId);
 
         return "redirect:/reading/fragment/" + expertEditionInter.getFragmentXmlId() + "/inter/"
                 + expertEditionInter.getUrlId();
@@ -151,7 +151,7 @@ public class ReadingController {
         frontendSession.getRecommendation().resetPrevRecommendations();
 
         String expertEditionInterId = frontendSession.getRecommendation().getCurrentInterpretation();
-        ScholarInterDto expertEditionInter = this.readingRequiresInterface.getScholarInterbyExternalId(expertEditionInterId);
+        ScholarInterDto expertEditionInter = this.FEReadingRequiresInterface.getScholarInterbyExternalId(expertEditionInterId);
 
         return "redirect:/reading/fragment/" + expertEditionInter.getFragmentXmlId() + "/inter/"
                 + expertEditionInter.getUrlId();

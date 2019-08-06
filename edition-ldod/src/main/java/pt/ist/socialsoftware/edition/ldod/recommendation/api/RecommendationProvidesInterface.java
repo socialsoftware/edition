@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.domain.RecommendationModule;
 import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
-import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
+import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMScholarInterRecommender;

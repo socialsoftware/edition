@@ -1,4 +1,7 @@
 <%@ include file="/WEB-INF/jsp/common/tags-head.jsp" %>
+<c:set var="loggedUser"
+       value='${pageContext.request.userPrincipal.principal != null ? pageContext.request.userPrincipal.principal.getUsername() : null}'/>
+
 <h3 class="text-center">
     <spring:message code="virtualedition"/>:
     ${edition.title}
@@ -54,7 +57,7 @@
                     href="${contextPath}/fragments/fragment/${inter.getFragmentXmlId()}/inter/${inter.getUrlId()}">${inter.title}</a>
             </td>
             <td><c:forEach var="category"
-                           items='${inter.getAssignedCategories()}'>
+                           items='${inter.getAllDepthCategoriesUsedInTags(loggedUser)}'>
                 <a
                         href="${contextPath}/edition/acronym/${category.getTaxonomy().getEdition().getAcronym()}/category/${category.getUrlId()}">
                         ${category.getNameInEditionContext(edition)}</a>

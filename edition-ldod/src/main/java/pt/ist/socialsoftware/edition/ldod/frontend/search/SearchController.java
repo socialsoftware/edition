@@ -7,10 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import pt.ist.socialsoftware.edition.ldod.frontend.session.FrontendSession;
+import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.SearchDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.SearchOptionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.AdvancedSearchResultDto;
-import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchDto;
-import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchOptionDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.Map;
 public class SearchController {
     private static final Logger logger = LoggerFactory.getLogger(SearchController.class);
 
-    SearchRequiresInterface frontendRequiresInterface = new SearchRequiresInterface();
+    FESearchRequiresInterface frontendRequiresInterface = new FESearchRequiresInterface();
 
 
     @ModelAttribute("frontendSession")
@@ -53,7 +53,7 @@ public class SearchController {
         model.addAttribute("fragCount", results.size());
         model.addAttribute("interCount", results.values().stream().mapToInt(List::size).sum());
         model.addAttribute("results", results);
-        model.addAttribute("frontendRequiresInterface", new SearchRequiresInterface());
+        model.addAttribute("frontendRequiresInterface", new FESearchRequiresInterface());
         return "search/simpleResultTable";
     }
 
@@ -88,7 +88,7 @@ public class SearchController {
 
         model.addAttribute("search", searchOptions);
         model.addAttribute("searchLenght", searchOptions.length);
-        model.addAttribute("frontendRequiresInterface", new SearchRequiresInterface());
+        model.addAttribute("frontendRequiresInterface", new FESearchRequiresInterface());
         return "search/resultTable";
     }
 

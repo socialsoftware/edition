@@ -8,7 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
+import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ExpertEditionDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;

@@ -2,8 +2,8 @@ package pt.ist.socialsoftware.edition.ldod.visual.api.dto;
 
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserViewDto;
 import pt.ist.socialsoftware.edition.ldod.dto.TaxonomyDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.LdoDUserViewDto;
 import pt.ist.socialsoftware.edition.ldod.game.api.dto.VirtualEditionInterGameDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 

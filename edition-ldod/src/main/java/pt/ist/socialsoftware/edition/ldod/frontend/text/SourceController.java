@@ -11,7 +11,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.Source;
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
 import pt.ist.socialsoftware.edition.ldod.frontend.search.SearchController;
-import pt.ist.socialsoftware.edition.ldod.frontend.session.FrontendSession;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
 
 import java.util.ArrayList;
 import java.util.Collections;

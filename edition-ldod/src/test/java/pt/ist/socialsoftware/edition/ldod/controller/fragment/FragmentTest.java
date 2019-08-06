@@ -15,9 +15,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
-import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
+import pt.ist.socialsoftware.edition.ldod.frontend.config.Application;
+import pt.ist.socialsoftware.edition.ldod.frontend.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FragmentController;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.PermissionDTO;
@@ -38,6 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
 public class FragmentTest {
+    public static final String ARS = "ars";
     @InjectMocks
     FragmentController fragmentController;
 
@@ -115,7 +116,7 @@ public class FragmentTest {
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
-    @WithUserDetails("ars")
+    @WithUserDetails(ARS)
     public void getFragInterTaxonomyTest() throws Exception {
 
         Set<VirtualEditionInter> fragInterSet = VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
@@ -136,7 +137,7 @@ public class FragmentTest {
 
     @Test
     @Atomic(mode = TxMode.WRITE)
-    @WithUserDetails("ars")
+    @WithUserDetails(ARS)
     public void getInterTest() throws Exception {
         Fragment frag = TextModule.getInstance().getFragmentByXmlId("Fr001");
 
@@ -277,7 +278,7 @@ public class FragmentTest {
 
     @Test
     @Atomic(mode = TxMode.WRITE)
-    @WithUserDetails("ars")
+    @WithUserDetails(ARS)
     public void createAnnotationTest() throws Exception {
 
         Set<VirtualEditionInter> fragInterSet = VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
@@ -300,7 +301,7 @@ public class FragmentTest {
         annotationDTO.setUri(fragInter.getExternalId());
         annotationDTO.setQuote("A arte é um esquivar-se a agir");
         annotationDTO.setText("Interesting");
-        annotationDTO.setUser("ars");
+        annotationDTO.setUser(ARS);
 
         RangeJson rj = new RangeJson();
         rj.setStart("/div[1]/div[1]/p[3]");
@@ -324,7 +325,7 @@ public class FragmentTest {
 
     @Test
     @Atomic(mode = TxMode.WRITE)
-    @WithUserDetails("ars")
+    @WithUserDetails(ARS)
     public void getAnnotationTest() throws Exception {
 
         Set<VirtualEditionInter> fragInterSet = VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
@@ -335,7 +336,7 @@ public class FragmentTest {
 
         createTestAnnotation();
 
-        HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotations()).get(0);
+        HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotationsAccessibleByUser(ARS)).get(0);
 
         AnnotationDTO dto = new AnnotationDTO();
 
@@ -349,7 +350,7 @@ public class FragmentTest {
 
     @Test
     @Atomic(mode = TxMode.WRITE)
-    @WithUserDetails("ars")
+    @WithUserDetails(ARS)
     public void getAnnotationNotFoundTest() throws Exception {
 
         this.mockMvc.perform(get("/fragments/fragment/annotations/{id}", "ERROR"))
@@ -360,7 +361,7 @@ public class FragmentTest {
 
     @Test
     @Atomic(mode = TxMode.WRITE)
-    @WithUserDetails("ars")
+    @WithUserDetails(ARS)
     public void updateAnnotationTest() throws Exception {
 
         Set<VirtualEditionInter> fragInterSet = VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
@@ -371,7 +372,7 @@ public class FragmentTest {
 
         createTestAnnotation();
 
-        HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotations()).get(0);
+        HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotationsAccessibleByUser(ARS)).get(0);
 
         AnnotationDTO dto = new AnnotationDTO();
 
@@ -390,7 +391,7 @@ public class FragmentTest {
 
     @Test
     @Atomic(mode = TxMode.WRITE)
-    @WithUserDetails("ars")
+    @WithUserDetails(ARS)
     public void updateAnnotationNotFoundTest() throws Exception {
 
         AnnotationDTO dto = new AnnotationDTO();
@@ -405,7 +406,7 @@ public class FragmentTest {
 
     @Test
     @Atomic(mode = TxMode.WRITE)
-    @WithUserDetails("ars")
+    @WithUserDetails(ARS)
     public void deleteAnnotationTest() throws Exception {
 
         Set<VirtualEditionInter> fragInterSet = VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
@@ -416,7 +417,7 @@ public class FragmentTest {
 
         createTestAnnotation();
 
-        HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotations()).get(0);
+        HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotationsAccessibleByUser(ARS)).get(0);
 
         this.mockMvc.perform(delete("/fragments/fragment/annotations/{id}", a.getExternalId())
                 .content(TestLoadUtils.jsonBytes(new AnnotationDTO()))
@@ -424,12 +425,12 @@ public class FragmentTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        assertTrue(fragInter.getAllDepthHumanAnnotations().isEmpty());
+        assertTrue(fragInter.getAllDepthHumanAnnotationsAccessibleByUser(ARS).isEmpty());
     }
 
     @Test
     @Atomic(mode = TxMode.WRITE)
-    @WithUserDetails("ars")
+    @WithUserDetails(ARS)
     public void deleteAnnotationNotFoundTest() throws Exception {
 
         this.mockMvc.perform(delete("/fragments/fragment/annotations/{id}", "ERROR")
@@ -441,7 +442,7 @@ public class FragmentTest {
 
     @Test
     @Atomic(mode = TxMode.WRITE)
-    @WithUserDetails("ars")
+    @WithUserDetails(ARS)
     public void getAnnotationInterTest() throws Exception {
 
         Set<VirtualEditionInter> fragInterSet = VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
@@ -452,7 +453,7 @@ public class FragmentTest {
 
         createTestAnnotation();
 
-        HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotations()).get(0);
+        HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotationsAccessibleByUser(ARS)).get(0);
 
         this.mockMvc.perform(get("/fragments/fragment/annotation/{annotationId}/categories", a.getExternalId()))
                 .andDo(print())

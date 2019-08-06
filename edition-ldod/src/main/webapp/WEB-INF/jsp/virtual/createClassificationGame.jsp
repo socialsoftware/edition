@@ -14,10 +14,10 @@
 <body>
 <%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp" %>
 
-<c:set var="user"
-       value='${pageContext.request.userPrincipal.principal.getUser().getUsername()}'/>
+<c:set var="username"
+       value='${pageContext.request.userPrincipal.principal.getUsername()}'/>
 <c:set var="isAdmin"
-       value="${virtualEdition.getAdminSet().contains(user)}"/>
+       value="${virtualEdition.getAdminSet().contains(username)}"/>
 <c:set var="locale"
        value="${pageContext.response.locale.getLanguage()}"/>
 

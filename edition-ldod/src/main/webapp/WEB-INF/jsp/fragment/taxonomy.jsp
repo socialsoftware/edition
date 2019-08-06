@@ -8,10 +8,10 @@
 <div class="row" id="taxonomy">
     <c:set var="inter" value='${inters.get(0)}'/>
     <c:set var="taxonomy" value='${inter.getEdition().getTaxonomy()}'/>
-    <c:set var="userLdoD"
-           value='${pageContext.request.userPrincipal.principal.getUser()}'/>
+    <c:set var="username"
+           value='${pageContext.request.userPrincipal.principal != null ? pageContext.request.userPrincipal.principal.getUsername() : null}'/>
     <c:set var="authorized"
-           value="${pageContext.request.userPrincipal.authenticated && taxonomy.canManipulateAnnotation(userLdoD)}"/>
+           value="${pageContext.request.userPrincipal.authenticated && taxonomy.canManipulateAnnotation(username)}"/>
     <c:if test="${authorized}">
         <button class="btn btn-primary pull-right" data-toggle="modal"
                 data-target="#myModal">
@@ -27,12 +27,12 @@
 
         </thead>
         <tbody>
-        <c:forEach var="category" items='${inter.getAssignedCategories()}'>
+        <c:forEach var="category" items='${inter.getAllDepthCategoriesUsedInTags(username)}'>
             <tr>
                 <td><a
                         href="${contextPath}/edition/acronym/${category.getTaxonomy().getEdition().getAcronym()}/category/${category.getUrlId()}">${category.getNameInEditionContext(taxonomy.getEdition())}</a>
                     <c:if
-                            test="${inter.getContributorSet(category).contains(userLdoD)}">
+                            test="${inter.getContributorSet(category).contains(username)}">
                         <a
                                 href="${contextPath}/virtualeditions/restricted/fraginter/${inter.getExternalId()}/tag/dissociate/${category.getExternalId()}"><span
                                 class="glyphicon glyphicon-remove"></span></a>
@@ -74,12 +74,12 @@
                             <select name="categories[]" id="category-select"
                                     class="form-control" style="width: 75%" multiple="true">
                                 <c:forEach var='category'
-                                           items='${inter.getNonAssignedCategories(user)}'>
+                                           items='${inter.getAllDepthCategoriesNotUsedInTags(user)}'>
                                     <option
                                             value='${category.getNameInEditionContext(taxonomy.getEdition())}'>${category.getNameInEditionContext(taxonomy.getEdition())}</option>
                                 </c:forEach>
                                 <c:forEach var='category'
-                                           items='${inter.getAssignedCategories(user)}'>
+                                           items='${inter.getAllDepthCategoriesUsedInTags(user)}'>
                                     <option
                                             value='${category.getNameInEditionContext(taxonomy.getEdition())}'
                                             selected='selected'>${category.getNameInEditionContext(taxonomy.getEdition())}</option>

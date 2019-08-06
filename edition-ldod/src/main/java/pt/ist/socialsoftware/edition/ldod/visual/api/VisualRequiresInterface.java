@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.visual.api;
 
-import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.recommendation.api.RecommendationProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ExpertEditionDto;

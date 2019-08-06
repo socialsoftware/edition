@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.search.feature.options;
 
+import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.EditionSearchOptionDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchRequiresInterface;
-import pt.ist.socialsoftware.edition.ldod.search.api.dto.EditionSearchOptionDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
 
 import java.util.stream.Stream;

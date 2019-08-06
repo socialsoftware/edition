@@ -1,6 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.search.feature.options;
 
-import pt.ist.socialsoftware.edition.ldod.search.api.dto.TypescriptSearchOptionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.TypescriptSearchOptionDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.SourceDto;
 
 public final class TypescriptSearchOption extends AuthoralSearchOption {

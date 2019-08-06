@@ -16,7 +16,6 @@ import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDDuplicateAcronymException;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
-import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualRequiresInterface;
 
 import java.io.File;
 import java.io.IOException;
@@ -456,10 +455,8 @@ public class VirtualEdition extends VirtualEdition_Base {
         return virtualInter;
     }
 
-    public boolean isPublicOrIsParticipant() {
-        VirtualRequiresInterface virtualRequiresInterface = new VirtualRequiresInterface();
-
-        return getPub() || getParticipantSet().contains(virtualRequiresInterface.getAuthenticatedUser());
+    public boolean isPublicOrIsParticipant(String username) {
+        return getPub() || getParticipantSet().contains(username);
     }
 
     public List<VirtualEditionInter> getAllDepthVirtualEditionInters() {
@@ -668,7 +665,7 @@ public class VirtualEdition extends VirtualEdition_Base {
     }
 
     public List<Category> getAllDepthSortedCategories() {
-        return getAllDepthCategories().stream().sorted((c1, c2) -> c1.getName().compareTo(c2.getName()))
+        return getAllDepthCategories().stream().sorted(Comparator.comparing(Category::getName))
                 .collect(Collectors.toList());
     }
 

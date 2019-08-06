@@ -123,9 +123,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     }
 
     public ScholarInterDto getLastUsed() {
-       /* logger.debug(String.valueOf(getUses() == null));
-        logger.debug(getUsesScholarInterId());
-        logger.debug("==============");*/
         return getUses() != null ? getUses().getLastUsed() : (new TextProvidesInterface()).getScholarInter(getUsesScholarInterId());
     }
 
@@ -199,14 +196,14 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
 
     @Atomic(mode = TxMode.WRITE)
     public void associate(String user, Set<String> categoryNames) {
-        Set<String> purgedCategoryNames = categoryNames.stream().map(n -> Category.purgeName(n)).distinct()
+        Set<String> purgedCategoryNames = categoryNames.stream().map(n -> Category.purgeName(n))
                 .collect(Collectors.toSet());
 
-        getAssignedCategories(user).stream()
+        getAllDepthCategoriesUsedByUserInTags(user).stream()
                 .filter(c -> !purgedCategoryNames.contains(c.getNameInEditionContext(getVirtualEdition())))
                 .forEach(c -> dissociate(user, c));
 
-        Set<String> existingCategories = getAssignedCategories(user).stream()
+        Set<String> existingCategories = getAllDepthCategoriesUsedByUserInTags(user).stream()
                 .map(c -> c.getNameInEditionContext(getVirtualEdition())).collect(Collectors.toSet());
 
         Set<String> toAssociate = purgedCategoryNames.stream().filter(cname -> !existingCategories.contains(cname))
@@ -220,8 +217,8 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
 
     // Foi alterado por causa das HumanAnnotation
     @Atomic(mode = TxMode.WRITE)
-    public void dissociate(String user, Category category) {
-        Set<Tag> tags = getTagSet().stream().filter(t -> t.getCategory() == category && t.getContributor().equals(user))
+    public void dissociate(String username, Category category) {
+        Set<Tag> tags = getTagSet().stream().filter(t -> t.getCategory() == category && t.getContributor().equals(username))
                 .collect(Collectors.toSet());
         for (Tag tag : tags) {
             tag.remove();
@@ -250,24 +247,25 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
                 .collect(Collectors.toList());
     }
 
-    public List<Category> getAssignedCategories() {
-        return getAllDepthTags().stream().map(t -> t.getCategory()).distinct()
+    public List<Category> getAllDepthCategoriesUsedInTags(String username) {
+        return getAllDepthTagsAccessibleByUser(username).stream().map(t -> t.getCategory()).distinct()
                 .sorted((c1, c2) -> c1.compareInEditionContext(this.getVirtualEdition(), c2))
                 .collect(Collectors.toList());
     }
 
-    public List<Category> getNonAssignedCategories(String user) {
-        List<Category> interCategories = getAssignedCategories(user);
+    public List<Category> getAllDepthCategoriesNotUsedInTags(String username) {
+        List<Category> interCategories = getAllDepthCategoriesUsedByUserInTags(username);
 
-        List<Category> categories = getAllDepthCategories().stream().filter(c -> !interCategories.contains(c))
+        List<Category> categories = getAllDepthCategoriesAccessibleByUser(username).stream()
+                .filter(c -> !interCategories.contains(c))
                 .sorted((c1, c2) -> c1.compareInEditionContext(this.getVirtualEdition(), c2))
                 .collect(Collectors.toList());
 
         return categories;
     }
 
-    public List<Category> getAssignedCategories(String user) {
-        List<Category> categories = getAllDepthTags().stream().filter(t -> t.getContributor().equals(user))
+    public List<Category> getAllDepthCategoriesUsedByUserInTags(String username) {
+        List<Category> categories = getAllDepthTagsAccessibleByUser(username).stream().filter(t -> t.getContributor().equals(username))
                 .map(t -> t.getCategory()).distinct()
                 .sorted((c1, c2) -> c1.compareInEditionContext(this.getVirtualEdition(), c2))
                 .collect(Collectors.toList());
@@ -275,16 +273,16 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
         return categories;
     }
 
-    public Set<Category> getAllDepthCategories() {
-        Set<Category> categories = null;
-        if (getVirtualEdition().isPublicOrIsParticipant()) {
+    public Set<Category> getAllDepthCategoriesAccessibleByUser(String username) {
+        Set<Category> categories;
+        if (getVirtualEdition().isPublicOrIsParticipant(username)) {
             categories = new HashSet<>(getVirtualEdition().getTaxonomy().getCategoriesSet());
         } else {
             categories = new HashSet<>();
         }
 
         if (getUses() != null) {
-            categories.addAll(getUses().getAllDepthCategories());
+            categories.addAll(getUses().getAllDepthCategoriesAccessibleByUser(username));
         }
 
         return categories;
@@ -292,20 +290,20 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
 
     // Estava a dar erro
     /*
-     * @Override public Set<HumanAnnotation> getAllDepthAnnotations() {
+     * @Override public Set<HumanAnnotation> getAllDepthAnnotationsAccessibleByUser() {
      * Set<HumanAnnotation> annotations = null; if
      * (getVirtualEdition().isPublicOrIsParticipant()) { annotations = new
      * HashSet<>(getAnnotationSet()); } else { annotations = new HashSet<>(); }
      *
-     * annotations.addAll(getUses().getAllDepthAnnotations());
+     * annotations.addAll(getUses().getAllDepthAnnotationsAccessibleByUser());
      *
      * return annotations; }
      */
 
     // Solução - a funcionar
-    public Set<HumanAnnotation> getAllDepthHumanAnnotations() {
-        Set<HumanAnnotation> annotations = null;
-        if (getVirtualEdition().isPublicOrIsParticipant()) {
+    public Set<HumanAnnotation> getAllDepthHumanAnnotationsAccessibleByUser(String username) {
+        Set<HumanAnnotation> annotations;
+        if (getVirtualEdition().isPublicOrIsParticipant(username)) {
             annotations = new HashSet<>(getAnnotationSet().stream().filter(HumanAnnotation.class::isInstance)
                     .map(HumanAnnotation.class::cast).collect(Collectors.toSet()));
         } else {
@@ -313,32 +311,32 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
         }
 
         if (getUses() != null) {
-            annotations.addAll(getUses().getAllDepthHumanAnnotations());
+            annotations.addAll(getUses().getAllDepthHumanAnnotationsAccessibleByUser(username));
         }
 
         return annotations;
     }
 
     // Solução para suportar os dois tipos de annotation
-    public Set<Annotation> getAllDepthAnnotations() {
-        Set<Annotation> annotations = null;
-        if (getVirtualEdition().isPublicOrIsParticipant()) {
+    public Set<Annotation> getAllDepthAnnotationsAccessibleByUser(String username) {
+        Set<Annotation> annotations;
+        if (getVirtualEdition().isPublicOrIsParticipant(username)) {
             annotations = new HashSet<>(getAnnotationSet());
         } else {
             annotations = new HashSet<>();
         }
 
         if (getUses() != null) {
-            annotations.addAll(getUses().getAllDepthAnnotations());
+            annotations.addAll(getUses().getAllDepthAnnotationsAccessibleByUser(username));
         }
 
         return annotations;
     }
 
-    public Set<Tag> getAllDepthTags() {
-        Set<Tag> tags = null;
+    public Set<Tag> getAllDepthTagsAccessibleByUser(String username) {
+        Set<Tag> tags;
 
-        if (getVirtualEdition().isPublicOrIsParticipant()) {
+        if (getVirtualEdition().isPublicOrIsParticipant(username)) {
             tags = new HashSet<>(getTagSet());
         } else {
             tags = new HashSet<>();
@@ -346,25 +344,23 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
 
 
         if (getUses() != null) {
-            tags.addAll(getUses().getAllDepthTags());
+            tags.addAll(getUses().getAllDepthTagsAccessibleByUser(username));
         }
 
         return tags;
     }
 
     public Set<String> getContributorSet(Category category) {
-        return getAllDepthTags().stream().filter(t -> t.getCategory() == category).map(t -> t.getContributor())
+        return category.getTagSet().stream()
+                .filter(tag -> tag.getInter() == this)
+                .map(t -> t.getContributor())
                 .collect(Collectors.toSet());
     }
 
-    public Set<String> getContributorSet() {
-        return getAllDepthTags().stream().map(t -> t.getContributor()).collect(Collectors.toSet());
-    }
-
-    public String getAllDepthCategoriesJSON() {
+    public String getAllDepthCategoriesJSON(String username) {
         ObjectMapper mapper = new ObjectMapper();
 
-        List<CategoryDTO> categories = getAllDepthCategories().stream()
+        List<CategoryDTO> categories = getAllDepthCategoriesAccessibleByUser(username).stream()
                 .sorted((c1, c2) -> c1.compareInEditionContext(getVirtualEdition(), c2))
                 .map(c -> new CategoryDTO(getVirtualEdition(), c)).collect(Collectors.toList());
 
@@ -413,9 +409,9 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
         return editions;
     }
 
-    public Set<Tag> getTagsCompleteInter() {
-        Set<Tag> result = new HashSet<>(getAllDepthTags());
-        result.removeAll(getAllDepthHumanAnnotations().stream().flatMap(t -> t.getTagSet().stream())
+    public Set<Tag> getAllDepthTagsNotHumanAnnotationAccessibleByUser(String username) {
+        Set<Tag> result = new HashSet<>(getAllDepthTagsAccessibleByUser(username));
+        result.removeAll(getAllDepthHumanAnnotationsAccessibleByUser(username).stream().flatMap(t -> t.getTagSet().stream())
                 .collect(Collectors.toSet()));
         return result;
     }

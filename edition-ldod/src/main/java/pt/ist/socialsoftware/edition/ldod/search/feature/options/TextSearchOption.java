@@ -2,9 +2,9 @@ package pt.ist.socialsoftware.edition.ldod.search.feature.options;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.TextSearchOptionDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
-import pt.ist.socialsoftware.edition.ldod.search.api.dto.TextSearchOptionDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 
 import java.util.ArrayList;

@@ -14,7 +14,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.EditionDto;
-import pt.ist.socialsoftware.edition.ldod.frontend.session.FrontendSession;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
 import pt.ist.socialsoftware.edition.ldod.game.api.GameProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.game.api.dto.ClassificationGameDto;
 import pt.ist.socialsoftware.edition.ldod.game.api.dto.PlayerDto;
@@ -22,9 +22,7 @@ import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/edition")
@@ -124,7 +122,7 @@ public class EditionController {
                 model.addAttribute("position", this.gameProvidesInterface.getOverallUserPosition(username));
             }
             model.addAttribute("uiInterface", new UiInterface());
-            model.addAttribute("virtualProvidesInterface", virtualProvidesInterface);
+            model.addAttribute("virtualProvidesInterface", this.virtualProvidesInterface);
             return "edition/userContributions";
         } else {
             return "redirect:/error";

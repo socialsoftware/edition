@@ -78,14 +78,14 @@
         if ('${inters.get(0).getVirtualEdition().getTaxonomy().getOpenVocabulary()}' == 'true') {
             $(".tagSelector").select2({
                 multiple: true,
-                data: $.parseJSON('${inters.get(0).getAllDepthCategoriesJSON()}'),
+                data: $.parseJSON('${inters.get(0).getAllDepthCategoriesJSON(user)}'),
                 tags: true,
                 tokenSeparators: [',', '.']
             });
         } else {
             $(".tagSelector").select2({
                 multiple: true,
-                data: $.parseJSON('${inters.get(0).getAllDepthCategoriesJSON()}'),
+                data: $.parseJSON('${inters.get(0).getAllDepthCategoriesJSON(user)}'),
             });
         }
         $(".tagSelector").on('select2:open', function (e, data) {
@@ -154,7 +154,9 @@
 
 
 
+
         ${contextPath}/fragments/fragment/inter/
+
 
 
 

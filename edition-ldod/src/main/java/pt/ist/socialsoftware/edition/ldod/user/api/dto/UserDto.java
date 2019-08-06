@@ -42,7 +42,11 @@ public class UserDto {
         return this.userProvidesInterface.isActive(this.username);
     }
 
-    public void updatePassword(PasswordEncoder passwordEncoder, String currentPassword, String newPassword){
+    public String getSocialMediaId() {
+        return this.userProvidesInterface.getSocialMediaId(this.username);
+    }
+
+    public void updatePassword(PasswordEncoder passwordEncoder, String currentPassword, String newPassword) {
         this.userProvidesInterface.updatePassword(this.username, passwordEncoder, currentPassword, newPassword);
     }
 }

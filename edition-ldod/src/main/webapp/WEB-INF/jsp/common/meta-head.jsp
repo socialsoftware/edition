@@ -17,7 +17,7 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'UA-111295843-1');
+  gtag('pt.ist.socialsoftware.edition.ldod.frontend.config', 'UA-111295843-1');
 </script>
 <style>
 @media ( max-width : 767px) {

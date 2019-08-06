@@ -22,10 +22,10 @@ import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
 import pt.ist.socialsoftware.edition.ldod.domain.UserModule;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.forms.EditUserForm;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.security.UserModuleUserDetails;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.validator.EditUserValidator;
 import pt.ist.socialsoftware.edition.ldod.user.feature.inout.UsersXMLExport;
 import pt.ist.socialsoftware.edition.ldod.user.feature.inout.UsersXMLImport;
-import pt.ist.socialsoftware.edition.ldod.user.feature.security.UserModuleUserDetails;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDLoadException;
 
 import javax.inject.Inject;
@@ -72,9 +72,9 @@ public class UserAdminController {
 
         for (SessionInformation session : activeSessions) {
             if (session.getPrincipal() instanceof UserModuleUserDetails) {
-                User user = ((UserModuleUserDetails) session.getPrincipal()).getUser();
+                String username = ((UserModuleUserDetails) session.getPrincipal()).getUsername();
 
-                if (user != User.getAuthenticatedUser()) {
+                if (!username.equals(UserModuleUserDetails.getAuthenticatedUser().getUsername())) {
                     session.expireNow();
                 }
                 // if

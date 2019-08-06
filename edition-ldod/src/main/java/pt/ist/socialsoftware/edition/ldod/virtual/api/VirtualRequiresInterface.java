@@ -3,7 +3,6 @@ package pt.ist.socialsoftware.edition.ldod.virtual.api;
 import pt.ist.socialsoftware.edition.ldod.api.event.Event;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
-import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 
 public class VirtualRequiresInterface {
     // Requires asynchronous events
@@ -45,13 +44,5 @@ public class VirtualRequiresInterface {
         }
         vei.remove();
     }
-
-    // Requires from User Module
-    private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
-
-    public String getAuthenticatedUser() {
-        return this.userProvidesInterface.getAuthenticatedUser();
-    }
-
 
 }

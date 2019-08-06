@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.user.api;
 
+import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,14 +40,17 @@ public class UserProvidesInterface {
         return getUserByUsername(username).orElse(null).getEmail();
     }
 
-    public void updatePassword(String username, PasswordEncoder passwordEncoder, String currentPassword, String newPassword){
+    public String getSocialMediaId(String username) {
+        return getUserByUsername(username).orElse(null).getSocialMediaId();
+    }
+
+    public void updatePassword(String username, PasswordEncoder passwordEncoder, String currentPassword, String newPassword) {
         getUserByUsername(username).orElseThrow(LdoDException::new)
                 .updatePassword(passwordEncoder, currentPassword, newPassword);
     }
 
-    public String getAuthenticatedUser() {
-        User user = User.getAuthenticatedUser();
-        return user != null ? user.getUsername() : null;
+    public void setUserLastLogin(String username, LocalDate now) {
+        getUserByUsername(username).orElseThrow(() -> new LdoDException("User not found")).setLastLogin(now);
     }
 
     private Optional<User> getUserByUsername(String username) {

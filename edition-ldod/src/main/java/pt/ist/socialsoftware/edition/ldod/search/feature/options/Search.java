@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.search.feature.options;
 
+import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.SearchDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchRequiresInterface;
-import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.SearchOption.Mode;
 

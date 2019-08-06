@@ -13,11 +13,10 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.MainFragmentDto;
-import pt.ist.socialsoftware.edition.ldod.frontend.session.FrontendSession;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
-import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationSearchJson;
 
@@ -31,7 +30,7 @@ import java.util.stream.Collectors;
 public class FragmentController {
     private static final Logger logger = LoggerFactory.getLogger(FragmentController.class);
 
-    private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
+    private final FETextRequiresInterface feTextRequiresInterface = new FETextRequiresInterface();
 
     @ModelAttribute("frontendSession")
     public FrontendSession getFrontendSession() {
@@ -59,7 +58,8 @@ public class FragmentController {
         } else {
             model.addAttribute("ldoD", VirtualModule.getInstance());
             model.addAttribute("text", TextModule.getInstance());
-            model.addAttribute("user", User.getAuthenticatedUser());
+            model.addAttribute("user", this.feTextRequiresInterface.getAuthenticatedUser());
+            model.addAttribute("ldoDArchiveEdition", this.feTextRequiresInterface.getVirtualEditionByAcronym(VirtualEdition.ARCHIVE_EDITION_ACRONYM));
             model.addAttribute("fragment", fragment);
             model.addAttribute("fragmentDto", new MainFragmentDto(fragment));
             model.addAttribute("inters", new ArrayList<ScholarInter>());
@@ -105,7 +105,8 @@ public class FragmentController {
 
         model.addAttribute("ldoD", VirtualModule.getInstance());
         model.addAttribute("text", TextModule.getInstance());
-        model.addAttribute("user", User.getAuthenticatedUser());
+        model.addAttribute("user", this.feTextRequiresInterface.getAuthenticatedUser());
+        model.addAttribute("ldoDArchiveEdition", this.feTextRequiresInterface.getVirtualEditionByAcronym(VirtualEdition.ARCHIVE_EDITION_ACRONYM));
         model.addAttribute("fragment", fragment);
         model.addAttribute("writer", writer);
         model.addAttribute("uiInterface", new UiInterface());
@@ -154,7 +155,8 @@ public class FragmentController {
         inters.add(inter);
         model.addAttribute("ldoD", VirtualModule.getInstance());
         model.addAttribute("text", TextModule.getInstance());
-        model.addAttribute("user", User.getAuthenticatedUser());
+        model.addAttribute("user", this.feTextRequiresInterface.getAuthenticatedUser());
+        model.addAttribute("ldoDArchiveEdition", this.feTextRequiresInterface.getVirtualEditionByAcronym(VirtualEdition.ARCHIVE_EDITION_ACRONYM));
         model.addAttribute("inters", inters);
 
         return "fragment/taxonomy";
@@ -234,7 +236,8 @@ public class FragmentController {
 
         model.addAttribute("ldoD", VirtualModule.getInstance());
         model.addAttribute("text", TextModule.getInstance());
-        model.addAttribute("user", User.getAuthenticatedUser());
+        model.addAttribute("user", this.feTextRequiresInterface.getAuthenticatedUser());
+        model.addAttribute("ldoDArchiveEdition", this.feTextRequiresInterface.getVirtualEditionByAcronym(VirtualEdition.ARCHIVE_EDITION_ACRONYM));
         model.addAttribute("fragment", fragment);
         if (scholarInters.size() > 0) {
             model.addAttribute("inters", scholarInters);
@@ -316,6 +319,7 @@ public class FragmentController {
         model.addAttribute("inters", inters);
         model.addAttribute("ldoD", VirtualModule.getInstance());
         model.addAttribute("text", TextModule.getInstance());
+        model.addAttribute("ldoDArchiveEdition", this.feTextRequiresInterface.getVirtualEditionByAcronym(VirtualEdition.ARCHIVE_EDITION_ACRONYM));
 
         if (showFacs) {
             Surface surface = null;
@@ -365,6 +369,7 @@ public class FragmentController {
 
         model.addAttribute("ldoD", VirtualModule.getInstance());
         model.addAttribute("text", TextModule.getInstance());
+        model.addAttribute("ldoDArchiveEdition", this.feTextRequiresInterface.getVirtualEditionByAcronym(VirtualEdition.ARCHIVE_EDITION_ACRONYM));
         model.addAttribute("fragment", inters.get(0).getFragment());
         model.addAttribute("lineByLine", lineByLine);
         model.addAttribute("inters", inters);
@@ -388,7 +393,7 @@ public class FragmentController {
 
         VirtualEditionInter inter = FenixFramework.getDomainObject(uri);
 
-        for (Annotation annotation : inter.getAllDepthAnnotations()) {
+        for (Annotation annotation : inter.getAllDepthAnnotationsAccessibleByUser(this.feTextRequiresInterface.getAuthenticatedUser())) {
             AnnotationDTO annotationJson = new AnnotationDTO(annotation);
             annotations.add(annotationJson);
         }
@@ -402,7 +407,7 @@ public class FragmentController {
                                                    @RequestBody AnnotationDTO annotationJson, HttpServletRequest request) {
         VirtualEditionInter inter = FenixFramework.getDomainObject(annotationJson.getUri());
         VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
-        String user = this.userProvidesInterface.getAuthenticatedUser();
+        String user = this.feTextRequiresInterface.getAuthenticatedUser();
 
         HumanAnnotation annotation;
         if (HumanAnnotation.canCreate(virtualEdition, user)) {
@@ -435,7 +440,7 @@ public class FragmentController {
                                                    @RequestBody AnnotationDTO annotationJson) {
 
         HumanAnnotation annotation = FenixFramework.getDomainObject(id);
-        String user = this.userProvidesInterface.getAuthenticatedUser();
+        String user = this.feTextRequiresInterface.getAuthenticatedUser();
 
         if (annotation == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -456,7 +461,7 @@ public class FragmentController {
                                                    @RequestBody AnnotationDTO annotationJson) {
 
         HumanAnnotation annotation = FenixFramework.getDomainObject(id);
-        String user = this.userProvidesInterface.getAuthenticatedUser();
+        String user = this.feTextRequiresInterface.getAuthenticatedUser();
 
         if (annotation == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

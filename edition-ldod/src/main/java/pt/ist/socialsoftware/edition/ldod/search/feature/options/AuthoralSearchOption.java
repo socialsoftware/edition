@@ -1,8 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.search.feature.options;
 
 import pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType;
+import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.AuthoralSearchOptionDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchRequiresInterface;
-import pt.ist.socialsoftware.edition.ldod.search.api.dto.AuthoralSearchOptionDto;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.SearchableElementDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.SourceDto;
 

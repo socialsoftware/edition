@@ -27,7 +27,8 @@
             <strong><spring:message code="general.participant"/>: </strong>
             <c:forEach var="game" items="${games}" varStatus="loop">
                 <a href="${contextPath}/virtualeditions/${virtualProvidesInterface.getVirtualEdition(game.getEditionId())}/classificationGame/${game.getExternalId()}">
-<                        ${virtualProvidesInterface.getVirtualEditionTitleByAcronym(game.getEditionId())} - ${virtualProvidesInterface.getVirtualEditionInterTitle(game.getInterId())}</a>>
+                    < ${virtualProvidesInterface.getVirtualEditionTitleByAcronym(game.getEditionId())}
+                    - ${virtualProvidesInterface.getVirtualEditionInterTitle(game.getInterId())}</a>>
                 <c:if test="${!loop.last}">, </c:if>
             </c:forEach>
         </p>
@@ -65,7 +66,7 @@
                         href="${contextPath}/edition/acronym/${inter.edition.acronym}">${inter.getEdition().getReference()}</a>
                 </td>
                 <td><c:forEach var="category"
-                               items='${inter.getAssignedCategories(userDto.username)}'>
+                               items='${inter.categoriesUsedByUserInTags(userDto.username)}'>
                     <a
                             href="${contextPath}/edition/acronym/${inter.edition.acronym}/category/${category.getUrlId()}">
                             ${category.getNameInEditionContext(inter.getEdition())} </a>

@@ -1,6 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.api.event;
 
-import pt.ist.socialsoftware.edition.ldod.frontend.session.SessionRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.session.SessionRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.game.api.GameRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.recommendation.api.RecommendationRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualRequiresInterface;

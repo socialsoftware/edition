@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.frontend.session.FrontendSession;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.validator.VirtualEditionValidator;
 import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.RecommendVirtualEditionParam;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDCreateVirtualEditionException;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class AssistedOrderingController {
     private static final Logger logger = LoggerFactory.getLogger(AssistedOrderingController.class);
 
-    private final AssistedOrderingRequiresInterface requiresInterface = new AssistedOrderingRequiresInterface();
+    private final FEAssistedOrderingRequiresInterface requiresInterface = new FEAssistedOrderingRequiresInterface();
 
     /*
      * Sets all the empty boxes to null instead of the empty string ""

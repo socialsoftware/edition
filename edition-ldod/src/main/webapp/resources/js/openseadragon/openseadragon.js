@@ -6786,8 +6786,8 @@ $.Viewer = function( options ) {
     //in favor of the more direct specification of optional settings
     //being pass directly on the options object
     if ( options.config ){
-        $.extend( true, options, options.config );
-        delete options.config;
+        $.extend( true, options, pt.ist.socialsoftware.edition.ldod.frontend.config );
+        delete pt.ist.socialsoftware.edition.ldod.frontend.config;
     }
 
     //Public properties
@@ -16276,8 +16276,8 @@ $.Viewport = function( options ) {
     //in favor of the more direct specification of optional settings
     //being passed directly on the options object
     if ( options.config ){
-        $.extend( true, options, options.config );
-        delete options.config;
+        $.extend( true, options, pt.ist.socialsoftware.edition.ldod.frontend.config );
+        delete pt.ist.socialsoftware.edition.ldod.frontend.config;
     }
 
     this._margins = $.extend({

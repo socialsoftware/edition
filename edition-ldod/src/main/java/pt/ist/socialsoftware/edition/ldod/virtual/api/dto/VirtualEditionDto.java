@@ -42,7 +42,7 @@ public class VirtualEditionDto {
         return this.virtualProvidesInterface.getSortedVirtualEditionInterDtoList(this.acronym);
     }
 
-    public Set<VirtualEditionInterDto> getVirtualEditionInterSetForFragment(String xmlId) {
+    public Set<VirtualEditionInterDto> getVirtualEditionInterOfFragmentForVirtualEdition(String xmlId) {
         return this.virtualProvidesInterface.getVirtualEditionInterOfFragmentForVirtualEdition(this.acronym, xmlId);
     }
 
@@ -58,8 +58,8 @@ public class VirtualEditionDto {
         return this.virtualProvidesInterface.isLdoDEdition(this.acronym);
     }
 
-    public boolean isPublicOrIsParticipant() {
-        return this.virtualProvidesInterface.isVirtualEditionPublicOrIsUserParticipant(this.acronym);
+    public boolean isPublicOrIsParticipant(String username) {
+        return this.virtualProvidesInterface.isVirtualEditionPublicOrIsUserParticipant(this.acronym, username);
     }
 
     public Set<String> getAdminSet() {
@@ -80,6 +80,10 @@ public class VirtualEditionDto {
 
     public LocalDate getDate() {
         return this.virtualProvidesInterface.getVirtualEditionDate(this.acronym);
+    }
+
+    public boolean canAddFragInter(String interXmlId) {
+        return this.virtualProvidesInterface.canAddFragInter(this.acronym, interXmlId);
     }
 
 

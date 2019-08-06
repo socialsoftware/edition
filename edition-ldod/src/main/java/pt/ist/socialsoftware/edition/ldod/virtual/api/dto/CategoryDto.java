@@ -1,7 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.virtual.api.dto;
 
 import pt.ist.socialsoftware.edition.ldod.domain.Category;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 
@@ -17,17 +16,17 @@ public class CategoryDto {
     private String name;
     private List<UserDto> users;
 
-    public CategoryDto(Category category, VirtualEditionInter inter){
+    public CategoryDto(Category category, VirtualEditionInter inter) {
         setExternalId(category.getExternalId());
         setAcronym(category.getTaxonomy().getEdition().getAcronym());
         setUrlId(category.getUrlId());
         setNameInEdition(category.getNameInEditionContext(inter.getEdition().getTaxonomy().getEdition()));
         setName(category.getName());
-        setUsers(inter.getContributorSet().stream().map(UserDto::new).collect(Collectors.toList()));
+        setUsers(inter.getContributorSet(category).stream().map(UserDto::new).collect(Collectors.toList()));
     }
 
     public String getExternalId() {
-        return externalId;
+        return this.externalId;
     }
 
     public void setExternalId(String externalId) {
@@ -35,7 +34,7 @@ public class CategoryDto {
     }
 
     public String getAcronym() {
-        return acronym;
+        return this.acronym;
     }
 
     public void setAcronym(String acronym) {
@@ -43,7 +42,7 @@ public class CategoryDto {
     }
 
     public String getUrlId() {
-        return urlId;
+        return this.urlId;
     }
 
     public void setUrlId(String urlId) {
@@ -51,7 +50,7 @@ public class CategoryDto {
     }
 
     public String getNameInEdition() {
-        return nameInEdition;
+        return this.nameInEdition;
     }
 
     public void setNameInEdition(String name) {
@@ -59,7 +58,7 @@ public class CategoryDto {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -68,7 +67,7 @@ public class CategoryDto {
 
 
     public List<UserDto> getUsers() {
-        return users;
+        return this.users;
     }
 
     public void setUsers(List<UserDto> users) {

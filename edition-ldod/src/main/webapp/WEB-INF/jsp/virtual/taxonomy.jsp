@@ -9,8 +9,8 @@
 <%@ include file="/WEB-INF/jsp/common/fixed-top-ldod-header.jsp" %>
 
 <c:set var="taxonomy" value="${virtualEdition.getTaxonomy()}"/>
-<c:set var="userLdoD"
-       value='${pageContext.request.userPrincipal.principal.getUser().getUsername()}'/>
+<c:set var="username"
+       value='${pageContext.request.userPrincipal.principal.getUsername()}'/>
 
 <div class="container">
     <br/>
@@ -51,7 +51,7 @@
         </div>
     </div>
     <br/>
-    <c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
+    <c:if test="${taxonomy.canManipulateTaxonomy(username)}">
         <div class="row">
             <div class="col-md-4">
                 <form name="createCategory" class="form-inline" method="POST"
@@ -116,7 +116,7 @@
                         <th><span class="tip"
                                   title="<spring:message code='taxonomies.tt.fragments' />"><spring:message
                                 code="fragments"/></span></th>
-                        <c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
+                        <c:if test="${taxonomy.canManipulateTaxonomy(username)}">
                             <th class="text-center">
                                 <div class="dropdown">
                                     <button class="btn btn-primary dropdown-toggle" type="button"
@@ -157,7 +157,7 @@
                                         href="${contextPath}/virtualeditions/restricted/fraginter/${inter.getExternalId()}">${inter.getTitle()}</a>
                                 <br/>
                             </c:forEach></td>
-                            <c:if test="${taxonomy.canManipulateTaxonomy(userLdoD)}">
+                            <c:if test="${taxonomy.canManipulateTaxonomy(username)}">
                                 <td class="text-center">
                                     <div class="form-group">
                                         <div class="checkbox text-center">

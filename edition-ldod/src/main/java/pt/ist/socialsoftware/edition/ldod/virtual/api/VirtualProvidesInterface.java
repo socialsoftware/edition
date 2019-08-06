@@ -40,8 +40,8 @@ public class VirtualProvidesInterface {
         return getVirtualEditionByAcronymUtil(acronym).map(VirtualEdition::getReference).orElse(null);
     }
 
-    public boolean isVirtualEditionPublicOrIsUserParticipant(String acronym) {
-        return getVirtualEditionByAcronymUtil(acronym).orElseThrow(LdoDException::new).isPublicOrIsParticipant();
+    public boolean isVirtualEditionPublicOrIsUserParticipant(String acronym, String username) {
+        return getVirtualEditionByAcronymUtil(acronym).orElseThrow(LdoDException::new).isPublicOrIsParticipant(username);
     }
 
     public boolean isUserParticipant(String acronym, String username) {
@@ -50,9 +50,12 @@ public class VirtualProvidesInterface {
     }
 
     public Set<VirtualEditionInterDto> getVirtualEditionInterOfFragmentForVirtualEdition(String acronym, String xmlId) {
-        List<VirtualEditionInter> virtualEditionInters = getVirtualEditionByAcronymUtil(acronym)
-                .map(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters()).orElse(new ArrayList<>());
-        return virtualEditionInters.stream().map(VirtualEditionInterDto::new).filter(dto -> dto.getFragmentXmlId().equals(xmlId)).collect(Collectors.toSet());
+        return getVirtualEditionByAcronymUtil(acronym)
+                .map(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters().stream()
+                        .filter(virtualEditionInter -> virtualEditionInter.getFragmentXmlId().equals(xmlId))
+                        .map(VirtualEditionInterDto::new)
+                        .collect(Collectors.toSet()))
+                .orElse(new HashSet<>());
     }
 
     public Set<VirtualEditionDto> getPublicVirtualEditionsOrUserIsParticipant(String username) {
@@ -166,21 +169,22 @@ public class VirtualProvidesInterface {
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getNumber).orElse(null);
     }
 
-    public List<CategoryDto> getVirtualEditionInterAssignedCategories(String xmlId) {
+    public List<CategoryDto> getCategoriesUsedInTags(String xmlId, String username) {
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
-        List<Category> categories = getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getAssignedCategories).orElse(new ArrayList<>());
+        List<Category> categories = getVirtualEditionInterByXmlId(xmlId)
+                .map(virtualEditionInter -> virtualEditionInter.getAllDepthCategoriesUsedInTags(username)).orElse(new ArrayList<>());
         return categories.stream().map(category -> new CategoryDto(category, inter)).collect(Collectors.toList());
     }
 
-    public List<CategoryDto> getVirtualEditionInterAssignedCategoriesForUser(String xmlId, String username) {
+    public List<CategoryDto> getVirtualEditionInterAllDepthCategoriesUsedByUserInTags(String xmlId, String username) {
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
-        List<Category> categories = getVirtualEditionInterByXmlId(xmlId).map(virtualEditionInter -> virtualEditionInter.getAssignedCategories(username)).orElse(new ArrayList<>());
+        List<Category> categories = getVirtualEditionInterByXmlId(xmlId).map(virtualEditionInter -> virtualEditionInter.getAllDepthCategoriesUsedByUserInTags(username)).orElse(new ArrayList<>());
         return categories.stream().map(category -> new CategoryDto(category, inter)).collect(Collectors.toList());
     }
 
-    public List<CategoryDto> getVirtualEditionInterNonAssignedCategoriesForUser(String xmlId, String username) {
+    public List<CategoryDto> getVirtualEditionInterAllDepthCategoriesNotUsedInTags(String xmlId, String username) {
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
-        List<Category> categories = getVirtualEditionInterByXmlId(xmlId).map(virtualEditionInter -> virtualEditionInter.getNonAssignedCategories(username)).orElse(new ArrayList<>());
+        List<Category> categories = getVirtualEditionInterByXmlId(xmlId).map(virtualEditionInter -> virtualEditionInter.getAllDepthCategoriesNotUsedInTags(username)).orElse(new ArrayList<>());
         return categories.stream().map(category -> new CategoryDto(category, inter)).collect(Collectors.toList());
     }
 
@@ -237,9 +241,9 @@ public class VirtualProvidesInterface {
         return getVirtualEditionByAcronymUtil(acronym).map(VirtualEdition::getExternalId).orElse(null);
     }
 
-    public List<TagDto> getVirtualEditionInterTags(String xmlId) {
+    public List<TagDto> getAllDepthTagsNotHumanAnnotationAccessibleByUser(String xmlId, String username) {
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
-        return inter.getTagsCompleteInter().stream().map(tag -> new TagDto(tag, inter)).collect(Collectors.toList());
+        return inter.getAllDepthTagsNotHumanAnnotationAccessibleByUser(username).stream().map(tag -> new TagDto(tag, inter)).collect(Collectors.toList());
     }
 
 
@@ -288,16 +292,16 @@ public class VirtualProvidesInterface {
         }
     }
 
-    public List<HumanAnnotationDto> getVirtualEditionInterHumanAnnotations(String xmlId) {
+    public List<HumanAnnotationDto> getVirtualEditionInterHumanAnnotationsAccessibleByUser(String xmlId, String username) {
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
-        return inter.getAllDepthAnnotations().stream().filter(HumanAnnotation.class::isInstance)
+        return inter.getAllDepthAnnotationsAccessibleByUser(username).stream().filter(HumanAnnotation.class::isInstance)
                 .map(HumanAnnotation.class::cast)
                 .map(annotation -> new HumanAnnotationDto(annotation, inter))
                 .collect(Collectors.toList());
     }
 
-    public List<AwareAnnotationDto> getVirtualEditionInterAwareAnnotations(String xmlId) {
-        return getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new).getAllDepthAnnotations()
+    public List<AwareAnnotationDto> getVirtualEditionInterAwareAnnotationsAccessibleByUser(String xmlId, String username) {
+        return getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new).getAllDepthAnnotationsAccessibleByUser(username)
                 .stream().filter(AwareAnnotation.class::isInstance)
                 .map(AwareAnnotation.class::cast)
                 .map(AwareAnnotationDto::new)
@@ -305,13 +309,22 @@ public class VirtualProvidesInterface {
     }
 
     public void associateVirtualEditionInterCategories(String xmlId, String username, Set<String> categories) {
-        getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new).associate(username, categories);
+        VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
+
+        if (username == null || !inter.getVirtualEdition().isPublicOrIsParticipant(username)) {
+            throw new LdoDException("not authorized");
+        }
+
+        inter.associate(username, categories);
     }
 
-    public void dissociateVirtualEditionInterCategory(String xmlId, String username, String categoryName) {
+    public void dissociateVirtualEditionInterCategory(String xmlId, String username, String categoryExternalId) {
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
-        Category category = inter.getAllDepthCategories().stream().filter(cat -> cat.getNameInEditionContext(inter.getEdition()).equals(categoryName))
-                .findAny().orElseThrow(LdoDException::new);
+        Category category = FenixFramework.getDomainObject(categoryExternalId);
+        if (category == null) {
+            throw new LdoDException();
+        }
+
         inter.dissociate(username, category);
     }
 
@@ -380,6 +393,10 @@ public class VirtualProvidesInterface {
     public void addVirtualEditionSelectedByUser(String user, String virtualEditionAcronym) {
         getVirtualEditionByAcronymUtil(virtualEditionAcronym).get().addSelectedByUser(user);
 
+    }
+
+    public boolean canAddFragInter(String acronym, String interXmlId) {
+        return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.canAddFragInter(interXmlId)).orElse(false);
     }
 
     private Optional<VirtualEditionInter> getVirtualEditionInterByXmlId(String xmlId) {

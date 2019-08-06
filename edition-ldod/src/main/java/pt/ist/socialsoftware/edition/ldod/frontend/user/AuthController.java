@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pt.ist.socialsoftware.edition.ldod.dto.JWTAuthenticationDto;
-import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserViewDto;
-import pt.ist.socialsoftware.edition.ldod.user.feature.security.jwt.JWTTokenProvider;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.JWTAuthenticationDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.LdoDUserViewDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.security.jwt.JWTTokenProvider;
 
 import javax.validation.Valid;
 

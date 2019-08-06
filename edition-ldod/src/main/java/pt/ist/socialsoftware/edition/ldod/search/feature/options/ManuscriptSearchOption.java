@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.search.feature.options;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import pt.ist.socialsoftware.edition.ldod.search.api.dto.ManuscriptSearchOptionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.ManuscriptSearchOptionDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.SourceDto;
 
 public final class ManuscriptSearchOption extends AuthoralSearchOption {

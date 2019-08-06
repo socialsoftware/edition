@@ -21,7 +21,7 @@ public class ReadingRecommendation implements Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(ReadingRecommendation.class);
 
-    private final ReadingRequiresInterface readingRequiresInterface = new ReadingRequiresInterface();
+    private final FEReadingRequiresInterface FEReadingRequiresInterface = new FEReadingRequiresInterface();
 
     private final List<String> read = new ArrayList<>();
     private float heteronymWeight = 0;
@@ -46,10 +46,10 @@ public class ReadingRecommendation implements Serializable {
         // this.read);
 
         List<FragmentDto> readFragments = this.read.stream()
-                .map(id -> this.readingRequiresInterface.getScholarInterbyExternalId(id)).map(ScholarInterDto::getFragmentDto)
+                .map(id -> this.FEReadingRequiresInterface.getScholarInterbyExternalId(id)).map(ScholarInterDto::getFragmentDto)
                 .collect(Collectors.toList());
 
-        ScholarInterDto toReadInter = this.readingRequiresInterface.getScholarInterbyExternalId(expertEditionInterId);
+        ScholarInterDto toReadInter = this.FEReadingRequiresInterface.getScholarInterbyExternalId(expertEditionInterId);
         FragmentDto toReadFragment = toReadInter.getFragmentDto();
 
         // if the fragment that is going to be read was already read, return to
@@ -61,7 +61,7 @@ public class ReadingRecommendation implements Serializable {
         }
 
 
-        Set<FragmentDto> fragments = this.readingRequiresInterface.getFragmentDtoSet();
+        Set<FragmentDto> fragments = this.FEReadingRequiresInterface.getFragmentDtoSet();
 
         // if all fragments minus 50 were already suggested clear the first 50
         // recommendations
@@ -75,7 +75,7 @@ public class ReadingRecommendation implements Serializable {
 
         this.read.add(expertEditionInterId);
 
-        List<Entry<FragmentDto, Double>> mostSimilars = this.readingRequiresInterface.
+        List<Entry<FragmentDto, Double>> mostSimilars = this.FEReadingRequiresInterface.
                 getMostSimilarFragmentsOfGivenFragment(toReadFragment, toBeRecommended,
                         new WeightsDto(getHeteronymWeight(), getDateWeight(), getTextWeight(), getTaxonomyWeight()));
 

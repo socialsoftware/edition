@@ -1,0 +1,149 @@
+package pt.ist.socialsoftware.edition.ldod.frontend.user.security;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.access.PermissionEvaluator;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
+import pt.ist.fenixframework.DomainObject;
+import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
+
+import java.io.Serializable;
+
+@Component
+public class LdoDPermissionEvaluator implements PermissionEvaluator {
+    private static final Logger log = LoggerFactory.getLogger(LdoDPermissionEvaluator.class);
+
+    public static final String ADMIN = "admin";
+    public static final String PARTICIPANT = "participant";
+    public static final String PUBLIC = "public";
+    public static final String ANNOTATION = "annotation";
+    public static final String TAXONOMY = "taxonomy";
+    private static final String LOGGED = "logged";
+
+    @Override
+    public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
+        boolean hasPermission = false;
+
+        UserModuleUserDetails userModuleUserDetails = UserModuleUserDetails.getAuthenticatedUser();
+        String loggedUsername = userModuleUserDetails != null ? userModuleUserDetails.getUsername() : null;
+
+        String[] permissions = ((String) permission).split("\\.");
+
+        log.debug("hasPermission {}, {}, {}", targetDomainObject, permissions[0], permissions[1]);
+
+        VirtualEdition virtualEdition = null;
+        User user = null;
+        if (targetDomainObject instanceof String) {
+            switch (permissions[0]) {
+                case "edition":
+                    DomainObject edition = FenixFramework.getDomainObject((String) targetDomainObject);
+                    if (edition instanceof VirtualEdition) {
+                        virtualEdition = (VirtualEdition) edition;
+                    } else {
+                        virtualEdition = null;
+                    }
+                    break;
+                case "editionacronym":
+                    edition = VirtualModule.getInstance().getVirtualEdition((String) targetDomainObject);
+                    if (edition instanceof VirtualEdition) {
+                        virtualEdition = (VirtualEdition) edition;
+                    } else {
+                        virtualEdition = null;
+                    }
+                    break;
+                case "virtualedition":
+                    virtualEdition = FenixFramework.getDomainObject((String) targetDomainObject);
+                    break;
+                case "fragInter":
+                    DomainObject object = FenixFramework.getDomainObject((String) targetDomainObject);
+                    if (object instanceof VirtualEditionInter) {
+                        virtualEdition = ((VirtualEditionInter) object).getEdition();
+                    } else {
+                        virtualEdition = null;
+                    }
+                    break;
+                case "taxonomy":
+                    Taxonomy taxonomy = FenixFramework.getDomainObject((String) targetDomainObject);
+                    if (taxonomy != null) {
+                        virtualEdition = taxonomy.getEdition();
+                    }
+                    break;
+                case "category":
+                    Category category = FenixFramework.getDomainObject((String) targetDomainObject);
+                    if (category != null) {
+                        virtualEdition = category.getTaxonomy().getEdition();
+                    }
+                    break;
+                case "tag":
+                    Tag tag = FenixFramework.getDomainObject((String) targetDomainObject);
+                    if (tag != null) {
+                        virtualEdition = tag.getCategory().getTaxonomy().getEdition();
+                    }
+                    break;
+                case "user":
+                    user = UserModule.getInstance().getUser((String) targetDomainObject);
+                    break;
+                default:
+                    assert false;
+            }
+
+            if (virtualEdition == null) {
+                hasPermission = true;
+            } else if (permissions[1].equals(ADMIN)) {
+                hasPermission = virtualEdition.getAdminSet().contains(loggedUsername);
+            } else if (permissions[1].equals(PARTICIPANT)) {
+                hasPermission = virtualEdition.getParticipantSet().contains(loggedUsername);
+            } else if (permissions[1].equals(PUBLIC)) {
+                hasPermission = virtualEdition.isPublicOrIsParticipant(loggedUsername);
+            } else if (permissions[1].equals(ANNOTATION)) {
+                hasPermission = virtualEdition.getTaxonomy().canManipulateAnnotation(loggedUsername);
+            } else if (permissions[1].equals(TAXONOMY)) {
+                hasPermission = virtualEdition.getTaxonomy().canManipulateTaxonomy(loggedUsername);
+            }
+
+            if (user != null) {
+                if (permissions[1].equals(LOGGED)) {
+                    hasPermission = loggedUsername.equals(user.getUsername());
+                }
+            }
+        }
+
+        return hasPermission;
+    }
+
+    @Override
+    public boolean hasPermission(Authentication authentication, Serializable targetId, String targetType,
+                                 Object permission) {
+        // it is only implementing "hasPermission(#xmlId, #urlId,
+        // 'fragInter.public')"
+        log.debug("hasPermission {}, {}", targetId, targetType);
+
+        UserModuleUserDetails userModuleUserDetails = UserModuleUserDetails.getAuthenticatedUser();
+        String loggedUsername = userModuleUserDetails != null ? userModuleUserDetails.getUsername() : null;
+
+        TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
+        FragmentDto fragmentDto = textProvidesInterface.getFragmentByXmlId((String) targetId);
+
+        if (fragmentDto == null) {
+            return false;
+        }
+
+        ScholarInterDto scholarInterDto = fragmentDto.getScholarInterDtoByUrlId(targetType);
+        if (scholarInterDto != null) {
+            return true;
+        }
+
+        VirtualEditionInter virtualEditionInter = VirtualModule.getInstance().getVirtualEditionInterByUrlId(targetType);
+        if (virtualEditionInter != null) {
+            return virtualEditionInter.getEdition().isPublicOrIsParticipant(loggedUsername);
+        } else {
+            return false;
+        }
+    }
+
+}
