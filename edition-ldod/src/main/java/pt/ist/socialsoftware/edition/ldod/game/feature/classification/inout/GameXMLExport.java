@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.game.inout;
+package pt.ist.socialsoftware.edition.ldod.game.feature.classification.inout;
 
 import org.jdom2.Document;
 import org.jdom2.Namespace;

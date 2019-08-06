@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.api.event.Event;
 import pt.ist.socialsoftware.edition.ldod.api.event.EventTagRemove;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.game.feature.classification.inout.WriteGamestoFile;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.TagDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
@@ -49,6 +50,10 @@ public class GameRequiresInterface {
             ClassificationModule.getInstance().getClassificationGameSet().stream()
                     .filter(classificationGame -> classificationGame.getTagId().equals(urlId) && classificationGame.getInterId().equals(interId))
                     .forEach(ClassificationGame::remove);
+        }
+        else if (event.getType().equals(Event.EventType.VIRTUAL_EXPORT)){
+            WriteGamestoFile writeGamestoFile = new WriteGamestoFile();
+            writeGamestoFile.exportToVirtualZip(event.getIdentifier());
         }
     }
 
