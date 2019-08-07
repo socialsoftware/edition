@@ -94,4 +94,7 @@ public class VirtualEditionDto {
         return this.virtualProvidesInterface.getOpenVocabulary(this.acronym);
     }
 
+    public boolean canManipulateTaxonomy(String username) {
+        return this.virtualProvidesInterface.canManipulateTaxonomy(this.acronym, username);
+    }
 }

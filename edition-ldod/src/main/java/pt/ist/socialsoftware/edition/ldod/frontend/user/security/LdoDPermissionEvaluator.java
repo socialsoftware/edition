@@ -5,12 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import pt.ist.fenixframework.DomainObject;
-import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FEUserRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
 import java.io.Serializable;
 
@@ -25,6 +25,8 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
     public static final String TAXONOMY = "taxonomy";
     private static final String LOGGED = "logged";
 
+    private final FEUserRequiresInterface feUserRequiresInterface = new FEUserRequiresInterface();
+
     @Override
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {
         boolean hasPermission = false;
@@ -36,57 +38,36 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 
         log.debug("hasPermission {}, {}, {}", targetDomainObject, permissions[0], permissions[1]);
 
-        VirtualEdition virtualEdition = null;
-        User user = null;
+        VirtualEditionDto virtualEdition = null;
+        UserDto user = null;
         if (targetDomainObject instanceof String) {
             switch (permissions[0]) {
                 case "edition":
-                    DomainObject edition = FenixFramework.getDomainObject((String) targetDomainObject);
-                    if (edition instanceof VirtualEdition) {
-                        virtualEdition = (VirtualEdition) edition;
-                    } else {
-                        virtualEdition = null;
-                    }
+                    virtualEdition = this.feUserRequiresInterface.getVirtualEditionByExternalId((String) targetDomainObject);
                     break;
                 case "editionacronym":
-                    edition = VirtualModule.getInstance().getVirtualEdition((String) targetDomainObject);
-                    if (edition instanceof VirtualEdition) {
-                        virtualEdition = (VirtualEdition) edition;
-                    } else {
-                        virtualEdition = null;
-                    }
+                    virtualEdition = this.feUserRequiresInterface.getVirtualEditionByAcronym((String) targetDomainObject);
                     break;
                 case "virtualedition":
-                    virtualEdition = FenixFramework.getDomainObject((String) targetDomainObject);
+                    virtualEdition = this.feUserRequiresInterface.getVirtualEditionByExternalId((String) targetDomainObject);
                     break;
                 case "fragInter":
-                    DomainObject object = FenixFramework.getDomainObject((String) targetDomainObject);
-                    if (object instanceof VirtualEditionInter) {
-                        virtualEdition = ((VirtualEditionInter) object).getEdition();
-                    } else {
-                        virtualEdition = null;
+                    VirtualEditionInterDto virtualEditionInter = this.feUserRequiresInterface.getVirtualEditionInterByExternalId((String) targetDomainObject);
+                    if (virtualEditionInter != null) {
+                        virtualEdition = virtualEditionInter.getVirtualEditionDto();
                     }
                     break;
                 case "taxonomy":
-                    Taxonomy taxonomy = FenixFramework.getDomainObject((String) targetDomainObject);
-                    if (taxonomy != null) {
-                        virtualEdition = taxonomy.getEdition();
-                    }
+                    virtualEdition = this.feUserRequiresInterface.getVirtualEditionOfTaxonomyByExternalId((String) targetDomainObject);
                     break;
                 case "category":
-                    Category category = FenixFramework.getDomainObject((String) targetDomainObject);
-                    if (category != null) {
-                        virtualEdition = category.getTaxonomy().getEdition();
-                    }
+                    virtualEdition = this.feUserRequiresInterface.getVirtualEditionOfCategoryByExternalId((String) targetDomainObject);
                     break;
                 case "tag":
-                    Tag tag = FenixFramework.getDomainObject((String) targetDomainObject);
-                    if (tag != null) {
-                        virtualEdition = tag.getCategory().getTaxonomy().getEdition();
-                    }
+                    virtualEdition = this.feUserRequiresInterface.getVirtualEditionOfTagByExternalId((String) targetDomainObject);
                     break;
                 case "user":
-                    user = UserModule.getInstance().getUser((String) targetDomainObject);
+                    user = this.feUserRequiresInterface.getUser((String) targetDomainObject);
                     break;
                 default:
                     assert false;
@@ -101,9 +82,9 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
             } else if (permissions[1].equals(PUBLIC)) {
                 hasPermission = virtualEdition.isPublicOrIsParticipant(loggedUsername);
             } else if (permissions[1].equals(ANNOTATION)) {
-                hasPermission = virtualEdition.getTaxonomy().canManipulateAnnotation(loggedUsername);
+                hasPermission = virtualEdition.canManipulateAnnotation(loggedUsername);
             } else if (permissions[1].equals(TAXONOMY)) {
-                hasPermission = virtualEdition.getTaxonomy().canManipulateTaxonomy(loggedUsername);
+                hasPermission = virtualEdition.canManipulateTaxonomy(loggedUsername);
             }
 
             if (user != null) {
@@ -126,8 +107,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
         UserModuleUserDetails userModuleUserDetails = UserModuleUserDetails.getAuthenticatedUser();
         String loggedUsername = userModuleUserDetails != null ? userModuleUserDetails.getUsername() : null;
 
-        TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
-        FragmentDto fragmentDto = textProvidesInterface.getFragmentByXmlId((String) targetId);
+        FragmentDto fragmentDto = this.feUserRequiresInterface.getFragmentByXmlId((String) targetId);
 
         if (fragmentDto == null) {
             return false;
@@ -138,9 +118,9 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
             return true;
         }
 
-        VirtualEditionInter virtualEditionInter = VirtualModule.getInstance().getVirtualEditionInterByUrlId(targetType);
+        VirtualEditionInterDto virtualEditionInter = this.feUserRequiresInterface.getVirtualEditionInterByUrlId(targetType);
         if (virtualEditionInter != null) {
-            return virtualEditionInter.getEdition().isPublicOrIsParticipant(loggedUsername);
+            return virtualEditionInter.getVirtualEditionDto().isPublicOrIsParticipant(loggedUsername);
         } else {
             return false;
         }

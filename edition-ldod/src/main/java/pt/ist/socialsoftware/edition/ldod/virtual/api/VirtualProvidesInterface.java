@@ -454,6 +454,37 @@ public class VirtualProvidesInterface {
                 .orElse(new HashSet<>());
     }
 
+    public VirtualEditionDto getVirtualEditionOfTaxonomyByExternalId(String externalId) {
+        Taxonomy taxonomy = FenixFramework.getDomainObject(externalId);
+        if (taxonomy != null) {
+            return new VirtualEditionDto(taxonomy.getEdition());
+        }
+        return null;
+    }
+
+    public VirtualEditionDto getVirtualEditionOfCategoryByExternalId(String externalId) {
+        Category category = FenixFramework.getDomainObject(externalId);
+        if (category != null) {
+            return new VirtualEditionDto(category.getTaxonomy().getEdition());
+        }
+        return null;
+    }
+
+    public VirtualEditionDto getVirtualEditionOfTagByExternalId(String externalId) {
+        Tag tag = FenixFramework.getDomainObject(externalId);
+        if (tag != null) {
+            return new VirtualEditionDto(tag.getInter().getEdition());
+        }
+        return null;
+    }
+
+    public boolean canManipulateTaxonomy(String acronym, String username) {
+        return getVirtualEditionByAcronymUtil(acronym)
+                .map(virtualEdition -> virtualEdition.getTaxonomy()
+                        .canManipulateTaxonomy(username)).orElse(false);
+    }
+
+
     private Optional<VirtualEditionInter> getVirtualEditionInterByXmlId(String xmlId) {
         return VirtualModule.getInstance().getVirtualEditionInterSet().stream()
                 .filter(virtualEditionInter -> virtualEditionInter.getXmlId().equals(xmlId)).findAny();
