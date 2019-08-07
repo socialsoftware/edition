@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.text.api.dto;
 
-import org.joda.time.LocalDate;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
@@ -56,6 +55,16 @@ public class SourceDto {
                 .collect(Collectors.joining(";"));
     }
 
+    public List<DimensionsDto> getSortedDimensionsDto() {
+        return getSourceByXmlId(this.xmlId)
+                .filter(ManuscriptSource.class::isInstance)
+                .map(ManuscriptSource.class::cast)
+                .map(ManuscriptSource::getSortedDimensions)
+                .orElse(new ArrayList<>())
+                .stream().map(DimensionsDto::new)
+                .collect(Collectors.toList());
+    }
+
     public List<AbstractMap.SimpleEntry<String, String>> getFormattedHandNote() {
         return getSourceByXmlId(this.xmlId)
                 .filter(ManuscriptSource.class::isInstance)
@@ -67,6 +76,16 @@ public class SourceDto {
                 .collect(Collectors.toList());
     }
 
+    public Set<ManuscriptNote> getHandNoteSet() {
+        return getSourceByXmlId(this.xmlId)
+                .filter(ManuscriptSource.class::isInstance)
+                .map(ManuscriptSource.class::cast)
+                .map(ManuscriptSource::getHandNoteSet)
+                .orElse(new HashSet<>())
+                .stream().map(ManuscriptNote::new)
+                .collect(Collectors.toSet());
+    }
+
     public List<AbstractMap.SimpleEntry<String, String>> getFormattedTypeNote() {
         return getSourceByXmlId(this.xmlId)
                 .filter(ManuscriptSource.class::isInstance)
@@ -76,6 +95,16 @@ public class SourceDto {
                 .stream().map(typeNote ->
                         new AbstractMap.SimpleEntry<>((typeNote.getMedium() != null ? typeNote.getMedium().getDesc() : ""), typeNote.getNote()))
                 .collect(Collectors.toList());
+    }
+
+    public Set<ManuscriptNote> getTypeNoteSet() {
+        return getSourceByXmlId(this.xmlId)
+                .filter(ManuscriptSource.class::isInstance)
+                .map(ManuscriptSource.class::cast)
+                .map(ManuscriptSource::getHandNoteSet)
+                .orElse(new HashSet<>())
+                .stream().map(ManuscriptNote::new)
+                .collect(Collectors.toSet());
     }
 
     public int getColumns() {
@@ -164,9 +193,9 @@ public class SourceDto {
                 .orElseThrow(LdoDException::new);
     }
 
-    public LocalDate getLdoDDate() {
+    public LdoDDateDto getLdoDDate() {
         return getSourceByXmlId(this.xmlId)
-                .map(source -> source.getLdoDDate() != null ? source.getLdoDDate().getDate() : null)
+                .map(source -> source.getLdoDDate() != null ? new LdoDDateDto(source.getLdoDDate()) : null)
                 .orElse(null);
     }
 
@@ -188,17 +217,25 @@ public class SourceDto {
         return getSourceByXmlId(this.xmlId).map(source -> source.getType()).orElse(null);
     }
 
-    private Optional<Source> getSourceByXmlId(String xmlId) {
-        return TextModule.getInstance().getFragmentsSet().stream()
-                .flatMap(fragment -> fragment.getSourcesSet().stream())
-                .filter(source -> source.getXmlId().equals(xmlId))
-                .findAny();
-    }
-
     public HeteronymDto getHeteronym() {
         return getSourceByXmlId(this.xmlId)
                 .map(Source::getHeteronym)
                 .map(HeteronymDto::new)
                 .orElse(null);
+    }
+
+    public ManuscriptSource.Form getForm() {
+        return getSourceByXmlId(this.xmlId)
+                .filter(ManuscriptSource.class::isInstance)
+                .map(ManuscriptSource.class::cast)
+                .map(ManuscriptSource::getForm)
+                .orElse(null);
+    }
+
+    private Optional<Source> getSourceByXmlId(String xmlId) {
+        return TextModule.getInstance().getFragmentsSet().stream()
+                .flatMap(fragment -> fragment.getSourcesSet().stream())
+                .filter(source -> source.getXmlId().equals(xmlId))
+                .findAny();
     }
 }

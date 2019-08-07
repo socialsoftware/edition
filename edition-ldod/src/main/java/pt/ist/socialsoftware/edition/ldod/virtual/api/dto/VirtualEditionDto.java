@@ -54,6 +54,14 @@ public class VirtualEditionDto {
         return this.virtualProvidesInterface.getVirtualEditionTaxonomyVocabularyStatus(this.acronym);
     }
 
+    public boolean isExpertEdition() {
+        return false;
+    }
+
+    public boolean isVirtualEdition() {
+        return true;
+    }
+
     public boolean isLdoDEdition() {
         return this.virtualProvidesInterface.isLdoDEdition(this.acronym);
     }
@@ -86,5 +94,12 @@ public class VirtualEditionDto {
         return this.virtualProvidesInterface.canAddFragInter(this.acronym, interXmlId);
     }
 
+    public boolean canManipulateAnnotation(String username) {
+        return this.virtualProvidesInterface.canManipulateAnnotation(this.acronym, username);
+    }
+
+    public boolean getOpenVocabulary() {
+        return this.virtualProvidesInterface.getOpenVocabulary(this.acronym);
+    }
 
 }

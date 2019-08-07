@@ -10,15 +10,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.MainFragmentDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationSearchJson;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -30,7 +32,7 @@ import java.util.stream.Collectors;
 public class FragmentController {
     private static final Logger logger = LoggerFactory.getLogger(FragmentController.class);
 
-    private final FETextRequiresInterface feTextRequiresInterface = new FETextRequiresInterface();
+    private final FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
 
     @ModelAttribute("frontendSession")
     public FrontendSession getFrontendSession() {
@@ -57,13 +59,12 @@ public class FragmentController {
             return "redirect:/error";
         } else {
             model.addAttribute("ldoD", VirtualModule.getInstance());
-            model.addAttribute("text", TextModule.getInstance());
+            model.addAttribute("expertEditions", this.feTextRequiresInterface.getSortedExpertEditionsDto());
             model.addAttribute("user", this.feTextRequiresInterface.getAuthenticatedUser());
             model.addAttribute("ldoDArchiveEdition", this.feTextRequiresInterface.getVirtualEditionByAcronym(VirtualEdition.ARCHIVE_EDITION_ACRONYM));
             model.addAttribute("fragment", fragment);
             model.addAttribute("fragmentDto", new MainFragmentDto(fragment));
-            model.addAttribute("inters", new ArrayList<ScholarInter>());
-            model.addAttribute("uiInterface", new UiInterface());
+            model.addAttribute("inters", new ArrayList<ScholarInterDto>());
             return "fragment/main";
         }
     }
@@ -77,26 +78,26 @@ public class FragmentController {
                                                @PathVariable String xmlId, @PathVariable String urlId) {
         logger.debug("getFragmentWithInterForUrlId xmlId:{}, urlId:{} ", xmlId, urlId);
 
-        Fragment fragment = TextModule.getInstance().getFragmentByXmlId(xmlId);
-        if (fragment == null) {
+        FragmentDto fragmentDto = this.feTextRequiresInterface.getFragmentByXmlId(xmlId);
+        if (fragmentDto == null) {
             return "redirect:/error";
         }
 
         PlainHtmlWriter4OneInter writer;
-        ScholarInter scholarInter = fragment.getScholarInterByUrlId(urlId);
-        if (scholarInter != null) {
-            List<ScholarInter> inters = new ArrayList<>();
-            writer = new PlainHtmlWriter4OneInter(scholarInter);
-            inters.add(scholarInter);
+        ScholarInterDto scholarInterDto = fragmentDto.getScholarInterByUrlId(urlId);
+        if (scholarInterDto != null) {
+            List<ScholarInterDto> inters = new ArrayList<>();
+            writer = new PlainHtmlWriter4OneInter(scholarInterDto.getXmlId());
+            inters.add(scholarInterDto);
             model.addAttribute("inters", inters);
         } else {
-            List<VirtualEditionInter> inters = new ArrayList<>();
-            VirtualEditionInter virtualEditionInter = VirtualModule.getInstance().getVirtualEditionInterByUrlId(urlId);
-            if (virtualEditionInter == null) {
+            List<VirtualEditionInterDto> inters = new ArrayList<>();
+            VirtualEditionInterDto virtualEditionInterDto = this.feTextRequiresInterface.getVirtualEditionInterByUrlId(urlId);
+            if (virtualEditionInterDto == null) {
                 return "redirect:/error";
             }
-            writer = new PlainHtmlWriter4OneInter(virtualEditionInter.getLastUsed().getXmlId());
-            inters.add(virtualEditionInter);
+            writer = new PlainHtmlWriter4OneInter(virtualEditionInterDto.getLastUsed().getXmlId());
+            inters.add(virtualEditionInterDto);
             model.addAttribute("inters", inters);
         }
 
@@ -104,12 +105,11 @@ public class FragmentController {
 
 
         model.addAttribute("ldoD", VirtualModule.getInstance());
-        model.addAttribute("text", TextModule.getInstance());
+        model.addAttribute("expertEditions", this.feTextRequiresInterface.getSortedExpertEditionsDto());
         model.addAttribute("user", this.feTextRequiresInterface.getAuthenticatedUser());
         model.addAttribute("ldoDArchiveEdition", this.feTextRequiresInterface.getVirtualEditionByAcronym(VirtualEdition.ARCHIVE_EDITION_ACRONYM));
-        model.addAttribute("fragment", fragment);
+        model.addAttribute("fragment", fragmentDto);
         model.addAttribute("writer", writer);
-        model.addAttribute("uiInterface", new UiInterface());
 
         return "fragment/main";
     }
@@ -143,18 +143,16 @@ public class FragmentController {
     public String getTaxonomy(Model model, @ModelAttribute("frontendSession") FrontendSession frontendSession,
                               @PathVariable String externalId) {
 
-        VirtualEditionInter inter = FenixFramework.getDomainObject(externalId);
+        VirtualEditionInterDto inter = this.feTextRequiresInterface.getVirtualEditionInterByExternalId(externalId);
 
         if (inter == null) {
             return "redirect:/error";
         }
 
-        VirtualEdition virtualEdition = inter.getEdition();
-
-        List<VirtualEditionInter> inters = new ArrayList<>();
+        List<VirtualEditionInterDto> inters = new ArrayList<>();
         inters.add(inter);
         model.addAttribute("ldoD", VirtualModule.getInstance());
-        model.addAttribute("text", TextModule.getInstance());
+        model.addAttribute("expertEditions", this.feTextRequiresInterface.getSortedExpertEditionsDto());
         model.addAttribute("user", this.feTextRequiresInterface.getAuthenticatedUser());
         model.addAttribute("ldoDArchiveEdition", this.feTextRequiresInterface.getVirtualEditionByAcronym(VirtualEdition.ARCHIVE_EDITION_ACRONYM));
         model.addAttribute("inters", inters);
@@ -211,23 +209,26 @@ public class FragmentController {
         return "redirect:/error";
     }
 
+
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/inter")
     public String getInter(Model model, @RequestParam(value = "fragment", required = true) String externalId,
                            @RequestParam(value = "inters[]", required = false) String[] intersID) {
         logger.debug("getInter externalId: {}, inters: {}", externalId, intersID);
 
-        Fragment fragment = FenixFramework.getDomainObject(externalId);
+        FragmentDto fragmentDto = this.feTextRequiresInterface.getFragmentByExternalId(externalId);
 
-        List<ScholarInter> scholarInters = new ArrayList<>();
-        List<VirtualEditionInter> virtualEditionInters = new ArrayList<>();
+        List<ScholarInterDto> scholarInters = new ArrayList<>();
+        List<VirtualEditionInterDto> virtualEditionInters = new ArrayList<>();
         if (intersID != null) {
             for (String interID : intersID) {
-                Object inter = FenixFramework.getDomainObject(interID);
-                if (inter != null && inter instanceof ScholarInter) {
-                    scholarInters.add((ScholarInter) inter);
-                }
-                if (inter != null && inter instanceof VirtualEditionInter) {
-                    virtualEditionInters.add((VirtualEditionInter) inter);
+                ScholarInterDto scholarInterDto = this.feTextRequiresInterface.getScholarInterByExternalId(interID);
+                if (scholarInterDto != null) {
+                    scholarInters.add(scholarInterDto);
+                } else {
+                    VirtualEditionInterDto virtualEditionInterDto = this.feTextRequiresInterface.getVirtualEditionInterByExternalId(interID);
+                    if (virtualEditionInterDto != null) {
+                        virtualEditionInters.add(virtualEditionInterDto);
+                    }
                 }
             }
         }
@@ -235,21 +236,20 @@ public class FragmentController {
         logger.debug("getInter scholarInters: {}, virtualEditionInters: {}", scholarInters.size(), virtualEditionInters.size());
 
         model.addAttribute("ldoD", VirtualModule.getInstance());
-        model.addAttribute("text", TextModule.getInstance());
+        model.addAttribute("expertEditions", this.feTextRequiresInterface.getSortedExpertEditionsDto());
         model.addAttribute("user", this.feTextRequiresInterface.getAuthenticatedUser());
         model.addAttribute("ldoDArchiveEdition", this.feTextRequiresInterface.getVirtualEditionByAcronym(VirtualEdition.ARCHIVE_EDITION_ACRONYM));
-        model.addAttribute("fragment", fragment);
+        model.addAttribute("fragment", fragmentDto);
         if (scholarInters.size() > 0) {
             model.addAttribute("inters", scholarInters);
         } else {
             model.addAttribute("inters", virtualEditionInters);
-            scholarInters = virtualEditionInters.stream().map(virtualEditionInter -> TextModule.getInstance().getScholarInterByXmlId(virtualEditionInter.getLastUsed().getXmlId())).collect(Collectors.toList());
+            scholarInters = virtualEditionInters.stream().map(virtualEditionInter -> virtualEditionInter.getLastUsed()).collect(Collectors.toList());
         }
-        model.addAttribute("uiInterface", new UiInterface());
 
         if (scholarInters.size() == 1) {
-            ScholarInter inter = scholarInters.get(0);
-            PlainHtmlWriter4OneInter writer4One = new PlainHtmlWriter4OneInter(inter);
+            ScholarInterDto inter = scholarInters.get(0);
+            PlainHtmlWriter4OneInter writer4One = new PlainHtmlWriter4OneInter(inter.getXmlId());
             writer4One.write(false);
             model.addAttribute("writer", writer4One);
         } else if (scholarInters.size() > 1) {
@@ -259,13 +259,18 @@ public class FragmentController {
                 lineByLine = true;
             }
 
-            Map<ScholarInter, HtmlWriter4Variations> variations = new HashMap<>();
-            for (ScholarInter inter : scholarInters) {
-                variations.put(inter, new HtmlWriter4Variations(inter));
+            Map<ScholarInterDto, HtmlWriter4Variations> variations = new HashMap<>();
+            for (ScholarInterDto inter : scholarInters) {
+                variations.put(inter, new HtmlWriter4Variations(inter.getXmlId()));
             }
 
             List<AppText> apps = new ArrayList<>();
-            fragment.getTextPortion().putAppTextWithVariations(apps, scholarInters);
+            // TODO: remove this dependence
+            Fragment fragment = FenixFramework.getDomainObject(externalId);
+            fragment.getTextPortion().putAppTextWithVariations(apps,
+                    scholarInters.stream().map(scholarInterDto -> TextModule.getInstance().getScholarInterByXmlId(scholarInterDto.getXmlId())).collect(Collectors.toList()));
+            // TODO: remove this dependence
+
             Collections.reverse(apps);
 
             writer.write(lineByLine, false);
@@ -281,17 +286,19 @@ public class FragmentController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/inter/editorial")
     public String getInterEditorial(@RequestParam(value = "interp[]", required = true) String[] interID,
                                     @RequestParam(value = "diff", required = true) boolean displayDiff, Model model) {
-        ScholarInter inter = FenixFramework.getDomainObject(interID[0]);
+        ScholarInterDto scholarInterDto = this.feTextRequiresInterface.getScholarInterByExternalId(interID[0]);
 
-        PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
+        PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(scholarInterDto.getXmlId());
         writer.write(displayDiff);
 
-        List<ScholarInter> inters = new ArrayList<>();
-        inters.add(inter);
+        List<ScholarInterDto> inters = new ArrayList<>();
+        inters.add(scholarInterDto);
         model.addAttribute("ldoD", VirtualModule.getInstance());
-        model.addAttribute("text", TextModule.getInstance());
+        model.addAttribute("expertEditions", this.feTextRequiresInterface.getSortedExpertEditionsDto());
         model.addAttribute("inters", inters);
         model.addAttribute("writer", writer);
+        model.addAttribute("ldoDArchiveEdition", this.feTextRequiresInterface.getVirtualEditionByAcronym(VirtualEdition.ARCHIVE_EDITION_ACRONYM));
+
 
         return "fragment/transcription";
 
@@ -306,23 +313,27 @@ public class FragmentController {
                                     @RequestParam(value = "notes", required = true) boolean showNotes,
                                     @RequestParam(value = "facs", required = true) boolean showFacs,
                                     @RequestParam(value = "pb", required = false) String pbTextID, Model model) {
+        // TODO: to be removed
         SourceInter inter = FenixFramework.getDomainObject(interID[0]);
+
+        ScholarInterDto scholarInterDto = this.feTextRequiresInterface.getScholarInterByExternalId(interID[0]);
+
         PbText pbText = null;
         if (pbTextID != null && !pbTextID.equals("")) {
             pbText = FenixFramework.getDomainObject(pbTextID);
         }
 
-        PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
+        PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(scholarInterDto.getXmlId());
 
-        List<ScholarInter> inters = new ArrayList<>();
-        inters.add(inter);
+        List<ScholarInterDto> inters = new ArrayList<>();
+        inters.add(scholarInterDto);
         model.addAttribute("inters", inters);
         model.addAttribute("ldoD", VirtualModule.getInstance());
-        model.addAttribute("text", TextModule.getInstance());
+        model.addAttribute("expertEditions", this.feTextRequiresInterface.getSortedExpertEditionsDto());
         model.addAttribute("ldoDArchiveEdition", this.feTextRequiresInterface.getVirtualEditionByAcronym(VirtualEdition.ARCHIVE_EDITION_ACRONYM));
 
         if (showFacs) {
-            Surface surface = null;
+            Surface surface;
             if (pbText == null) {
                 surface = inter.getSource().getFacsimile().getFirstSurface();
             } else {
@@ -350,13 +361,14 @@ public class FragmentController {
     public String getInterCompare(@RequestParam(value = "inters[]", required = true) String[] intersID,
                                   @RequestParam(value = "line") boolean lineByLine,
                                   @RequestParam(value = "spaces", required = true) boolean showSpaces, Model model) {
-        List<ScholarInter> inters = new ArrayList<>();
+        List<ScholarInterDto> inters = new ArrayList<>();
         for (String interID : intersID) {
-            DomainObject inter = FenixFramework.getDomainObject(interID);
-            if (inter instanceof ScholarInter) {
-                inters.add((ScholarInter) inter);
+            ScholarInterDto scholarInterDto = this.feTextRequiresInterface.getScholarInterByExternalId(interID);
+            if (scholarInterDto != null) {
+                inters.add(scholarInterDto);
             } else {
-                inters.add(TextModule.getInstance().getScholarInterByXmlId(((VirtualEditionInter) inter).getLastUsed().getXmlId()));
+                VirtualEditionInterDto virtualEditionInterDto = this.feTextRequiresInterface.getVirtualEditionInterByExternalId(interID);
+                inters.add(virtualEditionInterDto.getLastUsed());
             }
         }
 
@@ -368,9 +380,9 @@ public class FragmentController {
         writer.write(lineByLine, showSpaces);
 
         model.addAttribute("ldoD", VirtualModule.getInstance());
-        model.addAttribute("text", TextModule.getInstance());
+        model.addAttribute("expertEditions", this.feTextRequiresInterface.getSortedExpertEditionsDto());
         model.addAttribute("ldoDArchiveEdition", this.feTextRequiresInterface.getVirtualEditionByAcronym(VirtualEdition.ARCHIVE_EDITION_ACRONYM));
-        model.addAttribute("fragment", inters.get(0).getFragment());
+        model.addAttribute("fragment", inters.get(0).getFragmentDto());
         model.addAttribute("lineByLine", lineByLine);
         model.addAttribute("inters", inters);
         model.addAttribute("writer", writer);

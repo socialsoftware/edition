@@ -7,11 +7,11 @@
 
 <div class="row" id="taxonomy">
     <c:set var="inter" value='${inters.get(0)}'/>
-    <c:set var="taxonomy" value='${inter.getEdition().getTaxonomy()}'/>
+    <c:set var="virtualEditionDto" value='${inter.getVirtualEditionDto()}'/>
     <c:set var="username"
            value='${pageContext.request.userPrincipal.principal != null ? pageContext.request.userPrincipal.principal.getUsername() : null}'/>
     <c:set var="authorized"
-           value="${pageContext.request.userPrincipal.authenticated && taxonomy.canManipulateAnnotation(username)}"/>
+           value="${pageContext.request.userPrincipal.authenticated && virtualEditionDto.canManipulateAnnotation(username)}"/>
     <c:if test="${authorized}">
         <button class="btn btn-primary pull-right" data-toggle="modal"
                 data-target="#myModal">
@@ -30,17 +30,17 @@
         <c:forEach var="category" items='${inter.getAllDepthCategoriesUsedInTags(username)}'>
             <tr>
                 <td><a
-                        href="${contextPath}/edition/acronym/${category.getTaxonomy().getEdition().getAcronym()}/category/${category.getUrlId()}">${category.getNameInEditionContext(taxonomy.getEdition())}</a>
+                        href="${contextPath}/edition/acronym/${virtualEditionDto.getAcronym()}/category/${category.getUrlId()}">${category.getNameInEdition()}</a>
                     <c:if
-                            test="${inter.getContributorSet(category).contains(username)}">
+                            test="${category.getUsernames().contains(username)}">
                         <a
                                 href="${contextPath}/virtualeditions/restricted/fraginter/${inter.getExternalId()}/tag/dissociate/${category.getExternalId()}"><span
                                 class="glyphicon glyphicon-remove"></span></a>
                     </c:if></td>
                 <td><c:forEach var="user"
-                               items='${inter.getContributorSet(category)}'>
-                    <a href="${contextPath}/edition/user/${user}">${userProvidesInterface.getFirstName(user)} ${userProvidesInterface.getLastName(user)}
-                        (${user})</a>
+                               items='${category.getUsers()}'>
+                    <a href="${contextPath}/edition/user/${user.getUsername()}">${user.getFirstName()} ${user.getLastName()}
+                        (${user.getUsername()})</a>
                 </c:forEach></td>
             </tr>
         </c:forEach>
@@ -76,13 +76,13 @@
                                 <c:forEach var='category'
                                            items='${inter.getAllDepthCategoriesNotUsedInTags(user)}'>
                                     <option
-                                            value='${category.getNameInEditionContext(taxonomy.getEdition())}'>${category.getNameInEditionContext(taxonomy.getEdition())}</option>
+                                            value='${category.getNameInEdition()}'>${category.getNameInEdition()}</option>
                                 </c:forEach>
                                 <c:forEach var='category'
                                            items='${inter.getAllDepthCategoriesUsedInTags(user)}'>
                                     <option
-                                            value='${category.getNameInEditionContext(taxonomy.getEdition())}'
-                                            selected='selected'>${category.getNameInEditionContext(taxonomy.getEdition())}</option>
+                                            value='${category.getNameInEdition()}'
+                                            selected='selected'>${category.getNameInEdition()}</option>
 
                                 </c:forEach>
                             </select>
@@ -110,7 +110,7 @@
 
 <script>
     $("#category-select").select2({
-        tags: '${taxonomy.getOpenVocabulary()}' == "true" ? true : false,
+        tags: '${virtualEditionDto.getOpenVocabulary()}' == "true" ? true : false,
         tokenSeparators: [',', '.']
     })
 </script>

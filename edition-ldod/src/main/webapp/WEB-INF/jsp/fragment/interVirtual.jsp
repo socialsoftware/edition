@@ -2,15 +2,15 @@
 
 <div id=fragmentInter class="row"
      style="margin-left: 0px; margin-right: 0px">
-    <h4>${inters.get(0).edition.title}
+    <h4>${inters.get(0).getVirtualEditionDto().title}
         -
         <spring:message code="general.uses"/>
         <c:choose>
-            <c:when test="${empty inters.get(0).uses}">
+            <c:when test="${empty inters.get(0).getUsesInter()}">
                 ${inters.get(0).lastUsed.getEditionReference()} (${inters.get(0).lastUsed.reference})
             </c:when>
             <c:otherwise>
-                ${inters.get(0).uses.edition.getReference()} (${inters.get(0).uses.reference})
+                ${inters.get(0).getUsesInter().getVirtualEditionDto().getReference()} (${inters.get(0).uses.reference})
             </c:otherwise>
         </c:choose>
     </h4>
@@ -75,7 +75,7 @@
         select.attr("class", "tagSelector");
         select.attr("style", "width:263px;");
         $(tagsField).append(select);
-        if ('${inters.get(0).getVirtualEdition().getTaxonomy().getOpenVocabulary()}' == 'true') {
+        if ('${inters.get(0).getVirtualEditionDto().getOpenVocabulary()}' == 'true') {
             $(".tagSelector").select2({
                 multiple: true,
                 data: $.parseJSON('${inters.get(0).getAllDepthCategoriesJSON(user)}'),
@@ -155,7 +155,19 @@
 
 
 
+
+
+
+
+
+
         ${contextPath}/fragments/fragment/inter/
+
+
+
+
+
+
 
 
 

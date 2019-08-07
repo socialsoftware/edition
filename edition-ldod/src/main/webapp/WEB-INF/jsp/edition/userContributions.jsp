@@ -66,7 +66,7 @@
                         href="${contextPath}/edition/acronym/${inter.edition.acronym}">${inter.getEdition().getReference()}</a>
                 </td>
                 <td><c:forEach var="category"
-                               items='${inter.categoriesUsedByUserInTags(userDto.username)}'>
+                               items='${inter.getAllDepthCategoriesUsedByUserInTags(userDto.username)}'>
                     <a
                             href="${contextPath}/edition/acronym/${inter.edition.acronym}/category/${category.getUrlId()}">
                             ${category.getNameInEditionContext(inter.getEdition())} </a>

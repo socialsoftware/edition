@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.text.api.dto;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 
+import java.util.List;
 import java.util.Set;
 
 public class FragmentDto {
@@ -40,6 +41,10 @@ public class FragmentDto {
 
     public ScholarInterDto getScholarInterByUrlId(String urlId) {
         return this.textProvidesInterface.getFragmentScholarInterByUrlId(this.xmlId, urlId);
+    }
+
+    public List<ScholarInterDto> getSortedSourceInter() {
+        return this.textProvidesInterface.getFragmentSortedSourceInter(this.xmlId);
     }
 
     // Only necessary due to manual ordering of virtual edition javascript code

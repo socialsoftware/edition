@@ -65,12 +65,15 @@ public class CategoryDto {
         this.name = name;
     }
 
-
     public List<UserDto> getUsers() {
         return this.users;
     }
 
     public void setUsers(List<UserDto> users) {
         this.users = users;
+    }
+
+    public List<String> getUsernames() {
+        return getUsers().stream().map(userDto -> userDto.getUsername()).collect(Collectors.toList());
     }
 }

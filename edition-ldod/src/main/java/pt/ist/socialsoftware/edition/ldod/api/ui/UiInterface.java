@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
-import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 
 import java.util.ArrayList;
@@ -25,16 +24,6 @@ public class UiInterface {
         fragInterList.add(new FragInterDto(TextModule.getInstance().getScholarInterByXmlId(inter.getUsesScholarInterId())));
 
         return fragInterList;
-    }
-
-    public FragInterDto.InterType getSourceTypeOfInter(String xmlId) {
-        TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
-        ScholarInterDto scholarInterDto = textProvidesInterface.getScholarInter(xmlId);
-        if (scholarInterDto != null) {
-            return scholarInterDto.getType();
-        } else {
-            return FragInterDto.InterType.VIRTUAL;
-        }
     }
 
     public boolean isExpertEdition(String acronym) {

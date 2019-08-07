@@ -106,6 +106,10 @@ public class VirtualProvidesInterface {
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getUrlId).orElse(null);
     }
 
+    public VirtualEditionInterDto getVirtualEditionInterByUrlId(String urlId) {
+        return getVirtualEditionInterByUrlIdUtil(urlId).map(VirtualEditionInterDto::new).orElse(null);
+    }
+
     public String getVirtualEditionInterReference(String xmlId) {
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getReference).orElse(null);
     }
@@ -176,6 +180,14 @@ public class VirtualProvidesInterface {
         return categories.stream().map(category -> new CategoryDto(category, inter)).collect(Collectors.toList());
     }
 
+    public List<CategoryDto> getVirtualEditionInterAllDepthCategoriesUsedInTags(String xmlId, String username) {
+        VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
+        return getVirtualEditionInterByXmlId(xmlId)
+                .map(virtualEditionInter -> virtualEditionInter.getAllDepthCategoriesUsedInTags(username).stream()
+                        .map(category -> new CategoryDto(category, inter)).collect(Collectors.toList()))
+                .orElse(new ArrayList<>());
+    }
+
     public List<CategoryDto> getVirtualEditionInterAllDepthCategoriesUsedByUserInTags(String xmlId, String username) {
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         List<Category> categories = getVirtualEditionInterByXmlId(xmlId).map(virtualEditionInter -> virtualEditionInter.getAllDepthCategoriesUsedByUserInTags(username)).orElse(new ArrayList<>());
@@ -184,7 +196,8 @@ public class VirtualProvidesInterface {
 
     public List<CategoryDto> getVirtualEditionInterAllDepthCategoriesNotUsedInTags(String xmlId, String username) {
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
-        List<Category> categories = getVirtualEditionInterByXmlId(xmlId).map(virtualEditionInter -> virtualEditionInter.getAllDepthCategoriesNotUsedInTags(username)).orElse(new ArrayList<>());
+        List<Category> categories = getVirtualEditionInterByXmlId(xmlId)
+                .map(virtualEditionInter -> virtualEditionInter.getAllDepthCategoriesNotUsedInTags(username)).orElse(new ArrayList<>());
         return categories.stream().map(category -> new CategoryDto(category, inter)).collect(Collectors.toList());
     }
 
@@ -399,16 +412,41 @@ public class VirtualProvidesInterface {
         return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.canAddFragInter(interXmlId)).orElse(false);
     }
 
+
+    public boolean canManipulateAnnotation(String acronym, String username) {
+        return getVirtualEditionByAcronymUtil(acronym)
+                .map(virtualEdition -> virtualEdition.getTaxonomy().canManipulateAnnotation(username))
+                .orElse(false);
+    }
+
+    public boolean getOpenVocabulary(String acronym) {
+        return getVirtualEditionByAcronymUtil(acronym)
+                .map(virtualEdition -> virtualEdition.getTaxonomy().getOpenVocabulary())
+                .orElse(false);
+    }
+
+
+    public String getAllDepthCategoriesJSON(String xmlId, String username) {
+        return getVirtualEditionInterByXmlId(xmlId)
+                .map(virtualEditionInter -> virtualEditionInter.getAllDepthCategoriesJSON(username))
+                .orElse(null);
+    }
+
+
     private Optional<VirtualEditionInter> getVirtualEditionInterByXmlId(String xmlId) {
         return VirtualModule.getInstance().getVirtualEditionInterSet().stream()
                 .filter(virtualEditionInter -> virtualEditionInter.getXmlId().equals(xmlId)).findAny();
+    }
+
+    private Optional<VirtualEditionInter> getVirtualEditionInterByUrlIdUtil(String urlI) {
+        return VirtualModule.getInstance().getVirtualEditionInterSet().stream()
+                .filter(virtualEditionInter -> virtualEditionInter.getUrlId().equals(urlI)).findAny();
     }
 
     private Optional<VirtualEdition> getVirtualEditionByAcronymUtil(String acronym) {
         return VirtualModule.getInstance().getVirtualEditionsSet().stream()
                 .filter(virtualEdition -> virtualEdition.getAcronym().equals(acronym)).findAny();
     }
-
 }
 
 

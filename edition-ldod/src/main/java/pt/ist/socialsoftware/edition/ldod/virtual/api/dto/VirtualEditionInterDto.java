@@ -1,6 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.virtual.api.dto;
 
+import pt.ist.socialsoftware.edition.ldod.api.ui.FragInterDto;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 
@@ -35,6 +37,10 @@ public class VirtualEditionInterDto {
 
     public String getTitle() {
         return this.virtualProvidesInterface.getVirtualEditionInterTitle(this.xmlId);
+    }
+
+    public FragInterDto.InterType getType() {
+        return FragInterDto.InterType.VIRTUAL;
     }
 
     public String getFragmentXmlId() {
@@ -118,6 +124,18 @@ public class VirtualEditionInterDto {
         }
 
         return usesPath;
+    }
+
+    public List<CategoryDto> getAllDepthCategoriesUsedInTags(String username) {
+        return this.virtualProvidesInterface.getVirtualEditionInterAllDepthCategoriesUsedInTags(this.xmlId, username);
+    }
+
+    public FragmentDto getFragmentDto() {
+        return getLastUsed().getFragmentDto();
+    }
+
+    public String getAllDepthCategoriesJSON(String username) {
+        return this.virtualProvidesInterface.getAllDepthCategoriesJSON(this.xmlId, username);
     }
 
     @Override

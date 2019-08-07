@@ -3,9 +3,9 @@
 <div id="fragmentTranscription">
     <h4 class="text-center">
         <c:choose>
-            <c:when test="${uiInterface.getSourceTypeOfInter(inters.get(0).getXmlId())=='EDITORIAL'}">
+            <c:when test="${inters.get(0).getType()=='EDITORIAL'}">
                 ${inters.get(0).title} <a
-                    href="${contextPath}/reading/fragment/${inters.get(0).getFragment().getXmlId()}/inter/${inters.get(0).getUrlId()}"><span
+                    href="${contextPath}/reading/fragment/${inters.get(0).getFragmentXmlId()}/inter/${inters.get(0).getUrlId()}"><span
                     class="glyphicon glyphicon-eye-open"></span></a>
             </c:when>
             <c:otherwise>
@@ -15,7 +15,7 @@
     </h4>
     <br>
     <c:choose>
-        <c:when test="${uiInterface.getSourceTypeOfInter(inters.get(0).lastUsed.getXmlId())=='EDITORIAL'}">
+        <c:when test="${inters.get(0).getType()=='EDITORIAL'}">
             <div class="well" style="font-family: georgia; font-size: medium;">
                 <p>${writer.getTranscription()}</p>
             </div>

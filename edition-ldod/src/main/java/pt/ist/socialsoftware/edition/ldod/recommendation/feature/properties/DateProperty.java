@@ -84,7 +84,7 @@ public class DateProperty extends Property {
         }
         for (SourceDto source : fragment.getSourcesSet()) {
             if (source.getLdoDDate() != null) {
-                dates.add(source.getLdoDDate().getYear());
+                dates.add(source.getLdoDDate().getDate().getYear());
             }
         }
         return buildVector(dates);

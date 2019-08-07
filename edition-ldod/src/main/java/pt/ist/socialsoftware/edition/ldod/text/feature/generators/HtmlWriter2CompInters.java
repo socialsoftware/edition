@@ -1,13 +1,16 @@
 package pt.ist.socialsoftware.edition.ldod.text.feature.generators;
 
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class HtmlWriter2CompInters implements TextPortionVisitor {
     private final Map<ScholarInter, String> transcriptionsMap = new HashMap<>();
     private final Map<ScholarInter, Integer> transcriptionsLengthMap = new HashMap<>();
-    private List<ScholarInter> interps = null;
+    private final List<ScholarInter> interps;
 
     private Boolean lineByLine = false;
     private Boolean showSpaces = false;
@@ -18,8 +21,10 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 
     private String lineByLineTranscription = "";
 
-    public HtmlWriter2CompInters(List<ScholarInter> interps) {
-        this.interps = new ArrayList<>(interps);
+    public HtmlWriter2CompInters(List<ScholarInterDto> interps) {
+        this.interps = interps.stream()
+                .map(scholarInterDto -> (ScholarInter) FenixFramework.getDomainObject(scholarInterDto.getExternalId()))
+                .collect(Collectors.toList());
     }
 
     public void write(Boolean lineByLine, Boolean showSpaces) {
@@ -32,6 +37,10 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
         }
 
         visit((AppText) this.interps.iterator().next().getFragment().getTextPortion());
+    }
+
+    public String getTranscription(ScholarInterDto interDto) {
+        return getTranscription((ScholarInter) FenixFramework.getDomainObject(interDto.getExternalId()));
     }
 
     public String getTranscription(ScholarInter inter) {

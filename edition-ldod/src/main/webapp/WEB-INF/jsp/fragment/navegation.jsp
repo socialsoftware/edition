@@ -72,7 +72,7 @@
                             </c:otherwise>
                         </c:choose></td>
                         <td><a
-                                href="${contextPath}/fragments/fragment/${sourceInter.getFragment().getXmlId()}/inter/${sourceInter.getUrlId()}">${sourceInter.shortName}</a>
+                                href="${contextPath}/fragments/fragment/${sourceInter.getFragmentXmlId()}/inter/${sourceInter.getUrlId()}">${sourceInter.shortName}</a>
                         </td>
                         <td></td>
                     </tr>
@@ -89,9 +89,9 @@
                data-content="<spring:message code="info.experts" />"> <span
                     class="glyphicon glyphicon-info-sign"></span></a>
         </h5>
-        <c:forEach var="expertEdition" items='${text.sortedExpertEdition}'>
+        <c:forEach var="expertEdition" items='${expertEditions}'>
             <c:if
-                    test="${expertEdition.getSortedInter4Frag(fragment).size() != 0}">
+                    test="${expertEdition.getSortedInter4Frag(fragment.xmlId).size() != 0}">
                 <div class="text-center">
                     <table width="100%">
                         <caption class="text-center">
@@ -111,7 +111,7 @@
                         </thead>
                         <tbody>
                         <c:forEach var="expertEditionInter"
-                                   items="${expertEdition.getSortedInter4Frag(fragment)}">
+                                   items="${expertEdition.getSortedInter4Frag(fragment.xmlId)}">
                             <tr>
                                 <td></td>
                                 <td><c:choose>
@@ -128,13 +128,13 @@
                                 </c:choose></td>
 
                                 <td><a
-                                        href="${contextPath}/fragments/fragment/${expertEditionInter.getFragment().getXmlId()}/inter/${expertEditionInter.getUrlId()}/prev"><span
+                                        href="${contextPath}/fragments/fragment/${expertEditionInter.getFragmentXmlId()}/inter/${expertEditionInter.getUrlId()}/prev"><span
                                         class="glyphicon glyphicon-chevron-left"></span></a></td>
                                 <td><a
-                                        href="${contextPath}/fragments/fragment/${expertEditionInter.getFragment().getXmlId()}/inter/${expertEditionInter.getUrlId()}">${expertEditionInter.number}</a>
+                                        href="${contextPath}/fragments/fragment/${expertEditionInter.getFragmentXmlId()}/inter/${expertEditionInter.getUrlId()}">${expertEditionInter.number}</a>
                                 </td>
                                 <td><a
-                                        href="${contextPath}/fragments/fragment/${expertEditionInter.getFragment().getXmlId()}/inter/${expertEditionInter.getUrlId()}/next"><span
+                                        href="${contextPath}/fragments/fragment/${expertEditionInter.getFragmentXmlId()}/inter/${expertEditionInter.getUrlId()}/next"><span
                                         class="glyphicon glyphicon-chevron-right"></span></a></td>
                                 <td></td>
                             </tr>

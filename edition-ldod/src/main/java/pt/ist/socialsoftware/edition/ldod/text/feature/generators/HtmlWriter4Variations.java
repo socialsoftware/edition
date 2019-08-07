@@ -1,9 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.text.feature.generators;
 
-import pt.ist.socialsoftware.edition.ldod.domain.AppText;
-import pt.ist.socialsoftware.edition.ldod.domain.RdgGrpText;
-import pt.ist.socialsoftware.edition.ldod.domain.ScholarInter;
-import pt.ist.socialsoftware.edition.ldod.domain.TextPortion;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 public class HtmlWriter4Variations extends PlainHtmlWriter4OneInter {
 
@@ -27,6 +24,10 @@ public class HtmlWriter4Variations extends PlainHtmlWriter4OneInter {
         this.highlightIns = true;
         this.highlightSubst = false;
         this.showNotes = true;
+    }
+
+    public HtmlWriter4Variations(String scholarInterXmlId) {
+        this(TextModule.getInstance().getScholarInterByXmlId(scholarInterXmlId));
     }
 
     @Override

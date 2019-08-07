@@ -170,6 +170,16 @@ public class TextProvidesInterface {
         return getFragmentByFragmentXmlId(xmlId).map(FragmentDto::new).orElse(null);
     }
 
+    public FragmentDto getFragmentByExternalId(String externalId) {
+        DomainObject domainObject = FenixFramework.getDomainObject(externalId);
+
+        if (domainObject instanceof Fragment) {
+            return new FragmentDto((Fragment) domainObject);
+        } else {
+            return null;
+        }
+    }
+
     public FragmentDto getFragmentOfScholarInterDto(ScholarInterDto scholarInterDto) {
         return getFragmentByInterXmlId(scholarInterDto.getXmlId()).map(FragmentDto::new).orElse(null);
     }
@@ -281,7 +291,7 @@ public class TextProvidesInterface {
             }
         }
 
-        HtmlWriter2CompInters writer = new HtmlWriter2CompInters(inters);
+        HtmlWriter2CompInters writer = new HtmlWriter2CompInters(inters.stream().map(ScholarInterDto::new).collect(Collectors.toList()));
 
         writer.write(lineByLine, showSpaces);
 
@@ -405,4 +415,11 @@ public class TextProvidesInterface {
                 .findAny();
     }
 
+    public List<ScholarInterDto> getFragmentSortedSourceInter(String xmlId) {
+        return getFragmentByFragmentXmlId(xmlId)
+                .map(fragment -> fragment.getSortedSourceInter().stream()
+                        .map(ScholarInterDto::new)
+                        .collect(Collectors.toList()))
+                .orElse(new ArrayList<>());
+    }
 }

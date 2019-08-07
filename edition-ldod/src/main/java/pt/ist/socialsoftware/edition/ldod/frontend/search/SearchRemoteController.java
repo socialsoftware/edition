@@ -92,8 +92,8 @@ public class SearchRemoteController {
             for (SourceDto source : fragment.getSourcesSet()) {
                 if (source.getType().equals(Source.SourceType.PRINTED)) {
                     if (source.getLdoDDate() != null) {
-                        beginDate = getIsBeforeDate(beginDate, source.getLdoDDate());
-                        endDate = getIsAfterDate(endDate, source.getLdoDDate());
+                        beginDate = getIsBeforeDate(beginDate, source.getLdoDDate().getDate());
+                        endDate = getIsAfterDate(endDate, source.getLdoDDate().getDate());
                     }
                 }
             }
@@ -141,8 +141,8 @@ public class SearchRemoteController {
                             break;
                         }
                         if (source.getLdoDDate() != null) {
-                            beginDate = getIsBeforeDate(beginDate, source.getLdoDDate());
-                            endDate = getIsAfterDate(endDate, source.getLdoDDate());
+                            beginDate = getIsBeforeDate(beginDate, source.getLdoDDate().getDate());
+                            endDate = getIsAfterDate(endDate, source.getLdoDDate().getDate());
                         }
                     }
                 }
@@ -182,8 +182,8 @@ public class SearchRemoteController {
             }
             for (SourceDto source : fragment.getSourcesSet()) {
                 if (source.getLdoDDate() != null) {
-                    beginDate = getIsBeforeDate(beginDate, source.getLdoDDate());
-                    endDate = getIsAfterDate(endDate, source.getLdoDDate());
+                    beginDate = getIsBeforeDate(beginDate, source.getLdoDDate().getDate());
+                    endDate = getIsAfterDate(endDate, source.getLdoDDate().getDate());
                 }
             }
         }
