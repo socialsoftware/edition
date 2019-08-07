@@ -387,13 +387,13 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     }
 
     public void updateTags(HumanAnnotation annotation, List<String> tags) {
+        List<String> purgedTags = tags.stream().map(n -> Category.purgeName(n)).distinct().collect(Collectors.toList());
+
         for (Tag tag : annotation.getTagSet()) {
-            if (!tags.contains(tag.getCategory().getNameInEditionContext(getVirtualEdition()))) {
+            if (!purgedTags.contains(tag.getCategory().getNameInEditionContext(getVirtualEdition()))) {
                 tag.remove();
             }
         }
-
-        List<String> purgedTags = tags.stream().map(n -> Category.purgeName(n)).distinct().collect(Collectors.toList());
 
         for (String tag : purgedTags) {
             if (!annotation.existsTag(tag, getVirtualEdition())) {

@@ -48,7 +48,14 @@ public class Category extends Category_Base implements Comparable<Category> {
     }
 
     public static String purgeName(String name) {
-        return name.replaceAll("[^\\p{L}0-9\\-\\s]+", "").trim();
+        String EXPRESSION = "[^\\p{L}0-9\\-\\s]+";
+
+        String[] values = name.split("\\.");
+        if (values.length == 2) {
+            return values[0].replaceAll(EXPRESSION, "").trim() + "." + values[1].replaceAll(EXPRESSION, "").trim();
+        }
+
+        return name.replaceAll(EXPRESSION, "").trim();
     }
 
     @Atomic(mode = TxMode.WRITE)
