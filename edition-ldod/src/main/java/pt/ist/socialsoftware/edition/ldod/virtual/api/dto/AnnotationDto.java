@@ -2,7 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.virtual.api.dto;
 
 import pt.ist.socialsoftware.edition.ldod.domain.Annotation;
 
-public class AnnotationDto {
+public abstract class AnnotationDto {
 
     private String quote;
     private String username;
@@ -27,4 +27,6 @@ public class AnnotationDto {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public abstract boolean isHumanAnnotation();
 }

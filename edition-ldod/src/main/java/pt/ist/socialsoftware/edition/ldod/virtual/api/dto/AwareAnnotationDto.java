@@ -49,4 +49,9 @@ public class AwareAnnotationDto extends AnnotationDto {
     public void setCountry(String country) {
         this.country = country;
     }
+
+    @Override
+    public boolean isHumanAnnotation() {
+        return false;
+    }
 }

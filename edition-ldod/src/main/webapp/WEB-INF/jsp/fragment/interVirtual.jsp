@@ -5,7 +5,6 @@
     <h4>${inters.get(0).getVirtualEditionDto().title}
         -
         <spring:message code="general.uses"/>
-
         <c:choose>
             <c:when test="${empty inters.get(0).getUsesInter()}">
                 ${inters.get(0).lastUsed.getEditionReference()} (${inters.get(0).lastUsed.reference})

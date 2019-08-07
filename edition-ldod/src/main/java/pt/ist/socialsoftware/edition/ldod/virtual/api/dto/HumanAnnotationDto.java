@@ -39,4 +39,9 @@ public class HumanAnnotationDto extends AnnotationDto {
     public void setTags(List<TagDto> tags) {
         this.tags = tags;
     }
+
+    @Override
+    public boolean isHumanAnnotation() {
+        return true;
+    }
 }

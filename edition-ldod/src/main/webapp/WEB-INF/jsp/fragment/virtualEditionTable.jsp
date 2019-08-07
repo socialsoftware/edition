@@ -47,13 +47,13 @@
             </c:choose>
 
             <td><span class="glyphicon glyphicon-user"></span> <a
-                    href="${contextPath}/edition/user/${annotation.user}">${annotation.user}</a></td>
+                    href="${contextPath}/edition/user/${annotation.username}">${annotation.username}</a></td>
 
             <c:if test="${annotation.isHumanAnnotation()}">
-                <td><c:forEach var="tag" items='${annotation.getTagSet()}'>
+                <td><c:forEach var="tag" items='${annotation.getTags()}'>
                     <span class="glyphicon glyphicon-tag"></span>
                     <a
-                            href="${contextPath}/edition/acronym/${tag.getCategory().getTaxonomy().getEdition().getAcronym()}/category/${tag.getCategory().getUrlId()}">${tag.getCategory().getNameInEditionContext(inter.edition)}</a>
+                            href="${contextPath}/edition/acronym/${tag.getAcronym()}/category/${tag.getUrlId()}">${tag.getName()}</a>
                 </c:forEach></td>
             </c:if>
 
