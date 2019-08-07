@@ -68,7 +68,7 @@
                 <td><c:forEach var="category"
                                items='${inter.getAllDepthCategoriesUsedByUserInTags(userDto.username)}'>
                     <a
-                            href="${contextPath}/edition/acronym/${inter.edition.acronym}/category/${category.getUrlId()}">
+                            href="${contextPath}/edition/acronym/${category.getTaxonomy().getEdition().getAcronym()}/category/${category.getUrlId()}">
                             ${category.getNameInEditionContext(inter.getEdition())} </a>
                 </c:forEach></td>
                 <td><c:forEach var="used" items="${uiInterface.getFragInterUsed(inter)}">-><a

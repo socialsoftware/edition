@@ -350,9 +350,10 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
         return tags;
     }
 
-    public Set<String> getContributorSet(Category category) {
+    public Set<String> getContributorSet(Category category, String username) {
+        Set<Tag> tagsAccessibleByUser = getAllDepthTagsAccessibleByUser(username);
         return category.getTagSet().stream()
-                .filter(tag -> tag.getInter() == this)
+                .filter(tag -> tagsAccessibleByUser.contains(tag))
                 .map(t -> t.getContributor())
                 .collect(Collectors.toSet());
     }

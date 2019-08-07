@@ -16,13 +16,13 @@ public class CategoryDto {
     private String name;
     private List<UserDto> users;
 
-    public CategoryDto(Category category, VirtualEditionInter inter) {
+    public CategoryDto(Category category, VirtualEditionInter inter, String username) {
         setExternalId(category.getExternalId());
         setAcronym(category.getTaxonomy().getEdition().getAcronym());
         setUrlId(category.getUrlId());
         setNameInEdition(category.getNameInEditionContext(inter.getEdition().getTaxonomy().getEdition()));
         setName(category.getName());
-        setUsers(inter.getContributorSet(category).stream().map(UserDto::new).collect(Collectors.toList()));
+        setUsers(inter.getContributorSet(category, username).stream().map(UserDto::new).collect(Collectors.toList()));
     }
 
     public String getExternalId() {

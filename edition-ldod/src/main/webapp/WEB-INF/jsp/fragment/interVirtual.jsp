@@ -10,7 +10,7 @@
                 ${inters.get(0).lastUsed.getEditionReference()} (${inters.get(0).lastUsed.reference})
             </c:when>
             <c:otherwise>
-                ${inters.get(0).getUsesInter().getVirtualEditionDto().getReference()} (${inters.get(0).uses.reference})
+                ${inters.get(0).getUsesInter().getVirtualEditionDto().getReference()} (${inters.get(0).getUsesInter().reference})
             </c:otherwise>
         </c:choose>
     </h4>

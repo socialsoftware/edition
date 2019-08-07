@@ -30,7 +30,7 @@
         <c:forEach var="category" items='${inter.getAllDepthCategoriesUsedInTags(username)}'>
             <tr>
                 <td><a
-                        href="${contextPath}/edition/acronym/${virtualEditionDto.getAcronym()}/category/${category.getUrlId()}">${category.getNameInEdition()}</a>
+                        href="${contextPath}/edition/acronym/${category.getAcronym()}/category/${category.getUrlId()}">${category.getNameInEdition()}</a>
                     <c:if
                             test="${category.getUsernames().contains(username)}">
                         <a

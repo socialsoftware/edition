@@ -177,28 +177,28 @@ public class VirtualProvidesInterface {
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         List<Category> categories = getVirtualEditionInterByXmlId(xmlId)
                 .map(virtualEditionInter -> virtualEditionInter.getAllDepthCategoriesUsedInTags(username)).orElse(new ArrayList<>());
-        return categories.stream().map(category -> new CategoryDto(category, inter)).collect(Collectors.toList());
+        return categories.stream().map(category -> new CategoryDto(category, inter, username)).collect(Collectors.toList());
     }
 
     public List<CategoryDto> getVirtualEditionInterAllDepthCategoriesUsedInTags(String xmlId, String username) {
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         return getVirtualEditionInterByXmlId(xmlId)
                 .map(virtualEditionInter -> virtualEditionInter.getAllDepthCategoriesUsedInTags(username).stream()
-                        .map(category -> new CategoryDto(category, inter)).collect(Collectors.toList()))
+                        .map(category -> new CategoryDto(category, inter, username)).collect(Collectors.toList()))
                 .orElse(new ArrayList<>());
     }
 
     public List<CategoryDto> getVirtualEditionInterAllDepthCategoriesUsedByUserInTags(String xmlId, String username) {
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         List<Category> categories = getVirtualEditionInterByXmlId(xmlId).map(virtualEditionInter -> virtualEditionInter.getAllDepthCategoriesUsedByUserInTags(username)).orElse(new ArrayList<>());
-        return categories.stream().map(category -> new CategoryDto(category, inter)).collect(Collectors.toList());
+        return categories.stream().map(category -> new CategoryDto(category, inter, username)).collect(Collectors.toList());
     }
 
     public List<CategoryDto> getVirtualEditionInterAllDepthCategoriesNotUsedInTags(String xmlId, String username) {
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         List<Category> categories = getVirtualEditionInterByXmlId(xmlId)
                 .map(virtualEditionInter -> virtualEditionInter.getAllDepthCategoriesNotUsedInTags(username)).orElse(new ArrayList<>());
-        return categories.stream().map(category -> new CategoryDto(category, inter)).collect(Collectors.toList());
+        return categories.stream().map(category -> new CategoryDto(category, inter, username)).collect(Collectors.toList());
     }
 
     public boolean getVirtualEditionTaxonomyVocabularyStatus(String acronym) {
@@ -293,7 +293,7 @@ public class VirtualProvidesInterface {
             return null;
         }
 
-        return new CategoryDto(tag.getCategory(), virtualEditionInter);
+        return new CategoryDto(tag.getCategory(), virtualEditionInter, null);
     }
 
     public void removeTagFromInter(String externalId) {

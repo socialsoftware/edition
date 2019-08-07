@@ -157,6 +157,7 @@ public class EditionController {
         }
 
         model.addAttribute("category", category);
+        model.addAttribute("userInterface", this.userProvidesInterface);
         model.addAttribute("uiInterface", new UiInterface());
 
         return "edition/categoryTableOfContents";
