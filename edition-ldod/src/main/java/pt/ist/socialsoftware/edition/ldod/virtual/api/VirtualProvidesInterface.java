@@ -305,6 +305,19 @@ public class VirtualProvidesInterface {
         }
     }
 
+    public List<AnnotationDto> getAllDepthAnnotationsAccessibleByUser(String xmlId, String username) {
+        VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
+        return inter.getAllDepthAnnotationsAccessibleByUser(username).stream()
+                .map(annotation -> {
+                    if (annotation instanceof HumanAnnotation) {
+                        return new HumanAnnotationDto((HumanAnnotation) annotation, inter);
+                    } else {
+                        return new AwareAnnotationDto((AwareAnnotation) annotation);
+                    }
+                })
+                .collect(Collectors.toList());
+    }
+
     public List<HumanAnnotationDto> getVirtualEditionInterHumanAnnotationsAccessibleByUser(String xmlId, String username) {
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         return inter.getAllDepthAnnotationsAccessibleByUser(username).stream().filter(HumanAnnotation.class::isInstance)
@@ -432,6 +445,14 @@ public class VirtualProvidesInterface {
                 .orElse(null);
     }
 
+    public Set<TagDto> getVirtualEditionInterAllDepthTagsAccessibleByUser(String xmlId, String username) {
+        VirtualEditionInter virtualEditionInter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(() -> new LdoDException());
+        return getVirtualEditionInterByXmlId(xmlId)
+                .map(vei -> vei.getAllDepthTagsAccessibleByUser(username).stream()
+                        .map(tag -> new TagDto(tag, virtualEditionInter))
+                        .collect(Collectors.toSet()))
+                .orElse(new HashSet<>());
+    }
 
     private Optional<VirtualEditionInter> getVirtualEditionInterByXmlId(String xmlId) {
         return VirtualModule.getInstance().getVirtualEditionInterSet().stream()
@@ -447,6 +468,7 @@ public class VirtualProvidesInterface {
         return VirtualModule.getInstance().getVirtualEditionsSet().stream()
                 .filter(virtualEdition -> virtualEdition.getAcronym().equals(acronym)).findAny();
     }
+
 }
 
 

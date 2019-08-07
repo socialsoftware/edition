@@ -8,6 +8,7 @@ import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 public class VirtualEditionInterDto {
@@ -91,6 +92,10 @@ public class VirtualEditionInterDto {
         return this.virtualProvidesInterface.getCategoriesUsedInTags(this.xmlId, username);
     }
 
+    public Set<TagDto> getAllDepthTagsAccessibleByUser(String username) {
+        return this.virtualProvidesInterface.getVirtualEditionInterAllDepthTagsAccessibleByUser(this.xmlId, username);
+    }
+
     public List<CategoryDto> getAllDepthCategoriesUsedByUserInTags(String username) {
         return this.virtualProvidesInterface.getVirtualEditionInterAllDepthCategoriesUsedByUserInTags(this.xmlId, username);
     }
@@ -101,6 +106,10 @@ public class VirtualEditionInterDto {
 
     public VirtualEditionDto getVirtualEditionDto() {
         return this.virtualProvidesInterface.getVirtualEditionOfVirtualEditionInter(this.xmlId);
+    }
+
+    public List<AnnotationDto> getAllDepthAnnotationsAccessibleByUser(String username) {
+        return this.virtualProvidesInterface.getAllDepthAnnotationsAccessibleByUser(this.xmlId, username);
     }
 
     public List<TagDto> getAllDepthTagsNotHumanAnnotationAccessibleByUser(String username) {

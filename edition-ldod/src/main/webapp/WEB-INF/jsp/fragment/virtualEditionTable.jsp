@@ -13,14 +13,14 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="tag" items='${inter.getTagsCompleteInter()}'>
+    <c:forEach var="tag" items='${inter.getAllDepthTagsAccessibleByUser(user)}'>
         <tr>
             <td>---</td>
             <td>---</td>
             <td><span class="glyphicon glyphicon-user"></span> <a
-                    href="${contextPath}/edition/user/${tag.getContributor()}">${tag.getContributor()}</a></td>
+                    href="${contextPath}/edition/user/${tag.getUsername()}">${tag.getUsername()}</a></td>
             <td><span class="glyphicon glyphicon-tag"></span> <a
-                    href="${contextPath}/edition/acronym/${tag.getCategory().getTaxonomy().getEdition().getAcronym()}/category/${tag.getCategory().getUrlId()}">${tag.getCategory().getNameInEditionContext(inter.edition)}</a>
+                    href="${contextPath}/edition/acronym/${tag.getAcronym()}/category/${tag.getUrlId()}">${tag.getName()}</a>
             </td>
         </tr>
     </c:forEach>

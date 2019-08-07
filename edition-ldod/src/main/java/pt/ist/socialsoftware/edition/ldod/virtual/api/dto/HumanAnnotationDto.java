@@ -7,43 +7,25 @@ import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HumanAnnotationDto {
+public class HumanAnnotationDto extends AnnotationDto {
 
-    private String quote;
-    private String username;
     private String text;
     private List<TagDto> tags;
 
-    public HumanAnnotationDto(HumanAnnotation annotation, VirtualEditionInter inter){
-        setQuote(annotation.getQuote());
-        setUsername(annotation.getUser());
+    public HumanAnnotationDto(HumanAnnotation annotation, VirtualEditionInter inter) {
+        super(annotation);
+
         setText(annotation.getText());
         List<TagDto> tags = new ArrayList<>();
-        for(Tag tag : annotation.getTagSet()){
-            tags.add(new TagDto(tag,inter));
+        for (Tag tag : annotation.getTagSet()) {
+            tags.add(new TagDto(tag, inter));
         }
         setTags(tags);
 
     }
 
-    public String getQuote() {
-        return quote;
-    }
-
-    public void setQuote(String quote) {
-        this.quote = quote;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getText() {
-        return text;
+        return this.text;
     }
 
     public void setText(String text) {
@@ -51,7 +33,7 @@ public class HumanAnnotationDto {
     }
 
     public List<TagDto> getTags() {
-        return tags;
+        return this.tags;
     }
 
     public void setTags(List<TagDto> tags) {
