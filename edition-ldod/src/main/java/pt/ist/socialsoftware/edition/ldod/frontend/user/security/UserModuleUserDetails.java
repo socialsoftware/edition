@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.social.security.SocialUserDetails;
 import pt.ist.socialsoftware.edition.ldod.domain.User;
-import pt.ist.socialsoftware.edition.ldod.frontend.user.FEUserRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 
 import java.util.Collection;
@@ -18,7 +18,7 @@ public class UserModuleUserDetails implements SocialUserDetails {
 
     private static final long serialVersionUID = -6509897037222767090L;
 
-    private final FEUserRequiresInterface feUserRequiresInterface = new FEUserRequiresInterface();
+    private final FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
 
     public static UserModuleUserDetails getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

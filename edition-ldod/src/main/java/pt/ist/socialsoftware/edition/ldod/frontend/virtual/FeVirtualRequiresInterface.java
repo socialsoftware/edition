@@ -1,6 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.virtual;
 
-import pt.ist.socialsoftware.edition.ldod.frontend.user.FEUserProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
@@ -8,9 +8,9 @@ import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
 
 import java.util.Set;
 
-public class FEVirtualRequiresInterface {
+public class FeVirtualRequiresInterface {
     // Uses Frontend User Module
-    private final FEUserProvidesInterface feUserProvidesInterface = new FEUserProvidesInterface();
+    private final FeUserProvidesInterface feUserProvidesInterface = new FeUserProvidesInterface();
 
     public String getAuthenticatedUser() {
         return this.feUserProvidesInterface.getAuthenticatedUser();

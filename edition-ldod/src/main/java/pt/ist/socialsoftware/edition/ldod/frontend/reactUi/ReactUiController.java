@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
-import pt.ist.socialsoftware.edition.ldod.frontend.user.FEUserProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.*;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
@@ -36,7 +36,7 @@ import static pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType.PRINTE
 public class ReactUiController {
     private static final Logger logger = LoggerFactory.getLogger(ReactUiController.class);
 
-    private final FEUserProvidesInterface feUserProvidesInterface = new FEUserProvidesInterface();
+    private final FeUserProvidesInterface feUserProvidesInterface = new FeUserProvidesInterface();
     private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
     private final TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
     private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();

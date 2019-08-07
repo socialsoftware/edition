@@ -21,7 +21,7 @@ import java.util.Map;
 public class SearchController {
     private static final Logger logger = LoggerFactory.getLogger(SearchController.class);
 
-    FESearchRequiresInterface frontendRequiresInterface = new FESearchRequiresInterface();
+    FeSearchRequiresInterface frontendRequiresInterface = new FeSearchRequiresInterface();
 
 
     @ModelAttribute("frontendSession")
@@ -53,7 +53,7 @@ public class SearchController {
         model.addAttribute("fragCount", results.size());
         model.addAttribute("interCount", results.values().stream().mapToInt(List::size).sum());
         model.addAttribute("results", results);
-        model.addAttribute("frontendRequiresInterface", new FESearchRequiresInterface());
+        model.addAttribute("frontendRequiresInterface", new FeSearchRequiresInterface());
         return "search/simpleResultTable";
     }
 
@@ -88,7 +88,7 @@ public class SearchController {
 
         model.addAttribute("search", searchOptions);
         model.addAttribute("searchLenght", searchOptions.length);
-        model.addAttribute("frontendRequiresInterface", new FESearchRequiresInterface());
+        model.addAttribute("frontendRequiresInterface", new FeSearchRequiresInterface());
         return "search/resultTable";
     }
 

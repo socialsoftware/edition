@@ -42,11 +42,11 @@ public class FragmentController {
     @RequestMapping(method = RequestMethod.GET)
     public String getFragmentsList(Model model) {
         logger.debug("getFragmentsList");
-        model.addAttribute("jpcEdition", TextModule.getInstance().getExpertEdition(ExpertEdition.COELHO_EDITION_ACRONYM));
-        model.addAttribute("tscEdition", TextModule.getInstance().getExpertEdition(ExpertEdition.CUNHA_EDITION_ACRONYM));
-        model.addAttribute("rzEdition", TextModule.getInstance().getExpertEdition(ExpertEdition.ZENITH_EDITION_ACRONYM));
-        model.addAttribute("jpEdition", TextModule.getInstance().getExpertEdition(ExpertEdition.PIZARRO_EDITION_ACRONYM));
-        model.addAttribute("fragments", TextModule.getInstance().getFragmentsSet());
+        model.addAttribute("jpcEdition", this.feTextRequiresInterface.getExpertEditionByAcronym(ExpertEdition.COELHO_EDITION_ACRONYM));
+        model.addAttribute("tscEdition", this.feTextRequiresInterface.getExpertEditionByAcronym(ExpertEdition.CUNHA_EDITION_ACRONYM));
+        model.addAttribute("rzEdition", this.feTextRequiresInterface.getExpertEditionByAcronym(ExpertEdition.ZENITH_EDITION_ACRONYM));
+        model.addAttribute("jpEdition", this.feTextRequiresInterface.getExpertEditionByAcronym(ExpertEdition.PIZARRO_EDITION_ACRONYM));
+        model.addAttribute("fragments", this.feTextRequiresInterface.getFragmentDtoSet());
 
         return "fragment/list";
     }

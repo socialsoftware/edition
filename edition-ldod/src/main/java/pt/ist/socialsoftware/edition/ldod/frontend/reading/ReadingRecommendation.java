@@ -21,7 +21,7 @@ public class ReadingRecommendation implements Serializable {
 
     private static final Logger logger = LoggerFactory.getLogger(ReadingRecommendation.class);
 
-    private final FEReadingRequiresInterface FEReadingRequiresInterface = new FEReadingRequiresInterface();
+    private final FeReadingRequiresInterface FEReadingRequiresInterface = new FeReadingRequiresInterface();
 
     private final List<String> read = new ArrayList<>();
     private float heteronymWeight = 0;

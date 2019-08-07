@@ -1,6 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.text;
 
-import pt.ist.socialsoftware.edition.ldod.frontend.user.FEUserProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ExpertEditionDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
@@ -10,10 +10,11 @@ import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
 import java.util.List;
+import java.util.Set;
 
 public class FeTextRequiresInterface {
     // Uses Frontend User Module
-    private final FEUserProvidesInterface feUserProvidesInterface = new FEUserProvidesInterface();
+    private final FeUserProvidesInterface feUserProvidesInterface = new FeUserProvidesInterface();
 
     public String getAuthenticatedUser() {
         return this.feUserProvidesInterface.getAuthenticatedUser();
@@ -37,6 +38,14 @@ public class FeTextRequiresInterface {
 
     public List<ExpertEditionDto> getSortedExpertEditionsDto() {
         return this.textProvidesInterface.getSortedExpertEditionsDto();
+    }
+
+    public ExpertEditionDto getExpertEditionByAcronym(String acronym) {
+        return this.textProvidesInterface.getExpertEditionDto(acronym);
+    }
+
+    public Set<FragmentDto> getFragmentDtoSet() {
+        return this.textProvidesInterface.getFragmentDtoSet();
     }
 
 

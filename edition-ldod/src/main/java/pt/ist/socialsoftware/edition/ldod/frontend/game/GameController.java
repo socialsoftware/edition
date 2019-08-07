@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class GameController {
     private static final Logger logger = LoggerFactory.getLogger(GameController.class);
 
-    private final FEGameRequiresInterface FEGameRequiresInterface = new FEGameRequiresInterface();
+    private final FeGameRequiresInterface FEGameRequiresInterface = new FeGameRequiresInterface();
 
     @RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/classificationGame")
     @PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")

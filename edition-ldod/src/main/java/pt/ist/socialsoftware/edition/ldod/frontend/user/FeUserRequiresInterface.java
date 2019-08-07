@@ -11,7 +11,7 @@ import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto
 
 import java.util.Set;
 
-public class FEUserRequiresInterface {
+public class FeUserRequiresInterface {
     // Uses User Module
     private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
 

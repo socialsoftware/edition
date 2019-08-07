@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class SearchRemoteController {
     private static final Logger logger = LoggerFactory.getLogger(SearchRemoteController.class);
 
-    FESearchRequiresInterface feSearchRequiresInterface = new FESearchRequiresInterface();
+    FeSearchRequiresInterface feSearchRequiresInterface = new FeSearchRequiresInterface();
 
     @RequestMapping(value = "/getEditions")
     @ResponseBody

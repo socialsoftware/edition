@@ -1,12 +1,12 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.search.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import pt.ist.socialsoftware.edition.ldod.frontend.search.FESearchRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.search.FeSearchRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.search.feature.options.VirtualEditionSearchOption;
 
 public final class VirtualEditionSearchOptionDto extends SearchOptionDto {
 
-    private final FESearchRequiresInterface feSearchRequiresInterface = new FESearchRequiresInterface();
+    private final FeSearchRequiresInterface feSearchRequiresInterface = new FeSearchRequiresInterface();
 
     private final String virtualEditionAcronym;
     private final boolean inclusion;

@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import pt.ist.socialsoftware.edition.ldod.frontend.user.FEUserRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
@@ -25,7 +25,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
     public static final String TAXONOMY = "taxonomy";
     private static final String LOGGED = "logged";
 
-    private final FEUserRequiresInterface feUserRequiresInterface = new FEUserRequiresInterface();
+    private final FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
 
     @Override
     public boolean hasPermission(Authentication authentication, Object targetDomainObject, Object permission) {

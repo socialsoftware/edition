@@ -7,7 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.frontend.user.FEUserRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
 
 import javax.servlet.ServletException;
@@ -19,7 +19,7 @@ import java.io.IOException;
 public class UserModuleAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private static final Logger log = LoggerFactory.getLogger(UserModuleAuthenticationSuccessHandler.class);
 
-    private final FEUserRequiresInterface feUserRequiresInterface = new FEUserRequiresInterface();
+    private final FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
 
     @Override
     @Atomic(mode = TxMode.WRITE)

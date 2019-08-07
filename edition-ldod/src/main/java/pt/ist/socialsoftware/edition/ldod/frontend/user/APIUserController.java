@@ -21,7 +21,7 @@ import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 public class APIUserController {
     private static final Logger logger = LoggerFactory.getLogger(APIUserController.class);
 
-    FEUserRequiresInterface feUserRequiresInterface = new FEUserRequiresInterface();
+    FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate;

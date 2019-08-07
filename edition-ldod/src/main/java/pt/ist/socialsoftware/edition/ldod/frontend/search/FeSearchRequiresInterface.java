@@ -3,7 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.frontend.search;
 import org.joda.time.LocalDate;
 import pt.ist.socialsoftware.edition.ldod.api.ui.FragInterDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.SearchDto;
-import pt.ist.socialsoftware.edition.ldod.frontend.user.FEUserProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.search.api.SearchProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.search.api.dto.AdvancedSearchResultDto;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class FESearchRequiresInterface {
+public class FeSearchRequiresInterface {
     // Requires from User Module
-    private final FEUserProvidesInterface feUserProvidesInterface = new FEUserProvidesInterface();
+    private final FeUserProvidesInterface feUserProvidesInterface = new FeUserProvidesInterface();
 
     public String getAuthenticatedUser() {
         return this.feUserProvidesInterface.getAuthenticatedUser();

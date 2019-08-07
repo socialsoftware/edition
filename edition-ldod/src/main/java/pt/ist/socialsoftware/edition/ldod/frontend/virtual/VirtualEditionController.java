@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 public class VirtualEditionController {
     private static final Logger logger = LoggerFactory.getLogger(VirtualEditionController.class);
 
-    private final FEVirtualRequiresInterface FEVirtualRequiresInterface = new FEVirtualRequiresInterface();
+    private final FeVirtualRequiresInterface FEVirtualRequiresInterface = new FeVirtualRequiresInterface();
 
     @ModelAttribute("frontendSession")
     public FrontendSession getFrontendSession() {

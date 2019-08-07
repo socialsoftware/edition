@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class FEReadingRequiresInterface {
+public class FeReadingRequiresInterface {
     // Uses Text Module
     private final TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
 

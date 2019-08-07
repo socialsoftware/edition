@@ -22,7 +22,7 @@ import java.util.Set;
 public class ReadingController {
     private static final Logger logger = LoggerFactory.getLogger(ReadingController.class);
 
-    private final FEReadingRequiresInterface FEReadingRequiresInterface = new FEReadingRequiresInterface();
+    private final FeReadingRequiresInterface FEReadingRequiresInterface = new FeReadingRequiresInterface();
 
     @ModelAttribute("frontendSession")
     public FrontendSession getLdoDSession() {

@@ -8,7 +8,7 @@ import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.web.context.request.NativeWebRequest;
-import pt.ist.socialsoftware.edition.ldod.domain.UserModule;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +17,8 @@ import javax.servlet.http.HttpSession;
 
 public class UserModuleSignInAdapter implements SignInAdapter {
     private static final Logger log = LoggerFactory.getLogger(UserModuleSignInAdapter.class);
+
+    private final FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
 
     private final RequestCache requestCache;
 
@@ -31,7 +33,7 @@ public class UserModuleSignInAdapter implements SignInAdapter {
     public String signIn(String localUserId, Connection<?> connection, NativeWebRequest request) {
         log.debug("signIn localUserId:{}", localUserId);
 
-        SigninUtils.signin(request, UserModule.getInstance().getUser(localUserId));
+        SigninUtils.signin(request, this.feUserRequiresInterface.getUser(localUserId));
 
         return extractOriginalUrl(request);
     }

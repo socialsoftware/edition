@@ -9,17 +9,20 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.context.request.WebRequest;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.User;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
+import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 
 public class SigninUtils {
     private static final Logger log = LoggerFactory.getLogger(SigninUtils.class);
 
+    private final static FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
+
     @Atomic(mode = TxMode.WRITE)
-    public static void signin(WebRequest request, User user) {
+    public static void signin(WebRequest request, UserDto user) {
         log.debug("signin user:{}", user.getUsername());
 
-        user.setLastLogin(LocalDate.now());
+        feUserRequiresInterface.setLastLogin(user.getUsername(), LocalDate.now());
 
         UserModuleUserDetailsService service = new UserModuleUserDetailsService();
         UserDetails userDetails = service.loadUserByUsername(user.getUsername());

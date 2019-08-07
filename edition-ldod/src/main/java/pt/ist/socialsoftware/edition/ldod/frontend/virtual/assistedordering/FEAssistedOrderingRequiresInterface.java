@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.virtual.assistedordering;
 
 import org.joda.time.LocalDate;
-import pt.ist.socialsoftware.edition.ldod.frontend.user.FEUserProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.recommendation.api.RecommendationProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.PropertyDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class FEAssistedOrderingRequiresInterface {
     // Uses User Module
-    private final FEUserProvidesInterface feUserProvidesInterface = new FEUserProvidesInterface();
+    private final FeUserProvidesInterface feUserProvidesInterface = new FeUserProvidesInterface();
 
     public String getAuthenticatedUser() {
         return this.feUserProvidesInterface.getAuthenticatedUser();
