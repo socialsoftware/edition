@@ -92,7 +92,7 @@
                     </td>
                     <td><c:choose>
                         <c:when
-                                test="${virtualEdition.canSwitchRole(user, member.getUser())}">
+                                test="${virtualEdition.canSwitchRole(username, member.getUser())}">
                             <form class="form-inline" method="POST"
                                   action="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/participants/role">
                                 <input type="hidden" name="${_csrf.parameterName}"
@@ -124,7 +124,7 @@
                         </c:otherwise>
                     </c:choose></td>
                     <td><c:if
-                            test="${virtualEdition.canRemoveMember(user, member.getUser())}">
+                            test="${virtualEdition.canRemoveMember(username, member.getUser())}">
                         <form class="form-inline" method="POST"
                               action="${contextPath}/virtualeditions/restricted/${virtualEdition.externalId}/participants/remove">
                             <input type="hidden" name="${_csrf.parameterName}"

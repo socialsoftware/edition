@@ -5,6 +5,7 @@
     <h4>${inters.get(0).getVirtualEditionDto().title}
         -
         <spring:message code="general.uses"/>
+
         <c:choose>
             <c:when test="${empty inters.get(0).getUsesInter()}">
                 ${inters.get(0).lastUsed.getEditionReference()} (${inters.get(0).lastUsed.reference})
@@ -62,8 +63,7 @@
 
         function loadField(field, annotation) {
             if (typeof annotation.id !== 'undefined') {
-                $.get("${contextPath}/fragments/fragment/annotation/" + annotation.id + "/categories", function (data,
-                                                                                                                 status) {
+                $.get("${contextPath}/fragments/fragment/annotation/" + annotation.id + "/categories", function (data, status) {
                     $(".tagSelector").val(data).trigger("change");
                 });
             } else {
@@ -148,34 +148,6 @@
 
     function reloadPage() {
         location.reload(true);
-        /* $.get("
-
-
-
-
-
-
-
-
-
-
-
-
-        ${contextPath}/fragments/fragment/inter/
-
-
-
-
-
-
-
-
-
-
-
-
-        ${inters.get(0).externalId}/taxonomy", function(html) {
-        $("#taxonomy").replaceWith(html);
-        }); */
+        <%--$.get("${contextPath}/fragments/fragment/inter/${inters.get(0).externalId}/taxonomy", function(html) { $("#taxonomy").replaceWith(html);});--%>
     }
 </script>

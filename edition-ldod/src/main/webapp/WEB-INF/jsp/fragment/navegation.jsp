@@ -237,8 +237,7 @@
                 <c:forEach var="virtualEdition"
                            items='${frontendSession.getSelectedVirtualEditions()}'>
                     <div class="text-center" style="padding: 8px">
-                        <a
-                                href="${contextPath}/edition/acronym/${virtualEdition.getAcronym()}">
+                        <a href="${contextPath}/edition/acronym/${virtualEdition.getAcronym()}">
                                 ${virtualEdition.acronym}</a>
                     </div>
                     <table width="100%">

@@ -28,7 +28,6 @@
 <c:set var="taxonomy" value="${category.getTaxonomy()}"/>
 <c:set var="username"
        value='${pageContext.request.userPrincipal.principal.getUsername()}'/>
-value='${pageContext.request.userPrincipal.principal.getUsername()}'/>
 
 <div class="container">
     <br/>
