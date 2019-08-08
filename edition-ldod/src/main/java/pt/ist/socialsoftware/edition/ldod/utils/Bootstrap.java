@@ -70,7 +70,7 @@ public class Bootstrap implements WebApplicationInitializer {
             loadRecommendationCache();
         }
 
-        if (ClassificationModule.getInstance() == null){
+        if (ClassificationModule.getInstance() == null) {
             new ClassificationModule();
         }
 
@@ -394,7 +394,7 @@ public class Bootstrap implements WebApplicationInitializer {
         RecommendationRequiresInterface recommendationRequiresInterface = new RecommendationRequiresInterface();
         Set<FragmentDto> fragments = recommendationRequiresInterface.getFragments();
 
-        if (fragments.size() > 500) {
+        if (fragments.size() > 800) {
             List<Property> properties = new ArrayList<>();
             properties.add(new TextProperty(1.0));
             properties.add(new HeteronymProperty(1.0));
@@ -404,6 +404,8 @@ public class Bootstrap implements WebApplicationInitializer {
 
             VSMFragmentRecommender recommender = new VSMFragmentRecommender();
             for (FragmentDto fragment : fragments) {
+                logger.debug("loadRecommendationCache xmlId:{}", fragment.getXmlId());
+
                 recommender.getMostSimilarItem(fragment, fragments, properties);
             }
         }
