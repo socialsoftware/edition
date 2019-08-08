@@ -204,10 +204,8 @@ public class VirtualEditionFragmentsTEIExport {
                 note.setAttribute("type", "human");
                 exportAnnotationCategories(virtualEditionInter, (HumanAnnotation) annotation, note);
             } else if (annotation instanceof AwareAnnotation) {
-                // TODO: set type - done
-                // TODO - done
-                note.setAttribute("type", "aware");
-                note.setAttribute("citationId", Long.toString(((AwareAnnotation) annotation).getCitation().getId()));
+//                note.setAttribute("type", "aware");
+//                note.setAttribute("citationId", Long.toString(((AwareAnnotation) annotation).getCitation().getId()));
             }
         }
     }

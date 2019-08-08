@@ -101,6 +101,7 @@ public class Category extends Category_Base implements Comparable<Category> {
                 .distinct().sorted((i1, i2) -> i1.getTitle().compareTo(i2.getTitle())).collect(Collectors.toList());
     }
 
+
     public List<String> getSortedUsers() {
         return getTagSet().stream().map(t -> t.getContributor()).distinct().sorted().collect(Collectors.toList());
     }
