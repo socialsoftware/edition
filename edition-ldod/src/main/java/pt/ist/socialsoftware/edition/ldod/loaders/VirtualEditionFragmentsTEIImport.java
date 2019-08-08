@@ -229,9 +229,10 @@ public class VirtualEditionFragmentsTEIImport {
             }
             inter.createHumanAnnotation(quote, text, this.ldoD.getUser(username), rangeList, tagList);
         } else if (note.getAttributeValue("type").equals("aware")) {
-            long tweetID = Long.parseLong(note.getAttributeValue("citationId"));
-            Citation citation = inter.getFragment().getCitationById(tweetID);
-            inter.createAwareAnnotation(quote, text, citation, rangeList);
+            // do nothing
+//            long tweetID = Long.parseLong(note.getAttributeValue("citationId"));
+//            Citation citation = inter.getFragment().getCitationById(tweetID);
+//            inter.createAwareAnnotation(quote, text, citation, rangeList);
         }
     }
 
