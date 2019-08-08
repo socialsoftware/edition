@@ -21,7 +21,7 @@ public class GameXMLImport {
     private ClassificationModule classificationModule = null;
     private Namespace namespace = null;
 
-    public String importFragmentFromTEI(InputStream inputStream) {
+    public String importGamesFromTEI(InputStream inputStream) {
         SAXBuilder builder = new SAXBuilder();
         builder.setIgnoringElementContentWhitespace(true);
 
@@ -44,13 +44,13 @@ public class GameXMLImport {
         return processImport(doc);
     }
 
-    public void importFragmentFromTEI(String fragmentTEI) {
+    public void importGamesFromTEI(String fragmentTEI) {
         SAXBuilder builder = new SAXBuilder();
         builder.setIgnoringElementContentWhitespace(true);
 
         InputStream stream = new ByteArrayInputStream(fragmentTEI.getBytes());
 
-        importFragmentFromTEI(stream);
+        importGamesFromTEI(stream);
     }
 
     @Atomic(mode = Atomic.TxMode.WRITE)
