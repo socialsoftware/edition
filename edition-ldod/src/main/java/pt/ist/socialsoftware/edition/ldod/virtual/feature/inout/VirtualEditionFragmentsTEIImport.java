@@ -26,7 +26,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class VirtualEditionFragmentsTEIImport {
     private static final Logger logger = LoggerFactory.getLogger(VirtualEditionFragmentsTEIImport.class);
@@ -76,44 +78,64 @@ public class VirtualEditionFragmentsTEIImport {
         // IMPORT THEM FROM THE FILES IN DISK
         //importFragmentCitations(doc, fragment);
 
-        importWitnesses(doc, fragment);
+        Map<String, VirtualEditionInter> virtualEditionInterMap = importWitnesses(doc, fragment);
 
-        importTextClasses(doc, fragment);
+        importTextClasses(doc, virtualEditionInterMap);
 
         return fragment.getXmlId();
     }
 
-    private void importWitnesses(Document doc, Fragment fragment) {
+    private Map<String, VirtualEditionInter> importWitnesses(Document doc, Fragment fragment) {
         XPathFactory xpfac = XPathFactory.instance();
         XPathExpression<Element> xp = xpfac.compile("//def:witness", Filters.element(), null,
                 Namespace.getNamespace("def", this.namespace.getURI()));
         List<Element> wits = new ArrayList<>(xp.evaluate(doc));
 
+        Map<String, VirtualEditionInter> createdInters = new HashMap<>();
+
         while (!wits.isEmpty()) {
             Element wit = wits.remove(0);
-            if (fragment.getScholarInterByXmlId(wit.getAttributeValue("source").substring(1)) == null) {
-                wits.add(wit);
-            } else {
+            String sourceXmlId = wit.getAttributeValue("source").substring(1);
+            ScholarInter scholarInter = fragment.getScholarInterByXmlId(sourceXmlId);
+            VirtualEditionInter virtualEditionInter = null;
+            if (scholarInter == null) {
+                virtualEditionInter = createdInters.get(sourceXmlId);
+                if (virtualEditionInter == null) {
+                    wits.add(wit);
+                }
+            }
+
+            if (scholarInter != null || virtualEditionInter != null) {
                 String interXmlId = wit.getAttributeValue("id", Namespace.XML_NAMESPACE);
                 String editionAcronym = interXmlId.substring(interXmlId.lastIndexOf("VIRT.") + "VIRT.".length(),
                         interXmlId.lastIndexOf('.'));
                 VirtualEdition virtualEdition = this.virtualModule.getVirtualEdition(editionAcronym);
 
-                logger.debug("importWitnesses id: {}, source: {}", interXmlId, wit.getAttributeValue("source"));
-                virtualEdition.createVirtualEditionInter(
-                        new ScholarInterDto(wit.getAttributeValue("source").substring(1)),
-                        Integer.parseInt(wit.getChild("num", this.namespace).getAttributeValue("value")));
+                VirtualEditionInter created;
+                logger.debug("importWitnesses do id: {}, source: {}", interXmlId, wit.getAttributeValue("source"));
+                if (scholarInter != null) {
+                    created = virtualEdition.createVirtualEditionInter(new ScholarInterDto(wit.getAttributeValue("source").substring(1)),
+                            Integer.parseInt(wit.getChild("num", this.namespace).getAttributeValue("value")));
+                } else {
+                    created = virtualEdition.createVirtualEditionInter(virtualEditionInter,
+                            Integer.parseInt(wit.getChild("num", this.namespace).getAttributeValue("value")));
+                }
+                if (created != null) {
+                    createdInters.put(created.getXmlId(), created);
+                }
             }
         }
+
+        return createdInters;
     }
 
-    private void importTextClasses(Document doc, Fragment fragment) {
+    private void importTextClasses(Document doc, Map<String, VirtualEditionInter> virtualEditionInterMap) {
         XPathFactory xpfac = XPathFactory.instance();
         XPathExpression<Element> xp = xpfac.compile("//def:textClass", Filters.element(), null,
                 Namespace.getNamespace("def", this.namespace.getURI()));
 
         for (Element textClass : xp.evaluate(doc)) {
-            VirtualEditionInter inter = VirtualModule.getInstance().getVirtualEditionInterByXmlId(textClass.getAttributeValue("source").substring(1));
+            VirtualEditionInter inter = virtualEditionInterMap.get(textClass.getAttributeValue("source").substring(1));
 
             for (Element catRef : textClass.getChildren("catRef", this.namespace)) {
                 importTag(catRef, inter);
