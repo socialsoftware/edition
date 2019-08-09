@@ -59,8 +59,12 @@ public class AwareAnnotationFactory {
     // método responsável por criar aware annotation no vei com meta informação
     // contida na tc
     private void createAwareAnnotation(VirtualEditionInter vei, TwitterCitation tc) {
-
         InfoRange infoRange = getInfoRangeByVirtualEditionInter(vei, tc);
+
+//        if (vei.getVirtualEdition().getAcronym().equals(LdoD.TWITTER_EDITION_ACRONYM)) {
+//            logger.debug("createAwareAnnotation title: {}, start: {}, end: {}, startOffset: {}, endOffset: {}, quote: {}, text: {}",
+//                    vei.getTitle(), infoRange.getStart(), infoRange.getEnd(), infoRange.getStartOffset(), infoRange.getEndOffset(), infoRange.getQuote(), infoRange.getText());
+//        }
 
         AwareAnnotation annotation = new AwareAnnotation(vei, infoRange.getQuote(), infoRange.getText(), tc);
 
