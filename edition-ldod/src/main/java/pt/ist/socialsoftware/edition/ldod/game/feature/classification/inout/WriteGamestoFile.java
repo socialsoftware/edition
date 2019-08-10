@@ -7,6 +7,7 @@ import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.zip.*;
 
 public class WriteGamestoFile {
@@ -20,14 +21,19 @@ public class WriteGamestoFile {
 
         logger.debug(virtualZip.getAbsolutePath());
 
+        GameXMLExport gameXMLExport = new GameXMLExport();
+
+        String export = gameXMLExport.export();
+
         //TODO: uncomment when the new game file is added or a way to append the xml string to an
         // existing file is found
-        /*ZipFile zipFile;
         ZipOutputStream zos;
         ZipInputStream zis;
-        File newZip = new File(directory, "newZip.zip");
         try {
-            zos = new ZipOutputStream(new FileOutputStream(newZip));
+
+            // copy contents of export zip file to temp file to facilitate manipulation
+            File tempFile = File.createTempFile("temp-zip", ".zip");
+            zos = new ZipOutputStream(new FileOutputStream(tempFile));
             zis = new ZipInputStream(new FileInputStream(virtualZip));
             for (ZipEntry ze = zis.getNextEntry(); ze != null; ze = zis.getNextEntry()) {
                     zos.putNextEntry(ze);
@@ -40,13 +46,34 @@ public class WriteGamestoFile {
             zos.close();
             zis.close();
 
+            // delete original zip and create new file with the same name
+            Files.deleteIfExists(virtualZip.toPath());
+            File newZip = new File(directory, filename);
+
+            // copy all files from the temp zip to the new file and add the new game xml export
+            zos = new ZipOutputStream(new FileOutputStream(newZip));
+            zis = new ZipInputStream(new FileInputStream(tempFile));
+            for (ZipEntry ze = zis.getNextEntry(); ze != null; ze = zis.getNextEntry()) {
+                zos.putNextEntry(ze);
+                byte[] buffer = new byte[1024];
+                for (int read = zis.read(buffer); read != -1; read = zis.read(buffer)) {
+                    zos.write(buffer, 0, read);
+                }
+                zos.closeEntry();
+            }
+            byte[] exportBytes = export.getBytes();
+            ZipEntry ze = new ZipEntry("games.xml");
+            zos.putNextEntry(ze);
+            zos.write(exportBytes, 0, exportBytes.length);
+            zos.closeEntry();
+
+            zos.close();
+            zis.close();
+
         } catch (IOException e) {
+            logger.debug(e.getMessage());
             throw new LdoDException("Failed to locate virtual zip export file");
-        }*/
-
-        GameXMLExport gameXMLExport = new GameXMLExport();
-
-        gameXMLExport.export();
+        }
 
         return null;
     }

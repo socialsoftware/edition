@@ -27,7 +27,7 @@ public class GameXMLExport {
 
         //TODO: Actually export the games from the database
 
-        logger.debug("CLASSIFICATION GAMES ARE NOT BEING EXPORTED.");
+        logger.debug("Exporting classification games.");
 
         TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
 
@@ -35,11 +35,20 @@ public class GameXMLExport {
         Element rootElement = new Element("teiCorpus");
         rootElement.setNamespace(this.xmlns);
         this.jdomDoc.setRootElement(rootElement);
+        Element tei = new Element("TEI", this.xmlns);
+        rootElement.addContent(tei);
+        Element teiHeader = new Element("teiHeader", this.xmlns);
+        teiHeader.setAttribute("type", "text");
+        tei.addContent(teiHeader);
+        Element fileDesc = new Element("fileDesc", this.xmlns);
+        teiHeader.addContent(fileDesc);
+        Element sourceDesc = new Element("sourceDesc", this.xmlns);
+        fileDesc.addContent(sourceDesc);
 
         VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
 
         Element profileDesc = new Element("profileDesc", this.xmlns);
-        rootElement.addContent(profileDesc);
+        teiHeader.addContent(profileDesc);
         for (VirtualEditionInterDto virtualDto : virtualProvidesInterface.getVirtualEditionInterSet()) {
             if (!ClassificationModule.getInstance().getClassificationGamesForInter(virtualDto.getXmlId()).isEmpty()) {
                 Element textClass = new Element("textClass", this.xmlns);
@@ -74,7 +83,7 @@ public class GameXMLExport {
         xml.setFormat(Format.getPrettyFormat());
         logger.debug(xml.outputString(rootElement));
 
-        return null;
+        return xml.outputString(rootElement);
     }
 
     private void exportClassificationGameRounds(Element gameElement, ClassificationGame game) {
