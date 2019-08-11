@@ -18,15 +18,12 @@ import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto
 public class GameXMLExport {
     private static final Logger logger = LoggerFactory.getLogger(GameXMLExport.class);
 
-    Namespace xmlns = Namespace.getNamespace("http://www.tei-c.org/ns/1.0");
+    private Namespace xmlns = Namespace.getNamespace("http://www.tei-c.org/ns/1.0");
 
-    Document jdomDoc = null;
+    private Document jdomDoc = null;
 
     @Atomic
     public String export() {
-
-        //TODO: Actually export the games from the database
-
         logger.debug("Exporting classification games.");
 
         TextProvidesInterface textProvidesInterface = new TextProvidesInterface();

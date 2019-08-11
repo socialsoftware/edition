@@ -14,23 +14,19 @@ public class WriteGamestoFile {
     private static final Logger logger = LoggerFactory.getLogger(WriteGamestoFile.class);
 
     @Atomic
-    public String exportToVirtualZip(String filename) {
+    public void exportToVirtualZip(String filename) {
         String exportDir = PropertiesManager.getProperties().getProperty("export.dir");
         File directory = new File(exportDir);
         File virtualZip = new File(directory, filename);
-
-        logger.debug(virtualZip.getAbsolutePath());
 
         GameXMLExport gameXMLExport = new GameXMLExport();
 
         String export = gameXMLExport.export();
 
-        //TODO: uncomment when the new game file is added or a way to append the xml string to an
-        // existing file is found
+        // "inject" game info file into virtual zip export so it becomes invisible to virtual module
         ZipOutputStream zos;
         ZipInputStream zis;
         try {
-
             // copy contents of export zip file to temp file to facilitate manipulation
             File tempFile = File.createTempFile("temp-zip", ".zip");
             zos = new ZipOutputStream(new FileOutputStream(tempFile));
@@ -74,7 +70,5 @@ public class WriteGamestoFile {
             logger.debug(e.getMessage());
             throw new LdoDException("Failed to locate virtual zip export file");
         }
-
-        return null;
     }
 }
