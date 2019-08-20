@@ -45,7 +45,7 @@
 <p>Ant&oacute;nio Rito Silva, INESC-ID, <em>Instituto Superior T&eacute;cnico</em> (IST), Universidad de Lisboa</p>
 <p>Ant&oacute;nio Sousa Ribeiro, Universidad de Coimbra</p>
 <p>Daniela C&ocirc;rtes Maduro, Centro de Literatura Portuguesa (CLP), Universidad de Coimbra</p>
-<p>Diego Gim&eacute;nez, Centro de Literatura Portuguesa (CLP) | Universidad Estatal de Londrina</p>
+<p>Diego Gim&eacute;nez, Centro de Literatura Portuguesa (CLP), Universidad Coimbra</p>
 <p>John David Mock, Universidad de Coimbra</p>
 <p>Lu&iacute;s Lucas Pereira, Centro de Literatura Portuguesa (CLP) | Departamento de Ingenier&iacute;a Inform&aacute;tica (DEI), Universidad de Coimbra</p>
 <p>Manuel Portela (<strong>IP</strong>), Centro de Literatura Portuguesa (CLP), Universidad de Coimbra</p>
