@@ -7,9 +7,9 @@
 <p>&nbsp;</p>
 
 <h3>Transcri&ccedil;&atilde;o e Codifica&ccedil;&atilde;o XML</h3>
-<p>Ana Marques, Centro de Literatura Portuguesa (CLP) | Universidade de Coimbra</p>
-<p>Cec&iacute;lia Magalh&atilde;es, Centro de Literatura Portuguesa (CLP) | Universidade de Coimbra</p>
-<p>Diego Gim&eacute;nez, Centro de Literatura Portuguesa (CLP) |  Universidade de Coimbra</p>
+<p>Ana Marques, Centro de Literatura Portuguesa (CLP), Universidade de Coimbra</p>
+<p>Cec&iacute;lia Magalh&atilde;es, Centro de Literatura Portuguesa (CLP), Universidade de Coimbra</p>
+<p>Diego Gim&eacute;nez, Centro de Literatura Portuguesa (CLP), Universidade de Coimbra</p>
 <p>Manuel Portela, Centro de Literatura Portuguesa (CLP), Universidade de Coimbra</p>
 <p>Tiago Santos, Centro de Literatura Portuguesa (CLP), Universidade de Coimbra</p>
 <p>&nbsp;</p>
