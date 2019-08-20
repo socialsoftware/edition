@@ -143,13 +143,6 @@
 	<strong>2017</strong>
 </p>
 <p>
-	Portela, Manuel (2017). &ldquo;La simulaci&oacute;n de los procesos
-	literarios en el <em>Archivo LdoD.</em>&rdquo; <em>Ilusi&oacute;n
-		y materialidad: perspectivas sobre el archivo</em>. Eds. Jer&oacute;nimo
-	Pizarro y Diana Guzm&aacute;n. Bogot&aacute;: Ediciones Uniandes. [no
-	prelo]
-</p>
-<p>
 	Portela, Manuel (2017). &ldquo;The <em>Book of Disquiet</em> Archive as
 	a Collaborative Textual Environment: From Digital Archive to Digital
 	Simulator.&rdquo; <em>The Writing Platform: Digital Knowledge for
@@ -166,9 +159,16 @@
 <p>&nbsp;</p>
 <p><strong>2018</strong>
 </p>
+<p>
+	Portela, Manuel (2018). &ldquo;La simulaci&oacute;n de los procesos
+	literarios en el <em>Archivo LdoD.</em>&rdquo; <em>Ilusi&oacute;n
+		y materialidad: perspectivas sobre el archivo</em>. Eds. Jer&oacute;nimo
+	Pizarro y Diana Guzm&aacute;n. Bogot&aacute;: Ediciones Uniandes. 353-366.
+</p>
 <p>Pereira, Lu&iacute;s Lucas, Manuel Portela, and Lic&iacute;nio Roque
 	(2018). &ldquo;<em>Machines of Disquiet</em>: Textual Experience in the
-	<em>LdoD Archive.</em>&rdquo; <em>MATLIT: Materialidades da Literatura</em> 6.3 [no prelo]. </p>
+	<em>LdoD Archive.</em>&rdquo; <em>MATLIT: Materialidades da Literatura</em> 6.3: 59-71. 
+	<br />DOI: <a href="http://dx.doi.org/10.14195/2182-8830_6-3_5" target="_new">http://dx.doi.org/10.14195/2182-8830_6-3_5</a> </p>
 <p>
 </p>
 
