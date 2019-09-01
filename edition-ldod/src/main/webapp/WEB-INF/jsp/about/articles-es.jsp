@@ -180,11 +180,11 @@
 <p><strong>2019</strong>
 </p>
 <p>
-	oliveira, Duarte, António Rito Silva, and Manuel Portela (2019). &ldquo;“Social Media Aware Virtual Editions for 
+	Oliveira, Duarte, Ant&oacute;nio Rito Silva, and Manuel Portela (2019). &ldquo;Social Media Aware Virtual Editions for 
 	the <em>Book of Disquiet</em>.&rdquo; 
 	<em>21st International Conference on Asia-Pacific Digital Libraries ICADL 2019: Digital Libraries at Cross-Roads of 
 	<em>Digital Information for the Future – Connecting Data, Technologies and People in Different Domains.</em> 
-		Kuala Lumpur, 2019 [forthcoming].
+		Kuala Lumpur [forthcoming].
 </p>
 
 
