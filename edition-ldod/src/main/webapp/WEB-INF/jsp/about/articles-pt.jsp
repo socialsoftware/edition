@@ -223,7 +223,7 @@ URL: <a href= "https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/846778
 <p>
 <strong>&nbsp;</strong>
 </p>
-	<strong>2018</strong> </p>
+<p>	<strong>2018</strong> </p>
 	<p>Oliveira, Duarte (2018). <em>Automatic Collection of Citations in the <em>LdoD Archive</em></em>. 
 		Lisboa: Instituto Superior T&eacute;cnico da
   Universidade de Lisboa. Disserta&ccedil;&atilde;o de mestrado em Engenharia
@@ -248,7 +248,7 @@ URL: <a href= "https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/846778
 <p>
 <strong>&nbsp;</strong>
 </p>
-	<strong>2019</strong> </p>
+<p>	<strong>2019</strong> </p>
 <p> Raposo, Jos&eacute; (2019). <em>LdoD Visualization: Reading the <em>Book of Disquiet</em> with Information Visualization Techniques</em>. Lisboa: Instituto Superior T&eacute;cnico da
   Universidade de Lisboa. Disserta&ccedil;&atilde;o de mestrado em Engenharia
   Inform&aacute;tica e Computadores.  <br/>
