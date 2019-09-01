@@ -1,4 +1,4 @@
-<p>Esta p&aacute;gina contiene v&iacute;deos con testimonios de dos editores del
+<p>Esta p&aacute;gina contiene videos con testimonios de dos editores del
 	<em>Libro del desasosiego</em> y del editor del <em>Archivo LdoD</em>. Teresa Sobral
 	Cunha y Jer&oacute;nimo Pizarro fueron entrevistados en noviembre y diciembre
 	de 2015, respectivamente. Manuel Portela fue entrevistado en agosto de
@@ -13,19 +13,19 @@
 	del desasosiego</em>. En el caso del editor del <em>Archivo LdoD</em>, las preguntas
 	se refer&iacute;an a la naturaleza din&aacute;mica y simulatoria del <em>Archivo</em>, y a su
 	potencial como entorno textual de aprendizaje, investigaci&oacute;n y
-	creaci&oacute;n. Tambi&eacute;n hay un breve v&iacute;deo de presentaci&oacute;n del <em>Archivo LdoD</em>,
+	creaci&oacute;n. Tambi&eacute;n hay un breve video de presentaci&oacute;n del <em>Archivo LdoD</em>,
 	mostrando extractos de los aut&oacute;grafos y de las ediciones de los textos
 	&ldquo;Amo, pelas tardes demoradas de ver&atilde;o&rdquo; y &ldquo;Sinfonia de uma noite
 	inquieta&rdquo;, le&iacute;dos, respectivamente, por Jer&oacute;nimo Pizarro y Teresa
-	Sobral Cunha. Los temas de cada v&iacute;deo est&aacute;n referenciados a trav&eacute;s de
+	Sobral Cunha. Los temas de cada video est&aacute;n referenciados a trav&eacute;s de
 	intert&iacute;tulos, de acuerdo con la secuencia que se indica a continuaci&oacute;n.
-	Registro y montaje de todos los v&iacute;deos: Tiago Cravid&atilde;o. Financiaci&oacute;n:
+	Registro y montaje de todos los videos: Tiago Cravid&atilde;o. Financiaci&oacute;n:
 	Fundaci&oacute;n para la Ciencia y la Tecnolog&iacute;a.</p>
 <br />
 
 
 
-<h5>&Iacute;ndice de los v&iacute;deos:</h5>
+<h5>&Iacute;ndice de los videos:</h5>
 
 <ul>
 	<li><a href="#V1">Teaser_LdoD: Archivo LdoD</a></li>
@@ -34,7 +34,7 @@
 	<li><a href="#V4">Creaci&oacute;n de unidades discursivas</a></li>
 	<li><a href="#V5">Creaci&oacute;n de p&aacute;rrafos</a></li>
 	<li><a href="#V6">Habla humana</a></li>
-	<li><a href="#V7">¿Por qu&eacute; editar?</a></li>
+	<li><a href="#V7">&iquest;Por qu&eacute; editar?</a></li>
 	<li><a href="#V8">Organizaci&oacute;n cronol&oacute;gica</a></li>
 	<li><a href="#V9">Heter&oacute;nimos</a></li>
 	<li><a href="#V10">Posibilidades de edici&oacute;n</a></li>
@@ -96,7 +96,7 @@
 <br />
 <br />
 
-<h5 id="V7" style="padding-top: 130px; margin-top: -130px;">¿Por qu&eacute; editar?</h5>
+<h5 id="V7" style="padding-top: 130px; margin-top: -130px;">&iquest;Por qu&eacute; editar?</h5>
 <div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/qdc3y_pUBII" frameborder="0"
