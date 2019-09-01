@@ -18,21 +18,21 @@
 
 <h5>&Iacute;ndice de los Tutoriais LdoD:</h5>
 <ul>
-	<li><a href="#V1">V&iacute;deo 1: ¿Qu&eacute; es el <em>Archivo LdoD</em>?</a> [PT]</li>
-	<li><a href="#V2">V&iacute;deo 2: Conociendo el <em>Archivo LdoD</em></a> [PT]</li>
-	<li><a href="#V3">V&iacute;deo 3: Lectura</a> [PT]</li>
-	<li><a href="#V4">V&iacute;deo 4: Documentos</a> [PT]</li>
-	<li><a href="#V5">V&iacute;deo 5: Ediciones</a> [PT]</li>
-	<li><a href="#V6">V&iacute;deo 6: B&uacute;squeda</a> [PT]</li>
-	<li><a href="#V7">V&iacute;deo 7: ¿Qu&eacute; es el una Edici&oacute;n Virtual?</a> [PT]</li>
-	<li><a href="#V8">V&iacute;deo 8: Planificaci&oacute;n de ediciones virtuales</a> [PT]</li>
-	<li><a href="#V9">V&iacute;deo 9: Creando ediciones virtuales</a> [PT]</li>
-	<li><a href="#V10">V&iacute;deo 10: Taxonom&iacute;a y anotaciones</a> [PT]</li>
+	<li><a href="#V1">Video 1: ¿Qu&eacute; es el <em>Archivo LdoD</em>?</a> [PT]</li>
+	<li><a href="#V2">Video 2: Conociendo el <em>Archivo LdoD</em></a> [PT]</li>
+	<li><a href="#V3">Video 3: Lectura</a> [PT]</li>
+	<li><a href="#V4">Video 4: Documentos</a> [PT]</li>
+	<li><a href="#V5">Video 5: Ediciones</a> [PT]</li>
+	<li><a href="#V6">Video 6: B&uacute;squeda</a> [PT]</li>
+	<li><a href="#V7">Video 7: ¿Qu&eacute; es el una Edici&oacute;n Virtual?</a> [PT]</li>
+	<li><a href="#V8">Video 8: Planificaci&oacute;n de ediciones virtuales</a> [PT]</li>
+	<li><a href="#V9">Video 9: Creando ediciones virtuales</a> [PT]</li>
+	<li><a href="#V10">Video 10: Taxonom&iacute;a y anotaciones</a> [PT]</li>
 </ul>
 
 
 <br />
-<h5 id="V1" >V&iacute;deo 1: ¿Qu&eacute; es el <em>Archivo LdoD</em>?</h5>
+<h5 id="V1" >Video 1: ¿Qu&eacute; es el <em>Archivo LdoD</em>? [PT]</h5>
 
 <div class="videoWrapper">
 <iframe width="560" height="315"
@@ -41,7 +41,7 @@
 <br />
 <br />
 
-<h5 id="V2" >V&iacute;deo 2: Conociendo el <em>Archivo LdoD</em></h5>
+<h5 id="V2" >Video 2: Conociendo el <em>Archivo LdoD</em> [PT]</h5>
 
 <div class="videoWrapper">
 <iframe width="560" height="315"
@@ -50,7 +50,7 @@
 <br />
 <br />
 
-<h5 id="V3" >V&iacute;deo 3: Lectura</h5>
+<h5 id="V3" >Video 3: Lectura [PT]</h5>
 
 <div class="videoWrapper">
 <iframe width="560" height="315"
@@ -59,7 +59,7 @@
 <br />
 <br />
 
-<h5 id="V4" >V&iacute;deo 4: Documentos</h5>
+<h5 id="V4" >Video 4: Documentos [PT]</h5>
 <div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/LPGxZjUUh1w" frameborder="0"
@@ -67,7 +67,7 @@
 <br />
 <br />
 
-<h5 id="V5" >V&iacute;deo 5: Ediciones</h5>
+<h5 id="V5" >Video 5: Ediciones [PT]</h5>
 <div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/wFPO-ypEWl8" frameborder="0"
@@ -75,7 +75,7 @@
 <br />
 <br />
 
-<h5 id="V6" >V&iacute;deo 6: B&uacute;squeda</h5>
+<h5 id="V6" >Video 6: B&uacute;squeda [PT]</h5>
 <div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/h1QJDZ77iT0" frameborder="0"
@@ -83,7 +83,7 @@
 <br />
 <br />
 
-<h5 id="V7" >V&iacute;deo 7: ¿Qu&eacute; es el una Edici&oacute;n Virtual?</h5>
+<h5 id="V7" >Video 7: ¿Qu&eacute; es el una Edici&oacute;n Virtual? [PT]</h5>
 <div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/6qcBC8OGJLU" frameborder="0"
@@ -91,7 +91,7 @@
 <br />
 <br />
 
-<h5 id="V8" >V&iacute;deo 8: Planificaci&oacute;n de ediciones virtuales</h5>
+<h5 id="V8" >Video 8: Planificaci&oacute;n de ediciones virtuales [PT]</h5>
 <div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/rANp_CP3DwI" frameborder="0"
@@ -99,7 +99,7 @@
 <br />
 <br />
 
-<h5 id="V9" >V&iacute;deo 9: Creando ediciones virtuales</h5>
+<h5 id="V9" >Video 9: Creando ediciones virtuales [PT]</h5>
 <div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/BMvAbI_TOy8" frameborder="0"
@@ -107,7 +107,7 @@
 <br />
 <br />
 
-<h5 id="V10" >V&iacute;deo 10: Taxonom&iacute;a y anotaciones</h5>
+<h5 id="V10" >Video 10: Taxonom&iacute;a y anotaciones [PT]</h5>
 <div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/3cvvsjvrSzk" frameborder="0"
