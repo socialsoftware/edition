@@ -3,7 +3,7 @@
   (2) to familiarize users with the multiple features of this structure. Videos introduce,
    in a progressive and modular way, the theoretical and technical aspects of the platform. Besides a step-by-step
   explanation of the components of the <em>LdoD Archive</em>, each video contains suggestions for tasks that will contribute to 
-a complete understanding of the materials and interactions available in each interface. The last four videos are
+a better understanding of the materials and interactions available in each interface. The last four videos are
    dedicated to the creation and management of virtual editions by users.
 </p>
 <p>
@@ -22,12 +22,12 @@ a complete understanding of the materials and interactions available in each int
 	<li><a href="#V2">V&eacute;deo 2: Getting to know the <em>LdoD Archive</em> [PT]</a></li>
 	<li><a href="#V3">V&eacute;deo 3: Reading [[PT] </a></li>
 	<li><a href="#V4">V&eacute;deo 4: Documents [PT]</a></li>
-	<li><a href="#V5">V&eacute;deo 5: Edi&ccedil;&otilde;es</a></li>
-	<li><a href="#V6">V&eacute;deo 6: Pesquisa</a></li>
-	<li><a href="#V7">V&eacute;deo 7: O que &eacute; a Edi&ccedil;&atilde;o Virtual?</a></li>
-	<li><a href="#V8">V&eacute;deo 8: Planejando edi&ccedil;&otilde;es virtuais</a></li>
-	<li><a href="#V9">V&eacute;deo 9: Criando edi&ccedil;&otilde;es virtuais</a></li>
-	<li><a href="#V10">V&eacute;deo 10: Taxonomia e anota&ccedil;&otilde;es</a></li>
+	<li><a href="#V5">V&eacute;deo 5: Editions [PT]</a></li>
+	<li><a href="#V6">V&eacute;deo 6: Search [PT]</a></li>
+	<li><a href="#V7">V&eacute;deo 7: What is a Virtual Edition? [PT]</a></li>
+	<li><a href="#V8">V&eacute;deo 8: Planning virtual editions [PT] edi&ccedil;&otilde;es virtuais</a></li>
+	<li><a href="#V9">V&eacute;deo 9: Creating virtual editions [PT]</a></li>
+	<li><a href="#V10">V&eacute;deo 10: Taxonomy and annotations [PT]</a></li>
 </ul>
 
 
