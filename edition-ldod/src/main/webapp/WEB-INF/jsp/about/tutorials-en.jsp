@@ -18,21 +18,21 @@ a better understanding of the materials and interactions available in each inter
 
 <h5>Table of Contents:</h5>
 <ul>
-	<li><a href="#V1">V&eacute;deo 1: What is the <em>LdoD Archive</em>? [PT]</a></li>
-	<li><a href="#V2">V&eacute;deo 2: Getting to know the <em>LdoD Archive</em> [PT]</a></li>
-	<li><a href="#V3">V&eacute;deo 3: Reading [[PT] </a></li>
-	<li><a href="#V4">V&eacute;deo 4: Documents [PT]</a></li>
-	<li><a href="#V5">V&eacute;deo 5: Editions [PT]</a></li>
-	<li><a href="#V6">V&eacute;deo 6: Search [PT]</a></li>
-	<li><a href="#V7">V&eacute;deo 7: What is a Virtual Edition? [PT]</a></li>
-	<li><a href="#V8">V&eacute;deo 8: Planning virtual editions [PT] edi&ccedil;&otilde;es virtuais</a></li>
-	<li><a href="#V9">V&eacute;deo 9: Creating virtual editions [PT]</a></li>
-	<li><a href="#V10">V&eacute;deo 10: Taxonomy and annotations [PT]</a></li>
+	<li><a href="#V1">Video 1: What is the <em>LdoD Archive</em>?</a> [PT]</li>
+	<li><a href="#V2">Video 2: Getting to know the <em>LdoD Archive</em></a> [PT]</li>
+	<li><a href="#V3">Video 3: Reading</a> [PT]</li>
+	<li><a href="#V4">Video 4: Documents</a> [PT]</li>
+	<li><a href="#V5">Video 5: Editions</a> [PT]</li>
+	<li><a href="#V6">Video 6: Search</a> [PT]</li>
+	<li><a href="#V7">Video 7: What is a Virtual Edition?</a> [PT]</li>
+	<li><a href="#V8">Video 8: Planning virtual editions</a> [PT]</li>
+	<li><a href="#V9">Video 9: Creating virtual editions</a> [PT]</li>
+	<li><a href="#V10">Video 10: Taxonomy and annotations</a> [PT]</li>
 </ul>
 
 
 <br />
-<h5 id="V1" >V&eacute;deo 1: O que &eacute; o <em>Arquivo LdoD</em>?</h5>
+<h5 id="V1" >Video 1: What is the <em>LdoD Archive</em>? [PT]</h5>
 
 <div class="videoWrapper">
 <iframe width="560" height="315"
@@ -41,7 +41,7 @@ a better understanding of the materials and interactions available in each inter
 <br />
 <br />
 
-<h5 id="V2" >V&eacute;deo 2: Conhecendo o <em>Arquivo LdoD</em></h5>
+<h5 id="V2" >Video 2: Getting to know the <em>LdoD Archive</em> [PT]</h5>
 
 <div class="videoWrapper">
 <iframe width="560" height="315"
@@ -50,7 +50,7 @@ a better understanding of the materials and interactions available in each inter
 <br />
 <br />
 
-<h5 id="V3" >V&eacute;deo 3: Leitura</h5>
+<h5 id="V3" >Video 3: Reading [PT]</h5>
 
 <div class="videoWrapper">
 <iframe width="560" height="315"
@@ -59,7 +59,7 @@ a better understanding of the materials and interactions available in each inter
 <br />
 <br />
 
-<h5 id="V4" >V&eacute;deo 4: Documentos</h5>
+<h5 id="V4" >Video 4: Documents [PT]</h5>
 <div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/LPGxZjUUh1w" frameborder="0"
@@ -67,7 +67,7 @@ a better understanding of the materials and interactions available in each inter
 <br />
 <br />
 
-<h5 id="V5" >V&eacute;deo 5: Edi&ccedil;&otilde;es</h5>
+<h5 id="V5" >Video 5: Editions [PT]</h5>
 <div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/wFPO-ypEWl8" frameborder="0"
@@ -75,7 +75,7 @@ a better understanding of the materials and interactions available in each inter
 <br />
 <br />
 
-<h5 id="V6" >V&eacute;deo 6: Pesquisa</h5>
+<h5 id="V6" >Video 6: Search [PT]</h5>
 <div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/h1QJDZ77iT0" frameborder="0"
@@ -83,7 +83,7 @@ a better understanding of the materials and interactions available in each inter
 <br />
 <br />
 
-<h5 id="V7" >V&eacute;deo 7: O que &eacute; a Edi&ccedil;&atilde;o Virtual?</h5>
+<h5 id="V7" >Video 7: What is a Virtual Edition? [PT]</h5>
 <div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/6qcBC8OGJLU" frameborder="0"
@@ -91,7 +91,7 @@ a better understanding of the materials and interactions available in each inter
 <br />
 <br />
 
-<h5 id="V8" >V&eacute;deo 8: Planejando edi&ccedil;&otilde;es virtuais</h5>
+<h5 id="V8" >Video 8: Planning virtual editions [PT]</h5>
 <div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/rANp_CP3DwI" frameborder="0"
@@ -99,7 +99,7 @@ a better understanding of the materials and interactions available in each inter
 <br />
 <br />
 
-<h5 id="V9" >V&eacute;deo 9: Criando edi&ccedil;&otilde;es virtuais</h5>
+<h5 id="V9" >Video 9: Creating virtual editions [PT]</h5>
 <div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/BMvAbI_TOy8" frameborder="0"
@@ -107,7 +107,7 @@ a better understanding of the materials and interactions available in each inter
 <br />
 <br />
 
-<h5 id="V10" >V&eacute;deo 10: Taxonomia e anota&ccedil;&otilde;es</h5>
+<h5 id="V10" >Video 10: Taxonomy and annotations [PT]</h5>
 <div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/3cvvsjvrSzk" frameborder="0"
