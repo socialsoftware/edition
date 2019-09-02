@@ -96,6 +96,10 @@ public class VirtualEditionInterDto {
         return this.virtualProvidesInterface.getVirtualEditionInterAllDepthTagsAccessibleByUser(this.xmlId, username);
     }
 
+    public Set<TagDto> getTagSet(){
+        return this.virtualProvidesInterface.getAllTags(xmlId);
+    }
+
     public List<CategoryDto> getAllDepthCategoriesUsedByUserInTags(String username) {
         return this.virtualProvidesInterface.getVirtualEditionInterAllDepthCategoriesUsedByUserInTags(this.xmlId, username);
     }

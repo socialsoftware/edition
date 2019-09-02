@@ -650,7 +650,7 @@ public class ReactUiController {
                 tagInfo.put("username", tag.getUsername());
                 tagInfo.put("acronym", tag.getAcronym());
                 tagInfo.put("urlId", tag.getUrlId());
-                tagInfo.put("name", tag.getName());
+                tagInfo.put("name", tag.getNameInEdition());
                 tags.add(tagInfo);
             }
             info.put("tags", tags);
@@ -667,7 +667,7 @@ public class ReactUiController {
                     Map<String, String> tagInfo = new LinkedHashMap<>();
                     tagInfo.put("acronym", tag.getAcronym());
                     tagInfo.put("urlId", tag.getUrlId());
-                    tagInfo.put("name", tag.getName());
+                    tagInfo.put("name", tag.getNameInEdition());
                     annotationTags.add(tagInfo);
                 }
 

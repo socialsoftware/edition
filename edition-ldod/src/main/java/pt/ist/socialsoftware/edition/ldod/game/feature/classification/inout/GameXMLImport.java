@@ -1,19 +1,29 @@
 package pt.ist.socialsoftware.edition.ldod.game.feature.classification.inout;
 
 import org.jdom2.Document;
+import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
+import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
+import org.jdom2.xpath.XPathExpression;
+import org.jdom2.xpath.XPathFactory;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
-import pt.ist.socialsoftware.edition.ldod.domain.ClassificationModule;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.TagDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Set;
 
 public class GameXMLImport {
     private static final Logger logger = LoggerFactory.getLogger(GameXMLImport.class);
@@ -62,6 +72,104 @@ public class GameXMLImport {
 
         logger.debug("CLASSIFICATION GAMES ARE NOT BEING IMPORTED.");
 
+        VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+
+        importPlayers(doc);
+
+        XPathFactory xpfac = XPathFactory.instance();
+        XPathExpression<Element> xp = xpfac.compile("//def:textClass", Filters.element(), null,
+                Namespace.getNamespace("def", this.namespace.getURI()));
+
+        for (Element textClass : xp.evaluate(doc)) {
+            VirtualEditionInterDto virtualEditionInter = virtualProvidesInterface.getVirtualEditionInter(textClass.getAttributeValue("source").substring(1));
+            if (virtualEditionInter == null)
+                continue;
+            importClassificationGames(textClass, virtualEditionInter);
+        }
+
         return null;
+    }
+
+    private void importPlayers(Document doc) {
+        Namespace namespace = doc.getRootElement().getNamespace();
+        XPathFactory xpfac = XPathFactory.instance();
+        XPathExpression<Element> xp = xpfac.compile("//def:player", Filters.element(), null,
+                Namespace.getNamespace("def", namespace.getURI()));
+        for (Element playerElement : xp.evaluate(doc)) {
+            String user = playerElement.getAttributeValue("user");
+            double score = Double.parseDouble(playerElement.getAttributeValue("score"));
+            Player player = new Player(user);
+            player.setScore(score);
+        }
+    }
+
+    private void importClassificationGames(Element textClass, VirtualEditionInterDto inter) {
+        if (textClass.getChild("classificationGameList", this.namespace) == null) {
+            return;
+        }
+
+        for (Element gameElement : textClass.getChild("classificationGameList", this.namespace).getChildren()) {
+            ClassificationGame.ClassificationGameState state = ClassificationGame.ClassificationGameState
+                    .valueOf(gameElement.getAttributeValue("state"));
+            String description = gameElement.getAttributeValue("description");
+            DateTime dateTime = new DateTime(DateTime.parse(gameElement.getAttributeValue("dateTime")));
+            boolean sync = Boolean.parseBoolean(gameElement.getAttributeValue("sync"));
+            String responsible = gameElement.getAttributeValue("responsible");
+            String winner = gameElement.getAttributeValue("winningUser");
+
+            ClassificationGame game = new ClassificationGame(inter.getVirtualEditionDto(), description, dateTime,
+                    inter, responsible);
+
+            game.setState(state);
+            game.setSync(sync);
+
+            if (winner != null && winner.trim().length() != 0) {
+                TagDto tag = inter.getTagSet().stream()
+                        .filter(t -> t.getName().equals(gameElement.getAttributeValue("tag"))
+                                && t.getUsername().equals(winner))
+                        .findFirst().get();
+                game.setTagId(tag.getExternalId());
+            }
+            importClassificationGameParticipants(gameElement, game);
+            importClassificationGameRounds(gameElement, game);
+        }
+
+    }
+
+    private void importClassificationGameRounds(Element gameElement, ClassificationGame game) {
+        for (Element roundElement : gameElement.getChild("classificationGameRoundList", this.namespace).getChildren()) {
+            String username = roundElement.getAttributeValue("username");
+
+            int paragraphNumber = Integer.parseInt(roundElement.getAttributeValue("paragraphNumber"));
+            int roundNumber = Integer.parseInt(roundElement.getAttributeValue("roundNumber"));
+            String tag = roundElement.getAttributeValue("tag");
+            double vote = Double.parseDouble(roundElement.getAttributeValue("vote"));
+            DateTime dateTime = new DateTime(DateTime.parse(roundElement.getAttributeValue("dateTime")));
+
+            ClassificationGameRound gameRound = new ClassificationGameRound();
+            gameRound.setNumber(paragraphNumber);
+            gameRound.setRound(roundNumber);
+            gameRound.setTag(tag);
+            gameRound.setVote(vote);
+            gameRound.setTime(dateTime);
+
+            ClassificationGameParticipant participant = game.getClassificationGameParticipantSet().stream()
+                    .filter(p -> p.getPlayer().getUser().equals(username)).findFirst().get();
+            gameRound.setClassificationGameParticipant(participant);
+        }
+
+    }
+
+    private void importClassificationGameParticipants(Element element, ClassificationGame game) {
+        for (Element participantElement : element.getChild("classificationGameParticipantList", this.namespace)
+                .getChildren()) {
+            String username = participantElement.getAttributeValue("username");
+            boolean winner = Boolean.parseBoolean(participantElement.getAttributeValue("winner"));
+            double score = Double.parseDouble(participantElement.getAttributeValue("score"));
+
+            ClassificationGameParticipant participant = new ClassificationGameParticipant(game, username);
+            participant.setWinner(winner);
+            participant.setScore(score);
+        }
     }
 }

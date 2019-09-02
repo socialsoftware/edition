@@ -454,6 +454,15 @@ public class VirtualProvidesInterface {
                 .orElse(new HashSet<>());
     }
 
+    public Set<TagDto> getAllTags(String xmlId) {
+        VirtualEditionInter virtualEditionInter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(() -> new LdoDException());
+        return getVirtualEditionInterByXmlId(xmlId)
+                .map(vei -> vei.getTagSet().stream()
+                        .map(tag -> new TagDto(tag, virtualEditionInter))
+                        .collect(Collectors.toSet()))
+                .orElse(new HashSet<>());
+    }
+
     public VirtualEditionDto getVirtualEditionOfTaxonomyByExternalId(String externalId) {
         Taxonomy taxonomy = FenixFramework.getDomainObject(externalId);
         if (taxonomy != null) {

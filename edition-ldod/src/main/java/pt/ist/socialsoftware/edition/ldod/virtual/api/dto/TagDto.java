@@ -1,7 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.virtual.api.dto;
 
 import pt.ist.socialsoftware.edition.ldod.domain.Tag;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 
 public class TagDto {
@@ -9,13 +8,17 @@ public class TagDto {
     private String username;
     private String acronym;
     private String urlId;
+    private String nameInEdition;
     private String name;
+    private String externalId;
 
     public TagDto(Tag tag, VirtualEditionInter inter){
         setUsername(tag.getContributor());
         setAcronym(tag.getCategory().getTaxonomy().getEdition().getAcronym());
         setUrlId(tag.getCategory().getUrlId());
-        setName(tag.getCategory().getNameInEditionContext(inter.getEdition()));
+        setNameInEdition(tag.getCategory().getNameInEditionContext(inter.getEdition()));
+        setName(tag.getCategory().getName());
+        setExternalId(tag.getExternalId());
     }
 
     public String getUsername() {
@@ -42,11 +45,27 @@ public class TagDto {
         this.urlId = urlId;
     }
 
+    public String getNameInEdition() {
+        return nameInEdition;
+    }
+
+    public void setNameInEdition(String nameInEdition) {
+        this.nameInEdition = nameInEdition;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
     }
 }
