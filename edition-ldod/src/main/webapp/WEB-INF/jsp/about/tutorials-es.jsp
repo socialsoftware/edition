@@ -24,7 +24,7 @@
 	<li><a href="#V4">Tutorial 4: Documentos</a> [PT]</li>
 	<li><a href="#V5">Tutorial 5: Ediciones</a> [PT]</li>
 	<li><a href="#V6">Tutorial 6: B&uacute;squeda</a> [PT]</li>
-	<li><a href="#V7">Tutorial 7: &iquest;Qu&eacute; es el una Edici&oacute;n Virtual?</a> [PT]</li>
+	<li><a href="#V7">Tutorial 7: &iquest;Qu&eacute; es la Edici&oacute;n Virtual?</a> [PT]</li>
 	<li><a href="#V8">Tutorial 8: Planificaci&oacute;n de ediciones virtuales</a> [PT]</li>
 	<li><a href="#V9">Tutorial 9: Creando ediciones virtuales</a> [PT]</li>
 	<li><a href="#V10">Tutorial 10: Taxonom&iacute;a y anotaciones</a> [PT]</li>
@@ -83,7 +83,7 @@
 <br />
 <br />
 
-<h5 id="V7">Tutorial 7: &iquest;Qu&eacute; es el una Edici&oacute;n Virtual? [PT]</h5>
+<h5 id="V7">Tutorial 7: &iquest;Qu&eacute; es la Edici&oacute;n Virtual? [PT]</h5>
 <div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/6qcBC8OGJLU" frameborder="0"
