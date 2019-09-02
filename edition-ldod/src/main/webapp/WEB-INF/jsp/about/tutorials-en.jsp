@@ -16,7 +16,7 @@ a better understanding of the materials and interactions available in each inter
 </p>
 
 
-<h5>Table of Contents:</h5>
+<h5>Table of LdoD Tutorials:</h5>
 <ul>
 	<li><a href="#V1">Tutorial 1: What is the <em>LdoD Archive</em>?</a> [PT]</li>
 	<li><a href="#V2">Tutorial 2: Getting to know the <em>LdoD Archive</em></a> [PT]</li>
