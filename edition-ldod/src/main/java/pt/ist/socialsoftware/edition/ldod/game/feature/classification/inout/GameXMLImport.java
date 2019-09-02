@@ -68,17 +68,13 @@ public class GameXMLImport {
         this.classificationModule = ClassificationModule.getInstance();
         this.namespace = doc.getRootElement().getNamespace();
 
-        //TODO: Actually import the games from the source
-
-        logger.debug("CLASSIFICATION GAMES ARE NOT BEING IMPORTED.");
-
-        VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
-
         importPlayers(doc);
 
         XPathFactory xpfac = XPathFactory.instance();
         XPathExpression<Element> xp = xpfac.compile("//def:textClass", Filters.element(), null,
                 Namespace.getNamespace("def", this.namespace.getURI()));
+
+        VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
 
         for (Element textClass : xp.evaluate(doc)) {
             VirtualEditionInterDto virtualEditionInter = virtualProvidesInterface.getVirtualEditionInter(textClass.getAttributeValue("source").substring(1));
