@@ -11,6 +11,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameParticipant;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationModule;
+import pt.ist.socialsoftware.edition.ldod.domain.Player;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
@@ -43,6 +44,11 @@ public class GameXMLExport {
         fileDesc.addContent(sourceDesc);
 
         VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+
+        Element listPlayer = generatePlayerList(teiHeader);
+        for (Player player : ClassificationModule.getInstance().getPlayerSet()) {
+            exportPlayer(listPlayer, player);
+        }
 
         Element profileDesc = new Element("profileDesc", this.xmlns);
         teiHeader.addContent(profileDesc);
@@ -81,6 +87,19 @@ public class GameXMLExport {
         logger.debug(xml.outputString(rootElement));
 
         return xml.outputString(rootElement);
+    }
+
+    protected Element generatePlayerList(Element teiHeader) {
+        Element playerList = new Element("playerList", this.xmlns);
+        teiHeader.addContent(playerList);
+        return playerList;
+    }
+
+    private void exportPlayer(Element userElement, Player player) {
+        Element playerElement = new Element("player");
+        playerElement.setAttribute("user", player.getUser());
+        playerElement.setAttribute("score", Double.toString(player.getScore()));
+        userElement.addContent(playerElement);
     }
 
     private void exportClassificationGameRounds(Element gameElement, ClassificationGame game) {
