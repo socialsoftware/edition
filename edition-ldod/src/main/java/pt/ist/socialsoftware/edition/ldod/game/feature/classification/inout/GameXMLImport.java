@@ -28,7 +28,6 @@ import java.util.Set;
 public class GameXMLImport {
     private static final Logger logger = LoggerFactory.getLogger(GameXMLImport.class);
 
-    private ClassificationModule classificationModule = null;
     private Namespace namespace = null;
 
     public String importGamesFromTEI(InputStream inputStream) {
@@ -65,7 +64,6 @@ public class GameXMLImport {
 
     @Atomic(mode = Atomic.TxMode.WRITE)
     private String processImport(Document doc) {
-        this.classificationModule = ClassificationModule.getInstance();
         this.namespace = doc.getRootElement().getNamespace();
 
         importPlayers(doc);

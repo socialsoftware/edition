@@ -84,7 +84,7 @@ public class GameXMLExport {
 
         XMLOutputter xml = new XMLOutputter();
         xml.setFormat(Format.getPrettyFormat());
-        logger.debug(xml.outputString(rootElement));
+        //logger.debug(xml.outputString(rootElement));
 
         return xml.outputString(rootElement);
     }
