@@ -109,10 +109,6 @@ public class GameXMLImport {
             String responsible = gameElement.getAttributeValue("responsible");
             String winner = gameElement.getAttributeValue("winningUser");
 
-            logger.debug("Loaded game");
-            logger.debug(description);
-            logger.debug(dateTime.toString());
-
             ClassificationGame game = new ClassificationGame(inter.getVirtualEditionDto(), description, dateTime,
                     inter, responsible);
 

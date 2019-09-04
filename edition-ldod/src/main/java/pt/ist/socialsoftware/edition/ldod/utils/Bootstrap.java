@@ -160,7 +160,6 @@ public class Bootstrap implements WebApplicationInitializer {
         }
 
         File[] files = directory.listFiles();
-
         if (files == null)
             return;
 
@@ -193,7 +192,6 @@ public class Bootstrap implements WebApplicationInitializer {
         }
 
         File[] files = directory.listFiles();
-
         if (files == null)
             return;
 
