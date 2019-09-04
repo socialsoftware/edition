@@ -145,7 +145,7 @@ public class VirtualEditionFragmentsTEIImport {
                 importAnnotation(note, inter);
             }
 
-            importClassificationGames(textClass, inter);
+            //importClassificationGames(textClass, inter);
         }
     }
 
@@ -300,7 +300,7 @@ public class VirtualEditionFragmentsTEIImport {
     }
 
     //TODO : these class game related functions should be moved to their own importer in the game module
-    private void importClassificationGames(Element textClass, VirtualEditionInter inter) {
+    /*private void importClassificationGames(Element textClass, VirtualEditionInter inter) {
         if (textClass.getChild("classificationGameList", this.namespace) == null) {
             return;
         }
@@ -368,7 +368,7 @@ public class VirtualEditionFragmentsTEIImport {
             participant.setWinner(winner);
             participant.setScore(score);
         }
-    }
+    }*/
 
     // TODO: to be addressed when the awareness becomes a module on its own
     private Fragment getFragment(VirtualEditionInter virtualEditionInter) {

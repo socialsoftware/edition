@@ -63,7 +63,7 @@ public class VirtualEditionFragmentsTEIExport {
 
             exportVirtualEditionInterTags(textClass, virtualEditionInter);
             exportVirtualEditionInterAnnotations(textClass, virtualEditionInter);
-            exportClassificationGames(textClass, virtualEditionInter);
+            //exportClassificationGames(textClass, virtualEditionInter);
         }
 
         // NOT NECESSARY THEY CAN BE LOADED FROM THE FILES
@@ -234,7 +234,7 @@ public class VirtualEditionFragmentsTEIExport {
 
 
     //TODO : these class game related functions should be moved to their own exporter in the game module
-    private void exportClassificationGames(Element textClass, VirtualEditionInter virtualEditionInter) {
+   /* private void exportClassificationGames(Element textClass, VirtualEditionInter virtualEditionInter) {
         Element classificationGameList = new Element("classificationGameList", this.xmlns);
         textClass.addContent(classificationGameList);
 
@@ -290,5 +290,5 @@ public class VirtualEditionFragmentsTEIExport {
         }
 
         element.addContent(classificationParticipantList);
-    }
+    }*/
 }

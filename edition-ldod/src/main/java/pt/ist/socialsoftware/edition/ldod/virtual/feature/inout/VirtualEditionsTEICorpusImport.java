@@ -58,7 +58,7 @@ public class VirtualEditionsTEICorpusImport {
         VirtualModule virtualModule = VirtualModule.getInstance();
 
 
-        importPlayers(doc, virtualModule);
+        //importPlayers(doc, virtualModule);
 
         importVirtualEditions(doc, virtualModule);
 
@@ -100,7 +100,7 @@ public class VirtualEditionsTEICorpusImport {
 //    }
 
 
-    private void importPlayers(Document doc, VirtualModule virtualModule) {
+    /*private void importPlayers(Document doc, VirtualModule virtualModule) {
         Namespace namespace = doc.getRootElement().getNamespace();
         XPathFactory xpfac = XPathFactory.instance();
         XPathExpression<Element> xp = xpfac.compile("//def:player", Filters.element(), null,
@@ -111,7 +111,7 @@ public class VirtualEditionsTEICorpusImport {
             Player player = new Player(user);
             player.setScore(score);
         }
-    }
+    }*/
 
     private void importVirtualEditions(Document doc, VirtualModule virtualModule) {
         Namespace namespace = doc.getRootElement().getNamespace();
