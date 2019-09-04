@@ -1,0 +1,15 @@
+<users-management>
+  <users>
+    <user username="Twitter" enabled="true" active="false" firstName="Twitter" lastName="Social Media" email="">
+      <roles />
+    </user>
+    <user username="ars" enabled="true" active="true" password="$2a$11$Y0PQlyE20CXaI9RGhtjZJeTM/0.RUyp2kO/YAJI2P2FeINDEUxd2m" firstName="António" lastName="Rito Silva" email="rito.silva@tecnico.ulisboa.pt" lastLogin="2019-09-03">
+      <roles>
+        <role type="ROLE_ADMIN" />
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+  </users>
+  <user-connections />
+  <registration-tokens />
+</users-management>

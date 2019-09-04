@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xml:id="Fr003" xmlns="http://www.tei-c.org/ns/1.0">
+    <teiHeader type="text">
+        <fileDesc>
+                <titleStmt>
+                    <title>O governo do mundo começa em nós mesmos</title>
+                    <author>Fernando Pessoa</author>
+                    <respStmt>
+                        <resp>encoding</resp>
+                        <name>Diego Giménez</name>
+                    </respStmt>
+                    <respStmt>
+                        <resp>revision</resp>
+                        <name>Tiago Santos, Daniela Maduro, Manuel Portela</name>
+                    </respStmt>
+                </titleStmt>         
+            <publicationStmt>
+                <publisher>Centre for Portuguese Literature at the University of Coimbra</publisher>
+                    <pubPlace>Coimbra</pubPlace>
+                    <availability status="restricted">
+                        <licence target="https://creativecommons.org/licenses/by-nc/4.0/">
+                            <p>All items in the LdoD Archive may be shared in accordance with the Creative Commons “Attribution-NonCommercial 4.0 International” license (CC BY-NC 4.0).</p>
+                        </licence>
+                    </availability>
+                    <date when="2016"/>
+                </publicationStmt>
+                <sourceDesc>
+                    <listBibl xml:id="Fr003.SRC">
+                        <listBibl xml:id="Fr003.SRC.MS">
+                            <msDesc xml:id="Fr003.SRC.MS.Fr003a">
+                                <msIdentifier>
+                                    <settlement>Lisbon</settlement>
+                                    <repository>BN</repository>
+                                    <idno>bn-acpc-e-e3-1-1-89_0005_3_t24-C-R0150</idno>
+                                    <altIdentifier type="SC">
+                                        <idno>BNP/E3, 1-3r</idno>
+                                    </altIdentifier>
+                                </msIdentifier>
+                                <physDesc>
+                                    <objectDesc form="leaf">
+                                        <supportDesc material="paper">
+                                            <extent>
+                                                <dimensions unit="cm">
+                                                    <height>27.4</height>
+                                                    <width>21.4</width>
+                                                </dimensions>
+                                            </extent>
+                                        </supportDesc>
+                                        <layoutDesc>
+                                            <layout columns="1"/>
+                                        </layoutDesc>
+                                    </objectDesc>
+                                    <typeDesc>
+                                        <typeNote medium="blue-ink">
+                                        <p>Testemunho datiloscrito a tinta azul.</p>
+                                        </typeNote>
+                                    </typeDesc>
+                                    <additions/>
+                                    <bindingDesc>
+                                        <binding>
+                                            <p>Texto escrito no recto de uma folha inteira de papel de máquina.</p>
+                                        </binding>
+                                    </bindingDesc>
+                                </physDesc>
+                            </msDesc>                     
+                        </listBibl>
+                    </listBibl>
+                    <listWit xml:id="Fr003.WIT">
+                        <listWit xml:id="Fr003.WIT.MS">
+                            <witness xml:id="Fr003.WIT.MS.Fr003a.3">
+                                <ref target="#Fr003.SRC.MS.Fr003a"/>
+                            </witness>                       
+                        </listWit>
+                        <listWit xml:id="Fr003.WIT.ED">
+                            <head>O grupo de testemunhos impressos do fragmento</head> 
+                            <listWit xml:id="Fr003.WIT.ED.CRIT">
+                                <witness xml:id="Fr003.WIT.ED.CRIT.C">
+                                    <ref target="#ED.CRIT.C"/>
+                                    <bibl>
+                                        <respStmt>
+                                            <resp>heterónimo</resp>
+                                            <persName corresp="#HT.BS">Bernardo Soares</persName>
+                                        </respStmt>
+                                        <title level="a">O governo do mundo começa em nós mesmos</title>
+                                        <biblScope unit="number">467</biblScope>
+                                        <note type="physDesc">[1-3, dact.]</note>
+                                        <biblScope unit="vol">II</biblScope>
+                                        <biblScope unit="pp" from="202" to="202"/>
+                                    </bibl>
+                                </witness>
+                                <witness xml:id="Fr003.WIT.ED.CRIT.SC">
+                                    <ref target="#ED.CRIT.SC"/>
+                                    <bibl>
+                                        <respStmt>
+                                            <resp>heterónimo</resp>
+                                            <persName corresp="#HT.BS">Bernardo Soares</persName>
+                                        </respStmt>
+                                        <title level="a">O governo do mundo começa em nós mesmos</title>
+                                        <biblScope unit="number">340</biblScope>
+                                        <note type="physDesc">[1-3, dact.]</note>
+                                        <biblScope unit="pp" from="288" to="288"/>
+                                    </bibl>
+                                </witness>
+                                <witness xml:id="Fr003.WIT.ED.CRIT.Z">
+                                    <ref target="#ED.CRIT.Z"/>
+                                    <bibl>
+                                        <respStmt>
+                                            <resp>heterónimo</resp>
+                                            <persName corresp="#HT.BS">Bernardo Soares</persName>
+                                        </respStmt>
+                                        <title level="a">O governo do mundo começa em nós mesmos</title>
+                                        <biblScope unit="number">275</biblScope>
+                                        <note type="physDesc">[1-3, dact.]</note>
+                                        <date/>
+                                        <biblScope unit="pp" from="272" to="272"/>
+                                    </bibl>
+                                </witness>
+                                <witness xml:id="Fr003.WIT.ED.CRIT.P">
+                                    <ref target="#ED.CRIT.P"/>
+                                    <bibl>
+                                        <title level="a">O governo do mundo começa em nós mesmos</title>
+                                        <biblScope unit="number">503</biblScope>
+                                        <note type="physDesc">[1-3r]</note>
+                                        <note type="annex">Jerónimo Pizarro inclui este texto em apêndice no conjunto "Textos sem destinação certa inventariados dentro do núcleo" (2010: 477-489).</note>
+                                        <date/>
+                                        <biblScope unit="pp" from="477" to="477"/>
+                                    </bibl>
+                                </witness>
+                            </listWit>
+                        </listWit>
+                    </listWit>
+                </sourceDesc>
+            </fileDesc>
+        </teiHeader>
+        <facsimile xml:id="Fr003a-fs" corresp="#Fr003.SRC.MS.Fr003a">
+            <surface>
+                <graphic url="bn-acpc-e-e3-1-1-89_0005_3_t24-C-R0150.jpg"/>
+            </surface>       
+        </facsimile>
+        <text>
+            <body>
+                <div xml:id="Fr003.TEXT">
+                    <p>            
+                        O governo do mundo começa em 
+                        <app>
+                            <rdg wit="#Fr003.WIT.MS.Fr003a.3"><del rend="overstrike">nósmpe</del></rdg>
+                            <rdg wit="#Fr003.WIT.ED.CRIT.C #Fr003.WIT.ED.CRIT.SC #Fr003.WIT.ED.CRIT.Z #Fr003.WIT.ED.CRIT.P"></rdg>
+                        </app>nós mesmos.
+                         Não<lb ed="#Fr003.WIT.MS.Fr003a.3"/>
+                        são os sinceros que governam o mundo, mas 
+                        <app>
+                            <rdgGrp type="orthographic">
+                            <rdg wit="#Fr003.WIT.MS.Fr003a.3 #Fr003.WIT.ED.CRIT.C #Fr003.WIT.ED.CRIT.P" type="orthographic">tambem</rdg>
+                            <rdg wit="#Fr003.WIT.ED.CRIT.SC #Fr003.WIT.ED.CRIT.Z">também</rdg></rdgGrp>
+                        </app> não são<lb ed="#Fr003.WIT.MS.Fr003a.3"/> 
+                        os insinceros. São os que fabricam em si uma sinceridade<lb ed="#Fr003.WIT.MS.Fr003a.3"/> 
+                        real por meios 
+                        <app>
+                            <rdgGrp type="orthographic">
+                            <rdg wit="#Fr003.WIT.MS.Fr003a.3 #Fr003.WIT.ED.CRIT.C #Fr003.WIT.ED.CRIT.P" type="orthographic">artificiaes</rdg>
+                            <rdg wit="#Fr003.WIT.ED.CRIT.SC #Fr003.WIT.ED.CRIT.Z">artificiais</rdg></rdgGrp>
+                        </app> e 
+                        <app>
+                            <rdgGrp type="orthographic">
+                            <rdg wit="#Fr003.WIT.MS.Fr003a.3 #Fr003.WIT.ED.CRIT.C #Fr003.WIT.ED.CRIT.P" type="orthographic">automaticos</rdg>
+                            <rdg wit="#Fr003.WIT.ED.CRIT.SC #Fr003.WIT.ED.CRIT.Z">automáticos</rdg></rdgGrp>
+                        </app>; essa
+                        <app>
+                            <rdg wit="#Fr003.WIT.MS.Fr003a.3"><del rend="overstrike">sinceridad</del><lb ed="#Fr003.WIT.MS.Fr003a.3"/></rdg>
+                            <rdg wit="#Fr003.WIT.ED.CRIT.C #Fr003.WIT.ED.CRIT.SC #Fr003.WIT.ED.CRIT.Z #Fr003.WIT.ED.CRIT.P"></rdg> 
+                        </app>
+                        sinceridade 
+                        <app>
+                            <rdgGrp type="orthographic">
+                            <rdg wit="#Fr003.WIT.MS.Fr003a.3 #Fr003.WIT.ED.CRIT.C #Fr003.WIT.ED.CRIT.P" type="orthographic">constitue</rdg>
+                            <rdg wit="#Fr003.WIT.ED.CRIT.SC #Fr003.WIT.ED.CRIT.Z">constitui</rdg></rdgGrp>
+                        </app> a sua força, e é 
+                        <app>
+                            <rdgGrp type="orthographic">
+                            <rdg wit="#Fr003.WIT.MS.Fr003a.3 #Fr003.WIT.ED.CRIT.C #Fr003.WIT.ED.CRIT.P" type="orthographic">ella</rdg>
+                            <rdg wit="#Fr003.WIT.ED.CRIT.SC #Fr003.WIT.ED.CRIT.Z">ela</rdg></rdgGrp>
+                        </app> que irradia<lb ed="#Fr003.WIT.MS.Fr003a.3"/> 
+                        para a sinceridade menos falsa dos outros. Saber 
+                        <app>
+                            <rdgGrp type="orthographic">
+                            <rdg wit="#Fr003.WIT.MS.Fr003a.3 #Fr003.WIT.ED.CRIT.C #Fr003.WIT.ED.CRIT.P" type="orthographic">illudir-<lb ed="#Fr003.WIT.MS.Fr003a.3" break="no"/>se</rdg>
+                            <rdg wit="#Fr003.WIT.ED.CRIT.SC #Fr003.WIT.ED.CRIT.Z">iludir-se</rdg></rdgGrp>
+                        </app>
+                        bem é a primeira qualidade do estadista. Só aos poetas<lb ed="#Fr003.WIT.MS.Fr003a.3"/> 
+                        e aos 
+                        <app>
+                            <rdgGrp type="orthographic">
+                            <rdg wit="#Fr003.WIT.MS.Fr003a.3 #Fr003.WIT.ED.CRIT.C #Fr003.WIT.ED.CRIT.P" type="orthographic">philosophos</rdg>
+                                <rdg wit="#Fr003.WIT.ED.CRIT.SC #Fr003.WIT.ED.CRIT.Z">filósofos</rdg></rdgGrp>
+                        </app> compete a visão 
+                        <app>
+                            <rdgGrp type="orthographic">
+                            <rdg wit="#Fr003.WIT.MS.Fr003a.3 #Fr003.WIT.ED.CRIT.C #Fr003.WIT.ED.CRIT.P" type="orthographic">practica</rdg>
+                            <rdg wit="#Fr003.WIT.ED.CRIT.SC #Fr003.WIT.ED.CRIT.Z">prática</rdg></rdgGrp>
+                        </app> do mundo, por<lb ed="#Fr003.WIT.MS.Fr003a.3" type="hyphenated" break="no"/>
+                        que só a esses é dado não ter 
+                        <app>
+                            <rdgGrp type="orthographic">
+                            <rdg wit="#Fr003.WIT.MS.Fr003a.3 #Fr003.WIT.ED.CRIT.C #Fr003.WIT.ED.CRIT.P" type="orthographic">illusões</rdg>
+                            <rdg wit="#Fr003.WIT.ED.CRIT.SC #Fr003.WIT.ED.CRIT.Z">ilusões</rdg></rdgGrp>
+                        </app>. Ver claro é não<lb ed="#Fr003.WIT.MS.Fr003a.3"/> 
+                        agir.<lb ed="#Fr003.WIT.MS.Fr003a.3"/>
+                            
+                            </p> 
+                </div>
+            </body>
+        </text>
+    </TEI>

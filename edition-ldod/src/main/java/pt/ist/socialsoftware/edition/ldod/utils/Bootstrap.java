@@ -10,12 +10,20 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
+import pt.ist.socialsoftware.edition.ldod.game.feature.classification.inout.GameXMLImport;
 import pt.ist.socialsoftware.edition.ldod.recommendation.api.RecommendationRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
+import pt.ist.socialsoftware.edition.ldod.text.feature.inout.LoadTEICorpus;
+import pt.ist.socialsoftware.edition.ldod.text.feature.inout.LoadTEIFragments;
+import pt.ist.socialsoftware.edition.ldod.user.feature.inout.UsersXMLImport;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionFragmentsTEIExport;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionFragmentsTEIImport;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionsTEICorpusExport;
+import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionsTEICorpusImport;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.topicmodeling.TopicModeler;
 
 import javax.servlet.ServletContext;
@@ -47,6 +55,15 @@ public class Bootstrap implements WebApplicationInitializer {
 
     @Atomic(mode = TxMode.WRITE)
     public static void initializeSystem() {
+
+        // clean existing module info.
+        FenixFramework.getDomainRoot().getModuleSet().forEach(EditionModule::remove);
+
+        loadModuleInfoFromFiles();
+
+        Set<String> moduleNames = FenixFramework.getDomainRoot().getModuleSet().stream()
+                .map(EditionModule::getName).collect(Collectors.toSet());
+
         if (TextModule.getInstance() == null) {
             new TextModule();
             cleanCorpusRepository();
@@ -74,14 +91,125 @@ public class Bootstrap implements WebApplicationInitializer {
             new ClassificationModule();
         }
 
-        // clean existing module info.
-        FenixFramework.getDomainRoot().getModuleSet().forEach(EditionModule::remove);
+        if(moduleNames.stream().anyMatch(s -> s.equals("edition-text"))){
+            loadTextFromFile();
+        }
+        if(moduleNames.stream().anyMatch(s -> s.equals("edition-user"))){
+            loadUsersFromFile();
+        }
+        if(moduleNames.stream().anyMatch(s -> s.equals("edition-virtual"))){
+            loadVirtualFromFile();
+            loadGamesFromFile();
+        }
+    }
 
-        loadModuleInfoFromFiles();
+    private static void loadGamesFromFile() {
+        String loadDirPath = PropertiesManager.getProperties().getProperty("load.files.dir");
+
+        File directory = new File(loadDirPath, "game");
+
+        File gameFile = new File(directory, "games.xml");
+
+        if (!gameFile.exists())
+            return; // File does not exist but that is not a problem. Just move on
+
+        GameXMLImport gameXMLImport = new GameXMLImport();
+
+        try {
+            gameXMLImport.importGamesFromTEI(new FileInputStream(gameFile));
+        } catch (FileNotFoundException e) {
+            throw new LdoDException("Failed to load games from file");
+        }
+    }
+
+    private static void loadUsersFromFile() {
+        String loadDirPath = PropertiesManager.getProperties().getProperty("load.files.dir");
+
+        File directory = new File(loadDirPath, "user");
+
+        File userFile = new File(directory, "users.xml");
+
+        if (!userFile.exists())
+            return; // File does not exist but that is not a problem. Just move on
+
+        UsersXMLImport usersXMLImport = new UsersXMLImport();
+
+        try {
+            usersXMLImport.importUsers(new FileInputStream(userFile));
+        } catch (FileNotFoundException e) {
+            throw new LdoDException("Failed to load games from file");
+        }
+    }
+
+    private static void loadTextFromFile() {
+        String loadDirPath = PropertiesManager.getProperties().getProperty("load.files.dir");
+
+        File directory = new File(loadDirPath, "text");
+
+        File corpus = new File(directory, "001.xml");
+
+        if (!corpus.exists())
+            return; // File does not exist but that is not a problem. Just move on
+
+        LoadTEICorpus loadTEICorpus = new LoadTEICorpus();
+
+        try {
+            loadTEICorpus.loadTEICorpus(new FileInputStream(corpus));
+        } catch (FileNotFoundException e) {
+            throw new LdoDException("Failed to load games from file");
+        }
+
+        File[] files = directory.listFiles();
+
+        if (files == null)
+            return;
+
+        for (File file : files){
+            LoadTEIFragments teiImport = new LoadTEIFragments();
+            try {
+                teiImport.loadFragmentsStepByStep(new FileInputStream(file));
+            } catch (FileNotFoundException e) {
+                throw new LdoDException("Failed to load virtual fragment");
+            }
+        }
+    }
+
+    private static void loadVirtualFromFile() {
+        String loadDirPath = PropertiesManager.getProperties().getProperty("load.files.dir");
+
+        File directory = new File(loadDirPath, "virtual");
+
+        File virtualCorpus = new File(directory, "corpus.xml");
+
+        if (!virtualCorpus.exists())
+            return; // File does not exist but that is not a problem. Just move on
+
+        VirtualEditionsTEICorpusImport corpusImport = new VirtualEditionsTEICorpusImport();
+
+        try {
+            corpusImport.importVirtualEditionsCorpus(new FileInputStream(virtualCorpus));
+        } catch (FileNotFoundException e) {
+            throw new LdoDException("Failed to load virtual corpus");
+        }
+
+        File[] files = directory.listFiles();
+
+        if (files == null)
+            return;
+
+        for (File file : files){
+            if (file.getName().contains("corpus"))
+                continue;
+            VirtualEditionFragmentsTEIImport teiImport = new VirtualEditionFragmentsTEIImport();
+            try {
+                teiImport.importFragmentFromTEI(new FileInputStream(file));
+            } catch (FileNotFoundException e) {
+                throw new LdoDException("Failed to load virtual fragment");
+            }
+        }
     }
 
     public static void loadModuleInfoFromFiles() {
-
         String moduleConfigFilePath = PropertiesManager.getProperties().getProperty("module.files.dir");
 
         File directory = new File(moduleConfigFilePath);

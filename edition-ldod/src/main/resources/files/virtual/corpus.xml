@@ -1,0 +1,58 @@
+<teiCorpus xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader type="corpus">
+    <playerList>
+      <player xmlns="" user="ars" score="35.0" />
+    </playerList>
+    <fileDesc>
+      <sourceDesc>
+        <listBibl xml:id="ED.VIRT">
+          <bibl xml:id="LdoD-Teste" status="PUBLIC">
+            <title>Teste</title>
+            <synopsis />
+            <date when="2019-09-02" />
+            <editor nymRef="ars" role="ADMIN" active="true">
+              <date when="2019-09-02" />
+            </editor>
+          </bibl>
+          <bibl xml:id="LdoD-Arquivo" status="PUBLIC">
+            <title>Arquivo LdoD</title>
+            <synopsis />
+            <date when="2019-08-22" />
+            <editor nymRef="ars" role="ADMIN" active="true">
+              <date when="2019-08-22" />
+            </editor>
+          </bibl>
+        </listBibl>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy source="#ED.VIRT.LdoD-Teste">
+          <desc>
+            <list type="interaction">
+              <item>CLOSED_MANAGEMENT</item>
+              <item>CLOSED_ANNOTATION</item>
+              <item>OPEN_VOCABULARY</item>
+            </list>
+          </desc>
+          <category xml:id="ED.VIRT.LdoD-Teste.teste">
+            <catDesc>teste</catDesc>
+          </category>
+        </taxonomy>
+        <taxonomy source="#ED.VIRT.LdoD-Arquivo">
+          <desc>
+            <list type="interaction">
+              <item>CLOSED_MANAGEMENT</item>
+              <item>CLOSED_ANNOTATION</item>
+              <item>OPEN_VOCABULARY</item>
+            </list>
+          </desc>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+    <socialMediaCriteria>
+      <editionCriteria source="#ED.VIRT.LdoD-Teste" />
+      <editionCriteria source="#ED.VIRT.LdoD-Arquivo" />
+    </socialMediaCriteria>
+  </teiHeader>
+</teiCorpus>

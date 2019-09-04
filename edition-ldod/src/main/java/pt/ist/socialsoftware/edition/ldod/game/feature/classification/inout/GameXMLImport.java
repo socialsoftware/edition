@@ -76,8 +76,6 @@ public class GameXMLImport {
 
         for (Element textClass : xp.evaluate(doc)) {
             VirtualEditionInterDto virtualEditionInter = virtualProvidesInterface.getVirtualEditionInter(textClass.getAttributeValue("source").substring(1));
-            if (virtualEditionInter == null)
-                continue;
             importClassificationGames(textClass, virtualEditionInter);
         }
 
@@ -111,19 +109,17 @@ public class GameXMLImport {
             String responsible = gameElement.getAttributeValue("responsible");
             String winner = gameElement.getAttributeValue("winningUser");
 
+            logger.debug("Loaded game");
+            logger.debug(description);
+            logger.debug(dateTime.toString());
+
             ClassificationGame game = new ClassificationGame(inter.getVirtualEditionDto(), description, dateTime,
                     inter, responsible);
 
             game.setState(state);
             game.setSync(sync);
+            game.setTagId(gameElement.getAttributeValue("tag"));
 
-            if (winner != null && winner.trim().length() != 0) {
-                TagDto tag = inter.getTagSet().stream()
-                        .filter(t -> t.getName().equals(gameElement.getAttributeValue("tag"))
-                                && t.getUsername().equals(winner))
-                        .findFirst().get();
-                game.setTagId(tag.getExternalId());
-            }
             importClassificationGameParticipants(gameElement, game);
             importClassificationGameRounds(gameElement, game);
         }

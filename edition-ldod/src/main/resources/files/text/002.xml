@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="Fr002">
+    <teiHeader type="text">
+        <fileDesc>
+            <titleStmt>
+                <title>Omar Khayyam | Omar tinha uma personalidade</title>
+                <author>Fernando Pessoa</author>
+                <respStmt>
+                    <resp>encoding</resp>
+                    <name>Diego Giménez</name>
+                </respStmt>
+                <respStmt>
+                    <resp>revision</resp>
+                    <name>Tiago Santos, Daniela Maduro, Manuel Portela</name>
+                </respStmt>
+            </titleStmt>         
+            <publicationStmt>
+                <publisher>Centre for Portuguese Literature at the University of Coimbra</publisher>
+                <pubPlace>Coimbra</pubPlace>
+                <availability status="restricted">
+                    <licence target="https://creativecommons.org/licenses/by-nc/4.0/">
+                        <p>All items in the LdoD Archive may be shared in accordance with the Creative Commons “Attribution-NonCommercial 4.0 International” license (CC BY-NC 4.0).</p>
+                    </licence>
+                </availability>
+                <date when="2016" />
+            </publicationStmt>
+            <sourceDesc>
+                <listBibl xml:id="Fr002.SRC">
+                    <listBibl xml:id="Fr002.SRC.MS">
+                        <msDesc xml:id="Fr002.SRC.MS.Fr002a">
+                            <msIdentifier>
+                                <settlement>Lisbon</settlement>
+                                <repository>BN</repository>
+                                <idno>bn-acpc-e-e3-1-1-89_0003_2_t24-C-R0150</idno>
+                                <altIdentifier type="SC">
+                                    <idno>BNP/E3, 1-2r</idno>
+                                </altIdentifier>
+                            </msIdentifier>
+                            <physDesc>
+                                <objectDesc form="leaf">
+                                    <supportDesc material="paper">
+                                        <extent>
+                                            <dimensions unit="cm">
+                                                <height>27.9</height>
+                                                <width>21.7</width>
+                                            </dimensions>
+                                        </extent>
+                                    </supportDesc>
+                                    <layoutDesc>
+                                        <layout columns="1"/>
+                                    </layoutDesc>
+                                </objectDesc>
+                                <typeDesc>
+                                    <typeNote medium="black-ink">
+                                    <p>Testemunho datiloscrito a tinta preta. </p>
+                                    </typeNote>
+                                </typeDesc>
+                                <additions />
+                                <bindingDesc>
+                                    <binding>
+                                        <p>Texto escrito no recto de uma folha inteira de papel de máquina.</p>
+                                    </binding>
+                                </bindingDesc>
+                            </physDesc>
+                        </msDesc>
+                    </listBibl>
+                </listBibl>
+                <listWit xml:id="Fr002.WIT">
+                    <listWit xml:id="Fr002.WIT.MS">
+                        <witness xml:id="Fr002.WIT.MS.Fr002a.2">
+                            <ref target="#Fr002.SRC.MS.Fr002a" />
+                        </witness>
+                    </listWit>
+                    <listWit xml:id="Fr002.WIT.ED">
+                        <head>O grupo de testemunhos impressos do fragmento</head>
+                        <listWit xml:id="Fr002.WIT.ED.CRIT">
+                            <witness xml:id="Fr002.WIT.ED.CRIT.C">
+                                <ref target="#ED.CRIT.C" />
+                                <bibl>
+                                    <respStmt>
+                                        <resp>heterónimo</resp>
+                                        <persName corresp="#HT.BS">Bernardo Soares</persName>
+                                    </respStmt>
+                                    <title level="a">Omar Khayyam</title>
+                                    <biblScope unit="number">23</biblScope>
+                                    <note type="physDesc">[1-2, dact.]</note>
+                                    <biblScope unit="vol">I</biblScope>
+                                    <biblScope unit="pp" from="027" to="027" />
+                                </bibl>
+                            </witness>
+                            <witness xml:id="Fr002.WIT.ED.CRIT.SC">
+                                <ref target="#ED.CRIT.SC" />
+                                <bibl>
+                                    <respStmt>
+                                        <resp>heterónimo</resp>
+                                        <persName corresp="#HT.BS">Bernardo Soares</persName>
+                                    </respStmt>
+                                    <title level="a">OMAR KHAYYAM (Omar tinha uma personalidade)</title>
+                                    <biblScope unit="number">350</biblScope>
+                                    <note type="physDesc">[1-2, dact.]</note>
+                                    <biblScope unit="pp" from="294" to="294" />
+                                </bibl>
+                            </witness>
+                            <witness xml:id="Fr002.WIT.ED.CRIT.Z">
+                                <ref target="#ED.CRIT.Z" />
+                                <bibl>
+                                    <respStmt>
+                                        <resp>heterónimo</resp>
+                                        <persName corresp="#HT.BS">Bernardo Soares</persName>
+                                    </respStmt>
+                                    <title level="a">OMAR KHAYYAM [Omar tinha uma personalidade]</title>
+                                    <biblScope unit="number">448</biblScope>
+                                    <note type="physDesc">[1-2, dact.]</note>
+                                    <date />
+                                    <biblScope unit="pp" from="400" to="400" />
+                                </bibl>
+                            </witness>
+                        </listWit>
+                    </listWit>
+                </listWit>
+            </sourceDesc>
+        </fileDesc>
+    </teiHeader>
+    <facsimile xml:id="Fr002a-fs" corresp="#Fr002.SRC.MS.Fr002a">
+        <surface>
+            <graphic url="bn-acpc-e-e3-1-1-89_0003_2_t24-C-R0150.jpg" />
+        </surface>
+    </facsimile>
+    <text>
+        <body>
+            <div xml:id="Fr002.TEXT">
+                <p>
+                    <app>
+                        <rdg wit="#Fr002.WIT.MS.Fr002a.2">
+                            <seg rendition="#u">Omar Khayyam.</seg>
+                            <lb ed="#Fr002.WIT.MS.Fr002a.2" />
+                            <space dim="vertical" quantity="1" unit="minims" />
+                        </rdg>
+                        <rdg wit="#Fr002.WIT.ED.CRIT.C">
+                            <seg rendition="#i #center">Omar Khayyam.</seg><lb/>
+                        </rdg>
+                        <rdg wit="#Fr002.WIT.ED.CRIT.Z">
+                            OMAR KHAYYAM
+                            <space dim="vertical" quantity="1" unit="minims" />
+                        </rdg>
+                        <rdg wit="#Fr002.WIT.ED.CRIT.SC">
+                            <seg rendition="#right">OMAR KHAYYAM</seg><lb/>
+                        </rdg>
+                    </app>
+                </p>
+                <p>
+                    Omar tinha uma personalidade; eu, feliz ou infeliz
+                    <lb ed="#Fr002.WIT.MS.Fr002a.2" type="hyphenated" break="no" />
+                    mente, 
+                    não tenho nenhuma. Do que sou numa hora na hora seguinte
+                    <lb ed="#Fr002.WIT.MS.Fr002a.2" />
+                    me separo; do que fui num dia
+                    <app type="punctuation">
+                        <rdg wit="#Fr002.WIT.ED.CRIT.SC">,</rdg>
+                    </app>
+                    no dia seguinte me esqueci. Quem,
+                    <lb ed="#Fr002.WIT.MS.Fr002a.2" />
+                    como Omar, é quem é, vive num só mundo, que é o externo; quem,
+                    <lb ed="#Fr002.WIT.MS.Fr002a.2" />
+                    como eu,
+                    <app>
+                        <rdg wit="#Fr002.WIT.MS.Fr002a.2"><add place="margin">não é quem é</add>
+                        </rdg>
+                        <rdg wit="#Fr002.WIT.ED.CRIT.C #Fr002.WIT.ED.CRIT.SC #Fr002.WIT.ED.CRIT.Z">não é quem é</rdg>
+                    </app>
+                    <app type="punctuation">                       
+                        <rdg wit="#Fr002.WIT.ED.CRIT.C #Fr002.WIT.ED.CRIT.Z #Fr002.WIT.ED.CRIT.SC">,</rdg>
+                        <rdg wit="#Fr002.WIT.MS.Fr002a.2"></rdg>
+                    </app>vive não só no mundo externo, mas num
+                    <app>
+                        <rdgGrp type="orthographic">
+                            <rdg wit="#Fr002.WIT.MS.Fr002a.2 #Fr002.WIT.ED.CRIT.C">successivo</rdg>
+                            <rdg wit="#Fr002.WIT.ED.CRIT.SC #Fr002.WIT.ED.CRIT.Z">sucessivo</rdg>
+                        </rdgGrp>
+                    </app>
+                    e di
+                    <lb ed="#Fr002.WIT.MS.Fr002a.2" type="hyphenated" break="no" />
+                    verso mundo interno. A sua
+                    <app>
+                        <rdgGrp type="orthographic">
+                            <rdg wit="#Fr002.WIT.MS.Fr002a.2 #Fr002.WIT.ED.CRIT.C">philosophia</rdg>
+                            <rdg wit="#Fr002.WIT.ED.CRIT.SC #Fr002.WIT.ED.CRIT.Z">filosofia</rdg>
+                        </rdgGrp>
+                    </app>
+                    , ainda que queira ser a
+                    <lb ed="#Fr002.WIT.MS.Fr002a.2" />
+                    mesma que a de Omar, forçosamente o não poderá ser. Assim, sem
+                    <lb ed="#Fr002.WIT.MS.Fr002a.2" />
+                    que deveras o queira, tenho em mim, como se fossem almas, as
+                    <lb ed="#Fr002.WIT.MS.Fr002a.2" />
+                    <app>
+                        <rdgGrp type="orthographic">
+                            <rdg wit="#Fr002.WIT.MS.Fr002a.2 #Fr002.WIT.ED.CRIT.C">philosophias</rdg>
+                            <rdg wit="#Fr002.WIT.ED.CRIT.SC #Fr002.WIT.ED.CRIT.Z">filosofias</rdg>
+                        </rdgGrp>
+                    </app>
+                    que critique; Omar podia rejeitar a todas, pois
+                    <lb ed="#Fr002.WIT.MS.Fr002a.2" />
+                    lhe eram externas
+                    <app type="punctuation">
+                        <rdg wit="#Fr002.WIT.ED.CRIT.C">,</rdg>
+                        <rdg wit="#Fr002.WIT.MS.Fr002a.2 #Fr002.WIT.ED.CRIT.SC #Fr002.WIT.ED.CRIT.Z">;</rdg>
+                    </app>
+                    não as posso eu rejeitar,
+                    <app>
+                        <rdg wit="#Fr002.WIT.MS.Fr002a.2">
+                            <del rend="overstrike">como</del>
+                            porque
+                        </rdg>
+                        <rdg wit="#Fr002.WIT.ED.CRIT.C #Fr002.WIT.ED.CRIT.SC #Fr002.WIT.ED.CRIT.Z">porque</rdg>
+                    </app>
+                    são eu.
+                    <lb ed="#Fr002.WIT.MS.Fr002a.2" />
+                </p>
+            </div>
+        </body>
+    </text>
+</TEI>

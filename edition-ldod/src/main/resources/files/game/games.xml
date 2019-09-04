@@ -1,0 +1,31 @@
+<teiCorpus xmlns="http://www.tei-c.org/ns/1.0">
+  <TEI>
+    <teiHeader type="text">
+      <fileDesc>
+        <sourceDesc />
+      </fileDesc>
+      <playerList>
+        <player xmlns="" user="ars" score="35.0" />
+      </playerList>
+      <profileDesc>
+        <textClass source="#Fr001.WIT.ED.VIRT.LdoD-Teste.1">
+          <classificationGameList>
+            <classificationGame state="FINISHED" description="teste" dateTime="2019-09-02T15:15:00.000+01:00" sync="false" responsible="ars" tag="teste" winningUser="ars">
+              <classificationGameRoundList>
+                <classificationGameRound paragraphNumber="1" roundNumber="3" tag="teste" vote="2.0" dateTime="2019-09-02T15:19:16.000+01:00" username="ars" />
+                <classificationGameRound paragraphNumber="1" roundNumber="3" tag="teste" vote="1.0" dateTime="2019-09-02T15:19:14.000+01:00" username="ars" />
+                <classificationGameRound paragraphNumber="0" roundNumber="2" tag="teste" vote="2.0" dateTime="2019-09-02T15:18:41.000+01:00" username="ars" />
+                <classificationGameRound paragraphNumber="0" roundNumber="2" tag="teste" vote="1.0" dateTime="2019-09-02T15:18:39.000+01:00" username="ars" />
+                <classificationGameRound paragraphNumber="0" roundNumber="1" tag="teste" vote="1.0" dateTime="2019-09-02T15:16:17.000+01:00" username="ars" />
+              </classificationGameRoundList>
+              <classificationGameParticipantList>
+                <classificationGameParticipant username="ars" winner="true" score="35.0" />
+                <classificationGameParticipant username="ars" winner="false" score="0.0" />
+              </classificationGameParticipantList>
+            </classificationGame>
+          </classificationGameList>
+        </textClass>
+      </profileDesc>
+    </teiHeader>
+  </TEI>
+</teiCorpus>
