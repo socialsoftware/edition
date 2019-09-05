@@ -91,15 +91,19 @@ public class Bootstrap implements WebApplicationInitializer {
             new ClassificationModule();
         }
 
-        if(moduleNames.stream().anyMatch(s -> s.equals("edition-text"))){
-            loadTextFromFile();
-        }
-        if(moduleNames.stream().anyMatch(s -> s.equals("edition-user"))){
-            loadUsersFromFile();
-        }
-        if(moduleNames.stream().anyMatch(s -> s.equals("edition-virtual"))){
-            loadVirtualFromFile();
-            loadGamesFromFile();
+        String profile = PropertiesManager.getProperties().getProperty("spring.profiles.active");
+
+        if(!profile.equals("test")) {
+            if (moduleNames.stream().anyMatch(s -> s.equals("edition-text"))) {
+                loadTextFromFile();
+            }
+            if (moduleNames.stream().anyMatch(s -> s.equals("edition-user"))) {
+                loadUsersFromFile();
+            }
+            if (moduleNames.stream().anyMatch(s -> s.equals("edition-virtual"))) {
+                loadVirtualFromFile();
+                loadGamesFromFile();
+            }
         }
     }
 
