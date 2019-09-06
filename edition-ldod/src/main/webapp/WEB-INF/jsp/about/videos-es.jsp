@@ -34,7 +34,7 @@
 	<li><a href="#V4">Creaci&oacute;n de unidades discursivas</a></li>
 	<li><a href="#V5">Creaci&oacute;n de p&aacute;rrafos</a></li>
 	<li><a href="#V6">Habla humana</a></li>
-	<li><a href="#V7">¿Por qu&eacute; editar?</a></li>
+	<li><a href="#V7">&iquest;Por qu&eacute; editar?</a></li>
 	<li><a href="#V8">Organizaci&oacute;n cronol&oacute;gica</a></li>
 	<li><a href="#V9">Heter&oacute;nimos</a></li>
 	<li><a href="#V10">Posibilidades de edici&oacute;n</a></li>
@@ -96,7 +96,7 @@
 <br />
 <br />
 
-<h5 id="V7" style="padding-top: 130px; margin-top: -130px;">¿Por qu&eacute; editar?</h5>
+<h5 id="V7" style="padding-top: 130px; margin-top: -130px;">&iquest;Por qu&eacute; editar?</h5>
 <div class="videoWrapper">
 <iframe width="560" height="315"
 	src="https://www.youtube.com/embed/qdc3y_pUBII" frameborder="0"

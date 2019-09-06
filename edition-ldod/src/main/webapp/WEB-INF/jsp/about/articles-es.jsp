@@ -11,6 +11,8 @@
 		<li><a href="#Q05Q">E. Principales ediciones del <em>Libro
 					del desasosiego</em> (1982-2017)
 		</a></li>
+		<li><a href="#Q06Q">F. Recepci&oacute;n cr&oacute;tica del <em>Archivo LdoD</em>
+		</a></li>
 	</ul>
 </h4>
 
@@ -145,13 +147,6 @@
 	<strong>2017</strong>
 </p>
 <p>
-	Portela, Manuel (2017). &ldquo;La simulaci&oacute;n de los procesos
-	literarios en el <em>Archivo LdoD.</em>&rdquo; <em>Ilusi&oacute;n
-		y materialidad: perspectivas sobre el archivo</em>. Eds. Jer&oacute;nimo
-	Pizarro y Diana Guzm&aacute;n. Bogot&aacute;: Ediciones Uniandes. [en el
-	prelo]
-</p>
-<p>
 	Portela, Manuel (2017). &ldquo;The <em>Book of Disquiet</em> Archive as
 	a Collaborative Textual Environment: From Digital Archive to Digital
 	Simulator.&rdquo; <em>The Writing Platform: Digital Knowledge for
@@ -164,15 +159,34 @@
 		Pessoa 2017.</em> Lisboa: Casa Fernando Pessoa. 224-239. <br/>URI:
         <a
 		href= "http://hdl.handle.net/10316/44304" target="_new">http://hdl.handle.net/10316/44304</a>
-</p>
+<li><a href="#Q06Q">F. Rece&ccedil;&atilde;o cr&oacute;tica do <em>Arquivo LdoD</em>
+		</a></li>
+
+
 <p>&nbsp;</p>
 <p><strong>2018</strong>
 </p>
+<p>
+	Portela, Manuel (2018). &ldquo;La simulaci&oacute;n de los procesos
+	literarios en el <em>Archivo LdoD.</em>&rdquo; <em>Ilusi&oacute;n
+		y materialidad: perspectivas sobre el archivo</em>. Eds. Jer&oacute;nimo
+	Pizarro y Diana Guzm&aacute;n. Bogot&aacute;: Ediciones Uniandes. 353-366.
+</p>
 <p>Pereira, Lu&iacute;s Lucas, Manuel Portela, and Lic&iacute;nio Roque
 	(2018). &ldquo;<em>Machines of Disquiet</em>: Textual Experience in the
-	<em>LdoD Archive.</em>&rdquo; <em>MATLIT: Materialidades da Literatura</em> 6.3 [en el prelo]. </p>
-<p>
+	<em>LdoD Archive.</em>&rdquo; <em>MATLIT: Materialidades da Literatura</em> 6.3: 59-71. 
+	<br />DOI: <a href="http://dx.doi.org/10.14195/2182-8830_6-3_5" target="_new">http://dx.doi.org/10.14195/2182-8830_6-3_5</a> </p>
+<p>&nbsp;</p>
+<p><strong>2019</strong>
 </p>
+<p>
+	Oliveira, Duarte, Ant&oacute;nio Rito Silva, and Manuel Portela (2019). &ldquo;Social Media Aware Virtual Editions for 
+	the <em>Book of Disquiet</em>.&rdquo; 
+	<em>21st International Conference on Asia-Pacific Digital Libraries ICADL 2019: Digital Libraries at Cross-Roads of 
+	<em>Digital Information for the Future – Connecting Data, Technologies and People in Different Domains.</em> 
+		Kuala Lumpur [forthcoming].
+</p>
+
 
 <p>
 	<strong>&nbsp;</strong>
@@ -197,18 +211,41 @@
 <p> Martins, Pedro (2017-). <em>O Arquivo para al&eacute;m do Arquivo:
   Cria&ccedil;&atilde;o de ontologias a partir de etiquetas geradas
   pelos utilizadores</em>. Lisboa: Instituto Superior T&eacute;cnico da
-  Universidade de Lisboa. Tesis de maestr&iacute;a en Ingenier&iacute;a Inform&aacute;tica   [en marcha]. </p>
+  Universidade de Lisboa. Tesis de maestr&iacute;a en Ingenier&iacute;a Inform&aacute;tica [en marcha]. </p>
 <p> Magalh&atilde;es, Cec&iacute;lia (2017-). <em>Fragmentos em
   pr&aacute;tica: intera&ccedil;&atilde;o, colabora&ccedil;&atilde;o e
   criatividade no </em>Arquivo LdoD. Coimbra: Universidade de Coimbra. Tesis de doctorado en Materialidades de la Literatura [en marcha]. </p>
 <strong>&nbsp;</strong>
-<p> <strong>2018</strong> </p>
-	<p>Oliveira, Duarte (2018-). <em>Automatic Collection of Citations in the LdoD Archive</em>. Lisboa: Instituto Superior T&eacute;cnico da
-  Universidade de Lisboa. Tesis de maestr&iacute;a en Ingenier&iacute;a Inform&aacute;tica.  [en marcha]. </p>
-<p> Marques, Gon&ccedil;alo (2018-). <em>Virtual Editions in the LdoD Archive using Crowdsourcing and Gamification</em>. Lisboa: Instituto Superior T&eacute;cnico da
-  Universidade de Lisboa. Tesis de maestr&iacute;a en Ingenier&iacute;a Inform&aacute;tica   [en marcha]. </p>
-  <p> Cruz, Miguel (2018-). <em>Reusable Framework for Digital Humanities Repositories</em>. Lisboa: Instituto Superior T&eacute;cnico da
-  Universidade de Lisboa. Tesis de maestr&iacute;a en Ingenier&iacute;a Inform&aacute;tica  [en marcha]. </p>
+
+<p>	<strong>2018</strong> </p>
+	<p>Oliveira, Duarte (2018). <em>Automatic Collection of Citations in the <em>LdoD Archive</em></em>. 
+		Lisboa: Instituto Superior T&eacute;cnico da
+  Universidade de Lisboa. Tesis de maestr&iacute;a en Ingenier&iacute;a Inform&aacute;tica.  <br/>
+		URL: <a href= "https://fenix.tecnico.ulisboa.pt/departamentos/dei/dissertacao/1972678479054227" target="_new">
+	https://fenix.tecnico.ulisboa.pt/departamentos/dei/dissertacao/1972678479054227</a></p>
+
+<p> Marques, Gon&ccedil;alo (2018). <em>Virtual Editions in the <em>LdoD Archive</em> using Crowdsourcing and Gamification</em>. 
+	Lisboa: Instituto Superior T&eacute;cnico da
+  Universidade de Lisboa. Tesis de maestr&iacute;a en Ingenier&iacute;a Inform&aacute;tica. <br/>
+		URL: <a href= "https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/1972678479054238" target="_new">
+	https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/1972678479054238</a></p>
+
+  <p> Cruz, Miguel (2018). <em>Reusable Framework for Digital Humanities: A Case Study with the <em>LdoD Archive</em></em>. Lisboa: Instituto Superior T&eacute;cnico da
+  Universidade de Lisboa. Tesis de maestr&iacute;a en Ingenier&iacute;a Inform&aacute;tica. <br/>
+		URL: <a href= "https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/283828618790314" target="_new">
+	https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/283828618790314</a></p>
+<p>
+<strong>&nbsp;</strong>
+<p>
+<strong>&nbsp;</strong>
+</p>
+<p>	<strong>2019</strong> </p>
+<p> Raposo, Jos&eacute; (2019). <em>LdoD Visualization: Reading the <em>Book of Disquiet</em> with Information Visualization Techniques</em>. Lisboa: Instituto Superior T&eacute;cnico da
+  Universidade de Lisboa. Tesis de maestr&iacute;a en Ingenier&iacute;a Inform&aacute;tica. <br/>
+		URL: <a href= "https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/283828618790395" target="_new">
+	https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/283828618790395</a></p>
+<p> Gon&ccedil;alves, Nuno (2019). <em>A Product Family for Digital Humanities Repositories</em>. Lisboa: Instituto Superior T&eacute;cnico da
+  Universidade de Lisboa. Tesis de maestr&iacute;a en Ingenier&iacute;a Inform&aacute;tica [en marcha]. </p>
 <p> <strong>&nbsp;</strong> </p>
 <p>
 	<strong>&nbsp;</strong>
@@ -762,5 +799,29 @@
 <p>
 	<strong>&nbsp;</strong>
 </p>
-<p>[actualizaci&oacute;n 04-02-2018]</p>
+<h3 id="Q06Q" style="padding-top: 60px; margin-top: -60px;">
+	F. Recepci&oacute;n cr&oacute;tica del <em>Archivo LdoD</em>
+</h3>
+</p>
+<strong>&nbsp;</strong>
+<p>
+	<p>
+	<strong>2017</strong>
+</p>
+<p>Barbosa, Nicol&aacute;s and Carlos Pittella (2017). “The Website of Disquiet: The First Online Critical Edition of Fernando Pessoa.” 
+	<em>Pessoa Plural: A Journal of Fernando Pessoa Studies.</em> 12: 725-732. 
+	<br />URL: <a
+		href="https://doi.org/10.7301/Z07S7KZD" target="_new">
+	https://doi.org/10.7301/Z07S7KZD</a> 
+</p>
+<p>Queir&oacute;s, Lu&iacute;s Miguel (2017). “Um arquivo digital do <em>Livro do Desassossego</em> para ler e mexer.” 
+	<em>P&uacute;blico.</em> 14 de dezembro de 2017, p. 24. 
+	<br />URL: <a
+		href="https://www.publico.pt/2017/12/14/culturaipsilon/noticia/um-arquivo-digital-do-livro-do-desassossego-para-ler-e-mexer-1795920" target="_new">
+	https://www.publico.pt/2017/12/14/culturaipsilon/noticia/um-arquivo-digital-do-livro-do-desassossego-para-ler-e-mexer-1795920</a> 
+</p>
+
+<strong>&nbsp;</strong>
+<p>
+<p>[actualizaci&oacute;n 01-09-2019]</p>
 

@@ -6,10 +6,12 @@
 <p>Ant&oacute;nio Rito Silva, INESC-ID, <em>Instituto Superior T&eacute;cnico</em> (IST), University of Lisbon</p>
 <p>&nbsp;</p>
 
-<h3>XML encoding</h3>
-<p>Diego Gim&eacute;nez,  Centre for Portuguese Literature (CLP) | State University of Londrina</p>
-<p>Manuel Portela, Centre for Portuguese Literature (CLP), University of Coimbra</p>
-<p>Tiago Santos, Centre for Portuguese Literature (CLP), University of Coimbra</p>
+<h3>Transcription and XML encoding</h3>
+<p>Ana Marques, Centro de Literatura Portuguesa (CLP), University of Coimbra</p>
+<p>Cec&iacute;lia Magalh&atilde;es, Centro de Literatura Portuguesa (CLP), University of Coimbra</p>
+<p>Diego Gim&eacute;nez, Centro de Literatura Portuguesa (CLP), University of Coimbra</p>
+<p>Manuel Portela, Centro de Literatura Portuguesa (CLP), University of Coimbra</p>
+<p>Tiago Santos, Centro de Literatura Portuguesa (CLP), University of Coimbra</p>
 <p>&nbsp;</p>
 
 <h3>Revision</h3>
@@ -19,12 +21,14 @@
 <p>&nbsp;</p>
 
 <h3>Software programming</h3>
-<p>Andr&eacute; Santos, INESC-ID, <em>Instituto Superior T&eacute;cnico</em> (IST), University of Lisbon</p>
-<p>Ant&oacute;nio Rito Silva, INESC-ID, <em>Instituto Superior T&eacute;cnico</em> (IST), University of Lisbon</p>
-<p>Duarte Oliveira, INESC-ID, Instituto Superior Técnico (IST), University of Lisbon</p>
-<p>Gonçalo Montalvão Marques, INESC-ID, Instituto Superior Técnico (IST), University of Lisbon</p>
-<p>Lu&iacute;s Lucas Pereira, Centre for Portuguese Literature (CLP) | Engineering Informatics Department (DEI), University of Coimbra</p>
+<p>Andr&eacute; Santos, INESC-ID, Instituto Superior T&eacute;cnico (IST), University of Lisbon</p>
+<p>Ant&oacute;nio Rito Silva, INESC-ID, Instituto Superior T&eacute;cnico (IST), University of Lisbon</p>
+<p>Duarte Oliveira, INESC-ID, Instituto Superior T&eacute;cnico (IST), University of Lisbon</p>
+<p>Gon&ccedil;alo Montalv&atilde;o Marques, INESC-ID, Instituto Superior T&eacute;cnico (IST), University of Lisbon</p>
+<p>Jos&eacute; Raposo, INESC-ID, Instituto Superior T&eacute;cnico (IST), University of Lisbon</p>
+<p>Lu&iacute;s Lucas Pereira, Centro de Literatura Portuguesa (CLP) | Departamento de Engenharia Inform&aacute;tica (DEI), University of Coimbra</p>
 <p>Miguel Cruz, INESC-ID, Instituto Superior T&eacute;cnico (IST), University of Lisbon</p>
+<p>Nuno Gon&ccedil;alves, INESC-ID, Instituto Superior T&eacute;cnico (IST), University of Lisbon</p>
 <p>&nbsp;</p>
 
 <h3>Web design</h3>
@@ -41,7 +45,7 @@
 <p>Ant&oacute;nio Rito Silva, INESC-ID, <em>Instituto Superior T&eacute;cnico</em> (IST), University of Lisbon
 <p>Ant&oacute;nio Sousa Ribeiro, University of Coimbra</p>
 <p>Daniela C&ocirc;rtes Maduro, Centre for Portuguese Literature (CLP), University of Coimbra</p>
-<p>Diego Gim&eacute;nez,  Centre for Portuguese Literature (CLP) | State University of Londrina</p>
+<p>Diego Gim&eacute;nez,  Centre for Portuguese Literature (CLP), University of Coimbra</p>
 <p>John David Mock, University of Coimbra</p>
 <p>Lu&iacute;s Lucas Pereira, Centre for Portuguese Literature (CLP) | Engineering Informatics Department (DEI), University of Coimbra</p>
 <p>Manuel Portela (<strong>PI</strong>), Centre for Portuguese Literature (CLP), University of Coimbra</p>
