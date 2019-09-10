@@ -9,6 +9,17 @@ public class UserDto {
 
     private String username;
 
+    // cached attributes
+    private String firstName;
+
+    private String lastName;
+
+    private Boolean isEnabled;
+
+    private Boolean isActive;
+
+    private String socialMedalId;
+
     public UserDto(String username) {
         setUsername(username);
     }
@@ -25,25 +36,34 @@ public class UserDto {
         this.username = username;
     }
 
-
     public String getFirstName() {
-        return this.userProvidesInterface.getFirstName(this.username);
+        if (firstName == null)
+            firstName = this.userProvidesInterface.getFirstName(this.username);
+        return firstName;
     }
 
     public String getLastName() {
-        return this.userProvidesInterface.getLastName(this.username);
+        if (lastName == null)
+            lastName = this.userProvidesInterface.getLastName(this.username);
+        return lastName;
     }
 
     public boolean isEnabled() {
-        return this.userProvidesInterface.isEnabled(this.username);
+        if (isEnabled == null)
+            isEnabled = this.userProvidesInterface.isEnabled(this.username);
+        return isEnabled;
     }
 
     public boolean isActive() {
-        return this.userProvidesInterface.isActive(this.username);
+        if (isActive == null)
+            isActive = this.userProvidesInterface.isActive(this.username);
+        return isActive;
     }
 
     public String getSocialMediaId() {
-        return this.userProvidesInterface.getSocialMediaId(this.username);
+        if (socialMedalId == null)
+            socialMedalId = this.userProvidesInterface.getSocialMediaId(this.username);
+        return socialMedalId;
     }
 
     public void updatePassword(PasswordEncoder passwordEncoder, String currentPassword, String newPassword) {
