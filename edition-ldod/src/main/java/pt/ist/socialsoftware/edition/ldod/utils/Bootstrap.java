@@ -64,15 +64,23 @@ public class Bootstrap implements WebApplicationInitializer {
         Set<String> moduleNames = FenixFramework.getDomainRoot().getModuleSet().stream()
                 .map(EditionModule::getName).collect(Collectors.toSet());
 
+        boolean textCreate = false;
+        boolean userCreate = false;
+        boolean virtualCreate = false;
+        boolean recommendationCreate = false;
+        boolean classificationCreate = false;
+
         if (TextModule.getInstance() == null) {
             new TextModule();
             cleanCorpusRepository();
             cleanIntersRepository();
+            textCreate = true;
         }
         if (UserModule.getInstance() == null) {
             new UserModule();
             UserModule.getInstance().setAdmin(true);
             createUsersAndRoles();
+            userCreate = true;
         }
         if (VirtualModule.getInstance() == null) {
             new VirtualModule();
@@ -80,27 +88,30 @@ public class Bootstrap implements WebApplicationInitializer {
             cleanLucene();
             createVirtualEditionsForTest();
             createLdoDArchiveVirtualEdition();
+            virtualCreate = true;
         }
         if (RecommendationModule.getInstance() == null) {
             new RecommendationModule();
+            recommendationCreate = true;
         } else {
             loadRecommendationCache();
         }
 
         if (ClassificationModule.getInstance() == null) {
             new ClassificationModule();
+            classificationCreate = true;
         }
 
         String profile = PropertiesManager.getProperties().getProperty("spring.profiles.active");
 
         if(!profile.equals("test")) {
-            if (moduleNames.stream().anyMatch(s -> s.equals("edition-text"))) {
+            if (moduleNames.stream().anyMatch(s -> s.equals("edition-text")) && textCreate) {
                 loadTextFromFile();
             }
-            if (moduleNames.stream().anyMatch(s -> s.equals("edition-user"))) {
+            if (moduleNames.stream().anyMatch(s -> s.equals("edition-user")) && userCreate) {
                 loadUsersFromFile();
             }
-            if (moduleNames.stream().anyMatch(s -> s.equals("edition-virtual"))) {
+            if (moduleNames.stream().anyMatch(s -> s.equals("edition-virtual")) && virtualCreate) {
                 loadVirtualFromFile();
                 loadGamesFromFile();
             }
