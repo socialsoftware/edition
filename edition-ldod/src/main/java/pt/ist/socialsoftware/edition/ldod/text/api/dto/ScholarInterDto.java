@@ -12,6 +12,12 @@ public class ScholarInterDto {
 
     private String xmlId;
 
+    //cached attributes
+    private String externalId;
+    private String title;
+    private String urlId;
+    private String shortName;
+
     public ScholarInterDto(String xmlId) {
         setXmlId(xmlId);
     }
@@ -29,7 +35,9 @@ public class ScholarInterDto {
     }
 
     public String getExternalId() {
-        return this.textProvidesInterface.getScholarInterExternalId(this.xmlId);
+        if (externalId == null)
+            externalId = this.textProvidesInterface.getScholarInterExternalId(this.xmlId);
+        return externalId;
     }
 
     public LdoDDateDto getLdoDDate() {
@@ -89,15 +97,21 @@ public class ScholarInterDto {
     }
 
     public String getTitle() {
-        return this.textProvidesInterface.getScholarInterTitle(this.xmlId);
+        if (title == null)
+            title = this.textProvidesInterface.getScholarInterTitle(this.xmlId);
+        return title;
     }
 
     public String getUrlId() {
-        return this.textProvidesInterface.getScholarInterUrlId(this.xmlId);
+        if (urlId == null)
+            urlId = this.textProvidesInterface.getScholarInterUrlId(this.xmlId);
+        return urlId;
     }
 
     public String getShortName() {
-        return this.textProvidesInterface.getScholarInterShortName(this.xmlId);
+        if (shortName == null)
+            shortName = this.textProvidesInterface.getScholarInterShortName(this.xmlId);
+        return shortName;
     }
 
     public ScholarInterDto getNextScholarInter() {
