@@ -16,6 +16,16 @@ public class VirtualEditionInterDto {
 
     private String xmlId;
 
+    // cached attributes
+    private String externalId;
+    private String title;
+    private String fragId;
+    private String urlId;
+    private String shortName;
+    private ScholarInterDto lastUsed;
+    private String reference;
+    private VirtualEditionDto editionDto;
+
     public VirtualEditionInterDto(String xmlId) {
         setXmlId(xmlId);
     }
@@ -33,11 +43,15 @@ public class VirtualEditionInterDto {
     }
 
     public String getExternalId() {
-        return this.virtualProvidesInterface.getVirtualEditionInterExternalId(this.xmlId);
+        if (externalId == null)
+            externalId = this.virtualProvidesInterface.getVirtualEditionInterExternalId(this.xmlId);
+        return externalId;
     }
 
     public String getTitle() {
-        return this.virtualProvidesInterface.getVirtualEditionInterTitle(this.xmlId);
+        if (title == null)
+            title = this.virtualProvidesInterface.getVirtualEditionInterTitle(this.xmlId);
+        return title;
     }
 
     public FragInterDto.InterType getType() {
@@ -45,19 +59,27 @@ public class VirtualEditionInterDto {
     }
 
     public String getFragmentXmlId() {
-        return this.virtualProvidesInterface.getFragmentXmlIdVirtualEditionInter(this.xmlId);
+        if (fragId == null)
+            fragId = this.virtualProvidesInterface.getFragmentXmlIdVirtualEditionInter(this.xmlId);
+        return fragId;
     }
 
     public String getUrlId() {
-        return this.virtualProvidesInterface.getVirtualEditionInterUrlId(this.xmlId);
+        if (urlId == null)
+            urlId = this.virtualProvidesInterface.getVirtualEditionInterUrlId(this.xmlId);
+        return urlId;
     }
 
     public String getShortName() {
-        return this.virtualProvidesInterface.getVirtualEditionInterShortName(this.xmlId);
+        if (shortName == null)
+            shortName = this.virtualProvidesInterface.getVirtualEditionInterShortName(this.xmlId);
+        return shortName;
     }
 
     public ScholarInterDto getLastUsed() {
-        return this.virtualProvidesInterface.getVirtualEditionLastUsedScholarInter(this.xmlId);
+        if (lastUsed == null)
+            lastUsed = this.virtualProvidesInterface.getVirtualEditionLastUsedScholarInter(this.xmlId);
+        return lastUsed;
     }
 
     public String getUsesScholarInterId() {
@@ -65,7 +87,9 @@ public class VirtualEditionInterDto {
     }
 
     public String getReference() {
-        return this.virtualProvidesInterface.getVirtualEditionInterReference(this.xmlId);
+        if (reference == null)
+            reference = this.virtualProvidesInterface.getVirtualEditionInterReference(this.xmlId);
+        return reference;
     }
 
     public int getNumber() {
@@ -109,7 +133,9 @@ public class VirtualEditionInterDto {
     }
 
     public VirtualEditionDto getVirtualEditionDto() {
-        return this.virtualProvidesInterface.getVirtualEditionOfVirtualEditionInter(this.xmlId);
+        if (editionDto == null)
+            editionDto = this.virtualProvidesInterface.getVirtualEditionOfVirtualEditionInter(this.xmlId);
+        return editionDto;
     }
 
     public List<AnnotationDto> getAllDepthAnnotationsAccessibleByUser(String username) {

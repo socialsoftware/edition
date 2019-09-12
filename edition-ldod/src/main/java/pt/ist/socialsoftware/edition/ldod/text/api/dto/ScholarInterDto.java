@@ -18,6 +18,9 @@ public class ScholarInterDto {
     private String urlId;
     private String shortName;
 
+    private LdoDDateDto date;
+    private HeteronymDto heteronym;
+
     public ScholarInterDto(String xmlId) {
         setXmlId(xmlId);
     }
@@ -41,11 +44,15 @@ public class ScholarInterDto {
     }
 
     public LdoDDateDto getLdoDDate() {
-        return this.textProvidesInterface.getScholarInterDate(this.xmlId);
+        if (date == null)
+            date = this.textProvidesInterface.getScholarInterDate(this.xmlId);
+        return date;
     }
 
     public HeteronymDto getHeteronym() {
-        return this.textProvidesInterface.getScholarInterHeteronym(this.xmlId);
+        if (heteronym == null)
+            heteronym = this.textProvidesInterface.getScholarInterHeteronym(this.xmlId);
+        return heteronym;
     }
 
     public FragInterDto.InterType getType() {
