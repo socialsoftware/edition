@@ -14,10 +14,11 @@ public class FragmentDto {
     //cached attributes
     private String title;
     private String externalId;
-    private Set<SourceDto> sources;
 
     public FragmentDto(Fragment fragment) {
         setXmlId(fragment.getXmlId());
+        this.title = fragment.getTitle();
+        this.externalId = fragment.getExternalId();
     }
 
     public String getXmlId() {
@@ -33,9 +34,7 @@ public class FragmentDto {
     }
 
     public String getTitle() {
-        if (title == null)
-            title = this.textProvidesInterface.getFragmentTitle(getXmlId());
-        return title;
+        return this.textProvidesInterface.getFragmentTitle(getXmlId());
     }
 
     public Set<ScholarInterDto> getScholarInterDtoSet() {
@@ -56,15 +55,11 @@ public class FragmentDto {
 
     // Only necessary due to manual ordering of virtual edition javascript code
     public String getExternalId() {
-        if (externalId == null)
-            externalId = this.textProvidesInterface.getFragmentExternalId(getXmlId());
-        return externalId;
+        return this.textProvidesInterface.getFragmentExternalId(getXmlId());
     }
 
     public Set<SourceDto> getSourcesSet() {
-        if (sources == null)
-            sources = this.textProvidesInterface.getFragmentSourceSet(this.xmlId);
-        return sources;
+        return this.textProvidesInterface.getFragmentSourceSet(this.xmlId);
     }
 
 

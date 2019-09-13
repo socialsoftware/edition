@@ -15,12 +15,9 @@ public class ExpertEditionDto {
     // cached attributes
     private String editor;
 
-    private List<ScholarInterDto> expertInters;
-
-    private Map<String, List<ScholarInterDto>> inter4Frag = new ConcurrentHashMap<>();
-
     public ExpertEditionDto(ExpertEdition expertEdition) {
         this.acronym = expertEdition.getAcronym();
+        this.editor = expertEdition.getEditor();
     }
 
     public String getAcronym() {
@@ -28,21 +25,15 @@ public class ExpertEditionDto {
     }
 
     public String getEditor() {
-        if(editor == null)
-            editor = this.textProvidesInterface.getExpertEditionEditorByEditionAcronym(this.acronym);
-        return editor;
+        return this.textProvidesInterface.getExpertEditionEditorByEditionAcronym(this.acronym);
     }
 
     public List<ScholarInterDto> getExpertEditionInters() {
-        if(expertInters == null)
-            expertInters = this.textProvidesInterface.getExpertEditionScholarInterDtoList(this.acronym);
-        return expertInters;
+        return this.textProvidesInterface.getExpertEditionScholarInterDtoList(this.acronym);
     }
 
     public List<ScholarInterDto> getSortedInter4Frag(String fragmentXmlId) {
-        if(!inter4Frag.containsKey(fragmentXmlId))
-            inter4Frag.put(fragmentXmlId, this.textProvidesInterface.getExpertEditionSortedInter4Frag(this.acronym, fragmentXmlId));
-        return inter4Frag.get(fragmentXmlId);
+        return this.textProvidesInterface.getExpertEditionSortedInter4Frag(this.acronym, fragmentXmlId);
     }
 
     public boolean isExpertEdition() {

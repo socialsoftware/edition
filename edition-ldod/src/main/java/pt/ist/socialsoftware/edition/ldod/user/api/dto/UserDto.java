@@ -26,6 +26,11 @@ public class UserDto {
 
     public UserDto(User user) {
         setUsername(user.getUsername());
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.isEnabled = user.getEnabled();
+        this.isActive = user.getActive();
+        this.socialMedalId = user.getSocialMediaId();
     }
 
     public String getUsername() {
@@ -37,33 +42,23 @@ public class UserDto {
     }
 
     public String getFirstName() {
-        if (firstName == null)
-            firstName = this.userProvidesInterface.getFirstName(this.username);
-        return firstName;
+        return this.userProvidesInterface.getFirstName(this.username);
     }
 
     public String getLastName() {
-        if (lastName == null)
-            lastName = this.userProvidesInterface.getLastName(this.username);
-        return lastName;
+        return this.userProvidesInterface.getLastName(this.username);
     }
 
     public boolean isEnabled() {
-        if (isEnabled == null)
-            isEnabled = this.userProvidesInterface.isEnabled(this.username);
-        return isEnabled;
+        return this.userProvidesInterface.isEnabled(this.username);
     }
 
     public boolean isActive() {
-        if (isActive == null)
-            isActive = this.userProvidesInterface.isActive(this.username);
-        return isActive;
+        return this.userProvidesInterface.isActive(this.username);
     }
 
     public String getSocialMediaId() {
-        if (socialMedalId == null)
-            socialMedalId = this.userProvidesInterface.getSocialMediaId(this.username);
-        return socialMedalId;
+       return this.userProvidesInterface.getSocialMediaId(this.username);
     }
 
     public void updatePassword(PasswordEncoder passwordEncoder, String currentPassword, String newPassword) {

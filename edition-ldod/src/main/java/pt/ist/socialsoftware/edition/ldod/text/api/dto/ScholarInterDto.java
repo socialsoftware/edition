@@ -17,7 +17,6 @@ public class ScholarInterDto {
     private String title;
     private String urlId;
     private String shortName;
-
     private LdoDDateDto date;
     private HeteronymDto heteronym;
 
@@ -27,6 +26,12 @@ public class ScholarInterDto {
 
     public ScholarInterDto(ScholarInter scholarInter) {
         setXmlId(scholarInter.getXmlId());
+        this.externalId = scholarInter.getExternalId();
+        this.title = scholarInter.getTitle();
+        this.urlId = scholarInter.getUrlId();
+        this.shortName = scholarInter.getShortName();
+        this.date = scholarInter.getLdoDDate() != null ? new LdoDDateDto(scholarInter.getLdoDDate()) : null;
+        this.heteronym = scholarInter.getHeteronym() != null ? new HeteronymDto(scholarInter.getHeteronym()) : null;
     }
 
     public String getXmlId() {
@@ -38,21 +43,15 @@ public class ScholarInterDto {
     }
 
     public String getExternalId() {
-        if (externalId == null)
-            externalId = this.textProvidesInterface.getScholarInterExternalId(this.xmlId);
-        return externalId;
+       return this.textProvidesInterface.getScholarInterExternalId(this.xmlId);
     }
 
     public LdoDDateDto getLdoDDate() {
-        if (date == null)
-            date = this.textProvidesInterface.getScholarInterDate(this.xmlId);
-        return date;
+        return this.textProvidesInterface.getScholarInterDate(this.xmlId);
     }
 
     public HeteronymDto getHeteronym() {
-        if (heteronym == null)
-            heteronym = this.textProvidesInterface.getScholarInterHeteronym(this.xmlId);
-        return heteronym;
+        return this.textProvidesInterface.getScholarInterHeteronym(this.xmlId);
     }
 
     public FragInterDto.InterType getType() {
@@ -104,21 +103,15 @@ public class ScholarInterDto {
     }
 
     public String getTitle() {
-        if (title == null)
-            title = this.textProvidesInterface.getScholarInterTitle(this.xmlId);
-        return title;
+        return this.textProvidesInterface.getScholarInterTitle(this.xmlId);
     }
 
     public String getUrlId() {
-        if (urlId == null)
-            urlId = this.textProvidesInterface.getScholarInterUrlId(this.xmlId);
-        return urlId;
+        return this.textProvidesInterface.getScholarInterUrlId(this.xmlId);
     }
 
     public String getShortName() {
-        if (shortName == null)
-            shortName = this.textProvidesInterface.getScholarInterShortName(this.xmlId);
-        return shortName;
+        return this.textProvidesInterface.getScholarInterShortName(this.xmlId);
     }
 
     public ScholarInterDto getNextScholarInter() {
