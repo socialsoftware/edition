@@ -31,6 +31,7 @@ package-lock.json
 /infer-out/
 /pom.xml.infer-orig
 
+*.rtl
 *.jtl
 *.hprof
 
