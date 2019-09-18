@@ -1,6 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,8 @@ import pt.ist.socialsoftware.edition.ldod.domain.Member;
 import pt.ist.socialsoftware.edition.ldod.domain.Role;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEICorpus;
+import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEIFragments;
 import pt.ist.socialsoftware.edition.ldod.recommendation.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.DateProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.HeteronymProperty;
@@ -66,6 +70,44 @@ public class Bootstrap implements WebApplicationInitializer {
 			createLdoDArchiveVirtualEdition();
 		} else {
 			loadRecommendationCache();
+		}
+
+		String profile = PropertiesManager.getProperties().getProperty("spring.profiles.active");
+
+		if(profile.equals("jmeter"))
+			loadFragsFromFile();
+
+	}
+
+	private static void loadFragsFromFile() {
+		String loadDirPath = PropertiesManager.getProperties().getProperty("load.files.dir");
+
+		File directory = new File(loadDirPath, "text");
+
+		File corpus = new File(directory, "001.xml");
+
+		if (!corpus.exists())
+			return; // File does not exist but that is not a problem. Just move on
+
+		LoadTEICorpus loadTEICorpus = new LoadTEICorpus();
+
+		try {
+			loadTEICorpus.loadTEICorpus(new FileInputStream(corpus));
+		} catch (FileNotFoundException e) {
+			throw new LdoDException("Failed to load text from file");
+		}
+
+		File[] files = directory.listFiles();
+		if (files == null)
+			return;
+
+		for (File file : files){
+			LoadTEIFragments teiImport = new LoadTEIFragments();
+			try {
+				teiImport.loadFragmentsStepByStep(new FileInputStream(file));
+			} catch (FileNotFoundException e) {
+				throw new LdoDException("Failed to load virtual fragment");
+			}
 		}
 	}
 

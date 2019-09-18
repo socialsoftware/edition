@@ -72,6 +72,9 @@
                     </plugin>
                 </plugins>
             </build>
+            <properties>
+                <activatedProperties>jmeter</activatedProperties>
+            </properties>
         </profile>
     </profiles>
 
