@@ -74,7 +74,7 @@ public class Bootstrap implements WebApplicationInitializer {
 
 		String profile = PropertiesManager.getProperties().getProperty("spring.profiles.active");
 
-		if(profile.equals("jmeter"))
+		if(profile != null && profile.equals("jmeter"))
 			loadFragsFromFile();
 
 	}
