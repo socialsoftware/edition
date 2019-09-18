@@ -68,14 +68,14 @@ public class Bootstrap implements WebApplicationInitializer {
 			createUsersAndRoles();
 			createVirtualEditionsForTest();
 			createLdoDArchiveVirtualEdition();
+
+			String profile = PropertiesManager.getProperties().getProperty("spring.profiles.active");
+            if(profile != null && profile.equals("jmeter"))
+                loadFragsFromFile();
+
 		} else {
 			loadRecommendationCache();
 		}
-
-		String profile = PropertiesManager.getProperties().getProperty("spring.profiles.active");
-
-		if(profile != null && profile.equals("jmeter"))
-			loadFragsFromFile();
 
 	}
 
