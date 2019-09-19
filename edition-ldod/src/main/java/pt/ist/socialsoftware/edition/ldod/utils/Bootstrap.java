@@ -1,5 +1,16 @@
 package pt.ist.socialsoftware.edition.ldod.utils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+
 import org.apache.commons.io.FileUtils;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -34,7 +45,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 /**
  * @author ars
  */
