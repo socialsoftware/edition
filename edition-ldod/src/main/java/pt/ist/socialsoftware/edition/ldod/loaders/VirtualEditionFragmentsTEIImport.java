@@ -70,6 +70,8 @@ public class VirtualEditionFragmentsTEIImport {
 
         Fragment fragment = getFragment(doc);
 
+        logger.debug("IMPORT FRAGMENT {}", fragment.getXmlId());
+
         // IMPORT THEM FROM THE FILES IN DISK
         //importFragmentCitations(doc, fragment);
 
@@ -216,11 +218,8 @@ public class VirtualEditionFragmentsTEIImport {
         List<RangeJson> rangeList = new ArrayList<>();
         rangeList.add(range);
 
-        // TODO
-        // este if apenas funciona para o novo export
-        // não é retrocompatível para xml que não tenha
-        // o atributo "type"
-        if (note.getAttribute("type") == null || note.getAttributeValue("type").equals("human")) {
+        if (note.getAttribute("type") != null && note.getAttributeValue("type").equals("human")) {
+            logger.debug("resp {}", note.getAttributeValue("resp"));
             String username = note.getAttributeValue("resp").substring(1);
             List<String> tagList = new ArrayList<>();
             for (Element catRef : note.getChildren("catRef", this.namespace)) {
@@ -228,12 +227,13 @@ public class VirtualEditionFragmentsTEIImport {
                 tagList.add(tag);
             }
             inter.createHumanAnnotation(quote, text, this.ldoD.getUser(username), rangeList, tagList);
-        } else if (note.getAttributeValue("type").equals("aware")) {
-            // do nothing
+        }
+        //else if (note.getAttributeValue("type").equals("aware")) {
+        // do nothing
 //            long tweetID = Long.parseLong(note.getAttributeValue("citationId"));
 //            Citation citation = inter.getFragment().getCitationById(tweetID);
 //            inter.createAwareAnnotation(quote, text, citation, rangeList);
-        }
+//        }
     }
 
     // original code
@@ -300,7 +300,7 @@ public class VirtualEditionFragmentsTEIImport {
                 Tag tag = inter.getTagSet().stream()
                         .filter(t -> t.getCategory().getName().equals(gameElement.getAttributeValue("tag"))
                                 && t.getContributor() == winner)
-                        .findFirst().get();
+                        .findFirst().orElse(null);
                 game.setTag(tag);
             }
             importClassificationGameParticipants(gameElement, game);

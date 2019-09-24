@@ -186,14 +186,13 @@ public class VirtualEditionFragmentsTEIExport {
 
     private void exportVirtualEditionInterAnnotations(Element textClass, VirtualEditionInter virtualEditionInter) {
         for (Annotation annotation : virtualEditionInter.getAnnotationSet()) {
-            Element note = new Element("note", this.xmlns);
-            note.setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
-            textClass.addContent(note);
-
-            exportAnnotationRanges(annotation, note);
-
             if (annotation instanceof HumanAnnotation) {
-                // TODO: set type - done
+                Element note = new Element("note", this.xmlns);
+                note.setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
+                textClass.addContent(note);
+
+                exportAnnotationRanges(annotation, note);
+
                 note.setAttribute("resp", "#" + ((HumanAnnotation) annotation).getUser().getUsername());
                 note.setAttribute("type", "human");
                 exportAnnotationCategories(virtualEditionInter, (HumanAnnotation) annotation, note);
