@@ -11,7 +11,6 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
-import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
 
 public class VirtualEditionFragmentsTEIExport {
     Namespace xmlns = Namespace.getNamespace("http://www.tei-c.org/ns/1.0");
@@ -192,14 +191,13 @@ public class VirtualEditionFragmentsTEIExport {
 
     private void exportVirtualEditionInterAnnotations(Element textClass, VirtualEditionInter virtualEditionInter) {
         for (Annotation annotation : virtualEditionInter.getAnnotationSet()) {
-            Element note = new Element("note", this.xmlns);
-            note.setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
-            textClass.addContent(note);
-
-            exportAnnotationRanges(annotation, note);
-
             if (annotation instanceof HumanAnnotation) {
-                // TODO: set type - done
+                Element note = new Element("note", this.xmlns);
+                note.setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
+                textClass.addContent(note);
+
+                exportAnnotationRanges(annotation, note);
+
                 note.setAttribute("resp", "#" + annotation.getUser());
                 note.setAttribute("type", "human");
                 exportAnnotationCategories(virtualEditionInter, (HumanAnnotation) annotation, note);

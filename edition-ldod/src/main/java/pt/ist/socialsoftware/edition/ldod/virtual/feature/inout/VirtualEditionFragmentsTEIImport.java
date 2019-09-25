@@ -9,7 +9,6 @@ import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
@@ -18,8 +17,6 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDLoadException;
-import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
@@ -74,6 +71,8 @@ public class VirtualEditionFragmentsTEIImport {
         this.namespace = doc.getRootElement().getNamespace();
 
         Fragment fragment = getFragment(doc);
+
+        logger.debug("IMPORT FRAGMENT {}", fragment.getXmlId());
 
         // IMPORT THEM FROM THE FILES IN DISK
         //importFragmentCitations(doc, fragment);
@@ -241,11 +240,8 @@ public class VirtualEditionFragmentsTEIImport {
         List<RangeJson> rangeList = new ArrayList<>();
         rangeList.add(range);
 
-        // TODO
-        // este if apenas funciona para o novo export
-        // não é retrocompatível para xml que não tenha
-        // o atributo "type"
-        if (note.getAttribute("type") == null || note.getAttributeValue("type").equals("human")) {
+        if (note.getAttribute("type") != null && note.getAttributeValue("type").equals("human")) {
+            logger.debug("resp {}", note.getAttributeValue("resp"));
             String username = note.getAttributeValue("resp").substring(1);
             List<String> tagList = new ArrayList<>();
             for (Element catRef : note.getChildren("catRef", this.namespace)) {
@@ -253,12 +249,13 @@ public class VirtualEditionFragmentsTEIImport {
                 tagList.add(tag);
             }
             virtualEditionInter.createHumanAnnotation(quote, text, username, rangeList, tagList);
-        } else if (note.getAttributeValue("type").equals("aware")) {
-            // do nothing
+        }
+        //else if (note.getAttributeValue("type").equals("aware")) {
+        // do nothing
 //            long tweetID = Long.parseLong(note.getAttributeValue("citationId"));
 //            Citation citation = inter.getFragment().getCitationById(tweetID);
 //            inter.createAwareAnnotation(quote, text, citation, rangeList);
-        }
+//        }
     }
 
     // original code
@@ -323,9 +320,15 @@ public class VirtualEditionFragmentsTEIImport {
             if (winner != null && winner.trim().length() != 0) {
                 Tag tag = inter.getTagSet().stream()
                         .filter(t -> t.getCategory().getName().equals(gameElement.getAttributeValue("tag"))
+<<<<<<< HEAD:edition-ldod/src/main/java/pt/ist/socialsoftware/edition/ldod/virtual/feature/inout/VirtualEditionFragmentsTEIImport.java
                                 && t.getContributor().equals(winner))
                         .findFirst().get();
                 game.setTagId(tag.getExternalId());
+=======
+                                && t.getContributor() == winner)
+                        .findFirst().orElse(null);
+                game.setTag(tag);
+>>>>>>> master:edition-ldod/src/main/java/pt/ist/socialsoftware/edition/ldod/loaders/VirtualEditionFragmentsTEIImport.java
             }
             importClassificationGameParticipants(gameElement, game);
             importClassificationGameRounds(gameElement, game);
