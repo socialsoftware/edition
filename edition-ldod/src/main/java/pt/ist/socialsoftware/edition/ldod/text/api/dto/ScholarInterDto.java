@@ -12,26 +12,12 @@ public class ScholarInterDto {
 
     private String xmlId;
 
-    //cached attributes
-    private String externalId;
-    private String title;
-    private String urlId;
-    private String shortName;
-    private LdoDDateDto date;
-    private HeteronymDto heteronym;
-
     public ScholarInterDto(String xmlId) {
         setXmlId(xmlId);
     }
 
     public ScholarInterDto(ScholarInter scholarInter) {
         setXmlId(scholarInter.getXmlId());
-        this.externalId = scholarInter.getExternalId();
-        this.title = scholarInter.getTitle();
-        this.urlId = scholarInter.getUrlId();
-        this.shortName = scholarInter.getShortName();
-        this.date = scholarInter.getLdoDDate() != null ? new LdoDDateDto(scholarInter.getLdoDDate()) : null;
-        this.heteronym = scholarInter.getHeteronym() != null ? new HeteronymDto(scholarInter.getHeteronym()) : null;
     }
 
     public String getXmlId() {
