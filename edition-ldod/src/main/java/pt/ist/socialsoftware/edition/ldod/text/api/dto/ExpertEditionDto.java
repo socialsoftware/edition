@@ -25,7 +25,8 @@ public class ExpertEditionDto {
     }
 
     public String getEditor() {
-        return this.textProvidesInterface.getExpertEditionEditorByEditionAcronym(this.acronym);
+        //return this.textProvidesInterface.getExpertEditionEditorByEditionAcronym(this.acronym);
+        return this.editor;
     }
 
     public List<ScholarInterDto> getExpertEditionInters() {

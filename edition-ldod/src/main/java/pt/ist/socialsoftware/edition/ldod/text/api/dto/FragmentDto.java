@@ -34,7 +34,8 @@ public class FragmentDto {
     }
 
     public String getTitle() {
-        return this.textProvidesInterface.getFragmentTitle(getXmlId());
+        //return this.textProvidesInterface.getFragmentTitle(getXmlId());
+        return this.title;
     }
 
     public Set<ScholarInterDto> getScholarInterDtoSet() {
@@ -55,7 +56,8 @@ public class FragmentDto {
 
     // Only necessary due to manual ordering of virtual edition javascript code
     public String getExternalId() {
-        return this.textProvidesInterface.getFragmentExternalId(getXmlId());
+        //return this.textProvidesInterface.getFragmentExternalId(getXmlId());
+        return this.externalId;
     }
 
     public Set<SourceDto> getSourcesSet() {

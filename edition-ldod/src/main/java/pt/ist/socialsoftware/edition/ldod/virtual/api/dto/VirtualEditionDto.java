@@ -17,8 +17,10 @@ public class VirtualEditionDto {
     private String externalId;
     private String title;
     private String reference;
-    private Boolean isLdoDEdition;
+    private boolean isLdoDEdition;
     private LocalDate date;
+    private boolean pub;
+    private boolean openVocabulary;
 
     public VirtualEditionDto(VirtualEdition virtualEdition) {
         this.xmlId = virtualEdition.getXmlId();
@@ -28,6 +30,8 @@ public class VirtualEditionDto {
         this.reference = virtualEdition.getReference();
         this.isLdoDEdition = virtualEdition.isLdoDEdition();
         this.date = virtualEdition.getDate();
+        this.pub = virtualEdition.getPub();
+        this.openVocabulary = virtualEdition.getTaxonomy().getOpenVocabulary();
     }
 
     public String getXmlId() {
@@ -39,11 +43,13 @@ public class VirtualEditionDto {
     }
 
     public String getExternalId() {
-        return this.virtualProvidesInterface.getVirtualEditionExternalIdByAcronym(this.acronym);
+        //return this.virtualProvidesInterface.getVirtualEditionExternalIdByAcronym(this.acronym);
+        return this.externalId;
     }
 
     public String getTitle() {
-        return this.virtualProvidesInterface.getVirtualEditionTitleByAcronym(this.acronym);
+        //return this.virtualProvidesInterface.getVirtualEditionTitleByAcronym(this.acronym);
+        return this.title;
     }
 
     public List<String> getSortedCategorySet() {
@@ -59,15 +65,18 @@ public class VirtualEditionDto {
     }
 
     public String getReference() {
-        return this.virtualProvidesInterface.getVirtualEditionReference(this.acronym);
+        //return this.virtualProvidesInterface.getVirtualEditionReference(this.acronym);
+        return this.reference;
     }
 
     public boolean getTaxonomyVocabularyStatus() {
-        return this.virtualProvidesInterface.getVirtualEditionTaxonomyVocabularyStatus(this.acronym);
+        //return this.virtualProvidesInterface.getVirtualEditionTaxonomyVocabularyStatus(this.acronym);
+        return this.openVocabulary;
     }
 
     public boolean isLdoDEdition() {
-        return this.virtualProvidesInterface.isLdoDEdition(this.acronym);
+        //return this.virtualProvidesInterface.isLdoDEdition(this.acronym);
+        return this.isLdoDEdition;
     }
 
     public boolean isPublicOrIsParticipant(String username) {
@@ -87,11 +96,13 @@ public class VirtualEditionDto {
     }
 
     public boolean getPub() {
-       return this.virtualProvidesInterface.getVirtualEditionPub(this.acronym);
+       //return this.virtualProvidesInterface.getVirtualEditionPub(this.acronym);
+       return this.pub;
     }
 
     public LocalDate getDate() {
-        return this.virtualProvidesInterface.getVirtualEditionDate(this.acronym);
+        //return this.virtualProvidesInterface.getVirtualEditionDate(this.acronym);
+        return this.date;
     }
 
     public boolean canAddFragInter(String interXmlId) {
@@ -103,7 +114,8 @@ public class VirtualEditionDto {
     }
 
     public boolean getOpenVocabulary() {
-        return this.virtualProvidesInterface.getOpenVocabulary(this.acronym);
+        //return this.virtualProvidesInterface.getOpenVocabulary(this.acronym);
+        return this.openVocabulary;
     }
 
     public boolean canManipulateTaxonomy(String username) {

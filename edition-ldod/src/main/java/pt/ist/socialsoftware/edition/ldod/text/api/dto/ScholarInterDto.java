@@ -1,7 +1,9 @@
 package pt.ist.socialsoftware.edition.ldod.text.api.dto;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.api.ui.FragInterDto;
-import pt.ist.socialsoftware.edition.ldod.domain.ScholarInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 
 import java.util.List;
@@ -10,14 +12,63 @@ import java.util.List;
 public class ScholarInterDto {
     private final TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
 
+    private static final Logger logger = LoggerFactory.getLogger(ScholarInterDto.class);
+
     private String xmlId;
+
+    //cached attributes
+    private String externalId;
+    private String title;
+    private String urlId;
+    private String shortName;
+    private boolean isExpertInter;
+    private String reference;
+    private String editionReference;
+    private int number;
+    private String fragXmlId;
+    private String volume;
+    private int startPage;
+    private int endPage;
+    private String completeNumber;
+    private String notes;
 
     public ScholarInterDto(String xmlId) {
         setXmlId(xmlId);
+        ScholarInter scholarInter = TextModule.getInstance().getScholarInterByXmlId(xmlId);
+        this.externalId = scholarInter.getExternalId();
+        this.title = scholarInter.getTitle();
+        this.urlId = scholarInter.getUrlId();
+        this.shortName = scholarInter.getShortName();
+        this.isExpertInter = scholarInter.isExpertInter();
+        this.reference = scholarInter.getReference();
+        this.editionReference = scholarInter.getEdition().getReference();
+        this.number = scholarInter.getNumber();
+        this.fragXmlId = scholarInter.getFragment().getXmlId();
+        this.volume = this.isExpertInter ? ((ExpertEditionInter) scholarInter).getVolume() : null;
+        this.startPage = this.isExpertInter ? ((ExpertEditionInter) scholarInter).getStartPage() : 0;
+        this.endPage = this.isExpertInter ? ((ExpertEditionInter) scholarInter).getEndPage() : 0;
+        this.notes = this.isExpertInter ? ((ExpertEditionInter) scholarInter).getNotes() : null;
+        this.completeNumber = this.isExpertInter ? ((ExpertEditionInter) scholarInter).getCompleteNumber() : null;
     }
 
     public ScholarInterDto(ScholarInter scholarInter) {
+
         setXmlId(scholarInter.getXmlId());
+        this.externalId = scholarInter.getExternalId();
+        this.title = scholarInter.getTitle();
+        this.urlId = scholarInter.getUrlId();
+        this.shortName = scholarInter.getShortName();
+        this.editionReference = scholarInter.getEdition().getReference();
+        this.isExpertInter = scholarInter.isExpertInter();
+        this.reference = scholarInter.getReference();
+        this.number = scholarInter.getNumber();
+        this.fragXmlId = scholarInter.getFragment().getXmlId();
+        this.volume = this.isExpertInter ? ((ExpertEditionInter) scholarInter).getVolume() : null;
+        this.startPage = this.isExpertInter ? ((ExpertEditionInter) scholarInter).getStartPage() : 0;
+        this.endPage = this.isExpertInter ? ((ExpertEditionInter) scholarInter).getEndPage() : 0;
+        this.notes = this.isExpertInter ? ((ExpertEditionInter) scholarInter).getNotes() : null;
+        this.completeNumber = this.isExpertInter ? ((ExpertEditionInter) scholarInter).getCompleteNumber() : null;
+
     }
 
     public String getXmlId() {
@@ -29,7 +80,8 @@ public class ScholarInterDto {
     }
 
     public String getExternalId() {
-       return this.textProvidesInterface.getScholarInterExternalId(this.xmlId);
+       //return this.textProvidesInterface.getScholarInterExternalId(this.xmlId);
+        return this.externalId;
     }
 
     public LdoDDateDto getLdoDDate() {
@@ -41,19 +93,23 @@ public class ScholarInterDto {
     }
 
     public FragInterDto.InterType getType() {
-        return this.textProvidesInterface.isExpertInter(this.xmlId) ? FragInterDto.InterType.EDITORIAL : FragInterDto.InterType.AUTHORIAL;
+        //return this.textProvidesInterface.isExpertInter(this.xmlId) ? FragInterDto.InterType.EDITORIAL : FragInterDto.InterType.AUTHORIAL;
+        return this.isExpertInter ? FragInterDto.InterType.EDITORIAL : FragInterDto.InterType.AUTHORIAL;
     }
 
     public String getFragmentXmlId() {
-        return this.textProvidesInterface.getFragmentOfScholarInterDto(this).getXmlId();
+        //return this.textProvidesInterface.getFragmentOfScholarInterDto(this).getXmlId();
+        return this.fragXmlId;
     }
 
     public String getReference() {
-        return this.textProvidesInterface.getScholarInterReference(this.xmlId);
+        //return this.textProvidesInterface.getScholarInterReference(this.xmlId);
+        return this.reference;
     }
 
     public String getEditionReference() {
-        return this.textProvidesInterface.getScholarInterEditionReference(this.xmlId);
+        //return this.textProvidesInterface.getScholarInterEditionReference(this.xmlId);
+        return this.editionReference;
     }
 
     public ExpertEditionDto getExpertEdition() {
@@ -61,11 +117,13 @@ public class ScholarInterDto {
     }
 
     public int getNumber() {
-        return this.textProvidesInterface.getScholarInterNumber(this.xmlId);
+        //return this.textProvidesInterface.getScholarInterNumber(this.xmlId);
+        return this.number;
     }
 
     public boolean isSourceInter() {
-        return !this.textProvidesInterface.isExpertInter(this.xmlId);
+        //return !this.textProvidesInterface.isExpertInter(this.xmlId);
+        return !this.isExpertInter;
     }
 
     public SourceDto getSourceDto() {
@@ -89,15 +147,18 @@ public class ScholarInterDto {
     }
 
     public String getTitle() {
-        return this.textProvidesInterface.getScholarInterTitle(this.xmlId);
+        //return this.textProvidesInterface.getScholarInterTitle(this.xmlId);
+        return this.title;
     }
 
     public String getUrlId() {
-        return this.textProvidesInterface.getScholarInterUrlId(this.xmlId);
+        //return this.textProvidesInterface.getScholarInterUrlId(this.xmlId);
+        return this.urlId;
     }
 
     public String getShortName() {
-        return this.textProvidesInterface.getScholarInterShortName(this.xmlId);
+        //return this.textProvidesInterface.getScholarInterShortName(this.xmlId);
+        return this.shortName;
     }
 
     public ScholarInterDto getNextScholarInter() {
@@ -109,7 +170,8 @@ public class ScholarInterDto {
     }
 
     public String getVolume() {
-        return this.textProvidesInterface.getExpertEditionInterVolume(this.xmlId);
+        //return this.textProvidesInterface.getExpertEditionInterVolume(this.xmlId);
+        return this.volume;
     }
 
     public String getTranscription() {
@@ -126,19 +188,23 @@ public class ScholarInterDto {
     }
 
     public String getCompleteNumber() {
-        return this.textProvidesInterface.getExpertInterCompleteNumber(this.xmlId);
+        //return this.textProvidesInterface.getExpertInterCompleteNumber(this.xmlId);
+        return this.completeNumber;
     }
 
     public int getStartPage() {
-        return this.textProvidesInterface.getExpertEditionInterStartPage(this.xmlId);
+        //return this.textProvidesInterface.getExpertEditionInterStartPage(this.xmlId);
+        return this.startPage;
     }
 
     public int getEndPage() {
-        return this.textProvidesInterface.getExpertEditionInterEndPage(this.xmlId);
+        //return this.textProvidesInterface.getExpertEditionInterEndPage(this.xmlId);
+        return this.endPage;
     }
 
     public String getNotes() {
-        return this.textProvidesInterface.getExpertEditionInterNotes(this.xmlId);
+        //return this.textProvidesInterface.getExpertEditionInterNotes(this.xmlId);
+        return this.notes;
     }
 
     public List<AnnexNoteDto> getSortedAnnexNote() {

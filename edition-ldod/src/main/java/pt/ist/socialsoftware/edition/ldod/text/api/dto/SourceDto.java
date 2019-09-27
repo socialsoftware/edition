@@ -9,8 +9,49 @@ import java.util.stream.Collectors;
 public class SourceDto {
     private String xmlId;
 
+    //cached attributes
+    private Source.SourceType type;
+    private String title;
+    private String idno;
+    private String altIdentifier;
+    private String journal;
+    private String issue;
+    private String pubPlace;
+    private String notes;
+    private int startPage;
+    private int endPage;
+    private ManuscriptSource.Material material;
+    private ManuscriptSource.Form form;
+    private int columns;
+    private boolean ldoDLabel;
+    private boolean hasHandNoteSet;
+    private boolean hasTypeNoteSet;
+
     public SourceDto(Source source) {
         setXmlId(source.getXmlId());
+        this.idno = source.getIdno();
+        this.altIdentifier = source.getAltIdentifier();
+        this.type = source.getType();
+
+        if(source.getType() == Source.SourceType.MANUSCRIPT){
+            ManuscriptSource manuscriptSource = (ManuscriptSource) source;
+            this.material = manuscriptSource.getMaterial();
+            this.columns = manuscriptSource.getColumns();
+            this.ldoDLabel = manuscriptSource.getHasLdoDLabel();
+            this.hasHandNoteSet = !manuscriptSource.getHandNoteSet().isEmpty();
+            this.hasTypeNoteSet = !manuscriptSource.getTypeNoteSet().isEmpty();
+            this.notes = manuscriptSource.getNotes();
+            this.form = manuscriptSource.getForm();
+        }
+        else{
+            PrintedSource printedSource = (PrintedSource) source;
+            this.title = printedSource.getTitle();
+            this.journal = printedSource.getJournal();
+            this.issue = printedSource.getIssue();
+            this.startPage = printedSource.getStartPage();
+            this.endPage = printedSource.getEndPage();
+            this.pubPlace = printedSource.getPubPlace();
+        }
     }
 
     public String getXmlId() {
@@ -22,27 +63,30 @@ public class SourceDto {
     }
 
     public String getTitle() {
-        return getSourceByXmlId(this.xmlId)
+        /*return getSourceByXmlId(this.xmlId)
                 .filter(PrintedSource.class::isInstance)
                 .map(PrintedSource.class::cast)
                 .map(printedSource -> printedSource.getTitle())
-                .orElseThrow(LdoDException::new);
+                .orElseThrow(LdoDException::new);*/
+        return this.title;
     }
 
     public String getIdno() {
-        return getSourceByXmlId(this.xmlId)
+        /*return getSourceByXmlId(this.xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
                 .map(ManuscriptSource::getIdno)
-                .orElse(null);
+                .orElse(null);*/
+        return this.idno;
     }
 
     public ManuscriptSource.Material getMaterial() {
-        return getSourceByXmlId(this.xmlId)
+        /*return getSourceByXmlId(this.xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
                 .map(ManuscriptSource::getMaterial)
-                .orElseThrow(LdoDException::new);
+                .orElseThrow(LdoDException::new);*/
+        return this.material;
     }
 
     public String getFormattedDimensions() {
@@ -108,89 +152,100 @@ public class SourceDto {
     }
 
     public int getColumns() {
-        return getSourceByXmlId(this.xmlId)
+       /* return getSourceByXmlId(this.xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
                 .map(ManuscriptSource::getColumns)
-                .orElseThrow(LdoDException::new);
+                .orElseThrow(LdoDException::new);*/
+       return this.columns;
     }
 
     public String getJournal() {
-        return getSourceByXmlId(this.xmlId)
+       /* return getSourceByXmlId(this.xmlId)
                 .filter(PrintedSource.class::isInstance)
                 .map(PrintedSource.class::cast)
                 .map(PrintedSource::getJournal)
-                .orElse(null);
+                .orElse(null);*/
+       return this.journal;
     }
 
     public String getIssue() {
-        return getSourceByXmlId(this.xmlId)
+        /*return getSourceByXmlId(this.xmlId)
                 .filter(PrintedSource.class::isInstance)
                 .map(PrintedSource.class::cast)
                 .map(PrintedSource::getIssue)
-                .orElse(null);
+                .orElse(null);*/
+        return this.issue;
     }
 
     public String getAltIdentifier() {
-        return getSourceByXmlId(this.xmlId)
+       /* return getSourceByXmlId(this.xmlId)
                 .map(Source::getAltIdentifier)
-                .orElse(null);
+                .orElse(null);*/
+       return this.altIdentifier;
     }
 
     public String getNotes() {
-        return getSourceByXmlId(this.xmlId)
+        /*return getSourceByXmlId(this.xmlId)
                 .filter(PrintedSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
                 .map(ManuscriptSource::getNotes)
-                .orElse(null);
+                .orElse(null);*/
+        return this.notes;
     }
 
     public int getStartPage() {
-        return getSourceByXmlId(this.xmlId)
+        /*return getSourceByXmlId(this.xmlId)
                 .filter(PrintedSource.class::isInstance)
                 .map(PrintedSource.class::cast)
                 .map(PrintedSource::getStartPage)
-                .orElseThrow(LdoDException::new);
+                .orElseThrow(LdoDException::new);*/
+        return this.startPage;
     }
 
     public int getEndPage() {
-        return getSourceByXmlId(this.xmlId)
+        /*return getSourceByXmlId(this.xmlId)
                 .filter(PrintedSource.class::isInstance)
                 .map(PrintedSource.class::cast)
                 .map(PrintedSource::getEndPage)
-                .orElseThrow(LdoDException::new);
+                .orElseThrow(LdoDException::new);*/
+        return this.endPage;
     }
 
     public String getPubPlace() {
-        return getSourceByXmlId(this.xmlId)
+       /* return getSourceByXmlId(this.xmlId)
                 .filter(PrintedSource.class::isInstance)
                 .map(PrintedSource.class::cast)
                 .map(PrintedSource::getPubPlace)
-                .orElse(null);
+                .orElse(null);*/
+       return this.pubPlace;
     }
 
     public boolean hasLdoDLabel() {
-        return getSourceByXmlId(this.xmlId)
+        /*return getSourceByXmlId(this.xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
                 .map(ManuscriptSource::getHasLdoDLabel)
-                .orElseThrow(LdoDException::new);
+                .orElseThrow(LdoDException::new);*/
+        return this.ldoDLabel;
     }
 
     public boolean hasHandNoteSet() {
-        return getSourceByXmlId(this.xmlId)
+       /* return getSourceByXmlId(this.xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
                 .map(manuscriptSource -> !manuscriptSource.getHandNoteSet().isEmpty())
-                .orElseThrow(LdoDException::new);
+                .orElseThrow(LdoDException::new);*/
+       return this.hasHandNoteSet;
     }
 
     public boolean hasTypeNoteSet() {
-        return getSourceByXmlId(this.xmlId)
+        /*return getSourceByXmlId(this.xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
                 .map(manuscriptSource -> !manuscriptSource.getTypeNoteSet().isEmpty())
-                .orElseThrow(LdoDException::new);
+                .orElseThrow(LdoDException::new);*/
+        return this.hasTypeNoteSet;
     }
 
     public LdoDDateDto getLdoDDate() {
@@ -214,7 +269,8 @@ public class SourceDto {
     }
 
     public Source.SourceType getType() {
-        return getSourceByXmlId(this.xmlId).map(source -> source.getType()).orElse(null);
+        //return getSourceByXmlId(this.xmlId).map(source -> source.getType()).orElse(null);
+        return this.type;
     }
 
     public HeteronymDto getHeteronym() {
@@ -225,11 +281,12 @@ public class SourceDto {
     }
 
     public ManuscriptSource.Form getForm() {
-        return getSourceByXmlId(this.xmlId)
+       /* return getSourceByXmlId(this.xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
                 .map(ManuscriptSource::getForm)
-                .orElse(null);
+                .orElse(null);*/
+       return this.form;
     }
 
     private Optional<Source> getSourceByXmlId(String xmlId) {

@@ -14,9 +14,9 @@ public class UserDto {
 
     private String lastName;
 
-    private Boolean isEnabled;
+    private boolean isEnabled;
 
-    private Boolean isActive;
+    private boolean isActive;
 
     private String socialMedalId;
 
@@ -42,23 +42,28 @@ public class UserDto {
     }
 
     public String getFirstName() {
-        return this.userProvidesInterface.getFirstName(this.username);
+        //return this.userProvidesInterface.getFirstName(this.username);
+        return this.firstName;
     }
 
     public String getLastName() {
-        return this.userProvidesInterface.getLastName(this.username);
+        //return this.userProvidesInterface.getLastName(this.username);
+        return this.lastName;
     }
 
     public boolean isEnabled() {
-        return this.userProvidesInterface.isEnabled(this.username);
+        //return this.userProvidesInterface.isEnabled(this.username);
+        return this.isEnabled;
     }
 
     public boolean isActive() {
-        return this.userProvidesInterface.isActive(this.username);
+        //return this.userProvidesInterface.isActive(this.username);
+        return this.isActive;
     }
 
     public String getSocialMediaId() {
-       return this.userProvidesInterface.getSocialMediaId(this.username);
+       //return this.userProvidesInterface.getSocialMediaId(this.username);
+       return this.socialMedalId;
     }
 
     public void updatePassword(PasswordEncoder passwordEncoder, String currentPassword, String newPassword) {
