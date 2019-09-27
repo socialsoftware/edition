@@ -59,6 +59,7 @@ public class TestLoadUtils {
         ClassificationModule classificationModule = ClassificationModule.getInstance();
         if(classificationModule != null){
             classificationModule.getClassificationGameSet().forEach(classificationGame -> classificationGame.remove());
+            classificationModule.getPlayerSet().stream().forEach(player -> player.remove());
         }
         if (userModule != null) {
             userModule.getUsersSet().stream()
