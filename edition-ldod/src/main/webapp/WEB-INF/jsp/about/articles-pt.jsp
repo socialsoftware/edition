@@ -10,7 +10,7 @@
 		<li><a href="#Q05Q">E. Principais edi&ccedil;&otilde;es do <em>Livro
 					do Desassossego</em> (1982-2017)
 		</a></li>
-		<li><a href="#Q06Q">F. Rece&ccedil;&atilde;o cr&oacute;tica do <em>Arquivo LdoD</em>
+		<li><a href="#Q06Q">F. Rece&ccedil;&atilde;o cr&iacute;tica do <em>Arquivo LdoD</em>
 		</a></li>
 	</ul>
 </h4>
@@ -869,7 +869,7 @@ DOI: <a href="http://dx.doi.org/10.14195/2182-8830_2-1_3" target="_new">http://d
 	<strong>&nbsp;</strong>
 </p>
 <h3 id="Q06Q" style="padding-top: 60px; margin-top: -60px;">
-	F. Rece&ccedil;&atilde;o cr&oacute;tica do <em>Arquivo LdoD</em>
+	F. Rece&ccedil;&atilde;o cr&iacute;tica do <em>Arquivo LdoD</em>
 </h3>
 </p>
 <strong>&nbsp;</strong>
