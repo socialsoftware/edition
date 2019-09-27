@@ -159,8 +159,6 @@
 		Pessoa 2017.</em> Lisboa: Casa Fernando Pessoa. 224-239. <br/>URI:
         <a
 		href= "http://hdl.handle.net/10316/44304" target="_new">http://hdl.handle.net/10316/44304</a>
-<li><a href="#Q06Q">F. Rece&ccedil;&atilde;o cr&oacute;tica do <em>Arquivo LdoD</em>
-		</a></li>
 
 
 <p>&nbsp;</p>
@@ -183,7 +181,7 @@
 	Oliveira, Duarte, Ant&oacute;nio Rito Silva, and Manuel Portela (2019). &ldquo;Social Media Aware Virtual Editions for 
 	the <em>Book of Disquiet</em>.&rdquo; 
 	<em>21st International Conference on Asia-Pacific Digital Libraries ICADL 2019: Digital Libraries at Cross-Roads of 
-	<em>Digital Information for the Future – Connecting Data, Technologies and People in Different Domains.</em> 
+	Digital Information for the Future - Connecting Data, Technologies and People in Different Domains.</em> 
 		Kuala Lumpur [forthcoming].
 </p>
 
@@ -808,13 +806,13 @@
 	<p>
 	<strong>2017</strong>
 </p>
-<p>Barbosa, Nicol&aacute;s and Carlos Pittella (2017). “The Website of Disquiet: The First Online Critical Edition of Fernando Pessoa.” 
+<p>Barbosa, Nicol&aacute;s and Carlos Pittella (2017). &ldquo;The Website of Disquiet: The First Online Critical Edition of Fernando Pessoa.&rdquo;
 	<em>Pessoa Plural: A Journal of Fernando Pessoa Studies.</em> 12: 725-732. 
 	<br />URL: <a
 		href="https://doi.org/10.7301/Z07S7KZD" target="_new">
 	https://doi.org/10.7301/Z07S7KZD</a> 
 </p>
-<p>Queir&oacute;s, Lu&iacute;s Miguel (2017). “Um arquivo digital do <em>Livro do Desassossego</em> para ler e mexer.” 
+<p>Queir&oacute;s, Lu&iacute;s Miguel (2017). &ldquo;Um arquivo digital do <em>Livro do Desassossego</em> para ler e mexer.&rdquo; 
 	<em>P&uacute;blico.</em> 14 de dezembro de 2017, p. 24. 
 	<br />URL: <a
 		href="https://www.publico.pt/2017/12/14/culturaipsilon/noticia/um-arquivo-digital-do-livro-do-desassossego-para-ler-e-mexer-1795920" target="_new">
