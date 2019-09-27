@@ -11,7 +11,7 @@
 		<li><a href="#Q05Q">E. Principales ediciones del <em>Libro
 					del desasosiego</em> (1982-2017)
 		</a></li>
-		<li><a href="#Q06Q">F. Recepci&oacute;n cr&oacute;tica del <em>Archivo LdoD</em>
+		<li><a href="#Q06Q">F. Recepci&oacute;n cr&iacute;tica del <em>Archivo LdoD</em>
 		</a></li>
 	</ul>
 </h4>
@@ -798,7 +798,7 @@
 	<strong>&nbsp;</strong>
 </p>
 <h3 id="Q06Q" style="padding-top: 60px; margin-top: -60px;">
-	F. Recepci&oacute;n cr&oacute;tica del <em>Archivo LdoD</em>
+	F. Recepci&oacute;n cr&iacute;tica del <em>Archivo LdoD</em>
 </h3>
 </p>
 <strong>&nbsp;</strong>
