@@ -3,7 +3,7 @@
 <p>&nbsp;</p>
 
 <h3>Arquitectura de Software</h3>
-<p>Ant&oacute;nio Rito Silva, INESC-ID, <em>Instituto Superior T&eacute;cnico</em> (IST), Universidad de Lisboa</p>
+<p>Ant&oacute;nio Rito Silva, INESC-ID, Instituto Superior T&eacute;cnico (IST), Universidad de Lisboa</p>
 <p>&nbsp;</p>
 
 <h3>Transcripci&oacute;n y Codificaci&oacute;n XML</h3>
@@ -42,7 +42,7 @@
 
 <h3>Equipo de investigaci&oacute;n del proyecto (2012-2015)</h3>
 <p>Abel Barros Baptista, NOVA-Universidad Nova de Lisboa</p>
-<p>Ant&oacute;nio Rito Silva, INESC-ID, <em>Instituto Superior T&eacute;cnico</em> (IST), Universidad de Lisboa</p>
+<p>Ant&oacute;nio Rito Silva, INESC-ID, Instituto Superior T&eacute;cnico (IST), Universidad de Lisboa</p>
 <p>Ant&oacute;nio Sousa Ribeiro, Universidad de Coimbra</p>
 <p>Daniela C&ocirc;rtes Maduro, Centro de Literatura Portuguesa (CLP), Universidad de Coimbra</p>
 <p>Diego Gim&eacute;nez, Centro de Literatura Portuguesa (CLP), Universidad Coimbra</p>
