@@ -768,6 +768,13 @@
 		href="https://doi.org/10.7301/Z07S7KZD" target="_new">
 	https://doi.org/10.7301/Z07S7KZD</a> 
 </p>
+</p>
+<p>Cipriano, Rita (2017). &ldquo;O Arquivo digital do "Livro do Desassossego já está online. E tem muitas histórias para contar.&rdquo; 
+	<em>Observador.</em> 13 de dezembro de 2017. 
+	<br />URL: <a
+		href="https://observador.pt/2017/12/13/o-arquivo-digital-do-livro-do-desassossego-ja-esta-online-e-tem-muitas-historias-para-contar" target="_new">
+	https://observador.pt/2017/12/13/o-arquivo-digital-do-livro-do-desassossego-ja-esta-online-e-tem-muitas-historias-para-contar</a> 
+</p>
 <p>Queir&oacute;s, Lu&iacute;s Miguel (2017). &ldquo;Um arquivo digital do <em>Livro do Desassossego</em> para ler e mexer.&rdquo; 
 	<em>P&uacute;blico.</em> 14 de dezembro de 2017, p. 24. 
 	<br />URL: <a
