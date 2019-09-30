@@ -769,7 +769,7 @@
 	https://doi.org/10.7301/Z07S7KZD</a> 
 </p>
 </p>
-<p>Cipriano, Rita (2017). &ldquo;O Arquivo digital do "Livro do Desassossego já está online. E tem muitas histórias para contar.&rdquo; 
+<p>Cipriano, Rita (2017). &ldquo;O Arquivo digital do &ldquo;Livro do Desassossego&rdquo; j&aacute; est&aacute; online. E tem muitas hist&oacute;rias para contar.&rdquo; 
 	<em>Observador.</em> 13 de dezembro de 2017. 
 	<br />URL: <a
 		href="https://observador.pt/2017/12/13/o-arquivo-digital-do-livro-do-desassossego-ja-esta-online-e-tem-muitas-historias-para-contar" target="_new">
