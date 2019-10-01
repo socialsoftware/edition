@@ -10,7 +10,7 @@
 		<li><a href="#Q05Q">E. Principais edi&ccedil;&otilde;es do <em>Livro
 					do Desassossego</em> (1982-2017)
 		</a></li>
-		<li><a href="#Q06Q">F. Rece&ccedil;&atilde;o cr&oacute;tica do <em>Arquivo LdoD</em>
+		<li><a href="#Q06Q">F. Rece&ccedil;&atilde;o cr&iacute;tica do <em>Arquivo LdoD</em>
 		</a></li>
 	</ul>
 </h4>
@@ -178,7 +178,7 @@
 	Oliveira, Duarte, Ant&oacute;nio Rito Silva, and Manuel Portela (2019). &ldquo;Social Media Aware Virtual Editions for 
 	the <em>Book of Disquiet</em>.&rdquo; 
 	<em>21st International Conference on Asia-Pacific Digital Libraries ICADL 2019: Digital Libraries at Cross-Roads of 
-	<em>Digital Information for the Future – Connecting Data, Technologies and People in Different Domains.</em> 
+	Digital Information for the Future – Connecting Data, Technologies and People in Different Domains.</em> 
 		Kuala Lumpur [forthcoming].
 </p>
 
@@ -869,7 +869,7 @@ DOI: <a href="http://dx.doi.org/10.14195/2182-8830_2-1_3" target="_new">http://d
 	<strong>&nbsp;</strong>
 </p>
 <h3 id="Q06Q" style="padding-top: 60px; margin-top: -60px;">
-	F. Rece&ccedil;&atilde;o cr&oacute;tica do <em>Arquivo LdoD</em>
+	F. Rece&ccedil;&atilde;o cr&iacute;tica do <em>Arquivo LdoD</em>
 </h3>
 </p>
 <strong>&nbsp;</strong>
@@ -877,13 +877,19 @@ DOI: <a href="http://dx.doi.org/10.14195/2182-8830_2-1_3" target="_new">http://d
 	<p>
 	<strong>2017</strong>
 </p>
-<p>Barbosa, Nicol&aacute;s and Carlos Pittella (2017). “The Website of Disquiet: The First Online Critical Edition of Fernando Pessoa.” 
+<p>Barbosa, Nicol&aacute;s and Carlos Pittella (2017). &ldquo;The Website of Disquiet: The First Online Critical Edition of Fernando Pessoa.&rdquo; 
 	<em>Pessoa Plural: A Journal of Fernando Pessoa Studies.</em> 12: 725-732. 
 	<br />URL: <a
 		href="https://doi.org/10.7301/Z07S7KZD" target="_new">
 	https://doi.org/10.7301/Z07S7KZD</a> 
 </p>
-<p>Queir&oacute;s, Lu&iacute;s Miguel (2017). “Um arquivo digital do <em>Livro do Desassossego</em> para ler e mexer.” 
+<p>Cipriano, Rita (2017). &ldquo;O Arquivo digital do &ldquo;Livro do Desassossego&rdquo; j&aacute; est&aacute; online. E tem muitas hist&oacute;rias para contar.&rdquo; 
+	<em>Observador.</em> 13 de dezembro de 2017. 
+	<br />URL: <a
+		href="https://observador.pt/2017/12/13/o-arquivo-digital-do-livro-do-desassossego-ja-esta-online-e-tem-muitas-historias-para-contar" target="_new">
+	https://observador.pt/2017/12/13/o-arquivo-digital-do-livro-do-desassossego-ja-esta-online-e-tem-muitas-historias-para-contar</a> 
+</p>
+<p>Queir&oacute;s, Lu&iacute;s Miguel (2017). &ldquo;Um arquivo digital do <em>Livro do Desassossego</em> para ler e mexer.&rdquo; 
 	<em>P&uacute;blico.</em> 14 de dezembro de 2017, p. 24. 
 	<br />URL: <a
 		href="https://www.publico.pt/2017/12/14/culturaipsilon/noticia/um-arquivo-digital-do-livro-do-desassossego-para-ler-e-mexer-1795920" target="_new">

@@ -3,7 +3,7 @@
 <p>&nbsp;</p>
 
 <h3>Software Architecture</h3>
-<p>Ant&oacute;nio Rito Silva, INESC-ID, <em>Instituto Superior T&eacute;cnico</em> (IST), University of Lisbon</p>
+<p>Ant&oacute;nio Rito Silva, INESC-ID, Instituto Superior T&eacute;cnico (IST), University of Lisbon</p>
 <p>&nbsp;</p>
 
 <h3>Transcription and XML encoding</h3>
