@@ -25,8 +25,9 @@ public class VirtualEditionInterDto {
     private String shortName;
     private String reference;
     private int number;
+    private ScholarInterDto lastUsed;
 
-    public VirtualEditionInterDto(String xmlId) {
+    /*public VirtualEditionInterDto(String xmlId) {
         setXmlId(xmlId);
         VirtualEditionInter virtualEditionInter = VirtualModule.getInstance().getVirtualEditionInterByXmlId(xmlId);
 
@@ -37,7 +38,7 @@ public class VirtualEditionInterDto {
         this.shortName = virtualEditionInter.getShortName();
         this.reference = virtualEditionInter.getReference();
         this.number = virtualEditionInter.getNumber();
-    }
+    }*/
 
     public VirtualEditionInterDto(VirtualEditionInter virtualEditionInter) {
         setXmlId(virtualEditionInter.getXmlId());
@@ -88,7 +89,10 @@ public class VirtualEditionInterDto {
     }
 
     public ScholarInterDto getLastUsed() {
-        return this.virtualProvidesInterface.getVirtualEditionLastUsedScholarInter(this.xmlId);
+        //return this.virtualProvidesInterface.getVirtualEditionLastUsedScholarInter(this.xmlId);
+        if (this.lastUsed == null)
+            this.lastUsed = this.virtualProvidesInterface.getVirtualEditionLastUsedScholarInter(this.xmlId);
+        return this.lastUsed;
     }
 
     public String getUsesScholarInterId() {
