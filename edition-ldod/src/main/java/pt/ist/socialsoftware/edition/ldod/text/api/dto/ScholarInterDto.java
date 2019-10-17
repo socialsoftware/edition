@@ -38,10 +38,18 @@ public class ScholarInterDto {
         this.externalId = scholarInter.getExternalId();
         this.title = scholarInter.getTitle();
         this.urlId = scholarInter.getUrlId();
-        this.shortName = scholarInter.getShortName();
+
+        if((scholarInter.isExpertInter() && scholarInter.getEdition() != null) ||
+                (!scholarInter.isExpertInter() && ((SourceInter) scholarInter).getSource() != null )) {
+            this.shortName = scholarInter.getShortName();
+            this.reference = scholarInter.getReference();
+        }
+
         this.isExpertInter = scholarInter.isExpertInter();
-        this.reference = scholarInter.getReference();
-        this.editionReference = scholarInter.getEdition().getReference();
+
+        if(scholarInter.getEdition() != null)
+            this.editionReference = scholarInter.getEdition().getReference();
+
         this.number = scholarInter.getNumber();
         this.fragXmlId = scholarInter.getFragment().getXmlId();
         this.volume = this.isExpertInter ? ((ExpertEditionInter) scholarInter).getVolume() : null;
@@ -57,10 +65,17 @@ public class ScholarInterDto {
         this.externalId = scholarInter.getExternalId();
         this.title = scholarInter.getTitle();
         this.urlId = scholarInter.getUrlId();
-        this.shortName = scholarInter.getShortName();
-        this.editionReference = scholarInter.getEdition().getReference();
+
+        if((scholarInter.isExpertInter() && scholarInter.getEdition() != null) ||
+                (!scholarInter.isExpertInter() && ((SourceInter) scholarInter).getSource() != null )) {
+            this.shortName = scholarInter.getShortName();
+            this.reference = scholarInter.getReference();
+        }
+
+        if(scholarInter.getEdition() != null)
+            this.editionReference = scholarInter.getEdition().getReference();
+
         this.isExpertInter = scholarInter.isExpertInter();
-        this.reference = scholarInter.getReference();
         this.number = scholarInter.getNumber();
         this.fragXmlId = scholarInter.getFragment().getXmlId();
         this.volume = this.isExpertInter ? ((ExpertEditionInter) scholarInter).getVolume() : null;
