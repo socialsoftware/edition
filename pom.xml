@@ -56,6 +56,14 @@
             pt.ist.fenixframework.backend.jvstmojb.codeGenerator.FenixCodeGeneratorOneBoxPerObject
         </fenix.framework.codeGeneratorClassName>
         <fenix.framework.backend>jvstm-ojb</fenix.framework.backend>
+
+        <version.jacoco.maven.plugin>0.8.5</version.jacoco.maven.plugin>
+        <coverage.class.ratio>0.15</coverage.class.ratio>
+        <coverage.instruction.ratio>0.15</coverage.instruction.ratio>
+        <coverage.method.ratio>0.15</coverage.method.ratio>
+        <coverage.branch.ratio>0.15</coverage.branch.ratio>
+        <coverage.complexity.ratio>0.15</coverage.complexity.ratio>
+        <coverage.line.ratio>0.15</coverage.line.ratio>
     </properties>
 
     <profiles>
@@ -170,6 +178,78 @@
                             <version>${version.fenixframework}</version>
                         </dependency>
                     </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${version.jacoco.maven.plugin}</version>
+                    <configuration>
+                        <destFile>${basedir}/target/coverage-reports/jacoco.exec</destFile>
+                        <dataFile>${basedir}/target/coverage-reports/jacoco.exec</dataFile>
+                        <excludes>
+                            <exclude>pt/ist/fenixframework/**/*</exclude>
+                        </excludes>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>init-jacoco</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>default-report</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>agent-check</id>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <rule>
+                                        <element>BUNDLE</element>
+                                        <limits>
+                                            <limit>
+                                                <counter>CLASS</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${coverage.class.ratio}</minimum>
+                                            </limit>
+                                            <limit>
+                                                <counter>INSTRUCTION</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${coverage.instruction.ratio}</minimum>
+                                            </limit>
+                                            <limit>
+                                                <counter>METHOD</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${coverage.method.ratio}</minimum>
+                                            </limit>
+                                            <limit>
+                                                <counter>BRANCH</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${coverage.branch.ratio}</minimum>
+                                            </limit>
+                                            <limit>
+                                                <counter>COMPLEXITY</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${coverage.complexity.ratio}</minimum>
+                                            </limit>
+                                            <limit>
+                                                <counter>LINE</counter>
+                                                <value>COVEREDRATIO</value>
+                                                <minimum>${coverage.line.ratio}</minimum>
+                                            </limit>
+                                        </limits>
+                                    </rule>
+                                </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
