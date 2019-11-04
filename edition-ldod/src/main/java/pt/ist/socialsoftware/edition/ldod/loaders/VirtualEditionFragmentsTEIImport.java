@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.loaders;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -202,7 +201,7 @@ public class VirtualEditionFragmentsTEIImport {
     // TODO: else if aware - done
     // novo import annotation
     private void importAnnotation(Element note, VirtualEditionInter inter) {
-        String text = StringEscapeUtils.escapeHtml(note.getText().trim());
+        String text = note.getText().trim();
         Element quoteElement = note.getChild("quote", this.namespace);
         String from = quoteElement.getAttributeValue("from");
         String to = quoteElement.getAttributeValue("to");

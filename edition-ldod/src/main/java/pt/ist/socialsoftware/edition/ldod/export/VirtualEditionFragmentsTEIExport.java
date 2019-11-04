@@ -188,6 +188,7 @@ public class VirtualEditionFragmentsTEIExport {
         for (Annotation annotation : virtualEditionInter.getAnnotationSet()) {
             if (annotation instanceof HumanAnnotation) {
                 Element note = new Element("note", this.xmlns);
+
                 note.setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
                 textClass.addContent(note);
 
@@ -222,7 +223,7 @@ public class VirtualEditionFragmentsTEIExport {
             quote.setAttribute("to", range.getEnd());
             quote.setAttribute("fromOffset", Integer.toString(range.getStartOffset()));
             quote.setAttribute("toOffset", Integer.toString(range.getEndOffset()));
-            quote.setText(StringEscapeUtils.unescapeHtml(annotation.getQuote()));
+            quote.setText(annotation.getQuote());
             note.addContent(quote);
         }
     }
