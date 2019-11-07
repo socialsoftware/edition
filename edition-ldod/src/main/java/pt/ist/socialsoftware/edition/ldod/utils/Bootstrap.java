@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.utils;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,6 +64,16 @@ public class Bootstrap implements WebApplicationInitializer {
         } else {
             loadRecommendationCache();
         }
+        LdoD.getInstance().getVirtualEditionsSet().stream()
+                .flatMap(virtualEdition -> virtualEdition.getAnnotationList().stream())
+                .forEach(humanAnnotation -> {
+                    if (humanAnnotation.getText() != null) {
+                        String text = humanAnnotation.getText().replace("amp;", "");
+                        text = StringEscapeUtils.unescapeHtml(text);
+                        System.out.println(text);
+                        humanAnnotation.setText(text);
+                    }
+                });
     }
 
     private static void loadFragsFromFile() {

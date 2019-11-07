@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.export;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -188,7 +189,7 @@ public class VirtualEditionFragmentsTEIExport {
             if (annotation instanceof HumanAnnotation) {
                 Element note = new Element("note", this.xmlns);
 
-                note.setText(annotation.getText());
+                note.setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
                 textClass.addContent(note);
 
                 exportAnnotationRanges(annotation, note);
