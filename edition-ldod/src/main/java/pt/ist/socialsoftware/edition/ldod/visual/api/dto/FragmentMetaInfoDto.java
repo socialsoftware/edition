@@ -29,7 +29,7 @@ public class FragmentMetaInfoDto {
         if (inter.isSourceInter()) {
             SourceDto sourceDto = inter.getSourceDto();
             if (sourceDto.getType() == Source.SourceType.MANUSCRIPT) {
-                this.hasLdoDLabel = sourceDto.hasLdoDLabel();
+                this.hasLdoDLabel = sourceDto.getHasLdoDLabel();
             }
         }
     }

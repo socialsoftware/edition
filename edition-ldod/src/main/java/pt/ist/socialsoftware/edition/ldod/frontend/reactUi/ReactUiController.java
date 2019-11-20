@@ -256,7 +256,7 @@ public class ReactUiController {
 
             metaInfo.put("columns", sourceDto.getColumns());
 
-            metaInfo.put("ldoDKey", sourceDto.hasLdoDLabel());
+            metaInfo.put("ldoDKey", sourceDto.getHasLdoDLabel());
 
             metaInfo.put("handNotes", sourceDto.getFormattedHandNote());
 

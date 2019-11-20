@@ -63,7 +63,7 @@
 						<td><c:forEach var='inter'
 								items='${source.getSourceIntersSet()}'>
 								<a
-									href="${contextPath}/fragments/fragment/${inter.getFragment().getXmlId()}/inter/${inter.getUrlId()}">
+									href="${contextPath}/fragments/fragment/${inter.getFragmentDto().getXmlId()}/inter/${inter.getUrlId()}">
 									${inter.title}</a>
 							</c:forEach></td>
 						<td>${source.getLdoDDate().print()}</td>
@@ -112,16 +112,16 @@
 						<td><c:if test='${source.getType()=="MANUSCRIPT"}'>${source.getColumns()}</c:if></td>
 						-->
 						<td><c:if
-								test='${source.getType()=="MANUSCRIPT" && source.getDimensionsSet().size() != 0}'>
+								test='${source.getType()=="MANUSCRIPT" && source.getSortedDimensionsDto().size() != 0}'>
 								<c:forEach var="dimensions"
-									items="${source.getSortedDimensions()}" varStatus="loop">${dimensions.getHeight()}cm
+									items="${source.getSortedDimensionsDto()}" varStatus="loop">${dimensions.getHeight()}cm
 				X ${dimensions.getWidth()}cm<c:if test="${!loop.last}">
 										<br>
 									</c:if>
 								</c:forEach>
 							</c:if></td>
 						<td><c:forEach var='surface'
-								items='${source.getFacsimile().getSurfaces()}'
+								items='${source.getSurfaces()}'
 								varStatus="counter">
 								<a href="/facs/${surface.getGraphic()}">(${counter.index+1})
 									${source.name} </a>

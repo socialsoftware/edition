@@ -36,9 +36,9 @@ public abstract class AuthoralSearchOption extends SearchOption {
         if (searchRequiresInterface.isSourceInter(inter.getXmlId()) && searchRequiresInterface.getSourceInterType(inter.getXmlId()).equals(SourceType.MANUSCRIPT.name())) {
             SourceDto source = searchRequiresInterface.getSourceOfSourceInter(inter.getXmlId());
             if (isOfDocumentType(source) && this.dateSearchOption.verifiesSearchOption(inter)) {
-                if (this.hasLdoD.equals(ALL) || (this.hasLdoD.equals("true") && source.hasLdoDLabel())) {
+                if (this.hasLdoD.equals(ALL) || (this.hasLdoD.equals("true") && source.getHasLdoDLabel())) {
                     return true;
-                } else if (this.hasLdoD.equals("false") && !source.hasLdoDLabel()) {
+                } else if (this.hasLdoD.equals("false") && !source.getHasLdoDLabel()) {
                     return true;
                 }
             }
