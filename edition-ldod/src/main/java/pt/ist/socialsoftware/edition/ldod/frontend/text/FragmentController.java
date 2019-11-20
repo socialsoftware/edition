@@ -104,7 +104,6 @@ public class FragmentController {
         writer.write(false);
 
 
-        model.addAttribute("ldoD", VirtualModule.getInstance());
         model.addAttribute("expertEditions", this.feTextRequiresInterface.getSortedExpertEditionsDto());
         model.addAttribute("user", this.feTextRequiresInterface.getAuthenticatedUser());
         model.addAttribute("ldoDArchiveEdition", this.feTextRequiresInterface.getVirtualEditionByAcronym(VirtualEdition.ARCHIVE_EDITION_ACRONYM));
