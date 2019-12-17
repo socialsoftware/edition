@@ -12,15 +12,20 @@ import pt.ist.socialsoftware.edition.ldod.domain.Source;
 import pt.ist.socialsoftware.edition.ldod.domain.TextModule;
 import pt.ist.socialsoftware.edition.ldod.frontend.search.SearchController;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.text.api.dto.SourceDto;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
 @RequestMapping("/source")
 public class SourceController {
     private static final Logger logger = LoggerFactory.getLogger(SearchController.class);
+
+    private final FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
 
     @ModelAttribute("frontendSession")
     public FrontendSession getLdoDSession() {
@@ -30,12 +35,12 @@ public class SourceController {
     @RequestMapping(method = RequestMethod.GET, value = "/list")
     public String getListOfSources(Model model) {
         logger.debug("getListOfSources");
-        List<Source> sources = new ArrayList<>();
-        for (Fragment frag : TextModule.getInstance().getFragmentsSet()) {
+        List<SourceDto> sources = new ArrayList<>();
+        for (FragmentDto frag : this.feTextRequiresInterface.getFragmentDtoSet()) {
             sources.addAll(frag.getSourcesSet());
         }
 
-        Collections.sort(sources);
+        sources.sort(Comparator.comparing(SourceDto::getName));
 
         model.addAttribute("sources", sources);
 

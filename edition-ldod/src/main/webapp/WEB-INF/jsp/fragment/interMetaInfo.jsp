@@ -72,10 +72,10 @@
 
     <br>
     <strong>LdoD Mark:</strong>
-    <c:if test="${inter.getSourceDto().hasLdoDLabel()}">
+    <c:if test="${inter.getSourceDto().getHasLdoDLabel()}">
         <spring:message code="search.ldod.with"/>
     </c:if>
-    <c:if test="${!inter.getSourceDto().hasLdoDLabel()}">
+    <c:if test="${!inter.getSourceDto().getHasLdoDLabel()}">
         <spring:message code="search.ldod.without"/>
     </c:if>
 

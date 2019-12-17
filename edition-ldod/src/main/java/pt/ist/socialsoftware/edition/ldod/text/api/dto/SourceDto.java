@@ -10,6 +10,7 @@ public class SourceDto {
     private String xmlId;
 
     //cached attributes
+    private String name;
     private Source.SourceType type;
     private String title;
     private String idno;
@@ -29,6 +30,7 @@ public class SourceDto {
 
     public SourceDto(Source source) {
         setXmlId(source.getXmlId());
+        this.name = source.getName();
         this.idno = source.getIdno();
         this.altIdentifier = source.getAltIdentifier();
         this.type = source.getType();
@@ -60,6 +62,10 @@ public class SourceDto {
 
     public void setXmlId(String xmlId) {
         this.xmlId = xmlId;
+    }
+
+    public String getName(){
+        return this.name;
     }
 
     public String getTitle() {
@@ -221,7 +227,7 @@ public class SourceDto {
        return this.pubPlace;
     }
 
-    public boolean hasLdoDLabel() {
+    public boolean getHasLdoDLabel() {
         /*return getSourceByXmlId(this.xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
@@ -287,6 +293,11 @@ public class SourceDto {
                 .map(ManuscriptSource::getForm)
                 .orElse(null);*/
        return this.form;
+    }
+
+    public Set<ScholarInterDto> getSourceIntersSet() {
+        Set<SourceInter> sourceInters = getSourceByXmlId(this.xmlId).map(Source::getSourceIntersSet).orElse(new HashSet<>());
+        return sourceInters.stream().map(ScholarInterDto::new).collect(Collectors.toSet());
     }
 
     private Optional<Source> getSourceByXmlId(String xmlId) {
