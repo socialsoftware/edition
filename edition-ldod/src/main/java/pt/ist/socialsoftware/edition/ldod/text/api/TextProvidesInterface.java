@@ -23,8 +23,8 @@ import java.util.stream.Collectors;
 public class TextProvidesInterface {
     private static final Logger logger = LoggerFactory.getLogger(TextProvidesInterface.class);
 
-    private Map<String, Fragment> fragmentMap;
-    private Map<String, ScholarInter> scholarInterMap;
+    private static Map<String, Fragment> fragmentMap;
+    private static Map<String, ScholarInter> scholarInterMap;
 
     public HeteronymDto getScholarInterHeteronym(String scholarInterId) {
         return getScholarInterByXmlId(scholarInterId).map(scholarInter -> scholarInter.getHeteronym()).map(HeteronymDto::new).orElse(null);
@@ -396,25 +396,25 @@ public class TextProvidesInterface {
                 .orElse(new ArrayList<>());
     }
 
-    private Optional<ScholarInter> getScholarInterByXmlId(String xmlId) {
-        if (this.scholarInterMap == null) {
-            this.scholarInterMap = TextModule.getInstance().getFragmentsSet().stream()
+    private static Optional<ScholarInter> getScholarInterByXmlId(String xmlId) {
+        if (scholarInterMap == null) {
+            scholarInterMap = TextModule.getInstance().getFragmentsSet().stream()
                     .flatMap(fragment -> fragment.getScholarInterSet().stream())
-                    .collect(Collectors.toMap(ScholarInter::getXmlId, Function.identity()));
+                    .collect(Collectors.toConcurrentMap(ScholarInter::getXmlId, Function.identity()));
         }
-        return Optional.ofNullable(this.scholarInterMap.get(xmlId));
+        return Optional.ofNullable(scholarInterMap.get(xmlId));
     }
 
     private Optional<Fragment> getFragmentByInterXmlId(String scholarInterId) {
         return getScholarInterByXmlId(scholarInterId).map(ScholarInter::getFragment);
     }
 
-    private Optional<Fragment> getFragmentByFragmentXmlId(String xmlId) {
-        if (this.fragmentMap == null) {
-            this.fragmentMap = TextModule.getInstance().getFragmentsSet().stream()
-                    .collect(Collectors.toMap(Fragment::getXmlId, Function.identity()));
+    private static Optional<Fragment> getFragmentByFragmentXmlId(String xmlId) {
+        if (fragmentMap == null) {
+            fragmentMap = TextModule.getInstance().getFragmentsSet().stream()
+                    .collect(Collectors.toConcurrentMap(Fragment::getXmlId, Function.identity()));
         }
-        return Optional.ofNullable(this.fragmentMap.get(xmlId));
+        return Optional.ofNullable(fragmentMap.get(xmlId));
     }
 
     private Optional<ExpertEdition> getExpertEditionByAcronym(String acronym) {
