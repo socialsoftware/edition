@@ -17,10 +17,14 @@ import pt.ist.socialsoftware.edition.ldod.visual.api.dto.EditionInterListDto;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class TextProvidesInterface {
     private static final Logger logger = LoggerFactory.getLogger(TextProvidesInterface.class);
+
+    private Map<String, Fragment> fragmentMap;
+    private Map<String, ScholarInter> scholarInterMap;
 
     public HeteronymDto getScholarInterHeteronym(String scholarInterId) {
         return getScholarInterByXmlId(scholarInterId).map(scholarInter -> scholarInter.getHeteronym()).map(HeteronymDto::new).orElse(null);
@@ -393,16 +397,24 @@ public class TextProvidesInterface {
     }
 
     private Optional<ScholarInter> getScholarInterByXmlId(String xmlId) {
-        return TextModule.getInstance().getFragmentsSet().stream()
-                .filter(fragment -> fragment.getScholarInterByXmlId(xmlId) != null).map(fragment -> fragment.getScholarInterByXmlId(xmlId)).findAny();
+        if (this.scholarInterMap == null) {
+            this.scholarInterMap = TextModule.getInstance().getFragmentsSet().stream()
+                    .flatMap(fragment -> fragment.getScholarInterSet().stream())
+                    .collect(Collectors.toMap(ScholarInter::getXmlId, Function.identity()));
+        }
+        return Optional.ofNullable(this.scholarInterMap.get(xmlId));
     }
 
     private Optional<Fragment> getFragmentByInterXmlId(String scholarInterId) {
-        return TextModule.getInstance().getFragmentsSet().stream().filter(f -> f.getScholarInterByXmlId(scholarInterId) != null).findAny();
+        return getScholarInterByXmlId(scholarInterId).map(ScholarInter::getFragment);
     }
 
     private Optional<Fragment> getFragmentByFragmentXmlId(String xmlId) {
-        return TextModule.getInstance().getFragmentsSet().stream().filter(fragment -> fragment.getXmlId().equals(xmlId)).findAny();
+        if (this.fragmentMap == null) {
+            this.fragmentMap = TextModule.getInstance().getFragmentsSet().stream()
+                    .collect(Collectors.toMap(Fragment::getXmlId, Function.identity()));
+        }
+        return Optional.ofNullable(this.fragmentMap.get(xmlId));
     }
 
     private Optional<ExpertEdition> getExpertEditionByAcronym(String acronym) {
