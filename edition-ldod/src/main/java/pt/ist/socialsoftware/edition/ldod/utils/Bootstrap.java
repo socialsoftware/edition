@@ -115,6 +115,10 @@ public class Bootstrap implements WebApplicationInitializer {
                 loadGamesFromFile();
             }
         }
+
+        TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
+        textProvidesInterface.getFragmentByXmlId(null);
+        textProvidesInterface.getScholarInter(null);
     }
 
     private static void loadGamesFromFile() {
@@ -558,10 +562,6 @@ public class Bootstrap implements WebApplicationInitializer {
         }
 
         Indexer.clearTermsTFIDFCache();
-
-        TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
-        textProvidesInterface.getFragmentByXmlId(null);
-        textProvidesInterface.getScholarInter(null);
     }
 
 }

@@ -402,7 +402,7 @@ public class TextProvidesInterface {
                     .flatMap(fragment -> fragment.getScholarInterSet().stream())
                     .collect(Collectors.toConcurrentMap(ScholarInter::getXmlId, Function.identity()));
         }
-        return Optional.ofNullable(scholarInterMap.get(xmlId));
+        return xmlId != null ? Optional.ofNullable(scholarInterMap.get(xmlId)) : Optional.empty();
     }
 
     private Optional<Fragment> getFragmentByInterXmlId(String scholarInterId) {
@@ -414,7 +414,7 @@ public class TextProvidesInterface {
             fragmentMap = TextModule.getInstance().getFragmentsSet().stream()
                     .collect(Collectors.toConcurrentMap(Fragment::getXmlId, Function.identity()));
         }
-        return Optional.ofNullable(fragmentMap.get(xmlId));
+        return xmlId != null ? Optional.ofNullable(fragmentMap.get(xmlId)) : Optional.empty();
     }
 
     private Optional<ExpertEdition> getExpertEditionByAcronym(String acronym) {
