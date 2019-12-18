@@ -1,16 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-
 import org.apache.commons.io.FileUtils;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -25,15 +14,14 @@ import pt.ist.socialsoftware.edition.ldod.game.feature.classification.inout.Game
 import pt.ist.socialsoftware.edition.ldod.recommendation.api.RecommendationRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.*;
+import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
 import pt.ist.socialsoftware.edition.ldod.text.feature.inout.LoadTEICorpus;
 import pt.ist.socialsoftware.edition.ldod.text.feature.inout.LoadTEIFragments;
 import pt.ist.socialsoftware.edition.ldod.user.feature.inout.UsersXMLImport;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDException;
-import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionFragmentsTEIExport;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionFragmentsTEIImport;
-import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionsTEICorpusExport;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionsTEICorpusImport;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.topicmodeling.TopicModeler;
 
@@ -45,6 +33,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 /**
  * @author ars
  */
@@ -114,7 +103,7 @@ public class Bootstrap implements WebApplicationInitializer {
 
         String profile = PropertiesManager.getProperties().getProperty("spring.profiles.active");
 
-        if(!profile.equals("test")) {
+        if (!profile.equals("test")) {
             if (moduleNames.stream().anyMatch(s -> s.equals("edition-text")) && textCreate) {
                 loadTextFromFile();
             }
@@ -135,8 +124,9 @@ public class Bootstrap implements WebApplicationInitializer {
 
         File gameFile = new File(directory, "games.xml");
 
-        if (!gameFile.exists())
+        if (!gameFile.exists()) {
             return; // File does not exist but that is not a problem. Just move on
+        }
 
         GameXMLImport gameXMLImport = new GameXMLImport();
 
@@ -154,8 +144,9 @@ public class Bootstrap implements WebApplicationInitializer {
 
         File userFile = new File(directory, "users.xml");
 
-        if (!userFile.exists())
+        if (!userFile.exists()) {
             return; // File does not exist but that is not a problem. Just move on
+        }
 
         UsersXMLImport usersXMLImport = new UsersXMLImport();
 
@@ -173,8 +164,9 @@ public class Bootstrap implements WebApplicationInitializer {
 
         File corpus = new File(directory, "001.xml");
 
-        if (!corpus.exists())
+        if (!corpus.exists()) {
             return; // File does not exist but that is not a problem. Just move on
+        }
 
         LoadTEICorpus loadTEICorpus = new LoadTEICorpus();
 
@@ -185,10 +177,11 @@ public class Bootstrap implements WebApplicationInitializer {
         }
 
         File[] files = directory.listFiles();
-        if (files == null)
+        if (files == null) {
             return;
+        }
 
-        for (File file : files){
+        for (File file : files) {
             LoadTEIFragments teiImport = new LoadTEIFragments();
             try {
                 teiImport.loadFragmentsStepByStep(new FileInputStream(file));
@@ -205,8 +198,9 @@ public class Bootstrap implements WebApplicationInitializer {
 
         File virtualCorpus = new File(directory, "corpus.xml");
 
-        if (!virtualCorpus.exists())
+        if (!virtualCorpus.exists()) {
             return; // File does not exist but that is not a problem. Just move on
+        }
 
         VirtualEditionsTEICorpusImport corpusImport = new VirtualEditionsTEICorpusImport();
 
@@ -217,12 +211,14 @@ public class Bootstrap implements WebApplicationInitializer {
         }
 
         File[] files = directory.listFiles();
-        if (files == null)
+        if (files == null) {
             return;
+        }
 
-        for (File file : files){
-            if (file.getName().contains("corpus"))
+        for (File file : files) {
+            if (file.getName().contains("corpus")) {
                 continue;
+            }
             VirtualEditionFragmentsTEIImport teiImport = new VirtualEditionFragmentsTEIImport();
             try {
                 teiImport.importFragmentFromTEI(new FileInputStream(file));
@@ -562,6 +558,10 @@ public class Bootstrap implements WebApplicationInitializer {
         }
 
         Indexer.clearTermsTFIDFCache();
+
+        TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
+        textProvidesInterface.getFragmentByXmlId(null);
+        textProvidesInterface.getScholarInter(null);
     }
 
 }
