@@ -17,14 +17,13 @@ import pt.ist.socialsoftware.edition.ldod.visual.api.dto.EditionInterListDto;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class TextProvidesInterface {
     private static final Logger logger = LoggerFactory.getLogger(TextProvidesInterface.class);
 
-    private static Map<String, Fragment> fragmentMap;
-    private static Map<String, ScholarInter> scholarInterMap;
+    private static final Map<String, Fragment> fragmentMap = new HashMap<>();
+    private static final Map<String, ScholarInter> scholarInterMap = new HashMap<>();
 
     public HeteronymDto getScholarInterHeteronym(String scholarInterId) {
         return getScholarInterByXmlId(scholarInterId).map(scholarInter -> scholarInter.getHeteronym()).map(HeteronymDto::new).orElse(null);
@@ -397,12 +396,24 @@ public class TextProvidesInterface {
     }
 
     private static Optional<ScholarInter> getScholarInterByXmlId(String xmlId) {
-        if (scholarInterMap == null) {
-            scholarInterMap = TextModule.getInstance().getFragmentsSet().stream()
-                    .flatMap(fragment -> fragment.getScholarInterSet().stream())
-                    .collect(Collectors.toConcurrentMap(ScholarInter::getXmlId, Function.identity()));
+        if (xmlId == null) {
+            return Optional.empty();
         }
-        return xmlId != null ? Optional.ofNullable(scholarInterMap.get(xmlId)) : Optional.empty();
+
+        ScholarInter scholarInter = scholarInterMap.get(xmlId);
+
+        if (scholarInter == null) {
+            scholarInter = TextModule.getInstance().getFragmentsSet().stream()
+                    .flatMap(fragment -> fragment.getScholarInterSet().stream())
+                    .filter(sci -> sci.getXmlId().equals(xmlId))
+                    .findAny().orElse(null);
+
+            if (scholarInter != null) {
+                scholarInterMap.put(xmlId, scholarInter);
+            }
+        }
+
+        return Optional.ofNullable(scholarInter);
     }
 
     private Optional<Fragment> getFragmentByInterXmlId(String scholarInterId) {
@@ -410,11 +421,22 @@ public class TextProvidesInterface {
     }
 
     private static Optional<Fragment> getFragmentByFragmentXmlId(String xmlId) {
-        if (fragmentMap == null) {
-            fragmentMap = TextModule.getInstance().getFragmentsSet().stream()
-                    .collect(Collectors.toConcurrentMap(Fragment::getXmlId, Function.identity()));
+        if (xmlId == null) {
+            return Optional.empty();
         }
-        return xmlId != null ? Optional.ofNullable(fragmentMap.get(xmlId)) : Optional.empty();
+
+        Fragment fragment = fragmentMap.get(xmlId);
+
+        if (fragment == null) {
+            fragment = TextModule.getInstance().getFragmentsSet().stream()
+                    .filter(f -> f.getXmlId().equals(xmlId))
+                    .findAny().orElse(null);
+
+            if (fragment != null) {
+                fragmentMap.put(xmlId, fragment);
+            }
+        }
+        return Optional.ofNullable(fragmentMap.get(xmlId));
     }
 
     private Optional<ExpertEdition> getExpertEditionByAcronym(String acronym) {
