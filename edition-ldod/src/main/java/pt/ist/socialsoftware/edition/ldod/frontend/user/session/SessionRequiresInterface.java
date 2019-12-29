@@ -2,7 +2,6 @@ package pt.ist.socialsoftware.edition.ldod.frontend.user.session;
 
 import pt.ist.socialsoftware.edition.ldod.api.event.Event;
 import pt.ist.socialsoftware.edition.ldod.api.event.EventVirtualEditionUpdate;
-import pt.ist.socialsoftware.edition.ldod.frontend.config.HttpSessionConfig;
 import pt.ist.socialsoftware.edition.ldod.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
@@ -15,18 +14,19 @@ public class SessionRequiresInterface {
     public void notifyEvent(Event event) {
         if (event.getType().equals(Event.EventType.VIRTUAL_EDITION_REMOVE) ||
                 event.getType().equals(Event.EventType.VIRTUAL_EDITION_UPDATE)) {
-            HttpSessionConfig.getSessions().values().stream()
-                    .map(FrontendSession.class::cast)
-                    .forEach(frontendSession -> {
-                        if (event.getType().equals(Event.EventType.VIRTUAL_EDITION_REMOVE)) {
-                            frontendSession.removeSelectedVE(event.getIdentifier());
-                        }
-                        if (event.getType().equals(Event.EventType.VIRTUAL_EDITION_UPDATE)) {
-                            EventVirtualEditionUpdate eventVirtualEditionUpdate = (EventVirtualEditionUpdate) event;
-                            frontendSession.removeSelectedVE(eventVirtualEditionUpdate.getIdentifier());
-                            frontendSession.addSelectedVE(eventVirtualEditionUpdate.getNewAcronym());
-                        }
-                    });
+//            HttpSessionConfig.getSessions().values().stream()
+//                    .map(FrontendSession.class::cast)
+//                    .forEach(frontendSession -> {
+            FrontendSession frontendSession = FrontendSession.getFrontendSession();
+            if (event.getType().equals(Event.EventType.VIRTUAL_EDITION_REMOVE)) {
+                frontendSession.removeSelectedVE(event.getIdentifier());
+            }
+            if (event.getType().equals(Event.EventType.VIRTUAL_EDITION_UPDATE)) {
+                EventVirtualEditionUpdate eventVirtualEditionUpdate = (EventVirtualEditionUpdate) event;
+                frontendSession.removeSelectedVE(eventVirtualEditionUpdate.getIdentifier());
+                frontendSession.addSelectedVE(eventVirtualEditionUpdate.getNewAcronym());
+            }
+//            ;                   })
         }
     }
 
