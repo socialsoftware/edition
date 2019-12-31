@@ -11,10 +11,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.config.Application;
-import pt.ist.socialsoftware.edition.ldod.controller.FragmentController;
-import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
-import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
+import pt.ist.socialsoftware.edition.ldod.frontend.config.Application;
+import pt.ist.socialsoftware.edition.ldod.frontend.filters.TransactionFilter;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.FragmentController;
+import pt.ist.socialsoftware.edition.ldod.utils.controller.LdoDExceptionHandler;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

@@ -13,14 +13,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
-import pt.ist.socialsoftware.edition.ldod.config.Application;
-import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
-import pt.ist.socialsoftware.edition.ldod.controller.RecommendationController;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
-import pt.ist.socialsoftware.edition.ldod.recommendation.dto.RecommendVirtualEditionParam;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
+import pt.ist.socialsoftware.edition.ldod.frontend.config.Application;
+import pt.ist.socialsoftware.edition.ldod.frontend.filters.TransactionFilter;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.assistedordering.AssistedOrderingController;
+import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.HeteronymPropertyDto;
+import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.PropertyDto;
+import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.RecommendVirtualEditionParam;
+import pt.ist.socialsoftware.edition.ldod.utils.controller.LdoDExceptionHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,7 @@ public class RecommendationPerformanceTest {
     protected MockMvc mockMvc;
 
     @InjectMocks
-    RecommendationController recommendationController;
+    AssistedOrderingController recommendationController;
 
     @BeforeEach
     public void setUp() {
@@ -49,15 +51,15 @@ public class RecommendationPerformanceTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void setLinearTest() throws Exception {
-        VirtualEditionInter vi = LdoD.getInstance().getVirtualEdition(Edition.ARCHIVE_EDITION_ACRONYM)
+        VirtualEditionInter vi = VirtualModule.getInstance().getVirtualEdition(VirtualEdition.ARCHIVE_EDITION_ACRONYM)
                 .getAllDepthVirtualEditionInters().get(1);
 
-        List<Property> propertyList = new ArrayList<>();
-//        propertyList.add(new HeteronymProperty("1.0"));
+        List<PropertyDto> propertyList = new ArrayList<>();
+        propertyList.add(new HeteronymPropertyDto("1.0"));
 //        propertyList.add(new DateProperty("1.0"));
 //        propertyList.add(new TextProperty("1.0"));
 //        propertyList.add(new TaxonomyProperty("1.0", Edition.ARCHIVE_EDITION_ACRONYM));
-        RecommendVirtualEditionParam paramn = new RecommendVirtualEditionParam(Edition.ARCHIVE_EDITION_ACRONYM,
+        RecommendVirtualEditionParam paramn = new RecommendVirtualEditionParam(VirtualEdition.ARCHIVE_EDITION_ACRONYM,
                 vi.getExternalId(), propertyList);
 
         this.mockMvc.perform(post("/recommendation/linear")

@@ -9,10 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import pt.ist.socialsoftware.edition.ldod.config.Application;
-import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
-import pt.ist.socialsoftware.edition.ldod.controller.SourceController;
-import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
+import pt.ist.socialsoftware.edition.ldod.frontend.config.Application;
+import pt.ist.socialsoftware.edition.ldod.frontend.filters.TransactionFilter;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.SourceController;
+import pt.ist.socialsoftware.edition.ldod.utils.controller.LdoDExceptionHandler;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
