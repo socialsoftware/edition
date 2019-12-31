@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.6.RELEASE</version>
+        <version>2.2.2.RELEASE</version>
     </parent>
 
     <name>edition</name>
@@ -66,6 +66,14 @@
             pt.ist.fenixframework.backend.jvstmojb.codeGenerator.FenixCodeGeneratorOneBoxPerObject
         </fenix.framework.codeGeneratorClassName>
         <fenix.framework.backend>jvstm-ojb</fenix.framework.backend>
+
+        <version.jacoco.maven.plugin>0.8.5</version.jacoco.maven.plugin>
+        <coverage.class.ratio>0.15</coverage.class.ratio>
+        <coverage.instruction.ratio>0.15</coverage.instruction.ratio>
+        <coverage.method.ratio>0.15</coverage.method.ratio>
+        <coverage.branch.ratio>0.15</coverage.branch.ratio>
+        <coverage.complexity.ratio>0.15</coverage.complexity.ratio>
+        <coverage.line.ratio>0.15</coverage.line.ratio>
     </properties>
 
     <profiles>

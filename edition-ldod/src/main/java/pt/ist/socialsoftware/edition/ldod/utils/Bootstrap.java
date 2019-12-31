@@ -42,7 +42,6 @@ public class Bootstrap implements WebApplicationInitializer {
 
     private static final String ARS = "ars";
 
-
     /**
      * It is invoked from spring mvc user interface
      */
@@ -54,7 +53,6 @@ public class Bootstrap implements WebApplicationInitializer {
 
     @Atomic(mode = TxMode.WRITE)
     public static void initializeSystem() {
-
         // clean existing module info.
         FenixFramework.getDomainRoot().getModuleSet().forEach(EditionModule::remove);
 
@@ -177,7 +175,7 @@ public class Bootstrap implements WebApplicationInitializer {
         try {
             loadTEICorpus.loadTEICorpus(new FileInputStream(corpus));
         } catch (FileNotFoundException e) {
-            throw new LdoDException("Failed to load games from file");
+            throw new LdoDException("Failed to load text from file");
         }
 
         File[] files = directory.listFiles();
@@ -556,7 +554,6 @@ public class Bootstrap implements WebApplicationInitializer {
             VSMFragmentRecommender recommender = new VSMFragmentRecommender();
             for (FragmentDto fragment : fragments) {
                 logger.debug("loadRecommendationCache xmlId:{}", fragment.getXmlId());
-
                 recommender.getMostSimilarItem(fragment, fragments, properties);
             }
         }

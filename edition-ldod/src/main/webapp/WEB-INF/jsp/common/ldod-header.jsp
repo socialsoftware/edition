@@ -66,6 +66,11 @@
                             code="header.archive"/></a></li>
                     <li><a href="${contextPath}/about/videos"><spring:message
                             code="header.videos"/></a></li>
+                    <<<<<<< HEAD
+                    =======
+                    <li><a href="${contextPath}/about/tutorials"><spring:message
+                            code="header.tutorials"/></a></li>
+                    >>>>>>> master
                     <li><a href="${contextPath}/about/faq"><spring:message
                             code="header.faq"/></a></li>
                     <li><a href="${contextPath}/about/encoding"><spring:message
