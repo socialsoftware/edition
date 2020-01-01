@@ -23,6 +23,10 @@ public class FrontendSession implements Serializable {
     private final ReadingRecommendation recommendation = new ReadingRecommendation();
 
     public static FrontendSession getFrontendSession() {
+        if (RequestContextHolder.getRequestAttributes() == null) {
+            return null;
+        }
+
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
                 .getRequest();
 

@@ -3,13 +3,9 @@ package pt.ist.socialsoftware.edition.ldod.controller.admin;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -30,12 +26,9 @@ import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionsT
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -47,11 +40,11 @@ public class AdminTest {
 
     public static final String LDOD_TESTE = "LdoD-Teste";
 
-    @Mock
-    SessionRegistry sessionRegistry;
+//    @Mock
+//    SessionRegistry sessionRegistry;
 
-    @Mock
-    PasswordEncoder passwordEncoder;
+//    @Mock
+//    PasswordEncoder passwordEncoder;
 
     @InjectMocks
     TextAdminController textAdminController;
@@ -262,7 +255,7 @@ public class AdminTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteUserSessionsTest() throws Exception {
 
-        when(this.sessionRegistry.getAllPrincipals()).thenReturn(new ArrayList<>());
+        //when(this.sessionRegistry.getAllPrincipals()).thenReturn(new ArrayList<>());
 
         this.userMockMvc.perform(post("/admin/sessions/delete"))
                 .andDo(print())
@@ -623,9 +616,9 @@ public class AdminTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void createTestUsersTest() throws Exception {
 
-        PasswordEncoder p = new BCryptPasswordEncoder(11);
-
-        when(this.passwordEncoder.encode(anyString())).thenReturn(p.encode(anyString()));
+//        PasswordEncoder p = new BCryptPasswordEncoder(11);
+//
+//        when(this.passwordEncoder.encode(anyString())).thenReturn(p.encode(anyString()));
 
         this.userMockMvc.perform(post("/admin/createTestUsers"))
                 .andDo(print())

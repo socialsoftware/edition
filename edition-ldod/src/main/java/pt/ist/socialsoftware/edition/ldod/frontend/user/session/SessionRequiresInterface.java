@@ -18,6 +18,9 @@ public class SessionRequiresInterface {
 //                    .map(FrontendSession.class::cast)
 //                    .forEach(frontendSession -> {
             FrontendSession frontendSession = FrontendSession.getFrontendSession();
+            if (frontendSession == null) {
+                return;
+            }
             if (event.getType().equals(Event.EventType.VIRTUAL_EDITION_REMOVE)) {
                 frontendSession.removeSelectedVE(event.getIdentifier());
             }

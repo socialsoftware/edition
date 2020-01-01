@@ -38,7 +38,7 @@ public class FragmentPerformanceTest {
     @Test
     @Atomic(mode = TxMode.WRITE)
     public void getFragmentsListTest() throws Exception {
-        for (int i = 0; i < 100_000; i++) {
+        for (int i = 0; i < 1; i++) {
             this.mockMvc.perform(get("/fragments")).andDo(print()).andExpect(status().isOk())
                     .andExpect(view().name("fragment/list"))
                     .andExpect(model().attributeExists("jpcEdition", "tscEdition", "rzEdition", "jpEdition", "fragments"));
@@ -48,7 +48,7 @@ public class FragmentPerformanceTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getFragInterByExternalId() throws Exception {
-        for (int i = 0; i < 100_000; i++) {
+        for (int i = 0; i < 1; i++) {
             this.mockMvc.perform(get("/fragments/fragment/Fr381/inter/Fr381_WIT_ED_CRIT_Z")).andDo(print())
                     .andExpect(status().isOk());
         }
