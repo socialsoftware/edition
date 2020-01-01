@@ -188,7 +188,19 @@ public class TextProvidesInterface {
     }
 
     public Set<SourceDto> getFragmentSourceSet(String xmlId) {
-        return getFragmentByFragmentXmlId(xmlId).orElse(null).getSourcesSet().stream().map(SourceDto::new).collect(Collectors.toSet());
+        Fragment fragment = getFragmentByFragmentXmlId(xmlId).orElse(null);
+
+        if (fragment == null) {
+            return new HashSet<>();
+        } else {
+            Set<SourceDto> result = new HashSet<>();
+            for (Source source : fragment.getSourcesSet()) {
+                result.add(new SourceDto(source));
+            }
+            return result;
+        }
+
+        //       return getFragmentByFragmentXmlId(xmlId).orElse(null).getSourcesSet().stream().map(SourceDto::new).collect(Collectors.toSet());
     }
 
     public ScholarInterDto getScholarInterDtoByFragmentXmlIdAndUrlId(String fragmentXmlId, String scholarInterUrlId) {
@@ -232,7 +244,12 @@ public class TextProvidesInterface {
     }
 
     public Set<FragmentDto> getFragmentDtoSet() {
-        return TextModule.getInstance().getFragmentsSet().stream().map(FragmentDto::new).collect(Collectors.toSet());
+        Set<FragmentDto> result = new HashSet<>();
+        for (Fragment fragment : TextModule.getInstance().getFragmentsSet()) {
+            result.add(new FragmentDto(fragment));
+        }
+        return result;
+//        return TextModule.getInstance().getFragmentsSet().stream().map(FragmentDto::new).collect(Collectors.toSet());
     }
 
     public Set<ScholarInterDto> getScholarInterDto4FragmentXmlId(String xmlId) {
