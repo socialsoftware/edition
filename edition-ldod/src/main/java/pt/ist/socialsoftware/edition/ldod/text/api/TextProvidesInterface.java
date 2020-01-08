@@ -22,8 +22,17 @@ import java.util.stream.Collectors;
 public class TextProvidesInterface {
     private static final Logger logger = LoggerFactory.getLogger(TextProvidesInterface.class);
 
-    private static final Map<String, Fragment> fragmentMap = new HashMap<>();
-    private static final Map<String, ScholarInter> scholarInterMap = new HashMap<>();
+    private static Map<String, Fragment> fragmentMap = new HashMap<>();
+
+    public static void cleanFragmentMapCache() {
+        fragmentMap = new HashMap<>();
+    }
+
+    private static Map<String, ScholarInter> scholarInterMap = new HashMap<>();
+
+    public static void cleanScholarInterMapCache() {
+        scholarInterMap = new HashMap<>();
+    }
 
     public HeteronymDto getScholarInterHeteronym(String scholarInterId) {
         return getScholarInterByXmlId(scholarInterId).map(scholarInter -> scholarInter.getHeteronym()).map(HeteronymDto::new).orElse(null);

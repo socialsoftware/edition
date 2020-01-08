@@ -4,6 +4,7 @@ import pt.ist.fenixframework.FenixFramework
 import pt.ist.fenixframework.core.WriteOnReadError
 import pt.ist.socialsoftware.edition.ldod.domain.*
 import pt.ist.socialsoftware.edition.ldod.recommendation.feature.StoredVectors
+import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface
 import pt.ist.socialsoftware.edition.ldod.text.feature.inout.LoadTEICorpus
 import pt.ist.socialsoftware.edition.ldod.text.feature.inout.LoadTEIFragments
 import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap
@@ -28,6 +29,8 @@ abstract class SpockRollbackTestAbstractClass extends Specification {
 
     def cleanup() {
         try {
+            TextProvidesInterface.cleanFragmentMapCache()
+            TextProvidesInterface.cleanScholarInterMapCache()
             FenixFramework.getTransactionManager().rollback()
         } catch (IllegalStateException | SecurityException | SystemException e) {
             e.printStackTrace()
