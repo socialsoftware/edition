@@ -36,7 +36,7 @@ public class SourcePerformanceTest {
 
     @Test
     public void getSourcesTest() throws Exception {
-        for (int i = 0; i < 100_000; i++) {
+        for (int i = 0; i < 1; i++) {
             this.mockMvc.perform(get("/source/list")).andDo(print())
                     .andExpect(status().isOk()).andExpect(view().name("source/listSources"));
         }

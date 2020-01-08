@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.text.feature.inout.LoadTEICorpus;
 import pt.ist.socialsoftware.edition.ldod.text.feature.inout.LoadTEIFragments;
 import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
@@ -25,7 +26,7 @@ public class TestLoadUtils {
         if (TextModule.getInstance().getExpertEditionsSet().isEmpty()) {
             String testFilesDirectory = PropertiesManager.getProperties().getProperty("test.files.dir");
             File directory = new File(testFilesDirectory);
-            String filename = "corpus.xml";
+            final String filename = "corpus.xml";
             File file = new File(directory, filename);
             LoadTEICorpus corpusLoader = new LoadTEICorpus();
             corpusLoader.loadTEICorpus(new FileInputStream(file));
@@ -53,11 +54,14 @@ public class TestLoadUtils {
     }
 
     public static void cleanDatabaseButCorpus() {
+        TextProvidesInterface.cleanFragmentMapCache();
+        TextProvidesInterface.cleanScholarInterMapCache();
+
         TextModule text = TextModule.getInstance();
         UserModule userModule = UserModule.getInstance();
         VirtualModule virtualModule = VirtualModule.getInstance();
         ClassificationModule classificationModule = ClassificationModule.getInstance();
-        if(classificationModule != null){
+        if (classificationModule != null) {
             classificationModule.getClassificationGameSet().forEach(classificationGame -> classificationGame.remove());
             classificationModule.getPlayerSet().stream().forEach(player -> player.remove());
         }
