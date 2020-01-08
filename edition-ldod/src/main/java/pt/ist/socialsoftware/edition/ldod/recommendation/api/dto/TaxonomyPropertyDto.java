@@ -6,15 +6,17 @@ import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.Taxo
 
 public class TaxonomyPropertyDto extends PropertyDto {
 
-    private final String acronym;
-
     public TaxonomyPropertyDto(@JsonProperty("weight") String weight, @JsonProperty("acronym") String acronym) {
-        super(Double.parseDouble(weight));
-        this.acronym = acronym;
+        super(Double.parseDouble(weight), acronym);
     }
 
     @Override
     public Property getProperty() {
         return new TaxonomyProperty(this.weight, this.acronym);
+    }
+
+    @Override
+    public String getType() {
+        return PropertyDto.TAXONOMY;
     }
 }
