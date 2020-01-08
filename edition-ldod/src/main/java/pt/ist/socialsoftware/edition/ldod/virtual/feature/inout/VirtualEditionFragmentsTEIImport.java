@@ -135,15 +135,17 @@ public class VirtualEditionFragmentsTEIImport {
         for (Element textClass : xp.evaluate(doc)) {
             VirtualEditionInter inter = virtualEditionInterMap.get(textClass.getAttributeValue("source").substring(1));
 
-            for (Element catRef : textClass.getChildren("catRef", this.namespace)) {
-                importTag(catRef, inter);
-            }
+            if (inter != null) {
+                for (Element catRef : textClass.getChildren("catRef", this.namespace)) {
+                    importTag(catRef, inter);
+                }
 
-            for (Element note : textClass.getChildren("note", this.namespace)) {
-                importAnnotation(note, inter);
-            }
+                for (Element note : textClass.getChildren("note", this.namespace)) {
+                    importAnnotation(note, inter);
+                }
 
-            //importClassificationGames(textClass, inter);
+                //importClassificationGames(textClass, inter);
+            }
         }
     }
 
