@@ -114,15 +114,17 @@ public class VirtualEditionFragmentsTEIImport {
             VirtualEditionInter inter = (VirtualEditionInter) fragment
                     .getFragInterByXmlId(textClass.getAttributeValue("source").substring(1));
 
-            for (Element catRef : textClass.getChildren("catRef", this.namespace)) {
-                importTag(catRef, inter);
-            }
+            if (inter != null) {
+                for (Element catRef : textClass.getChildren("catRef", this.namespace)) {
+                    importTag(catRef, inter);
+                }
 
-            for (Element note : textClass.getChildren("note", this.namespace)) {
-                importAnnotation(note, inter);
-            }
+                for (Element note : textClass.getChildren("note", this.namespace)) {
+                    importAnnotation(note, inter);
+                }
 
-            importClassificationGames(textClass, inter);
+                importClassificationGames(textClass, inter);
+            }
         }
     }
 
