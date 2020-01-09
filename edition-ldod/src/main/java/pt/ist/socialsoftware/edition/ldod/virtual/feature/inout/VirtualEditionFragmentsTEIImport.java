@@ -28,6 +28,7 @@ import java.util.Map;
 
 public class VirtualEditionFragmentsTEIImport {
     private static final Logger logger = LoggerFactory.getLogger(VirtualEditionFragmentsTEIImport.class);
+    public static final String SOURCE = "source";
 
     private VirtualModule virtualModule = null;
     private Namespace namespace = null;
@@ -91,37 +92,44 @@ public class VirtualEditionFragmentsTEIImport {
 
         Map<String, VirtualEditionInter> createdInters = new HashMap<>();
 
+        final int number = -1;
+        final boolean stop = false;
         while (!wits.isEmpty()) {
             Element wit = wits.remove(0);
-            String sourceXmlId = wit.getAttributeValue("source").substring(1);
+
+            String interXmlId = wit.getAttributeValue("id", Namespace.XML_NAMESPACE);
+            String editionAcronym = interXmlId.substring(interXmlId.lastIndexOf("VIRT.") + "VIRT.".length(),
+                    interXmlId.lastIndexOf('.'));
+            VirtualEdition virtualEdition = this.virtualModule.getVirtualEdition(editionAcronym);
+
+            String sourceXmlId = wit.getAttributeValue(SOURCE).substring(1);
             ScholarInter scholarInter = fragment.getScholarInterByXmlId(sourceXmlId);
-            VirtualEditionInter virtualEditionInter = null;
-            if (scholarInter == null) {
-                virtualEditionInter = createdInters.get(sourceXmlId);
-                if (virtualEditionInter == null) {
-                    wits.add(wit);
-                }
+            VirtualEditionInter virtualEditionInter = createdInters.get(sourceXmlId);
+
+            if (scholarInter == null && virtualEditionInter == null) {
+                wits.add(wit);
             }
 
-            if (scholarInter != null || virtualEditionInter != null) {
-                String interXmlId = wit.getAttributeValue("id", Namespace.XML_NAMESPACE);
-                String editionAcronym = interXmlId.substring(interXmlId.lastIndexOf("VIRT.") + "VIRT.".length(),
-                        interXmlId.lastIndexOf('.'));
-                VirtualEdition virtualEdition = this.virtualModule.getVirtualEdition(editionAcronym);
-
-                VirtualEditionInter created;
-                logger.debug("importWitnesses do id: {}, source: {}", interXmlId, wit.getAttributeValue("source"));
-                if (scholarInter != null) {
-                    created = virtualEdition.createVirtualEditionInter(new ScholarInterDto(wit.getAttributeValue("source").substring(1)),
-                            Integer.parseInt(wit.getChild("num", this.namespace).getAttributeValue("value")));
-                } else {
-                    created = virtualEdition.createVirtualEditionInter(virtualEditionInter,
-                            Integer.parseInt(wit.getChild("num", this.namespace).getAttributeValue("value")));
+            if (scholarInter != null) {
+                VirtualEditionInter created = virtualEdition.createVirtualEditionInter(new ScholarInterDto(wit.getAttributeValue("source").substring(1)),
+                        Integer.parseInt(wit.getChild("num", this.namespace).getAttributeValue("value")));
+                if (created == null) {
+                    created = virtualEdition.getAllDepthVirtualEditionInters().stream()
+                            .filter(virtualEditionInter1 -> virtualEditionInter1.getFragmentXmlId().equals(fragment.getXmlId()))
+                            .findAny()
+                            .orElse(null);
                 }
-                if (created != null) {
-                    createdInters.put(created.getXmlId(), created);
-                }
+                createdInters.put(interXmlId, created);
+                logger.debug("scholarInter != null id: {}, source: {}, created: {}", interXmlId, sourceXmlId, created);
             }
+
+            if (virtualEditionInter != null) {
+                VirtualEditionInter created = virtualEdition.createVirtualEditionInter(virtualEditionInter,
+                        Integer.parseInt(wit.getChild("num", this.namespace).getAttributeValue("value")));
+                createdInters.put(interXmlId, created);
+                logger.debug("scholarInter == null id: {}, source: {}, created: {}", interXmlId, sourceXmlId, created);
+            }
+
         }
 
         return createdInters;
@@ -133,19 +141,17 @@ public class VirtualEditionFragmentsTEIImport {
                 Namespace.getNamespace("def", this.namespace.getURI()));
 
         for (Element textClass : xp.evaluate(doc)) {
-            VirtualEditionInter inter = virtualEditionInterMap.get(textClass.getAttributeValue("source").substring(1));
+            VirtualEditionInter inter = virtualEditionInterMap.get(textClass.getAttributeValue(SOURCE).substring(1));
 
-            if (inter != null) {
-                for (Element catRef : textClass.getChildren("catRef", this.namespace)) {
-                    importTag(catRef, inter);
-                }
-
-                for (Element note : textClass.getChildren("note", this.namespace)) {
-                    importAnnotation(note, inter);
-                }
-
-                //importClassificationGames(textClass, inter);
+            for (Element catRef : textClass.getChildren("catRef", this.namespace)) {
+                importTag(catRef, inter);
             }
+
+            for (Element note : textClass.getChildren("note", this.namespace)) {
+                importAnnotation(note, inter);
+            }
+
+            //importClassificationGames(textClass, inter);
         }
     }
 
