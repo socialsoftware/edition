@@ -6,12 +6,18 @@ import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.Prop
 
 public class DatePropertyDto extends PropertyDto {
 
-    public DatePropertyDto(@JsonProperty("weight") String weight) {
-        super(Double.parseDouble(weight));
+    public DatePropertyDto(@JsonProperty("weight") String weight, @JsonProperty("acronym") String acronym) {
+        super(Double.parseDouble(weight), acronym);
     }
 
     @Override
     public Property getProperty() {
         return new DateProperty(this.weight);
     }
+
+    @Override
+    public String getType() {
+        return PropertyDto.DATE;
+    }
+
 }

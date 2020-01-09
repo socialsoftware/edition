@@ -17,15 +17,22 @@ public abstract class PropertyDto {
     public static final String TAXONOMY = "taxonomy";
 
     protected final double weight;
+    protected final String acronym;
 
-    public PropertyDto(double weight) {
+    public PropertyDto(double weight, String acronym) {
         this.weight = weight;
+        this.acronym = acronym;
     }
 
     public abstract Property getProperty();
+
+    public abstract String getType();
 
     public double getWeight() {
         return this.weight;
     }
 
+    public String getAcronym() {
+        return this.acronym;
+    }
 }
