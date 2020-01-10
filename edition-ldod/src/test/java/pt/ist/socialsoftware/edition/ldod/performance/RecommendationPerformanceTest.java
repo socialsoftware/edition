@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.performance;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +19,10 @@ import pt.ist.socialsoftware.edition.ldod.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.ldod.frontend.config.Application;
 import pt.ist.socialsoftware.edition.ldod.frontend.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.assistedordering.AssistedOrderingController;
-import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.*;
+import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.HeteronymPropertyDto;
+import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.PropertyDto;
+import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.RecommendVirtualEditionParam;
+import pt.ist.socialsoftware.edition.ldod.recommendation.api.dto.TextPropertyDto;
 import pt.ist.socialsoftware.edition.ldod.utils.controller.LdoDExceptionHandler;
 
 import java.util.ArrayList;
@@ -55,13 +57,13 @@ public class RecommendationPerformanceTest {
 
         List<PropertyDto> propertyList = new ArrayList<>();
         propertyList.add(new HeteronymPropertyDto("1.0", VirtualEdition.ARCHIVE_EDITION_ACRONYM));
-        propertyList.add(new DatePropertyDto("1.0", VirtualEdition.ARCHIVE_EDITION_ACRONYM));
+//        propertyList.add(new DatePropertyDto("1.0", VirtualEdition.ARCHIVE_EDITION_ACRONYM));
         propertyList.add(new TextPropertyDto("1.0", VirtualEdition.ARCHIVE_EDITION_ACRONYM));
-        propertyList.add(new TaxonomyPropertyDto("1.0", VirtualEdition.ARCHIVE_EDITION_ACRONYM));
+//        propertyList.add(new TaxonomyPropertyDto("1.0", VirtualEdition.ARCHIVE_EDITION_ACRONYM));
         RecommendVirtualEditionParam paramn = new RecommendVirtualEditionParam(VirtualEdition.ARCHIVE_EDITION_ACRONYM,
                 vi.getExternalId(), propertyList);
 
-            this.mockMvc.perform(post("/recommendation/linear")
+        this.mockMvc.perform(post("/recommendation/linear")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(TestLoadUtils.jsonBytes(paramn)))
                 .andDo(print())

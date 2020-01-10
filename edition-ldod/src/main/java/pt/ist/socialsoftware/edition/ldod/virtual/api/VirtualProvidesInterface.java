@@ -18,6 +18,24 @@ import java.util.stream.Collectors;
 public class VirtualProvidesInterface {
     private static final Logger logger = LoggerFactory.getLogger(VirtualProvidesInterface.class);
 
+    private static Map<String, VirtualEdition> virtualEditionMap = new HashMap<>();
+
+    public static void cleanVirtualEditionMapCache() {
+        virtualEditionMap = new HashMap<>();
+    }
+
+    private static Map<String, VirtualEditionInter> virtualEditionInterMapByXmlId = new HashMap<>();
+
+    public static void cleanVirtualEditionInterMapByXmlIdCache() {
+        virtualEditionInterMapByXmlId = new HashMap<>();
+    }
+
+    private static Map<String, VirtualEditionInter> virtualEditionInterMapByUrlId = new HashMap<>();
+
+    public static void cleanVirtualEditionInterMapByUrlIdCache() {
+        virtualEditionInterMapByUrlId = new HashMap<>();
+    }
+
     public boolean isInterInVirtualEdition(String xmlId, String acronym) {
         return VirtualModule.getInstance().getVirtualEdition(acronym).getAllDepthVirtualEditionInters().stream()
                 .anyMatch(virtualEditionInter -> virtualEditionInter.getXmlId().equals(xmlId));
@@ -495,18 +513,66 @@ public class VirtualProvidesInterface {
 
 
     private Optional<VirtualEditionInter> getVirtualEditionInterByXmlId(String xmlId) {
-        return VirtualModule.getInstance().getVirtualEditionInterSet().stream()
-                .filter(virtualEditionInter -> virtualEditionInter.getXmlId().equals(xmlId)).findAny();
+        if (xmlId == null) {
+            return Optional.empty();
+        }
+
+        VirtualEditionInter virtualEditionInter = virtualEditionInterMapByXmlId.get(xmlId);
+
+        if (virtualEditionInter == null) {
+            virtualEditionInter = VirtualModule.getInstance().getVirtualEditionInterSet().stream()
+                    .filter(vei -> vei.getXmlId().equals(xmlId))
+                    .findAny()
+                    .orElse(null);
+
+            if (virtualEditionInter != null) {
+                virtualEditionInterMapByXmlId.put(xmlId, virtualEditionInter);
+            }
+        }
+
+        return Optional.ofNullable(virtualEditionInter);
     }
 
-    private Optional<VirtualEditionInter> getVirtualEditionInterByUrlIdUtil(String urlI) {
-        return VirtualModule.getInstance().getVirtualEditionInterSet().stream()
-                .filter(virtualEditionInter -> virtualEditionInter.getUrlId().equals(urlI)).findAny();
+    private Optional<VirtualEditionInter> getVirtualEditionInterByUrlIdUtil(String urlId) {
+        if (urlId == null) {
+            return Optional.empty();
+        }
+
+        VirtualEditionInter virtualEditionInter = virtualEditionInterMapByUrlId.get(urlId);
+
+        if (virtualEditionInter == null) {
+            virtualEditionInter = VirtualModule.getInstance().getVirtualEditionInterSet().stream()
+                    .filter(vei -> vei.getUrlId().equals(urlId))
+                    .findAny()
+                    .orElse(null);
+
+            if (virtualEditionInter != null) {
+                virtualEditionInterMapByUrlId.put(urlId, virtualEditionInter);
+            }
+        }
+
+        return Optional.ofNullable(virtualEditionInter);
     }
 
     private Optional<VirtualEdition> getVirtualEditionByAcronymUtil(String acronym) {
-        return VirtualModule.getInstance().getVirtualEditionsSet().stream()
-                .filter(virtualEdition -> virtualEdition.getAcronym().equals(acronym)).findAny();
+        if (acronym == null) {
+            return Optional.empty();
+        }
+
+        VirtualEdition virtualEdition = virtualEditionMap.get(acronym);
+
+        if (virtualEdition == null) {
+            virtualEdition = VirtualModule.getInstance().getVirtualEditionsSet().stream()
+                    .filter(ve -> ve.getAcronym().equals(acronym))
+                    .findAny()
+                    .orElse(null);
+
+            if (virtualEdition != null) {
+                virtualEditionMap.put(acronym, virtualEdition);
+            }
+        }
+
+        return Optional.ofNullable(virtualEdition);
     }
 
 }

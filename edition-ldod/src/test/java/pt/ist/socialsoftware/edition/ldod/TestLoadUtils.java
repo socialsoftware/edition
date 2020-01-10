@@ -11,6 +11,7 @@ import pt.ist.socialsoftware.edition.ldod.text.feature.inout.LoadTEIFragments;
 import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionFragmentsTEIImport;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionsTEICorpusImport;
 
@@ -56,6 +57,9 @@ public class TestLoadUtils {
     public static void cleanDatabaseButCorpus() {
         TextProvidesInterface.cleanFragmentMapCache();
         TextProvidesInterface.cleanScholarInterMapCache();
+        VirtualProvidesInterface.cleanVirtualEditionInterMapByUrlIdCache();
+        VirtualProvidesInterface.cleanVirtualEditionInterMapByXmlIdCache();
+        VirtualProvidesInterface.cleanVirtualEditionMapCache();
 
         TextModule text = TextModule.getInstance();
         UserModule userModule = UserModule.getInstance();

@@ -10,6 +10,7 @@ import pt.ist.socialsoftware.edition.ldod.text.feature.inout.LoadTEIFragments
 import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDLoadException
+import pt.ist.socialsoftware.edition.ldod.virtual.api.VirtualProvidesInterface
 import spock.lang.Specification
 
 import javax.transaction.NotSupportedException
@@ -31,6 +32,9 @@ abstract class SpockRollbackTestAbstractClass extends Specification {
         try {
             TextProvidesInterface.cleanFragmentMapCache()
             TextProvidesInterface.cleanScholarInterMapCache()
+            VirtualProvidesInterface.cleanVirtualEditionInterMapByUrlIdCache()
+            VirtualProvidesInterface.cleanVirtualEditionInterMapByXmlIdCache()
+            VirtualProvidesInterface.cleanVirtualEditionMapCache()
             FenixFramework.getTransactionManager().rollback()
         } catch (IllegalStateException | SecurityException | SystemException e) {
             e.printStackTrace()
