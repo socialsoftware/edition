@@ -89,7 +89,6 @@ local.properties
 
 # Package Files #
 *.jar
-!lib/kieker-1.13-aspectj.jar
 *.war
 *.nar
 *.ear
