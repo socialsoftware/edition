@@ -12,7 +12,6 @@
 
 
 	<artifactId>edition-ldod</artifactId>
-	<packaging>war</packaging>
 
 	<build>
 		<plugins>
@@ -35,6 +34,20 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<agents>
+						lib/kieker-1.13-aspectj.jar
+					</agents>
+					<jvmArguments>
+						<!-- -Dorg.aspectj.weaver.showWeaveInfo=true
+						-Daj.weaving.verbose=true -->
+						-Dkieker.monitoring.skipDefaultAOPConfiguration=true
+					</jvmArguments>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -60,7 +73,12 @@
 		    <artifactId>json-simple</artifactId>
 		    <version>1.1.1</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>net.kieker-monitoring</groupId>
+			<artifactId>kieker</artifactId>
+			<version>1.13</version>
+			<classifier>aspectj</classifier>
+		</dependency>
 	</dependencies>
 	
 </project>
