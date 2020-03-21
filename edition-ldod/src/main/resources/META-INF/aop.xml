@@ -6,9 +6,12 @@
         <!-- <exclude within="pt.ist.socialsoftware.edition.ldod.domain.*.*"/> -->
         <include within="pt.ist.socialsoftware.edition.ldod.controller..*"/>
         <include within="pt.ist.socialsoftware.edition.ldod.aspects..*"/>
+        <include within="pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject" />
+        <include within="pt.ist.fenixframework.FenixFramework" />
     </weaver>
     
     <aspects>
+      <!-- <aspect name="kieker.monitoring.probe.aspectj.operationExecution.OperationExecutionAspectFull"/> -->
       <aspect name="pt.ist.socialsoftware.edition.ldod.aspects.GettersAndSetters"/>
     </aspects>
 </aspectj>
