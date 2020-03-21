@@ -90,4 +90,7 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 	public void monitoredOperation() {
 		// Aspect Declaration (MUST be empty)
 	}
+
+	// Possible conflict between methods of fenix framework classes. Execute a deeper functional testing on the website to verify logs
+	// Last filter to do: Weave only controllers with @RequestMapping
 }
