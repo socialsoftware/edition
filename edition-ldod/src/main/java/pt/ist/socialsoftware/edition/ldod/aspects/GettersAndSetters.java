@@ -29,22 +29,22 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 
 	@Pointcut("execution(pt.ist.fenixframework..* get*(..)) || call(pt.ist.fenixframework..* get*(..))")
 	public void gettersReturningFenixFrameworkObject() {}
-
-	@Pointcut("publicGetters() || publicSetters()")
-	public void publicGettersAndSetters() {}
-
+	
 	/**
 	 * This is a pointcut accepting all calls and executions of setter methods (methods which return void and start with {@code set}).
 	 */
 	@Pointcut("execution(public void pt.ist.socialsoftware.edition.ldod.domain.*.set*(..)) || call(public void pt.ist.socialsoftware.edition.ldod.domain.*.set*(..))")
 	public void publicSetters() {}
-
+	
 	@Pointcut("execution(* set*(pt.ist.fenixframework..*, ..)) || call(* set*(pt.ist.fenixframework..*, ..))")
 	public void settersWithFenixFrameworkObjectArgument() {}
-
+	
 	@Pointcut("!gettersReturningFenixFrameworkObject() && !settersWithFenixFrameworkObjectArgument()")
 	public void noGettersOrSettersWithFenixFramework() {}
-
+	
+	@Pointcut("publicGetters() || publicSetters()")
+	public void publicGettersAndSetters() {}
+	
 	// ADDS AND REMOVES
 
 	@Pointcut("execution(public void pt.ist.socialsoftware.edition.ldod.domain.*.add*(..)) || call(public void pt.ist.socialsoftware.edition.ldod.domain.*.add*(..))")
