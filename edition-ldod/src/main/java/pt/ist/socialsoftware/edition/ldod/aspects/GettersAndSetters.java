@@ -59,15 +59,15 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 	// FENIX FRAMEWORK
 
 	@Pointcut("execution(public * pt.ist.fenixframework.FenixFramework.getDomainObject(..)) || call(public * pt.ist.fenixframework.FenixFramework.getDomainObject(..))")
-	public void fenixFrameworkGetDomainObject() {} // This one isn't used on the domain classes
+	public void fenixFrameworkGetDomainObject() {} 
 
-	@Pointcut("execution(public * pt.ist.fenixframework.FenixFramework.getDomainModel(..)) || call(public * pt.ist.fenixframework.FenixFramework.getDomainModel(..))")
-	public void fenixFrameworkGetDomainModel() {}
+	// @Pointcut("execution(public * pt.ist.fenixframework.FenixFramework.getDomainModel(..)) || call(public * pt.ist.fenixframework.FenixFramework.getDomainModel(..))")
+	// public void fenixFrameworkGetDomainModel() {} // This one isn't used on the domain classes
 
 	@Pointcut("execution(public * pt.ist.fenixframework.FenixFramework.getDomainRoot(..)) || call(public * pt.ist.fenixframework.FenixFramework.getDomainRoot(..))")
 	public void fenixFrameworkGetDomainRoot() {}
 
-	@Pointcut("fenixFrameworkGetDomainObject() || fenixFrameworkGetDomainModel() || fenixFrameworkGetDomainRoot()")
+	@Pointcut("fenixFrameworkGetDomainObject() || fenixFrameworkGetDomainRoot()")
 	public void fenixFrameworkGetters() {}
 
 	// OTHER CLASSES (AND METHODS) THAT MAY BE IMPORTANT TO CATCH
@@ -75,18 +75,23 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 	@Pointcut("execution(public * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.getExternalId(..)) || call(public * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.getExternalId(..))")
 	public void fenixFrameworkAbstractDomainObjectGetExternalId() {}
 
-	@Pointcut("execution(public * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.deleteDomainMetaObject(..)) || call(public * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.deleteDomainMetaObject(..))")
-	public void fenixFrameworkAbstractDomainObjectDeleteDomainMetaObject() {} // This one isn't used on the domain classes
+	// @Pointcut("execution(private * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.deleteDomainMetaObject(..)) || call(private * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.deleteDomainMetaObject(..))")
+	// public void fenixFrameworkAbstractDomainObjectDeleteDomainMetaObject() {} // This one isn't used on the domain classes
 
-	@Pointcut("execution(public * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.deleteDomainObject(..)) || call(public * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.deleteDomainObject(..))")
+	@Pointcut("execution(protected * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.deleteDomainObject(..)) || call(protected * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.deleteDomainObject(..))")
 	public void fenixFrameworkAbstractDomainObjectDeleteDomainObject() {}
 
-	@Pointcut("fenixFrameworkAbstractDomainObjectGetExternalId() || fenixFrameworkAbstractDomainObjectDeleteDomainMetaObject() || fenixFrameworkAbstractDomainObjectDeleteDomainObject()")
+	@Pointcut("fenixFrameworkAbstractDomainObjectGetExternalId() || fenixFrameworkAbstractDomainObjectDeleteDomainObject()")
 	public void otherMethodsThatMayBeImportant() {}
 
 	// KIEKER METHOD
 
-	@Pointcut("(execution(* *(..)) && publicGettersAndSetters() && noGettersOrSettersWithFenixFramework() || publicAddsAndRemoves() || fenixFrameworkGetters() || otherMethodsThatMayBeImportant())") 
+	// @Pointcut("(execution(* *(..)) && publicGettersAndSetters() && noGettersOrSettersWithFenixFramework() || publicAddsAndRemoves() || fenixFrameworkGetters() || otherMethodsThatMayBeImportant())") 
+	// public void monitoredOperation() {
+	// 	// Aspect Declaration (MUST be empty)
+	// }
+
+	@Pointcut("(execution(* *(..)) && publicGettersAndSetters() && noGettersOrSettersWithFenixFramework()) || (execution(* *(..)) && publicAddsAndRemoves()) || (execution(* *(..)) && fenixFrameworkGetters()) || (execution(* *(..)) && otherMethodsThatMayBeImportant())") 
 	public void monitoredOperation() {
 		// Aspect Declaration (MUST be empty)
 	}
