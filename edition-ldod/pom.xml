@@ -44,7 +44,7 @@
 						lib/kieker-1.13-aspectj.jar
 					</agents>
 					<jvmArguments>
-						<!-- -Dorg.aspectj.weaver.showWeaveInfo=true  -->
+						-Dorg.aspectj.weaver.showWeaveInfo=true 
 						<!-- -Daj.weaving.verbose=true -->
 						-Dkieker.monitoring.skipDefaultAOPConfiguration=true
 					</jvmArguments>

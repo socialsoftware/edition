@@ -1,0 +1,9 @@
+./trace-analysis.sh \
+--inputdirs /home/berhart/Desktop/Tese/edition/edition-ldod/src/main/resources/kieker-trace-analysis/kieker-20200402-140748-60248861025003-UTC--KIEKER \
+--outputdir /home/berhart/Desktop/Tese/edition/edition-ldod/src/main/resources/kieker-trace-analysis/trace-generation \
+--print-Execution-Traces \
+--print-invalid-Execution-Traces \
+--print-System-Model \
+--print-Assembly-Equivalence-Classes \
+--print-Deployment-Equivalence-Classes
+

@@ -19,7 +19,7 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 		// empty default constructor
 	}
 
-	// GETTERS AND SETTERS
+	// --------------------------------------------------------------------- GETTERS AND SETTERS ----------------------------------------------------------------------
 
 	/**
 	 * This is a pointcut accepting all calls and executions of getters methods (methods which return something and start with {@code get}).
@@ -45,7 +45,7 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 	@Pointcut("publicGetters() || publicSetters()")
 	public void publicGettersAndSetters() {}
 	
-	// ADDS AND REMOVES
+	// --------------------------------------------------------------------------- ADDS AND REMOVES --------------------------------------------------------------------------- 
 
 	@Pointcut("execution(public void pt.ist.socialsoftware.edition.ldod.domain.*.add*(..)) || call(public void pt.ist.socialsoftware.edition.ldod.domain.*.add*(..))")
 	public void publicAdds() {}
@@ -56,7 +56,7 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 	@Pointcut("publicAdds() || publicRemoves()")
 	public void publicAddsAndRemoves() {}
 
-	// FENIX FRAMEWORK
+	//----------------------------------------------------------------------------- FENIX FRAMEWORK -----------------------------------------------------------------------------
 
 	@Pointcut("execution(public * pt.ist.fenixframework.FenixFramework.getDomainObject(..)) || call(public * pt.ist.fenixframework.FenixFramework.getDomainObject(..))")
 	public void fenixFrameworkGetDomainObject() {} 
@@ -70,7 +70,7 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 	@Pointcut("fenixFrameworkGetDomainObject() || fenixFrameworkGetDomainRoot()")
 	public void fenixFrameworkGetters() {}
 
-	// OTHER CLASSES (AND METHODS) THAT MAY BE IMPORTANT TO CATCH
+	// -------------------------------------------------- OTHER CLASSES (AND METHODS) THAT MAY BE IMPORTANT TO CATCH --------------------------------------------------
 
 	@Pointcut("execution(public * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.getExternalId(..)) || call(public * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.getExternalId(..))")
 	public void fenixFrameworkAbstractDomainObjectGetExternalId() {}
@@ -84,18 +84,37 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 	@Pointcut("fenixFrameworkAbstractDomainObjectGetExternalId() || fenixFrameworkAbstractDomainObjectDeleteDomainObject()")
 	public void otherMethodsThatMayBeImportant() {}
 
-	// KIEKER METHOD
+	// -------------------------------------------------------------------- CONTROLLER CLASSES -------------------------------------------------------------------- 
+	@Pointcut("(@target(org.springframework.stereotype.Controller) || @target(org.springframework.web.bind.annotation.RestController)) && execution(* *(..))")
+	public void controllerClasses() {}
 
-	// @Pointcut("(execution(* *(..)) && publicGettersAndSetters() && noGettersOrSettersWithFenixFramework() || publicAddsAndRemoves() || fenixFrameworkGetters() || otherMethodsThatMayBeImportant())") 
+	// -------------------------------------------------------------------- CONTROLLER METHODS --------------------------------------------------------------------
+	// Controller GET methods
+	@Pointcut("(@annotation(org.springframework.web.bind.annotation.RequestMapping) || @annotation(org.springframework.web.bind.annotation.GetMapping)) && execution(* *(..))")
+	public void controllerGetMethods() {}
+
+	// Controller POST methods
+	@Pointcut("(@annotation(org.springframework.web.bind.annotation.RequestMapping) || @annotation(org.springframework.web.bind.annotation.PostMapping)) && execution(* *(..))")
+	public void controllerPostMethods() {}
+
+	@Pointcut("controllerGetMethods() || controllerPostMethods()")
+	public void controllerMethods() {}
+
+	// ------------------------------------------------------------------------------ KIEKER METHOD ------------------------------------------------------------------------------
+
+	// DOMAIN AND ORM METHODS
+
+	@Pointcut("(publicGettersAndSetters() && noGettersOrSettersWithFenixFramework()) || publicAddsAndRemoves() || fenixFrameworkGetters() || otherMethodsThatMayBeImportant()")
+	public void domainAndORMMethods() {}
+
+	// @Pointcut("(domainAndORMMethods() && controllerMethods()) && execution(* *(..))") 
 	// public void monitoredOperation() {
 	// 	// Aspect Declaration (MUST be empty)
 	// }
 
-	@Pointcut("(execution(* *(..)) && publicGettersAndSetters() && noGettersOrSettersWithFenixFramework()) || (execution(* *(..)) && publicAddsAndRemoves()) || (execution(* *(..)) && fenixFrameworkGetters()) || (execution(* *(..)) && otherMethodsThatMayBeImportant())") 
+	@Pointcut("(cflow(controllerMethods()) && domainAndORMMethods() || controllerMethods()) && execution(* *(..))") 
 	public void monitoredOperation() {
 		// Aspect Declaration (MUST be empty)
 	}
-
-	// Possible conflict between methods of fenix framework classes. Execute a deeper functional testing on the website to verify logs
-	// Last filter to do: Weave only controllers with @RequestMapping
+	
 }
