@@ -67,8 +67,11 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 	@Pointcut("execution(public * pt.ist.fenixframework.FenixFramework.getDomainRoot(..))")
 	public void fenixFrameworkGetDomainRoot() {}
 
-	@Pointcut("fenixFrameworkGetDomainObject() || fenixFrameworkGetDomainRoot()")
-	public void fenixFrameworkGetters() {}
+	@Pointcut("execution(public * pt.ist.fenixframework.DomainRoot_Base.get*(..)) || execution(public * pt.ist.fenixframework.DomainRoot_Base.set*(..))")
+	public void gettersAndSettersInDomainRootBase() {}
+
+	@Pointcut("fenixFrameworkGetDomainObject() || fenixFrameworkGetDomainRoot() || gettersAndSettersInDomainRootBase()")
+	public void fenixFrameworkGettersAndSetters() {}
 
 	// -------------------------------------------------- OTHER CLASSES (AND METHODS) THAT MAY BE IMPORTANT TO CATCH --------------------------------------------------
 
@@ -104,7 +107,7 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 
 	// DOMAIN AND ORM METHODS
 
-	@Pointcut("(publicGettersAndSetters() && noGettersOrSettersWithFenixFramework()) || publicAddsAndRemoves() || fenixFrameworkGetters() || otherMethodsThatMayBeImportant()")
+	@Pointcut("(publicGettersAndSetters() && noGettersOrSettersWithFenixFramework()) || publicAddsAndRemoves() || fenixFrameworkGettersAndSetters() || otherMethodsThatMayBeImportant()")
 	public void domainAndORMMethods() {}
 
 	// @Pointcut("(domainAndORMMethods() && controllerMethods()) && execution(* *(..))") 
