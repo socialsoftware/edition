@@ -24,19 +24,19 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 	/**
 	 * This is a pointcut accepting all calls and executions of getters methods (methods which return something and start with {@code get}).
 	 */
-	@Pointcut("execution(public * pt.ist.socialsoftware.edition.ldod.domain.*.get*(..)) || call(public * pt.ist.socialsoftware.edition.ldod.domain.*.get*(..))")
+	@Pointcut("execution(public * pt.ist.socialsoftware.edition.ldod.domain.*.get*(..))")
 	public void publicGetters() {}
 
-	@Pointcut("execution(pt.ist.fenixframework..* get*(..)) || call(pt.ist.fenixframework..* get*(..))")
+	@Pointcut("execution(pt.ist.fenixframework..* get*(..))")
 	public void gettersReturningFenixFrameworkObject() {}
 	
 	/**
 	 * This is a pointcut accepting all calls and executions of setter methods (methods which return void and start with {@code set}).
 	 */
-	@Pointcut("execution(public void pt.ist.socialsoftware.edition.ldod.domain.*.set*(..)) || call(public void pt.ist.socialsoftware.edition.ldod.domain.*.set*(..))")
+	@Pointcut("execution(public void pt.ist.socialsoftware.edition.ldod.domain.*.set*(..))")
 	public void publicSetters() {}
 	
-	@Pointcut("execution(* set*(pt.ist.fenixframework..*, ..)) || call(* set*(pt.ist.fenixframework..*, ..))")
+	@Pointcut("execution(* set*(pt.ist.fenixframework..*, ..))")
 	public void settersWithFenixFrameworkObjectArgument() {}
 	
 	@Pointcut("!gettersReturningFenixFrameworkObject() && !settersWithFenixFrameworkObjectArgument()")
@@ -47,10 +47,10 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 	
 	// --------------------------------------------------------------------------- ADDS AND REMOVES --------------------------------------------------------------------------- 
 
-	@Pointcut("execution(public void pt.ist.socialsoftware.edition.ldod.domain.*.add*(..)) || call(public void pt.ist.socialsoftware.edition.ldod.domain.*.add*(..))")
+	@Pointcut("execution(public void pt.ist.socialsoftware.edition.ldod.domain.*.add*(..))")
 	public void publicAdds() {}
 
-	@Pointcut("execution(public void pt.ist.socialsoftware.edition.ldod.domain.*.remove*(..)) || call(public void pt.ist.socialsoftware.edition.ldod.domain.*.remove*(..))")
+	@Pointcut("execution(public void pt.ist.socialsoftware.edition.ldod.domain.*.remove*(..))")
 	public void publicRemoves() {}
 
 	@Pointcut("publicAdds() || publicRemoves()")
@@ -58,13 +58,13 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 
 	//----------------------------------------------------------------------------- FENIX FRAMEWORK -----------------------------------------------------------------------------
 
-	@Pointcut("execution(public * pt.ist.fenixframework.FenixFramework.getDomainObject(..)) || call(public * pt.ist.fenixframework.FenixFramework.getDomainObject(..))")
+	@Pointcut("execution(public * pt.ist.fenixframework.FenixFramework.getDomainObject(..))")
 	public void fenixFrameworkGetDomainObject() {} 
 
-	// @Pointcut("execution(public * pt.ist.fenixframework.FenixFramework.getDomainModel(..)) || call(public * pt.ist.fenixframework.FenixFramework.getDomainModel(..))")
+	// @Pointcut("execution(public * pt.ist.fenixframework.FenixFramework.getDomainModel(..))")
 	// public void fenixFrameworkGetDomainModel() {} // This one isn't used on the domain classes
 
-	@Pointcut("execution(public * pt.ist.fenixframework.FenixFramework.getDomainRoot(..)) || call(public * pt.ist.fenixframework.FenixFramework.getDomainRoot(..))")
+	@Pointcut("execution(public * pt.ist.fenixframework.FenixFramework.getDomainRoot(..))")
 	public void fenixFrameworkGetDomainRoot() {}
 
 	@Pointcut("fenixFrameworkGetDomainObject() || fenixFrameworkGetDomainRoot()")
@@ -72,13 +72,13 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 
 	// -------------------------------------------------- OTHER CLASSES (AND METHODS) THAT MAY BE IMPORTANT TO CATCH --------------------------------------------------
 
-	@Pointcut("execution(public * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.getExternalId(..)) || call(public * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.getExternalId(..))")
+	@Pointcut("execution(public * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.getExternalId(..))")
 	public void fenixFrameworkAbstractDomainObjectGetExternalId() {}
 
-	// @Pointcut("execution(private * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.deleteDomainMetaObject(..)) || call(private * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.deleteDomainMetaObject(..))")
+	// @Pointcut("execution(private * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.deleteDomainMetaObject(..))")
 	// public void fenixFrameworkAbstractDomainObjectDeleteDomainMetaObject() {} // This one isn't used on the domain classes
 
-	@Pointcut("execution(protected * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.deleteDomainObject(..)) || call(protected * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.deleteDomainObject(..))")
+	@Pointcut("execution(protected * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.deleteDomainObject(..))")
 	public void fenixFrameworkAbstractDomainObjectDeleteDomainObject() {}
 
 	@Pointcut("fenixFrameworkAbstractDomainObjectGetExternalId() || fenixFrameworkAbstractDomainObjectDeleteDomainObject()")
@@ -112,7 +112,7 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 	// 	// Aspect Declaration (MUST be empty)
 	// }
 
-	@Pointcut("(cflow(controllerMethods()) && domainAndORMMethods() || controllerMethods()) && execution(* *(..))") 
+	@Pointcut("((cflow(controllerMethods()) && domainAndORMMethods()) || controllerMethods()) && execution(* *(..))") 
 	public void monitoredOperation() {
 		// Aspect Declaration (MUST be empty)
 	}
