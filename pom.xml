@@ -26,12 +26,12 @@
         <spring-social-linkedin>1.0.2.RELEASE</spring-social-linkedin>
         <spring-social-google>1.0.0.RELEASE</spring-social-google>
 
-        <gmaven-plugin.version>1.6</gmaven-plugin.version>
-        <maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
-        <maven-failsafe-plugin.version>2.22.0</maven-failsafe-plugin.version>
+        <gmaven-plugin.version>1.9.0</gmaven-plugin.version>
+        <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
+        <maven-failsafe-plugin.version>2.22.1</maven-failsafe-plugin.version>
 
-        <junit-platform.version>1.2.0</junit-platform.version>
-        <jupiter.version>5.2.0</jupiter.version>
+        <junit-platform.version>1.7.0-M1</junit-platform.version>
+        <jupiter.version>5.7.0-M1</jupiter.version>
         <version.spock>1.2-groovy-2.4</version.spock>
         <version.groovy>2.4.15</version.groovy>
         <org.jgroups.version>4.0.17.Final</org.jgroups.version>
@@ -130,11 +130,6 @@
                         </includes>
                     </configuration>
                     <dependencies>
-                        <dependency>
-                            <groupId>org.junit.platform</groupId>
-                            <artifactId>junit-platform-surefire-provider</artifactId>
-                            <version>${junit-platform.version}</version>
-                        </dependency>
                         <dependency>
                             <groupId>org.junit.jupiter</groupId>
                             <artifactId>junit-jupiter-engine</artifactId>
