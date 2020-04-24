@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.11.RELEASE</version>
+        <version>2.2.6.RELEASE</version>
     </parent>
 
     <name>edition</name>
@@ -27,12 +27,12 @@
         <spring-social-linkedin>1.0.2.RELEASE</spring-social-linkedin>
         <spring-social-google>1.0.0.RELEASE</spring-social-google>
 
-        <gmaven-plugin.version>1.6</gmaven-plugin.version>
-        <maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
-        <maven-failsafe-plugin.version>2.22.0</maven-failsafe-plugin.version>
+        <gmaven-plugin.version>1.9.0</gmaven-plugin.version>
+        <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
+        <maven-failsafe-plugin.version>2.22.1</maven-failsafe-plugin.version>
 
-        <junit-platform.version>1.2.0</junit-platform.version>
-        <jupiter.version>5.2.0</jupiter.version>
+        <junit-platform.version>1.7.0-M1</junit-platform.version>
+        <jupiter.version>5.7.0-M1</jupiter.version>
         <version.spock>1.2-groovy-2.4</version.spock>
         <version.groovy>2.4.15</version.groovy>
         <org.jgroups.version>4.0.17.Final</org.jgroups.version>
@@ -61,7 +61,7 @@
         <coverage.complexity.ratio>0.15</coverage.complexity.ratio>
         <coverage.line.ratio>0.15</coverage.line.ratio>
 
-        <version.fenixframework>2.6.2</version.fenixframework>
+        <version.fenixframework>2.8.0</version.fenixframework>
         <fenix.framework.codeGeneratorClassName>
             pt.ist.fenixframework.backend.jvstmojb.codeGenerator.FenixCodeGeneratorOneBoxPerObject
         </fenix.framework.codeGeneratorClassName>
@@ -123,8 +123,8 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
-                        <source>8</source>
-                        <target>8</target>
+                        <source>11</source>
+                        <target>11</target>
                     </configuration>
                 </plugin>
                 <!-- Compile -->
@@ -155,11 +155,6 @@
                         </includes>
                     </configuration>
                     <dependencies>
-                        <dependency>
-                            <groupId>org.junit.platform</groupId>
-                            <artifactId>junit-platform-surefire-provider</artifactId>
-                            <version>${junit-platform.version}</version>
-                        </dependency>
                         <dependency>
                             <groupId>org.junit.jupiter</groupId>
                             <artifactId>junit-jupiter-engine</artifactId>
