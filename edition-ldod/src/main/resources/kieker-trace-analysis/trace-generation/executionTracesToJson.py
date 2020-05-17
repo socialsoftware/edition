@@ -3,6 +3,8 @@ from typing import List, Dict, Tuple
 from os import path
 import json
 import argparse
+import re
+import logging
 
 verbosity: bool = True;
 
@@ -10,9 +12,11 @@ file_content: Dict[str, List[List[str]]] = {};
 current_traceID: str = "-1";
 current_controller_and_method: str = "";
 
-def myPrint(message: str):
+def printAndLog(message: str):
     if (verbosity):
         print(message)
+    
+    logging.info
 
 def deleteControllersWithNoAccesses():
     file_content_copy = file_content.copy() # to avoid RuntimeError: dictionary changed size during iteration
@@ -22,7 +26,7 @@ def deleteControllersWithNoAccesses():
             del file_content[controller]
 
 def getTraceID(trace: List[str]) -> str:
-    return trace[0][1] # e.g, <5[0,0]
+    return re.findall("\<([0-9]+)\[", trace[0])[0] # e.g, <5[0,0]
 
 def getControllerAndMethod(trace: List[str]) -> str:
     *everything_else, controller_name, controller_method = trace[2].split(sep='.')
@@ -33,7 +37,7 @@ def getClassNameAndMethod(trace: List[str]) -> Tuple[str, str]:
     return class_name, method
 
 def parseMethod(class_name: str, method: str) -> Tuple[str, str]: # (accessed entity, access type)
-    myPrint("Parsing method: " + method + " of class " + class_name)
+    printAndLog("Parsing method: " + method + " of class " + class_name)
     
     lowered_case_method = method.lower()
     if (lowered_case_method.startswith("get")):
@@ -52,7 +56,8 @@ def parseMethod(class_name: str, method: str) -> Tuple[str, str]: # (accessed en
 
     elif (lowered_case_method.startswith("set")):
         return method[3:], "W"
-    # elif (method.startswith("add")):
+    elif (method.startswith("add")):
+        return method[3:-1], "W" # TODO speak with samuel about reads and writes
     # elif (method.startswith("remove")):
     else:
         exit("[WARNING]: You were not expecting this method " + method + "from class " + class_name + " in the parseMethod function")
@@ -73,14 +78,14 @@ def parseExecutionTrace(trace: str):
     
     # The only interesting parts of trace we want to parse are the 1st one (index 0) and 3rd one (index 2)
     traceID = getTraceID(split_trace)
-    myPrint("Trace ID: " + traceID)
+    printAndLog("Trace ID: " + traceID)
 
     global current_traceID
     if (current_traceID != traceID): # if the previous ID is different from the new one, it means we are in a different trace
         current_traceID = traceID # and consequently, we need to start by parsing the controller first
 
         controller_and_method = getControllerAndMethod(split_trace)
-        myPrint("Controller.method: " + controller_and_method)
+        printAndLog("Controller.method: " + controller_and_method)
 
         file_content[controller_and_method] = []
 
@@ -97,8 +102,8 @@ def parseExecutionTrace(trace: str):
             return
 
         accessed_entity, access_type = parseMethod(class_name, method) # passing class_name cuz e.g, the getAcronym comes form the Edition(_Base) entity
-        myPrint("Accessed entity: " + accessed_entity)
-        myPrint("Access type: " + access_type)
+        printAndLog("Accessed entity: " + accessed_entity)
+        printAndLog("Access type: " + access_type)
 
         file_content[current_controller_and_method].append([accessed_entity, access_type])
 
@@ -125,13 +130,15 @@ def parseCommandLineArguments() -> Dict[str, object]:
     return args
 
 if __name__ == "__main__":
+    logging.basicConfig(filename="parser.log", filemode="w", format="%(message)s", level=logging.DEBUG)
+
     args = parseCommandLineArguments()
 
     input_file_dir: str = args["inputdir"]
     output_file_dir: str = args["outputdir"]
     verbosity = args["verbose"]
 
-    myPrint(args)
+    printAndLog(args)
 
     with open(input_file_dir) as f:
         for line in f:
@@ -140,5 +147,7 @@ if __name__ == "__main__":
 
             parseExecutionTrace(line)
 
-    # deleteControllersWithNoAccesses()
-    myPrint(json.dumps(file_content, indent = 2))
+    deleteControllersWithNoAccesses()
+    
+    with open(output_file_dir, 'w') as file:
+        file.write(json.dumps(file_content, indent = 2))

@@ -2,12 +2,14 @@
 
 <aspectj>
     <weaver options="-Xset:weaveJavaxPackages=false">
-        <include within="pt.ist.socialsoftware.edition.ldod.domain..*"/>
+        <!-- FIXME change this to instrument src folder -->
+        <include within="pt.ist.socialsoftware.edition.ldod.domain..*"/> 
         <!-- <exclude within="pt.ist.socialsoftware.edition.ldod.domain.*.*"/> -->
         <include within="pt.ist.socialsoftware.edition.ldod.controller..*"/>
         <include within="pt.ist.socialsoftware.edition.ldod.aspects..*"/>
         <include within="pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject" />
         <include within="pt.ist.fenixframework.FenixFramework" />
+        <include within="pt.ist.fenixframework.DomainRoot_Base" />
     </weaver>
     
     <aspects>

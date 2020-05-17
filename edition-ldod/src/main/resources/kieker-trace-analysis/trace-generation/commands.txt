@@ -1,9 +1,11 @@
 ./trace-analysis.sh \
---inputdirs /home/berhart/Desktop/Tese/edition/edition-ldod/src/main/resources/kieker-trace-analysis/kieker-20200402-140748-60248861025003-UTC--KIEKER \
---outputdir /home/berhart/Desktop/Tese/edition/edition-ldod/src/main/resources/kieker-trace-analysis/trace-generation \
+--inputdirs /home/berhart/Desktop/Tese/edition/edition-ldod/src/main/resources/kieker-trace-analysis/kieker-20200517-145737-18217840876270-UTC--KIEKER \
+--outputdir /home/berhart/Desktop/Tese/edition/edition-ldod/src/main/resources/kieker-trace-analysis/trace-generation/test4 \
 --print-Execution-Traces \
 --print-invalid-Execution-Traces \
 --print-System-Model \
 --print-Assembly-Equivalence-Classes \
---print-Deployment-Equivalence-Classes
+--plot-Aggregated-Assembly-Call-Tree
 
+
+python3 executionTracesToJson.py -i ./test4/executionTraces.txt -o ./ldod.json -v

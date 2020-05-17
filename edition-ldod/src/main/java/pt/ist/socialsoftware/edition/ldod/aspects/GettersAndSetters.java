@@ -64,7 +64,7 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 	// @Pointcut("execution(public * pt.ist.fenixframework.FenixFramework.getDomainModel(..))")
 	// public void fenixFrameworkGetDomainModel() {} // This one isn't used on the domain classes
 
-	@Pointcut("execution(public * pt.ist.fenixframework.FenixFramework.getDomainRoot(..))")
+	@Pointcut("execution(public * pt.ist.fenixframework.FenixFramework.getDomainRoot(..))") // TODO remove me pls
 	public void fenixFrameworkGetDomainRoot() {}
 
 	@Pointcut("execution(public * pt.ist.fenixframework.DomainRoot_Base.get*(..)) || execution(public * pt.ist.fenixframework.DomainRoot_Base.set*(..))")
