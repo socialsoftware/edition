@@ -14,9 +14,12 @@ class Node:
         # controllers are the parents themselves. The leaf nodes will be the accessed entities. 
         self.parent: str = None; # the id given by kieker TODO Check if this is really needed or if a dfs is enough (jump useless nodes)
         self.frequency: int = 0;
+
+    def __repr__(self):
+        return "<Node id=%s label=%s frequency=%s />" % (self.id, self.label, self.frequency)
     
     def __str__(self):
-        return "(" + ",".join(self.id, self.label, self.parent) + ")"
+        return "<Node id=%s label=%s frequency=%s />" % (self.id, self.label, self.frequency)
 
 class AST:
     def __init__(self):
@@ -24,7 +27,7 @@ class AST:
         self.tree: Dict[str, List[str]] = {} # node_id -> list<child_node_id>
     
     def addNode(self, node: Node):
-        self.nodes[node.id] = Node;
+        self.nodes[node.id] = node;
         self.tree[node.id] = [];
 
     def addEdge(self, sourceNodeId: str, targetNodeId: str):
@@ -35,17 +38,21 @@ class AST:
 
     def getTree(self):
         return self.tree
+
+    def __repr__(self):
+        return "<Node id=%s label=%s frequency=%s>" % (self.id, self.label, self.frequency)
     
     def __str__(self):
-        
+        string = "";
+
         for node_id in self.tree:
-            printAndLog(str(self.nodes[node_id]))
+            string += str(self.nodes[node_id]) + "\n";
             
             child_node_ids = self.tree[node_id];
             for child_node_id in child_node_ids:
-                printAndLog("\t" + str(self.nodes[child_node_id]))
+                string += "\t" + str(self.nodes[child_node_id]) + "\n";
 
-        return 
+        return string
                 
 
 verbosity: bool = False
@@ -60,7 +67,7 @@ def printAndLog(message: str):
     if (verbosity):
         print(message)
     
-    logging.info
+    logging.info(message)
 
 def getControllerAndMethod(trace: List[str]) -> str:
     *everything_else, controller_name, controller_method = trace[2].split(sep='.')
@@ -147,7 +154,7 @@ def parseGraphSpec(graphElementSpec: str): # entry method to parse a Graphviz gr
         if ((source_node_id in ast.getNodes())):
             logAndExit("The node named: " + source_node_label + " already exists in the AST")
             return;
-
+        
         ast.addNode(Node(source_node_id, source_node_label))
         
 

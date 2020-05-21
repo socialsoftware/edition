@@ -16,7 +16,7 @@ def printAndLog(message: str):
     if (verbosity):
         print(message)
     
-    logging.info
+    logging.info(message)
 
 def deleteControllersWithNoAccesses():
     file_content_copy = file_content.copy() # to avoid RuntimeError: dictionary changed size during iteration
