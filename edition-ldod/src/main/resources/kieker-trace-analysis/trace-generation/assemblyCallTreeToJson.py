@@ -55,11 +55,12 @@ class AST:
 
         return string
 
-class AccessType(Enum):
-    READ = "R"
-    WRITE = "W"
+
 
 class Access:
+    class AccessType(Enum):
+        READ = "R"
+        WRITE = "W"
     def __init__(self, entityName: str, accessType: AccessType, frequency: int):
         self.entity = entityName
         self.type = accessType
