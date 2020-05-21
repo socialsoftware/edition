@@ -5,6 +5,7 @@ import json
 import argparse
 import re
 import logging
+from enum import Enum  
 
 class Node:
     def __init__(self, id, label): # label can be 
@@ -53,8 +54,37 @@ class AST:
                 string += "\t" + str(self.nodes[child_node_id]) + "\n";
 
         return string
-                
 
+class AccessType(Enum):
+    READ = "R"
+    WRITE = "W"
+
+class Access:
+    def __init__(self, entityName: str, accessType: AccessType, frequency: int):
+        self.entity = entityName
+        self.type = accessType
+        self.frequency = 0
+    
+    def getEntity(self):
+        return self.entity
+
+    def getType(self):
+        return self.type
+
+    def getFrequency(self):
+        return self.frequency
+
+class Controller:
+    def __init__(self):
+        self.accesses_list: List[Access] = []
+        self.frequency: int = 0
+
+    def getAccessesList(self):
+        return self.accesses_list
+
+    def getFrequency(self):
+        return self.frequency
+                
 verbosity: bool = False
 file_content: Dict[str, List[List[str]]] = {}
 ast: AST = AST();
@@ -169,6 +199,18 @@ def parseGraphSpec(graphElementSpec: str): # entry method to parse a Graphviz gr
 
     return
 
+def dfs(graph, node, visited):
+    if node not in visited:
+        visited.append(node)
+        for n in graph[node]:
+            dfs(graph,n, visited)
+    
+    return visited
+
+def generateJson():
+    visited = dfs(ast.getTree(), "0", [])
+    printAndLog(visited)
+
 def checkFileExists(file_dir: str):
     if path.isfile(file_dir):
         return file_dir
@@ -210,6 +252,10 @@ if __name__ == "__main__":
             parseGraphSpec(line)
     
     printAndLog(ast)
+
+    generateJson()
+
+
 
     # with open(output_file_dir, 'w') as file:
     #     file.write(json.dumps(file_content, indent = 2))
