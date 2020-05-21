@@ -130,7 +130,7 @@ def parseCommandLineArguments() -> Dict[str, object]:
     return args
 
 if __name__ == "__main__":
-    logging.basicConfig(filename="parser.log", filemode="w", format="%(message)s", level=logging.DEBUG)
+    logging.basicConfig(filename="executionTracesToJson.log", filemode="w", format="%(message)s", level=logging.DEBUG)
 
     args = parseCommandLineArguments()
 
