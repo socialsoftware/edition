@@ -2,19 +2,29 @@ from sys import exit, argv
 from typing import List, Dict, Tuple
 from os import path
 import json
+from json import JSONEncoder, dumps
 import argparse
 import re
 import logging
 from enum import Enum  
 
 class Node:
-    def __init__(self, id, label): # label can be 
+    def __init__(self, id: str, label: str): # label can be 
         self.id = id; # the id that Kieker attributes to the node
         self.label = label; # either the name of the controller or the accessed entity
         # the parent attribute is needed (as an optimization) when deleting intermediary nodes to form a graph with 1 depth level
         # controllers are the parents themselves. The leaf nodes will be the accessed entities. 
         self.parent: str = None; # the id given by kieker TODO Check if this is really needed or if a dfs is enough (jump useless nodes)
         self.frequency: int = 0;
+
+    def getId(self):
+        return self.id
+
+    def getLabel(self):
+        return self.label
+
+    def getFrequency(self):
+        return self.frequency
 
     def __repr__(self):
         return "<Node id=%s label=%s frequency=%s />" % (self.id, self.label, self.frequency)
@@ -40,6 +50,9 @@ class AST:
     def getTree(self):
         return self.tree
 
+    def getNode(self, node_id: str):
+        return self.nodes[node_id]
+
     def __repr__(self):
         return "<Node id=%s label=%s frequency=%s>" % (self.id, self.label, self.frequency)
     
@@ -58,13 +71,14 @@ class AST:
 
 
 class Access:
-    class AccessType(Enum):
+    class Type(Enum):
         READ = "R"
         WRITE = "W"
-    def __init__(self, entityName: str, accessType: AccessType, frequency: int):
+
+    def __init__(self, entityName: str, accessType: Type, frequency: int):
         self.entity = entityName
         self.type = accessType
-        self.frequency = 0
+        self.frequency = frequency
     
     def getEntity(self):
         return self.entity
@@ -75,20 +89,31 @@ class Access:
     def getFrequency(self):
         return self.frequency
 
-class Controller:
-    def __init__(self):
+class Functionality:
+    def __init__(self, label: str):
         self.accesses_list: List[Access] = []
         self.frequency: int = 0
+        self.label = label
+
+    def getLabel(self):
+        return self.label
 
     def getAccessesList(self):
         return self.accesses_list
 
     def getFrequency(self):
         return self.frequency
+    
+    def addAccess(self, access: Access):
+        self.accesses_list.append(access)
+    
+    def setFrequency(self, frequency: int):
+        self.frequency = frequency
                 
 verbosity: bool = False
-file_content: Dict[str, List[List[str]]] = {}
+file_content: Dict[str, Functionality] = {} # Controler.method aka functionality label -> { label, accesses_list, frequency }
 ast: AST = AST();
+current_functionality_label: str = "";
 
 def logAndExit(message: str):
     logging.error(message)
@@ -104,8 +129,9 @@ def getControllerAndMethod(trace: List[str]) -> str:
     *everything_else, controller_name, controller_method = trace[2].split(sep='.')
     return controller_name + "." + controller_method
 
-def getClassNameAndMethod(trace: List[str]) -> Tuple[str, str]:
-    *everything_else, class_name, method = trace[2].split(sep='.')
+def getClassNameAndMethod(packageName: str) -> Tuple[str, str]:
+    printAndLog("SPLIT PACKAGE NAME: " + str(re.findall(r"[^{\\n, \.}]\w+", packageName)))
+    *everything_else, class_name, method = re.findall(r"[^{\\n, \.}]\w+", packageName)
     return class_name, method
 
 def parseMethod(class_name: str, method: str) -> Tuple[str, str]: # (accessed entity, access type)
@@ -114,29 +140,27 @@ def parseMethod(class_name: str, method: str) -> Tuple[str, str]: # (accessed en
     lowered_case_method = method.lower()
     if (lowered_case_method.startswith("get")):
         if (lowered_case_method.endswith("set")):
-            return method[3:-4], "R" # unfortunately I have to do this hack because I can't obtain for now the functions' return type
+            return method[3:-4], Access.Type.READ # unfortunately I have to do this hack because I can't obtain for now the functions' return type
         
         elif (class_name.startswith("DomainRoot") or class_name == "FenixFramework"):
-            return "LdoD", "R"
+            return "LdoD", Access.Type.READ
 
         elif (class_name.endswith("_Base")):     
-            return class_name[: -len("_Base")], "R" # if it's only a get, then the entity is the class iself
+            return class_name[: -len("_Base")], Access.Type.READ # if it's only a get, then the entity is the class iself
         
         else:
             logAndExit("You were not expecting this method " + method + "from class " + class_name + " in the parseMethod function")
             return;
 
     elif (lowered_case_method.startswith("set")):
-        return method[3:], "W"
+        return method[3:], Access.Type.WRITE
     elif (method.startswith("add")):
-        return method[3:-1], "W" # TODO speak with samuel about reads and writes
+        return method[3:-1], Access.Type.WRITE # TODO speak with samuel about reads and writes
     # elif (method.startswith("remove")):
     else:
         logAndExit("You were not expecting this method " + method + "from class " + class_name + " in the parseMethod function")
 
 def parseGraphSpec(graphElementSpec: str): # entry method to parse a Graphviz graph
-    global file_content
-
     graphElementSpec = graphElementSpec.rstrip() # remove extra new lines
     printAndLog(graphElementSpec)
     
@@ -200,16 +224,44 @@ def parseGraphSpec(graphElementSpec: str): # entry method to parse a Graphviz gr
 
     return
 
-def dfs(graph, node, visited):
-    if node not in visited:
-        visited.append(node)
-        for n in graph[node]:
-            dfs(graph,n, visited)
+def dfs(ast: AST, startNodeId: str, visited: List[str], functionalityLabel: str):
+    global current_functionality_label
+
+    if startNodeId not in visited:
+        visited.append(startNodeId)
+
+        node = ast.getNode(startNodeId)
+        printAndLog("Visiting node: " +  str(node))
+        node_label = node.getLabel()
+        
+        if ("Root" not in node_label):
+            class_name, method = getClassNameAndMethod(node_label)
+
+            printAndLog("CLASS NAME: " + class_name)
+            printAndLog("METHOD: " + method)
+
+            if ("Controller" in class_name):
+                # passing class_name cuz e.g, the getAcronym comes form the Edition(_Base) entity
+                functionality_label = ".".join([class_name, method])
+                file_content[functionality_label] = Functionality(functionality_label)
+
+                functionalityLabel = functionality_label
+
+            elif ("_Base" in class_name):
+                accessed_entity, access_type = parseMethod(class_name, method) 
+                printAndLog("Accessed entity: " + str(accessed_entity))
+                printAndLog("Access type: " + str(access_type))
+
+                file_content[functionalityLabel].addAccess(Access(accessed_entity, access_type, 0))
+
+        graph = ast.getTree()
+        for child_node in graph[startNodeId]:
+            dfs(ast, child_node, visited, functionalityLabel)
     
     return visited
 
 def generateJson():
-    visited = dfs(ast.getTree(), "0", [])
+    visited = dfs(ast, "0", [], "")
     printAndLog(visited)
 
 def checkFileExists(file_dir: str):
@@ -255,6 +307,12 @@ if __name__ == "__main__":
     printAndLog(ast)
 
     generateJson()
+
+    class Encoder(JSONEncoder):
+        def default(self, o):
+            return o.__dict__
+
+    print(json.dumps(file_content))
 
 
 
