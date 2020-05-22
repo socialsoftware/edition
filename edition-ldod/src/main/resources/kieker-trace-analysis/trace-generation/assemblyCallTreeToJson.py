@@ -41,6 +41,9 @@ class Node:
     def getWeight(self):
         return self.weight
 
+    def setWeight(self, weight: int):
+        self.weight = weight
+
     def __repr__(self):
         return "<Node id=%s label=%s weight=%s />" % (self.id, self.label, self.weight)
     
@@ -56,8 +59,9 @@ class AST:
         self.nodes[node.id] = node;
         self.tree[node.id] = [];
 
-    def addEdge(self, sourceNodeId: str, targetNodeId: str):
+    def addEdge(self, sourceNodeId: str, targetNodeId: str, weight: int):
         self.tree[sourceNodeId].append(targetNodeId)
+        self.getNode(targetNodeId).setWeight(weight)
 
     def getNodes(self):
         return self.nodes
@@ -105,9 +109,9 @@ class Access:
         return self.frequency
 
 class Functionality:
-    def __init__(self, label: str):
+    def __init__(self, label: str, frequency: int = 0):
         self.accesses_list: List[Access] = []
-        self.frequency: int = 0
+        self.frequency = frequency
         self.label = label
 
     def getLabel(self):
@@ -206,7 +210,7 @@ def parseGraphSpec(graphElementSpec: str): # entry method to parse a Graphviz gr
             return;
 
         else: # everything is fine, so the edge can be added to the ast
-            ast.addEdge(source_node_id, target_node_id)
+            ast.addEdge(source_node_id, target_node_id, frequency)
             return
 
     else:
@@ -257,6 +261,7 @@ def dfs(ast: AST, startNodeId: str, visited: List[str], functionalityLabel: str)
         node = ast.getNode(startNodeId)
         printAndLog("Visiting node: " +  str(node), lineno())
         node_label = node.getLabel()
+        node_weight = node.getWeight()
         
         if ("Root" not in node_label):
             class_name, method = getClassNameAndMethod(node_label)
@@ -267,7 +272,7 @@ def dfs(ast: AST, startNodeId: str, visited: List[str], functionalityLabel: str)
             if ("Controller" in class_name):
                 # passing class_name cuz e.g, the getAcronym comes form the Edition(_Base) entity
                 functionality_label = ".".join([class_name, method])
-                file_content[functionality_label] = Functionality(functionality_label)
+                file_content[functionality_label] = Functionality(functionality_label, node_weight)
 
                 functionalityLabel = functionality_label
 
@@ -276,7 +281,7 @@ def dfs(ast: AST, startNodeId: str, visited: List[str], functionalityLabel: str)
                 printAndLog("Accessed entity: " + str(accessed_entity), lineno())
                 printAndLog("Access type: " + str(access_type), lineno())
 
-                file_content[functionalityLabel].addAccess(Access(accessed_entity, access_type, 0))
+                file_content[functionalityLabel].addAccess(Access(accessed_entity, access_type, node_weight))
 
         graph = ast.getTree()
         for child_node in graph[startNodeId]:
