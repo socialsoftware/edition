@@ -6,7 +6,22 @@ from json import JSONEncoder, dumps
 import argparse
 import re
 import logging
-from enum import Enum  
+from enum import Enum
+import inspect
+
+def lineno():
+    """Returns the current line number in our program."""
+    return inspect.currentframe().f_back.f_lineno
+
+def logAndExit(message: str, lineNumber: int):
+    logging.error(message)
+    exit("ERROR on line " + str(lineNumber) + ": " + message)
+
+def printAndLog(message: str, lineNumber: int):
+    if (verbosity):
+        print(str(lineNumber) + ": " + message)
+    
+    logging.info(str(lineNumber) + ": " + message)
 
 class Node:
     def __init__(self, id: str, label: str): # label can be 
@@ -15,7 +30,7 @@ class Node:
         # the parent attribute is needed (as an optimization) when deleting intermediary nodes to form a graph with 1 depth level
         # controllers are the parents themselves. The leaf nodes will be the accessed entities. 
         self.parent: str = None; # the id given by kieker TODO Check if this is really needed or if a dfs is enough (jump useless nodes)
-        self.frequency: int = 0;
+        self.weight: int = 0;
 
     def getId(self):
         return self.id
@@ -23,14 +38,14 @@ class Node:
     def getLabel(self):
         return self.label
 
-    def getFrequency(self):
-        return self.frequency
+    def getWeight(self):
+        return self.weight
 
     def __repr__(self):
-        return "<Node id=%s label=%s frequency=%s />" % (self.id, self.label, self.frequency)
+        return "<Node id=%s label=%s weight=%s />" % (self.id, self.label, self.weight)
     
     def __str__(self):
-        return "<Node id=%s label=%s frequency=%s />" % (self.id, self.label, self.frequency)
+        return "<Node id=%s label=%s weight=%s />" % (self.id, self.label, self.weight)
 
 class AST:
     def __init__(self):
@@ -71,7 +86,7 @@ class AST:
 
 
 class Access:
-    class Type(Enum):
+    class Type(str, Enum):
         READ = "R"
         WRITE = "W"
 
@@ -115,32 +130,22 @@ file_content: Dict[str, Functionality] = {} # Controler.method aka functionality
 ast: AST = AST();
 current_functionality_label: str = "";
 
-def logAndExit(message: str):
-    logging.error(message)
-    exit("[ERROR]: " + message)
-
-def printAndLog(message: str):
-    if (verbosity):
-        print(message)
-    
-    logging.info(message)
-
 def getControllerAndMethod(trace: List[str]) -> str:
     *everything_else, controller_name, controller_method = trace[2].split(sep='.')
     return controller_name + "." + controller_method
 
 def getClassNameAndMethod(packageName: str) -> Tuple[str, str]:
-    printAndLog("SPLIT PACKAGE NAME: " + str(re.findall(r"[^{\\n, \.}]\w+", packageName)))
+    printAndLog("SPLIT PACKAGE NAME: " + str(re.findall(r"[^{\\n, \.}]\w+", packageName)), lineno())
     *everything_else, class_name, method = re.findall(r"[^{\\n, \.}]\w+", packageName)
     return class_name, method
 
 def parseMethod(class_name: str, method: str) -> Tuple[str, str]: # (accessed entity, access type)
-    printAndLog("Parsing method: " + method + " of class " + class_name)
+    printAndLog("Parsing method: " + method + " of class " + class_name, lineno())
     
     lowered_case_method = method.lower()
     if (lowered_case_method.startswith("get")):
         if (lowered_case_method.endswith("set")):
-            return method[3:-4], Access.Type.READ # unfortunately I have to do this hack because I can't obtain for now the functions' return type
+            return method[3:-3], Access.Type.READ # unfortunately I have to do this hack because I can't obtain for now the functions' return type
         
         elif (class_name.startswith("DomainRoot") or class_name == "FenixFramework"):
             return "LdoD", Access.Type.READ
@@ -149,7 +154,10 @@ def parseMethod(class_name: str, method: str) -> Tuple[str, str]: # (accessed en
             return class_name[: -len("_Base")], Access.Type.READ # if it's only a get, then the entity is the class iself
         
         else:
-            logAndExit("You were not expecting this method " + method + "from class " + class_name + " in the parseMethod function")
+            logAndExit(
+                "You were not expecting this method " + method + "from class " + class_name + " in the parseMethod function",
+                lineno()
+            )
             return;
 
     elif (lowered_case_method.startswith("set")):
@@ -158,34 +166,46 @@ def parseMethod(class_name: str, method: str) -> Tuple[str, str]: # (accessed en
         return method[3:-1], Access.Type.WRITE # TODO speak with samuel about reads and writes
     # elif (method.startswith("remove")):
     else:
-        logAndExit("You were not expecting this method " + method + "from class " + class_name + " in the parseMethod function")
+        logAndExit(
+            "You were not expecting this method " + method + "from class " + class_name + " in the parseMethod function",
+            lineno()
+        )
 
 def parseGraphSpec(graphElementSpec: str): # entry method to parse a Graphviz graph
     graphElementSpec = graphElementSpec.rstrip() # remove extra new lines
-    printAndLog(graphElementSpec)
+    printAndLog(graphElementSpec, lineno())
     
     # an Edge is a string that contains the pair <source_node_id> -> <target_node_id>
     if ("->" in graphElementSpec):
         matchedGroup: List[Tuple[str, str, str]] = re.findall("(\d+).*?->.*?(\d+).*?label=\"(.+?)\"", graphElementSpec);
-        printAndLog("INCOMING EDGE: " + str(matchedGroup))
+        printAndLog("INCOMING EDGE: " + str(matchedGroup), lineno())
 
         # there can be only 1 group and the group must have 3 elements that we want to catch (sourceNode, targetNode, frequency)
         if (len(matchedGroup) != 1 or len(matchedGroup[0]) != 3):
-            logAndExit("Unexpected edge format: " + graphElementSpec)
+            logAndExit(
+                "Unexpected edge format: " + graphElementSpec,
+                lineno()
+            )
             return;
 
         source_node_id, target_node_id, frequency = matchedGroup[0]
-        printAndLog("source_node_id: " +  source_node_id);
-        printAndLog("target_node_id: " + target_node_id);
+        printAndLog("source_node_id: " +  source_node_id, lineno());
+        printAndLog("target_node_id: " + target_node_id, lineno());
         if ((source_node_id not in ast.getNodes())):
-            logAndExit("An edge must be declared after the source node definition")
+            logAndExit(
+                "An edge must be declared after the source node definition",
+                lineno()
+            )
             return;
 
         elif (target_node_id not in ast.getNodes()):
-            logAndExit("An edge must be declared after the target node definition")
+            logAndExit(
+                "An edge must be declared after the target node definition",
+                lineno()
+            )
             return;
 
-        else: # everything is fine, so the parsing can start
+        else: # everything is fine, so the edge can be added to the ast
             ast.addEdge(source_node_id, target_node_id)
             return
 
@@ -196,18 +216,24 @@ def parseGraphSpec(graphElementSpec: str): # entry method to parse a Graphviz gr
             return;
 
         matchedGroup: List[Tuple[str, str]] = re.findall("(\d+)\[.*?label.*?\=\"\@\d+\:(.+?)\"", graphElementSpec);
-        printAndLog("INCOMING NODE: " + str(matchedGroup))
+        printAndLog("INCOMING NODE: " + str(matchedGroup), lineno())
 
         # there can be only 1 group and the group must have 2 elements that we want to catch (sourceNode, targetNode, frequency)
         if (len(matchedGroup) != 1 or len(matchedGroup[0]) != 2):
-            logAndExit("Unexpected node format")
+            logAndExit(
+                "Unexpected node format",
+                lineno()
+            )
             return;
 
         source_node_id, source_node_label = matchedGroup[0]
-        printAndLog("source_node_id: " +  source_node_id);
-        printAndLog("source_node_label: " +  source_node_label);
+        printAndLog("source_node_id: " +  source_node_id, lineno());
+        printAndLog("source_node_label: " +  source_node_label, lineno());
         if ((source_node_id in ast.getNodes())):
-            logAndExit("The node named: " + source_node_label + " already exists in the AST")
+            logAndExit(
+                "The node named: " + source_node_label + " already exists in the AST",
+                lineno()
+            )
             return;
         
         ast.addNode(Node(source_node_id, source_node_label))
@@ -225,20 +251,18 @@ def parseGraphSpec(graphElementSpec: str): # entry method to parse a Graphviz gr
     return
 
 def dfs(ast: AST, startNodeId: str, visited: List[str], functionalityLabel: str):
-    global current_functionality_label
-
     if startNodeId not in visited:
         visited.append(startNodeId)
 
         node = ast.getNode(startNodeId)
-        printAndLog("Visiting node: " +  str(node))
+        printAndLog("Visiting node: " +  str(node), lineno())
         node_label = node.getLabel()
         
         if ("Root" not in node_label):
             class_name, method = getClassNameAndMethod(node_label)
 
-            printAndLog("CLASS NAME: " + class_name)
-            printAndLog("METHOD: " + method)
+            printAndLog("CLASS NAME: " + class_name, lineno())
+            printAndLog("METHOD: " + method, lineno())
 
             if ("Controller" in class_name):
                 # passing class_name cuz e.g, the getAcronym comes form the Edition(_Base) entity
@@ -249,8 +273,8 @@ def dfs(ast: AST, startNodeId: str, visited: List[str], functionalityLabel: str)
 
             elif ("_Base" in class_name):
                 accessed_entity, access_type = parseMethod(class_name, method) 
-                printAndLog("Accessed entity: " + str(accessed_entity))
-                printAndLog("Access type: " + str(access_type))
+                printAndLog("Accessed entity: " + str(accessed_entity), lineno())
+                printAndLog("Access type: " + str(access_type), lineno())
 
                 file_content[functionalityLabel].addAccess(Access(accessed_entity, access_type, 0))
 
@@ -258,23 +282,28 @@ def dfs(ast: AST, startNodeId: str, visited: List[str], functionalityLabel: str)
         for child_node in graph[startNodeId]:
             dfs(ast, child_node, visited, functionalityLabel)
     
-    return visited
+    return
 
 def generateJson():
-    visited = dfs(ast, "0", [], "")
-    printAndLog(visited)
+    dfs(ast, "0", [], "")
 
 def checkFileExists(file_dir: str):
     if path.isfile(file_dir):
         return file_dir
     else:
-        logAndExit("The file " + file_dir + " you entered does not exist")
+        logAndExit(
+            "The file " + file_dir + " you entered does not exist",
+            lineno()
+        )
 
 def checkDirectoryExists(dir_path: str):
     if path.isdir(dir_path):
         return dir_path
     else:
-        logAndExit("The directory " + dir_path + " does not exist")
+        logAndExit(
+            "The directory " + dir_path + " does not exist",
+            lineno()
+        )
 
 
 def parseCommandLineArguments() -> Dict[str, object]:
@@ -295,7 +324,7 @@ if __name__ == "__main__":
     output_file_dir: str = args["outputdir"]
     verbosity = args["verbose"]
 
-    printAndLog(args)
+    printAndLog(str(args), lineno())
 
     with open(input_file_dir) as f:
         for line in f:
@@ -304,15 +333,8 @@ if __name__ == "__main__":
 
             parseGraphSpec(line)
     
-    printAndLog(ast)
-
     generateJson()
-
-    class Encoder(JSONEncoder):
-        def default(self, o):
-            return o.__dict__
-
-    print(json.dumps(file_content))
+    printAndLog(str(json.dumps(file_content, default=lambda o: o.__dict__, indent=2, sort_keys=True)), lineno())
 
 
 
