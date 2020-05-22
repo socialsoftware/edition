@@ -87,8 +87,6 @@ class AST:
 
         return string
 
-
-
 class Access:
     class Type(str, Enum):
         READ = "R"
@@ -110,9 +108,9 @@ class Access:
 
 class Functionality:
     def __init__(self, label: str, frequency: int = 0):
-        self.accesses_list: List[Access] = []
         self.frequency = frequency
         self.label = label
+        self.accesses_list: List[Access] = []
 
     def getLabel(self):
         return self.label
@@ -241,16 +239,6 @@ def parseGraphSpec(graphElementSpec: str): # entry method to parse a Graphviz gr
             return;
         
         ast.addNode(Node(source_node_id, source_node_label))
-        
-
-    # split_graphElementSpec: List[str] = graphElementSpec.split() # split by white spaces
-
-    # controller_and_method = getControllerAndMethod(split_graphElementSpec)
-    # printAndLog("Controller.method: " + controller_and_method)
-
-    # file_content[controller_and_method] = []
-
-    # current_controller_and_method = controller_and_method
 
     return
 
@@ -292,6 +280,14 @@ def dfs(ast: AST, startNodeId: str, visited: List[str], functionalityLabel: str)
 def generateJson():
     dfs(ast, "0", [], "")
 
+def deleteFunctionalitiesWithNoAccesses():
+    file_content_copy = file_content.copy() # to avoid RuntimeError: dictionary changed size during iteration
+
+    for controller, accessesList in file_content_copy.items():
+        if (not accessesList):
+            del file_content[controller]
+
+
 def checkFileExists(file_dir: str):
     if path.isfile(file_dir):
         return file_dir
@@ -309,7 +305,6 @@ def checkDirectoryExists(dir_path: str):
             "The directory " + dir_path + " does not exist",
             lineno()
         )
-
 
 def parseCommandLineArguments() -> Dict[str, object]:
     ap = argparse.ArgumentParser()
@@ -339,9 +334,7 @@ if __name__ == "__main__":
             parseGraphSpec(line)
     
     generateJson()
-    printAndLog(str(json.dumps(file_content, default=lambda o: o.__dict__, indent=2, sort_keys=True)), lineno())
+    printAndLog(str(json.dumps(file_content, default=lambda o: o.__dict__, indent=2, sort_keys=False)), lineno())
 
-
-
-    # with open(output_file_dir, 'w') as file:
-    #     file.write(json.dumps(file_content, indent = 2))
+    with open(output_file_dir, 'w') as file:
+        file.write(json.dumps(file_content, default=lambda o: o.__dict__, indent = 2, sort_keys=False))
