@@ -281,12 +281,11 @@ def generateJson():
     dfs(ast, "0", [], "")
 
 def deleteFunctionalitiesWithNoAccesses():
-    file_content_copy = file_content.copy() # to avoid RuntimeError: dictionary changed size during iteration
+    file_content_copy: Dict[str, Functionality] = file_content.copy() # to avoid RuntimeError: dictionary changed size during iteration
 
-    for controller, accessesList in file_content_copy.items():
-        if (not accessesList):
-            del file_content[controller]
-
+    for functionality_label in file_content_copy:
+        if (not file_content_copy[functionality_label].getAccessesList()):
+            del file_content[functionality_label]
 
 def checkFileExists(file_dir: str):
     if path.isfile(file_dir):
@@ -334,6 +333,8 @@ if __name__ == "__main__":
             parseGraphSpec(line)
     
     generateJson()
+    deleteFunctionalitiesWithNoAccesses()
+    
     printAndLog(str(json.dumps(file_content, default=lambda o: o.__dict__, indent=2, sort_keys=False)), lineno())
 
     with open(output_file_dir, 'w') as file:
