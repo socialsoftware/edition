@@ -47,14 +47,32 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 	
 	// --------------------------------------------------------------------------- ADDS AND REMOVES --------------------------------------------------------------------------- 
 
-	@Pointcut("execution(public void pt.ist.socialsoftware.edition.ldod.domain.*.add*(..))")
-	public void publicAdds() {}
+	// @Pointcut("execution(public void pt.ist.socialsoftware.edition.ldod.domain.*.add*(..))")
+	// public void publicAdds() {}
 
-	@Pointcut("execution(public void pt.ist.socialsoftware.edition.ldod.domain.*.remove*(..))")
-	public void publicRemoves() {}
+	// @Pointcut("execution(public void pt.ist.socialsoftware.edition.ldod.domain.*.remove*(..))")
+	// public void publicRemoves() {}
 
 	@Pointcut("publicAdds() || publicRemoves()")
-	public void publicAddsAndRemoves() {}
+    public void publicAddsAndRemoves() {}
+    
+
+    // --------------------------------------------------------------------------- _BASE --------------------------------------------------------------------------- 
+
+    @Pointcut("execution(public void pt.ist..*.*_Base.add*(..))")
+	public void publicBaseAddMethods() {}
+
+	@Pointcut("execution(public void pt.ist..*.*_Base.remove*(..))")
+    public void publicBaseRemoveMethods() {}
+    
+    @Pointcut("execution(public * pt.ist..*.*_Base.get*(..))")
+    public void publicBaseGetMethods() {}
+    
+    @Pointcut("execution(public void pt.ist..*.*_Base.set*(..))")
+	public void publicBaseSetMethods() {}
+
+	@Pointcut("publicBaseAddMethods() || publicBaseRemoveMethods() || publicBaseGetMethods() || publicBaseSetMethods()")
+	public void baseClassMethods() {}
 
 	//----------------------------------------------------------------------------- FENIX FRAMEWORK -----------------------------------------------------------------------------
 
@@ -81,10 +99,10 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 	// @Pointcut("execution(private * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.deleteDomainMetaObject(..))")
 	// public void fenixFrameworkAbstractDomainObjectDeleteDomainMetaObject() {} // This one isn't used on the domain classes
 
-	@Pointcut("execution(protected * pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject.deleteDomainObject(..))")
-	public void fenixFrameworkAbstractDomainObjectDeleteDomainObject() {}
+	@Pointcut("execution(protected * pt.ist.fenixframework.backend.jvstmojb.pstm.OneBoxDomainObject.deleteDomainObject(..))")
+    public void fenixFrameworkAbstractDomainObjectDeleteDomainObject() {}
 
-	@Pointcut("fenixFrameworkAbstractDomainObjectGetExternalId() || fenixFrameworkAbstractDomainObjectDeleteDomainObject()")
+	@Pointcut("(fenixFrameworkAbstractDomainObjectGetExternalId() || fenixFrameworkAbstractDomainObjectDeleteDomainObject())")
 	public void otherMethodsThatMayBeImportant() {}
 
 	// -------------------------------------------------------------------- CONTROLLER CLASSES -------------------------------------------------------------------- 
@@ -107,15 +125,18 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 
 	// DOMAIN AND ORM METHODS
 
-	@Pointcut("(publicGettersAndSetters() && noGettersOrSettersWithFenixFramework()) || publicAddsAndRemoves() || fenixFrameworkGettersAndSetters() || otherMethodsThatMayBeImportant()")
-	public void domainAndORMMethods() {}
+	// @Pointcut("(publicGettersAndSetters() && noGettersOrSettersWithFenixFramework()) || publicAddsAndRemoves() || fenixFrameworkGettersAndSetters() || otherMethodsThatMayBeImportant()")
+	// public void domainAndORMMethods() {}
 
 	// @Pointcut("(domainAndORMMethods() && controllerMethods()) && execution(* *(..))") 
 	// public void monitoredOperation() {
 	// 	// Aspect Declaration (MUST be empty)
-	// }
+    // }
+    
+    @Pointcut("(baseClassMethods() && noGettersOrSettersWithFenixFramework()) || fenixFrameworkGettersAndSetters() || otherMethodsThatMayBeImportant()")
+	public void domainAndORMMethods() {}
 
-	@Pointcut("((cflow(controllerMethods()) && domainAndORMMethods()) || controllerMethods()) && execution(* *(..))") 
+	@Pointcut("(cflow(controllerMethods()) && domainAndORMMethods()) || controllerMethods()") 
 	public void monitoredOperation() {
 		// Aspect Declaration (MUST be empty)
 	}
