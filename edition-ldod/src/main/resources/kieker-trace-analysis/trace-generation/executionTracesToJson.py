@@ -8,6 +8,25 @@ import logging
 import inspect
 from enum import Enum
 
+class BaseMethod:
+    def __init__(self, methodName: str, argumentTypes: List[str], className: str, returnType: str): 
+        self.name = methodName
+        self.argumentTypes = argumentTypes
+        self.className = className
+        self.returnType = returnType
+    
+    def getName(self) -> str:
+        return self.name
+
+    def getArgumentTypes(self) -> List[str]:
+        return self.argumentTypes
+
+    def getClassName(self) -> str:
+        return self.className
+
+    def getReturnType(self) -> str:
+        return self.returnType
+
 class Access:
     class Type(str, Enum):
         READ = "R"
@@ -23,6 +42,9 @@ class Access:
 
     def getType(self) -> Type:
         return self.type
+
+    def __repr__(self):
+        return "<Access entity=%s type=%s>" % (self.entity, self.type.name)
 
 class Trace:
     def __init__(self, label: str, frequency: int = 0):
@@ -78,6 +100,7 @@ file_content: Dict[str, Functionality] = {}
 current_kieker_traceID: str = "-1"
 current_functionality_label: str = ""
 current_trace: Trace = None
+json_file = None
 
 def lineno():
     """Returns the current line number in our program."""
@@ -113,31 +136,35 @@ def getClassNameAndMethod(trace: List[str]) -> Tuple[str, str]:
     *everything_else, class_name, method = trace[2].split(sep='.')
     return class_name, method
 
-def parseMethod(class_name: str, method: str) -> Tuple[str, str]: # (accessed entity, access type)
+def parseMethod(class_name: str, method: str) -> List[Access]: # (accessed entity, access type)
     printAndLog("Parsing method: " + method + " of class " + class_name, lineno())
     
-    lowered_case_method = method.lower()
-    if (lowered_case_method.startswith("get")):
-        if (lowered_case_method.endswith("set")):
-            return method[3:-4], "R" # unfortunately I have to do this hack because I can't obtain for now the functions' return type
-        
-        elif (class_name.startswith("DomainRoot") or class_name == "FenixFramework"):
-            return "LdoD", "R"
+    class_name_and_method = ".".join([class_name, method])
 
-        elif (class_name.endswith("_Base")):     
-            return class_name[: -len("_Base")], "R" # if it's only a get, then the entity is the class iself
-        
-        else:
-            logAndExit(
-                "[WARNING]: You were not expecting this method " + method + "from class " + class_name + " in the parseMethod function",
-                lineno()
-            )
+    if (class_name_and_method in json_file):
+        lowered_case_method = method.lower()
 
-    elif (lowered_case_method.startswith("set")):
-        return method[3:], "W"
-    elif (method.startswith("add")):
-        return method[3:-1], "W" # TODO speak with samuel about reads and writes
-    # elif (method.startswith("remove")):
+        if (lowered_case_method.startswith("get")):
+            if (lowered_case_method.endswith("set")):
+                return [
+                    Access(json_file[class_name_and_method]["declaringType"][: -len("_Base")], Access.Type.READ),
+                    Access(json_file[class_name_and_method]["returnType"], Access.Type.READ),
+                ]
+
+            return [Access(json_file[class_name_and_method]["declaringType"][: -len("_Base")], Access.Type.READ)]           
+            
+        elif (lowered_case_method.startswith("set")): # FIXME talk w/ Samuel
+            return [Access(json_file[class_name_and_method]["declaringType"][: -len("_Base")], Access.Type.WRITE)]
+
+        elif (method.startswith("add")):
+            return [
+                Access(json_file[class_name_and_method]["declaringType"][: -len("_Base")], Access.Type.WRITE),
+            ] + list(map(lambda argType: Access(argType, Access.Type.WRITE), json_file[class_name_and_method]["argumentTypes"]))
+            
+        elif (method.startswith("remove")):
+            return [
+                Access(json_file[class_name_and_method]["declaringType"][: -len("_Base")], Access.Type.WRITE)
+            ] + list(map(lambda argType: Access(argType, Access.Type.WRITE), json_file[class_name_and_method]["argumentTypes"]))
     else:
         logAndExit(
             "[WARNING]: You were not expecting this method " + method + "from class " + class_name + " in the parseMethod function",
@@ -190,15 +217,15 @@ def parseExecutionTrace(trace: str) -> None:
         class_name, method = getClassNameAndMethod(split_trace)
 
         if (class_name == "FenixFramework"): 
-            pass # FIXME check with samuel or rito to see if this is considered a read because we're already accessing the DomainRoot_Base
+            return # FIXME right now we can't discover which entities are being read when FenixFramework.getDomainObject is executed
         elif ("_Base" not in class_name):
             return
 
-        accessed_entity, access_type = parseMethod(class_name, method) # passing class_name cuz e.g, the getAcronym comes form the Edition(_Base) entity
-        printAndLog("Accessed entity: " + accessed_entity, lineno())
-        printAndLog("Access type: " + access_type, lineno())
+        accesses = parseMethod(class_name, method)
 
-        current_trace.addAccess(Access(accessed_entity, access_type))
+        for access in accesses:
+            printAndLog(str(access), lineno())
+            current_trace.addAccess(access)
 
 def checkFileExists(file_dir: str) -> Optional[str]:
     if path.isfile(file_dir):
@@ -216,7 +243,8 @@ def checkDirectoryExists(dir_path: str) -> Optional[str]:
 def parseCommandLineArguments() -> Dict[str, object]:
     ap = argparse.ArgumentParser()
     ap.add_argument("-i", "--inputdir", type=checkFileExists, required=True, help="directory of the file to be parsed", metavar="")
-    ap.add_argument("-o", "--outputdir", help="directory for the generated file", default="./", metavar="")
+    ap.add_argument("-o", "--outputdir", help="directory for the generated file", default="./ldod.json", metavar="")
+    ap.add_argument("-j", "--json", type=checkFileExists, required=True, help="directory of the json file containing the _Base methods and their respective return types", metavar="")
     ap.add_argument("-v", "--verbose", action="store_true", help="logging enabler")
     
     args = vars(ap.parse_args())
@@ -229,10 +257,37 @@ if __name__ == "__main__":
 
     input_file_dir: str = args["inputdir"]
     output_file_dir: str = args["outputdir"]
+    json_file_dir: str = args["json"]
     verbosity = args["verbose"]
 
     printAndLog(str(args), lineno())
 
+    with open(json_file_dir) as json_file:
+        data: List = json.load(json_file)
+        printAndLog(str(json.dumps(data, default=lambda o: o.__dict__, indent=2, sort_keys=False)), lineno())
+        new_json: Dict = {}
+        for base_method in data:
+            class_name = base_method["declaringType"].split(sep='.')[-1]
+            printAndLog(class_name, lineno())
+
+            parsed_return_type = ""
+            generic_return_type: List[str] = re.findall(r"\<(.*?)\>", base_method["returnType"])
+            if (len(generic_return_type) > 0): # yes, it is a generic return type
+                parsed_return_type = generic_return_type[0].split(sep='.')[-1]
+                printAndLog("RETURN TYPE: " + parsed_return_type, lineno())
+            else:
+                parsed_return_type = re.findall(r"(\w+)", base_method["returnType"])[-1]
+                printAndLog("RETURN TYPE WITHOUT <>: " + parsed_return_type, lineno())
+
+            base_method["returnType"] = parsed_return_type
+            base_method["declaringType"] = class_name
+            new_json[".".join([class_name, base_method["methodName"]])] = base_method
+
+        with open("./ldodMethodsV2.json", 'w') as file:
+            file.write(json.dumps(new_json, default=lambda o: o.__dict__, indent = 2, sort_keys=False))
+
+        json_file = new_json
+            
     with open(input_file_dir) as f:
         for line in f:
             if line in ['\n', '\r\n']: # ignore blank lines
