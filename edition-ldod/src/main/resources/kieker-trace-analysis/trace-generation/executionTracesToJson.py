@@ -101,7 +101,8 @@ file_content: Dict[str, Functionality] = {}
 current_kieker_traceID: str = "-1"
 current_functionality_label: str = ""
 current_trace: Trace = None
-json_file = None
+base_methods = None # to save in memory the file that contains all base methods and their specs
+domain_entities = None # to save in memory the file that contains all domain entities
 
 def lineno():
     """Returns the current line number in our program."""
@@ -142,33 +143,35 @@ def parseMethod(class_name: str, method: str) -> List[Access]: # (accessed entit
     
     class_name_and_method = ".".join([class_name, method])
 
-    if (class_name_and_method in json_file):
+    if (class_name_and_method in base_methods):
+        base_method = base_methods[class_name_and_method]
+        accesses_list = []
         lowered_case_method = method.lower()
 
-        if (lowered_case_method.startswith("get")):
-            if (lowered_case_method.endswith("set")):
-                return [
-                    Access(json_file[class_name_and_method]["declaringType"][: -len("_Base")], Access.Type.READ),
-                    Access(json_file[class_name_and_method]["returnType"], Access.Type.READ),
-                ]
-
-            return [Access(json_file[class_name_and_method]["declaringType"][: -len("_Base")], Access.Type.READ)]           
+        if (lowered_case_method.startswith("get")): 
+            accesses_list.append(Access(base_method["declaringType"][: -len("_Base")], Access.Type.READ))
             
-        elif (lowered_case_method.startswith("set")): # FIXME talk w/ Samuel
-            return [Access(json_file[class_name_and_method]["declaringType"][: -len("_Base")], Access.Type.WRITE)]
+            if (base_method["returnType"] in domain_entities):
+                accesses_list.append(Access(base_method["returnType"], Access.Type.READ))
 
-        elif (method.startswith("add")):
-            return [
-                Access(json_file[class_name_and_method]["declaringType"][: -len("_Base")], Access.Type.WRITE),
-            ] + list(map(lambda argType: Access(argType, Access.Type.WRITE), json_file[class_name_and_method]["argumentTypes"]))
+            return accesses_list        
             
-        elif (method.startswith("remove")):
-            return [
-                Access(json_file[class_name_and_method]["declaringType"][: -len("_Base")], Access.Type.WRITE)
-            ] + list(map(lambda argType: Access(argType, Access.Type.WRITE), json_file[class_name_and_method]["argumentTypes"]))
+        elif (lowered_case_method.startswith("set") or method.startswith("add") or method.startswith("remove")):
+            accesses_list.append(Access(base_method["declaringType"][: -len("_Base")], Access.Type.WRITE))
+
+            for arg_type in base_method["argumentTypes"]:            
+                if (arg_type in domain_entities):
+                    accesses_list.append(Access(arg_type, Access.Type.WRITE))
+
+            return accesses_list
+        else:
+            logAndExit(
+                "[WARNING]: You were not expecting the method " + method + " from class " + class_name + " on the parseMethod function",
+                lineno()
+            )
     else:
         logAndExit(
-            "[WARNING]: You were not expecting this method " + method + "from class " + class_name + " in the parseMethod function",
+            "[WARNING]: You were not expecting the method " + method + " from class " + class_name + " on the parseMethod function",
             lineno()
         )
 
@@ -243,9 +246,10 @@ def checkDirectoryExists(dir_path: str) -> Optional[str]:
 
 def parseCommandLineArguments() -> Dict[str, object]:
     ap = argparse.ArgumentParser()
-    ap.add_argument("-i", "--inputdir", type=checkFileExists, required=True, help="directory of the file to be parsed", metavar="")
-    ap.add_argument("-o", "--outputdir", help="directory for the generated file", default="./ldod.json", metavar="")
-    ap.add_argument("-j", "--json", type=checkFileExists, required=True, help="directory of the json file containing the _Base methods and their respective return types", metavar="")
+    ap.add_argument("-i", "--inputDir", type=checkFileExists, required=True, help="directory of the file to be parsed", metavar="")
+    ap.add_argument("-o", "--outputDir", help="directory for the generated file", default="./ldod.json", metavar="")
+    ap.add_argument("-bm", "--baseMethods", type=checkFileExists, required=True, help="directory of the json file containing the _Base methods and their specification", metavar="")
+    ap.add_argument("-de", "--domainEntities", type=checkFileExists, required=True, help="directory of the json file containing the all domain entities", metavar="")
     ap.add_argument("-v", "--verbose", action="store_true", help="logging enabler")
     
     args = vars(ap.parse_args())
@@ -256,69 +260,75 @@ if __name__ == "__main__":
 
     args = parseCommandLineArguments()
 
-    input_file_dir: str = args["inputdir"]
-    output_file_dir: str = args["outputdir"]
-    json_file_dir: str = args["json"]
+    input_file_dir: str = args["inputDir"]
+    output_file_dir: str = args["outputDir"]
+    base_methods_file_dir: str = args["baseMethods"]
+    domain_entities_file_dir: str = args["domainEntities"]
+
     verbosity = args["verbose"]
 
     printAndLog(str(args), lineno())
 
-    with open(json_file_dir) as json_file:
-        data: List = json.load(json_file)
+    with open(base_methods_file_dir) as base_methods_file:
+        base_methods = json.load(base_methods_file)
+
+    with open(domain_entities_file_dir) as domain_entities_file:
+        domain_entities = json.load(domain_entities_file)
+        
         # printAndLog(str(json.dumps(data, default=lambda o: o.__dict__, indent=2, sort_keys=False)), lineno())
-        new_json: Dict = {}
-        for base_method in data:
-            class_name = base_method["declaringType"].split(sep='.')[-1]
-            printAndLog(class_name, lineno())
+        # new_json: Dict = {}
+        # for base_method in data:
+        #     class_name = base_method["declaringType"].split(sep='.')[-1]
+        #     printAndLog(class_name, lineno())
 
-            return_type = base_method["returnType"]
-            parsed_return_type = ""
-            if "domain" in return_type: 
-                generic_return_type: List[str] = re.findall(r"\<(.*?)\>", return_type)
-                split_return_type = ""
-                if (len(generic_return_type) > 0): # yes, it is a generic return type
-                    split_return_type = generic_return_type[0].split(sep='.')
-                    printAndLog("RETURN TYPE: " + parsed_return_type, lineno())
-                else:
-                    split_return_type = return_type.split(sep='.')
-                    printAndLog("RETURN TYPE WITHOUT <>: " + parsed_return_type, lineno())
+        #     return_type = base_method["returnType"]
+        #     parsed_return_type = ""
+        #     if "domain" in return_type: 
+        #         generic_return_type: List[str] = re.findall(r"\<(.*?)\>", return_type)
+        #         split_return_type = ""
+        #         if (len(generic_return_type) > 0): # yes, it is a generic return type
+        #             split_return_type = generic_return_type[0].split(sep='.')
+        #             printAndLog("RETURN TYPE: " + parsed_return_type, lineno())
+        #         else:
+        #             split_return_type = return_type.split(sep='.')
+        #             printAndLog("RETURN TYPE WITHOUT <>: " + parsed_return_type, lineno())
                 
-                parsed_return_type = split_return_type[6] # we only want what comes after the .domain
-            else:
-                parsed_return_type = re.findall(r"(\w+)", return_type)[-1] # java.lang.String -> String
+        #         parsed_return_type = split_return_type[6] # we only want what comes after the .domain
+        #     else:
+        #         parsed_return_type = re.findall(r"(\w+)", return_type)[-1] # java.lang.String -> String
 
-            # argument_types = base_method["argumentTypes"]
-            # printAndLog("ARGUMENT TYPES: " + str(argument_types), lineno())
-            # printAndLog("typeof ARGUMENT TYPES: " + str(type(argument_types)), lineno())
-            # parsed_argument_types = []
+        #     argument_types = base_method["argumentTypes"]
+        #     print("ARGUMENT TYPES: " + str(argument_types), lineno())
+        #     print("typeof ARGUMENT TYPES: " + str(type(argument_types)), lineno())
+        #     parsed_argument_types = []
 
-            # printAndLog("typeof ARGUMENT TYPES: " + str(type(argument_types)), lineno())
-            # for arg_type in argument_types:
-            #     printAndLog("ARGUMENT TYPE: " + arg_type, lineno())
-            #     if "domain" in arg_type:
-            #         # [pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType] in this type of cases we want the [5] and [6] slots
-            #         argument_type = arg_type
-            #         generic_argument_type: List[str] = re.findall(r"\<(.*?)\>", arg_type)
-            #         if (len(generic_return_type) > 0): # yes, it is a generic argument type
-            #             argument_type = generic_argument_type[0] # here we got rid of <>
+        #     print("typeof ARGUMENT TYPES: " + str(type(argument_types)), lineno())
+        #     for arg_type in argument_types:
+        #         print("ARGUMENT TYPE: " + arg_type, lineno())
+        #         if "domain" in arg_type:
+        #             # [pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType] in this type of cases we want the [5] and [6] slots
+        #             argument_type = arg_type
+        #             generic_argument_type: List[str] = re.findall(r"\<(.*?)\>", arg_type)
+        #             if (len(generic_return_type) > 0): # yes, it is a generic argument type
+        #                 argument_type = generic_argument_type[0] # here we got rid of <>
                     
-            #         split_argument_type = argument_type[0].split(sep='.')
-            #         parsed_argument_type = ".".join([split_argument_type[5], split_argument_type[6]])
-            #         parsed_argument_types.append(parsed_argument_type)
-            #     else:
-            #         parsed_argument_types.append(arg_type)
+        #             split_argument_type = argument_type[0].split(sep='.')
+        #             parsed_argument_type = ".".join([split_argument_type[5], split_argument_type[6]])
+        #             parsed_argument_types.append(parsed_argument_type)
+        #         else:
+        #             parsed_argument_types.append(arg_type)
 
-            # printAndLog("PARSED ARGUMENT TYPES: " + str(parsed_argument_types), lineno())
+        #     print("PARSED ARGUMENT TYPES: " + str(parsed_argument_types), lineno())
 
-            # base_method["argumentTypes"] = parsed_argument_types
-            base_method["returnType"] = parsed_return_type
-            base_method["declaringType"] = class_name
-            new_json[".".join([class_name, base_method["methodName"]])] = base_method
+        #     base_method["argumentTypes"] = parsed_argument_types
+        #     base_method["returnType"] = parsed_return_type
+        #     base_method["declaringType"] = class_name
+        #     new_json[".".join([class_name, base_method["methodName"]])] = base_method
 
-        with open("./ldodMethodsV2.json", 'w') as file:
-            file.write(json.dumps(new_json, default=lambda o: o.__dict__, indent = 2, sort_keys=False))
+        # with open("./ldodMethodsV2.json", 'w') as file:
+        #     file.write(json.dumps(new_json, default=lambda o: o.__dict__, indent = 2, sort_keys=False))
 
-        json_file = new_json
+        # json_file = new_json
             
     with open(input_file_dir) as f:
         for line in f:
