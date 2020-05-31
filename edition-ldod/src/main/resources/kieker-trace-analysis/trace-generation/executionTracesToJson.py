@@ -7,6 +7,7 @@ import re
 import logging
 import inspect
 from enum import Enum
+from ast import literal_eval 
 
 class BaseMethod:
     def __init__(self, methodName: str, argumentTypes: List[str], className: str, returnType: str): 
@@ -112,7 +113,7 @@ def logAndExit(message: str, lineNumber: int) -> None:
 
 def printAndLog(message: str, lineNumber: int) -> None:
     if (verbosity):
-        print(str(lineNumber) + ": " + message)
+        print(str(lineNumber) + ": " + message, flush=True)
     
     logging.info(str(lineNumber) + ": " + message)
 
@@ -264,21 +265,52 @@ if __name__ == "__main__":
 
     with open(json_file_dir) as json_file:
         data: List = json.load(json_file)
-        printAndLog(str(json.dumps(data, default=lambda o: o.__dict__, indent=2, sort_keys=False)), lineno())
+        # printAndLog(str(json.dumps(data, default=lambda o: o.__dict__, indent=2, sort_keys=False)), lineno())
         new_json: Dict = {}
         for base_method in data:
             class_name = base_method["declaringType"].split(sep='.')[-1]
             printAndLog(class_name, lineno())
 
+            return_type = base_method["returnType"]
             parsed_return_type = ""
-            generic_return_type: List[str] = re.findall(r"\<(.*?)\>", base_method["returnType"])
-            if (len(generic_return_type) > 0): # yes, it is a generic return type
-                parsed_return_type = generic_return_type[0].split(sep='.')[-1]
-                printAndLog("RETURN TYPE: " + parsed_return_type, lineno())
+            if "domain" in return_type: 
+                generic_return_type: List[str] = re.findall(r"\<(.*?)\>", return_type)
+                split_return_type = ""
+                if (len(generic_return_type) > 0): # yes, it is a generic return type
+                    split_return_type = generic_return_type[0].split(sep='.')
+                    printAndLog("RETURN TYPE: " + parsed_return_type, lineno())
+                else:
+                    split_return_type = return_type.split(sep='.')
+                    printAndLog("RETURN TYPE WITHOUT <>: " + parsed_return_type, lineno())
+                
+                parsed_return_type = split_return_type[6] # we only want what comes after the .domain
             else:
-                parsed_return_type = re.findall(r"(\w+)", base_method["returnType"])[-1]
-                printAndLog("RETURN TYPE WITHOUT <>: " + parsed_return_type, lineno())
+                parsed_return_type = re.findall(r"(\w+)", return_type)[-1] # java.lang.String -> String
 
+            # argument_types = base_method["argumentTypes"]
+            # printAndLog("ARGUMENT TYPES: " + str(argument_types), lineno())
+            # printAndLog("typeof ARGUMENT TYPES: " + str(type(argument_types)), lineno())
+            # parsed_argument_types = []
+
+            # printAndLog("typeof ARGUMENT TYPES: " + str(type(argument_types)), lineno())
+            # for arg_type in argument_types:
+            #     printAndLog("ARGUMENT TYPE: " + arg_type, lineno())
+            #     if "domain" in arg_type:
+            #         # [pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType] in this type of cases we want the [5] and [6] slots
+            #         argument_type = arg_type
+            #         generic_argument_type: List[str] = re.findall(r"\<(.*?)\>", arg_type)
+            #         if (len(generic_return_type) > 0): # yes, it is a generic argument type
+            #             argument_type = generic_argument_type[0] # here we got rid of <>
+                    
+            #         split_argument_type = argument_type[0].split(sep='.')
+            #         parsed_argument_type = ".".join([split_argument_type[5], split_argument_type[6]])
+            #         parsed_argument_types.append(parsed_argument_type)
+            #     else:
+            #         parsed_argument_types.append(arg_type)
+
+            # printAndLog("PARSED ARGUMENT TYPES: " + str(parsed_argument_types), lineno())
+
+            # base_method["argumentTypes"] = parsed_argument_types
             base_method["returnType"] = parsed_return_type
             base_method["declaringType"] = class_name
             new_json[".".join([class_name, base_method["methodName"]])] = base_method
@@ -297,7 +329,7 @@ if __name__ == "__main__":
 
     deleteFunctionalitiesWithNoAccesses()
 
-    printAndLog(str(json.dumps(file_content, default=lambda o: o.__dict__, indent=2, sort_keys=False)), lineno())
+    # printAndLog(str(json.dumps(file_content, default=lambda o: o.__dict__, indent=2, sort_keys=False)), lineno())
     
     with open(output_file_dir, 'w') as file:
         file.write(json.dumps(file_content, default=lambda o: o.__dict__, indent = 2, sort_keys=False))
