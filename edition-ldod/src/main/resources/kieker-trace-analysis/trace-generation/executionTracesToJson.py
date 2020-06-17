@@ -37,6 +37,8 @@ class Access:
     def __init__(self, entityName: str, accessType: Type): 
         self.entity = entityName
         self.type = accessType
+        self.call_order = -1
+        self.stack_depth = -1
     
     def getEntity(self) -> str:
         return self.entity
@@ -44,8 +46,21 @@ class Access:
     def getType(self) -> Type:
         return self.type
 
+    def getCallOrder(self) -> int:
+        return self.call_order
+
+    def getStackDepth(self) -> int:
+        return self.stack_depth
+
+    def setCallOrderAndStackDepth(self, callOrder: int, stackDepth: int) -> None:
+        self.call_order = callOrder
+        self.stack_depth = stackDepth
+
     def __repr__(self):
-        return "<Access entity=%s type=%s>" % (self.entity, self.type.name)
+        return "<Access entity=%s type=%s call_order=%s stack_depth=%s>" % (self.entity, self.type.name, self.call_order, self.stack_depth)
+
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
 
 class Trace:
     def __init__(self, label: str, frequency: int = 0):
@@ -71,6 +86,9 @@ class Trace:
     def increaseFrequency(self) -> None:
         self.frequency += 1
 
+    def __eq__(self, other):
+        return self.getAccessesList() == other.getAccessesList()
+
 class Functionality:
     def __init__(self, label: str, frequency: int = 0):
         self.label = label
@@ -88,13 +106,49 @@ class Functionality:
     
     def setFrequency(self, frequency: int) -> None:
         self.frequency = frequency
-    
-    def addTrace(self, trace: Trace) -> None:
-        self.traces_list.append(trace)
-        self.increaseFrequency()
 
     def increaseFrequency(self) -> None:
         self.frequency += 1
+    
+    def addTrace(self, new_trace: Trace) -> None:
+        printAndLog("Adding trace: " + new_trace.getLabel(), lineno())
+        # if trace already exists (increase its frequency)
+        trace_already_exists = False
+
+        for saved_trace in self.traces_list:
+            # saved_trace_accesses_list = saved_trace.getAccessesList()
+            # new_trace_accesses_list = new_trace.getAccessesList()
+
+            # saved_trace_accesses_list_length = len(saved_trace_accesses_list)
+            # new_trace_accesses_list_length = len(new_trace_accesses_list)
+
+            if(saved_trace == new_trace):
+                printAndLog("Trace already exists, raising its frequency...", lineno()) 
+
+                saved_trace.increaseFrequency()  
+                trace_already_exists = True     
+                break;
+            
+            # if (saved_trace_accesses_list_length != new_trace_accesses_list_length):
+            #     continue;
+            
+            # same_accesses_list = True
+
+            # for i in range(saved_trace_accesses_list_length):
+            #     if(saved_trace_accesses_list[i] != new_trace_accesses_list[i]):
+            #         same_accesses_list = False
+            #         break;
+            
+            # if (same_accesses_list):
+            #     saved_trace.increaseFrequency()  
+            #     trace_already_exists = True     
+            #     break;         
+
+        if (not trace_already_exists):
+            printAndLog("Trace didn't exist yet, adding it to the traces list", lineno()) 
+            self.traces_list.append(new_trace)
+
+        self.increaseFrequency()
 
 verbosity: bool = True
 file_content: Dict[str, Functionality] = {}
@@ -132,13 +186,17 @@ def deleteFunctionalitiesWithNoAccesses():
             del file_content[functionality_label]
 
 def getTraceID(trace: List[str]) -> str:
-    return re.findall("\<([0-9]+)\[", trace[0])[0] # e.g, <5[0,0]
+    return re.findall("\<([0-9]+)\[", trace[0])[0] # e.g, trace[0] = "<5[0,0]"
+
+def getMethodCallOrderAndStackDepth(trace: List[str]) -> Tuple[int, int]:
+    call_order, stack_depth = re.findall("([0-9]+),([0-9]+)", trace[0])[0] # e.g, trace[0] = "<5[0,0]"
+    return call_order, stack_depth
 
 def getClassNameAndMethod(trace: List[str]) -> Tuple[str, str]:
     *everything_else, class_name, method = trace[2].split(sep='.')
     return class_name, method
 
-def parseMethod(class_name: str, method: str) -> List[Access]: # (accessed entity, access type)
+def getMethodEntityAccesses(class_name: str, method: str) -> List[Access]: # (accessed entity, access type)
     printAndLog("Parsing method: " + method + " of class " + class_name, lineno())
     
     class_name_and_method = ".".join([class_name, method])
@@ -166,12 +224,12 @@ def parseMethod(class_name: str, method: str) -> List[Access]: # (accessed entit
             return accesses_list
         else:
             logAndExit(
-                "[WARNING]: You were not expecting the method " + method + " from class " + class_name + " on the parseMethod function",
+                "[WARNING]: You were not expecting the method " + method + " from class " + class_name + " on the getMethodEntityAccesses function",
                 lineno()
             )
     else:
         logAndExit(
-            "[WARNING]: You were not expecting the method " + method + " from class " + class_name + " on the parseMethod function",
+            "[WARNING]: You were not expecting the method " + method + " from class " + class_name + " on the getMethodEntityAccesses function",
             lineno()
         )
 
@@ -200,7 +258,7 @@ def parseExecutionTrace(trace: str) -> None:
             file_content[current_functionality_label].addTrace(current_trace)
             current_trace = None
 
-        current_kieker_traceID = traceID # and consequently, we need to start by parsing the controller first
+        current_kieker_traceID = traceID
 
         class_name, method = getClassNameAndMethod(split_trace)
 
@@ -219,17 +277,17 @@ def parseExecutionTrace(trace: str) -> None:
     
     else: # if traceID hasn't changed, then we must continue to parse the current one and add the access to the current_trace
         class_name, method = getClassNameAndMethod(split_trace)
-
         if (class_name == "FenixFramework"): 
             return # FIXME right now we can't discover which entities are being read when FenixFramework.getDomainObject is executed
         elif ("_Base" not in class_name):
             return
 
-        accesses = parseMethod(class_name, method)
+        call_order, stackDepth = getMethodCallOrderAndStackDepth(split_trace)
+        accesses = getMethodEntityAccesses(class_name, method)
 
         for access in accesses:
             printAndLog(str(access), lineno())
-            current_trace.addAccess(access)
+            current_trace.addAccess(access.setCallOrderAndStackDepth(call_order, stackDepth))
 
 def checkFileExists(file_dir: str) -> Optional[str]:
     if path.isfile(file_dir):
