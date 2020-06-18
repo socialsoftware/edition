@@ -1,0 +1,19 @@
+<!DOCTYPE aspectj PUBLIC "-//AspectJ//DTD//EN" "http://www.aspectj.org/dtd/aspectj_1_5_0.dtd">
+
+<aspectj>
+    <weaver options="-Xset:weaveJavaxPackages=false">
+        <!-- FIXME change this to instrument src folder -->
+        <include within="pt.ist..*"/>
+        <!-- <exclude within="pt.ist.socialsoftware.edition.ldod.domain.*.*"/> -->
+        <!-- <include within="pt.ist.socialsoftware.edition.ldod.domain..*"/> 
+        <include within="pt.ist.socialsoftware.edition.ldod.controller..*"/>
+        <include within="pt.ist.socialsoftware.edition.ldod.aspects..*"/>
+        <include within="pt.ist.fenixframework.backend.jvstmojb.pstm.AbstractDomainObject" />
+        <include within="pt.ist.fenixframework.FenixFramework" />
+        <include within="pt.ist.fenixframework.DomainRoot_Base" /> -->
+    </weaver>
+    
+    <aspects>
+      <aspect name="pt.ist.socialsoftware.edition.ldod.aspects.GettersAndSetters"/>
+    </aspects>
+</aspectj>
