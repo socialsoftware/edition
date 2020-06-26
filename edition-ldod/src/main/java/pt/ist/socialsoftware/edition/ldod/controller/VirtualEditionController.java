@@ -298,7 +298,9 @@ public class VirtualEditionController {
 				Stream.concat(LdoD.getInstance().getExpertEditionsSet().stream().map(expertEdition -> new VirtualEditionInterListDto(expertEdition)),
 						LdoD.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getPub())
 								.map(virtualEdition -> new VirtualEditionInterListDto(virtualEdition, false)))
-				.collect(Collectors.toList());
+                .collect(Collectors.toList());
+                
+        logger.debug("editions: " + result.toString());
 
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
