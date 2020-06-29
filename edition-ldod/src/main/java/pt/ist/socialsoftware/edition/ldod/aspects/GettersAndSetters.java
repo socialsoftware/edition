@@ -3,8 +3,6 @@ package pt.ist.socialsoftware.edition.ldod.aspects;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
-import kieker.monitoring.probe.aspectj.operationExecution.AbstractOperationExecutionAspect;
-
 /**
  * @author Bernardo Andrade
  */
@@ -45,8 +43,8 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 
 	//----------------------------------------------------------------------------- FENIX FRAMEWORK -----------------------------------------------------------------------------
 
-	// @Pointcut("execution(public * pt.ist.fenixframework.FenixFramework.getDomainObject(..))")
-	// public void fenixFrameworkGetDomainObject() {} 
+	@Pointcut("execution(public * pt.ist.fenixframework.FenixFramework.getDomainObject(..))")
+	public void fenixFrameworkGetDomainObject() {} 
 
 	// @Pointcut("execution(public * pt.ist.fenixframework.FenixFramework.getDomainModel(..))")
 	// public void fenixFrameworkGetDomainModel() {} // This one isn't used on the domain classes
@@ -57,7 +55,7 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 	@Pointcut("execution(public * pt.ist.fenixframework.DomainRoot_Base.get*(..)) || execution(public * pt.ist.fenixframework.DomainRoot_Base.set*(..))")
 	public void gettersAndSettersInDomainRootBase() {}
 
-	@Pointcut("gettersAndSettersInDomainRootBase()")
+	@Pointcut("gettersAndSettersInDomainRootBase() || fenixFrameworkGetDomainObject()")
 	public void fenixFrameworkGettersAndSetters() {}
 
 	// -------------------------------------------------- OTHER CLASSES (AND METHODS) THAT MAY BE IMPORTANT TO CATCH --------------------------------------------------
@@ -68,7 +66,7 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 	@Pointcut("execution(protected * pt.ist.fenixframework.backend.jvstmojb.pstm.OneBoxDomainObject.deleteDomainObject(..))")
     public void fenixFrameworkAbstractDomainObjectDeleteDomainObject() {}
 
-	@Pointcut("(fenixFrameworkAbstractDomainObjectGetExternalId() || fenixFrameworkAbstractDomainObjectDeleteDomainObject())")
+	@Pointcut("fenixFrameworkAbstractDomainObjectGetExternalId()")
 	public void otherMethodsThatMayBeImportant() {} // unused
 
 	// -------------------------------------------------------------------- CONTROLLER CLASSES -------------------------------------------------------------------- 
@@ -105,10 +103,11 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 
 	// ------------------------------------------------------------------------------ KIEKER METHOD ------------------------------------------------------------------------------
 
-    @Pointcut("(baseClassMethods() && noGettersOrSettersWithFenixFramework()) || fenixFrameworkGettersAndSetters()")
+    @Pointcut("(baseClassMethods() && noGettersOrSettersWithFenixFramework()) || fenixFrameworkGettersAndSetters() || otherMethodsThatMayBeImportant()")
 	public void domainAndORMMethods() {}
 
-	@Pointcut("(cflow(controllerMethods()) && domainAndORMMethods()) || controllerMethods()") 
+    @Pointcut("(cflow(controllerMethods()) && domainAndORMMethods()) || controllerMethods()")
+    @Override
 	public void monitoredOperation() {
 		// Aspect Declaration (MUST be empty)
 	}
