@@ -1,4 +1,5 @@
 export const ACCESS_TOKEN = 'accessToken';
+// export const API_BASE_URL = 'http://localhost:8080/api';
 export const API_BASE_URL = 'https://ldod.uc.pt/api';
 export const API_LOGIN_URL = '/auth/signin';
 export const API_USER_URL = '/user'
