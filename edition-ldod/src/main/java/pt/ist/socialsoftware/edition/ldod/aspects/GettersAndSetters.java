@@ -3,6 +3,8 @@ package pt.ist.socialsoftware.edition.ldod.aspects;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
+import kieker.monitoring.probe.aspectj.operationExecution.AbstractOperationExecutionAspect;
+
 /**
  * @author Bernardo Andrade
  */
@@ -107,7 +109,6 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 	public void domainAndORMMethods() {}
 
     @Pointcut("(cflow(controllerMethods()) && domainAndORMMethods()) || controllerMethods()")
-    @Override
 	public void monitoredOperation() {
 		// Aspect Declaration (MUST be empty)
 	}
