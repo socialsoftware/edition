@@ -16,6 +16,7 @@ opt/
 secrete.properties
 specific.properties
 fenix-framework.properties
+kieker.monitoring.properties
 
 *.class
 /target/
