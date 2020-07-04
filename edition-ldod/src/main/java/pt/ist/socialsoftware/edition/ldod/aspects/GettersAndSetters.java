@@ -3,8 +3,6 @@ package pt.ist.socialsoftware.edition.ldod.aspects;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
-import kieker.monitoring.probe.aspectj.operationExecution.AbstractOperationExecutionAspect;
-
 /**
  * @author Bernardo Andrade
  */
@@ -24,20 +22,20 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 	public void settersWithFenixFrameworkObjectArgument() {}
 	
 	@Pointcut("!gettersReturningFenixFrameworkObject() && !settersWithFenixFrameworkObjectArgument()")
-	public void noGettersOrSettersWithFenixFramework() {}
+    public void noGettersOrSettersWithFenixFramework() {}
 	
     // --------------------------------------------------------------------------- _BASE --------------------------------------------------------------------------- 
 
-    @Pointcut("execution(public void pt.ist..*.*_Base.add*(..))")
+    @Pointcut("execution(public void pt.ist..*.*_Base.add*(..)) && within(pt.ist..*.*_Base)")
 	public void publicBaseAddMethods() {}
 
-	@Pointcut("execution(public void pt.ist..*.*_Base.remove*(..))")
+	@Pointcut("execution(public void pt.ist..*.*_Base.remove*(..)) && within(pt.ist..*.*_Base)")
     public void publicBaseRemoveMethods() {}
     
-    @Pointcut("execution(public * pt.ist..*.*_Base.get*(..))")
+    @Pointcut("execution(public * pt.ist..*.*_Base.get*(..)) && within(pt.ist..*.*_Base)")
     public void publicBaseGetMethods() {}
     
-    @Pointcut("execution(public void pt.ist..*.*_Base.set*(..))")
+    @Pointcut("execution(public void pt.ist..*.*_Base.set*(..)) && within(pt.ist..*.*_Base)")
 	public void publicBaseSetMethods() {}
 
 	@Pointcut("publicBaseAddMethods() || publicBaseRemoveMethods() || publicBaseGetMethods() || publicBaseSetMethods()")
