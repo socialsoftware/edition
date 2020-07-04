@@ -29,7 +29,7 @@ public abstract class AbstractOperationExecutionAspect extends AbstractAspectJPr
 
 	private static final IMonitoringController CTRLINST = MonitoringController.getInstance();
 	private static final ITimeSource TIME = CTRLINST.getTimeSource();
-	private static final String VMNAME = CTRLINST.getHostname();
+	// private static final String VMNAME = CTRLINST.getHostname();
 	private static final ControlFlowRegistry CFREGISTRY = ControlFlowRegistry.INSTANCE;
 
 	@Pointcut
@@ -41,13 +41,13 @@ public abstract class AbstractOperationExecutionAspect extends AbstractAspectJPr
 			return thisJoinPoint.proceed();
         }
         // FIXME WIP this should be commented to not introduce unnecessary extra overhead
-		final String signature = this.signatureToLongString(thisJoinPoint.getSignature());
+		// final String signature = this.signatureToLongString(thisJoinPoint.getSignature());
 		// if (!CTRLINST.isProbeActivated(signature)) {
 		// 	return thisJoinPoint.proceed();
 		// }
 		// collect data
 		final boolean entrypoint;
-		final String hostname = VMNAME;
+		// final String hostname = VMNAME;
 		final int eoi; // this is executionOrderIndex-th execution in this trace
 		final int ess; // this is the height in the dynamic call tree of this execution
 		long traceId = CFREGISTRY.recallThreadLocalTraceId(); // traceId, -1 if entry point
@@ -163,7 +163,6 @@ public abstract class AbstractOperationExecutionAspect extends AbstractAspectJPr
                 newSignature.append(":");
             }
 
-
             // 4) Getting the returned value type of the given method
             try {
                 if (retval != null) {
@@ -212,7 +211,7 @@ public abstract class AbstractOperationExecutionAspect extends AbstractAspectJPr
         } finally {
 			// measure after
             final long tout = TIME.getTime();
-			CTRLINST.newMonitoringRecord(new OperationExecutionRecord("", newSignature.toString(), traceId, tin, tout, hostname, eoi, ess));
+			CTRLINST.newMonitoringRecord(new OperationExecutionRecord("", newSignature.toString(), traceId, tin, tout, "", eoi, ess));
 			// cleanup
 			if (entrypoint) {
 				CFREGISTRY.unsetThreadLocalTraceId();
