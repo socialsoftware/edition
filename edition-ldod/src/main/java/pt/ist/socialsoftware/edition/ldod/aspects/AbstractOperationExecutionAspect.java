@@ -39,11 +39,12 @@ public abstract class AbstractOperationExecutionAspect extends AbstractAspectJPr
 	public Object operation(final ProceedingJoinPoint thisJoinPoint) throws Throwable { // NOCS (Throwable)
 		if (!CTRLINST.isMonitoringEnabled()) {
 			return thisJoinPoint.proceed();
-		}
+        }
+        // FIXME WIP this should be commented to not introduce unnecessary extra overhead
 		final String signature = this.signatureToLongString(thisJoinPoint.getSignature());
-		if (!CTRLINST.isProbeActivated(signature)) {
-			return thisJoinPoint.proceed();
-		}
+		// if (!CTRLINST.isProbeActivated(signature)) {
+		// 	return thisJoinPoint.proceed();
+		// }
 		// collect data
 		final boolean entrypoint;
 		final String hostname = VMNAME;
@@ -69,57 +70,63 @@ public abstract class AbstractOperationExecutionAspect extends AbstractAspectJPr
 		// measure before
 		final long tin = TIME.getTime();
 		// execution of the called method
-		final Object retval;
+		Object retval = null;
+        final StringBuilder newSignature = new StringBuilder(512);
 		try {
-            retval = thisJoinPoint.proceed();
-            final StringBuilder sb = new StringBuilder(1000);
-            final StringBuilder newSignature = new StringBuilder(512);
-            
-            sb.append("-------------------------------START TESTING---------------------------");
-            sb.append("\n");
-            sb.append("filename: " + thisJoinPoint.getSourceLocation().getFileName());
-            sb.append("\n");
-            sb.append("line: " + thisJoinPoint.getSourceLocation().getLine());
-            sb.append("\n");
-            sb.append("Kieker's signature: " + signature);
-            sb.append("\n");
+            // final StringBuilder sb = new StringBuilder(1000);
+            // sb.append("-------------------------------START TESTING---------------------------");
+            // sb.append("\n");
+            // sb.append("filename: " + thisJoinPoint.getSourceLocation().getFileName());
+            // sb.append("\n");
+            // sb.append("line: " + thisJoinPoint.getSourceLocation().getLine());
+            // sb.append("\n");
+            // sb.append("Kieker's signature: " + signature);
+            // sb.append("\n");
 
             // 1) Getting the entity runtime type that executes the given method
             try {
                 Object target = thisJoinPoint.getTarget();
 
                 if (target != null) {
-                    sb.append("Target entity dynamic type: " + thisJoinPoint.getTarget().getClass().getSimpleName());            
+                    // sb.append("Target entity dynamic type: " + thisJoinPoint.getTarget().getClass().getSimpleName());            
                     newSignature.append(thisJoinPoint.getTarget().getClass().getSimpleName());
                 
                 } else {
-                    sb.append("Target entity static type: " + thisJoinPoint.getSignature().getDeclaringType().getSimpleName());
+                    // sb.append("Target entity static type: " + thisJoinPoint.getSignature().getDeclaringType().getSimpleName());
                     newSignature.append(thisJoinPoint.getSignature().getDeclaringType().getSimpleName());
                 }
 
             } catch (Exception e) {
-                sb.append("Error getting target entity type: " + e.getMessage());            
+                // sb.append("Error getting target entity type: " + e.getMessage());            
+                throw e;
             } finally {
-                sb.append("\n");
+                // sb.append("\n");
+                // Separator
+                newSignature.append(":");
             }
 
-            // Separator
-            newSignature.append(":");
-            
             // 2) Getting the method name
             try {
-                sb.append("Method name: " + thisJoinPoint.getSignature().getName());
+                // sb.append("Method name: " + thisJoinPoint.getSignature().getName());
                 newSignature.append(thisJoinPoint.getSignature().getName());
 
             } catch (Exception e) {
-                sb.append("Error getting method name: " + e.getMessage());            
+                // sb.append("Error getting method name: " + e.getMessage());            
+                throw e;
             } finally {
-                sb.append("\n");
+                // sb.append("\n");
+                // Separator
+                newSignature.append(":");
             }
-
-            // Separator
-            newSignature.append(":");
-
+            
+            try {
+                retval = thisJoinPoint.proceed();
+            } catch (Exception e) {
+                // Separator
+                newSignature.append(":");
+                throw e;
+            }
+            
             // 3) Getting the arguments types of the given method
             try {
                 if (thisJoinPoint.getArgs().length > 0) {
@@ -128,15 +135,15 @@ public abstract class AbstractOperationExecutionAspect extends AbstractAspectJPr
                     for (int i = 0; i < args.length; i++) {
                         if (args[i] == null) {
                             String argStaticType = ((MethodSignature) thisJoinPoint.getSignature()).getParameterTypes()[i].getSimpleName();
-                            sb.append("Arg " + i + " static type: " + argStaticType);
+                            // sb.append("Arg " + i + " static type: " + argStaticType);
                             argTypes += argStaticType;
     
                         } else {
                             String argDynamicType = args[i].getClass().getSimpleName();
-                            sb.append("Arg " + i + " dynamic type: " + argDynamicType);
+                            // sb.append("Arg " + i + " dynamic type: " + argDynamicType);
                             argTypes += argDynamicType;
                         }
-                        sb.append("\n");
+                        // sb.append("\n");
                         if (i < args.length - 1) {
                             argTypes += ", ";
                         }
@@ -144,17 +151,18 @@ public abstract class AbstractOperationExecutionAspect extends AbstractAspectJPr
                     argTypes += "]";
                     newSignature.append(argTypes);
                 } else {
-                    sb.append("No args (probably a get)");
+                    // sb.append("No args (probably a get)");
                 }
 
             } catch (Exception e) {
-                sb.append("Error getting args types: " + e.getMessage());            
+                // sb.append("Error getting args types: " + e.getMessage());            
+                throw e;
             } finally {
-                sb.append("\n");
+                // sb.append("\n");
+                // Separator
+                newSignature.append(":");
             }
 
-            // Separator
-            newSignature.append(":");
 
             // 4) Getting the returned value type of the given method
             try {
@@ -167,42 +175,44 @@ public abstract class AbstractOperationExecutionAspect extends AbstractAspectJPr
                             Object firstElement = i.next();
                             
                             if (firstElement != null) {
-                                sb.append("Returned value is a List of type: " + firstElement.getClass().getSimpleName());
+                                // sb.append("Returned value is a List of type: " + firstElement.getClass().getSimpleName());
                                 // ASSUMPTION: returned value dynamic type is the dynamic type of the first element of the list
                                 newSignature.append(firstElement.getClass().getSimpleName()); 
                             
                             } else {
-                                sb.append("Returned value is a List and has first element null");            
+                                // sb.append("Returned value is a List and has first element null");            
                             }
-                            sb.append("\n");
+                            // sb.append("\n");
                         } else {
-                            sb.append("Returned value is an empty List");  
+                            // sb.append("Returned value is an empty List");  
                         }
                     } else {
                         newSignature.append(retval.getClass().getSimpleName());
-                        sb.append("Returned value type: " + retval.getClass().getSimpleName());
-                        sb.append("\n");
+                        // sb.append("Returned value type: " + retval.getClass().getSimpleName());
+                        // sb.append("\n");
                     }
                 } else {
                     String returnedValueStaticType = ((MethodSignature) thisJoinPoint.getSignature()).getReturnType().getSimpleName();
-                    sb.append("Null return value. Static type is: " + returnedValueStaticType);
+                    // sb.append("Null return value. Static type is: " + returnedValueStaticType);
                     newSignature.append(returnedValueStaticType);
                 }
 
             } catch (Exception e) {
-                sb.append("Error getting returned value type: " + e.getMessage());  
+                // sb.append("Error getting returned value type: " + e.getMessage());  
+                throw e;
             } finally {
-                sb.append("\n");
+                // sb.append("\n");
             }
             
-            sb.append("New signature: " + newSignature);
-            sb.append("\n");
-            sb.append("-------------------------------END TESTING---------------------------");
-            System.out.println(sb);
-		} finally {
+            // sb.append("New signature: " + newSignature);
+            // sb.append("\n");
+            // sb.append("-------------------------------END TESTING---------------------------");
+            // System.out.println(sb);
+
+        } finally {
 			// measure after
-			final long tout = TIME.getTime();
-			CTRLINST.newMonitoringRecord(new OperationExecutionRecord(signature, "", traceId, tin, tout, hostname, eoi, ess));
+            final long tout = TIME.getTime();
+			CTRLINST.newMonitoringRecord(new OperationExecutionRecord("", newSignature.toString(), traceId, tin, tout, hostname, eoi, ess));
 			// cleanup
 			if (entrypoint) {
 				CFREGISTRY.unsetThreadLocalTraceId();
