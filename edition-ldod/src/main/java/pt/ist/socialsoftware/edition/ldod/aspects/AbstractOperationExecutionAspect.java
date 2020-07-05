@@ -112,14 +112,6 @@ public abstract class AbstractOperationExecutionAspect extends AbstractAspectJPr
                 newSignature.append(":");
             }
             
-            try {
-                retval = thisJoinPoint.proceed();
-            } catch (Exception e) {
-                // Separator
-                newSignature.append(":");
-                throw e;
-            }
-
             // 3) Getting the entity runtime type that executes the given method
             try {
                 Object target = thisJoinPoint.getTarget();
@@ -132,6 +124,14 @@ public abstract class AbstractOperationExecutionAspect extends AbstractAspectJPr
                 //     sb.append("Target entity static type: " + thisJoinPoint.getSignature().getDeclaringType().getSimpleName());
                 //     newSignature.append(thisJoinPoint.getSignature().getDeclaringType().getSimpleName());
                 // }
+
+            try {
+                retval = thisJoinPoint.proceed();
+            } catch (Exception e) {
+                // Separator
+                newSignature.append(":");
+                throw e;
+            }
 
             } catch (Exception e) {
                 // sb.append("Error getting target entity type: " + e.getMessage());            
@@ -151,12 +151,12 @@ public abstract class AbstractOperationExecutionAspect extends AbstractAspectJPr
                         if (args[i] == null) {
                             String argStaticType = ((MethodSignature) thisJoinPoint.getSignature()).getParameterTypes()[i].getSimpleName();
                             // sb.append("Arg " + i + " static type: " + argStaticType);
-                            argTypes += argStaticType;
+                            argTypes += "\"" + argStaticType + "\"";
     
                         } else {
                             String argDynamicType = args[i].getClass().getSimpleName();
                             // sb.append("Arg " + i + " dynamic type: " + argDynamicType);
-                            argTypes += argDynamicType;
+                            argTypes += "\"" + argDynamicType + "\"";
                         }
                         // sb.append("\n");
                         if (i < args.length - 1) {
