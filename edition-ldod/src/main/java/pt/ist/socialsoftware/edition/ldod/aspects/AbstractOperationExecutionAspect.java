@@ -160,7 +160,7 @@ public abstract class AbstractOperationExecutionAspect extends AbstractAspectJPr
                         }
                         // sb.append("\n");
                         if (i < args.length - 1) {
-                            argTypes += ", ";
+                            argTypes += ",";
                         }
                     }
                     argTypes += "]";
