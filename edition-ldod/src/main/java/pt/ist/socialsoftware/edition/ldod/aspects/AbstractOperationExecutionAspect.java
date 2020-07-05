@@ -71,7 +71,7 @@ public abstract class AbstractOperationExecutionAspect extends AbstractAspectJPr
 		final long tin = TIME.getTime();
 		// execution of the called method
 		Object retval = null;
-        final StringBuilder newSignature = new StringBuilder(512);
+        final StringBuilder newSignature = new StringBuilder(128);
 		try {
             // final StringBuilder sb = new StringBuilder(1000);
             // sb.append("-------------------------------START TESTING---------------------------");
@@ -120,18 +120,10 @@ public abstract class AbstractOperationExecutionAspect extends AbstractAspectJPr
                     // sb.append("Target entity dynamic type: " + thisJoinPoint.getTarget().getClass().getSimpleName());            
                     newSignature.append(thisJoinPoint.getTarget().getClass().getSimpleName());
                 } 
-                // else { // DELETEME
-                //     sb.append("Target entity static type: " + thisJoinPoint.getSignature().getDeclaringType().getSimpleName());
-                //     newSignature.append(thisJoinPoint.getSignature().getDeclaringType().getSimpleName());
-                // }
-
-            try {
-                retval = thisJoinPoint.proceed();
-            } catch (Exception e) {
-                // Separator
-                newSignature.append(":");
-                throw e;
-            }
+                else {
+                    // sb.append("Target entity static type: " + thisJoinPoint.getSignature().getDeclaringType().getSimpleName());
+                    // newSignature.append(thisJoinPoint.getSignature().getDeclaringType().getSimpleName()); // not necessary since we're already adding the declaring type
+                }
 
             } catch (Exception e) {
                 // sb.append("Error getting target entity type: " + e.getMessage());            
@@ -180,6 +172,8 @@ public abstract class AbstractOperationExecutionAspect extends AbstractAspectJPr
 
             // 5) Getting the returned value type of the given method
             try {
+                retval = thisJoinPoint.proceed();
+
                 if (retval != null) {
                     if (retval.getClass().getSimpleName().equals("RelationList")) {
                         RelationList retValAux = (RelationList) retval;
