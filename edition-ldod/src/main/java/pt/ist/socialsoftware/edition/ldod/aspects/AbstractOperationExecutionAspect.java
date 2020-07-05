@@ -83,22 +83,15 @@ public abstract class AbstractOperationExecutionAspect extends AbstractAspectJPr
             // sb.append("Kieker's signature: " + signature);
             // sb.append("\n");
 
-            // 1) Getting the entity runtime type that executes the given method
+            // 1) Getting the entity declaring type that executes the given method to accomodate the cases where the return type is an empty list (suitable during the processing phase)
             try {
-                Object target = thisJoinPoint.getTarget();
-
-                if (target != null) {
-                    // sb.append("Target entity dynamic type: " + thisJoinPoint.getTarget().getClass().getSimpleName());            
-                    newSignature.append(thisJoinPoint.getTarget().getClass().getSimpleName());
-                
-                } else {
-                    // sb.append("Target entity static type: " + thisJoinPoint.getSignature().getDeclaringType().getSimpleName());
-                    newSignature.append(thisJoinPoint.getSignature().getDeclaringType().getSimpleName());
-                }
+                // sb.append("Entity declaring type: " + thisJoinPoint.getSignature().getDeclaringType().getSimpleName());
+                newSignature.append(thisJoinPoint.getSignature().getDeclaringType().getSimpleName());
 
             } catch (Exception e) {
-                // sb.append("Error getting target entity type: " + e.getMessage());            
+                // sb.append("Error getting entity declaring type: " + e.getMessage());            
                 throw e;
+
             } finally {
                 // sb.append("\n");
                 // Separator
@@ -126,8 +119,30 @@ public abstract class AbstractOperationExecutionAspect extends AbstractAspectJPr
                 newSignature.append(":");
                 throw e;
             }
+
+            // 3) Getting the entity runtime type that executes the given method
+            try {
+                Object target = thisJoinPoint.getTarget();
+
+                if (target != null) {
+                    // sb.append("Target entity dynamic type: " + thisJoinPoint.getTarget().getClass().getSimpleName());            
+                    newSignature.append(thisJoinPoint.getTarget().getClass().getSimpleName());
+                } 
+                // else { // DELETEME
+                //     sb.append("Target entity static type: " + thisJoinPoint.getSignature().getDeclaringType().getSimpleName());
+                //     newSignature.append(thisJoinPoint.getSignature().getDeclaringType().getSimpleName());
+                // }
+
+            } catch (Exception e) {
+                // sb.append("Error getting target entity type: " + e.getMessage());            
+                throw e;
+            } finally {
+                // sb.append("\n");
+                // Separator
+                newSignature.append(":");
+            }
             
-            // 3) Getting the arguments types of the given method
+            // 4) Getting the arguments types of the given method
             try {
                 if (thisJoinPoint.getArgs().length > 0) {
                     Object[] args = thisJoinPoint.getArgs();
@@ -163,7 +178,7 @@ public abstract class AbstractOperationExecutionAspect extends AbstractAspectJPr
                 newSignature.append(":");
             }
 
-            // 4) Getting the returned value type of the given method
+            // 5) Getting the returned value type of the given method
             try {
                 if (retval != null) {
                     if (retval.getClass().getSimpleName().equals("RelationList")) {
