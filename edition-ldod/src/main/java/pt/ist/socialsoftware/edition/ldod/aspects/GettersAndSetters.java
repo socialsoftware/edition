@@ -66,7 +66,7 @@ public class GettersAndSetters extends AbstractOperationExecutionAspect {
 	@Pointcut("execution(protected * pt.ist.fenixframework.backend.jvstmojb.pstm.OneBoxDomainObject.deleteDomainObject(..))")
     public void fenixFrameworkAbstractDomainObjectDeleteDomainObject() {}
 
-	@Pointcut("fenixFrameworkAbstractDomainObjectGetExternalId()")
+	@Pointcut("fenixFrameworkAbstractDomainObjectGetExternalId() || fenixFrameworkAbstractDomainObjectDeleteDomainObject()")
 	public void otherMethodsThatMayBeImportant() {} // unused
 
 	// -------------------------------------------------------------------- CONTROLLER CLASSES -------------------------------------------------------------------- 
