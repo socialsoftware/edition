@@ -1,5 +1,5 @@
 from sys import exit, argv
-from typing import List, Dict, Tuple, Optional
+from typing import List, Dict, Tuple, Optional, Union
 from os import path
 import json
 import argparse
@@ -7,7 +7,7 @@ import re
 import logging
 import inspect
 from enum import Enum
-from ast import literal_eval 
+from ast import literal_eval
 
 class BaseMethod:
     def __init__(self, methodName: str, argumentTypes: List[str], className: str, returnType: str): 
@@ -186,7 +186,7 @@ def deleteFunctionalitiesWithNoAccesses():
             del file_content[functionality_label]
 
 def getTraceID(trace: List[str]) -> str:
-    return re.findall("\<([0-9]+)\[", trace[0])[0] # e.g, trace[0] = "<5[0,0]"
+    return re.findall("([0-9]+)\[", trace[0])[0] # e.g, trace[0] = "<5[0,0]"
 
 def getMethodCallOrderAndStackDepth(trace: List[str]) -> Tuple[int, int]:
     call_order, stack_depth = re.findall("([0-9]+),([0-9]+)", trace[0])[0] # e.g, trace[0] = "<5[0,0]"
@@ -196,40 +196,153 @@ def getClassNameAndMethod(trace: List[str]) -> Tuple[str, str]:
     *everything_else, class_name, method = trace[2].split(sep='.')
     return class_name, method
 
-def getMethodEntityAccesses(class_name: str, method: str) -> List[Access]: # (accessed entity, access type)
-    printAndLog("Parsing method: " + method + " of class " + class_name, lineno())
+def getMethodEntityAccesses(
+    declaring_type: str,
+    method_name: str,
+    caller_dynamic_type: Union[str, None], 
+    argument_types: Union[List[str], None],
+    return_type: Union[str, None], 
+) -> List[Access]:
+    """
+    Parameters
+    ----------
+    callerDynamicType -- None if called by a static class
+    argumentTypes -- static or dynamic one
+    returnType -- static or dynamic. None if empty list
+
+    Returns
+    -------
+    e.g, [(accessed entity, access type), ... ]
+    """
+
+    printAndLog("Parsing methodName: " + method_name + " of class " + declaring_type, lineno())
     
-    class_name_and_method = ".".join([class_name, method])
-
-    if (class_name_and_method in base_methods):
-        base_method = base_methods[class_name_and_method]
-        accesses_list = []
-        lowered_case_method = method.lower()
-
+    declaring_type_and_method = ".".join([declaring_type, method_name])
+    accesses_list = []
+    lowered_case_method = method_name.lower()
+    
+    # the getExternalId is the only method we are expecting from the AbstractDomainObject class 
+    # the getDomainObject .......................................... FenixFramework class
+    if (declaring_type == "FenixFramework" or declaring_type == "AbstractDomainObject"): 
         if (lowered_case_method.startswith("get")): 
-            accesses_list.append(Access(base_method["declaringType"][: -len("_Base")], Access.Type.READ))
+            accesses_list.append(
+                Access(
+                    caller_dynamic_type if caller_dynamic_type else declaring_type,
+                    Access.Type.READ,
+                )
+            )
             
-            if (base_method["returnType"] in domain_entities):
-                accesses_list.append(Access(base_method["returnType"], Access.Type.READ))
+            if (return_type):
+                if (return_type in domain_entities):
+                    accesses_list.append(
+                        Access(
+                            return_type, # dynamic one
+                            Access.Type.READ,
+                        )
+                    )
+            else:
+                logAndExit(
+                    "[WARNING]: Method " + method_name + " from class " + declaring_type + " not expected",
+                    lineno()
+                )
+        else:
+            logAndExit(
+                "[WARNING]: Method " + method_name + " from class " + declaring_type + " not expected",
+                lineno()
+            )
 
-            return accesses_list        
-            
-        elif (lowered_case_method.startswith("set") or method.startswith("add") or method.startswith("remove")):
-            accesses_list.append(Access(base_method["declaringType"][: -len("_Base")], Access.Type.WRITE))
+        return accesses_list
 
-            for arg_type in base_method["argumentTypes"]:            
-                if (arg_type in domain_entities):
-                    accesses_list.append(Access(arg_type, Access.Type.WRITE))
+    if (declaring_type == "OneBoxDomainObject"): 
+        if (lowered_case_method.startswith("delete")): 
+            accesses_list.append(
+                Access(
+                    caller_dynamic_type if caller_dynamic_type else declaring_type,
+                    Access.Type.WRITE,
+                )
+            )
+
+            if (argument_types): # both static and dynamic
+                for arg_type in argument_types:            
+                    if (arg_type in domain_entities):
+                        accesses_list.append(Access(arg_type, Access.Type.WRITE))
 
             return accesses_list
         else:
             logAndExit(
-                "[WARNING]: You were not expecting the method " + method + " from class " + class_name + " on the getMethodEntityAccesses function",
+                "[WARNING]: Method " + method_name + " from class " + declaring_type + " not expected",
+                lineno()
+            )
+
+        return accesses_list
+
+    if (declaring_type_and_method in base_methods):
+        base_method = base_methods[declaring_type_and_method]
+
+        if (lowered_case_method.startswith("get")): 
+            accesses_list.append(
+                Access(
+                    caller_dynamic_type if caller_dynamic_type else declaring_type,
+                    Access.Type.READ,
+                )
+            )
+            
+            if (return_type):
+                if (return_type in domain_entities):
+                    accesses_list.append(
+                        Access(
+                            return_type, # dynamic one
+                            Access.Type.READ,
+                        )
+                    )
+            else: # None if empty list. Then check static type with the help of static analysis
+                if (base_method["returnType"] in domain_entities):
+                    accesses_list.append(
+                        Access(
+                            base_method["returnType"],
+                            Access.Type.READ,
+                        )
+                    )
+                else:
+                    logAndExit(
+                        "[WARNING]: Returned entity type " + base_method["returnType"] + " does not exist in the domain entities json file",
+                        lineno()
+                    )
+
+            return accesses_list        
+            
+        elif (lowered_case_method.startswith("set") or method_name.startswith("add") or method_name.startswith("remove")):
+            accesses_list.append(
+                Access(
+                    caller_dynamic_type if caller_dynamic_type else declaring_type,
+                    Access.Type.WRITE,
+                )
+            )
+
+            if (argument_types): # both static and dynamic
+                for arg_type in argument_types:            
+                    if (arg_type in domain_entities):
+                        accesses_list.append(Access(arg_type, Access.Type.WRITE))
+
+            else: # fallback to use static information
+                for arg_type in base_method["argumentTypes"]:            
+                    if (arg_type in domain_entities):
+                        accesses_list.append(Access(arg_type, Access.Type.WRITE))
+                    else:
+                        logAndExit(
+                            "[WARNING]: Argument type " + arg_type + " does not exist in the domain entities json file",
+                            lineno()
+                        )
+
+            return accesses_list
+        else:
+            logAndExit(
+                "[WARNING]: Method " + method_name + " from class " + declaring_type + " not expected",
                 lineno()
             )
     else:
         logAndExit(
-            "[WARNING]: You were not expecting the method " + method + " from class " + class_name + " on the getMethodEntityAccesses function",
+            "[WARNING]: Method " + method_name + " from class " + declaring_type + " not expected",
             lineno()
         )
 
@@ -244,14 +357,23 @@ def parseExecutionTrace(trace: str) -> None:
 
     trace = trace.rstrip() # remove extra new lines
 
-    split_trace: List[str] = trace.split() # split by white spaces
-
+    split_trace: List[str] = trace.replace('<', '').replace('>', '').split() # split by white spaces
     if (len(split_trace) != 4): # According to Kieker's output, a trace seems to only have traces with 4 sections
         logAndExit("[ERROR]: A trace with more than 4 fields was found.", lineno());
     
     # The only interesting parts of a trace we want to parse are the 1st one (index 0) and 3rd one (index 2)
     traceID = getTraceID(split_trace)
     printAndLog("Trace ID: " + traceID, lineno())
+
+    log = split_trace[3].split(":")
+    printAndLog("log: " + str(log), lineno())
+
+    if (len(log) != 5):
+        logAndExit("[ERROR]: A log with more than 5 fields was found.", lineno());
+        return
+
+    declaring_type: Union[str, None] = log[0] if log[0] else None
+    methodName: Union[str, None] = log[1] if log[1] else None
 
     if (current_kieker_traceID != traceID): # if the previous ID is different from the new one, it means we are in a different trace
         if (current_trace is not None):
@@ -260,9 +382,7 @@ def parseExecutionTrace(trace: str) -> None:
 
         current_kieker_traceID = traceID
 
-        class_name, method = getClassNameAndMethod(split_trace)
-
-        current_functionality_label = ".".join([class_name, method])
+        current_functionality_label = ".".join([declaring_type, methodName])
         printAndLog("Functionality: " + current_functionality_label, lineno())
 
         if (current_functionality_label not in file_content):
@@ -276,14 +396,21 @@ def parseExecutionTrace(trace: str) -> None:
             )
     
     else: # if traceID hasn't changed, then we must continue to parse the current one and add the access to the current_trace
-        class_name, method = getClassNameAndMethod(split_trace)
-        if (class_name == "FenixFramework"): 
-            return # FIXME right now we can't discover which entities are being read when FenixFramework.getDomainObject is executed
-        elif ("_Base" not in class_name):
+        if (
+            "FenixFramework" not in declaring_type and
+            "_Base" not in declaring_type and
+            "AbstractDomainObject" not in declaring_type and
+            "OneBoxDomainObject" not in declaring_type
+        ):
+            logAndExit("[ERROR]: Unknown declaring type: " + declaring_type, lineno());
             return
 
+        callerDynamicType: Union[str, None] = log[2] if log[2] else None
+        argumentTypes: Union[List[str], None] = literal_eval(log[3]) if log[3] else None 
+        dynamicReturnType: Union[str, None] = log[4] if log[4] else None;
+
         call_order, stackDepth = getMethodCallOrderAndStackDepth(split_trace)
-        accesses = getMethodEntityAccesses(class_name, method)
+        accesses = getMethodEntityAccesses(declaring_type, methodName, callerDynamicType, argumentTypes, dynamicReturnType)
 
         for access in accesses:
             printAndLog(str(access), lineno())
@@ -340,7 +467,7 @@ if __name__ == "__main__":
 
             parseExecutionTrace(line)
 
-    deleteFunctionalitiesWithNoAccesses()
+    # deleteFunctionalitiesWithNoAccesses()
 
     # printAndLog(str(json.dumps(file_content, default=lambda o: o.__dict__, indent=2, sort_keys=False)), lineno())
     
