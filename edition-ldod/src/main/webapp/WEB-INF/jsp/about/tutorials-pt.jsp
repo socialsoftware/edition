@@ -7,7 +7,7 @@
   dedicados &agrave; cria&ccedil;&atilde;o e gest&atilde;o de edi&ccedil;&otilde;es virtuais pelos utilizadores. 
 </p>
 <p>
-  Todos os v&iacute;deos foram produzidos por Cec&iacute;lia Magalh&atilde;es no &acirc;mbito do projeto “Fragmentos em Pr&aacute;tica”. 
+  Todos os v&iacute;deos foram produzidos por Cec&iacute;lia Magalh&atilde;es no &acirc;mbito do projeto &ldquo;Fragmentos em Pr&aacute;tica&rdquo;. 
   Est&atilde;o dispon&iacute;veis no respetivo canal no Youtube, com espa&ccedil;o de coment&aacute;rios aberto a sugest&otilde;es.<br />
 	URL: <a
 		href="https://www.youtube.com/channel/UCHK5OjU1w4OwPOF_e0jd9bQ" target="_new">
