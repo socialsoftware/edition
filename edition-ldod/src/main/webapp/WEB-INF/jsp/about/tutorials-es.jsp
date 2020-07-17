@@ -4,7 +4,7 @@
    de forma progresiva y modular, las dimensiones te&oacute;ricas y t&eacute;cnicas de la plataforma. M&aacute;s all&aacute; de una explicaci&oacute;n
   paso a paso de los componentes del <em>Archivo LdoD</em>, cada v&iacute;deo contiene sugerencias de tareas que le permiten
    comprender mejor los materiales y las interacciones en cada interfaz de la plataforma. Los Tutoriales 7, 8, 9 y 10 son
-   dedicados a la gestión y creaci&oacute;n de ediciones virtuales por parte de los usuarios.
+   dedicados a la gesti&oacute;n y creaci&oacute;n de ediciones virtuales por parte de los usuarios.
 </p>
 <p>
    Todos los v&iacute;deos fueron producidos por Cec&iacute;lia Magalh&atilde;es bajo el proyecto &ldquo;Fragmentos en la pr&aacute;ctica&rdquo;.
