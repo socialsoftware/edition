@@ -7,7 +7,7 @@ a better understanding of the materials and interactions available in each inter
    dedicated to the creation and management of virtual editions by users.
 </p>
 <p>
-   All videos were produced by Cec&iacute;lia Magalh&atilde;es as part of her project “Fragments in Practice”.
+   All videos were produced by Cec&iacute;lia Magalh&atilde;es as part of her project &ldquo;Fragments in Practice&rdquo;.
    They are available on the respective YouTube channel, with a comments space open to suggestions.<br />
 	URL: <a
 		href="https://www.youtube.com/channel/UCHK5OjU1w4OwPOF_e0jd9bQ" target="_new">
