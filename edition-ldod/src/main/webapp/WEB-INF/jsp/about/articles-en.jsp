@@ -146,13 +146,29 @@
 </p>
 <p>
 	Oliveira, Duarte, Ant&oacute;nio Rito Silva, and Manuel Portela (2019). &ldquo;Social Media Aware Virtual Editions for 
-	the <em>Book of Disquiet</em>.&rdquo; 
-	<em>21st International Conference on Asia-Pacific Digital Libraries ICADL 2019: Digital Libraries at Cross-Roads of 
-	Digital Information for the Future - Connecting Data, Technologies and People in Different Domains.</em> 
-		Kuala Lumpur [forthcoming].
+	the <em>Book of Disquiet</em>.&rdquo; <em>Digital Libraries at the Crossroads of Digital Information for the Future. ICADL 2019.</em>
+		Lecture Notes in Computer Science, vol 11853, Eds. Adam Jatowt, Akira Maeda, and Sue Yeon Syn. Berlin: Springer. 271-282.
+		<br />DOI: <a href="https://link.springer.com/chapter/10.1007%2F978-3-030-34058-2_25" target="_new">https://link.springer.com/chapter/10.1007%2F978-3-030-34058-2_25</a> </p>
+<p>&nbsp;</p>
+<p><strong>2020</strong>
 </p>
-
 <p>
+	Marques, Ana, and Manuel Portela (2020). &ldquo;Representa&ccedil;&atilde;o e An&aacute;lise da Rece&ccedil;&atilde;o Cr&iacute;tica 
+	do <em>Livro do Desassossego</em> no <em>Arquivo LdoD</em>&rdquo;. 
+	<em>Novos Estudos Pessoanos - Ponto de Situação</em>, Lisboa: Casa Fernando Pessoa. </p>
+<p>&nbsp;</p>
+	<p>
+	Marques, Gon&ccedil;alo Montalv&atilde;o, Ant&oacute;nio Rito Silva, and Manuel Portela (2020). &ldquo;Classification in the <em>LdoD Archive</em>
+	A crowdsourcing and gamification approach.&rdquo;. Submitted.
+</p>
+<p>&nbsp;</p>
+<p><strong>2021</strong>
+</p>
+<p>
+	Portela, Manuel (2021). &ldquo;From Meta-Editing to Virtual Editing: The <em>LdoD Archive</em> as a Computer-Assisted Editorial Space.&rdquo; 
+	<em>MLA Approaches to Teaching Pessoa’s The Book of Disquiet. </em>
+	Eds. Paulo de Medeiros and Jer&oacute;nimo Pizarro. New York: Modern Language Association. [forthcoming].</p>
+<p>&nbsp;</p>
 	<strong>&nbsp;</strong></p>
 <p>&nbsp;</p>
 <h3 id="Q02Q" style="padding-top: 60px; margin-top: -60px;">
