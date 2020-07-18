@@ -140,40 +140,54 @@ a better understanding of the materials and interactions available in each inter
   (2) to help individuals adapt the uses of the platform for their personal or institutional purposes (including teaching in formal and informal contexts,
   study and analysis, advanced research, creative writing, and live performance). Our LdoD Workshops are available either as face-to-face or online sessions.
 </p>
+
 <p>&nbsp;</p>
 <p><strong>2017</strong> </p>
-<p>Manuel Portela e Cec&iacute;lia Magalh&atilde;es, &ldquo;Desassossego Remix 1&rdquo; 
-	26/11/2017, 19:00-22:00, Rep&iacute;blica Prakist&atilde;o, Coimbra </p> 
-<p>&nbsp;</p>
+	<p>Manuel Portela and Cec&iacute;lia Magalh&atilde;es, &ldquo;Desassossego Remix 1&rdquo;, 26/11/2017, 19:00-22:00, 
+		Rep&iacute;blica Prakist&atilde;o, Coimbra. </p> 
 
+<p>&nbsp;</p>
 <p> <strong>2018</strong> </p>
-<p>Manuel Portela,  &ldquo;Desassossego Remix 2&rdquo; 
-	26/05/2018, 9:00-13:00, Escola Secund&aacute;ria de Cantanhede </p> 
-<p>Manuel Portela e Cec&iacute;lia Magalh&atilde;es, &ldquo;Desassossego Remix 3&rdquo; 
-	7/09/2018, 9:00-13:00, Escola Secund&aacute;ria Cristina Torres, Figueira da Foz </p> 
+
+	<p>Manuel Portela, &ldquo;Disquiet Variations&rdquo;, 30/04/2018, 10h30-17h30, 
+		Creative Writing Workshop, Silves.</p> 
+
+	<p>Manuel Portela, &ldquo;Desassossego Remix 2&rdquo; 26/05/2018, 9:00-13:00, 
+		Escola Secund&aacute;ria de Cantanhede. </p> 
+
+	<p>Manuel Portela and Cec&iacute;lia Magalh&atilde;es, &ldquo;Desassossego Remix 3&rdquo; 7/09/2018, 14:00-19:00, 
+		Escola Secund&aacute;ria Cristina Torres, Figueira da Foz.</p> 
+
 <p>&nbsp;</p>
-
 <p><strong>2019</strong> </p>
-<p>Manuel Portela e Cec&iacute;lia Magalh&atilde;es, &ldquo;Desassossego Remix 3&rdquo; 
-	7/09/2018, 9:00-13:00, Escola Secund&aacute;ria Cristina Torres, Figueira da Foz </p> 
-<p>Cec&iacute;lia Magalh&atilde;es e Liliana Vasques,  &ldquo;Remix LdoD: O <em>Livro do Desssossego</em> em Remix&rdquo; 
-	14/12/2019, 9:00-13:00, Sala 6 da Faculdade de Letras de Universidade de Coimbra (FLUC) </p>
 
-<p> Manuel Portela, &ldquo;Desassossego Remix 4&rdquo;, 13/07/2019, 18:00-20:00, Centro de Investigação em Artes e Comunicação-CIAC, Universidade do Algarve.
-</p>
-<p>Cecília Magalhães e Manuel Portela, &ldquo;Desassossego Remix 4&rdquo; 26/07/2019, 10:00-13:00, Sala de Informática e Sala 6 da Faculdade de 
-	Letras de Universidade de Coimbra (FLUC).</>
-<p> Manuel Portela, “LdoD Remix: An Introduction to the Book of Disquiet Archive”, 28/11/2019, 18:00-20:00, School of English, 
-Department of North-American Literature and Culture, Aristotle University of Thessaloniki.</p> 
+	<p> Manuel Portela, &ldquo;Disquiet Variations: The Outsider&rdquo;, 19/05/2019, 10h30-13h30, 
+		Creative Writing Workshop, Silves.</p>
+
+	<p> Manuel Portela, &ldquo;Desassossego Remix 4&rdquo;, 13/07/2019, 14:30-17:30, 
+		Centro de Investigação em Artes e Comunicação-CIAC, Universidade do Algarve.</p>
+
+	<p>Cec&iacute;lia Magalh&atilde;es and Manuel Portela, &ldquo;Desassossego Remix 4&rdquo; 26/07/2019, 10:00-13:00, 
+		Faculdade de Letras de Universidade de Coimbra.</p>
+		
+	<p> Manuel Portela, &ldquo;Disquiet Variations: An Introduction to the Book of Disquiet Digital Archive&rdquo;, 28/11/2019, 18:00-20:00, 
+		School of English, Department of North-American Literature and Culture, Aristotle University of Thessaloniki.</p> 
+
+	<p>Cec&iacute;lia Magalh&atilde;es and Liliana Vasques, &ldquo;Remix LdoD: O <em>Livro do Desssossego</em> em Remix&rdquo; 14/12/2019, 9:00-13:00, 
+		Faculdade de Letras de Universidade de Coimbra. </p>
 
 	
 <p>&nbsp;</p>
 <p><strong>2020</strong> </p>
-<p>Manuel Portela, &ldquo;Desassossego Remix 5&rdquo; 
-	01/02/2020, 9:00-13:00, Escola B&aacute;sica de Cantanhede </p> 
+	<p>Manuel Portela, &ldquo;Desassossego Remix 5&rdquo; 01/02/2020, 9:00-13:00, 
+		Escola B&aacute;sica de Cantanhede </p> 
+
+	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Sessões Online Arquivo LdoD: 1. Introdução ao Arquivo LdoD&rdquo;, 13/05/2020, 20h00-21h30</p>
+
+	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Sessões Online Arquivo LdoD: 2. Sarau no Arquivo LdoD&rdquo;, 20/05/2020, 20h00-21h30</p>
+
+	<p>Cec&iacute;lia Magalh&atilde;es and Liliana Vasques, &ldquo;Sessões Online Arquivo LdoD: 3. Oficina LdoD Remix&rdquo;, 27/05/2020, 20h00-21h30</p> 
 
 
-
-
-<p>
+<p>&nbsp;</p>
 <p>[updated 18-07-2020]</p>
