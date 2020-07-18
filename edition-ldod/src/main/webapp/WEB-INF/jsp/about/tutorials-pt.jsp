@@ -202,10 +202,10 @@
 		Universidade Estadual do Mato Grosso do Sul (UEMS).</p>
 
 	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Grupo de leitura, escrita e produ&ccedil;&atilde;o criativa 
-		- Sess&otilde;es Criativas do <em>Livro do Desassossego</em>&rdquo;, Session 1, 9/11/2019, Bar of Soap, Porto.</p>
+		- Sess&otilde;es Criativas do <em>Livro do Desassossego</em>&rdquo;, Sess&atilde;o 1, 9/11/2019, Bar of Soap, Porto.</p>
 
 	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Grupo de leitura, escrita e produ&ccedil;&atilde;o criativa 
-		- Sess&otilde;es Criativas do <em>Livro do Desassossego</em>&rdquo;, Session 2, 16/11/2019, Valsa, Lisboa.</p>
+		- Sess&otilde;es Criativas do <em>Livro do Desassossego</em>&rdquo;, Sess&atilde;o 2, 16/11/2019, Valsa, Lisboa.</p>
 
 	
 <p>&nbsp;</p>
