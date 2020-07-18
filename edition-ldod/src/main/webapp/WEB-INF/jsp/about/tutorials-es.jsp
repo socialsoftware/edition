@@ -1,17 +1,16 @@
 <h4>
 	<ul>
-		<li><a href="#Q01Q">A. Tutorials</a></li>
-		<li><a href="#Q02Q">B. Workshops</a></li>
+		<li><a href="#Q01Q">A. Tutoriales</a></li>
+		<li><a href="#Q02Q">B. Talleres</a></li>
 		
 	</ul>
 </h4>
 
 <p>&nbsp;</p>
 <h3 id="Q01Q" style="padding-top: 60px; margin-top: -60px;">
-	A. Tutorials</em>
+	A. Tutoriales</em>
 </h3>
-<p>
-  Los Tutoriales LdoD tienen dos funciones principales: (1) presentar did&aacute;cticamente la estructura de la plataforma;
+<p> Los Tutoriales LdoD tienen dos funciones principales: (1) presentar did&aacute;cticamente la estructura de la plataforma;
    (2) familiarizar a los usuarios con las m&uacute;ltiples funcionalidades de esta estructura. Los v&iacute;deos introducen,
    de forma progresiva y modular, las dimensiones te&oacute;ricas y t&eacute;cnicas de la plataforma. M&aacute;s all&aacute; de una explicaci&oacute;n
   paso a paso de los componentes del <em>Archivo LdoD</em>, cada v&iacute;deo contiene sugerencias de tareas que le permiten
@@ -128,15 +127,16 @@
 <br />
 <p>&nbsp;</p>
 <h3 id="Q02Q" style="padding-top: 60px; margin-top: -60px;">
-	B. Workshops</em>
+	B. Talleres</em>
 </h3>
 
 <p>
-  The LdoD Archive offers several Workshops for those who are interested in learning more about the platform and its uses. These workshops have three major aims: 
-  (1) to provide a guided hands-on exploration of the full range of functionalities of the LdoD Archive (reading, editing, writing);
-  (2) to help individuals adapt the uses of the platform to their personal or institutional purposes (including teaching in formal and informal contexts,
-  study and analysis, advanced research, creative writing, and live performance); (3) to gather feedback from different types of users that will help us improve the 
-	usability of the <em>LdoD Archive</em>. Our LdoD Workshops are available either as face-to-face or online sessions.
+ 	El <em>Archivo LdoD</em> ofrece varios Talleres para todos los interesados en aprender m&aacute;s sobre la plataforma y sus usos. 
+	Estos talleres tienen tres objetivos principales: (1) proporcionar una exploraci&oacute;n pr&aacute;ctica de la gama completa de funcionalidades del
+	<em>Archivo LdoD</em> (lectura, edici&oacute;n, escritura); (2) ayudar a las personas a adaptar los usos de la plataforma a sus prop&oacute;sitos 
+	personales o institucionales (incluida la ense&ntilde;anza en contextos formales e informales, estudio y an&aacute;lisis, investigaci&oacute;n avanzada, 
+	escritura creativa y actuaci&oacute;n en vivo); (3) recopilar comentarios de diferentes tipos de usuarios que nos ayudar&aacute;n a mejorar la usabilidad 
+	del <em>Archivo LdoD</em>. Nuestros Talleres LdoD est&aacute;n disponibles como sesiones presenciales o en l&iacute;nea.
 </p>
 
 <p>&nbsp;</p>
