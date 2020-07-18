@@ -131,7 +131,7 @@
 </h3>
 
 <p>
- 	El <em>Archivo LdoD</em> ofrece varios Talleres para todos los interesados en aprender m&aacute;s sobre la plataforma y sus usos. 
+ 	El <em>Archivo LdoD</em> ofrece varios talleres para todos los interesados en aprender m&aacute;s sobre la plataforma y sus usos. 
 	Estos talleres tienen tres objetivos principales: (1) proporcionar una exploraci&oacute;n pr&aacute;ctica de la gama completa de funcionalidades del
 	<em>Archivo LdoD</em> (lectura, edici&oacute;n, escritura); (2) ayudar a las personas a adaptar los usos de la plataforma a sus prop&oacute;sitos 
 	personales o institucionales (incluida la ense&ntilde;anza en contextos formales e informales, estudio y an&aacute;lisis, investigaci&oacute;n avanzada, 
