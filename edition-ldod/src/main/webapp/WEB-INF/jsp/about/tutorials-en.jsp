@@ -1,3 +1,17 @@
+<h4>
+	<ul>
+		<li><a href="#Q01Q">A. Tutorials</a></li>
+		<li><a href="#Q02Q">B. Workshops</a></li>
+		
+	</ul>
+</h4>
+
+<p>&nbsp;</p>
+<h3 id="Q01Q" style="padding-top: 60px; margin-top: -60px;">
+	A. Tutorials</em>
+</h3>
+<p>
+
 <p>
   LdoD Tutorials have two main functions: (1) to provide a didactic presentation of the structure of the platform;
   (2) to familiarize users with the multiple features of its structure. Videos introduce,
@@ -115,5 +129,18 @@ a better understanding of the materials and interactions available in each inter
 <br />
 <br />
 
+<p>&nbsp;</p>
+<h3 id="Q02Q" style="padding-top: 60px; margin-top: -60px;">
+	B. Workshops</em>
+</h3>
 
-<p>[updated 01-09-2019]</p>
+<p>
+  The LdoD Archive offers several Workshops for those who are interested in learning more about the platform and its uses. These workshops have two major aims: 
+  (1) to provide a guided hands-on exploration of the full range of functionalities of the LdoD Archive (reading, editing, writing);
+  (2) to help individuals adapt the uses of the platform for their personal or institutional purposes (including leisure reading, teaching in formal and informal contexts,
+  study and analysis, advanced research, creative writing, and live performance). Our LdoD Workshops are available either as face-to-face or online sessions.
+</p>
+
+
+<p>
+<p>[updated 18-07-2020]</p>
