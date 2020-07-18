@@ -1,3 +1,17 @@
+<h4>
+	<ul>
+		<li><a href="#Q01Q">A. Tutoriais</a></li>
+		<li><a href="#Q02Q">B. Oficinas</a></li>
+		
+	</ul>
+</h4>
+
+<p>&nbsp;</p>
+<h3 id="Q01Q" style="padding-top: 60px; margin-top: -60px;">
+	A. Tutoriais</em>
+</h3>
+<p>
+
 <p>
   Os Tutoriais LdoD t&ecirc;m duas fun&ccedil;&otilde;es principais: (1) apresentar didaticamente a estrutura da plataforma;  
   (2) familiarizar os utilizadores com as m&uacute;ltiplas funcionalidades dessa estrutura. Os v&iacute;deos introduzem, 
@@ -117,7 +131,93 @@
 	src="https://www.youtube.com/embed/3cvvsjvrSzk" frameborder="0"
 	allowfullscreen></iframe></div>
 <br />
-<br />
 
+<p>&nbsp;</p>
+<h3 id="Q02Q" style="padding-top: 60px; margin-top: -60px;">
+	B. Oficinas</em>
+</h3>
 
-<p>[atualiza&ccedil;&atilde;o 01-09-2019]</p>
+<p>
+	O <em>Arquivo LdoD</em> oferece v&aacute;rias oficinas a quem estiver interessado em aprender mais sobre a plataforma e os seus usos. Estas oficinas t&ecirc;m 
+	tr&ecirc;s objetivos principais: (1) proporcionar uma explora&ccedil;&atilde;o pr&aacute;tica orientada de todas as funcionalidades do <em>Arquivo LdoD</em> (leitura, edi&ccedil;&atilde;o, escrita);
+   	(2) ajudar os interessados a adaptar os usos da plataforma aos seus objetivos pessoais ou institucionais (incluindo o ensino em contextos formais e informais,
+     	estudo e an&aacute;lise, investiga&ccedil;&atilde;o avan&ccedil;ada, escrita criativa e performance ao vivo); (3) obter feedback de diferentes tipos de utilizador que nos ajude a melhorar a
+	usabilidade do <em>Arquivo LdoD</em>. As Oficinas LdoD est&atilde;o dispon&iacute;veis em sess&otilde;es presenciais ou em linha.
+</p>
+
+<p>&nbsp;</p>
+<p><strong>2017</strong> </p>
+	<p>Manuel Portela and Cec&iacute;lia Magalh&atilde;es, &ldquo;Desassossego Remix 1&rdquo;, 26/11/2017, 19:00-22:00, 
+		Rep&iacute;blica dos Kapangas, Coimbra. </p> 
+
+<p>&nbsp;</p>
+<p> <strong>2018</strong> </p>
+
+	<p>Manuel Portela, &ldquo;Disquiet Variations&rdquo;, 30/04/2018, 10h30-17h30, 
+		Creative Writing Workshop, Silves.</p> 
+
+	<p>Manuel Portela, &ldquo;Desassossego Remix 2&rdquo; 26/05/2018, 9:00-13:00, 
+		Escola Secund&aacute;ria de Cantanhede. </p> 
+
+	<p>Manuel Portela and Cec&iacute;lia Magalh&atilde;es, &ldquo;Desassossego Remix 3&rdquo; 7/09/2018, 14:00-19:00, 
+		Escola Secund&aacute;ria Cristina Torres, Figueira da Foz.</p> 
+
+	<p>Manuel Portela, &ldquo;Desassossego Remix 4&rdquo; 26/10/2018, 14:00-17:00, 
+		Digital Humanities Seminar, PhD Programme in Information Science, Faculdade de Letras da Universidade de Coimbra.</p> 
+
+<p>&nbsp;</p>
+<p><strong>2019</strong> </p>
+
+	<p>Manuel Portela, &ldquo;Disquiet Variations: The Outsider&rdquo;, 19/05/2019, 10h30-13h30, 
+		Creative Writing Workshop, Silves.</p>
+
+	<p>Manuel Portela, &ldquo;Desassossego Remix 5: Arquivo LdoD&rdquo;, 13/06/2019, 14:30-17:30, 
+		Centro de Investiga&ccedil;&atilde;o em Artes e Comunica&ccedil;&atilde;o-CIAC, Universidade do Algarve.</p>
+
+	<p>Cec&iacute;lia Magalh&atilde;es (com Nuno Meireles). &ldquo;Fragmentos em Pr&aacute;tica: 
+		uma introdu&ccedil;&atilde;o din&acirc;mica ao <em>Arquivo LdoD</em>&rdquo;, 
+		13/06/2019, Faculdade de Letras da Universidade de Coimbra.
+
+	<p>Cec&iacute;lia Magalh&atilde;es and Manuel Portela, &ldquo;<em>Arquivo LdoD</em> em Pr&aacute;tica: din&acirc;micas digitais de leitura, 
+		edi&ccedil;&atilde;o e escrita do <em>Livro do Desassossego</em>&rdquo;, 26/07/2019, 9:30-13:00, 
+		International Conference &ldquo;Teaching Digital Literature&rdquo;, Faculdade de Letras da Universidade de Coimbra.</p>
+		
+	<p>Manuel Portela, &ldquo;Disquiet Variations: An Introduction to the <em>Book of Disquiet</em> Digital Archive&rdquo;, 28/11/2019, 18:00-20:00, 
+		School of English, Department of North-American Literature and Culture, Aristotle University of Thessaloniki.</p> 
+
+	<p>Cec&iacute;lia Magalh&atilde;es and Liliana Vasques, &ldquo;Remix LdoD: O <em>Livro do Desssossego</em> em Remix&rdquo; 14/12/2019, 9:00-13:00, 
+		Faculdade de Letras da Universidade de Coimbra.</p>
+
+	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Fragmentos em Pr&aacute;tica: reescrita colaborativa nas humanidades digitais&rdquo;. 
+		&ldquo;Summer School CreA(c)tivar o Fazer Cient&iicute;fico nas Ci&ecirc;ncias Sociais e Humanidades&rdquo;. 12/09/2019, 
+		Centro de Estudos Sociais da Universidade de Coimbra.</p>
+
+	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Fragmentos em Pr&aacute;tica: colabora&ccedil;&atilde;o e criatividade no Arquivo do Livro do Desassossego&rdquo; 
+		(videoconfer&ecirc;ncia), course &ldquo;Literatura em Meios Digitais&rdquo;, Mestrado em Estudos de Linguagem, 20/09/2019, 
+		Universidade Federal Tecnol&aocute;gica do Paran&aacute; (UTFPR).</p>
+
+	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Fragmentos em Pr&aacute;tica: colabora&ccedil;&atilde;o e criatividade no Arquivo do <em>Livro do Desassossego</em>&rdquo; 
+		(videoconfer&ecirc;ncia), I STAD (Semin&aacute;rio de Trabalhos Acad&ecirc;micos em Desenvolvimento) and 
+		III SEDIS (Semin&aacute;rio Educa&ccedil;&atilde;o Ind&iacute;gena e Sustentabilidade), 25/09/2019, 
+		Universidade Estadual do Mato Grosso do Sul (UEMS).</p>
+
+	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Grupo de leitura, escrita e produ&ccedil;&atilde;o criativa 
+		- Sess&otilde;es Criativas do <em>Livro do Desassossego</em>&rdquo;, Session 1, 9/11/2019, Bar of Soap, Porto.</p>
+
+	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Grupo de leitura, escrita e produ&ccedil;&atilde;o criativa 
+		- Sess&otilde;es Criativas do <em>Livro do Desassossego</em>&rdquo;, Session 2, 16/11/2019, Valsa, Lisboa.</p>
+
+	
+<p>&nbsp;</p>
+<p><strong>2020</strong> </p>
+	<p>Manuel Portela, &ldquo;Desassossego Remix 6&rdquo; 01/02/2020, 9:00-13:00, 
+		Escola B&aacute;sica de Cantanhede.</p> 
+
+	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Sess&otilde;es Online Arquivo LdoD: 1. Introdu&ccedil;&atilde;o ao Arquivo LdoD&rdquo;, 13/05/2020, 20h00-21h30.</p>
+
+	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Sess&otilde;es Online Arquivo LdoD: 2. Sarau no Arquivo LdoD&rdquo;, 20/05/2020, 20h00-21h30.</p>
+
+	<p>Cec&iacute;lia Magalh&atilde;es and Liliana Vasques, &ldquo;Sess&otilde;es Online Arquivo LdoD: 3. Oficina LdoD Remix&rdquo;, 27/05/2020, 20h00-21h30.</p> 
+
+<p>&nbsp;</p>
+<p>[atualiza&ccedil;&atilde;o 18-07-2020]</p>
