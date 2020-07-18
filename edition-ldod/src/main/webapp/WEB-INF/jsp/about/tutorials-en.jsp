@@ -135,8 +135,8 @@ a better understanding of the materials and interactions available in each inter
 </h3>
 
 <p>
-  The LdoD Archive offers several Workshops for those who are interested in learning more about the platform and its uses. These workshops have three major aims: 
-  (1) to provide a guided hands-on exploration of the full range of functionalities of the LdoD Archive (reading, editing, writing);
+	The <em>LdoD Archive</em> offers several workshops for those who are interested in learning more about the platform and its uses. These workshops have three major aims: 
+  (1) to provide a guided hands-on exploration of the full range of functionalities of the <em>LdoD Archive</em> (reading, editing, writing);
   (2) to help individuals adapt the uses of the platform to their personal or institutional purposes (including teaching in formal and informal contexts,
   study and analysis, advanced research, creative writing, and live performance); (3) to gather feedback from different types of users that will help us improve the 
 	usability of the <em>LdoD Archive</em>. Our LdoD Workshops are available either as face-to-face or online sessions.
