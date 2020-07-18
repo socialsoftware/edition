@@ -208,13 +208,13 @@ a better understanding of the materials and interactions available in each inter
 <p>&nbsp;</p>
 <p><strong>2020</strong> </p>
 	<p>Manuel Portela, &ldquo;Desassossego Remix 6&rdquo; 01/02/2020, 9:00-13:00, 
-		Escola B&aacute;sica de Cantanhede </p> 
+		Escola B&aacute;sica de Cantanhede.</p> 
 
-	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Sess&otilde;es Online Arquivo LdoD: 1. Introdu&ccedil;&atilde;o ao Arquivo LdoD&rdquo;, 13/05/2020, 20h00-21h30</p>
+	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Sess&otilde;es Online Arquivo LdoD: 1. Introdu&ccedil;&atilde;o ao Arquivo LdoD&rdquo;, 13/05/2020, 20h00-21h30.</p>
 
-	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Sess&otilde;es Online Arquivo LdoD: 2. Sarau no Arquivo LdoD&rdquo;, 20/05/2020, 20h00-21h30</p>
+	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Sess&otilde;es Online Arquivo LdoD: 2. Sarau no Arquivo LdoD&rdquo;, 20/05/2020, 20h00-21h30.</p>
 
-	<p>Cec&iacute;lia Magalh&atilde;es and Liliana Vasques, &ldquo;Sess&otilde;es Online Arquivo LdoD: 3. Oficina LdoD Remix&rdquo;, 27/05/2020, 20h00-21h30</p> 
+	<p>Cec&iacute;lia Magalh&atilde;es and Liliana Vasques, &ldquo;Sess&otilde;es Online Arquivo LdoD: 3. Oficina LdoD Remix&rdquo;, 27/05/2020, 20h00-21h30.</p> 
 
 
 <p>&nbsp;</p>
