@@ -144,11 +144,11 @@ public class VirtualEditionFragmentsTEIImport {
             VirtualEditionInter inter = virtualEditionInterMap.get(textClass.getAttributeValue(SOURCE).substring(1));
 
             for (Element catRef : textClass.getChildren("catRef", this.namespace)) {
-                importTag(catRef, inter);
+                    importTag(catRef, inter);
             }
 
             for (Element note : textClass.getChildren("note", this.namespace)) {
-                importAnnotation(note, inter);
+                    importAnnotation(note, inter);
             }
 
             //importClassificationGames(textClass, inter);

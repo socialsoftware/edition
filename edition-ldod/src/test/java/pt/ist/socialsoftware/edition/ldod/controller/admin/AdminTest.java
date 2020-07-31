@@ -24,6 +24,7 @@ import pt.ist.socialsoftware.edition.ldod.frontend.user.UserAdminController;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.VirtualAdminController;
 import pt.ist.socialsoftware.edition.ldod.user.feature.inout.UsersXMLExport;
+import pt.ist.socialsoftware.edition.ldod.domain.Role;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.utils.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionsTEICorpusImport;
@@ -115,14 +116,19 @@ public class AdminTest {
 
         File directory = new File(PropertiesManager.getProperties().getProperty("test.files.dir"));
 
-        File frag = new File(directory,"corpus.xml");
+        File frag = new File(directory, "corpus.xml");
 
         FileInputStream fis = new FileInputStream(frag);
 
-        MockMultipartFile mockFile = new MockMultipartFile("mockFile",fis);
+        MockMultipartFile mockFile = new MockMultipartFile("mockFile", fis);
 
+<<<<<<< HEAD
         this.mockMvcJsp.perform(multipart("/admin/load/corpus")
                 .file("file",mockFile.getBytes())
+=======
+        this.mockMvc.perform(multipart("/admin/load/corpus")
+                .file("file", mockFile.getBytes())
+>>>>>>> master
                 .characterEncoding("UTF-8"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
@@ -265,9 +271,7 @@ public class AdminTest {
 
         this.userMockMvc.perform(post("/admin/sessions/delete"))
                 .andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/admin/user/list"));
-
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -628,15 +632,9 @@ public class AdminTest {
 
         this.userMockMvc.perform(post("/admin/createTestUsers"))
                 .andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/admin/user/list"));
+                .andExpect(status().isOk());
 
-        for (int i = 0; i < 6; i++) {
-            String username = "zuser" + Integer.toString(i + 1);
-
-            assertNotNull(UserModule.getInstance().getUser(username));
-        }
-
+            assertNotNull(UserModule.getInstance().getUser("ars"));
     }
 
 

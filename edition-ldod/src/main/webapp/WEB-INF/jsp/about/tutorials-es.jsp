@@ -1,13 +1,24 @@
-<p>
-  Los Tutoriales LdoD tienen dos funciones principales: (1) presentar did&aacute;cticamente la estructura de la plataforma;
+<h4>
+	<ul>
+		<li><a href="#Q01Q">A. Tutoriales</a></li>
+		<li><a href="#Q02Q">B. Talleres</a></li>
+		
+	</ul>
+</h4>
+
+<p>&nbsp;</p>
+<h3 id="Q01Q" style="padding-top: 60px; margin-top: -60px;">
+	A. Tutoriales</em>
+</h3>
+<p> Los Tutoriales LdoD tienen dos funciones principales: (1) presentar did&aacute;cticamente la estructura de la plataforma;
    (2) familiarizar a los usuarios con las m&uacute;ltiples funcionalidades de esta estructura. Los v&iacute;deos introducen,
    de forma progresiva y modular, las dimensiones te&oacute;ricas y t&eacute;cnicas de la plataforma. M&aacute;s all&aacute; de una explicaci&oacute;n
   paso a paso de los componentes del <em>Archivo LdoD</em>, cada v&iacute;deo contiene sugerencias de tareas que le permiten
    comprender mejor los materiales y las interacciones en cada interfaz de la plataforma. Los Tutoriales 7, 8, 9 y 10 son
-   dedicados a la gestión y creaci&oacute;n de ediciones virtuales por parte de los usuarios.
+   dedicados a la gesti&oacute;n y creaci&oacute;n de ediciones virtuales por parte de los usuarios.
 </p>
 <p>
-   Todos los v&iacute;deos fueron producidos por Cec&iacute;lia Magalh&atilde;es bajo el proyecto "Fragmentos en la pr&aacute;ctica".
+   Todos los v&iacute;deos fueron producidos por Cec&iacute;lia Magalh&atilde;es bajo el proyecto &ldquo;Fragmentos en la pr&aacute;ctica&rdquo;.
    Est&aacute;n disponibles en el canal de YouTube respectivo, con un espacio de comentarios abierto a sugerencias. <br />
 	URL: <a
 		href="https://www.youtube.com/channel/UCHK5OjU1w4OwPOF_e0jd9bQ" target="_new">
@@ -114,6 +125,94 @@
 	allowfullscreen></iframe></div>
 <br />
 <br />
+<p>&nbsp;</p>
+<h3 id="Q02Q" style="padding-top: 60px; margin-top: -60px;">
+	B. Talleres</em>
+</h3>
+
+<p>
+ 	El <em>Archivo LdoD</em> ofrece varios talleres para todos los interesados en aprender m&aacute;s sobre la plataforma y sus usos. 
+	Estos talleres tienen tres objetivos principales: (1) proporcionar una exploraci&oacute;n pr&aacute;ctica de la gama completa de funcionalidades del
+	<em>Archivo LdoD</em> (lectura, edici&oacute;n, escritura); (2) ayudar a las personas a adaptar los usos de la plataforma a sus prop&oacute;sitos 
+	personales o institucionales (incluida la ense&ntilde;anza en contextos formales e informales, estudio y an&aacute;lisis, investigaci&oacute;n avanzada, 
+	escritura creativa y actuaci&oacute;n en vivo); (3) recopilar comentarios de diferentes tipos de usuarios que nos ayudar&aacute;n a mejorar la usabilidad 
+	del <em>Archivo LdoD</em>. Nuestros Talleres LdoD est&aacute;n disponibles como sesiones presenciales o en l&iacute;nea.
+</p>
+
+<p>&nbsp;</p>
+<p><strong>2017</strong> </p>
+	<p>Manuel Portela and Cec&iacute;lia Magalh&atilde;es, &ldquo;Desassossego Remix 1&rdquo;, 26/11/2017, 19:00-22:00, 
+		Rep&iacute;blica dos Kapangas, Coimbra. </p> 
+
+<p>&nbsp;</p>
+<p> <strong>2018</strong> </p>
+
+	<p>Manuel Portela, &ldquo;Disquiet Variations&rdquo;, 30/04/2018, 10h30-17h30, 
+		Creative Writing Workshop, Silves.</p> 
+
+	<p>Manuel Portela, &ldquo;Desassossego Remix 2&rdquo; 26/05/2018, 9:00-13:00, 
+		Escola Secund&aacute;ria de Cantanhede. </p> 
+
+	<p>Manuel Portela and Cec&iacute;lia Magalh&atilde;es, &ldquo;Desassossego Remix 3&rdquo; 7/09/2018, 14:00-19:00, 
+		Escola Secund&aacute;ria Cristina Torres, Figueira da Foz.</p> 
+
+	<p>Manuel Portela, &ldquo;Desassossego Remix 4&rdquo; 26/10/2018, 14:00-17:00, 
+		Digital Humanities Seminar, PhD Programme in Information Science, Faculdade de Letras da Universidade de Coimbra.</p> 
+
+<p>&nbsp;</p>
+<p><strong>2019</strong> </p>
+
+	<p>Manuel Portela, &ldquo;Disquiet Variations: The Outsider&rdquo;, 19/05/2019, 10h30-13h30, 
+		Creative Writing Workshop, Silves.</p>
+
+	<p>Manuel Portela, &ldquo;Desassossego Remix 5: Arquivo LdoD&rdquo;, 13/06/2019, 14:30-17:30, 
+		Centro de Investiga&ccedil;&atilde;o em Artes e Comunica&ccedil;&atilde;o-CIAC, Universidade do Algarve.</p>
+
+	<p>Cec&iacute;lia Magalh&atilde;es (com Nuno Meireles). &ldquo;Fragmentos em Pr&aacute;tica: 
+		uma introdu&ccedil;&atilde;o din&acirc;mica ao <em>Arquivo LdoD</em>&rdquo;, 
+		13/06/2019, Faculdade de Letras da Universidade de Coimbra.
+
+	<p>Cec&iacute;lia Magalh&atilde;es and Manuel Portela, &ldquo;<em>Arquivo LdoD</em> em Pr&aacute;tica: din&acirc;micas digitais de leitura, 
+		edi&ccedil;&atilde;o e escrita do <em>Livro do Desassossego</em>&rdquo;, 26/07/2019, 9:30-13:00, 
+		International Conference &ldquo;Teaching Digital Literature&rdquo;, Faculdade de Letras da Universidade de Coimbra.</p>
+		
+	<p>Manuel Portela, &ldquo;Disquiet Variations: An Introduction to the <em>Book of Disquiet</em> Digital Archive&rdquo;, 28/11/2019, 18:00-20:00, 
+		School of English, Department of North-American Literature and Culture, Aristotle University of Thessaloniki.</p> 
+
+	<p>Cec&iacute;lia Magalh&atilde;es and Liliana Vasques, &ldquo;Remix LdoD: O <em>Livro do Desssossego</em> em Remix&rdquo; 14/12/2019, 9:00-13:00, 
+		Faculdade de Letras da Universidade de Coimbra.</p>
+
+	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Fragmentos em Pr&aacute;tica: reescrita colaborativa nas humanidades digitais&rdquo;. 
+		&ldquo;Summer School CreA(c)tivar o Fazer Cient&iicute;fico nas Ci&ecirc;ncias Sociais e Humanidades&rdquo;. 12/09/2019, 
+		Centro de Estudos Sociais da Universidade de Coimbra.</p>
+
+	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Fragmentos em Pr&aacute;tica: colabora&ccedil;&atilde;o e criatividade no Arquivo do Livro do Desassossego&rdquo; 
+		(videoconfer&ecirc;ncia), course &ldquo;Literatura em Meios Digitais&rdquo;, Mestrado em Estudos de Linguagem, 20/09/2019, 
+		Universidade Federal Tecnol&aocute;gica do Paran&aacute; (UTFPR).</p>
+
+	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Fragmentos em Pr&aacute;tica: colabora&ccedil;&atilde;o e criatividade no Arquivo do <em>Livro do Desassossego</em>&rdquo; 
+		(videoconfer&ecirc;ncia), I STAD (Semin&aacute;rio de Trabalhos Acad&ecirc;micos em Desenvolvimento) and 
+		III SEDIS (Semin&aacute;rio Educa&ccedil;&atilde;o Ind&iacute;gena e Sustentabilidade), 25/09/2019, 
+		Universidade Estadual do Mato Grosso do Sul (UEMS).</p>
+
+	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Grupo de leitura, escrita e produ&ccedil;&atilde;o criativa 
+		- Sess&otilde;es Criativas do <em>Livro do Desassossego</em>&rdquo;, Session 1, 9/11/2019, Bar of Soap, Porto.</p>
+
+	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Grupo de leitura, escrita e produ&ccedil;&atilde;o criativa 
+		- Sess&otilde;es Criativas do <em>Livro do Desassossego</em>&rdquo;, Session 2, 16/11/2019, Valsa, Lisboa.</p>
+
+	
+<p>&nbsp;</p>
+<p><strong>2020</strong> </p>
+	<p>Manuel Portela, &ldquo;Desassossego Remix 6&rdquo; 01/02/2020, 9:00-13:00, 
+		Escola B&aacute;sica de Cantanhede.</p> 
+
+	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Sess&otilde;es Online Arquivo LdoD: 1. Introdu&ccedil;&atilde;o ao Arquivo LdoD&rdquo;, 13/05/2020, 20h00-21h30.</p>
+
+	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Sess&otilde;es Online Arquivo LdoD: 2. Sarau no Arquivo LdoD&rdquo;, 20/05/2020, 20h00-21h30.</p>
+
+	<p>Cec&iacute;lia Magalh&atilde;es and Liliana Vasques, &ldquo;Sess&otilde;es Online Arquivo LdoD: 3. Oficina LdoD Remix&rdquo;, 27/05/2020, 20h00-21h30.</p> 
 
 
-<p>[actualizaci&oacute;n 01-09-2019]</p>
+<p>&nbsp;</p>
+<p>[actualizaci&oacute;n 18-07-2020]</p>

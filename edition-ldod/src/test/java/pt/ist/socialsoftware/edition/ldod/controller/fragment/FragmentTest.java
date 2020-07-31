@@ -34,11 +34,22 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.io.FileNotFoundException;
+import java.util.*;
+
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
 public class FragmentTest {
     public static final String ARS = "ars";
+
     @InjectMocks
     FragmentController fragmentController;
 
@@ -64,7 +75,6 @@ public class FragmentTest {
     public void setUp() throws FileNotFoundException {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.fragmentController)
                 .setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
-
         TestLoadUtils.loadTestVirtualEdition();
     }
 
@@ -108,11 +118,20 @@ public class FragmentTest {
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public void getFragmentErrorId() throws Exception {
-        this.mockMvc.perform(get("/fragments/fragment/{xmlId}", "ERROR")).andDo(print())
-                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
+    public void getFragInterByExternalId() throws Exception {
+        ScholarInter fragInter = TextModule.getInstance().getFragmentByXmlId("Fr001").getScholarInterByUrlId("Fr001_WIT_MS_Fr001a_1");
+
+        this.mockMvc.perform(get("/fragments/fragment/inter/{externalId}", fragInter.getExternalId())).andDo(print())
+                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/fragments/fragment/"
+                + fragInter.getFragment().getXmlId() + "/inter/" + fragInter.getUrlId()));
     }
 
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void getFragInterByExternalIdError() throws Exception {
+        this.mockMvc.perform(get("/fragments/fragment/inter/{externalId}", "ERROR")).andDo(print())
+                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
+    }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
@@ -252,7 +271,6 @@ public class FragmentTest {
     @Test
     @Atomic(mode = TxMode.WRITE)
     public void searchAnnotationsTest() throws Exception {
-
         Set<VirtualEditionInter> fragInterSet = VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
 
         List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
@@ -363,7 +381,6 @@ public class FragmentTest {
     @Atomic(mode = TxMode.WRITE)
     @WithUserDetails(ARS)
     public void updateAnnotationTest() throws Exception {
-
         Set<VirtualEditionInter> fragInterSet = VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
 
         List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
@@ -431,6 +448,7 @@ public class FragmentTest {
     @Test
     @Atomic(mode = TxMode.WRITE)
     @WithUserDetails(ARS)
+
     public void deleteAnnotationNotFoundTest() throws Exception {
 
         this.mockMvc.perform(delete("/fragments/fragment/annotations/{id}", "ERROR")
