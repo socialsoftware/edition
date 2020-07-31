@@ -47,11 +47,11 @@ public class AdminTest {
 
     public static final String LDOD_TESTE = "LdoD-Teste";
 
-    @Mock
-    SessionRegistry sessionRegistry;
-
-    @Mock
-    PasswordEncoder passwordEncoder;
+//    @Mock
+//    SessionRegistry sessionRegistry;
+//
+//    @Mock
+//    PasswordEncoder passwordEncoder;
 
     @InjectMocks
     TextAdminController textAdminController;
@@ -628,7 +628,7 @@ public class AdminTest {
 
         PasswordEncoder p = new BCryptPasswordEncoder(11);
 
-        when(this.passwordEncoder.encode(anyString())).thenReturn(p.encode(anyString()));
+//        when(this.passwordEncoder.encode(anyString())).thenReturn(p.encode(anyString()));
 
         this.userMockMvc.perform(post("/admin/createTestUsers"))
                 .andDo(print())
