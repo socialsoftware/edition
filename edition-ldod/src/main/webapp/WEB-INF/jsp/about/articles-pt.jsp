@@ -191,24 +191,23 @@
 </p>
 <p>
 	Marques, Ana, and Manuel Portela (2020). &ldquo;Representa&ccedil;&atilde;o e An&aacute;lise da Rece&ccedil;&atilde;o Cr&iacute;tica 
-	do <em>Livro do Desassossego</em> no <em>Arquivo LdoD</em>&rdquo;. 
+	do <em>Livro do Desassossego</em> no <em>Arquivo LdoD</em>.&rdquo; 
 	<em>Novos Estudos Pessoanos - Ponto de Situa&ccedil;&atilde;o</em>, Lisboa: Casa Fernando Pessoa. 5-11.</p>
 <p>
 	Portela, Manuel, and Cec&iacute;lia Magalh&atilde;es (2020). &ldquo;The Book of Disquiet Digital Archive as a Role-playing Experiment.&rdquo;  
 	<em>Attention &agrave; la marche | MIND THE GAP! ELO 2018 </em>. Ed. Bertrand Gervais. 
-	Montr&aacute;al: Universit&aacute; du Qu&aacute;bec &agrave; Montr&aacute;al (UQAM).</p>
+	Montr&eacute;al: Universit&eacute; du Qu&eacute;bec &agrave; Montr&eacute;al (UQAM).</p>
 <p>
 	Marques, Gon&ccedil;alo Montalv&atilde;o, Ant&oacute;nio Rito Silva, and Manuel Portela (2020). &ldquo;Classification in the <em>LdoD Archive</em>
-	A Crowdsourcing and Gamification Approach.&rdquo;. Submitted.
+	A Crowdsourcing and Gamification Approach.&rdquo; Submitted.
 </p>
 <p>&nbsp;</p>
 <p><strong>2021</strong>
 </p>
 <p>
 	Portela, Manuel (2021). &ldquo;From Meta-Editing to Virtual Editing: The <em>LdoD Archive</em> as a Computer-Assisted Editorial Space.&rdquo; 
-	<em>MLA Approaches to Teaching Pessoa’s The Book of Disquiet. </em>
+	<em>MLA Approaches to Teaching Pessoa&apos;s The Book of Disquiet. </em>
 	Eds. Paulo de Medeiros and Jer&oacute;nimo Pizarro. New York: Modern Language Association. [forthcoming].</p>
-
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h3 id="Q02Q" style="padding-top: 60px; margin-top: -60px;">
@@ -403,12 +402,18 @@ da Literatura</em> 1.1: 135-147. <br />URL: <a
 	<br />DOI: <a href="http://dx.doi.org/10.1344/abriu2016.5.4" target="_new">http://dx.doi.org/10.1344/abriu2016.5.4</a>
 </p>
 <p>&nbsp;</p>
-	<p> <strong>2020</strong> </p>
+<p> <strong>2017</strong> </p>
+<p>
+	Gim&eacute;nez, Diego (2017). &ldquo;Materialidade e Modernidade no <em>Livro do Desassossego</em>.&rdquo; <em>Terra Roxa e Outras Terras: Revista de Estudos 		Liter&aacute;rios</em> 32: 8-20. <br/>
+ 	DOI: <a href="http://dx.doi.org/10.5433/1678-2054.2016v32p8" target="_new">http://dx.doi.org/10.5433/1678-2054.2016v32p8</a> </p> 
+<p>&nbsp;</p>
+
+<p> <strong>2020</strong> </p>
 <p> 
 
-	Gim&eacute;nez, Diego (2020). &ldquo;Problemas de Intertextualidade Filos&oacute;fica no <em>Livro do Desassossego</em>&rdquo;. 
+	Gim&eacute;nez, Diego (2020). &ldquo;Problemas de Intertextualidade Filos&oacute;fica no <em>Livro do Desassossego</em>.&rdquo; 
 	<em>Novos Estudos Pessoanos - Ponto de Situa&ccedil;&atilde;o</em>, Lisboa: Casa Fernando Pessoa. 21-30.</p>
-
+<p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 
@@ -424,16 +429,10 @@ da Literatura</em> 1.1: 135-147. <br />URL: <a
 </p>
 <p>
 	Zenith, Richard (2013). &ldquo;<em>Livro do Desassossego: </em>o
-	romance poss&iacute;vel (var.: imposs&iacute;vel)&rdquo;. <em>Comunica&ccedil;&otilde;es
+	romance poss&iacute;vel (var.: imposs&iacute;vel).&rdquo; <em>Comunica&ccedil;&otilde;es
 		do III Congresso Internacional Fernando Pessoa. </em>Lisboa: Casa Fernando
-	Pessoa. 1-12. Web. <br />URL: <a
-		href="http://www.congressointernacionalfernandopessoa.com/comunicacoes/richard_zenith.pdf" target="_new">http://www.congressointernacionalfernandopessoa.com/comunicacoes/richard_zenith.pdf</a>
-</p>
-<p>
-	Pizarro, Jer&oacute;nimo (2013). &ldquo;Os Muitos Desassossegos&rdquo;.
-	<em>Comunica&ccedil;&otilde;es do III Congresso Internacional
-		Fernando Pessoa</em>. Lisboa: Casa Fernando Pessoa. 1-15. Web. <br />URL: <a
-		href="http://www.congressointernacionalfernandopessoa.com/comunicacoes/jeronimo_pizarro.pdf" target="_new">http://www.congressointernacionalfernandopessoa.com/comunicacoes/jeronimo_pizarro.pdf</a>
+	Pessoa. Web. <br />URL: <a
+		href="http://www.blogletras.com/2013/12/livro-do-desassossego-o-romance.html" target="_new">http://www.blogletras.com/2013/12/livro-do-desassossego-o-romance.html</a>
 </p>
 <p>Sep&uacute;lveda, Pedro (2013).   &ldquo;Listas do Desassossego.&rdquo; <em>MATLIT: Materialidades
 		da Literatura</em> 1.1: 35-55. <br />
@@ -461,6 +460,12 @@ DOI: <a href="http://dx.doi.org/10.14195/2182-8830_2-1_3" target="_new">http://d
 	Plural.&rdquo; <em>Abriu</em> 5: 79-93. <br />URL: <a
 		href="http://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.6/20057" target="_new">http://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.6/20057</a>
 	<br /> DOI: <a href="http://dx.doi.org/10.1344/abriu2016.5.6" target="_new">http://dx.doi.org/10.1344/abriu2016.5.6</a>
+</p>
+<p>
+	Pizarro, Jer&oacute;nimo (2016). &ldquo;Os Muitos Desassossegos&rdquo;.
+	<em>Revista do Centro de Estudos Portugueses </em>, Belo Horizonte, v.36, n.55: 11-27.
+	<br />URL: <a href="http://www.periodicos.letras.ufmg.br/index.php/cesp/article/view/11386" target="_new">http://www.periodicos.letras.ufmg.br/index.php/cesp/article/view/11386</a>
+	<br />DOI: <a href="http://dx.doi.org/10.17851/2359-0076.36.55.11-27 " target="_new">http://dx.doi.org/10.17851/2359-0076.36.55.11-27</a>
 </p>
 <p>
 	Pizarro, Jer&oacute;nimo (2016). &ldquo;Narciso ciego, iluminado por
@@ -920,7 +925,15 @@ DOI: <a href="http://dx.doi.org/10.14195/2182-8830_2-1_3" target="_new">http://d
 		href="https://www.publico.pt/2017/12/14/culturaipsilon/noticia/um-arquivo-digital-do-livro-do-desassossego-para-ler-e-mexer-1795920" target="_new">
 	https://www.publico.pt/2017/12/14/culturaipsilon/noticia/um-arquivo-digital-do-livro-do-desassossego-para-ler-e-mexer-1795920</a> 
 </p>
+<strong>&nbsp;</strong>
+<p>
+	<strong>2018</strong>
+</p>
+	<p> Aldabalde, Taiguara Villela, and Carlos Pittella (2018).  &ldquo;A trajetividade do Pessoa digital: contributos para uma hist&oacute;ria do esp&oacute;lio pessoano.&rdquo; 
+		Fernando Ilharco, Peter Hanenberg, and Mar&iacute;lia dos Santos Lopes (eds.), <em>Patrim&oacute;nio Cultural e Transforma&ccedil;&atilde;o Digital</em>. 
+		Lisboa: Universidade Cat&oacute;lica Editora. 102-130.</p>
 
 <strong>&nbsp;</strong>
 <p>
-<p>[atualiza&ccedil;&atilde;o 18-07-2020]</p>
+<p>
+<p>[atualiza&ccedil;&atilde;o 31-07-2020]</p>

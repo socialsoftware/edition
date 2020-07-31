@@ -189,12 +189,12 @@
 		Faculdade de Letras da Universidade de Coimbra.</p>
 
 	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Fragmentos em Pr&aacute;tica: reescrita colaborativa nas humanidades digitais&rdquo;. 
-		&ldquo;Summer School CreA(c)tivar o Fazer Cient&iicute;fico nas Ci&ecirc;ncias Sociais e Humanidades&rdquo;. 12/09/2019, 
+		&ldquo;Summer School CreA(c)tivar o Fazer Cient&iacute;fico nas Ci&ecirc;ncias Sociais e Humanidades&rdquo;. 12/09/2019, 
 		Centro de Estudos Sociais da Universidade de Coimbra.</p>
 
 	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Fragmentos em Pr&aacute;tica: colabora&ccedil;&atilde;o e criatividade no Arquivo do Livro do Desassossego&rdquo; 
 		(videoconfer&ecirc;ncia), course &ldquo;Literatura em Meios Digitais&rdquo;, Mestrado em Estudos de Linguagem, 20/09/2019, 
-		Universidade Federal Tecnol&aocute;gica do Paran&aacute; (UTFPR).</p>
+		Universidade Federal Tecnol&oacute;gica do Paran&aacute; (UTFPR).</p>
 
 	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Fragmentos em Pr&aacute;tica: colabora&ccedil;&atilde;o e criatividade no Arquivo do <em>Livro do Desassossego</em>&rdquo; 
 		(videoconfer&ecirc;ncia), I STAD (Semin&aacute;rio de Trabalhos Acad&ecirc;micos em Desenvolvimento) and 
@@ -220,4 +220,4 @@
 	<p>Cec&iacute;lia Magalh&atilde;es and Liliana Vasques, &ldquo;Sess&otilde;es Online Arquivo LdoD: 3. Oficina LdoD Remix&rdquo;, 27/05/2020, 20h00-21h30.</p> 
 
 <p>&nbsp;</p>
-<p>[atualiza&ccedil;&atilde;o 18-07-2020]</p>
+<p>[atualiza&ccedil;&atilde;o 31-07-2020]</p>
