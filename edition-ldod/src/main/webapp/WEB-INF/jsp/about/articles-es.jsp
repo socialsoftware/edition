@@ -194,24 +194,23 @@
 </p>
 <p>
 	Marques, Ana, and Manuel Portela (2020). &ldquo;Representa&ccedil;&atilde;o e An&aacute;lise da Rece&ccedil;&atilde;o Cr&iacute;tica 
-	do <em>Livro do Desassossego</em> no <em>Arquivo LdoD</em>&rdquo;. 
+	do <em>Livro do Desassossego</em> no <em>Arquivo LdoD</em>.&rdquo; 
 	<em>Novos Estudos Pessoanos - Ponto de Situa&ccedil;&atilde;o</em>, Lisboa: Casa Fernando Pessoa. 5-11.</p>
 <p>
 	Portela, Manuel, and Cec&iacute;lia Magalh&atilde;es (2020). &ldquo;The Book of Disquiet Digital Archive as a Role-playing Experiment.&rdquo;  
 	<em>Attention &agrave; la marche | MIND THE GAP! ELO 2018 </em>. Ed. Bertrand Gervais. 
-	Montr&aacute;al: Universit&aacute; du Qu&aacute;bec &agrave; Montr&aacute;al (UQAM).</p>
+	Montr&eacute;al: Universit&eacute; du Qu&eacute;bec &agrave; Montr&eacute;al (UQAM).</p>
 <p>
 	Marques, Gon&ccedil;alo Montalv&atilde;o, Ant&oacute;nio Rito Silva, and Manuel Portela (2020). &ldquo;Classification in the <em>LdoD Archive</em>
-	A Crowdsourcing and Gamification Approach.&rdquo;. Submitted.
+	A Crowdsourcing and Gamification Approach.&rdquo; Submitted.
 </p>
 <p>&nbsp;</p>
 <p><strong>2021</strong>
 </p>
 <p>
 	Portela, Manuel (2021). &ldquo;From Meta-Editing to Virtual Editing: The <em>LdoD Archive</em> as a Computer-Assisted Editorial Space.&rdquo; 
-	<em>MLA Approaches to Teaching Pessoa’s The Book of Disquiet. </em>
+	<em>MLA Approaches to Teaching Pessoa&apos;s The Book of Disquiet. </em>
 	Eds. Paulo de Medeiros and Jer&oacute;nimo Pizarro. New York: Modern Language Association. [forthcoming].</p>
-
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 </p>
@@ -357,12 +356,18 @@
 		href="http://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.4/19981" target="_new">http://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.4/19981</a> <br />
   DOI: <a href="http://dx.doi.org/10.1344/abriu2016.5.4" target="_new">http://dx.doi.org/10.1344/abriu2016.5.4</a></p>
 <p>&nbsp;</p>
-	<p> <strong>2020</strong> </p>
+<p> <strong>2017</strong> </p>
+<p>
+	Gim&eacute;nez, Diego (2017). &ldquo;Materialidade e Modernidade no <em>Livro do Desassossego</em>.&rdquo; <em>Terra Roxa e Outras Terras: Revista de Estudos 		Liter&aacute;rios</em> 32: 8-20. <br/>
+ 	DOI: <a href="http://dx.doi.org/10.5433/1678-2054.2016v32p8" target="_new">http://dx.doi.org/10.5433/1678-2054.2016v32p8</a> </p> 
+<p>&nbsp;</p>
+
+<p> <strong>2020</strong> </p>
 <p> 
 
-	Gim&eacute;nez, Diego (2020). &ldquo;Problemas de Intertextualidade Filos&oacute;fica no <em>Livro do Desassossego</em>&rdquo;. 
+	Gim&eacute;nez, Diego (2020). &ldquo;Problemas de Intertextualidade Filos&oacute;fica no <em>Livro do Desassossego</em>.&rdquo; 
 	<em>Novos Estudos Pessoanos - Ponto de Situa&ccedil;&atilde;o</em>, Lisboa: Casa Fernando Pessoa. 21-30.</p>
-
+<p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h3 id="Q04Q" style="padding-top: 60px; margin-top: -60px;">
@@ -854,8 +859,16 @@
 		href="https://www.publico.pt/2017/12/14/culturaipsilon/noticia/um-arquivo-digital-do-livro-do-desassossego-para-ler-e-mexer-1795920" target="_new">
 	https://www.publico.pt/2017/12/14/culturaipsilon/noticia/um-arquivo-digital-do-livro-do-desassossego-para-ler-e-mexer-1795920</a> 
 </p>
+<p>
+	<strong>2018</strong>
+</p>
+	<p> Aldabalde, Taiguara Villela, and Carlos Pittella (2018).  &ldquo;A trajetividade do Pessoa digital: contributos para uma hist&oacute;ria do esp&oacute;lio pessoano.&rdquo; 
+		Fernando Ilharco, Peter Hanenberg, and Mar&iacute;lia dos Santos Lopes (eds.), <em>Patrim&oacute;nio Cultural e Transforma&ccedil;&atilde;o Digital</em>. 
+		Lisboa: Universidade Cat&oacute;lica Editora. 102-130.</p>
 
 <strong>&nbsp;</strong>
 <p>
-<p>[actualizaci&oacute;n 18-07-2020]</p>
+<strong>&nbsp;</strong>
+<p>
+<p>[actualizaci&oacute;n 31-07-2020]</p>
 
