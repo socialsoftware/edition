@@ -89,15 +89,11 @@ public class VirtualEditionFragmentsTEIImport {
                 Namespace.getNamespace("def", this.namespace.getURI()));
         List<Element> wits = new ArrayList<>(xp.evaluate(doc));
 
-        logger.debug("size: {}", wits.size());
-
         while (!wits.isEmpty()) {
             Element wit = wits.remove(0);
             String sourceXmlId = wit.getAttributeValue("source").substring(1);
 
             if (fragment.getFragInterByXmlId(sourceXmlId) == null) {
-                logger.debug("source xmlId was not created yet: {}", sourceXmlId);
-
                 wits.add(wit);
             } else {
                 String interXmlId = wit.getAttributeValue("id", Namespace.XML_NAMESPACE);
@@ -105,15 +101,11 @@ public class VirtualEditionFragmentsTEIImport {
                         interXmlId.lastIndexOf('.'));
                 VirtualEdition virtualEdition = this.ldoD.getVirtualEdition(editionAcronym);
 
-                logger.debug("interXml old: {}", interXmlId);
-
                 VirtualEditionInter virtualEditionInter = virtualEdition.createVirtualEditionInter(
                         fragment.getFragInterByXmlId(sourceXmlId),
                         Integer.parseInt(wit.getChild("num", this.namespace).getAttributeValue("value")));
 
                 virtualEditionInter.setXmlId(interXmlId.substring(interXmlId.lastIndexOf('.') + 1));
-
-                logger.debug("interXml old: {}, inter: {}", interXmlId, virtualEditionInter);
             }
         }
     }
@@ -124,11 +116,7 @@ public class VirtualEditionFragmentsTEIImport {
                 Namespace.getNamespace("def", this.namespace.getURI()));
 
         for (Element textClass : xp.evaluate(doc)) {
-            logger.debug("get inter xmlId: {}", textClass.getAttributeValue("source").substring(1));
-
             VirtualEditionInter inter = (VirtualEditionInter) fragment.getFragInterByXmlId(textClass.getAttributeValue("source").substring(1));
-
-            logger.debug("get inter xmlId: {}, inter: {}", textClass.getAttributeValue("source").substring(1), inter);
 
             for (Element catRef : textClass.getChildren("catRef", this.namespace)) {
                     importTag(catRef, inter);
