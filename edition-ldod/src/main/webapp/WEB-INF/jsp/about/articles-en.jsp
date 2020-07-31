@@ -84,10 +84,13 @@
     Perman&ecirc;ncia e Metamorfose</em>s.&nbsp; Eds. Jos&eacute; Augusto
   Bernardes, Ana Maria Migu&eacute;is, and Carla Alexandra Ferreira.
   Coimbra: Imprensa da Universidade de Coimbra. 239-258. <br />
-  DOI: <a
-		href="http://dx.doi.org/10.14195/978-989-26-1045-0_14" target="_new">http://dx.doi.org/10.14195/978-989-26-1045-0_14</a> </p>
+  DOI: <a href="http://dx.doi.org/10.14195/978-989-26-1045-0_14" target="_new">http://dx.doi.org/10.14195/978-989-26-1045-0_14</a> </p>
 <strong>&nbsp;</strong>
 <p> <strong>2016</strong> </p>
+<p>
+	Gim&eacute;nez, Diego (2016).  &ldquo;Variantes Textuais no <em>Livro do Desassossego</em>: Edi&ccedil;&atilde;o, Codifica&ccedil;&atilde;o e 				Interpreta&ccedil;&atilde;o". <em>Texto Digital</em> 12.1: 54-68. <br/>
+	 URL: <a href="https://periodicos.ufsc.br/index.php/textodigital/article/view/1807-9288.2016v12n1p54/32358" target="_new">https://periodicos.ufsc.br/index.php/textodigital/article/view/1807-9288.2016v12n1p54/32358</a> </p>
+
 <p> Portela, Manuel (2016). &ldquo;Writing the Archive: An Experiment in
   Literary Self-Consciousness.&rdquo; <em>Gramma |
     &Gamma;&rho;&alpha;&mu;&mu;&alpha;: Journal of Theory and Criticism</em> 23: 15-32. <br />
@@ -146,14 +149,33 @@
 </p>
 <p>
 	Oliveira, Duarte, Ant&oacute;nio Rito Silva, and Manuel Portela (2019). &ldquo;Social Media Aware Virtual Editions for 
-	the <em>Book of Disquiet</em>.&rdquo; 
-	<em>21st International Conference on Asia-Pacific Digital Libraries ICADL 2019: Digital Libraries at Cross-Roads of 
-	Digital Information for the Future - Connecting Data, Technologies and People in Different Domains.</em> 
-		Kuala Lumpur [forthcoming].
+	the <em>Book of Disquiet</em>.&rdquo; <em>Digital Libraries at the Crossroads of Digital Information for the Future. ICADL 2019.</em>
+		Lecture Notes in Computer Science, vol 11853, Eds. Adam Jatowt, Akira Maeda, and Sue Yeon Syn. Berlin: Springer. 271-282.
+		<br />DOI: <a href="https://link.springer.com/chapter/10.1007%2F978-3-030-34058-2_25" target="_new">https://link.springer.com/chapter/10.1007%2F978-3-030-34058-2_25</a> </p>
+<p>&nbsp;</p>
+<p><strong>2020</strong>
 </p>
-
 <p>
-	<strong>&nbsp;</strong></p>
+	Marques, Ana, and Manuel Portela (2020). &ldquo;Representa&ccedil;&atilde;o e An&aacute;lise da Rece&ccedil;&atilde;o Cr&iacute;tica 
+	do <em>Livro do Desassossego</em> no <em>Arquivo LdoD</em>&rdquo;. 
+	<em>Novos Estudos Pessoanos - Ponto de Situa&ccedil;&atilde;o</em>, Lisboa: Casa Fernando Pessoa. 5-11.</p>
+<p>
+	Portela, Manuel, and Cec&iacute;lia Magalh&atilde;es (2020). &ldquo;The Book of Disquiet Digital Archive as a Role-playing Experiment.&rdquo;  
+	<em>Attention &agrave; la marche | MIND THE GAP! ELO 2018 </em>. Ed. Bertrand Gervais. 
+	Montr&aacute;al: Universit&aacute; du Qu&aacute;bec &agrave; Montr&aacute;al (UQAM).</p>
+<p>
+	Marques, Gon&ccedil;alo Montalv&atilde;o, Ant&oacute;nio Rito Silva, and Manuel Portela (2020). &ldquo;Classification in the <em>LdoD Archive</em>
+	A Crowdsourcing and Gamification Approach.&rdquo;. Submitted.
+</p>
+<p>&nbsp;</p>
+<p><strong>2021</strong>
+</p>
+<p>
+	Portela, Manuel (2021). &ldquo;From Meta-Editing to Virtual Editing: The <em>LdoD Archive</em> as a Computer-Assisted Editorial Space.&rdquo; 
+	<em>MLA Approaches to Teaching Pessoa’s The Book of Disquiet. </em>
+	Eds. Paulo de Medeiros and Jer&oacute;nimo Pizarro. New York: Modern Language Association. [forthcoming].</p>
+<p>&nbsp;</p>
+
 <p>&nbsp;</p>
 <h3 id="Q02Q" style="padding-top: 60px; margin-top: -60px;">
 	B. Theses about the <em>LdoD Archive </em>
@@ -169,20 +191,20 @@
 		href= "https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/846778572211152" target="_new">https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/846778572211152</a></p>
 <strong>&nbsp;</strong>
 <p> <strong>2017</strong> </p>
-<p> Martins, Pedro (2017-). <em>O Arquivo para al&eacute;m do Arquivo:
-  Cria&ccedil;&atilde;o de ontologias a partir de etiquetas geradas
-  pelos utilizadores</em>. Lisboa: Instituto Superior T&eacute;cnico da
-  Universidade de Lisboa. MA thesis in Information Systems and Computer Engineering [in progress]. </p>
-<p> Magalh&atilde;es, Cec&iacute;lia (2017-). <em>Fragmentos em
-  pr&aacute;tica: intera&ccedil;&atilde;o, colabora&ccedil;&atilde;o e
-  criatividade no </em>Arquivo LdoD. Coimbra: Universidade de Coimbra. PhD thesis in Materialities of Literature [in progress]. </p>
+<p> 	Martins, Pedro (2017-). <em>O Arquivo para al&eacute;m do Arquivo:
+ 	 Cria&ccedil;&atilde;o de ontologias a partir de etiquetas geradas
+  	pelos utilizadores</em>. Lisboa: Instituto Superior T&eacute;cnico da
+  	Universidade de Lisboa. MA thesis in Information Systems and Computer Engineering [in progress]. </p>
+<p> 	Magalh&atilde;es, Cec&iacute;lia (2017-). <em>Fragmentos em
+  	pr&aacute;tica: intera&ccedil;&atilde;o, colabora&ccedil;&atilde;o e
+  	criatividade no </em>Arquivo LdoD. Coimbra: Universidade de Coimbra. PhD thesis in Materialities of Literature [in progress]. </p>
 <strong>&nbsp;</strong>
 <p>	<strong>2018</strong> </p>
 	<p>Oliveira, Duarte (2018). <em>Automatic Collection of Citations in the <em>LdoD Archive</em></em>. 
 		Lisboa: Instituto Superior T&eacute;cnico da
   Universidade de Lisboa. MA thesis in Information Systems and Computer Engineering.  <br/>
-		URL: <a href= "https://fenix.tecnico.ulisboa.pt/departamentos/dei/dissertacao/1972678479054227" target="_new">
-	https://fenix.tecnico.ulisboa.pt/departamentos/dei/dissertacao/1972678479054227</a></p>
+		URL: <a href= "https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/1972678479054227" target="_new">
+	https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/1972678479054227</a></p>
 
 <p> Marques, Gon&ccedil;alo (2018). <em>Virtual Editions in the <em>LdoD Archive</em> using Crowdsourcing and Gamification</em>. 
 	Lisboa: Instituto Superior T&eacute;cnico da
@@ -195,7 +217,6 @@
 		URL: <a href= "https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/283828618790314" target="_new">
 	https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/283828618790314</a></p>
 <p>
-<strong>&nbsp;</strong>
 <p>
 <strong>&nbsp;</strong>
 </p>
@@ -205,7 +226,9 @@
 		URL: <a href= "https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/283828618790395" target="_new">
 	https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/283828618790395</a></p>
 <p> Gon&ccedil;alves, Nuno (2019). <em>A Product Family for Digital Humanities Repositories</em>. Lisboa: Instituto Superior T&eacute;cnico da
-  Universidade de Lisboa. MA thesis in Information Systems and Computer Engineering [in progress]. </p>
+  Universidade de Lisboa. MA thesis in Information Systems and Computer Engineering.<br/>
+	URL: <a href= "https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/1691203502343425" target="_new">
+	https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/1691203502343425</a> </p>
 <p>
 	<strong>&nbsp;</strong>
 </p>
@@ -289,13 +312,26 @@
     de Estudos Liter&aacute;rios </em>5: 491-527. <br />
   URL: <a
 		href="http://impactum-journals.uc.pt/rel/article/view/4308/3686" target="_new">http://impactum-journals.uc.pt/rel/article/view/4308/3686</a> </p>
-<strong>&nbsp;</strong>
+<p>&nbsp;</p>
 <p> <strong>2016</strong> </p>
 <p> Gim&eacute;nez, Diego (2016). &ldquo;El<em> Libro del desasosiego,</em> est&eacute;tica y materialidad de la sensaci&oacute;n.&rdquo; <em>Abriu</em> 5: 51-63. <br />
   URL: <a
 		href="http://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.4/19981" target="_new">http://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.4/19981</a> <br />
   DOI: <a href="http://dx.doi.org/10.1344/abriu2016.5.4" target="_new">http://dx.doi.org/10.1344/abriu2016.5.4</a> </p>
-<p> <strong>&nbsp;</strong></p>
+
+<p>&nbsp;</p>
+<p> <strong>2017</strong> </p>
+<p>
+	Gim&eacute;nez, Diego (2017). &ldquo;Materialidade e Modernidade no <em>Livro do Desassossego</em>&rdquo;. <em>Terra Roxa e Outras Terras: Revista de Estudos 		Liter&aacute;rios</em> 32: 8-20. <br/>
+ 	DOI: <a href="http://dx.doi.org/10.5433/1678-2054.2016v32p8" target="_new">http://dx.doi.org/10.5433/1678-2054.2016v32p8</a> </p> 
+<p>&nbsp;</p>
+
+<p> <strong>2020</strong> </p>
+<p> 
+
+	Gim&eacute;nez, Diego (2020). &ldquo;Problemas de Intertextualidade Filos&oacute;fica no <em>Livro do Desassossego</em>&rdquo;. 
+	<em>Novos Estudos Pessoanos - Ponto de Situa&ccedil;&atilde;o</em>, Lisboa: Casa Fernando Pessoa. 21-30.</p>
+<p>&nbsp;</p>
 <p>&nbsp;</p>
 <h3 id="Q04Q" style="padding-top: 60px; margin-top: -60px;">
 	D. Selected articles about the <em>Book of Disquiet</em>
@@ -784,4 +820,4 @@
 
 <strong>&nbsp;</strong>
 <p>
-<p>[updated 01-09-2019]</p>
+<p>[updated 18-07-2020]</p>

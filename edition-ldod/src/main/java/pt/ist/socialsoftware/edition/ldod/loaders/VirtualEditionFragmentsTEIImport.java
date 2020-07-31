@@ -22,7 +22,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class VirtualEditionFragmentsTEIImport {
     private static final Logger logger = LoggerFactory.getLogger(VirtualEditionFragmentsTEIImport.class);
@@ -89,7 +91,9 @@ public class VirtualEditionFragmentsTEIImport {
 
         while (!wits.isEmpty()) {
             Element wit = wits.remove(0);
-            if (fragment.getFragInterByXmlId(wit.getAttributeValue("source").substring(1)) == null) {
+            String sourceXmlId = wit.getAttributeValue("source").substring(1);
+
+            if (fragment.getFragInterByXmlId(sourceXmlId) == null) {
                 wits.add(wit);
             } else {
                 String interXmlId = wit.getAttributeValue("id", Namespace.XML_NAMESPACE);
@@ -97,10 +101,11 @@ public class VirtualEditionFragmentsTEIImport {
                         interXmlId.lastIndexOf('.'));
                 VirtualEdition virtualEdition = this.ldoD.getVirtualEdition(editionAcronym);
 
-                logger.debug("importWitnesses id: {}, source: {}", interXmlId, wit.getAttributeValue("source"));
-                virtualEdition.createVirtualEditionInter(
-                        fragment.getFragInterByXmlId(wit.getAttributeValue("source").substring(1)),
+                VirtualEditionInter virtualEditionInter = virtualEdition.createVirtualEditionInter(
+                        fragment.getFragInterByXmlId(sourceXmlId),
                         Integer.parseInt(wit.getChild("num", this.namespace).getAttributeValue("value")));
+
+                virtualEditionInter.setXmlId(interXmlId.substring(interXmlId.lastIndexOf('.') + 1));
             }
         }
     }
@@ -111,15 +116,14 @@ public class VirtualEditionFragmentsTEIImport {
                 Namespace.getNamespace("def", this.namespace.getURI()));
 
         for (Element textClass : xp.evaluate(doc)) {
-            VirtualEditionInter inter = (VirtualEditionInter) fragment
-                    .getFragInterByXmlId(textClass.getAttributeValue("source").substring(1));
+            VirtualEditionInter inter = (VirtualEditionInter) fragment.getFragInterByXmlId(textClass.getAttributeValue("source").substring(1));
 
             for (Element catRef : textClass.getChildren("catRef", this.namespace)) {
-                importTag(catRef, inter);
+                    importTag(catRef, inter);
             }
 
             for (Element note : textClass.getChildren("note", this.namespace)) {
-                importAnnotation(note, inter);
+                    importAnnotation(note, inter);
             }
 
             importClassificationGames(textClass, inter);
@@ -195,7 +199,9 @@ public class VirtualEditionFragmentsTEIImport {
         String username = catRef.getAttributeValue("resp").substring(1);
         String tag = catRef.getAttributeValue("target").substring(1);
 
-        inter.getVirtualEdition().getTaxonomy().createTag(inter, tag, null, this.ldoD.getUser(username));
+        inter.getVirtualEdition().
+                getTaxonomy().
+                createTag(inter, tag, null, this.ldoD.getUser(username));
     }
 
     // TODO: else if aware - done
