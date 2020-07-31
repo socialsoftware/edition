@@ -378,16 +378,13 @@
 	<strong>&nbsp;</strong>
 </p>
 <p><strong>2013</strong> </p>
-<p> Zenith, Richard (2013). &ldquo;<em>Livro do Desassossego: </em>o
-  romance poss&iacute;vel (var.: imposs&iacute;vel)&rdquo;. <em>Comunica&ccedil;&otilde;es
-    do III Congresso Internacional Fernando Pessoa. </em>Lisboa: Casa Fernando
-  Pessoa. 1-12. Web. <br />
-  URL: <a
-		href="http://www.congressointernacionalfernandopessoa.com/comunicacoes/richard_zenith.pdf" target="_new">http://www.congressointernacionalfernandopessoa.com/comunicacoes/richard_zenith.pdf</a> </p>
-<p> Pizarro, Jer&oacute;nimo (2013). &ldquo;Os Muitos Desassossegos&rdquo;. <em>Comunica&ccedil;&otilde;es do III Congresso Internacional
-  Fernando Pessoa</em>. Lisboa: Casa Fernando Pessoa. 1-15. Web. <br />
-  URL: <a
-		href="http://www.congressointernacionalfernandopessoa.com/comunicacoes/jeronimo_pizarro.pdf" target="_new">http://www.congressointernacionalfernandopessoa.com/comunicacoes/jeronimo_pizarro.pdf</a> </p>
+<p>
+	Zenith, Richard (2013). &ldquo;<em>Livro do Desassossego: </em>o
+	romance poss&iacute;vel (var.: imposs&iacute;vel).&rdquo; <em>Comunica&ccedil;&otilde;es
+		do III Congresso Internacional Fernando Pessoa. </em>Lisboa: Casa Fernando
+	Pessoa. Web. <br />URL: <a
+		href="http://www.blogletras.com/2013/12/livro-do-desassossego-o-romance.html" target="_new">http://www.blogletras.com/2013/12/livro-do-desassossego-o-romance.html</a>
+</p>
 <p>Sep&uacute;lveda, Pedro (2013).   &ldquo;Listas do Desassossego.&rdquo; <em>MATLIT: Materialidades
   da Literatura</em> 1.1: 35-55. <br />
   URL: <a href="http://impactum-journals.uc.pt/matlit/article/view/1616" target="_new">http://impactum-journals.uc.pt/matlit/article/view/1616</a> <br/>
@@ -411,6 +408,12 @@
   URL: <a
 		href="http://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.6/20057" target="_new">http://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.6/20057</a> <br />
   DOI: <a href="http://dx.doi.org/10.1344/abriu2016.5.6" target="_new">http://dx.doi.org/10.1344/abriu2016.5.6</a> </p>
+<p>
+	Pizarro, Jer&oacute;nimo (2016). &ldquo;Os Muitos Desassossegos&rdquo;.
+	<em>Revista do Centro de Estudos Portugueses </em>, Belo Horizonte, v.36, n.55: 11-27.
+	<br />URL: <a href="http://www.periodicos.letras.ufmg.br/index.php/cesp/article/view/11386" target="_new">http://www.periodicos.letras.ufmg.br/index.php/cesp/article/view/11386</a>
+	<br />DOI: <a href="http://dx.doi.org/10.17851/2359-0076.36.55.11-27 " target="_new">http://dx.doi.org/10.17851/2359-0076.36.55.11-27</a>
+</p>
 <p> Pizarro, Jer&oacute;nimo (2016). &ldquo;Narciso ciego, iluminado por
   Lisboa (de Ces&aacute;rio Verde a Fernando Pessoa).&rdquo; <em>Abriu</em> 5: 27-33. <br />
   URL: <a
