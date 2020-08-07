@@ -3,9 +3,11 @@ package pt.ist.socialsoftware.edition.ldod.controller.admin;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -29,9 +31,12 @@ import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -41,11 +46,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class AdminTest {
 
-//    @Mock
-//    SessionRegistry sessionRegistry;
+    @Mock
+    SessionRegistry sessionRegistry;
 
-//    @Mock
-//    PasswordEncoder passwordEncoder;
+    @Mock
+    PasswordEncoder passwordEncoder;
 
     @InjectMocks
     AdminController adminController;
@@ -247,11 +252,11 @@ public class AdminTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteUserSessionsTest() throws Exception {
 
-        //       when(sessionRegistry.getAllPrincipals()).thenReturn(new ArrayList<>());
+        when(sessionRegistry.getAllPrincipals()).thenReturn(new ArrayList<>());
 
         this.mockMvc.perform(post("/admin/sessions/delete"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(redirectedUrl("/admin/user/list"));
     }
 
     @Test
@@ -605,20 +610,17 @@ public class AdminTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void createTestUsersTest() throws Exception {
-
-        PasswordEncoder p = new BCryptPasswordEncoder(11);
-
-//        when(this.passwordEncoder.encode(anyString())).thenReturn(p.encode(anyString()));
+        when(this.passwordEncoder.encode(anyString())).thenReturn(anyString());
 
         this.mockMvc.perform(post("/admin/createTestUsers"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(redirectedUrl("/admin/user/list"));
 
-//        for (int i = 0; i < 6; i++) {
-//            String username = "zuser" + Integer.toString(i + 1);
-//
-//            assertNotNull(LdoD.getInstance().getUser(username));
-//        }
+        for (int i = 0; i < 6; i++) {
+            String username = "zuser" + Integer.toString(i + 1);
+
+            assertNotNull(LdoD.getInstance().getUser(username));
+        }
 
     }
 

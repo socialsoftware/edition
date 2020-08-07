@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.performance;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +25,7 @@ import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.recommendation.dto.RecommendVirtualEditionParam;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +43,23 @@ public class RecommendationPerformanceTest {
     @InjectMocks
     RecommendationController recommendationController;
 
+    @BeforeAll
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public static void setUpAll() throws FileNotFoundException {
+        TestLoadUtils.setUpDatabaseWithCorpus();
+
+        String[] fragments = {"001.xml", "002.xml", "003.xml"};
+        TestLoadUtils.loadFragments(fragments);
+
+        TestLoadUtils.loadTestVirtualEdition();
+    }
+
+    @AfterAll
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public static void tearDownAll() {
+        TestLoadUtils.cleanDatabaseButCorpus();
+    }
+
     @BeforeEach
     public void setUp() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.recommendationController)
@@ -51,7 +71,7 @@ public class RecommendationPerformanceTest {
     @WithUserDetails("ars")
     public void setLinearTest() throws Exception {
         VirtualEditionInter vi = LdoD.getInstance().getVirtualEdition(Edition.ARCHIVE_EDITION_ACRONYM)
-                .getAllDepthVirtualEditionInters().get(1);
+                .getAllDepthVirtualEditionInters().get(0);
 
         List<Property> propertyList = new ArrayList<>();
 //        propertyList.add(new HeteronymProperty("1.0"));
