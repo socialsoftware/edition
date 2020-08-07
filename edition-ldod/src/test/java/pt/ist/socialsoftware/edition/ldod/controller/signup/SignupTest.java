@@ -90,22 +90,17 @@ public class SignupTest extends ControllersTestWithFragmentsLoading {
 
     @Test
     public void getSignupFormTest() throws Exception {
-
         this.mockMvc.perform(get("/signup")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("signup"))
                 .andExpect(model().attribute("signupForm", notNullValue()));
-
     }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void performSignupTest() throws Exception {
-
-        // TODO: find a workaround for unusual token behavior
-
-        /*when(passwordEncoder.matches(anyString(),anyString())).thenReturn(true);
-        when(passwordEncoder.encode(anyString())).thenReturn("$2a$11$wd.49aU2FkZMJyk6Ac4KsOaosd4YSAm/etVT3aIKOw6zpUI2bzS7K");
+        when(passwordEncoder.matches(anyString(),anyString())).thenReturn(true);
+        when(passwordEncoder.encode(anyString())).thenReturn(anyString());
 
         this.mockMvc.perform(post("/signup")
                 .param("username", "temp")
@@ -118,12 +113,8 @@ public class SignupTest extends ControllersTestWithFragmentsLoading {
                 .sessionAttr("signupForm", new SignupForm()))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("signup"))
+                .andExpect(view().name("signin"))
                 .andExpect(model().attribute("message",notNullValue()));
-*/
-
-        // Just here so this test actually does something :)
-        assertEquals(1,1);
     }
 
 }
