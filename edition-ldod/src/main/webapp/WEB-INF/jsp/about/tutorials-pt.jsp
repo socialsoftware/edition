@@ -181,12 +181,6 @@
 	<p>Cec&iacute;lia Magalh&atilde;es and Manuel Portela, &ldquo;<em>Arquivo LdoD</em> em Pr&aacute;tica: din&acirc;micas digitais de leitura, 
 		edi&ccedil;&atilde;o e escrita do <em>Livro do Desassossego</em>&rdquo;, 26/07/2019, 9:30-13:00, 
 		International Conference &ldquo;Teaching Digital Literature&rdquo;, Faculdade de Letras da Universidade de Coimbra.</p>
-		
-	<p>Manuel Portela, &ldquo;Disquiet Variations: An Introduction to the <em>Book of Disquiet</em> Digital Archive&rdquo;, 28/11/2019, 18:00-20:00, 
-		School of English, Department of North-American Literature and Culture, Aristotle University of Thessaloniki.</p> 
-
-	<p>Cec&iacute;lia Magalh&atilde;es and Liliana Vasques, &ldquo;Remix LdoD: O <em>Livro do Desssossego</em> em Remix&rdquo; 14/12/2019, 9:00-13:00, 
-		Faculdade de Letras da Universidade de Coimbra.</p>
 
 	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Fragmentos em Pr&aacute;tica: reescrita colaborativa nas humanidades digitais&rdquo;. 
 		&ldquo;Summer School CreA(c)tivar o Fazer Cient&iacute;fico nas Ci&ecirc;ncias Sociais e Humanidades&rdquo;. 12/09/2019, 
@@ -206,6 +200,13 @@
 
 	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Grupo de leitura, escrita e produ&ccedil;&atilde;o criativa 
 		- Sess&otilde;es Criativas do <em>Livro do Desassossego</em>&rdquo;, Sess&atilde;o 2, 16/11/2019, Valsa, Lisboa.</p>
+		
+	<p>Manuel Portela, &ldquo;Disquiet Variations: An Introduction to the <em>Book of Disquiet</em> Digital Archive&rdquo;, 28/11/2019, 18:00-20:00, 
+		School of English, Department of North-American Literature and Culture, Aristotle University of Thessaloniki.</p> 
+
+	<p>Cec&iacute;lia Magalh&atilde;es and Liliana Vasques, &ldquo;Remix LdoD: O <em>Livro do Desssossego</em> em Remix&rdquo; 14/12/2019, 9:00-13:00, 
+		Faculdade de Letras da Universidade de Coimbra.</p>
+
 
 	
 <p>&nbsp;</p>
