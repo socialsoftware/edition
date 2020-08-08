@@ -145,7 +145,7 @@ a better understanding of the materials and interactions available in each inter
 <p>&nbsp;</p>
 <p><strong>2017</strong> </p>
 	<p>Manuel Portela and Cec&iacute;lia Magalh&atilde;es, &ldquo;Desassossego Remix 1&rdquo;, 26/11/2017, 19:00-22:00, 
-		Rep&iacute;blica dos Kapangas, Coimbra. </p> 
+		Rep&uacute;blica dos Kapangas, Coimbra. </p> 
 
 <p>&nbsp;</p>
 <p> <strong>2018</strong> </p>
@@ -156,7 +156,7 @@ a better understanding of the materials and interactions available in each inter
 	<p>Manuel Portela, &ldquo;Desassossego Remix 2&rdquo; 26/05/2018, 9:00-13:00, 
 		Escola Secund&aacute;ria de Cantanhede. </p> 
 
-	<p>Manuel Portela and Cec&iacute;lia Magalh&atilde;es, &ldquo;Desassossego Remix 3&rdquo; 7/09/2018, 14:00-19:00, 
+	<p>Manuel Portela e Cec&iacute;lia Magalh&atilde;es, &ldquo;Desassossego Remix 3&rdquo; 7/09/2018, 14:00-19:00, 
 		Escola Secund&aacute;ria Cristina Torres, Figueira da Foz.</p> 
 
 	<p>Manuel Portela, &ldquo;Desassossego Remix 4&rdquo; 26/10/2018, 14:00-17:00, 
@@ -175,7 +175,7 @@ a better understanding of the materials and interactions available in each inter
 		uma introdu&ccedil;&atilde;o din&acirc;mica ao <em>Arquivo LdoD</em>&rdquo;, 
 		13/06/2019, Faculdade de Letras da Universidade de Coimbra.
 
-	<p>Cec&iacute;lia Magalh&atilde;es and Manuel Portela, &ldquo;<em>Arquivo LdoD</em> em Pr&aacute;tica: din&acirc;micas digitais de leitura, 
+	<p>Cec&iacute;lia Magalh&atilde;es e Manuel Portela, &ldquo;<em>Arquivo LdoD</em> em Pr&aacute;tica: din&acirc;micas digitais de leitura, 
 		edi&ccedil;&atilde;o e escrita do <em>Livro do Desassossego</em>&rdquo;, 26/07/2019, 9:30-13:00, 
 		International Conference &ldquo;Teaching Digital Literature&rdquo;, Faculdade de Letras da Universidade de Coimbra.</p>
 
@@ -201,7 +201,7 @@ a better understanding of the materials and interactions available in each inter
 	<p>Manuel Portela, &ldquo;Disquiet Variations: An Introduction to the <em>Book of Disquiet</em> Digital Archive&rdquo;, 28/11/2019, 18:00-20:00, 
 		School of English, Department of North-American Literature and Culture, Aristotle University of Thessaloniki.</p> 
 
-	<p>Cec&iacute;lia Magalh&atilde;es and Liliana Vasques, &ldquo;Remix LdoD: O <em>Livro do Desssossego</em> em Remix&rdquo; 14/12/2019, 9:00-13:00, 
+	<p>Cec&iacute;lia Magalh&atilde;es e Liliana Vasques, &ldquo;Remix LdoD: O <em>Livro do Desssossego</em> em Remix&rdquo; 14/12/2019, 9:00-13:00, 
 		Faculdade de Letras da Universidade de Coimbra.</p>
 
 
