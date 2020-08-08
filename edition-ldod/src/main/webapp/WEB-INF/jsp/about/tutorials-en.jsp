@@ -154,7 +154,9 @@ a better understanding of the materials and interactions available in each inter
 		Creative Writing Workshop, Silves.</p> 
 
 	<p>Manuel Portela, &ldquo;Desassossego Remix 2&rdquo; 26/05/2018, 9:00-13:00, 
-		Escola Secund&aacute;ria de Cantanhede. </p> 
+		Escola Secund&aacute;ria de Cantanhede, no âmbito da ação de formação "Projeto de leitura: da conceção à avaliação" 
+		(formadoras: Isilda Marques e Silvéria Ramos), organizado pelo Centro de Formação de Associação de Escolas Beira Mar 
+		(Figueira da Foz, Cantanhede, Montemor-o-Velho, Mira).</p> 
 
 	<p>Manuel Portela and Cec&iacute;lia Magalh&atilde;es, &ldquo;Desassossego Remix 3&rdquo; 7/09/2018, 14:00-19:00, 
 		Escola Secund&aacute;ria Cristina Torres, Figueira da Foz.</p> 
@@ -210,7 +212,9 @@ a better understanding of the materials and interactions available in each inter
 <p>&nbsp;</p>
 <p><strong>2020</strong> </p>
 	<p>Manuel Portela, &ldquo;Desassossego Remix 6&rdquo; 01/02/2020, 9:00-13:00, 
-		Escola B&aacute;sica de Cantanhede.</p> 
+		Escola B&aacute;sica de Cantanhede, no âmbito da ação de formação "Projeto de leitura: da conceção à avaliação" 
+		(formadoras: Isilda Marques e Silvéria Ramos), organizado pelo Centro de Formação de Associação de Escolas Beira Mar 
+		(Figueira da Foz, Cantanhede, Montemor-o-Velho, Mira). </p> 
 
 	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Sess&otilde;es Online Arquivo LdoD: 1. Introdu&ccedil;&atilde;o ao Arquivo LdoD&rdquo;, 13/05/2020, 20h00-21h30.</p>
 
