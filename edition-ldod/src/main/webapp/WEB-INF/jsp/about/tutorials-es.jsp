@@ -151,7 +151,7 @@
 		Creative Writing Workshop, Silves.</p> 
 
 	<p>Manuel Portela, &ldquo;Desassossego Remix 2&rdquo; 26/05/2018, 9:00-13:00, 
-		Escola Secund&aacute;ria de Cantanhede, no &acirc;mbito da a&ccedil;&atilde;o de forma&ccedil;&atilde;o 
+		Escola Secund&aacute;ria de Lima-de-Faria, Cantanhede, no &acirc;mbito da a&ccedil;&atilde;o de forma&ccedil;&atilde;o 
 		&ldquo;Projeto de leitura: da conce&ccedil;&atilde;o &agrave; avalia&ccedil;&atilde;o&rdquo; 
 		(formadoras: Isilda Marques e Silv&eacute;ria Ramos), organizado pelo Centro de Forma&ccedil;&atilde;o de Associa&ccedil;&atilde;o de Escolas Beira Mar 
 		(Figueira da Foz, Cantanhede, Montemor-o-Velho, Mira). </p> 
