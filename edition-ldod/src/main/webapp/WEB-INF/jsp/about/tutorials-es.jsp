@@ -151,7 +151,10 @@
 		Creative Writing Workshop, Silves.</p> 
 
 	<p>Manuel Portela, &ldquo;Desassossego Remix 2&rdquo; 26/05/2018, 9:00-13:00, 
-		Escola Secund&aacute;ria de Cantanhede. </p> 
+		Escola Secund&aacute;ria de Cantanhede, no &acirc;mbito da a&ccedil;&atilde;o de forma&ccedil;&atilde;o 
+		&ldquo;Projeto de leitura: da conce&ccedil;&atilde;o &agrave; avalia&ccedil;&atilde;o&rdquo; 
+		(formadoras: Isilda Marques e Silv&eacute;ria Ramos), organizado pelo Centro de Forma&ccedil;&atilde;o de Associa&ccedil;&atilde;o de Escolas Beira Mar 
+		(Figueira da Foz, Cantanhede, Montemor-o-Velho, Mira). </p> 
 
 	<p>Manuel Portela y Cec&iacute;lia Magalh&atilde;es, &ldquo;Desassossego Remix 3&rdquo; 7/09/2018, 14:00-19:00, 
 		Escola Secund&aacute;ria Cristina Torres, Figueira da Foz.</p> 
@@ -207,7 +210,10 @@
 <p>&nbsp;</p>
 <p><strong>2020</strong> </p>
 	<p>Manuel Portela, &ldquo;Desassossego Remix 6&rdquo; 01/02/2020, 9:00-13:00, 
-		Escola B&aacute;sica de Cantanhede.</p> 
+		Escola B&aacute;sica de Cantanhede, no &acirc;mbito da a&ccedil;&atilde;o de forma&ccedil;&atilde;o 
+		&ldquo;Projeto de leitura: da conce&ccedil;&atilde;o &agrave; avalia&ccedil;&atilde;o&rdquo; 
+		(formadoras: Isilda Marques e Silv&eacute;ria Ramos), organizado pelo Centro de Forma&ccedil;&atilde;o de Associa&ccedil;&atilde;o de Escolas Beira Mar 
+		(Figueira da Foz, Cantanhede, Montemor-o-Velho, Mira).</p> 
 
 	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Sess&otilde;es Online Arquivo LdoD: 1. Introdu&ccedil;&atilde;o ao Arquivo LdoD&rdquo;, 13/05/2020, 20h00-21h30.</p>
 
