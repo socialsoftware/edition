@@ -215,7 +215,7 @@
 <p>&nbsp;</p>
 <p><strong>2020</strong> </p>
 	<p>Manuel Portela, &ldquo;Desassossego Remix 6&rdquo; 01/02/2020, 9:00-13:00, 
-		Escola B&aacute;sica de Cantanhede, no &acirc;mbito da a&ccedil;&atilde;o de forma&ccedil;&atilde;o 
+		Escola B&aacute;sica Marqu&ecirc;s de Marialva, Cantanhede, no &acirc;mbito da a&ccedil;&atilde;o de forma&ccedil;&atilde;o 
 		&ldquo;Projeto de leitura: da conce&ccedil;&atilde;o &agrave; avalia&ccedil;&atilde;o&rdquo; 
 		(formadoras: Isilda Marques e Silv&eacute;ria Ramos), organizado pelo Centro de Forma&ccedil;&atilde;o de Associa&ccedil;&atilde;o de Escolas Beira Mar 
 		(Figueira da Foz, Cantanhede, Montemor-o-Velho, Mira).</p> 
