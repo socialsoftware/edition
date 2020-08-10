@@ -7,8 +7,7 @@ import java.io.IOException;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.loaders.*;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
@@ -83,8 +82,13 @@ public class TestLoadUtils {
 			ldoD.getCitationSet().forEach(c -> c.remove());
 			ldoD.getUserConnectionSet().forEach(uc -> uc.remove());
 			ldoD.getTokenSet().forEach(t -> t.remove());
-			ldoD.getVirtualEditionsSet().stream().filter(ve -> !ve.getAcronym().equals(Edition.ARCHIVE_EDITION_ACRONYM))
-					.forEach(ve -> ve.remove());
+			ldoD.getVirtualEditionsSet().stream()
+					.filter(ve -> !ve.getAcronym().equals(Edition.ARCHIVE_EDITION_ACRONYM))
+					.forEach(VirtualEdition::remove);
+			ldoD.getVirtualEditionsSet().stream()
+					.filter(ve -> ve.getAcronym().equals(Edition.ARCHIVE_EDITION_ACRONYM))
+					.flatMap(ve -> ve.getTaxonomy().getCategoriesSet().stream())
+					.forEach(Category::remove);
 			ldoD.getTweetSet().forEach(t -> t.remove());
 		}
 
