@@ -110,6 +110,8 @@ public class VirtualEditionsTEICorpusImport {
             String synopsis = bibl.getChildText("synopsis", namespace);
             LocalDate date = LocalDate.parse(bibl.getChild("date", namespace).getAttributeValue("when"));
 
+            System.out.println(acronym + "  " + title);
+
             LdoDUser owner = null;
             for (Element editor : bibl.getChildren("editor", namespace)) {
                 if (editor.getAttributeValue("role").equals("ADMIN")) {

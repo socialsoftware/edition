@@ -9,10 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEICorpus;
-import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEIFragments;
-import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionFragmentsTEIImport;
-import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionsTEICorpusImport;
+import pt.ist.socialsoftware.edition.ldod.loaders.*;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
@@ -29,17 +26,44 @@ public class TestLoadUtils {
 		}
 	}
 
+	public static void loadVirtualEditionsCorpus() throws FileNotFoundException {
+		File directory = new File(PropertiesManager.getProperties().getProperty("test.files.dir"));
+
+		File corpus = new File(directory, "virtual-corpus.xml");
+		FileInputStream fis1 = new FileInputStream(corpus);
+
+		VirtualEditionsTEICorpusImport loader = new VirtualEditionsTEICorpusImport();
+
+		loader.importVirtualEditionsCorpus(fis1);
+	}
+
 	public static void loadFragments(String[] fragmentsToLoad) throws LdoDLoadException, FileNotFoundException {
 		String testFilesDirectory = PropertiesManager.getProperties().getProperty("test.files.dir");
 		File directory = new File(testFilesDirectory);
 
 		String[] fragmentFiles = fragmentsToLoad;
 
+		LoadTEIFragments fragmentLoader = new LoadTEIFragments();
+
 		File file;
 		for (int i = 0; i < fragmentFiles.length; i++) {
 			file = new File(directory, fragmentFiles[i]);
-			LoadTEIFragments fragmentLoader = new LoadTEIFragments();
 			fragmentLoader.loadFragmentsAtOnce(new FileInputStream(file));
+		}
+	}
+
+	public static void loadVirtualEditionFragments(String[] fragmentsToLoad) throws LdoDLoadException, FileNotFoundException {
+		String testFilesDirectory = PropertiesManager.getProperties().getProperty("test.files.dir");
+		File directory = new File(testFilesDirectory);
+
+		String[] fragmentFiles = fragmentsToLoad;
+
+		VirtualEditionFragmentsTEIImport loader = new VirtualEditionFragmentsTEIImport();
+
+		File file;
+		for (int i = 0; i < fragmentFiles.length; i++) {
+			file = new File(directory, fragmentFiles[i]);
+			loader.importFragmentFromTEI(new FileInputStream(file));
 		}
 	}
 
