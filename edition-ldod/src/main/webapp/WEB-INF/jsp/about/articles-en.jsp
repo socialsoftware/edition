@@ -35,15 +35,17 @@
 	<em>ECSCW 2013: Adjunct Proceedings. The 13th European&nbsp;Conference on Computer-Supported Cooperative Work</em>. 
 	Eds. Matthias Korn, Tommaso Colombino, and Myriam Lewkowicz. 
 	Aarhus: Department of Computer Science, Aarhus University. 45-50. <br />
- 	URL: <a href="https://cs.au.dk/%7Emkorn/ECSCW_2013_Adjunct_Proceedings-web.pdf" target="_new">
-	https://cs.au.dk/~mkorn/ECSCW_2013_Adjunct_Proceedings-web.pdf </a> </p>
+ 	URL: <a href="https://tidsskrift.dk/daimipb/article/view/13587/11586" target="_new">
+	https://tidsskrift.dk/daimipb/article/view/13587/11586</a> <br />
+  	DOI: <a href=" https://doi.org/10.7146/dpb.v40i596.13587" target="_new">
+	https://doi.org/10.7146/dpb.v40i596.13587</a> </p>
 <p> 
 	Silva, Ant&oacute;nio Rito, and Manuel Portela (2013). 
 	&ldquo;TEI4<em>LdoD</em>: Textual Encoding and Social Editing in Web 2.0 Environments.&rdquo;&nbsp; 
 	<em>The Linked TEI: Text Encoding in the Web: TEI Conference and Members Meeting 2013, Book of Abstract</em>s.
   	Eds. Fabio Ciotti and Arianna Ciula. Roma: DIGILAB/Universit&agrave; La Sapienza. 119-126. <br />
-  	URL: <a href="https://digilab2.let.uniroma1.it/teiconf2013/wp-content/uploads/2013/09/book-abstracts.pdf" target="_new">
-	https://digilab2.let.uniroma1.it/teiconf2013/wp-content/uploads/2013/09/book-abstracts.pdf</a> </p>
+  	URL: <a href="https://tei-c.org/Vault/MembersMeetings/2013/wp-content/uploads/2013/09/book-abstracts.pdf" target="_new">
+	https://tei-c.org/Vault/MembersMeetings/2013/wp-content/uploads/2013/09/book-abstracts.pdf</a> </p>
 
 <p>&nbsp;</p>
 <p> <strong>2014</strong> </p>
@@ -71,7 +73,9 @@
 	&ldquo;The Fragmentary Kinetics of Writing in the <em>Book of Disquiet</em>.&rdquo; 
 	<em>Textual Cultures</em> 9.2: 52-78. <br />
   	URL: <a href="https://scholarworks.iu.edu/journals/index.php/textual/article/view/12752/28916" target="_new">
-	https://scholarworks.iu.edu/journals/index.php/textual/article/view/12752/28916</a> </p>
+	https://scholarworks.iu.edu/journals/index.php/textual/article/view/12752/28916</a> <br />
+	DOI: <a href="https://doi.org/10.14434/tc.v9i2.12752" target="_new">
+	https://doi.org/10.14434/tc.v9i2.12752</a> </p> 
 <p> 
 	Portela, Manuel, e Ant&oacute;nio Rito Silva (2015). &ldquo;A Din&acirc;mica entre Arquivo e Edi&ccedil;&atilde;o no <em>Arquivo LdoD</em>.&rdquo; 
 	<em>Col&oacute;quio Letras</em> 188: 33-47. <br />
@@ -92,12 +96,16 @@
 	Edi&ccedil;&atilde;o, Codifica&ccedil;&atilde;o e Interpreta&ccedil;&atilde;o". 
 	<em>Texto Digital</em> 12.1: 54-68. <br/>
 	URL: <a href="https://periodicos.ufsc.br/index.php/textodigital/article/download/1807-9288.2016v12n1p54/32358" target="_new">
-	https://periodicos.ufsc.br/index.php/textodigital/article/download/1807-9288.2016v12n1p54/32358</a> </p>
+	https://periodicos.ufsc.br/index.php/textodigital/article/download/1807-9288.2016v12n1p54/32358</a> <br />
+  	DOI: <a href="https://doi.org/10.5007/1807-9288.2016v12n1p54" target="_new">
+	https://doi.org/10.5007/1807-9288.2016v12n1p54</a> </p>
 <p> 	
 	Portela, Manuel (2016). &ldquo;Writing the Archive: An Experiment in Literary Self-Consciousness.&rdquo; 
 	<em>Gramma | &Gamma;&rho;&alpha;&mu;&mu;&alpha;: Journal of Theory and Criticism</em> 23: 15-32. <br />
   	URL: <a href="https://ejournals.lib.auth.gr/gramma/article/download/5401/5295" target="_new">
-	https://ejournals.lib.auth.gr/gramma/article/download/5401/5295</a> </p>
+	https://ejournals.lib.auth.gr/gramma/article/download/5401/5295</a> <br />
+  	DOI: <a href="https://doi.org/10.26262/gramma.v23i0.5401" target="_new">
+	https://doi.org/10.26262/gramma.v23i0.5401</a> </p>
 <p> 
 	Portela, Manuel (2016). &ldquo;A Simula&ccedil;&atilde;o da Performatividade Liter&aacute;ria no<em> Arquivo LdoD.&rdquo;</em> 
 	<em>Cultura e Digital em Portugal</em>. Eds. Jos&eacute; Lu&iacute;s Garcia, Jo&atilde;o Teixeira Lopes e Teresa Duarte Martinho. 
@@ -113,7 +121,9 @@
 	in Fernando Pessoa&rsquo;s <em>Livro do Desassossego</em>.&rdquo; 
 	<em>Variants</em> 12-13: 189-210. <br />
   	URL: <a href="https://journals.openedition.org/variants/356" target="_new">
-	https://journals.openedition.org/variants/356</a> </p>
+	https://journals.openedition.org/variants/356</a> <br />
+	DOI: <a href="https://doi.org/10.4000/variants.356" target="_new">
+	https://doi.org/10.4000/variants.356</a> </p>
 
 <p>&nbsp;</p>
 <p><strong>2017</strong></p>
