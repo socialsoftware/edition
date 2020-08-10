@@ -67,9 +67,10 @@ abstract class SpockRollbackTestAbstractClass extends Specification {
 			for (def cit: ldoD.getCitationSet())
 				cit.remove();
 			}
-			for (def uc:
-			ldoD.getUserConnectionSet() ) {
-				uc.remove()
+			if (ldoD.getUserConnectionSet() != null) {
+				for (def uc: ldoD.getUserConnectionSet() ) {
+					uc.remove()
+				}
 			}
 			for (def t: ldoD.getTokenSet()) {
 				t.remove();

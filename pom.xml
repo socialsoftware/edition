@@ -183,6 +183,7 @@
                         <dataFile>${basedir}/target/coverage-reports/jacoco.exec</dataFile>
                         <excludes>
                             <exclude>pt/ist/fenixframework/**/*</exclude>
+                            <exclude>pt/ist/socialsoftware/edition/ldod/domain/*_Base.*</exclude>
                         </excludes>
                     </configuration>
                     <executions>

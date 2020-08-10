@@ -237,6 +237,27 @@ public class AdminTest {
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
+    public void deleteAllFragmentsAnVirtualInterpretationsTest() throws Exception {
+        TestLoadUtils.loadCorpus();
+        String[] fragments = {"001.xml", "002.xml", "003.xml"};
+        TestLoadUtils.loadFragments(fragments);
+
+        TestLoadUtils.loadVirtualEditionsCorpus();
+        String[] virtualEditionFragments = {"virtual-Fr001.xml", "virtual-Fr002.xml", "virtual-Fr003.xml"};
+        TestLoadUtils.loadVirtualEditionFragments(virtualEditionFragments);
+
+        this.mockMvc.perform(post("/admin/fragment/deleteAll"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/admin/fragment/list"));
+
+        assertNull(LdoD.getInstance().getFragmentByXmlId("Fr001"));
+        assertNull(LdoD.getInstance().getFragmentByXmlId("Fr002"));
+        assertNull(LdoD.getInstance().getFragmentByXmlId("Fr003"));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
     public void switchAdminTest() throws Exception {
 
         boolean original = LdoD.getInstance().getAdmin();
@@ -251,7 +272,6 @@ public class AdminTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteUserSessionsTest() throws Exception {
-
         when(sessionRegistry.getAllPrincipals()).thenReturn(new ArrayList<>());
 
         this.mockMvc.perform(post("/admin/sessions/delete"))
@@ -484,8 +504,8 @@ public class AdminTest {
 
         String usersXml = exporter.export();
 
-       /* LdoD.getInstance().getUser("ars").remove();
-        LdoD.getInstance().getUser("Twitter").remove();*/
+        LdoD.getInstance().getUser("ars").remove();
+        LdoD.getInstance().getUser("Twitter").remove();
 
         InputStream stream = new ByteArrayInputStream(usersXml.getBytes(StandardCharsets.UTF_8));
 
@@ -505,6 +525,13 @@ public class AdminTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void exportVirtualEditionsTest() throws Exception {
+        TestLoadUtils.loadCorpus();
+        String[] fragments = {"001.xml", "002.xml", "003.xml"};
+        TestLoadUtils.loadFragments(fragments);
+
+        TestLoadUtils.loadVirtualEditionsCorpus();
+        String[] virtualEditionFragments = {"virtual-Fr001.xml", "virtual-Fr002.xml", "virtual-Fr003.xml"};
+        TestLoadUtils.loadVirtualEditionFragments(virtualEditionFragments);
 
         this.mockMvc.perform(get("/admin/export/virtualeditions"))
                 .andDo(print())
@@ -537,7 +564,6 @@ public class AdminTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void loadVirtualEditionFragmentsTest() throws Exception {
-
 
         // load original frags and corpus
         TestLoadUtils.loadCorpus();
@@ -572,18 +598,24 @@ public class AdminTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void manageVirtualEditionsTest() throws Exception {
+        TestLoadUtils.loadCorpus();
+        String[] fragments = {"001.xml", "002.xml", "003.xml"};
+        TestLoadUtils.loadFragments(fragments);
+
+        TestLoadUtils.loadVirtualEditionsCorpus();
+        String[] virtualEditionFragments = {"virtual-Fr001.xml", "virtual-Fr002.xml", "virtual-Fr003.xml"};
+        TestLoadUtils.loadVirtualEditionFragments(virtualEditionFragments);
 
         this.mockMvc.perform(get("/admin/virtual/list")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/listVirtualEditions"))
-                .andExpect(model().attribute("editions", hasSize(1)));
+                .andExpect(model().attribute("editions", hasSize(2)));
 
     }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteVirtualEditionTest() throws Exception {
-
         this.mockMvc.perform(post("/admin/virtual/delete")
                 .param("externalId", LdoD.getInstance().getArchiveEdition().getExternalId()))
                 .andDo(print())
@@ -597,7 +629,6 @@ public class AdminTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteVirtualEditionErrorTest() throws Exception {
-
         this.mockMvc.perform(post("/admin/virtual/delete")
                 .param("externalId", "ERROR"))
                 .andDo(print())
@@ -628,7 +659,6 @@ public class AdminTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void manageTweetsTest() throws Exception {
-
         this.mockMvc.perform(get("/admin/tweets")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/manageTweets"))
