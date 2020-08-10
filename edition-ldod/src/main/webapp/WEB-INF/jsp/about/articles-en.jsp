@@ -259,9 +259,7 @@
 <p> 
 	Namora, Ricardo (2013). &ldquo;El concepto de biblioteca digital como cuesti&oacute;n epistemol&oacute;gica.&rdquo; 
 	<em>La biblioteca de Occidente en contexto hisp&aacute;nico.</em> Ed. Miguel &Aacute;ngel Garrido Gallardo. Logro&ntilde;o: 
-	Universidad Internacional de La Rioja. 73-84. <br />
-  	URL: <a href="http://bibliotecadeoccidente.unir.net/wp-content/uploads/2014/02/Actas.pdf" target="_new">
-	http://bibliotecadeoccidente.unir.net/wp-content/uploads/2014/02/Actas.pdf</a> </p>
+	Universidad Internacional de La Rioja. 73-84. </p>
 <p> 
 	Ribeiro, Ant&oacute;nio Sousa (2013). &ldquo;Estranhamentos: materialidades da escrita na Viena de 1900.&rdquo; 
 	<em>MATLIT: </em><em>Materialidades da Literatura</em> 1.1: 135-147.<br />
@@ -307,13 +305,13 @@
 <p> 
 	Namora, Ricardo (2015). &ldquo;(Re)criando infraestruturas: o que &eacute; exatamente a e-Filologia?&rdquo; 
 	<em>Col&oacute;quio Letras</em> 188: 48-60. <br />
-  	URL: <a href="http://coloquio.gulbenkian.pt/bib/sirius.exe/do?bibrecord&amp;id=PT.FCG.RCL.9782&amp;org=I&amp;orgp=188" target="_new">
-	http://coloquio.gulbenkian.pt/bib/sirius.exe/do?bibrecord&amp;id=PT.FCG.RCL.9782&amp;org=I&amp;orgp=188 </a> </p>
+  	URL: <a href="http://coloquio.gulbenkian.pt/cat/sirius.exe/do?bibrecord&id=PT.FCG.RCL.9782&org=I&orgp=188" target="_new">
+	http://coloquio.gulbenkian.pt/cat/sirius.exe/do?bibrecord&id=PT.FCG.RCL.9782&org=I&orgp=188</a> </p>
 <p> 
 	Pereira, Paulo Silva (2015). &ldquo;Barroco digital: remedia&ccedil;&atilde;o, edi&ccedil;&atilde;o textual e arquivo.&rdquo; 
 	<em>Col&oacute;quio Letras</em> 188: 20-32.<br />
-  	URL: <a href="http://coloquio.gulbenkian.pt/bib/sirius.exe/do?bibrecord&amp;id=PT.FCG.RCL.9780&amp;org=I&amp;orgp=188" target="_new"> 
-	http://coloquio.gulbenkian.pt/bib/sirius.exe/do?bibrecord&amp;id=PT.FCG.RCL.9780&amp;org=I&amp;orgp=188</a> </p>
+  	URL: <a href="http://coloquio.gulbenkian.pt/cat/sirius.exe/do?bibrecord&id=PT.FCG.RCL.9780&org=I&orgp=188" target="_new"> 
+	http://coloquio.gulbenkian.pt/cat/sirius.exe/do?bibrecord&id=PT.FCG.RCL.9780&org=I&orgp=188</a> </p>
 <p> 
 	Pereira, Paulo Silva (2015). &ldquo;Academia, Geopol&iacute;tica das Humanidades Digitais e Pensamento Cr&iacute;tico.&rdquo; 
 	<em>MATLIT: Materialidades da Literatura</em> 3.1: 111-140.<br/>
@@ -408,8 +406,8 @@
 <p>
 	Pizarro, Jer&oacute;nimo (2016). &ldquo;Os Muitos Desassossegos&rdquo;.
 	<em>Revista do Centro de Estudos Portugueses </em>, Belo Horizonte, v.36, n.55: 11-27.<br />
-	URL: <a href="http://www.periodicos.letras.ufmg.br/index.php/cesp/article/view/11386" target="_new">
-	http://www.periodicos.letras.ufmg.br/index.php/cesp/article/view/11386</a><br />
+	URL: <a href="http://www.periodicos.letras.ufmg.br/index.php/cesp/article/view/11386/9886" target="_new">
+	http://www.periodicos.letras.ufmg.br/index.php/cesp/article/view/11386/9886</a><br />
 	DOI: <a href="http://dx.doi.org/10.17851/2359-0076.36.55.11-27 " target="_new">
 	http://dx.doi.org/10.17851/2359-0076.36.55.11-27</a></p>
 <p> 
@@ -438,7 +436,7 @@
 	Zenith, Richard (2016). &ldquo;<em>Livro do Desassossego:</em> translating, reading, and deciphering the text.&rdquo; 
 	<em>Abriu</em> 5: 65-77. <br />
   	URL: <a href="https://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.5/19982" target="_new">
-	http://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.5/19982</a> <br />
+	https://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.5/19982</a> <br />
   	DOI: <a href="https://doi.org/10.1344/abriu2016.5.5" target="_new">
 	https://doi.org/10.1344/abriu2016.5.5</a> </p>
 
@@ -832,45 +830,38 @@
 	</tbody>
 </table>
 <p>
-	<strong>&nbsp;</strong>
-</p>
-<h3 id="Q06Q" style="padding-top: 60px; margin-top: -60px;">
-	F. Critical reception of the <em>LdoD Archive</em>
-</h3>
-</p>
-<strong>&nbsp;</strong>
-<p>
-	<p>
-	<strong>2017</strong>
-</p>
-<p>Barbosa, Nicol&aacute;s and Carlos Pittella (2017). &ldquo;The Website of Disquiet: The First Online Critical Edition of Fernando Pessoa.&rdquo; 
-	<em>Pessoa Plural: A Journal of Fernando Pessoa Studies.</em> 12: 725-732. 
-	<br />URL: <a
-		href="https://doi.org/10.7301/Z07S7KZD" target="_new">
-	https://doi.org/10.7301/Z07S7KZD</a> 
-</p>
-</p>
-<p>Cipriano, Rita (2017). &ldquo;O Arquivo digital do &ldquo;Livro do Desassossego&rdquo; j&aacute; est&aacute; online. E tem muitas hist&oacute;rias para contar.&rdquo; 
-	<em>Observador.</em> 13 de dezembro de 2017. 
-	<br />URL: <a
-		href="https://observador.pt/2017/12/13/o-arquivo-digital-do-livro-do-desassossego-ja-esta-online-e-tem-muitas-historias-para-contar" target="_new">
-	https://observador.pt/2017/12/13/o-arquivo-digital-do-livro-do-desassossego-ja-esta-online-e-tem-muitas-historias-para-contar</a> 
-</p>
-<p>Queir&oacute;s, Lu&iacute;s Miguel (2017). &ldquo;Um arquivo digital do <em>Livro do Desassossego</em> para ler e mexer.&rdquo; 
-	<em>P&uacute;blico.</em> 14 de dezembro de 2017, p. 24. 
-	<br />URL: <a
-		href="https://www.publico.pt/2017/12/14/culturaipsilon/noticia/um-arquivo-digital-do-livro-do-desassossego-para-ler-e-mexer-1795920" target="_new">
-	https://www.publico.pt/2017/12/14/culturaipsilon/noticia/um-arquivo-digital-do-livro-do-desassossego-para-ler-e-mexer-1795920</a> 
-</p>
-<strong>&nbsp;</strong>
-<p>
-	<p>
-	<strong>2018</strong>
-</p>
-	<p> Aldabalde, Taiguara Villela, and Carlos Pittella (2018).  &ldquo;A trajetividade do Pessoa digital: contributos para uma hist&oacute;ria do esp&oacute;lio pessoano.&rdquo; 
-		Fernando Ilharco, Peter Hanenberg, and Mar&iacute;lia dos Santos Lopes (eds.), <em>Patrim&oacute;nio Cultural e Transforma&ccedil;&atilde;o Digital</em>. 
-		Lisboa: Universidade Cat&oacute;lica Editora. 102-130.</p>
 
-<strong>&nbsp;</strong>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3 id="Q06Q" style="padding-top: 60px; margin-top: -60px;">
+	F. Critical reception of the <em>LdoD Archive</em></h3></p>
+
+<p>&nbsp;</p>
+<p><strong>2017</strong></p>
+<p>
+	Barbosa, Nicol&aacute;s and Carlos Pittella (2017). &ldquo;The Website of Disquiet: The First Online Critical Edition of Fernando Pessoa.&rdquo; 
+	<em>Pessoa Plural: A Journal of Fernando Pessoa Studies.</em> 12: 725-732. <br />
+	URL: <a href="https://doi.org/10.7301/Z07S7KZD" target="_new">
+	https://doi.org/10.7301/Z07S7KZD</a> </p>
+</p>
+<p>
+	Cipriano, Rita (2017). &ldquo;O Arquivo digital do &ldquo;Livro do Desassossego&rdquo; j&aacute; est&aacute; online. E tem muitas hist&oacute;rias para contar.&rdquo; 
+	<em>Observador.</em> 13 de dezembro de 2017. <br />
+	URL: <a href="https://observador.pt/2017/12/13/o-arquivo-digital-do-livro-do-desassossego-ja-esta-online-e-tem-muitas-historias-para-contar" target="_new">
+	https://observador.pt/2017/12/13/o-arquivo-digital-do-livro-do-desassossego-ja-esta-online-e-tem-muitas-historias-para-contar</a></p>
+<p>
+	Queir&oacute;s, Lu&iacute;s Miguel (2017). &ldquo;Um arquivo digital do <em>Livro do Desassossego</em> para ler e mexer.&rdquo; 
+	<em>P&uacute;blico.</em> 14 de dezembro de 2017, p. 24. <br />
+	URL: <a href="https://www.publico.pt/2017/12/14/culturaipsilon/noticia/um-arquivo-digital-do-livro-do-desassossego-para-ler-e-mexer-1795920" target="_new">
+	https://www.publico.pt/2017/12/14/culturaipsilon/noticia/um-arquivo-digital-do-livro-do-desassossego-para-ler-e-mexer-1795920</a></p>
+
+<p>&nbsp;</p>
+<p><strong>2018</strong></p>
+<p> 
+	Aldabalde, Taiguara Villela, and Carlos Pittella (2018). &ldquo;A trajetividade do Pessoa digital: contributos para uma hist&oacute;ria do esp&oacute;lio pessoano.&rdquo; 
+	Fernando Ilharco, Peter Hanenberg, and Mar&iacute;lia dos Santos Lopes (eds.), <em>Patrim&oacute;nio Cultural e Transforma&ccedil;&atilde;o Digital</em>. 
+	Lisboa: Universidade Cat&oacute;lica Editora. 102-130.</p>
+
+<p>&nbsp;</p>
 <p>
 <p>[updated 31-07-2020]</p>
