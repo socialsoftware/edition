@@ -212,7 +212,7 @@
   	criatividade no </em>Arquivo LdoD. Coimbra: Universidade de Coimbra. PhD thesis in Materialities of Literature [in progress]. </p>
 
 <p>&nbsp;</p>
-<p><strong>2018</strong> </p>
+<p><strong>2018</strong></p>
 <p>
 	Oliveira, Duarte (2018). <em>Automatic Collection of Citations in the <em>LdoD Archive</em></em>. 
 	Lisboa: Instituto Superior T&eacute;cnico da Universidade de Lisboa. MA thesis in Information Systems and Computer Engineering. <br/>
@@ -863,5 +863,5 @@
 	Lisboa: Universidade Cat&oacute;lica Editora. 102-130.</p>
 
 <p>&nbsp;</p>
-<p>
+<p>&nbsp;</p>
 <p>[updated 10-08-2020]</p>
