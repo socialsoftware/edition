@@ -1,18 +1,11 @@
 <h4>
 	<ul>
-		<li><a href="#Q01Q">A. Art&iacute;culos sobre el <em>Archivo
-	  LdoD</em></a></li>
+		<li><a href="#Q01Q">A. Art&iacute;culos sobre el <em>Archivo LdoD</em></a></li>
 		<li><a href="#Q02Q">B. Tesis sobre el <em>Archivo LdoD</em></a></li>
-		<li><a href="#Q03Q">C. Otros art&iacute;culos producidos por
-	  el equipo del proyecto</a></li>
-		<li><a href="#Q04Q">D. Art&iacute;culos seleccionados sobre
-				el <em>Libro del desasosiego</em>
-		</a></li>
-		<li><a href="#Q05Q">E. Principales ediciones del <em>Libro
-					del desasosiego</em> (1982-2017)
-		</a></li>
-		<li><a href="#Q06Q">F. Recepci&oacute;n cr&iacute;tica del <em>Archivo LdoD</em>
-		</a></li>
+		<li><a href="#Q03Q">C. Otros art&iacute;culos producidos por el equipo del proyecto</a></li>
+		<li><a href="#Q04Q">D. Art&iacute;culos seleccionados sobre el <em>Libro del desasosiego</em></a></li>
+		<li><a href="#Q05Q">E. Principales ediciones del <em>Libro del desasosiego</em> (1982-2017)</a></li>
+		<li><a href="#Q06Q">F. Recepci&oacute;n cr&iacute;tica del <em>Archivo LdoD</em></a></li>
 	</ul>
 </h4>
 
@@ -836,42 +829,34 @@
 	<strong>&nbsp;</strong>
 </p>
 <h3 id="Q06Q" style="padding-top: 60px; margin-top: -60px;">
-	F. Recepci&oacute;n cr&iacute;tica del <em>Archivo LdoD</em>
-</h3>
-</p>
-<strong>&nbsp;</strong>
+	F. Recepci&oacute;n cr&iacute;tica del <em>Archivo LdoD</em></h3>
+<p>&nbsp;</p>
+<p><strong>2017</strong></p>
 <p>
-	<p>
-	<strong>2017</strong>
-</p>
-<p>Barbosa, Nicol&aacute;s and Carlos Pittella (2017). &ldquo;The Website of Disquiet: The First Online Critical Edition of Fernando Pessoa.&rdquo;
-	<em>Pessoa Plural: A Journal of Fernando Pessoa Studies.</em> 12: 725-732. 
-	<br />URL: <a
-		href="https://doi.org/10.7301/Z07S7KZD" target="_new">
-	https://doi.org/10.7301/Z07S7KZD</a> 
-</p>
-<p>Cipriano, Rita (2017). &ldquo;O Arquivo digital do &ldquo;Livro do Desassossego&rdquo; j&aacute; est&aacute; online. E tem muitas hist&oacute;rias para contar.&rdquo; 
-	<em>Observador.</em> 13 de dezembro de 2017. 
-	<br />URL: <a
-		href="https://observador.pt/2017/12/13/o-arquivo-digital-do-livro-do-desassossego-ja-esta-online-e-tem-muitas-historias-para-contar" target="_new">
-	https://observador.pt/2017/12/13/o-arquivo-digital-do-livro-do-desassossego-ja-esta-online-e-tem-muitas-historias-para-contar</a> 
-</p>
-<p>Queir&oacute;s, Lu&iacute;s Miguel (2017). &ldquo;Um arquivo digital do <em>Livro do Desassossego</em> para ler e mexer.&rdquo; 
-	<em>P&uacute;blico.</em> 14 de dezembro de 2017, p. 24. 
-	<br />URL: <a
-		href="https://www.publico.pt/2017/12/14/culturaipsilon/noticia/um-arquivo-digital-do-livro-do-desassossego-para-ler-e-mexer-1795920" target="_new">
-	https://www.publico.pt/2017/12/14/culturaipsilon/noticia/um-arquivo-digital-do-livro-do-desassossego-para-ler-e-mexer-1795920</a> 
+	Barbosa, Nicol&aacute;s and Carlos Pittella (2017). &ldquo;The Website of Disquiet: The First Online Critical Edition of Fernando Pessoa.&rdquo; 
+	<em>Pessoa Plural: A Journal of Fernando Pessoa Studies.</em> 12: 725-732. <br />
+	URL: <a href="https://doi.org/10.7301/Z07S7KZD" target="_new">
+	https://doi.org/10.7301/Z07S7KZD</a> </p>
 </p>
 <p>
-	<strong>2018</strong>
-</p>
-	<p> Aldabalde, Taiguara Villela, and Carlos Pittella (2018).  &ldquo;A trajetividade do Pessoa digital: contributos para uma hist&oacute;ria do esp&oacute;lio pessoano.&rdquo; 
-		Fernando Ilharco, Peter Hanenberg, and Mar&iacute;lia dos Santos Lopes (eds.), <em>Patrim&oacute;nio Cultural e Transforma&ccedil;&atilde;o Digital</em>. 
-		Lisboa: Universidade Cat&oacute;lica Editora. 102-130.</p>
+	Cipriano, Rita (2017). &ldquo;O Arquivo digital do &ldquo;Livro do Desassossego&rdquo; j&aacute; est&aacute; online. E tem muitas hist&oacute;rias para contar.&rdquo; 
+	<em>Observador.</em> 13 de dezembro de 2017. <br />
+	URL: <a href="https://observador.pt/2017/12/13/o-arquivo-digital-do-livro-do-desassossego-ja-esta-online-e-tem-muitas-historias-para-contar" target="_new">
+	https://observador.pt/2017/12/13/o-arquivo-digital-do-livro-do-desassossego-ja-esta-online-e-tem-muitas-historias-para-contar</a></p>
+<p>
+	Queir&oacute;s, Lu&iacute;s Miguel (2017). &ldquo;Um arquivo digital do <em>Livro do Desassossego</em> para ler e mexer.&rdquo; 
+	<em>P&uacute;blico.</em> 14 de dezembro de 2017, p. 24. <br />
+	URL: <a href="https://www.publico.pt/2017/12/14/culturaipsilon/noticia/um-arquivo-digital-do-livro-do-desassossego-para-ler-e-mexer-1795920" target="_new">
+	https://www.publico.pt/2017/12/14/culturaipsilon/noticia/um-arquivo-digital-do-livro-do-desassossego-para-ler-e-mexer-1795920</a></p>
 
-<strong>&nbsp;</strong>
-<p>
-<strong>&nbsp;</strong>
-<p>
-<p>[actualizaci&oacute;n 31-07-2020]</p>
+<p>&nbsp;</p>
+<p><strong>2018</strong></p>
+<p> 
+	Aldabalde, Taiguara Villela, and Carlos Pittella (2018). &ldquo;A trajetividade do Pessoa digital: contributos para uma hist&oacute;ria do esp&oacute;lio pessoano.&rdquo; 
+	Fernando Ilharco, Peter Hanenberg, and Mar&iacute;lia dos Santos Lopes (eds.), <em>Patrim&oacute;nio Cultural e Transforma&ccedil;&atilde;o Digital</em>. 
+	Lisboa: Universidade Cat&oacute;lica Editora. 102-130.</p>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>[actualizaci&oacute;n 10-08-2020]</p>
 
