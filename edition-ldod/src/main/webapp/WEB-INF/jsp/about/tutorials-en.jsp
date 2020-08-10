@@ -145,7 +145,7 @@ a better understanding of the materials and interactions available in each inter
 <p>&nbsp;</p>
 <p><strong>2017</strong> </p>
 	<p>Manuel Portela and Cec&iacute;lia Magalh&atilde;es, &ldquo;Desassossego Remix 1&rdquo;, 26/11/2017, 19:00-22:00, 
-		Rep&iacute;blica dos Kapangas, Coimbra. </p> 
+		Rep&uacute;blica dos Kapangas, Coimbra. </p> 
 
 <p>&nbsp;</p>
 <p> <strong>2018</strong> </p>
@@ -154,7 +154,10 @@ a better understanding of the materials and interactions available in each inter
 		Creative Writing Workshop, Silves.</p> 
 
 	<p>Manuel Portela, &ldquo;Desassossego Remix 2&rdquo; 26/05/2018, 9:00-13:00, 
-		Escola Secund&aacute;ria de Cantanhede. </p> 
+		Escola Secund&aacute;ria de Lima-de-Faria, Cantanhede, no &acirc;mbito da a&ccedil;&atilde;o de forma&ccedil;&atilde;o 
+		&ldquo;Projeto de leitura: da conce&ccedil;&atilde;o &agrave; avalia&ccedil;&atilde;o&rdquo; 
+		(formadoras: Isilda Marques e Silv&eacute;ria Ramos), organizado pelo Centro de Forma&ccedil;&atilde;o de Associa&ccedil;&atilde;o de Escolas Beira Mar 
+		(Figueira da Foz, Cantanhede, Montemor-o-Velho, Mira).</p> 
 
 	<p>Manuel Portela and Cec&iacute;lia Magalh&atilde;es, &ldquo;Desassossego Remix 3&rdquo; 7/09/2018, 14:00-19:00, 
 		Escola Secund&aacute;ria Cristina Torres, Figueira da Foz.</p> 
@@ -171,7 +174,7 @@ a better understanding of the materials and interactions available in each inter
 	<p>Manuel Portela, &ldquo;Desassossego Remix 5: Arquivo LdoD&rdquo;, 13/06/2019, 14:30-17:30, 
 		Centro de Investiga&ccedil;&atilde;o em Artes e Comunica&ccedil;&atilde;o-CIAC, Universidade do Algarve.</p>
 
-	<p>Cec&iacute;lia Magalh&atilde;es (com Nuno Meireles). &ldquo;Fragmentos em Pr&aacute;tica: 
+	<p>Cec&iacute;lia Magalh&atilde;es (with Nuno Meireles). &ldquo;Fragmentos em Pr&aacute;tica: 
 		uma introdu&ccedil;&atilde;o din&acirc;mica ao <em>Arquivo LdoD</em>&rdquo;, 
 		13/06/2019, Faculdade de Letras da Universidade de Coimbra.
 
@@ -210,7 +213,10 @@ a better understanding of the materials and interactions available in each inter
 <p>&nbsp;</p>
 <p><strong>2020</strong> </p>
 	<p>Manuel Portela, &ldquo;Desassossego Remix 6&rdquo; 01/02/2020, 9:00-13:00, 
-		Escola B&aacute;sica de Cantanhede.</p> 
+		Escola B&aacute;sica Marqu&ecirc;s de Marialva, Cantanhede, no &acirc;mbito da a&ccedil;&atilde;o de forma&ccedil;&atilde;o 
+		&ldquo;Projeto de leitura: da conce&ccedil;&atilde;o &agrave; avalia&ccedil;&atilde;o&rdquo; 
+		(formadoras: Isilda Marques e Silv&eacute;ria Ramos), organizado pelo Centro de Forma&ccedil;&atilde;o de Associa&ccedil;&atilde;o de Escolas Beira Mar 
+		(Figueira da Foz, Cantanhede, Montemor-o-Velho, Mira). </p> 
 
 	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Sess&otilde;es Online Arquivo LdoD: 1. Introdu&ccedil;&atilde;o ao Arquivo LdoD&rdquo;, 13/05/2020, 20h00-21h30.</p>
 
