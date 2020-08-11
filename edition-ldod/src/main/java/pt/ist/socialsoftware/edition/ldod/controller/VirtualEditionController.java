@@ -675,6 +675,7 @@ public class VirtualEditionController {
 		logger.debug("removeClassificationGame externalId: {}, gameExternalId: {}", externalId, gameExternalId);
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		ClassificationGame game = FenixFramework.getDomainObject(gameExternalId);
+
 		if (virtualEdition == null || game == null) {
 			return "redirect:/error";
 		} else {
@@ -683,7 +684,6 @@ public class VirtualEditionController {
 			} else {
 				throw new LdoDException("Cannot remove finished game");
 			}
-
 			return "redirect:/virtualeditions/restricted/" + externalId + "/classificationGame";
 		}
 	}
