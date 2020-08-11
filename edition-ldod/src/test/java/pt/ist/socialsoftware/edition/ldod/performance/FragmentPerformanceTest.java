@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.performance;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,10 +13,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.FragmentController;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
+
+import java.io.FileNotFoundException;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -28,6 +33,23 @@ public class FragmentPerformanceTest {
 
     @InjectMocks
     FragmentController fragmentController;
+
+    @BeforeAll
+    @Atomic(mode = TxMode.WRITE)
+    public static void setUpAll() throws FileNotFoundException {
+        TestLoadUtils.setUpDatabaseWithCorpus();
+
+        String[] fragments = {"001.xml", "002.xml", "003.xml"};
+        TestLoadUtils.loadFragments(fragments);
+
+        TestLoadUtils.loadTestVirtualEdition();
+    }
+
+    @AfterAll
+    @Atomic(mode = TxMode.WRITE)
+    public static void tearDownAll() {
+        TestLoadUtils.cleanDatabaseButCorpus();
+    }
 
     @BeforeEach
     public void setUp() {
@@ -49,7 +71,7 @@ public class FragmentPerformanceTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getFragInterByExternalId() throws Exception {
         for (int i = 0; i < 1; i++) {
-            this.mockMvc.perform(get("/fragments/fragment/Fr381/inter/Fr381_WIT_ED_CRIT_Z")).andDo(print())
+            this.mockMvc.perform(get("/fragments/fragment/Fr002/inter/Fr002_WIT_ED_CRIT_Z")).andDo(print())
                     .andExpect(status().isOk());
         }
     }

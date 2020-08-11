@@ -302,7 +302,7 @@ public class FragmentTest {
         map = mapper.readValue(response, new TypeReference<Map<String, Object>>() {
         });
 
-        assertEquals(0, map.get("total"));
+        assertEquals(4, map.get("total"));
     }
 
 
