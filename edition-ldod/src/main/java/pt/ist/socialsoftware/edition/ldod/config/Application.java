@@ -18,6 +18,7 @@ import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 import pt.ist.socialsoftware.edition.ldod.security.LdoDSignInAdapter;
 import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
+import pt.ist.socialsoftware.edition.ldod.utils.Emailer;
 
 @PropertySource({ "classpath:application.properties", "classpath:specific.properties", "classpath:secrete.properties" })
 @ComponentScan(basePackages = "pt.ist.socialsoftware.edition")
@@ -43,6 +44,11 @@ public class Application extends SpringBootServletInitializer implements Initial
 	public SignInAdapter signInAdapter() {
 		return new LdoDSignInAdapter(new HttpSessionRequestCache());
 	}
+
+//	@Bean
+//	public Emailer emailer() {
+//		return new Emailer();
+//	}
 
 	@Bean(name = "messageSource")
 	public ReloadableResourceBundleMessageSource reloadableResourceBundleMessageSource() {

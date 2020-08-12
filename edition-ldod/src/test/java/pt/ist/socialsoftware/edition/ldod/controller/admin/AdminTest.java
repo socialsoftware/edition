@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.controller.admin;
 
+import org.joda.time.LocalDate;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -10,6 +11,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -19,9 +21,7 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.AdminController;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.Role;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.export.UsersXMLExport;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.forms.EditUserForm;
@@ -91,7 +91,6 @@ public class AdminTest {
 
     @Test
     public void getLoadFormTest() throws Exception {
-
         this.mockMvc.perform(get("/admin/loadForm"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -178,18 +177,15 @@ public class AdminTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getFragmentDeleteListTest() throws Exception {
-
         this.mockMvc.perform(get("/admin/fragment/list")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/deleteFragment"))
                 .andExpect(model().attribute("fragments", notNullValue()));
-
     }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteFragmentTest() throws Exception {
-
         TestLoadUtils.loadCorpus();
         String[] fragments = {"001.xml"};
         TestLoadUtils.loadFragments(fragments);
@@ -219,7 +215,6 @@ public class AdminTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteAllFragmentsTest() throws Exception {
-
         TestLoadUtils.loadCorpus();
         String[] fragments = {"001.xml", "002.xml", "003.xml"};
         TestLoadUtils.loadFragments(fragments);
@@ -271,9 +266,9 @@ public class AdminTest {
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
+  //  @WithUserDetails("ars")
     public void deleteUserSessionsTest() throws Exception {
         when(sessionRegistry.getAllPrincipals()).thenReturn(new ArrayList<>());
-
         this.mockMvc.perform(post("/admin/sessions/delete"))
                 .andDo(print())
                 .andExpect(redirectedUrl("/admin/user/list"));
@@ -281,8 +276,8 @@ public class AdminTest {
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
     public void getUserListTest() throws Exception {
-
         this.mockMvc.perform(get("/admin/user/list")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/listUsers"))
@@ -616,6 +611,13 @@ public class AdminTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteVirtualEditionTest() throws Exception {
+        TestLoadUtils.setUpDatabaseWithCorpus();
+
+        String[] fragments = {"001.xml"};
+        TestLoadUtils.loadFragments(fragments);
+
+        TestLoadUtils.loadTestVirtualEdition();
+
         this.mockMvc.perform(post("/admin/virtual/delete")
                 .param("externalId", LdoD.getInstance().getArchiveEdition().getExternalId()))
                 .andDo(print())
@@ -629,6 +631,13 @@ public class AdminTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteVirtualEditionErrorTest() throws Exception {
+        TestLoadUtils.setUpDatabaseWithCorpus();
+
+        String[] fragments = {"001.xml"};
+        TestLoadUtils.loadFragments(fragments);
+
+        TestLoadUtils.loadTestVirtualEdition();
+
         this.mockMvc.perform(post("/admin/virtual/delete")
                 .param("externalId", "ERROR"))
                 .andDo(print())
@@ -655,10 +664,21 @@ public class AdminTest {
 
     }
 
-
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void manageTweetsTest() throws Exception {
+        TestLoadUtils.setUpDatabaseWithCorpus();
+
+        String[] fragments = {"001.xml"};
+        TestLoadUtils.loadFragments(fragments);
+
+        TestLoadUtils.loadTestVirtualEdition();
+
+        TwitterCitation twitterCitation = new TwitterCitation(LdoD.getInstance().getFragmentByXmlId("Fr001"),
+                "A", "B", "C", "D", 23,"E", "F", "ars", "H", "I");
+        new Tweet(LdoD.getInstance(), "sourceLink", "12/12/2020", "tweetText", 34,  "location",
+                "country", "ars", "profURL","profImgURL", -1,  false, twitterCitation);
+
         this.mockMvc.perform(get("/admin/tweets")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/manageTweets"))
@@ -670,6 +690,18 @@ public class AdminTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteTweetsTest() throws Exception {
+        TestLoadUtils.setUpDatabaseWithCorpus();
+
+        String[] fragments = {"001.xml"};
+        TestLoadUtils.loadFragments(fragments);
+
+        TestLoadUtils.loadTestVirtualEdition();
+
+        TwitterCitation twitterCitation = new TwitterCitation(LdoD.getInstance().getFragmentByXmlId("Fr001"),
+                "A", "B", "C", "D", 23,"E", "F", "ars", "H", "I");
+        new Tweet(LdoD.getInstance(), "sourceLink", "12/12/2020", "tweetText", 34,  "location",
+                "country", "ars", "profURL","profImgURL", -1,  false, twitterCitation);
+
 
         this.mockMvc.perform(post("/admin/tweets/removeTweets"))
                 .andDo(print())
@@ -677,6 +709,31 @@ public class AdminTest {
                 .andExpect(redirectedUrl("/admin/tweets"));
 
         assertEquals(0, LdoD.getInstance().getTweetSet().size());
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void generateCitationsTest() throws Exception {
+        TestLoadUtils.setUpDatabaseWithCorpus();
+
+        String[] fragments = {"001.xml"};
+        TestLoadUtils.loadFragments(fragments);
+
+        TestLoadUtils.loadTestVirtualEdition();
+
+        VirtualEdition ldoDArchiveEdition = new VirtualEdition(LdoD.getInstance(), LdoD.getInstance().getUser("Twitter"), LdoD.TWITTER_EDITION_ACRONYM,
+               "Twitter", new LocalDate(), true, null);
+
+        TwitterCitation twitterCitation = new TwitterCitation(LdoD.getInstance().getFragmentByXmlId("Fr001"),
+                "A", "B", "C", "D", 23,"E", "F", "ars", "H", "I");
+        new Tweet(LdoD.getInstance(), "sourceLink", "12/12/2020", "tweetText", 34,  "location",
+                "country", "ars", "profURL","profImgURL", -1,  false, twitterCitation);
+
+
+        this.mockMvc.perform(post("/admin//tweets/generateCitations"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/admin/tweets"));
     }
 
 }

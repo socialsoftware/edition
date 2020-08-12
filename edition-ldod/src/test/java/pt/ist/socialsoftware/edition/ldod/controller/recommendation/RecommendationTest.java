@@ -26,9 +26,7 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.controller.RecommendationController;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.ldod.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
@@ -56,6 +54,10 @@ public class RecommendationTest {
 
         String[] fragments = { "001.xml", "002.xml", "003.xml" };
         TestLoadUtils.loadFragments(fragments);
+
+        TestLoadUtils.loadVirtualEditionsCorpus();
+        String[] virtualEditionFragments = {"virtual-Fr001.xml", "virtual-Fr002.xml", "virtual-Fr003.xml"};
+        TestLoadUtils.loadVirtualEditionFragments(virtualEditionFragments);
     }
 
     @AfterAll
@@ -91,7 +93,7 @@ public class RecommendationTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
-    public void getIntersByDistanceTest() throws Exception {
+    public void getIntersByDistanceVirtualEditionTest() throws Exception {
 
         VirtualEditionInter vi = LdoD.getInstance().getVirtualEdition(Edition.ARCHIVE_EDITION_ACRONYM)
                 .getAllDepthVirtualEditionInters().get(1);
@@ -103,11 +105,11 @@ public class RecommendationTest {
         dto.setTextWeight(0.0f);
 
         String res = this.mockMvc.perform(post("/recommendation/{externalId}/intersByDistance",vi.getExternalId())
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .content(TestLoadUtils.jsonBytes(dto)))
-                    .andDo(print())
-                    .andExpect(status().isOk())
-                    .andExpect(content().string(not(""))).andReturn().getResponse().getContentAsString();
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(TestLoadUtils.jsonBytes(dto)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(not(""))).andReturn().getResponse().getContentAsString();
 
         res = res.replace("[","").replace("]","")
                 .replace("},{","};{");
@@ -125,7 +127,8 @@ public class RecommendationTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
-    public void getIntersByDistanceErrorTest() throws Exception {
+    public void getIntersByDistanceExpertEditionTest() throws Exception {
+        ExpertEditionInter vi = LdoD.getInstance().getJPEdition().getFirstInterpretation();
 
         WeightsDto dto = new WeightsDto();
         dto.setDateWeight(0.0f);
@@ -133,8 +136,38 @@ public class RecommendationTest {
         dto.setTaxonomyWeight(0.0f);
         dto.setTextWeight(0.0f);
 
+        String res = this.mockMvc.perform(post("/recommendation/{externalId}/intersByDistance",vi.getExternalId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(TestLoadUtils.jsonBytes(dto)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(not(""))).andReturn().getResponse().getContentAsString();
+
+        res = res.replace("[","").replace("]","")
+                .replace("},{","};{");
+
+        String[] frags = res.split(";");
+        System.out.println(res);
+        assertEquals(2, frags.length);
+        ObjectMapper mapper = new ObjectMapper();
+        for (int i = 0; i < 2; i++) {
+            InterIdDistancePairDto pair = mapper.readValue(frags[i], InterIdDistancePairDto.class);
+            assertTrue(pair.getDistance() >= 0.0);
+        }
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void getIntersByDistanceErrorTest() throws Exception {
+        WeightsDto dto = new WeightsDto();
+        dto.setDateWeight(0.0f);
+        dto.setHeteronymWeight(0.0f);
+        dto.setTaxonomyWeight(0.0f);
+        dto.setTextWeight(0.0f);
+
         this.mockMvc.perform(post("/recommendation/{externalId}/intersByDistance","ERROR")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(TestLoadUtils.jsonBytes(dto)))
                 .andDo(print())
                 .andExpect(status().is4xxClientError())
@@ -145,15 +178,14 @@ public class RecommendationTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void setLinearTest() throws Exception {
-
         VirtualEditionInter vi = LdoD.getInstance().getVirtualEdition(Edition.ARCHIVE_EDITION_ACRONYM)
-                .getAllDepthVirtualEditionInters().get(1);
+                .getAllDepthVirtualEditionInters().get(0);
 
         RecommendVirtualEditionParam paramn = new RecommendVirtualEditionParam(Edition.ARCHIVE_EDITION_ACRONYM,
                 vi.getExternalId(), new ArrayList<>());
 
         this.mockMvc.perform(post("/recommendation/linear")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(TestLoadUtils.jsonBytes(paramn)))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -166,12 +198,19 @@ public class RecommendationTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void saveLinearTest() throws Exception {
+        VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(Edition.ARCHIVE_EDITION_ACRONYM);
+
+        String[] inter = virtualEdition.getAllDepthVirtualEditionInters().stream()
+                .map(VirtualEditionInter::getExternalId)
+                .sorted()
+                .toArray(String[]::new);
 
         this.mockMvc.perform(post("/recommendation/linear/save")
-                    .param("acronym", Edition.ARCHIVE_EDITION_ACRONYM))
-                    .andDo(print())
-                    .andExpect(status().is3xxRedirection())
-                    .andExpect(redirectedUrl("/recommendation/restricted/" +
+                .param("acronym", Edition.ARCHIVE_EDITION_ACRONYM)
+                .param("inter[]", inter))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/recommendation/restricted/" +
                             LdoD.getInstance().getEdition(Edition.ARCHIVE_EDITION_ACRONYM).getExternalId()));
     }
 
@@ -179,13 +218,20 @@ public class RecommendationTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void createLinearTest() throws Exception {
+        VirtualEdition virtualEdition = LdoD.getInstance().getVirtualEdition(Edition.ARCHIVE_EDITION_ACRONYM);
+
+        String[] inter = virtualEdition.getAllDepthVirtualEditionInters().stream()
+                .map(VirtualEditionInter::getExternalId)
+                .sorted()
+                .toArray(String[]::new);
 
         this.mockMvc.perform(post("/recommendation/linear/create")
-                    .param("acronym", "temp")
-                    .param("title","Temp")
-                    .param("pub","true")
-                    .param("inter[]", ""))
-                    .andDo(print())
-                    .andExpect(status().is3xxRedirection());
+                .param("acronym", "temp")
+                .param("title","Temp")
+                .param("pub","true")
+                .param("inter[]", inter))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection());
     }
+
 }
