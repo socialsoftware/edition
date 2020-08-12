@@ -70,7 +70,6 @@ public class FragmentTest {
     @AfterEach
     @Atomic(mode = TxMode.WRITE)
     public void tearDown() {
-
         Set<FragInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
 
         List<FragInter> frags = new ArrayList<>(fragInterSet);
@@ -83,7 +82,6 @@ public class FragmentTest {
             HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotations()).get(0);
             a.remove();
         }
-
     }
 
     @Test
@@ -104,11 +102,44 @@ public class FragmentTest {
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public void getFragInterFromId() throws Exception {
+    public void getFragInterFromIdScholar() throws Exception {
         this.mockMvc.perform(get("/fragments/fragment/{xmlId}/inter/{urlId}", "Fr001", "Fr001_WIT_MS_Fr001a_1"))
                 .andDo(print()).andExpect(status().isOk()).andExpect(view().name("fragment/main"))
                 .andExpect(model().attribute("fragment", notNullValue()))
                 .andExpect(model().attribute("inters", notNullValue()));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void getFragInterFromIdVirtual() throws Exception {
+        VirtualEditionInter inter = LdoD.getInstance().getFragmentByXmlId("Fr001").getVirtualEditionInters().stream().findAny().get();
+
+        this.mockMvc.perform(get("/fragments/fragment/{xmlId}/inter/{urlId}", "Fr001", inter.getUrlId()))
+                .andDo(print()).andExpect(status().isOk()).andExpect(view().name("fragment/main"))
+                .andExpect(model().attribute("fragment", notNullValue()))
+                .andExpect(model().attribute("inters", notNullValue()));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void getNextFragmentWithInter() throws Exception {
+        ExpertEditionInter inter = LdoD.getInstance().getFragmentByXmlId("Fr001").getExpertEditionInterSet().stream().findAny().get();
+
+        this.mockMvc.perform(get("/fragments/fragment/{xmlId}/inter/{urlId}/next", "Fr001", inter.getUrlId()))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("/fragments/fragment/*/inter/*"));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void getPrevFragmentWithInter() throws Exception {
+        ExpertEditionInter inter = LdoD.getInstance().getFragmentByXmlId("Fr001").getExpertEditionInterSet().stream().findAny().get();
+
+        this.mockMvc.perform(get("/fragments/fragment/{xmlId}/inter/{urlId}/prev", "Fr001", inter.getUrlId()))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("/fragments/fragment/*/inter/*"));
     }
 
     @Test
@@ -133,7 +164,8 @@ public class FragmentTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getFragInterByExternalIdError() throws Exception {
         this.mockMvc.perform(get("/fragments/fragment/inter/{externalId}", "ERROR")).andDo(print())
-                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/error"));
     }
 
     @Test
@@ -168,12 +200,16 @@ public class FragmentTest {
     @Test
     @Atomic(mode = TxMode.WRITE)
     @WithUserDetails("ars")
-    public void getInterTest() throws Exception {
-
+    public void getInterOneTest() throws Exception {
         Fragment frag = LdoD.getInstance().getFragmentByXmlId("Fr001");
 
+        String[] inters = {
+                frag.getSortedInterps().get(0).getExternalId()
+        };
+
         this.mockMvc.perform(get("/fragments/fragment/inter")
-                .param("fragment", frag.getExternalId()))
+                .param("fragment", frag.getExternalId())
+                .param("inters[]", inters))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("fragment/main"))
@@ -181,7 +217,30 @@ public class FragmentTest {
                 .andExpect(model().attribute("fragment", notNullValue()))
                 .andExpect(model().attribute("user", notNullValue()))
                 .andExpect(model().attribute("inters", notNullValue()));
+    }
 
+    @Test
+    @Atomic(mode = TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void getInterThreeTest() throws Exception {
+        Fragment frag = LdoD.getInstance().getFragmentByXmlId("Fr001");
+
+        String[] inters = {
+                frag.getSortedInterps().get(0).getExternalId(),
+                frag.getSortedInterps().get(1).getExternalId(),
+                frag.getSortedInterps().get(2).getExternalId()
+        };
+
+        this.mockMvc.perform(get("/fragments/fragment/inter")
+                .param("fragment", frag.getExternalId())
+                .param("inters[]", inters))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("fragment/main"))
+                .andExpect(model().attribute("ldoD", notNullValue()))
+                .andExpect(model().attribute("fragment", notNullValue()))
+                .andExpect(model().attribute("user", notNullValue()))
+                .andExpect(model().attribute("inters", notNullValue()));
     }
 
     @Test
