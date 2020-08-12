@@ -43,9 +43,9 @@ public class SignupTest extends ControllersTestWithFragmentsLoading {
 
     @Mock
     PasswordEncoder passwordEncoder;
-
-    @Mock
-    RegistrationToken registrationToken;
+//
+//    @Mock
+//    Emailer emailer;
 
     @InjectMocks
     SignupController signupController;
@@ -84,8 +84,6 @@ public class SignupTest extends ControllersTestWithFragmentsLoading {
         this.mockMvc = MockMvcBuilders.standaloneSetup(getController()).setViewResolvers(viewResolver)
                 .setControllerAdvice(new LdoDExceptionHandler())
                 .addFilters(new TransactionFilter()).build();
-
-
     }
 
     @Test
@@ -101,6 +99,7 @@ public class SignupTest extends ControllersTestWithFragmentsLoading {
     public void performSignupTest() throws Exception {
         when(passwordEncoder.matches(anyString(),anyString())).thenReturn(true);
         when(passwordEncoder.encode(anyString())).thenReturn(anyString());
+     //   doNothing().when(emailer.sendEmail(anyString(),anyString(),anyString(),anyString()));
 
         this.mockMvc.perform(post("/signup")
                 .param("username", "temp")

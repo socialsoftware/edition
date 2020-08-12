@@ -184,6 +184,8 @@
                         <excludes>
                             <exclude>pt/ist/fenixframework/**/*</exclude>
                             <exclude>pt/ist/socialsoftware/edition/ldod/domain/*_Base.*</exclude>
+                            <exclude>pt/ist/socialsoftware/edition/ldod/domain/*.callable.*.*</exclude>
+                            <exclude>pt/ist/socialsoftware/edition/ldod/domain/*_Base.DO_State.*</exclude>
                         </excludes>
                     </configuration>
                     <executions>

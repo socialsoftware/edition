@@ -177,7 +177,7 @@ public class VirtualEditionTest {
 	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	@WithUserDetails("ars")
-	public void editVirtualEditionTest() throws Exception {
+	public void editVirtualEditionIsSAVETest() throws Exception {
 		VirtualEdition testEdition = LdoD.getInstance().getVirtualEdition(VirtualEdition.ACRONYM_PREFIX + "Teste");
 
 		this.mockMvc
@@ -190,6 +190,36 @@ public class VirtualEditionTest {
 						.param("vocabulary", "true")
 						.param("annotation", "true")
 						.param("mediasource", "Twitter")
+						.param("begindate", "")
+						.param("enddate", "")
+						.param("geolocation", "Spain")
+						.param("frequency", "45")
+				)
+				.andDo(print())
+				.andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/virtualeditions/restricted/manage/" + testEdition.getExternalId()));
+
+		assertEquals("Title", testEdition.getTitle());
+		assertFalse(testEdition.getPub());
+		assertEquals("Synopsis", testEdition.getSynopsis());
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void editVirtualEditionIsNotSAVETest() throws Exception {
+		VirtualEdition testEdition = LdoD.getInstance().getVirtualEdition(VirtualEdition.ACRONYM_PREFIX + "Teste");
+
+		this.mockMvc
+				.perform(post("/virtualeditions/restricted/edit/{externalId}", testEdition.getExternalId())
+						.param("acronym", "Teste")
+						.param("title", "Title")
+						.param("synopsis", "Synopsis")
+						.param("pub", "false")
+						.param("management", "true")
+						.param("vocabulary", "true")
+						.param("annotation", "true")
+						.param("mediasource", "noMediaSource")
 						.param("begindate", "")
 						.param("enddate", "")
 						.param("geolocation", "Spain")

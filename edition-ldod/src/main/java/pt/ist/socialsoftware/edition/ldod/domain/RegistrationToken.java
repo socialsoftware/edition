@@ -7,14 +7,17 @@ import javax.servlet.http.HttpServletRequest;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken_Base;
 import pt.ist.socialsoftware.edition.ldod.utils.Emailer;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
 public class RegistrationToken extends RegistrationToken_Base {
 	private static final int EXPIRATION = 1440;
+
+//	@Autowired
+//	private Emailer emailer;
 
 	public RegistrationToken(String token, LdoDUser user) {
 		setUser(user);
@@ -54,7 +57,8 @@ public class RegistrationToken extends RegistrationToken_Base {
 				+ request.getContextPath();
 		String authorizationUrl = path + "/signup/registrationAuthorization?token=" + getToken();
 
-		Emailer.sendEmail(recipientAddress, subject,
+		Emailer emailer = new Emailer();
+		emailer.sendEmail(recipientAddress, subject,
 				"Autorize o registo no arquivo do LdoD do utilizador " + getUser().getFirstName() + " "
 						+ getUser().getLastName() + " com username " + getUser().getUsername()
 						+ " com o endereço de email " + getUser().getEmail() + " nesta ligação <a href=\""
@@ -71,7 +75,8 @@ public class RegistrationToken extends RegistrationToken_Base {
 				+ request.getContextPath();
 		String confirmationUrl = path + "/signup/registrationConfirm?token=" + getToken();
 
-		Emailer.sendEmail(recipientAddress, subject,
+		Emailer emailer = new Emailer();
+		emailer.sendEmail(recipientAddress, subject,
 				"Confirme o registo no arquivo do LdoD do utilizador " + getUser().getUsername()
 						+ " com o endereço de email " + getUser().getEmail() + " nesta ligação <a href=\""
 						+ confirmationUrl + "\">" + confirmationUrl + "</a>",

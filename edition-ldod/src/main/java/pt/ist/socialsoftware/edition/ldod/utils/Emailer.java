@@ -2,6 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -15,7 +16,7 @@ import java.util.Properties;
 public class Emailer {
     private static final Logger logger = LoggerFactory.getLogger(Emailer.class);
 
-    public static void sendEmail(String to, String subject, String msg, String from)
+    public void sendEmail(String to, String subject, String msg, String from)
             throws AddressException, MessagingException {
         Properties properties = setMailProperties();
 
@@ -26,7 +27,7 @@ public class Emailer {
         sendMessage(getMailSession, generateMailMessage);
     }
 
-    private static void sendMessage(Session getMailSession, Message generateMailMessage) throws MessagingException {
+    private void sendMessage(Session getMailSession, Message generateMailMessage) throws MessagingException {
         Transport transport = getMailSession.getTransport("smtp");
         transport.connect((String) PropertiesManager.getProperties().get("registration.confirmation.mail.smtp.host"),
                 (String) PropertiesManager.getProperties().get("registration.confirmation.email.user"),
@@ -35,7 +36,7 @@ public class Emailer {
         transport.close();
     }
 
-    private static Message createMessage(String from, String to, String subject, String msg, Session getMailSession)
+    private Message createMessage(String from, String to, String subject, String msg, Session getMailSession)
             throws MessagingException, AddressException {
         Message generateMailMessage = new MimeMessage(getMailSession);
         generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
@@ -45,7 +46,7 @@ public class Emailer {
         return generateMailMessage;
     }
 
-    private static Properties setMailProperties() {
+    private Properties setMailProperties() {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
