@@ -31,6 +31,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.ldod.forms.SignupForm;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.utils.Emailer;
 import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 
 @Controller
@@ -39,6 +40,9 @@ public class SignupController {
 
 	@Inject
 	private PasswordEncoder passwordEncoder;
+
+	@Inject
+	private Emailer emailer;
 
 	private final ProviderSignInUtils providerSignInUtils;
 
@@ -100,7 +104,7 @@ public class SignupController {
 
 			if (user != null) {
 				try {
-					token.requestAuthorization(servletRequest);
+					token.requestAuthorization(servletRequest, emailer);
 				} catch (AddressException e) {
 					throw new LdoDException("Token Confirmation - AddressException");
 				} catch (MessagingException e) {
@@ -141,7 +145,7 @@ public class SignupController {
 		registrationToken.setAuthorized(true);
 
 		try {
-			registrationToken.requestConfirmation(servletRequest);
+			registrationToken.requestConfirmation(servletRequest, emailer);
 		} catch (MessagingException e) {
 			throw new LdoDException("Token Confirmation - MessagingException");
 		}

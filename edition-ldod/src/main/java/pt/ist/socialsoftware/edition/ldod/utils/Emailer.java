@@ -17,7 +17,7 @@ public class Emailer {
     private static final Logger logger = LoggerFactory.getLogger(Emailer.class);
 
     public void sendEmail(String to, String subject, String msg, String from)
-            throws AddressException, MessagingException {
+            throws MessagingException {
         Properties properties = setMailProperties();
 
         Session getMailSession = Session.getDefaultInstance(properties, null);
@@ -37,7 +37,7 @@ public class Emailer {
     }
 
     private Message createMessage(String from, String to, String subject, String msg, Session getMailSession)
-            throws MessagingException, AddressException {
+            throws MessagingException {
         Message generateMailMessage = new MimeMessage(getMailSession);
         generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
         generateMailMessage.addRecipient(Message.RecipientType.BCC, new InternetAddress(from));

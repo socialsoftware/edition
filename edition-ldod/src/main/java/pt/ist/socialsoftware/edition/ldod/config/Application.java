@@ -45,11 +45,6 @@ public class Application extends SpringBootServletInitializer implements Initial
 		return new LdoDSignInAdapter(new HttpSessionRequestCache());
 	}
 
-//	@Bean
-//	public Emailer emailer() {
-//		return new Emailer();
-//	}
-
 	@Bean(name = "messageSource")
 	public ReloadableResourceBundleMessageSource reloadableResourceBundleMessageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
@@ -79,5 +74,11 @@ public class Application extends SpringBootServletInitializer implements Initial
 		loggingFilter.setAfterMessagePrefix("LOGGING: ");
 		return loggingFilter;
 	}
+
+	@Bean
+	public Emailer emailer() {
+		return new Emailer();
+	}
+
 
 }
