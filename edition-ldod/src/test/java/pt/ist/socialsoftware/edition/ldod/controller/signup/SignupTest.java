@@ -43,9 +43,9 @@ public class SignupTest extends ControllersTestWithFragmentsLoading {
 
     @Mock
     PasswordEncoder passwordEncoder;
-//
-//    @Mock
-//    Emailer emailer;
+
+    @Mock
+    Emailer emailer;
 
     @InjectMocks
     SignupController signupController;
@@ -69,8 +69,6 @@ public class SignupTest extends ControllersTestWithFragmentsLoading {
     protected String[] fragmentsToLoad4Test() {
         return new String[0];
     }
-
-
 
     @Override
     @BeforeEach
@@ -99,7 +97,6 @@ public class SignupTest extends ControllersTestWithFragmentsLoading {
     public void performSignupTest() throws Exception {
         when(passwordEncoder.matches(anyString(),anyString())).thenReturn(true);
         when(passwordEncoder.encode(anyString())).thenReturn(anyString());
-     //   doNothing().when(emailer.sendEmail(anyString(),anyString(),anyString(),anyString()));
 
         this.mockMvc.perform(post("/signup")
                 .param("username", "temp")
