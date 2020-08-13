@@ -2,6 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.controller.fragment;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.joda.time.LocalDate;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -377,11 +378,13 @@ public class FragmentTest {
 
         LdoD ldod = LdoD.getInstance();
 
-        // create permissionDTO
-        VirtualEdition ve = ldod.getArchiveEdition();
         LdoDUser user = ldod.getUser("ars");
 
-        PermissionDTO permissionDTO = new PermissionDTO(ve, user);
+        // create permissionDTO
+        VirtualEdition ve = ldod.getArchiveEdition();
+        VirtualEdition otherVe = new VirtualEdition( ldod, user, "XPTO", "TITLE", LocalDate.now(), true, ve);
+
+        PermissionDTO permissionDTO = new PermissionDTO(otherVe, user);
 
         // create annotationDTO
         AnnotationDTO annotationDTO = new AnnotationDTO();
@@ -551,7 +554,6 @@ public class FragmentTest {
     }
 
     private void createTestAnnotation() {
-
         Set<FragInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
 
         List<FragInter> frags = new ArrayList<>(fragInterSet);
