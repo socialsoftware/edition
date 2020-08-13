@@ -34,6 +34,7 @@ public class AuthController {
 
 	@PostMapping("/signin")
 	public ResponseEntity<JWTAuthenticationDto> authenticateUser(@Valid @RequestBody LdoDUserDto loginRequest) {
+		System.out.println(loginRequest.getUsername() + loginRequest.getPassword());
 		try {
 			Authentication authentication = this.authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
