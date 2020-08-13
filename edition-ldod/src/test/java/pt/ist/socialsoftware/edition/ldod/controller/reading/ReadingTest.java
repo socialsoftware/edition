@@ -41,7 +41,6 @@ import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
 public class ReadingTest {
-
 	@InjectMocks
 	ReadingController readingController;
 
@@ -67,7 +66,7 @@ public class ReadingTest {
 	}
 
 	@BeforeEach
-	public void setUp() throws FileNotFoundException {
+	public void setUp() {
 		this.mockMvc = MockMvcBuilders.standaloneSetup(this.readingController)
 				.setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
 	}

@@ -48,7 +48,7 @@ public class ClassificationGameController {
 
 	// ------------- REST Methods ------------- //
 
-	@GetMapping(value = "/{username}/active", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@GetMapping(value = "/{username}/active", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasPermission(#username, 'user.logged')")
 	public @ResponseBody ResponseEntity<List<ClassificationGameDto>> getActiveGames(
 			@PathVariable(value = "username") String username) {
