@@ -369,7 +369,6 @@ public class FragmentTest {
     @Atomic(mode = TxMode.WRITE)
     @WithUserDetails("ars")
     public void createAnnotationTest() throws Exception {
-
         Set<FragInter> fragInterSet = LdoD.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
 
         List<FragInter> frags = new ArrayList<>(fragInterSet);
@@ -385,7 +384,6 @@ public class FragmentTest {
         PermissionDTO permissionDTO = new PermissionDTO(ve, user);
 
         // create annotationDTO
-
         AnnotationDTO annotationDTO = new AnnotationDTO();
         annotationDTO.setPermissions(permissionDTO);
         annotationDTO.setUri(fragInter.getExternalId());
@@ -407,7 +405,7 @@ public class FragmentTest {
 
         // send request to mock
         this.mockMvc.perform(post("/fragments/fragment/annotations")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(TestLoadUtils.jsonBytes(annotationDTO)))
                 .andDo(print())
                 .andExpect(status().isCreated());
