@@ -27,6 +27,7 @@ import pt.ist.socialsoftware.edition.ldod.ControllersTestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.controller.SignupController;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.forms.SignupForm;
@@ -85,7 +86,7 @@ public class SignupTest extends ControllersTestWithFragmentsLoading {
     }
 
     @Test
-    public void getSignupFormTest() throws Exception {
+    public void signupFormTest() throws Exception {
         this.mockMvc.perform(get("/signup")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("signup"))
@@ -94,7 +95,7 @@ public class SignupTest extends ControllersTestWithFragmentsLoading {
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public void performSignupTest() throws Exception {
+    public void signupTest() throws Exception {
         when(passwordEncoder.matches(anyString(),anyString())).thenReturn(true);
         when(passwordEncoder.encode(anyString())).thenReturn(anyString());
 
@@ -111,6 +112,32 @@ public class SignupTest extends ControllersTestWithFragmentsLoading {
                 .andExpect(status().isOk())
                 .andExpect(view().name("signin"))
                 .andExpect(model().attribute("message",notNullValue()));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void authorizeRegistrationTest() throws Exception {
+        RegistrationToken token = new RegistrationToken("token", LdoD.getInstance().getUser("ars"));
+
+        this.mockMvc.perform(get("/signup/registrationAuthorization")
+                .param("token", token.getToken()))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("signin"))
+                .andExpect(model().attribute("message",notNullValue()));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void confirmRegistrationTest() throws Exception {
+        RegistrationToken token = new RegistrationToken("token", LdoD.getInstance().getUser("ars"));
+        token.setAuthorized(true);
+
+        this.mockMvc.perform(get("/signup/registrationConfirm")
+                .param("token", token.getToken()))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/signin"));
     }
 
 }
