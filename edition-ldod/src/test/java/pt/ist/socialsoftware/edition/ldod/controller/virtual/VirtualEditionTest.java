@@ -1,15 +1,23 @@
 package pt.ist.socialsoftware.edition.ldod.controller.virtual;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import org.joda.time.DateTime;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,16 +30,22 @@ import pt.ist.socialsoftware.edition.ldod.frontend.config.Application;
 import pt.ist.socialsoftware.edition.ldod.frontend.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.VirtualEditionController;
 import pt.ist.socialsoftware.edition.ldod.utils.controller.LdoDExceptionHandler;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
+import pt.ist.socialsoftware.edition.ldod.utils.TopicDTO;
+import pt.ist.socialsoftware.edition.ldod.utils.TopicInterPercentageDTO;
+import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
@@ -44,35 +58,38 @@ public class VirtualEditionTest {
 
     protected MockMvc mockMvc;
 
-    @BeforeAll
+    @BeforeEach
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public static void setUpAll() throws FileNotFoundException {
+    public void setUp() throws FileNotFoundException {
         TestLoadUtils.setUpDatabaseWithCorpus();
 
-        String[] fragments = {"001.xml", "002.xml", "003.xml"};
+        String[] fragments = { "001.xml", "002.xml", "003.xml" };
         TestLoadUtils.loadFragments(fragments);
-    }
 
-    @AfterAll
-    @Atomic(mode = Atomic.TxMode.WRITE)
-    public static void tearDownAll() throws FileNotFoundException {
-        TestLoadUtils.cleanDatabaseButCorpus();
-    }
+        TestLoadUtils.loadVirtualEditionsCorpus();
+        String[] virtualEditionFragments = {"virtual-Fr001.xml", "virtual-Fr002.xml", "virtual-Fr003.xml"};
+        TestLoadUtils.loadVirtualEditionFragments(virtualEditionFragments);
 
-    @BeforeEach
-    public void setUp() throws FileNotFoundException {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.virtualEditionController)
                 .setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
+    }
+
+    @AfterEach
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void tearDown() throws FileNotFoundException {
+        TestLoadUtils.cleanDatabaseButCorpus();
     }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void listVirtualEditionsTest() throws Exception {
-        this.mockMvc.perform(get("/virtualeditions")).andDo(print()).andExpect(status().isOk())
-                .andExpect(view().name("virtual/editions")).andExpect(model().attribute("ldod", notNullValue()))
+        this.mockMvc.perform(get("/virtualeditions")).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("virtual/editions"))
+                .andExpect(model().attribute("ldod", notNullValue()))
                 .andExpect(model().attribute("user", nullValue()))
                 .andExpect(model().attribute("expertEditions", hasSize(4)))
-                .andExpect(model().attribute("virtualEditions", hasSize(1)));
+                .andExpect(model().attribute("virtualEditions", hasSize(2)));
     }
 
     @Test
@@ -158,7 +175,6 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void createVirtualEditionTest() throws Exception {
-
         this.mockMvc
                 .perform(post("/virtualeditions/restricted/create").param("acronym", "Test").param("title", "Test")
                         .param("pub", "true").param("use", "no"))
@@ -168,6 +184,66 @@ public class VirtualEditionTest {
 
         assertEquals("Test", testEdition.getShortAcronym());
         assertEquals("Test", testEdition.getTitle());
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void editVirtualEditionIsSAVETest() throws Exception {
+        VirtualEdition testEdition = VirtualModule.getInstance().getVirtualEdition(VirtualEdition.ACRONYM_PREFIX + "Teste");
+
+        this.mockMvc
+                .perform(post("/virtualeditions/restricted/edit/{externalId}", testEdition.getExternalId())
+                        .param("acronym", "Teste")
+                        .param("title", "Title")
+                        .param("synopsis", "Synopsis")
+                        .param("pub", "false")
+                        .param("management", "true")
+                        .param("vocabulary", "true")
+                        .param("annotation", "true")
+                        .param("mediasource", "Twitter")
+                        .param("begindate", "")
+                        .param("enddate", "")
+                        .param("geolocation", "Spain")
+                        .param("frequency", "45")
+                )
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/virtualeditions/restricted/manage/" + testEdition.getExternalId()));
+
+        assertEquals("Title", testEdition.getTitle());
+        assertFalse(testEdition.getPub());
+        assertEquals("Synopsis", testEdition.getSynopsis());
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void editVirtualEditionIsNotSAVETest() throws Exception {
+        VirtualEdition testEdition = VirtualModule.getInstance().getVirtualEdition(VirtualEdition.ACRONYM_PREFIX + "Teste");
+
+        this.mockMvc
+                .perform(post("/virtualeditions/restricted/edit/{externalId}", testEdition.getExternalId())
+                        .param("acronym", "Teste")
+                        .param("title", "Title")
+                        .param("synopsis", "Synopsis")
+                        .param("pub", "false")
+                        .param("management", "true")
+                        .param("vocabulary", "true")
+                        .param("annotation", "true")
+                        .param("mediasource", "noMediaSource")
+                        .param("begindate", "")
+                        .param("enddate", "")
+                        .param("geolocation", "Spain")
+                        .param("frequency", "45")
+                )
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/virtualeditions/restricted/manage/" + testEdition.getExternalId()));
+
+        assertEquals("Title", testEdition.getTitle());
+        assertFalse(testEdition.getPub());
+        assertEquals("Synopsis", testEdition.getSynopsis());
     }
 
     @Test
@@ -240,6 +316,67 @@ public class VirtualEditionTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
+    public void getEditionsTest() throws Exception {
+        this.mockMvc.perform(get("/virtualeditions/public"))
+                .andDo(print()).andExpect(status().isOk()).andExpect(content().string(notNullValue()));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void getFragmentsOfVirtualEditionTest() throws Exception {
+        this.mockMvc.perform(get("/virtualeditions/acronym/{acronym}/fragments", VirtualEdition.ARCHIVE_EDITION_ACRONYM))
+                .andDo(print()).andExpect(status().isOk()).andExpect(content().string(notNullValue()));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void getFragmentsOfExpertEditionTest() throws Exception {
+        this.mockMvc.perform(get("/virtualeditions/acronym/{acronym}/fragments", ExpertEdition.COELHO_EDITION_ACRONYM))
+                .andDo(print()).andExpect(status().isOk()).andExpect(content().string(notNullValue()));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void getFragmentsErrorTest() throws Exception {
+
+        this.mockMvc.perform(get("/virtualeditions/acronym/{acronym}/fragments", "ERROR")).andDo(print())
+                .andExpect(status().is4xxClientError()).andExpect(content().string(""));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void getInterIdTFIDFTermsTest() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+        VirtualEditionInter inter = ve.getAllDepthVirtualEditionInters().get(0);
+
+        this.mockMvc.perform(get("/virtualeditions/acronym/{acronym}/interId/{interId}/tfidf", VirtualEdition.ARCHIVE_EDITION_ACRONYM, inter.getExternalId()))
+                .andDo(print()).andExpect(status().isOk()).andExpect(content().string(notNullValue()));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void getTranscriptionsTest() throws Exception {
+        this.mockMvc.perform(get("/virtualeditions/acronym/{acronym}/transcriptions", VirtualEdition.ARCHIVE_EDITION_ACRONYM))
+                .andDo(print()).andExpect(status().isOk()).andExpect(content().string(notNullValue()));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void getTranscriptionsErrorTest() throws Exception {
+
+        this.mockMvc.perform(get("/virtualeditions/acronym/{acronym}/transcriptions", "ERROR")).andDo(print())
+                .andExpect(status().is4xxClientError()).andExpect(content().string(""));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
     public void showParticipantsTest() throws Exception {
 
         VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
@@ -262,7 +399,6 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void submitParticipantTest() throws Exception {
-
         String id = VirtualModule.getInstance().getArchiveEdition().getExternalId();
 
         this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/submit", id)).andDo(print())
@@ -301,31 +437,103 @@ public class VirtualEditionTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
-    public void getTaxonomyTest() throws Exception {
+    public void approveParticipantTest() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
 
+        this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/approve", ve.getExternalId())
+                .param("username", ve.getParticipantList().get(0).getUsername()))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions/restricted/" + ve.getExternalId() + "/participants"));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void addParticipantTest() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+
+        User user = new User(UserModule.getInstance(), "ola", "xpto", "A", "Z", "a@a.a");
+
+        this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/add", ve.getExternalId())
+                .param("username", user.getUsername()))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions/restricted/" + ve.getExternalId() + "/participants"));
+
+        user.remove();
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void switchRoleTest() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+
+        User user = new User(UserModule.getInstance(), "ola", "xpto", "A", "Z", "a@a.a");
+        ve.addMember(user.getUsername(), Member.MemberRole.MEMBER, true);
+
+        this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/role", ve.getExternalId())
+                .param("username", user.getUsername()))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions/restricted/" + ve.getExternalId() + "/participants"));
+
+        user.remove();
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void removeParticipantTest() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+
+        User user = new User(UserModule.getInstance(), "ola", "xpto", "A", "Z", "a@a.a");
+        ve.addMember(user.getUsername(), Member.MemberRole.MEMBER, true);
+
+        this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/remove", ve.getExternalId())
+                .param("userId", user.getExternalId()))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions/restricted/" + ve.getExternalId() + "/participants"));
+
+        user.remove();
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void getTaxonomyTest() throws Exception {
         String id = VirtualModule.getInstance().getArchiveEdition().getExternalId();
 
         this.mockMvc.perform(get("/virtualeditions/restricted/{externalId}/taxonomy", id)).andDo(print())
                 .andExpect(status().isOk()).andExpect(view().name("virtual/taxonomy"))
                 .andExpect(model().attribute("virtualEdition", notNullValue()));
-
     }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void getTaxonomyErrorTest() throws Exception {
-
         this.mockMvc.perform(get("/virtualeditions/restricted/{externalId}/taxonomy", "ERROR")).andDo(print())
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
+    }
 
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    @WithUserDetails("ars")
+    public void editTaxonomyTest() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+
+        this.mockMvc
+                .perform(post("/virtualeditions/restricted/{externalId}/taxonomy/edit", ve.getExternalId())
+                        .param("management", "true")
+                        .param("vocabulary", "true")
+                        .param("annotation", "true"))
+                .andDo(print()).andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/virtualeditions/restricted/" + ve.getExternalId() + "/taxonomy"));
     }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void deleteTaxonomyTest() throws Exception {
-
         VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
 
         this.mockMvc
@@ -352,7 +560,6 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void createCategoryTest() throws Exception {
-
         VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
 
         this.mockMvc
@@ -366,12 +573,287 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void createCategoryErrorTest() throws Exception {
-
-        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
-
         this.mockMvc
                 .perform(post("/virtualeditions/restricted/category/create").param("externalId", "ERROR").param("name",
                         "test"))
                 .andDo(print()).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
     }
+
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void deleteCategoryTest() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+
+		Category category = ve.getTaxonomy().createCategory("first");
+
+		this.mockMvc
+				.perform(post("/virtualeditions/restricted/category/delete")
+						.param("categoryId", category.getExternalId()))
+				.andDo(print()).andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/virtualeditions/restricted/" + ve.getExternalId() + "/taxonomy"));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void showCategoryTest() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+
+		Category category = ve.getTaxonomy().createCategory("first");
+
+		this.mockMvc
+				.perform(get("/virtualeditions/restricted/category/{categoryId}",  category.getExternalId()))
+				.andDo(print()).andExpect(status().isOk())
+				.andExpect(view().name("virtual/category"));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void mergeCategoriesMergeTest() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+
+		String[] categories = {
+				ve.getTaxonomy().createCategory("first").getExternalId(),
+				ve.getTaxonomy().createCategory("second").getExternalId()
+		};
+
+		this.mockMvc
+				.perform(post("/virtualeditions/restricted/category/mulop")
+						.param("taxonomyId", ve.getTaxonomy().getExternalId())
+						.param("type", "merge")
+						.param("categories[]", categories))
+				.andDo(print()).andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrlPattern("/virtualeditions/restricted/category/*"));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void extractCategoryTest() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+
+		String categoryId = ve.getTaxonomy().createCategory("first-to-extract").getExternalId();
+
+		String[] inters = {
+				ve.getAllDepthVirtualEditionInters().get(0).getExternalId(),
+		};
+
+		this.mockMvc
+				.perform(post("/virtualeditions/restricted/category/extract")
+						.param("categoryId", categoryId)
+						.param("inters[]", inters))
+				.andDo(print()).andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrlPattern("/virtualeditions/restricted/category/*"));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void associateCategoryTest() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+
+		String[] categories = {
+				ve.getTaxonomy().createCategory("first-to-associate").getName()
+		};
+
+		this.mockMvc
+				.perform(post("/virtualeditions/restricted/tag/associate")
+						.param("fragInterId", ve.getAllDepthVirtualEditionInters().get(0).getExternalId())
+						.param("categories[]", categories))
+				.andDo(print()).andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrlPattern("/fragments/fragment/inter/*"));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void dissociateCategoryTest() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+		Category category = ve.getTaxonomy().createCategory("first-to-dissociate");
+		Set<String> categories = new HashSet<String>();
+		categories.add(category.getName());
+
+		VirtualEditionInter inter = ve.getAllDepthVirtualEditionInters().get(0);
+		inter.associate("ars", categories);
+
+		this.mockMvc
+				.perform(get("/virtualeditions/restricted/fraginter/{fragInterId}/tag/dissociate/{categoryId}",inter.getExternalId(), category.getExternalId()))
+				.andDo(print()).andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrlPattern("/fragments/fragment/inter/*"));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void mergeCategoriesDeleteTest() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+
+		String[] categories = {
+				ve.getTaxonomy().createCategory("first").getExternalId(),
+		};
+
+		this.mockMvc
+				.perform(post("/virtualeditions/restricted/category/mulop")
+						.param("taxonomyId", ve.getTaxonomy().getExternalId())
+						.param("type", "delete")
+						.param("categories[]", categories))
+				.andDo(print()).andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/virtualeditions/restricted/" + ve.getExternalId() + "/taxonomy"));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void generateTopicModellingTest() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+
+		this.mockMvc
+				.perform(get("/virtualeditions/restricted/{externalId}/taxonomy/generateTopics", ve.getExternalId())
+						.param("numTopics", "5")
+						.param("numWords", "2")
+						.param("thresholdCategories", "5")
+						.param("numIterations", "5"))
+				.andDo(print())
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void createTopicModellingTest() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+
+		VirtualEditionInter virtualEditionInter = ve.getAllDepthVirtualEditionInters().get(0);
+
+		TopicListDTO topicList = new TopicListDTO();
+		topicList.setTaxonomyExternalId(ve.getTaxonomy().getExternalId());
+		topicList.setUsername("ars");
+		TopicDTO topicDto = new TopicDTO();
+		topicDto.setName("first");
+		TopicInterPercentageDTO topicInter = new TopicInterPercentageDTO();
+		topicInter.setExternalId(virtualEditionInter.getExternalId());
+		topicInter.setTitle("Title");
+		topicInter.setPercentage(34);
+		List<TopicInterPercentageDTO> topicInters = new ArrayList<>();
+		topicInters.add(topicInter);
+		topicDto.setInters(topicInters);
+		List<TopicDTO> topics = new ArrayList<>();
+		topics.add(topicDto);
+		topicList.setTopics(topics);
+
+		this.mockMvc
+				.perform(get("/virtualeditions/restricted/{externalId}/taxonomy/createTopics", ve.getExternalId()))
+				.andDo(print())
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void getTranscriptionsTagTest() throws Exception {
+		VirtualEdition ve = VirtualModule.getInstance().getVirtualEdition("LdoD-Teste");
+
+		this.mockMvc
+				.perform(get("/virtualeditions/acronym/{acronym}/{category}/transcriptions", ve.getAcronym(), ve.getTaxonomy().getSortedCategories().get(0).getName())
+						.contentType(MediaType.APPLICATION_JSON)
+						.accept(MediaType.APPLICATION_JSON))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void addInterTest() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+
+		VirtualEditionInter virtualEditionInter = ve.getAllDepthVirtualEditionInters().get(0);
+		String interExternalId = virtualEditionInter.getUses() != null ? virtualEditionInter.getUses().getExternalId() :  virtualEditionInter.getUsesScholarInterId();
+		virtualEditionInter.remove();
+
+		this.mockMvc
+				.perform(post("/virtualeditions/restricted/addinter/{veId}/{interId}", ve.getExternalId(), interExternalId))
+				.andDo(print())
+				.andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrlPattern("/fragments/fragment/inter/*"));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void classificationGameTest() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+
+		this.mockMvc
+				.perform(get("/virtualeditions/restricted/{externalId}/classificationGame", ve.getExternalId()))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(view().name("virtual/classificationGame"));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void createClassificationGameFormTest() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+
+		this.mockMvc
+				.perform(get("/virtualeditions/restricted/{externalId}/classificationGame/create", ve.getExternalId()))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(view().name("virtual/createClassificationGame"));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void createClassificationGameTest() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+
+		this.mockMvc
+				.perform(post("/virtualeditions/restricted/{externalId}/classificationGame/create", ve.getExternalId())
+						.param("description", "Description")
+						.param("date", "08/08/2020 09:00")
+						.param("interExternalId", ve.getAllDepthVirtualEditionInters().get(0).getExternalId()))
+				.andDo(print())
+				.andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/virtualeditions/restricted/" + ve.getExternalId() + "/classificationGame"));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	@WithUserDetails("ars")
+	public void removeClassificationGame() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+
+		ClassificationGame classificationGame = new ClassificationGame(new VirtualEditionDto(ve), "Description", DateTime.now(), new VirtualEditionInterDto(ve.getAllDepthVirtualEditionInters().get(0)), "ars");
+
+		this.mockMvc
+				.perform(post("/virtualeditions/restricted/{externalId}/classificationGame/{gameId}/remove", ve.getExternalId(), classificationGame.getExternalId()))
+				.andDo(print())
+				.andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/virtualeditions/restricted/" + ve.getExternalId() + "/classificationGame"));
+	}
+
+	@Test
+	@Atomic(mode = Atomic.TxMode.WRITE)
+	public void getClassificationGame() throws Exception {
+        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+
+		User user = UserModule.getInstance().getUser("ars");
+
+		ClassificationGame classificationGame = new ClassificationGame(new VirtualEditionDto(ve), "Description", DateTime.now(), new VirtualEditionInterDto(ve.getAllDepthVirtualEditionInters().get(0)), "ars");
+		classificationGame.addParticipant("ars");
+
+		this.mockMvc
+				.perform(get("/virtualeditions/{externalId}/classificationGame/{gameId}", ve.getExternalId(), classificationGame.getExternalId()))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(view().name("virtual/classificationGameContent"));
+	}
+
 }

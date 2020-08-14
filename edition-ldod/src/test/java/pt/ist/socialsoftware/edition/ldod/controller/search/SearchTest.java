@@ -34,7 +34,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
@@ -55,8 +54,12 @@ public class SearchTest {
     public static void setUpAll() throws FileNotFoundException {
         TestLoadUtils.setUpDatabaseWithCorpus();
 
-        String[] fragments = {"001.xml", "002.xml", "003.xml"};
+        String[] fragments = { "001.xml", "002.xml", "003.xml", "181.xml", "560.xml", "593.xml" };
         TestLoadUtils.loadFragments(fragments);
+
+        TestLoadUtils.loadVirtualEditionsCorpus();
+        String[] virtualEditionFragments = {"virtual-Fr001.xml", "virtual-Fr002.xml", "virtual-Fr003.xml"};
+        TestLoadUtils.loadVirtualEditionFragments(virtualEditionFragments);
     }
 
     @AfterAll
@@ -75,7 +78,6 @@ public class SearchTest {
 
     @Test
     public void getSimpleSearchTest() throws Exception {
-
         this.mockMvcFrontend.perform(get("/search/simple")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("search/simple"));
@@ -84,7 +86,6 @@ public class SearchTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void searchSimpleTest() throws Exception {
-
         this.mockMvcFrontend.perform(post("/search/simple/result").contentType(MediaType.TEXT_PLAIN)
                 .content("arte&&"))
                 .andDo(print())
@@ -98,7 +99,6 @@ public class SearchTest {
 
     @Test
     public void getAdvancedSearchTest() throws Exception {
-
         this.mockMvcFrontend.perform(get("/search/advanced"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -108,11 +108,10 @@ public class SearchTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void searchAdvancedTest() throws Exception {
-
         /*{"mode":"and","options":[{"type":"edition","inclusion":"in","edition":"all","heteronym":null,"date":null},{"type":"date","option":"all","begin":null,"end":null},{"type":"text","text":"arte"}]}*/
-
         this.mockMvcFrontend.perform(post("/search/advanced/result")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
+
                 .content("{\"mode\":\"and\"," +
                         "\"options\":[{\"type\":\"edition\",\"inclusion\":\"in\",\"edition\":\"all\",\"heteronym\":null,\"date\":null},{\"type\":\"date\",\"option\":\"all\",\"begin\":null,\"end\":null},{\"type\":\"text\",\"text\":\"arte\"}]}")
         ).andDo(print())
@@ -125,7 +124,6 @@ public class SearchTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getEditionsTest() throws Exception {
-
         String body = this.mockMvcSearch.perform(get("/search/getEditions")).andDo(print())
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
@@ -139,7 +137,6 @@ public class SearchTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getEditionTest() throws Exception {
-
         String body = this.mockMvcSearch.perform(get("/search/getEdition")
                 .param("edition", ExpertEdition.PIZARRO_EDITION_ACRONYM))
                 .andDo(print())
@@ -155,7 +152,6 @@ public class SearchTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getPublicationDatesTest() throws Exception {
-
         String body = this.mockMvcSearch.perform(get("/search/getPublicationsDates"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -171,8 +167,59 @@ public class SearchTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void getVirtualEditionsTest() throws Exception {
-
         String body = this.mockMvcSearch.perform(get("/search/getVirtualEditions"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        JSONObject response = new JSONObject(body);
+
+        assertNotNull(response);
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void getManuscriptTest() throws Exception {
+        String body = this.mockMvcSearch.perform(get("/search/getManuscriptsDates"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        JSONObject response = new JSONObject(body);
+
+        assertNotNull(response);
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void getDatiloscriptTest() throws Exception {
+        String body = this.mockMvcSearch.perform(get("/search/getDactiloscriptsDates"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        JSONObject response = new JSONObject(body);
+
+        assertNotNull(response);
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void getHeteronymsTest() throws Exception {
+        String body = this.mockMvcSearch.perform(get("/search/getHeteronyms"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        JSONObject response = new JSONObject(body);
+
+        assertNotNull(response);
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void getDatesTest() throws Exception {
+        String body = this.mockMvcSearch.perform(get("/search/getDates"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();

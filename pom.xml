@@ -208,6 +208,9 @@
                         <dataFile>${basedir}/target/coverage-reports/jacoco.exec</dataFile>
                         <excludes>
                             <exclude>pt/ist/fenixframework/**/*</exclude>
+                            <exclude>pt/ist/socialsoftware/edition/ldod/domain/*_Base.*</exclude>
+                            <exclude>pt/ist/socialsoftware/edition/ldod/domain/*.callable.*.*</exclude>
+                            <exclude>pt/ist/socialsoftware/edition/ldod/domain/*_Base.DO_State.*</exclude>
                         </excludes>
                     </configuration>
                     <executions>
@@ -397,6 +400,8 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
+<!--            weird dependency but necessary to avoid Mockito cannot mock this class-->
+            <version>2.22.0</version>
             <scope>test</scope>
         </dependency>
 

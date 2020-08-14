@@ -42,7 +42,7 @@ public class RegistrationToken extends RegistrationToken_Base {
         deleteDomainObject();
     }
 
-    public void requestAuthorization(HttpServletRequest request) throws AddressException, MessagingException {
+    public void requestAuthorization(HttpServletRequest request, Emailer emailer) throws AddressException, MessagingException {
         String recipientAddress = PropertiesManager.getProperties()
                 .getProperty("registration.authorization.email.address");
 
@@ -52,7 +52,7 @@ public class RegistrationToken extends RegistrationToken_Base {
                 + request.getContextPath();
         String authorizationUrl = path + "/signup/registrationAuthorization?token=" + getToken();
 
-        Emailer.sendEmail(recipientAddress, subject,
+        emailer.sendEmail(recipientAddress, subject,
                 "Autorize o registo no arquivo do VirtualModule do utilizador " + getUser().getFirstName() + " "
                         + getUser().getLastName() + " com username " + getUser().getUsername()
                         + " com o endereço de email " + getUser().getEmail() + " nesta ligação <a href=\""
@@ -60,7 +60,7 @@ public class RegistrationToken extends RegistrationToken_Base {
                 PropertiesManager.getProperties().getProperty("registration.confirmation.email.address"));
     }
 
-    public void requestConfirmation(HttpServletRequest request) throws AddressException, MessagingException {
+    public void requestConfirmation(HttpServletRequest request, Emailer emailer) throws AddressException, MessagingException {
         String recipientAddress = getUser().getEmail();
 
         String subject = "VirtualModule - Confirmação de Registo";
@@ -69,7 +69,7 @@ public class RegistrationToken extends RegistrationToken_Base {
                 + request.getContextPath();
         String confirmationUrl = path + "/signup/registrationConfirm?token=" + getToken();
 
-        Emailer.sendEmail(recipientAddress, subject,
+        emailer.sendEmail(recipientAddress, subject,
                 "Confirme o registo no arquivo do VirtualModule do utilizador " + getUser().getUsername()
                         + " com o endereço de email " + getUser().getEmail() + " nesta ligação <a href=\""
                         + confirmationUrl + "\">" + confirmationUrl + "</a>",

@@ -1,0 +1,2581 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="Fr560.b">
+    <teiHeader type="text">
+        <fileDesc>
+            <titleStmt>
+                <title>Na Floresta do Alheamento</title>
+                <author>Fernando Pessoa</author>
+                <respStmt>
+                    <resp>encoding</resp>
+                    <name>Tiago Santos</name>
+                </respStmt>
+                <respStmt>
+                    <resp>revision</resp>
+                    <name>Rita Marrone, Manuel Portela</name>
+                </respStmt>
+            </titleStmt>
+            <publicationStmt>
+                <publisher>Centre for Portuguese Literature at the University of Coimbra</publisher>
+                <pubPlace>Coimbra</pubPlace>
+                <availability status="restricted">
+                    <licence target="http://creativecommons.org/licenses/by-sa/3.0/">
+                        <p>XPTO</p>
+                    </licence>
+                </availability>
+                <date when="2015" />
+            </publicationStmt>
+            <sourceDesc>
+                <listBibl xml:id="Fr560.b.SRC">
+                    <listBibl xml:id="Fr560.SRC.ED">
+                        <bibl xml:id="Fr560.SRC.ED.Fr560a">
+                            <respStmt>
+                                <resp>heterónimo</resp>
+                                <persName corresp="#HT.BS">Bernardo Soares</persName>
+                            </respStmt>
+                            <msIdentifier>
+                                <settlement>Lisbon</settlement>
+                                <repository>BN</repository>
+                                <idno>A Águia</idno>
+                                <altIdentifier type="SC">
+                                    <idno>A Águia, nº 20</idno>
+                                </altIdentifier>
+                            </msIdentifier>
+                            <title level="a">Na Floresta do Alheamento</title>
+                            <title level="j">Revista Águia, nº 20</title>
+                            <pubPlace>Lisbon</pubPlace>
+                            <biblScope unit="issue">20</biblScope>
+                            <biblScope unit="pp" from="38" to="42"/>
+                            <date when="1913" precision="high">1913</date>
+                        </bibl>
+                    </listBibl>
+                </listBibl>
+                <listWit xml:id="Fr560.b.WIT">
+                    <listWit xml:id="Fr560.b.WIT.ED.ORIG">
+                        <witness xml:id="Fr560.b.WIT.ED.ORIG.Fr560a.000">
+                            <ref target="#Fr560.SRC.ED.Fr560a" />
+                        </witness>
+                    </listWit>
+                    <listWit xml:id="Fr560.b.WIT.ED">
+                        <head>O grupo de testemunhos impressos do fragmento</head>
+                        <listWit xml:id="Fr560.b.WIT.ED.CRIT">
+                            <witness xml:id="Fr560.b.WIT.ED.CRIT.C">
+                                <ref target="#ED.CRIT.C" />
+                                <bibl>
+                                    <respStmt>
+                                        <resp>heterónimo</resp>
+                                        <persName corresp="#HT.BS">Bernardo Soares</persName>
+                                    </respStmt>
+                                    <title level="a">Na Floresta do Alheamento</title>
+                                    <biblScope unit="number">251</biblScope>
+                                    <!-- <note type="physDesc">[]</note> -->
+                                    <date />
+                                    <biblScope unit="vol">I</biblScope>
+                                    <biblScope from="279" to="287" unit="pp" />
+                                </bibl>
+                            </witness>
+                            <witness xml:id="Fr560.b.WIT.ED.CRIT.SC">
+                                <ref target="#ED.CRIT.SC" />
+                                <bibl>
+                                    <respStmt>
+                                        <resp>heterónimo</resp>
+                                        <persName corresp="#HT.VG">Vicente Guedes</persName>
+                                    </respStmt>
+                                    <title level="a">NA FLORESTA DO ALHEAMENTO</title>
+                                    <biblScope unit="number">27</biblScope>
+                                    <biblScope from="068" to="072" unit="pp" />
+                                </bibl>
+                            </witness>
+                            <witness xml:id="Fr560.b.WIT.ED.CRIT.Z">
+                                <ref target="#ED.CRIT.Z" />
+                                <bibl>
+                                    <respStmt>
+                                        <resp>heterónimo</resp>
+                                        <persName corresp="#HT.BS">Bernardo Soares</persName>
+                                    </respStmt>
+                                    <title level="a">NA FLORESTA DO ALHEAMENTO</title>
+                                    <biblScope unit="number">500</biblScope>
+                                    <biblScope from="456" to="456" unit="pp" />
+                                </bibl>
+                            </witness>
+                            <witness xml:id="Fr560.b.WIT.ED.CRIT.P.1">
+                                <ref target="#ED.CRIT.P" />
+                                <bibl>
+                                    <title level="a">NA FLORESTA DO ALHEAMENTO </title>
+                                    <biblScope unit="number">36</biblScope>
+                                    <note type="physDesc" />
+                                    <date when="1913-08-01">Agosto de 1913</date>
+                                    <biblScope from="42" to="47" unit="pp" />
+                                </bibl>
+                            </witness>
+                        </listWit>
+                    </listWit>
+                </listWit>
+            </sourceDesc>
+        </fileDesc>
+    </teiHeader>
+    <facsimile corresp="#Fr560.SRC.ED.Fr560a" xml:id="Fr560a-fs">
+        <surface>
+            <graphic url="Na-Floresta_1.jpg" />
+        </surface>
+        <surface>
+            <graphic url="Na-Floresta_2.jpg" />
+        </surface>
+        <surface>
+            <graphic url="Na-Floresta_3.jpg" />
+        </surface>
+        <surface>
+            <graphic url="Na-Floresta_4.jpg" />
+        </surface>
+    </facsimile>
+    <text>
+        <body>
+            <div xml:id="Fr560.b.TEXT">
+                <p>
+                    <app type="style">
+                        <rdg wit="#Fr560.b.WIT.ED.ORIG.Fr560a.000">
+                            <space dim="horizontal" unit="minims" quantity="6" />
+                            NA FLORESTA DO ALHEAMENTO
+                            <space dim="vertical" unit="minims" quantity="1" />
+                        </rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1">
+                            <seg rendition="#center">NA FLORESTA DO ALHEAMENTO</seg>
+                            <space dim="vertical" unit="minims" quantity="1" />
+                        </rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC"><seg rendition="#right">NA FLORESTA DO ALHEAMENTO </seg></rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.Z">NA FLORESTA DO ALHEAMENTO </rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.C">
+                            <seg rendition="#i #center">Na Floresta do Alheamento</seg>
+                        </rdg>
+                    </app>
+                </p>
+
+                <p>
+                    Sei que despertei e que ainda durmo. O meu
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">côrpo</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">corpo</rdg>
+                    </app>
+                    antigo,
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    moído de eu viver
+                    <app>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z #Fr560.b.WIT.ED.ORIG.Fr560a.000">,</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.C"></rdg>
+                    </app>diz-me
+                    que é muito
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">cêdo</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">cedo</rdg>
+                    </app>
+                    ainda...
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    Sinto-me febril de longe.
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">Péso-me</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Peso-me</rdg>
+                    </app>
+                    , não sei porquê...
+                </p>
+
+                <p>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">N'um</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Num</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">torpôr</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">torpor</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">lucido</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">lúcido</rdg>
+                    </app>
+                    , pesadamente incorpóreo, estagno,
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    entre o
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">somno</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">sono</rdg>
+                    </app> e a
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">vigilia</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">vigília</rdg>
+                    </app>,
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">n'um</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">num</rdg>
+                    </app>
+                    sonho que é uma sombra de so
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    nhar. Minha
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">attenção</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">atenção</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">boia</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">bóia</rdg>
+                    </app> entre dois mundos e vê cegamente
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    a profundeza de um mar e a profundeza de um céu; e estas profun
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    dezas
+                    interpenetram-se, misturam-se, e eu não sei onde estou nem
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    o que sonho.
+                </p>
+
+                <p>
+                    Um vento de sombras
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">sópra</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">sopra</rdg>
+                    </app>
+                    cinzas de propósitos mortos sobre
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    o
+                    que eu sou de desperto.
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">Cahe</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Cai</rdg>
+                    </app>
+                    de um firmamento desconhecido
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    um orvalho
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">môrno</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">morno</rdg>
+                    </app>
+                    de tédio. Uma grande
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">angustia</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">angústia</rdg>
+                    </app>
+                    inerte manuseia-
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" />
+                    me a alma por dentro e, incerta, altera-me, como a
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">briza</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">brisa</rdg>
+                    </app>
+                    aos perfis
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="substantive">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.C ">dos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z #Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.ORIG.Fr560a.000">das</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">cópas</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">copas</rdg>
+                    </app>
+                    .
+                </p>
+                <p>
+
+                    Na
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.ORIG.Fr560a.000 #Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">
+                            alcôva
+                            <!-- Esta ocorrência tem acento no original -->
+                        </rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.Z #Fr560.b.WIT.ED.CRIT.SC">alcova</rdg>
+                    </app>
+                    mórbida e morna a antemanhã de lá
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">fóra</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">fora</rdg>
+                    </app>
+                    é apenas
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    um
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">halito</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">hálito</rdg>
+                    </app>
+                    de penumbra. Sou todo confusão quieta... Para
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">que</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.Z">quê</rdg>
+                    </app>que
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">
+                            ha-
+                            <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no"/>
+                            de
+                        </rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">há-de</rdg>
+                    </app>
+                    um dia raiar?... Custa-me o saber que
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">elle</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ele</rdg>
+                    </app>
+                    raiará, como se
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">fôsse</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">fosse</rdg>
+                    </app>
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    um esforço
+                    meu que houvesse de o fazer aparecer.
+
+                </p>
+
+                <p>
+                    Com uma lentidão confusa acalmo. Entorpeço-me. Bóio no ar
+                    <app>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">,</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.Z"></rdg>
+                    </app>
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    entre velar e dormir, e uma outra
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">especie</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">espécie</rdg>
+                    </app>
+                    de realidade surge, e eu
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    em meio
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">d'ella</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">dela</rdg>
+                    </app>
+                    , não sei de que onde que não é este...
+                </p>
+
+                <p>
+                    Surge mas não apaga esta, esta da
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">alcôva</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">alcova</rdg>
+                    </app>
+                    tépida, essa de uma
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    floresta
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">extranha</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">estranha</rdg>
+                    </app>
+                    . Coexistem na minha
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">attenção</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">atenção</rdg>
+                    </app>
+                    algemada as duas
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    realidades, como
+                    dois fumos que se misturam.
+                </p>
+
+                <p>
+                    Que nítida de outra e de
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ella</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ela</rdg>
+                    </app>
+                    essa trémula
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">paysagem</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">paisagem</rdg>
+                    </app>
+                    trans
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    parente!...
+                </p>
+
+                <p>
+                    E quem é esta mulher que
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">commigo</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">comigo</rdg>
+                    </app>
+                    veste de observada essa
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    floresta
+                    alheia? Para que é que tenho um momento de
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">m'o</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">mo</rdg>
+                    </app>
+                    per
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    guntar?... Eu nem sei
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">querel-o</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">querê-lo</rdg>
+                    </app>
+                    saber...
+                </p>
+
+                <p>
+                    A
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">alcôva</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">alcova</rdg>
+                    </app>
+                    vaga é um vidro escuro
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">atravez</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z #Fr560.b.WIT.ED.CRIT.P.1 ">através</rdg>
+                    </app>
+                    do qual, consciente
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">d'elle</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">dele</rdg>
+                    </app>
+                    , vejo essa
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">paysagem</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">paisagem</rdg>
+                    </app>,... e a essa
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">paysagem</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">paisagem</rdg>
+                    </app>
+                    conheço-a
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ha</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">há</rdg>
+                    </app>
+                    muito,<lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" /> e
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ha</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">há</rdg>
+                    </app>
+                    muito que com essa mulher que desconheço
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">érro</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">erro</rdg>
+                    </app>
+                    , outra reali
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    dade, <app type="orthographic">
+                    <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">atravez</rdg>
+                    <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">através</rdg>
+                </app> da
+                    irrealidade
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">d'ella</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">dela</rdg>
+                    </app>
+                    . Sinto em mim
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">seculos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">séculos</rdg>
+                    </app>
+                    de conhe
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    cer
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">aquellas</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">aquelas</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">arvores</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">árvores</rdg>
+                    </app> e
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">aquellas</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">aquelas</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">flôres</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">flores</rdg>
+                    </app>
+                    e
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">aquellas</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">aquelas</rdg>
+                    </app>
+                    vias em desvios e
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">aquelle</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">aquele</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">sêr</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ser</rdg>
+                    </app>
+                    meu que
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">alli</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ali</rdg>
+                    </app> vagueia, antigo e ostensivo ao meu olhar
+                    <app>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000"></rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">,</rdg>
+                    </app>
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    que o saber que estou
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">n'esta</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">nesta</rdg>
+                    </app>
+                    alcova veste de penumbras de
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">vêr</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ver</rdg>
+                    </app>
+                    ...
+                </p>
+
+                <p>
+                    De vez em quando pela floresta onde de longe me vejo e
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    sinto
+                    <app>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000"></rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z #Fr560.b.WIT.ED.CRIT.P.1">,</rdg>
+                    </app>um vento lento varre um fumo, e esse
+                    fumo é a visão nítida
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    e escura da alcova
+                    em que sou actual,
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">d'estes</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">destes</rdg>
+                    </app>
+                    vagos
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">moveis</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">móveis</rdg>
+                    </app> e re
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    posteiros e do seu
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">torpôr</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">torpor</rdg>
+                    </app>
+                    de nocturna. Depois esse vento passa e
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    torna a ser toda
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">só-ella</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">só ela</rdg>
+                    </app>
+                    a
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">paysagem</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">paisagem</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">d'aquelle</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">daquele</rdg>
+                    </app>
+                    outro mundo...
+                </p>
+
+                <p>
+                    Outras vezes este quarto estreito é apenas uma cinza de bruma
+                    <pb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" facs="Na-Floresta_1.jpg"/>
+                    no horizonte
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">d'essa</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">dessa</rdg>
+                    </app>
+                    terra diversa... E
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ha</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">há</rdg>
+                    </app>
+                    momentos em que o chão
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    que
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">alli</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ali</rdg>
+                    </app>
+                    pisamos é esta alcova
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">visivel</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">visível</rdg>
+                    </app>
+                    ...
+                </p>
+
+                <p>
+                    Sonho e perco-me, duplo de ser eu e essa mulher... Um
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    grande cansaço é um fogo negro que me
+                    consome... Uma grande
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ancia</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ânsia</rdg>
+                    </app>
+                    passiva é a vida falsa que me estreita...
+                </p>
+
+                <p>
+                    Ó felicidade baça!... O eterno estar no bifurcar dos cami
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    nhos!... Eu
+                    sonho e por
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">detraz</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">detrás</rdg>
+                    </app>
+                    da minha
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">attenção</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">atenção</rdg>
+                    </app>
+                    sonha
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">commigo</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">comigo</rdg>
+                    </app>
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">alguem</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">alguém</rdg>
+                    </app>... E talvez eu não seja senão um sonho
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">d'esse</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">desse</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">Alguem</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Alguém</rdg>
+                    </app>
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    que não existe...
+                </p>
+
+                <p>
+                    Lá
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">fóra</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">fora</rdg>
+                    </app>
+                    a antemanhã tão
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">longinqua</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">longínqua</rdg>
+                    </app>
+                    ! a floresta tão aqui ante
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    outros olhos
+                    meus!
+                </p>
+
+                <p>
+                    E eu, que longe
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">d'essa</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">dessa</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">paysagem</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">paisagem</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">quasi</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">quase</rdg>
+                    </app>
+                    a esqueço, é ao
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">tel-a</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">tê-la</rdg>
+                    </app>
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    que tenho saudades
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">d'ella</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">dela</rdg>
+                    </app>
+                    , é ao
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">percorrel-a</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">percorrê-la</rdg>
+                    </app>
+                    que a
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">chóro</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">choro</rdg>
+                    </app>
+                    e a
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">
+                            ella
+                        </rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">
+                            ela
+                        </rdg>
+                    </app>
+
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    aspiro
+                    <app>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C">
+                            .
+                        </rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.ORIG.Fr560a.000 #Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">...</rdg>
+                    </app>
+
+                </p>
+
+                <p>
+                    As
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">arvores</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">árvores</rdg>
+                    </app>
+                    ! as flores! o esconder-se copado dos caminhos!...
+                </p>
+
+                <p>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">Passeavamos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Passeávamos</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ás</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">às</rdg>
+                    </app>
+                    vezes, braço dado, sob os
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">cédros</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">cedros</rdg>
+                    </app>
+                    e as olaias
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    e nenhum de nós pensava
+                    em viver. A nossa carne era-nos um
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    perfume
+                    vago e a nossa vida um
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">echo</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">eco</rdg>
+                    </app>de som de fonte.
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">Dava
+                            <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                            mo'-nos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Dávamo-nos</rdg>
+                    </app>
+                    as mãos e os nossos olhares perguntavam-se o que seria
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    o ser sensual e o querer realizar em carne
+                    a
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">illusão</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ilusão</rdg>
+                    </app>
+                    do
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">amôr</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">amor</rdg>
+                    </app>
+                    ...
+                </p>
+
+                <p>
+                    No nosso jardim havia flores de todas as
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">bellezas</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">belezas</rdg>
+                    </app>
+                    ... — rosas
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    de contornos enrolados,
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">lyrios</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">lírios</rdg>
+                    </app>
+                    de um branco
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">amarellecendo-se</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">amarelecendo-se</rdg>
+                    </app>
+                    ,
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">
+                            pa
+                            <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                            poulas
+                        </rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">papoilas</rdg>
+                    </app>
+                    que seriam
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">occultas</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ocultas</rdg>
+                    </app>
+                    se o seu rubro lhes não espreitasse pre
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    sença, violetas pouco na margem tufada dos
+                    canteiros,
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">myosotis</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">miosótis</rdg>
+                    </app>
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    mínimos,
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">camelias</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">camélias</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">estereis</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">estéreis</rdg>
+                    </app> de perfume... E, pasmados por cima
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    de
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">hervas</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ervas</rdg>
+                    </app>
+                    altas, olhos, os
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">girasoes</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">girassóis</rdg>
+                    </app>
+                    isolados fitavam-nos grande
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" type="hyphenated" break="no"/>
+                    mente.
+                </p>
+
+                <p>
+                    Nós
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">roçavamos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">roçávamos</rdg>
+                    </app> a alma toda vista pelo
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">frescôr</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">fresco</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">visivel</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">visível</rdg>
+                    </app>
+                    dos mus
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    gos e
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">tinhamos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">tínhamos</rdg>
+                    </app>
+                    , ao passar pelas palmeiras, a intuição
+                    esguia de
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    outras terras... E subia-nos o
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">chôro</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">choro</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">á</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">à</rdg>
+                    </app>
+                    lembrança, porque nem aqui,
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    ao
+                    sermos felizes, o
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">eramos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">éramos</rdg>
+                    </app>
+                    ...
+                </p>
+
+                <p>
+                    Carvalhos cheios de
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">seculos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">séculos</rdg>
+                    </app>
+                    nodosos faziam tropeçar os nossos
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    pés nos
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">tentaculos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">tentáculos</rdg>
+                    </app> mortos das suas
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">raizes</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">raízes</rdg>
+                    </app>
+                    ... Plátanos estacavam...
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    E ao
+                    longe, entre
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">arvore</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">árvore</rdg>
+                    </app>
+                    e
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">arvore</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">árvore</rdg>
+                    </app>
+                    de perto, pendiam no
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">silencio</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">silêncio</rdg>
+                    </app>
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    das latadas os cachos negrejantes das
+                    uvas...
+                </p>
+
+                <p>
+                    O nosso sonho de viver ia
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">adeante</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">adiante</rdg>
+                    </app>
+                    de nós, alado, e nós
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ti
+                            <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                            nhamos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">tínhamos</rdg>
+                    </app> para
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">elle</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ele</rdg>
+                    </app>
+                    um sorriso
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">egual</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">igual</rdg>
+                    </app> e alheio, combinado nas almas,
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    sem nos olharmos, sem sabermos um do outro
+                    mais do que a pre
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    sença apoiada de um braço contra a
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">attenção</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">atenção</rdg>
+                    </app>
+                    entregue do outro
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    braço que o
+                    sentia.
+                </p>
+
+                <p>
+                    A nossa vida não tinha dentro.
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">Eramos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Éramos</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">fóra</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">fora</rdg>
+                    </app>
+                    e outros.
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">
+                            Desco
+                            <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                            nheciamo'-nos
+                        </rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Desconhecíamo-nos</rdg>
+                    </app>
+                    , como se
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">houvessemos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">houvéssemos</rdg>
+                    </app>
+                    aparecido
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ás</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">às</rdg>
+                    </app>
+                    nossas almas
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    depois de uma viagem
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">atravez</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">através</rdg>
+                    </app>
+                    de sonhos...
+                </p>
+
+                <p>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">Tinhamos-nos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Tínhamo-nos</rdg>
+                    </app>
+                    esquecido do tempo, e o espaço
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">immenso</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">imenso</rdg>
+                    </app>
+                    em
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    pequenara-se-nos na
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">attenção</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">atenção</rdg>
+                    </app>
+                    .
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">Fóra</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Fora</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">d'aquellas</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">daquelas</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">arvores</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">árvores</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">proximas</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">próximas</rdg>
+                    </app>
+                    ,
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">d'aquellas</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">daquelas</rdg>
+                    </app>
+                    latadas
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">affastadas</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">afastadas</rdg>
+                    </app>
+                    ,
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">d'aquelles</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">daqueles</rdg>
+                    </app>
+                    montes
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ultimos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">últimos</rdg>
+                    </app>
+                    no horizonte
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    haveria alguma
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">cousa</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">coisa</rdg>
+                    </app>
+                    de real, de merecedor do olhar aberto que
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    se dá
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ás</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">às</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">cousas</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">coisas</rdg>
+                    </app>que existem?...
+                </p>
+
+                <p>
+                    Na
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">clepsydra</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">clepsidra</rdg>
+                    </app>
+                    da nossa imperfeição gotas regulares de sonho
+                    <pb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" facs="Na-Floresta_2.jpg"/>
+                    marcavam horas
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">irreaes</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">irreais</rdg>
+                    </app>
+                    ... Nada vale a pena, ó meu
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">amôr</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">amor</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">longinquo</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">longínquo</rdg>
+                    </app>
+                    ,
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    senão o saber como é suave saber
+                    que nada vale a pena...
+                </p>
+
+                <p>
+                    O movimento parado das
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">arvores</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">árvores</rdg>
+                    </app>;
+                    o
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">socego</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">sossego</rdg>
+                    </app>
+                    inquieto das fon
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    tes; o
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">halito</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">hálito</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">indefinivel</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">indefinível</rdg>
+                    </app>
+                    do
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">rhythmo</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ritmo</rdg>
+                    </app>
+
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">intimo</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">íntimo</rdg>
+                    </app>
+                    das seivas; o entardecer
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    lento das
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">cousas</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">coisas</rdg>
+                    </app>
+                    , que parece vir-lhes de dentro a dar mãos de
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">
+                            con
+                            <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                            cordancia
+                        </rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">concordância</rdg>
+                    </app>
+                    espiritual ao entristecer
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">longinquo</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">longínquo</rdg>
+                    </app>
+                    , e
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">proximo</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">próximo</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">á</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">à</rdg>
+                    </app>
+                    alma, do
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    alto
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">silencio</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">silêncio</rdg>
+                    </app>
+                    do
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ceu</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">céu</rdg>
+                    </app>; o
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">cahir</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">cair</rdg>
+                    </app>
+                    das folhas, compassado e
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">inutil</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">inútil</rdg>
+                    </app>
+                    , pingos
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    de alheamento, em que a
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">paysagem</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">paisagem</rdg>
+                    </app>
+                    se nos torna toda para os ou
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    vidos e se entristece em nós como uma
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">patria</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">pátria</rdg>
+                    </app>
+                    recordada — tudo isto,
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    como um
+                    cinto a desatar-se, cingia-nos, incertamente.
+                </p>
+
+                <p>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">Alli</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Ali</rdg>
+                    </app>
+                    vivemos um tempo que não sabia decorrer, um espaço
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    para que não havia pensar em poder-se
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">medil-o</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">medi-lo</rdg>
+                    </app>
+                    . Um decorrer
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">fóra</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">fora</rdg>
+                    </app>
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    do Tempo, uma extensão que desconhecia os
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">habitos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">hábitos</rdg>
+                    </app>
+                    da realidade
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    do espaço... Que
+                    horas, ó companheira
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">inutil</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">inútil</rdg>
+                    </app>
+                    do meu
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">tedio</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">tédio</rdg>
+                    </app>
+                    , que
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    horas de
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">desasocego</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">desassossego</rdg>
+                    </app>
+                    feliz se fingiram nossas
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">alli</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ali</rdg>
+                    </app>
+                    !... Horas de cinza
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    de <app type="orthographic">
+                    <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">espirito</rdg>
+                    <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">espírito</rdg>
+                </app>,
+                    dias de saudade espacial,
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">seculos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">séculos</rdg>
+                    </app>
+                    interiores de
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">paysagem</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">paisagem</rdg>
+                    </app>
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    externa... E nós não nos
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">perguntavamos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">perguntávamos</rdg>
+                    </app>
+                    para que era
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">aquillo</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">aquilo</rdg>
+                    </app>, por
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    que
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">gosavamos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">gozávamos</rdg>
+                    </app>
+                    o saber que
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">aquillo</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">aquilo</rdg>
+                    </app>
+                    não era para nada.
+                </p>
+
+                <p>
+                    Nós <app type="orthographic">
+                    <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">sabíamos</rdg>
+                    <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">sabiamos</rdg>
+                </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">alli</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ali</rdg>
+                    </app>
+                    , por uma intuição que por certo não
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">
+                            tinha
+                            <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                            mos
+                        </rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">tínhamos</rdg>
+                    </app>
+                    , que este dolorido mundo onde
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">seriamos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">seríamos</rdg>
+                    </app> dois, se existia, era
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    para além da linha extrema onde as
+                    montanhas são
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">halitos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">hálitos</rdg>
+                    </app>
+                    de
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">
+                            fór
+                            <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                            mas
+                        </rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">formas</rdg>
+                    </app>
+                    , e para além
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">d'essa</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">dessa</rdg>
+                    </app>
+                    não havia nada. E era por causa da
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">con
+                            <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                            tradicção</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">contradição</rdg>
+                    </app> de
+                    saber isto que a nossa hora
+                    <app type="substantive">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.Z #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">de</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC"></rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdgGrp type="substantive">
+                            <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">alli</rdg>
+                            <rdg wit="#Fr560.b.WIT.ED.CRIT.Z">ali</rdg>
+                            <rdg wit="#Fr560.b.WIT.ED.CRIT.SC"></rdg>
+                        </rdgGrp>
+                    </app>
+                    era escura como
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    uma caverna em
+                    terra de supersticiosos, e o nosso
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">sentil-a</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">senti-la</rdg>
+                    </app>
+                    <app type="substantive">
+                        <rdg wit="#Fr560.b.WIT.ED.ORIG.Fr560a.000 #Fr560.b.WIT.ED.CRIT.C">ella</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1">era</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.Z #Fr560.b.WIT.ED.CRIT.SC">ela</rdg>
+                    </app>
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">extranho</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">estranho</rdg>
+                    </app>
+                    como um perfil da cidade mourisca contra um céu de
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">
+                            crepusculo
+                        </rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.Z #Fr560.b.WIT.ED.CRIT.SC">
+                            crepúsculo
+                        </rdg>
+                    </app>
+
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">outomnal</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">outonal</rdg>
+                    </app>
+                    ...
+                </p>
+
+                <p>
+                    Orlas de mares desconhecidos tocavam, no horizonte de ou
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    virmos,
+                    praias que nunca
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">poderiamos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">poderíamos</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">vêr</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ver</rdg>
+                    </app>
+                    , e era-nos a felicidade
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    escutar,
+                    até
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">vêl-o</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">vê-lo</rdg>
+                    </app>
+                    em nós, esse mar onde sem
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">duvida</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">dúvida</rdg>
+                    </app> singravam
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">caravellas</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">caravelas</rdg>
+                    </app>
+                    com outros fins em
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">percorrel-o</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">percorrê-lo</rdg>
+                    </app>
+                    que não os fins
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">uteis</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">úteis</rdg>
+                    </app>
+                    e
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">commandados</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">comandados</rdg>
+                    </app>
+                    da Terra.
+                </p>
+
+                <p>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">Reparavamos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Reparávamos</rdg>
+                    </app>
+                    de repente, como quem repara que vive, que
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    o ar estava cheio de cantos de ave, e que,
+                    como perfumes antigos
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    em
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">setins</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">cetins</rdg>
+                    </app>
+                    , o marulho esfregado das folhas estava mais entranhado
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    em nós do que a
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">consciencia</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">consciência</rdg>
+                    </app>
+                    de o ouvirmos.
+                </p>
+
+                <p>
+                    E assim o
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">murmurio</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">murmúrio</rdg>
+                    </app>
+                    das aves, o sussurro dos arvoredos e o
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    fundo monótono e esquecido do mar eterno
+                    punham
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">á</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">à</rdg>
+                    </app>
+                    nossa vida
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    abandonada uma auréola
+                    de não a conhecermos. Dormimos
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">alli</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ali</rdg>
+                    </app>
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    acordados dias, contentes de não ser nada,
+                    de não ter desejos nem
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    esperanças, de nos
+                    termos esquecido da
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">côr</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">cor</rdg>
+                    </app> dos amores e do sabor
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    dos
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">odios</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ódios</rdg>
+                    </app>
+                    .
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">Julgavamo'-nos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Julgávamo-nos</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">immortaes</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">imortais</rdg>
+                    </app>
+                    ...
+                </p>
+
+                <p>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">Alli</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Ali</rdg>
+                    </app>
+                    vivemos horas cheias de um outro
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">sentirmol-as</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">sentimo-las</rdg>
+                    </app>
+                    , horas de
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    uma imperfeição vazia e
+                    tão perfeitas por isso, tão
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">diagonaes</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">diagonais</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">á</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">à</rdg>
+                    </app>
+                    cer
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    teza
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">rectangula</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">rectângula</rdg>
+                    </app>
+                    da vida... Horas
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">imperiaes</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">imperiais</rdg>
+                    </app>depostas, horas vestidas
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    de
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">purpura</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">púrpura</rdg>
+                    </app>
+                    gasta, horas
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">cahidas</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">caídas</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">n'esse</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">nesse</rdg>
+                    </app>
+                    mundo de um outro mundo
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    mais cheio
+                    do orgulho de ter mais desmanteladas
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">angustias</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">angústias</rdg>
+                    </app>
+                    ...
+                </p>
+
+                <p>
+                    E doía-nos
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">gosar</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">gozar</rdg>
+                    </app>
+                    aquilo, doía-nos... Porque, apesar do
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    que tinha de
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">exilio</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">exílio</rdg>
+                    </app>
+                    calmo, toda essa
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">paysagem</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">paisagem</rdg>
+                    </app>
+                    nos sabia a sermos
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">d'este</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">deste</rdg>
+                    </app>
+                    mundo, toda
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ella</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ela</rdg>
+                    </app>
+                    era
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">humida</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">húmida</rdg>
+                    </app>
+                    da pompa de um vago
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">tedio</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">tédio</rdg>
+                    </app>
+                    ,
+                    <pb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" facs="Na-Floresta_3.jpg"/>
+                    triste e enorme e perverso como a
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">decadencia</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">decadência</rdg>
+                    </app>
+                    de um
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">imperio</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">império</rdg>
+                    </app>
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    ignoto...
+                </p>
+
+                <p>
+                    Nas cortinas da nossa alcova a manhã é uma sombra de luz.
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    Meus
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">labios</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">lábios</rdg>
+                    </app>
+                    , que eu sei que estão
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">pallidos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">pálidos</rdg>
+                    </app>
+                    , sabem um ao outro a
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    não quererem
+                    ter vida.
+                </p>
+
+                <p>
+                    O ar do nosso quarto neutro é pesado como um repos
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    teiro. A nossa
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">attenção</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">atenção</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">somnolenta</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">sonolenta</rdg>
+                    </app>
+                    ao
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">misterio</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">mistério</rdg>
+                    </app> de tudo isto é
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">molle</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">mole</rdg>
+                    </app>
+                    como uma cauda de vestido
+                    <app type="substantive">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z #Fr560.b.WIT.ED.ORIG.Fr560a.000">arrastado</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.C">arrastada</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">n'um</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">num</rdg>
+                    </app>
+                    cerimonial no
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">
+                            crepusculo
+                        </rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.Z #Fr560.b.WIT.ED.CRIT.SC">
+                            crepúsculo
+                        </rdg>
+                    </app>.
+                </p>
+
+                <p>
+                    Nenhuma
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ancia</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ânsia</rdg>
+                    </app>
+                    nossa tem razão de ser. Nossa
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">attenção</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">atenção</rdg>
+                    </app>
+                    é um
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    absurdo consentido pela nossa
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">inercia</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">inércia</rdg>
+                    </app>
+                    alada.
+                </p>
+
+                <p>
+                    Não sei que
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">oleos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">óleos</rdg>
+                    </app>
+                    de penumbra ungem a nossa
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">idéa</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ideia</rdg>
+                    </app>
+                    do nosso
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    corpo. O cansaço que temos
+                    é a sombra de um cansaço. Vem-nos
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    de muito
+                    longe, como a nossa
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">idéa</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ideia</rdg>
+                    </app> de haver a nossa vida...
+                </p>
+
+                <p>
+                    Nenhum de nós tem nome ou
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">existencia</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">existência</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">plausivel</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">plausível</rdg>
+                    </app>
+                    . Se
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">
+                            pudes
+                            <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                            semos
+                        </rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">púdessemos</rdg>
+                    </app>
+                    ser ruidosos ao ponto de nos imaginarmos rindo,
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ririamos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">riríamos</rdg>
+                    </app>
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    sem
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">duvida</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">dúvida</rdg>
+                    </app>
+                    de nos julgarmos vivos. O
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">frescôr</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">frescor</rdg>
+                    </app>
+                    aquecido do lençol
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    acaricia-nos (a
+                    ti como a mim decerto) os pés que se sentem, um
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    ao outro,
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">nús</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">nus</rdg>
+                    </app>
+                    .
+                </p>
+
+                <p>
+                    Desenganemo-nos, meu
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">amôr</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">amor</rdg>
+                    </app>
+                    , da vida e dos seus modos.
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    Fujamos
+                    a sermos nós... Não tiremos do dedo o
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">annel</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">anel</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">magico</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">mágico</rdg>
+                    </app>
+
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    que chama, mexendo-se-lhe,
+                    pelas fadas do
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">silencio</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">silêncio</rdg>
+                    </app>
+                    e pelos elfos
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    da sombra e pelos
+                    gnomos do esquecimento...
+                </p>
+
+                <p>
+                    E ei-la que, ao irmos a sonhar
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">fallar</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">falar</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">n'ella</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">nela</rdg>
+                    </app>
+                    , surge ante nós
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    outra vez, a
+                    floresta muita, mas agora mais perturbada da nossa
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    perturbação e mais triste da nossa
+                    tristeza.
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">Foje</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Foge</rdg>
+                    </app> de
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">deante</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">diante</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">d'ella</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">dela</rdg>
+                    </app>
+                    ,
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    como um nevoeiro que se
+                    esfolha, a nossa
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">idéa</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ideia</rdg>
+                    </app>
+                    do mundo real, e
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    eu possuo-me outra
+                    vez no meu sonho errante, que essa floresta
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">mysteriosa</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">misteriosa</rdg>
+                    </app>
+                    enquadra...
+                </p>
+
+                <p>
+                    As flores, as flores que
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">alli</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ali </rdg>
+                    </app>
+                    vivi! Flores que a vista traduzia
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    para seus nomes, conhecendo-as, e cujo
+                    perfume a alma colhia, não
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">n'ellas</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">nelas</rdg>
+                    </app>
+                    mas na melodia dos seus nomes... Flores cujos nomes
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    eram
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000  #Fr560.b.WIT.ED.CRIT.Z">,</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC"></rdg>
+                    </app> repetidos em
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">sequencia</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">sequência</rdg>
+                    </app>
+                    ,
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">orchestras</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">orquestras</rdg>
+                    </app>
+                    de perfumes sonoros...
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">Arvores</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Árvores</rdg>
+                    </app>
+                    cuja
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">volupia</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">volúpia</rdg>
+                    </app>
+                    verde punha sombra e frescor no como eram
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    chamadas... Frutos cujo nome era um cravar
+                    de dentes na alma da
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    sua
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">pôlpa</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">polpa</rdg>
+                    </app>
+                    ... Sombras que eram
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">reliquias</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">relíquias</rdg>
+                    </app>
+                    de
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">outr'oras</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">outroras</rdg>
+                    </app>
+                    felizes...
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    Clareiras, clareiras
+                    claras, que eram sorrisos mais francos da
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">
+                            paysa
+                            <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                            gem
+                        </rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">paisagem</rdg>
+                    </app>
+                    que se bocejava em
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">proxima</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">próxima</rdg>
+                    </app>
+                    ... Ó horas multicolores!... Instantes
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" />
+                    -flores,
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">minutos-arvores</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">minutos-árvores</rdg>
+                    </app>
+                    , ó tempo estagnado em espaço, tempo morto
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    de espaço e coberto de flores,
+                    e do perfume de flores, e do per
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    fume de nomes de flores!...
+                </p>
+
+                <p>
+                    Loucura de sonho
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">n'aquelle</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">naquele</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">silencio</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">silêncio</rdg>
+                    </app>
+                    alheio!...
+                </p>
+
+                <p>
+                    A nossa vida era toda a vida... O nosso
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">amôr</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">amor</rdg>
+                    </app>
+                    era o perfume
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    do
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">amôr</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">amor</rdg>
+                    </app>
+                    ...
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">Viviamos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Vivíamos</rdg>
+                    </app>
+                    horas
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">impossiveis</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">impossíveis</rdg>
+                    </app>
+                    , cheias de sermos nós... E
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    isto
+                    porque
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">sabiamos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">sabíamos</rdg>
+                    </app>
+                    , com toda a carne da nossa carne, que não
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">eramos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">éramos</rdg>
+                    </app>
+                    uma realidade...
+                </p>
+
+                <p>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">Eramos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Éramos</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">impessoaes</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">impessoais</rdg>
+                    </app>
+                    ,
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ôcos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ocos</rdg>
+                    </app>
+                    de nós, outra
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">cousa</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">coisa</rdg>
+                    </app>
+                    qualquer...
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">
+                            Era
+                            <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                            mos
+                        </rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Éramos</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">aquella</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">aquela</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">paysagem </rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">paisagem</rdg>
+                    </app>
+                    esfumada em
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">consciencia</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">consciência</rdg>
+                    </app>
+                    de si
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">propria</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">própria</rdg>
+                    </app>
+                    ... E
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    assim como
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ella</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ela</rdg>
+                    </app>
+                    era duas — de realidade que era, e
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">illusão</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ilusão</rdg>
+                    </app>
+                    — assim
+                    <pb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" facs="Na-Floresta_4.jpg"/>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">eramos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">éramos</rdg>
+                    </app>
+                    nós obscuramente dois, nenhum de nós sabendo bem se
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    o outro não
+                    <app type="substantive">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.ORIG.Fr560a.000 #Fr560.b.WIT.ED.CRIT.Z">era</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.C"></rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">elle-proprio</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.Z">ele próprio</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC">ele-próprio</rdg>
+                    </app>
+                    , se o incerto outro viveria...
+                </p>
+
+                <p>
+                    Quando
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">emergiamos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">emergíamos</rdg>
+                    </app>
+                    de repente ante o estagnar dos lagos
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">sentiamo-nos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">sentíamo-nos</rdg>
+                    </app>
+                    a querer soluçar...
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">Alli</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Ali</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">aquella</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">aquela</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">paysagem</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">paisagem</rdg>
+                    </app>
+                    tinha os
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    olhos rasos de
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">agua</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">água</rdg>
+                    </app>
+                    , olhos parados, cheios do
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">tedio</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">tédio</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">innumero</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">inúmero</rdg>
+                    </app>de
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    ser... Cheios, sim, do
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">tedio</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">tédio</rdg>
+                    </app>
+                    de ser, de ter de ser qualquer
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">cousa</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">coisa</rdg>
+                    </app>,
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    realidade ou
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">illusão</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ilusão</rdg>
+                    </app>
+                    — e esse
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">tedio</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">tédio</rdg>
+                    </app>
+                    tinha a sua
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">patria</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">pátria</rdg>
+                    </app>
+                    e a sua voz
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    na mudez e no
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">exilio</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">exílio</rdg>
+                    </app>
+                    dos lagos... E nós, caminhando sempre e
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    sem o saber ou querer, parecia ainda assim
+                    que nos
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">demoravamos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">demorávamos</rdg>
+                    </app>
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">á</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">à</rdg>
+                    </app>
+                    beira
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">d'aquelles</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">daqueles</rdg>
+                    </app>
+                    lagos, tanto de nós com
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">elles</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">eles</rdg>
+                    </app>
+                    ficava e morava,
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">symbolizado</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">simbolizado</rdg>
+                    </app>
+                    e absorto...
+                </p>
+
+                <p>
+                    E que fresco e feliz horror o de não haver
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">alli</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ali</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ninguem</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ninguém</rdg>
+                    </app>! Nem
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    nós, que por
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">alli</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ali</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">iamos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">íamos</rdg>
+                    </app>
+                    ,
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">alli</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ali</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">estavamos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">estávamos</rdg>
+                    </app>
+                    ... Porque nós não
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">eramos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">éramos</rdg>
+                    </app>
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ninguem</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ninguém</rdg>
+                    </app>
+                    . Nem mesmo
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">eramos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">éramos</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">cousa</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">coisa</rdg>
+                    </app>
+                    alguma... Não
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">tinhamos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">tínhamos</rdg>
+                    </app>
+                    vida
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    que a Morte precisasse para
+                    matar.
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">Eramos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Éramos</rdg>
+                    </app>
+                    tão
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">tenues</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ténues</rdg>
+                    </app>
+                    e rasteiri
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    nhos que o vento do decorrer nos
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">deixára</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">deixara</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">inuteis</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">inúteis</rdg>
+                    </app>
+                    e a hora passava
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    por nós
+                    acariciando-nos como uma
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">briza</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">brisa</rdg>
+                    </app>
+                    pelo cimo
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">d'uma</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">duma</rdg>
+                    </app>
+                    palmeira.
+                </p>
+
+                <p>
+                    Não
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">tinhamos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">tínhamos</rdg>
+                    </app>
+                    época nem propósito. Toda a finalidade das
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">cousas</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">coisas</rdg>
+                    </app>
+                    e dos seres
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ficára-nos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ficara-nos</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">á</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">à</rdg>
+                    </app>
+                    porta
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">d'aquelle</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">daquele</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">paraiso</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">paraíso</rdg>
+                    </app>
+                    de
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ausencia</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ausência</rdg>
+                    </app>
+                    .
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">Immobilisara-se</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">Imobilizara-se</rdg>
+                    </app>
+                    , para nos sentir
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">sentil-a</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">senti-la</rdg>
+                    </app>
+                    , a alma rugosa dos troncos,
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    a alma
+                    estendida das folhas, a alma
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">nubil</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">núbil</rdg>
+                    </app>
+                    das flores, a alma ver
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    gada dos
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">fructos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">frutos</rdg>
+                    </app>
+                    ...
+                </p>
+
+                <p>
+                    E assim nós morremos a nossa vida, tão
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">attentos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">atentos</rdg>
+                    </app>
+                    separada
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    mente a
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">morrel-a</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">morrê-la</rdg>
+                    </app>
+                    que não reparámos que
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">eramos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">éramos</rdg>
+                    </app>
+                    um só, que cada
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    um de nós era uma
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">illusão</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ilusão</rdg>
+                    </app>
+                    do outro, e cada um, dentro de si, o
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    mero
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">echo</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">eco</rdg>
+                    </app>
+                    do seu
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">proprio</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">próprio</rdg>
+                    </app>
+                    ser...
+                </p>
+
+                <p>
+                    Zumbe uma mosca, incerta e mínima...
+                </p>
+
+                <p>
+                    Raiam na minha
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">attenção</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">atenção</rdg>
+                    </app>
+                    vagos
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">ruidos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">ruídos</rdg>
+                    </app>
+                    ,
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">nitidos</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">nítidos</rdg>
+                    </app>
+                    e dispersos,
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    que enchem de ser já
+                    dia a minha
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">consciencia</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">consciência</rdg>
+                    </app>
+                    do nosso quarto...
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    Nosso quarto?
+                    Nosso de que dois, se eu estou
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">sósinho</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">sozinho</rdg>
+                    </app>
+                    ? Não sei.
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    Tudo se funde e só fica,
+                    fugindo, uma
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C  #Fr560.b.WIT.ED.CRIT.Z #Fr560.b.WIT.ED.ORIG.Fr560a.000">realidade-bruma</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC">realidade bruma</rdg>
+                    </app> em que a
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    minha incerteza
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">sossobra </rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">soçobra </rdg>
+                    </app>e o meu
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">comprehender-me</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">compreender-me</rdg>
+                    </app>
+                    , embalado
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    de
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">opios</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z #Fr560.b.WIT.ED.CRIT.P.1 ">ópios</rdg>
+                    </app>, adormece...
+                </p>
+
+                <p>
+                    A manhã rompeu, como uma queda, do cimo
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">
+                            palido
+                            <!-- Esta ocorrência tem acento no original -->
+                        </rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.Z #Fr560.b.WIT.ED.CRIT.SC">pálido</rdg>
+                    </app>
+                    da Hora...
+                </p>
+
+                <p>
+                    Acabaram de arder, meu
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">amôr</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">amor</rdg>
+                    </app>
+                    , na lareira da nossa vida, as
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    achas dos nossos sonhos...
+                </p>
+
+                <p>
+                    Desenganemo-nos da esperança, porque
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">trahe</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">trai</rdg>
+                    </app>
+                    , do
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">amôr</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">amor</rdg>
+                    </app>
+                    , porque
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">cança</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">cansa</rdg>
+                    </app>
+                    , da vida, porque farta e não sacia, e até da morte, porque
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    traz mais do que se
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">quér</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">quer</rdg>
+                    </app>
+                    e menos do que se espera.
+                </p>
+
+                <p>
+                    Desenganemo'-nos, ó Velada, do nosso
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">proprio</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">próprio</rdg>
+                    </app>
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">tedio</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">tédio</rdg>
+                    </app>
+                    , porque
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" />
+                    se envelhece de
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">si-proprio</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">si próprio</rdg>
+                    </app>
+                    e não ousa ser toda a
+                    <app type="orthographic">
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1 #Fr560.b.WIT.ED.CRIT.C #Fr560.b.WIT.ED.ORIG.Fr560a.000">angustia</rdg>
+                        <rdg wit="#Fr560.b.WIT.ED.CRIT.SC #Fr560.b.WIT.ED.CRIT.Z">angústia</rdg>
+                    </app>
+                    que é.
+                </p>
+
+                <p>
+                    Não choremos, não odiemos, não desejemos...
+                </p>
+
+                <p>
+                    Cubramos, ó Silenciosa, com um lençol de linho fino o per
+                    <lb ed="#Fr560.b.WIT.ED.ORIG.Fr560a.000" break="no" type="hyphenated" />
+                    fil hirto e
+                    morto da nossa Imperfeição...
+                </p>
+
+                <p>
+                    <app>
+                        <rdg wit="#Fr560.b.WIT.ED.ORIG.Fr560a.000 #Fr560.b.WIT.ED.CRIT.P.1">
+                            <space dim="vertical" unit="minims" quantity="1" />
+                            <space dim="horizontal" unit="minims" quantity="3" />
+                            <seg rend="small">Do “Livro do Desasocego”</seg>
+                            <lb />
+                            <space dim="horizontal" unit="minims" quantity="5" />
+                            <seg rend="small">em preparação.</seg>
+                            <lb />
+                            <space dim="horizontal" unit="minims" quantity="15" />
+                            <app>
+                                <rdg wit="#Fr560.b.WIT.ED.ORIG.Fr560a.000">
+                                    <add place="below" hand="#FP">
+                                        Fernando Pessôa.
+                                    </add>
+                                </rdg>
+                                <rdg wit="#Fr560.b.WIT.ED.CRIT.P.1">
+                                    Fernando Pessôa
+                                </rdg>
+                            </app>
+                            <space dim="horizontal" unit="minims" quantity="3" />
+                        </rdg>
+                    </app>
+                </p>
+            </div>
+        </body>
+    </text>
+</TEI>

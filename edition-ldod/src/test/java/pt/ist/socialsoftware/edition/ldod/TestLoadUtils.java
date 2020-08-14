@@ -34,19 +34,46 @@ public class TestLoadUtils {
         }
     }
 
+	public static void loadVirtualEditionsCorpus() throws FileNotFoundException {
+		File directory = new File(PropertiesManager.getProperties().getProperty("test.files.dir"));
+
+		File corpus = new File(directory, "virtual-corpus.xml");
+		FileInputStream fis1 = new FileInputStream(corpus);
+
+		VirtualEditionsTEICorpusImport loader = new VirtualEditionsTEICorpusImport();
+
+		loader.importVirtualEditionsCorpus(fis1);
+	}
+
     public static void loadFragments(String[] fragmentsToLoad) throws LdoDLoadException, FileNotFoundException {
         String testFilesDirectory = PropertiesManager.getProperties().getProperty("test.files.dir");
         File directory = new File(testFilesDirectory);
 
         String[] fragmentFiles = fragmentsToLoad;
 
+        LoadTEIFragments fragmentLoader = new LoadTEIFragments();
+
         File file;
         for (int i = 0; i < fragmentFiles.length; i++) {
             file = new File(directory, fragmentFiles[i]);
-            LoadTEIFragments fragmentLoader = new LoadTEIFragments();
             fragmentLoader.loadFragmentsAtOnce(new FileInputStream(file));
         }
     }
+
+	public static void loadVirtualEditionFragments(String[] fragmentsToLoad) throws LdoDLoadException, FileNotFoundException {
+		String testFilesDirectory = PropertiesManager.getProperties().getProperty("test.files.dir");
+		File directory = new File(testFilesDirectory);
+
+		String[] fragmentFiles = fragmentsToLoad;
+
+		VirtualEditionFragmentsTEIImport loader = new VirtualEditionFragmentsTEIImport();
+
+		File file;
+		for (int i = 0; i < fragmentFiles.length; i++) {
+			file = new File(directory, fragmentFiles[i]);
+			loader.importFragmentFromTEI(new FileInputStream(file));
+		}
+	}
 
     public static void setUpDatabaseWithCorpus() throws FileNotFoundException {
         TestLoadUtils.cleanDatabaseButCorpus();
@@ -78,6 +105,10 @@ public class TestLoadUtils {
             userModule.getTokenSet().forEach(t -> t.remove());
             virtualModule.getVirtualEditionsSet().stream().filter(ve -> !ve.getAcronym().equals(VirtualEdition.ARCHIVE_EDITION_ACRONYM))
                     .forEach(ve -> ve.remove());
+			virtualModule.getVirtualEditionsSet().stream()
+					.filter(ve -> ve.getAcronym().equals(VirtualEdition.ARCHIVE_EDITION_ACRONYM))
+					.flatMap(ve -> ve.getTaxonomy().getCategoriesSet().stream())
+					.forEach(Category::remove);
             virtualModule.getTweetSet().forEach(t -> t.remove());
         }
         if (text != null) {
@@ -113,4 +144,5 @@ public class TestLoadUtils {
     public static void deleteTestVirtualEdition() {
         VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").remove();
     }
+
 }

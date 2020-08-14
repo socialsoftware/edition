@@ -128,6 +128,7 @@ public class VirtualEditionsTEICorpusImport {
             LocalDate date = LocalDate.parse(bibl.getChild("date", namespace).getAttributeValue("when"));
 
             String owner = null;
+
             for (Element editor : bibl.getChildren("editor", namespace)) {
                 if (editor.getAttributeValue("role").equals("ADMIN")) {
                     owner = editor.getAttributeValue("nymRef");

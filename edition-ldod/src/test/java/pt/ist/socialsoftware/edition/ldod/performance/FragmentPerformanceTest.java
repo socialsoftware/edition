@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.performance;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +17,8 @@ import pt.ist.socialsoftware.edition.ldod.frontend.config.Application;
 import pt.ist.socialsoftware.edition.ldod.frontend.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FragmentController;
 import pt.ist.socialsoftware.edition.ldod.utils.controller.LdoDExceptionHandler;
-
+import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
+import java.io.FileNotFoundException;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -28,6 +31,23 @@ public class FragmentPerformanceTest {
 
     @InjectMocks
     FragmentController fragmentController;
+
+    @BeforeAll
+    @Atomic(mode = TxMode.WRITE)
+    public static void setUpAll() throws FileNotFoundException {
+        TestLoadUtils.setUpDatabaseWithCorpus();
+
+        String[] fragments = {"001.xml", "002.xml", "003.xml"};
+        TestLoadUtils.loadFragments(fragments);
+
+        TestLoadUtils.loadTestVirtualEdition();
+    }
+
+    @AfterAll
+    @Atomic(mode = TxMode.WRITE)
+    public static void tearDownAll() {
+        TestLoadUtils.cleanDatabaseButCorpus();
+    }
 
     @BeforeEach
     public void setUp() {
@@ -49,7 +69,7 @@ public class FragmentPerformanceTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getFragInterByExternalId() throws Exception {
         for (int i = 0; i < 1; i++) {
-            this.mockMvc.perform(get("/fragments/fragment/Fr381/inter/Fr381_WIT_ED_CRIT_Z")).andDo(print())
+            this.mockMvc.perform(get("/fragments/fragment/Fr002/inter/Fr002_WIT_ED_CRIT_Z")).andDo(print())
                     .andExpect(status().isOk());
         }
     }
