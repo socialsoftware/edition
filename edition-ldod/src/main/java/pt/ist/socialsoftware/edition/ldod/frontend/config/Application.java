@@ -15,6 +15,7 @@ import org.springframework.social.connect.web.SignInAdapter;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.security.UserModuleSignInAdapter;
 import pt.ist.socialsoftware.edition.ldod.utils.Bootstrap;
+import pt.ist.socialsoftware.edition.ldod.utils.Emailer;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -71,6 +72,11 @@ public class Application extends SpringBootServletInitializer implements Initial
         loggingFilter.setIncludeHeaders(false);
         loggingFilter.setAfterMessagePrefix("LOGGING: ");
         return loggingFilter;
+    }
+
+    @Bean
+    public Emailer emailer() {
+        return new Emailer();
     }
 
 }
