@@ -8,6 +8,7 @@ import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
@@ -16,6 +17,8 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
@@ -151,7 +154,7 @@ public class VirtualEditionFragmentsTEIImport {
                     importAnnotation(note, inter);
             }
 
-            //importClassificationGames(textClass, inter);
+            importClassificationGames(textClass, inter);
         }
     }
 
@@ -304,7 +307,7 @@ public class VirtualEditionFragmentsTEIImport {
     }
 
     //TODO : these class game related functions should be moved to their own importer in the game module
-    /*private void importClassificationGames(Element textClass, VirtualEditionInter inter) {
+    private void importClassificationGames(Element textClass, VirtualEditionInter inter) {
         if (textClass.getChild("classificationGameList", this.namespace) == null) {
             return;
         }
@@ -327,20 +330,13 @@ public class VirtualEditionFragmentsTEIImport {
             if (winner != null && winner.trim().length() != 0) {
                 Tag tag = inter.getTagSet().stream()
                         .filter(t -> t.getCategory().getName().equals(gameElement.getAttributeValue("tag"))
-<<<<<<< HEAD:edition-ldod/src/main/java/pt/ist/socialsoftware/edition/ldod/virtual/feature/inout/VirtualEditionFragmentsTEIImport.java
                                 && t.getContributor().equals(winner))
                         .findFirst().get();
                 game.setTagId(tag.getExternalId());
-=======
-                                && t.getContributor() == winner)
-                        .findFirst().orElse(null);
-                game.setTag(tag);
->>>>>>> master:edition-ldod/src/main/java/pt/ist/socialsoftware/edition/ldod/loaders/VirtualEditionFragmentsTEIImport.java
             }
             importClassificationGameParticipants(gameElement, game);
             importClassificationGameRounds(gameElement, game);
         }
-
     }
 
     private void importClassificationGameRounds(Element gameElement, ClassificationGame game) {
@@ -378,11 +374,6 @@ public class VirtualEditionFragmentsTEIImport {
             participant.setWinner(winner);
             participant.setScore(score);
         }
-    }*/
-
-    // TODO: to be addressed when the awareness becomes a module on its own
-    private Fragment getFragment(VirtualEditionInter virtualEditionInter) {
-        return TextModule.getInstance().getFragmentByXmlId(virtualEditionInter.getFragmentXmlId());
     }
 
 }

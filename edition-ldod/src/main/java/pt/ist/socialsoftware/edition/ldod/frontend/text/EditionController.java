@@ -109,7 +109,6 @@ public class EditionController {
     @RequestMapping(method = RequestMethod.GET, value = "/user/{username}")
     public String getUserContributions(Model model, @PathVariable String username) {
         UserDto userDto = this.userProvidesInterface.getUser(username);
-
         if (userDto != null) {
             model.addAttribute("userDto", userDto);
             model.addAttribute("publicVirtualEditionsOrUserIsParticipant", VirtualModule.getInstance().getPublicVirtualEditionsOrUserIsParticipant(username));

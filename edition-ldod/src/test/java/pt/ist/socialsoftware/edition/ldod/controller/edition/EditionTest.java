@@ -68,16 +68,25 @@ public class EditionTest {
 	}
 
 
-    @Test
-    public void getEditionPizzarroTest() throws Exception {
-        this.mockMvc.perform(get("/edition/acronym/{acronym}", ExpertEdition.PIZARRO_EDITION_ACRONYM)).andDo(print())
-                .andExpect(status().isOk()).andExpect(view().name("edition/tableOfContents"))
-                .andExpect(model().attribute("heteronym", nullValue())).andExpect(model().attribute("editionDto",
-                hasProperty("acronym", equalTo(ExpertEdition.PIZARRO_EDITION_ACRONYM))));
+	@Test
+	public void getEditionPizzarroTest() throws Exception {
+		this.mockMvc.perform(get("/edition/acronym/{acronym}", ExpertEdition.PIZARRO_EDITION_ACRONYM)).andDo(print())
+				.andExpect(status().isOk()).andExpect(view().name("edition/tableOfContents"))
+				.andExpect(model().attribute("heteronym", nullValue())).andExpect(model().attribute("editionDto",
+				hasProperty("acronym", equalTo(ExpertEdition.PIZARRO_EDITION_ACRONYM))));
 
-    }
+	}
 
-    @Test
+	@Test
+	public void getEditionArchiveTest() throws Exception {
+		this.mockMvc.perform(get("/edition/acronym/{acronym}", VirtualEdition.ARCHIVE_EDITION_ACRONYM)).andDo(print())
+				.andExpect(status().isOk()).andExpect(view().name("edition/tableOfContents"))
+				.andExpect(model().attribute("heteronym", nullValue())).andExpect(model().attribute("editionDto",
+				hasProperty("acronym", equalTo(VirtualEdition.ARCHIVE_EDITION_ACRONYM))));
+
+	}
+
+	@Test
     public void errorEdition() throws Exception {
         this.mockMvc.perform(get("/edition/acronym/{acronym}", "ERROR")).andDo(print())
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
