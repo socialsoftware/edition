@@ -29,8 +29,11 @@ public class VirtualModule extends VirtualModule_Base {
 
     public void remove() {
         getCitationSet().forEach(c -> c.remove());
+
         getTweetSet().forEach(t -> t.remove());
+
         getVirtualEditionsSet().forEach(v -> v.remove());
+
         getLastTwitterID().remove();
         setRoot(null);
 

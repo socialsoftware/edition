@@ -52,7 +52,7 @@ public class ClassificationGameTest extends ControllersTestWithFragmentsLoading 
     }
 
     @Test
-    public void ganmeClientTest() throws Exception {
+    public void gameClientTest() throws Exception {
         this.mockMvc.perform(get("/classification-game")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("classificationGame"));

@@ -64,7 +64,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     }
 
     public void remove() {
-
         EventInterface eventInterface = new EventInterface();
         eventInterface.publish(new Event(Event.EventType.VIRTUAL_INTER_REMOVE, getXmlId()));
 
@@ -72,8 +71,6 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
             inter.setUses(getUses());
             inter.setUsesScholarInterId(getUsesScholarInterId()); // set usesfraginter so that first level vei can now the fraginter they point too
         }
-
-        setSection(null);
 
         setUses(null);
 
@@ -83,6 +80,10 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
 
         for (Annotation annotation : getAnnotationSet()) {
             annotation.remove();
+        }
+
+        if (getSection() != null) {
+            setSection(null);
         }
 
         deleteDomainObject();

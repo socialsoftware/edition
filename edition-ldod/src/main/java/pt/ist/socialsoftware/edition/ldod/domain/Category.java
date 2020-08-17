@@ -38,9 +38,14 @@ public class Category extends Category_Base implements Comparable<Category> {
 
     @Atomic(mode = TxMode.WRITE)
     public void remove() {
+        System.out.println("INICIO CAT: " + getTagSet().size());
         for (Tag tag : getTagSet()) {
+            System.out.println("INICIO TAG: "+ tag);
             tag.remove();
+            System.out.println("FIM TAG: "+ tag);
         }
+
+        System.out.println("FIM CAT " + this);
 
         setTaxonomy(null);
 

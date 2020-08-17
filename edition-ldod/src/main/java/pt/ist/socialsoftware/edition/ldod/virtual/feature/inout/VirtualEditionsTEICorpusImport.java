@@ -57,9 +57,6 @@ public class VirtualEditionsTEICorpusImport {
     private void processImport(Document doc) {
         VirtualModule virtualModule = VirtualModule.getInstance();
 
-
-        //importPlayers(doc, virtualModule);
-
         importVirtualEditions(doc, virtualModule);
 
         importTaxonomies(doc, virtualModule);
@@ -100,19 +97,6 @@ public class VirtualEditionsTEICorpusImport {
 //    }
 
 
-    /*private void importPlayers(Document doc, VirtualModule virtualModule) {
-        Namespace namespace = doc.getRootElement().getNamespace();
-        XPathFactory xpfac = XPathFactory.instance();
-        XPathExpression<Element> xp = xpfac.compile("//def:player", Filters.element(), null,
-                Namespace.getNamespace("def", namespace.getURI()));
-        for (Element playerElement : xp.evaluate(doc)) {
-            String user = playerElement.getAttributeValue("user");
-            double score = Double.parseDouble(playerElement.getAttributeValue("score"));
-            Player player = new Player(user);
-            player.setScore(score);
-        }
-    }*/
-
     private void importVirtualEditions(Document doc, VirtualModule virtualModule) {
         Namespace namespace = doc.getRootElement().getNamespace();
         XPathFactory xpfac = XPathFactory.instance();
@@ -137,7 +121,6 @@ public class VirtualEditionsTEICorpusImport {
                     virtualEdition = virtualModule.getVirtualEdition(acronym);
                     if (virtualEdition != null) {
                         virtualEdition.remove();
-                        virtualEdition = null;
                     }
                     virtualEdition = virtualModule.createVirtualEdition(owner, acronym, title, date, pub, null);
                     virtualEdition.setSynopsis(synopsis);
@@ -160,6 +143,7 @@ public class VirtualEditionsTEICorpusImport {
                 date = LocalDate.parse(editor.getChild("date", namespace).getAttributeValue("when"));
                 member.setDate(date);
             }
+
         }
     }
 

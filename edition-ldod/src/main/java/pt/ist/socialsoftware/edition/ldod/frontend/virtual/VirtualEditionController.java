@@ -1,6 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.virtual;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,12 +16,16 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.api.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Member.MemberRole;
+import pt.ist.socialsoftware.edition.ldod.frontend.game.FeGameRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.game.validator.ClassificationGameValidator;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.validator.VirtualEditionValidator;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.exception.*;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.socialaware.AwareAnnotationFactory;
 import pt.ist.socialsoftware.edition.ldod.virtual.feature.topicmodeling.TopicModeler;
 
@@ -423,6 +429,7 @@ public class VirtualEditionController {
     public String addInter(Model model, @PathVariable String veId, @PathVariable String interId) {
         VirtualEdition virtualEdition = FenixFramework.getDomainObject(veId);
         DomainObject inter = FenixFramework.getDomainObject(interId);
+
         if (virtualEdition == null || inter == null) {
             return "redirect:/error";
         }
@@ -740,4 +747,5 @@ public class VirtualEditionController {
         return "redirect:/fragments/fragment/inter/" + inter.getExternalId();
 
     }
+
 }
