@@ -58,6 +58,8 @@ public class FragmentTest {
 
         String[] fragments = {"001.xml", "002.xml", "003.xml"};
         TestLoadUtils.loadFragments(fragments);
+
+        TestLoadUtils.loadTestVirtualEdition();
     }
 
     @AfterAll
@@ -71,13 +73,23 @@ public class FragmentTest {
     public void setUp() throws FileNotFoundException {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.fragmentController)
                 .setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
-        TestLoadUtils.loadTestVirtualEdition();
     }
 
     @AfterEach
     @Atomic(mode = TxMode.WRITE)
     public void tearDown() {
-        TestLoadUtils.deleteTestVirtualEdition();
+        Set<VirtualEditionInter> fragInterSet = VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+
+        List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
+
+        VirtualEditionInter fragInter = frags.get(0);
+
+        List<HumanAnnotation> list = new ArrayList<>(fragInter.getAllDepthHumanAnnotationsAccessibleByUser(ARS));
+
+        if (!list.isEmpty()) {
+            HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotationsAccessibleByUser(ARS)).get(0);
+            a.remove();
+        }
     }
 
     @Test
@@ -110,7 +122,7 @@ public class FragmentTest {
     public void getFragInterFromIdVirtual() throws Exception {
         VirtualEditionInter inter = VirtualModule.getInstance().getArchiveEdition().getAllDepthVirtualEditionInters().get(0);
 
-        this.mockMvc.perform(get("/fragments/fragment/{xmlId}/inter/{urlId}", inter.getFragmentDto(), inter.getUrlId()))
+        this.mockMvc.perform(get("/fragments/fragment/{xmlId}/inter/{urlId}", "Fr001", inter.getUrlId()))
                 .andDo(print()).andExpect(status().isOk()).andExpect(view().name("fragment/main"))
                 .andExpect(model().attribute("fragment", notNullValue()))
                 .andExpect(model().attribute("inters", notNullValue()));
@@ -118,7 +130,7 @@ public class FragmentTest {
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public void getNextFragmentWithInter() throws Exception {
+    public void getNextFragmentWithScholarInter() throws Exception {
         ExpertEditionInter inter = TextModule.getInstance().getFragmentByXmlId("Fr001").getExpertEditionInterSet().stream().findAny().get();
 
         this.mockMvc.perform(get("/fragments/fragment/{xmlId}/inter/{urlId}/next", "Fr001", inter.getUrlId()))
@@ -129,8 +141,30 @@ public class FragmentTest {
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public void getPrevFragmentWithInter() throws Exception {
+    public void getNextFragmentWithVirtualInter() throws Exception {
+        VirtualEditionInter inter = VirtualModule.getInstance().getArchiveEdition().getAllDepthVirtualEditionInters().get(0);
+
+        this.mockMvc.perform(get("/fragments/fragment/{xmlId}/inter/{urlId}/next", "Fr001", inter.getUrlId()))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("/fragments/fragment/*/inter/*"));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void getPrevFragmentWithScholarInter() throws Exception {
         ExpertEditionInter inter = TextModule.getInstance().getFragmentByXmlId("Fr001").getExpertEditionInterSet().stream().findAny().get();
+
+        this.mockMvc.perform(get("/fragments/fragment/{xmlId}/inter/{urlId}/prev", "Fr001", inter.getUrlId()))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("/fragments/fragment/*/inter/*"));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void getPrevFragmentWithVirtualInter() throws Exception {
+        VirtualEditionInter inter = VirtualModule.getInstance().getArchiveEdition().getAllDepthVirtualEditionInters().get(0);
 
         this.mockMvc.perform(get("/fragments/fragment/{xmlId}/inter/{urlId}/prev", "Fr001", inter.getUrlId()))
                 .andDo(print())
@@ -147,12 +181,22 @@ public class FragmentTest {
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public void getFragInterByExternalId() throws Exception {
+    public void getFragInterByScholarExternalId() throws Exception {
         ScholarInter fragInter = TextModule.getInstance().getFragmentByXmlId("Fr001").getScholarInterByUrlId("Fr001_WIT_MS_Fr001a_1");
 
         this.mockMvc.perform(get("/fragments/fragment/inter/{externalId}", fragInter.getExternalId())).andDo(print())
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/fragments/fragment/"
                 + fragInter.getFragment().getXmlId() + "/inter/" + fragInter.getUrlId()));
+    }
+
+    @Test
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void getFragInterByVirtualExternalId() throws Exception {
+        VirtualEditionInter inter = VirtualModule.getInstance().getArchiveEdition().getAllDepthVirtualEditionInters().get(0);
+
+        this.mockMvc.perform(get("/fragments/fragment/inter/{externalId}", inter.getExternalId())).andDo(print())
+                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/fragments/fragment/"
+                + inter.getFragmentDto().getXmlId() + "/inter/" + inter.getUrlId()));
     }
 
     @Test
@@ -187,7 +231,7 @@ public class FragmentTest {
     @Test
     @Atomic(mode = TxMode.WRITE)
     @WithUserDetails(ARS)
-    public void getInterOneTest() throws Exception {
+    public void getScholarInterOneTest() throws Exception {
         Fragment frag = TextModule.getInstance().getFragmentByXmlId("Fr001");
 
         String[] inters = {
@@ -209,7 +253,7 @@ public class FragmentTest {
     @Test
     @Atomic(mode = TxMode.WRITE)
     @WithUserDetails("ars")
-    public void getInterThreeTest() throws Exception {
+    public void getScholarInterThreeTest() throws Exception {
         Fragment frag = TextModule.getInstance().getFragmentByXmlId("Fr001");
 
         List<ScholarInter> scholarInters = new ArrayList<ScholarInter>(frag.getScholarInterSet());
@@ -217,6 +261,29 @@ public class FragmentTest {
                 scholarInters.get(0).getExternalId(),
                 scholarInters.get(1).getExternalId(),
                 scholarInters.get(2).getExternalId()
+        };
+
+        this.mockMvc.perform(get("/fragments/fragment/inter")
+                .param("fragment", frag.getExternalId())
+                .param("inters[]", inters))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("fragment/main"))
+                .andExpect(model().attribute("ldoD", notNullValue()))
+                .andExpect(model().attribute("fragment", notNullValue()))
+                .andExpect(model().attribute("user", notNullValue()))
+                .andExpect(model().attribute("inters", notNullValue()));
+    }
+
+    @Test
+    @Atomic(mode = TxMode.WRITE)
+    @WithUserDetails(ARS)
+    public void getVirtualInterOneTest() throws Exception {
+        Fragment frag = TextModule.getInstance().getFragmentByXmlId("Fr001");
+        VirtualEditionInter inter = VirtualModule.getInstance().getArchiveEdition().getAllDepthVirtualEditionInters().get(0);
+
+        String[] inters = {
+                inter.getExternalId()
         };
 
         this.mockMvc.perform(get("/fragments/fragment/inter")
@@ -304,7 +371,7 @@ public class FragmentTest {
 
     @Test
     @Atomic(mode = TxMode.WRITE)
-    public void getInterCompareTest() throws Exception {
+    public void getScholarInterCompareTest() throws Exception {
         ScholarInter fragInterOne = TextModule.getInstance().getFragmentByXmlId("Fr001")
                 .getScholarInterByUrlId("Fr001_WIT_ED_CRIT_SC");
 
@@ -491,6 +558,8 @@ public class FragmentTest {
 
         VirtualEditionInter fragInter = frags.get(0);
 
+        fragInter.getAllDepthAnnotationsAccessibleByUser(ARS).stream().forEach(annotation -> annotation.remove());
+
         createTestAnnotation();
 
         HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotationsAccessibleByUser(ARS)).get(0);
@@ -528,19 +597,17 @@ public class FragmentTest {
 
         VirtualEditionInter fragInter = frags.get(0);
 
-        createTestAnnotation();
+        HumanAnnotation humanAnnotation =createTestAnnotation();
 
-        HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotationsAccessibleByUser(ARS)).get(0);
-
-        this.mockMvc.perform(get("/fragments/fragment/annotation/{annotationId}/categories", a.getExternalId()))
+        this.mockMvc.perform(get("/fragments/fragment/annotation/{annotationId}/categories", humanAnnotation.getExternalId()))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(content().contentType("application/json"))
                 .andExpect(content().string(containsString("tag1")))
                 .andExpect(content().string(containsString("tag2")));
     }
 
-    private void createTestAnnotation() {
+    private HumanAnnotation createTestAnnotation() {
         Set<VirtualEditionInter> fragInterSet = VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
 
         List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
@@ -556,7 +623,7 @@ public class FragmentTest {
         List<RangeJson> list = new ArrayList<>();
         list.add(rj);
 
-        fragInter.createHumanAnnotation("A arte é um esquivar-se a agir", "Interesting", User.USER_ARS,
+        return fragInter.createHumanAnnotation("A arte é um esquivar-se a agir", "Interesting", User.USER_ARS,
                 list, Arrays.asList("tag1", "tag2"));
 
     }
