@@ -2,6 +2,8 @@ package pt.ist.socialsoftware.edition.ldod.recommendation;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.joda.time.LocalDate;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,7 @@ import pt.ist.socialsoftware.edition.ldod.recommendation.feature.properties.*;
 import pt.ist.socialsoftware.edition.ldod.text.feature.indexer.Indexer;
 import pt.ist.socialsoftware.edition.ldod.virtual.api.dto.VirtualEditionInterDto;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +27,7 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoading {
+public class VSMVirtualEditionInterRecomenderTest {
     private static final String ACRONYM = "TestRecommendations";
 
     private static final Logger logger = LoggerFactory.getLogger(VSMVirtualEditionInterRecomenderTest.class);
@@ -33,16 +36,19 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 
     private VirtualEdition virtualEdition;
 
-    @Override
-    protected String[] fragmentsToLoad4Test() {
-        String[] fragments = {"001.xml", "181.xml", "593.xml"};
-
-        return fragments;
+    @AfterEach
+    @Atomic(mode = TxMode.WRITE)
+    protected void tearDown() {
+        TestLoadUtils.cleanDatabase();
     }
 
     // Assuming that the 4 expert editions and user ars are in the database
-    @Override
-    protected void populate4Test() {
+    @BeforeEach
+    @Atomic(mode = TxMode.WRITE)
+    protected void setUp() throws FileNotFoundException {
+        TestLoadUtils.setUpDatabaseWithCorpus();
+        String[] fragments = {"001.xml", "181.xml", "593.xml"};
+        TestLoadUtils.loadFragments(fragments);
 
         VirtualModule virtualModule = VirtualModule.getInstance();
         ExpertEdition pizarroEdition = TextModule.getInstance().getJPEdition();
@@ -56,11 +62,6 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 
         // create recommender
         recommender = new VSMVirtualEditionInterRecommender();
-    }
-
-    @Override
-    protected void unpopulate4Test() {
-        TestLoadUtils.cleanDatabase();
     }
 
     @Test

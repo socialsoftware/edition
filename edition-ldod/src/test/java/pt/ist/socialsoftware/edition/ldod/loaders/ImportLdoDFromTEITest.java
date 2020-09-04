@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.loaders;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
@@ -7,26 +9,28 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 
+import java.io.FileNotFoundException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class ImportLdoDFromTEITest extends TestWithFragmentsLoading {
+public class ImportLdoDFromTEITest {
     private Fragment fragmentTest;
 
-    @Override
-    protected String[] fragmentsToLoad4Test() {
+    @BeforeEach
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void setUp() throws FileNotFoundException {
+        TestLoadUtils.setUpDatabaseWithCorpus();
+
         String[] fragments = {"001.xml"};
+        TestLoadUtils.loadFragments(fragments);
 
-        return fragments;
-    }
-
-    @Override
-    protected void populate4Test() {
         this.fragmentTest = TextModule.getInstance().getFragmentsSet().stream().findFirst().get();
     }
 
-    @Override
-    protected void unpopulate4Test() {
+    @AfterEach
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void tearDown() {
         TestLoadUtils.cleanDatabase();
     }
 

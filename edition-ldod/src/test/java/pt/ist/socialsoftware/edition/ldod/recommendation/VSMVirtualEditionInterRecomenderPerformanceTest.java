@@ -35,26 +35,15 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
     private static Set<VirtualEditionInterDto> cunhaVirtualEditionInters = null;
     private static VSMRecommender<VirtualEditionInterDto> recommender;
 
-    @BeforeAll
-    @Atomic(mode = TxMode.WRITE)
-    public static void setUpAll() throws FileNotFoundException {
-        TestLoadUtils.setUpDatabaseWithCorpus();
-
-        String[] fragments = {"001.xml", "002.xml", "003.xml"};
-        TestLoadUtils.loadFragments(fragments);
-    }
-
-    @AfterAll
-    @Atomic(mode = TxMode.WRITE)
-    public static void tearDownAll() throws FileNotFoundException {
-        TestLoadUtils.cleanDatabase();
-    }
-
     // Assuming that the 4 expert editions, the archive edition and user ars are
     // in the database @BeforeAll
     @BeforeEach
     @Atomic(mode = TxMode.WRITE)
-    protected void setUp() {
+    protected void setUp() throws FileNotFoundException {
+        TestLoadUtils.setUpDatabaseWithCorpus();
+        String[] fragments = {"001.xml", "002.xml", "003.xml"};
+        TestLoadUtils.loadFragments(fragments);
+
         VirtualModule virtualModule = VirtualModule.getInstance();
         TextModule text = TextModule.getInstance();
         ExpertEdition pizarroEdition = text.getJPEdition();
@@ -97,10 +86,8 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 
     @AfterEach
     @Atomic(mode = TxMode.WRITE)
-    protected void unpopulate4Test() {
-        pizarroVirtualEdition.remove();
-        zenithVirtualEdition.remove();
-        cunhaVirtualEdition.remove();
+    protected void tearDown() {
+        TestLoadUtils.cleanDatabase();
     }
 
     @Test

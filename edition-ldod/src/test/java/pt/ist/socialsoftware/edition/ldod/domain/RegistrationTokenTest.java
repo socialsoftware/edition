@@ -1,37 +1,37 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
 import org.joda.time.DateTime;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 
+import java.io.FileNotFoundException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class RegistrationTokenTest extends TestWithFragmentsLoading {
+public class RegistrationTokenTest {
 
     UserModule userModule;
     User user;
     private RegistrationToken registration;
 
-    @Override
-    protected String[] fragmentsToLoad4Test() {
-        String[] fragments = new String[0];
 
-        return fragments;
-    }
+    @BeforeEach
+    @Atomic(mode = TxMode.WRITE)
+    public void setUpAll() throws FileNotFoundException {
+        TestLoadUtils.setUpDatabaseWithCorpus();
 
-    @Override
-    public void populate4Test() {
         this.userModule = UserModule.getInstance();
 
         this.user = new User(this.userModule, "ars1", "ars", "Antonio", "Silva", "a@a.a");
         this.registration = new RegistrationToken("token", this.user);
     }
 
-    @Override
-    public void unpopulate4Test() {
+    @AfterEach
+    @Atomic(mode = TxMode.WRITE)
+    public void tearDownAll() {
         TestLoadUtils.cleanDatabase();
     }
 

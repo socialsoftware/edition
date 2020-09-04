@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.export;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.core.WriteOnReadError;
@@ -14,23 +16,20 @@ import pt.ist.socialsoftware.edition.ldod.user.feature.inout.UsersXMLImport;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
+import java.io.FileNotFoundException;
+
 import static org.junit.Assert.*;
 
-public class UsersXMLExportTest extends TestWithFragmentsLoading {
-
-    @Override
-    protected String[] fragmentsToLoad4Test() {
-        String[] fragments = new String[0];
-
-        return fragments;
+public class UsersXMLExportTest {
+    @BeforeEach
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void setUp() throws FileNotFoundException {
+        TestLoadUtils.setUpDatabaseWithCorpus();
     }
 
-    @Override
-    protected void populate4Test() {
-    }
-
-    @Override
-    protected void unpopulate4Test() {
+    @AfterEach
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void tearDown() {
         TestLoadUtils.cleanDatabase();
     }
 

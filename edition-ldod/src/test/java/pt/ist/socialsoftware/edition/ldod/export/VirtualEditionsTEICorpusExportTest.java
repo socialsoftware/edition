@@ -1,6 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.export;
 
 import org.joda.time.LocalDate;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,12 +17,13 @@ import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionsT
 
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
-public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading {
+public class VirtualEditionsTEICorpusExportTest {
     private static final Logger logger = LoggerFactory.getLogger(VirtualEditionsTEICorpusExportTest.class);
 
     private VirtualEditionsTEICorpusExport export;
@@ -34,13 +37,11 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
         System.out.println(toPrint);
     }
 
-    @Override
-    protected String[] fragmentsToLoad4Test() {
-        return new String[0];
-    }
+    @BeforeEach
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void setUp() throws FileNotFoundException {
+        TestLoadUtils.setUpDatabaseWithCorpus();
 
-    @Override
-    protected void populate4Test() {
         this.text = TextModule.getInstance();
         this.userModule = UserModule.getInstance();
         this.virtualModule = VirtualModule.getInstance();
@@ -50,8 +51,9 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
                 this.text.getRZEdition().getAcronym());
     }
 
-    @Override
-    protected void unpopulate4Test() {
+    @AfterEach
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void tearDown() {
         TestLoadUtils.cleanDatabase();
     }
 
