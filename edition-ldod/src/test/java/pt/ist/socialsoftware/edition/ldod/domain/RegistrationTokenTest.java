@@ -32,7 +32,7 @@ public class RegistrationTokenTest extends TestWithFragmentsLoading {
 
     @Override
     public void unpopulate4Test() {
-        TestLoadUtils.cleanDatabaseButCorpus();
+        TestLoadUtils.cleanDatabase();
     }
 
     @Test

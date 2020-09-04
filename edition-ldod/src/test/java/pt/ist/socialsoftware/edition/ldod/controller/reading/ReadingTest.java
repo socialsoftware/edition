@@ -54,7 +54,7 @@ public class ReadingTest {
 	@AfterAll
 	@Atomic(mode = TxMode.WRITE)
 	public static void tearDownAll() throws FileNotFoundException {
-		TestLoadUtils.cleanDatabaseButCorpus();
+		TestLoadUtils.cleanDatabase();
 	}
 
 	@BeforeEach

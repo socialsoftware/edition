@@ -26,7 +26,7 @@ public class TextSearchOptionTest {
     @AfterAll
     @Atomic(mode = TxMode.WRITE)
     public static void tearDownAll() throws FileNotFoundException {
-        TestLoadUtils.cleanDatabaseButCorpus();
+        TestLoadUtils.cleanDatabase();
     }
 
     @Test

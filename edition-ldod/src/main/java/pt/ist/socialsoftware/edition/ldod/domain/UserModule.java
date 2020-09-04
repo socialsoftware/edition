@@ -13,7 +13,8 @@ public class UserModule extends UserModule_Base {
     public static Logger logger = LoggerFactory.getLogger(UserModule.class);
 
     public static UserModule getInstance() {
-        return FenixFramework.getDomainRoot().getUserModule();
+        return FenixFramework.getDomainRoot()
+                .getUserModule();
     }
 
     public UserModule() {

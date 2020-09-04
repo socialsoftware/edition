@@ -41,16 +41,12 @@ public class Tag extends Tag_Base implements Comparable<Tag> {
 
         setInter(null);
 
-        System.out.println("BEGIN INSIDE TAG: " + getCategory().getName());
-
         if (getCategory() != null && getCategory().getTaxonomy().getOpenAnnotation()
                 && getCategory().getTagSet().size() == 1) {
             Category category = getCategory();
             setCategory(null);
             category.remove();
         }
-
-        System.out.println("END INSIDE TAG");
 
         setCategory(null);
 

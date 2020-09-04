@@ -32,7 +32,7 @@ public class CitationTests extends TestWithFragmentsLoading {
 
 	@Override
 	protected void unpopulate4Test() {
-		TestLoadUtils.cleanDatabaseButCorpus();
+		TestLoadUtils.cleanDatabase();
 	}
 
 	@Override

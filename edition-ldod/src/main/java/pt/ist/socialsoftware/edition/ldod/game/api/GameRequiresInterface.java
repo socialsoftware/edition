@@ -48,7 +48,9 @@ public class GameRequiresInterface {
             String interId = tagRemove.getInterId();
 
             ClassificationModule.getInstance().getClassificationGameSet().stream()
-                    .filter(classificationGame -> classificationGame.getTagId().equals(urlId) && classificationGame.getInterId().equals(interId))
+                    .filter(classificationGame -> classificationGame.getTagId() != null
+                            && classificationGame.getTagId().equals(urlId)
+                            && classificationGame.getInterId().equals(interId))
                     .forEach(ClassificationGame::remove);
         }
         else if (event.getType().equals(Event.EventType.VIRTUAL_EXPORT)){

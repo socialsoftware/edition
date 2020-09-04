@@ -76,51 +76,40 @@ public class TestLoadUtils {
 	}
 
     public static void setUpDatabaseWithCorpus() throws FileNotFoundException {
-        TestLoadUtils.cleanDatabaseButCorpus();
+        TestLoadUtils.cleanDatabase();
         Bootstrap.initializeSystem();
         TestLoadUtils.loadCorpus();
     }
 
-    public static void cleanDatabaseButCorpus() {
+    public static void cleanDatabase() {
         TextProvidesInterface.cleanFragmentMapCache();
         TextProvidesInterface.cleanScholarInterMapCache();
         VirtualProvidesInterface.cleanVirtualEditionInterMapByUrlIdCache();
         VirtualProvidesInterface.cleanVirtualEditionInterMapByXmlIdCache();
         VirtualProvidesInterface.cleanVirtualEditionMapCache();
 
-        TextModule text = TextModule.getInstance();
+        TextModule textModule = TextModule.getInstance();
+        if (textModule != null) {
+            textModule.remove();
+        }
+
         UserModule userModule = UserModule.getInstance();
         VirtualModule virtualModule = VirtualModule.getInstance();
+        if (userModule != null) {
+            userModule.remove();
+
+            virtualModule.remove();
+        }
+
+        RecommendationModule recommendationModule = RecommendationModule.getInstance();
+        if (recommendationModule != null) {
+            recommendationModule.remove();
+        }
+
         ClassificationModule classificationModule = ClassificationModule.getInstance();
         if (classificationModule != null) {
-            classificationModule.getClassificationGameSet().forEach(classificationGame -> classificationGame.remove());
-            classificationModule.getPlayerSet().stream().forEach(player -> player.remove());
+            classificationModule.remove();
         }
-
-        if (userModule != null) {
-            userModule.getUsersSet().stream()
-                    .filter(u -> !(u.getUsername().equals(User.USER_ARS) || u.getUsername().equals(User.USER_TWITTER)))
-                    .forEach(u -> u.remove());
-
-            virtualModule.getCitationSet().forEach(c -> c.remove());
-            userModule.getUserConnectionSet().forEach(uc -> uc.remove());
-            userModule.getTokenSet().forEach(t -> t.remove());
-
-            virtualModule.getVirtualEditionsSet().stream().filter(ve -> !ve.getAcronym().equals(VirtualEdition.ARCHIVE_EDITION_ACRONYM))
-                    .forEach(ve -> ve.remove());
-
-            virtualModule.getVirtualEditionsSet().stream()
-					.filter(ve -> ve.getAcronym().equals(VirtualEdition.ARCHIVE_EDITION_ACRONYM))
-					.flatMap(ve -> ve.getTaxonomy().getCategoriesSet().stream())
-					.forEach(Category::remove);
-
-            virtualModule.getTweetSet().forEach(t -> t.remove());
-        }
-
-        if (text != null) {
-            text.getFragmentsSet().forEach(f -> f.remove());
-        }
-
     }
 
     public static byte[] jsonBytes(Object object) throws IOException {

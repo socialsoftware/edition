@@ -52,7 +52,7 @@ public class VirtualEditionsTEICorpusExportTest extends TestWithFragmentsLoading
 
     @Override
     protected void unpopulate4Test() {
-        TestLoadUtils.cleanDatabaseButCorpus();
+        TestLoadUtils.cleanDatabase();
     }
 
     // Original test that exports and imports everything

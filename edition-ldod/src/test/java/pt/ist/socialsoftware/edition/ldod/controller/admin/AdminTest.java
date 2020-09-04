@@ -89,15 +89,13 @@ public class AdminTest {
         this.virtualMockMvc = MockMvcBuilders.standaloneSetup(this.virtualAdminController)
                 .setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
 
-        TestLoadUtils.cleanDatabaseButCorpus();
         TestLoadUtils.setUpDatabaseWithCorpus();
     }
 
     @AfterEach
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void tearDown() throws FileNotFoundException {
-        TestLoadUtils.cleanDatabaseButCorpus();
-        TestLoadUtils.setUpDatabaseWithCorpus();
+        TestLoadUtils.cleanDatabase();
     }
 
     @Test

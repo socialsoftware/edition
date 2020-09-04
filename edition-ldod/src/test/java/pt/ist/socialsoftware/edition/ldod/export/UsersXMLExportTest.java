@@ -31,7 +31,7 @@ public class UsersXMLExportTest extends TestWithFragmentsLoading {
 
     @Override
     protected void unpopulate4Test() {
-        TestLoadUtils.cleanDatabaseButCorpus();
+        TestLoadUtils.cleanDatabase();
     }
 
     @Test

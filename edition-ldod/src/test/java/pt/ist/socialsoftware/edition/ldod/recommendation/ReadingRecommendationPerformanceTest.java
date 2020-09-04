@@ -45,7 +45,7 @@ public class ReadingRecommendationPerformanceTest {
     @AfterAll
     @Atomic(mode = TxMode.WRITE)
     public static void tearDownAll() throws FileNotFoundException {
-        TestLoadUtils.cleanDatabaseButCorpus();
+        TestLoadUtils.cleanDatabase();
     }
 
     // Assuming that the 4 expert editions, the archive edition and user ars are

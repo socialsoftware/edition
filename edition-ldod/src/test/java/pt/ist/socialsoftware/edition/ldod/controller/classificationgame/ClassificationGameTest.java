@@ -51,7 +51,7 @@ public class ClassificationGameTest {
     @AfterAll
     @Atomic(mode = Atomic.TxMode.WRITE)
     public static void tearDownAll() {
-        TestLoadUtils.cleanDatabaseButCorpus();
+        TestLoadUtils.cleanDatabase();
     }
 
     @BeforeEach

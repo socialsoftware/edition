@@ -1,5 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.export;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.core.WriteOnReadError;
@@ -11,32 +13,33 @@ import pt.ist.socialsoftware.edition.ldod.virtual.feature.inout.VirtualEditionFr
 
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
-public class VirtualEditionFragmentsTEIExportTest extends TestWithFragmentsLoading {
+public class VirtualEditionFragmentsTEIExportTest {
     private VirtualEditionFragmentsTEIExport export;
 
     public static void logger(Object toPrint) {
         System.out.println(toPrint);
     }
 
-    @Override
-    protected String[] fragmentsToLoad4Test() {
+    @BeforeEach
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void setUp() throws FileNotFoundException {
+        TestLoadUtils.setUpDatabaseWithCorpus();
+
         String[] fragments = {"001.xml", "002.xml", "003.xml"};
 
-        return fragments;
+        TestLoadUtils.loadFragments(fragments);
     }
 
-    @Override
-    protected void populate4Test() {
-    }
-
-    @Override
-    protected void unpopulate4Test() {
-        TestLoadUtils.cleanDatabaseButCorpus();
+    @AfterEach
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void tearDown() {
+        TestLoadUtils.cleanDatabase();
     }
 
     @Test

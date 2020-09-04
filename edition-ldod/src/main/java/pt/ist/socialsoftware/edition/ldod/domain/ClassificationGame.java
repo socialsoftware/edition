@@ -60,7 +60,6 @@ public class ClassificationGame extends ClassificationGame_Base {
 
     @Atomic(mode = TxMode.WRITE)
     public void remove() {
-
         GameRequiresInterface gameRequiresInterface = new GameRequiresInterface();
 
         gameRequiresInterface.removeTag(getTagId());

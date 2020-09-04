@@ -66,7 +66,7 @@ public class RecommendationTest {
     @AfterAll
     @Atomic(mode = Atomic.TxMode.WRITE)
     public static void tearDownAll() throws FileNotFoundException {
-        TestLoadUtils.cleanDatabaseButCorpus();
+        TestLoadUtils.cleanDatabase();
     }
 
     @BeforeEach

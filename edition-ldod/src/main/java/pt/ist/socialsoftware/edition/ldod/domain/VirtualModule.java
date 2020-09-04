@@ -135,7 +135,14 @@ public class VirtualModule extends VirtualModule_Base {
     }
 
     public Set<Citation> getCitationSet() {
-        return TextModule.getInstance().getFragmentsSet().stream().flatMap(f -> f.getCitationSet().stream()).collect(Collectors.toSet());
+        // NOTE: This is a workaround until citations and tweets and in their own module
+        if (TextModule.getInstance() == null) {
+            return new HashSet<>();
+        }
+
+        return TextModule.getInstance()
+                .getFragmentsSet().stream()
+                .flatMap(f -> f.getCitationSet().stream()).collect(Collectors.toSet());
     }
 
     public Citation getCitationById(long id) {

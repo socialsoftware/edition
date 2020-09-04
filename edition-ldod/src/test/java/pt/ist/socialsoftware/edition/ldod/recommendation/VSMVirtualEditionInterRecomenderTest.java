@@ -60,7 +60,7 @@ public class VSMVirtualEditionInterRecomenderTest extends TestWithFragmentsLoadi
 
     @Override
     protected void unpopulate4Test() {
-        TestLoadUtils.cleanDatabaseButCorpus();
+        TestLoadUtils.cleanDatabase();
     }
 
     @Test

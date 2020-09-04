@@ -58,7 +58,7 @@ public class EditionTest {
 	@AfterAll
 	@Atomic(mode = TxMode.WRITE)
 	public static void tearDownAll() {
-		TestLoadUtils.cleanDatabaseButCorpus();
+		TestLoadUtils.cleanDatabase();
 	}
 
 	@BeforeEach

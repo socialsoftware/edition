@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.MockitoExtension;
+import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -53,7 +54,7 @@ public class FetchFromTwitterTests extends TestWithFragmentsLoading {
 
     @Override
     protected void unpopulate4Test() {
-        // VirtualModule.getInstance().getCitationSet().forEach(c -> c.remove());
+        TestLoadUtils.cleanDatabase();
     }
 
     // invocações sobre o stauts dão null pointer exception

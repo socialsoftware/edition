@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.loaders;
 import org.junit.jupiter.api.Test;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 
@@ -26,6 +27,7 @@ public class ImportLdoDFromTEITest extends TestWithFragmentsLoading {
 
     @Override
     protected void unpopulate4Test() {
+        TestLoadUtils.cleanDatabase();
     }
 
     @Test

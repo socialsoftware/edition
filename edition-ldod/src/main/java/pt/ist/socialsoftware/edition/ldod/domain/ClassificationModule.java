@@ -25,8 +25,13 @@ public class ClassificationModule extends ClassificationModule_Base {
     }
 
     public void remove() {
+        getClassificationGameSet().forEach(classificationGame -> classificationGame.remove());
+
         getPlayerSet().stream().forEach(player -> player.remove());
-        getPublicClassificationGames().forEach(g -> g.remove());
+
+        setRoot(null);
+
+        deleteDomainObject();
     }
 
     public Player getPlayerByUsername(String user) {
