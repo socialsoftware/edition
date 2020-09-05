@@ -95,9 +95,9 @@ public class FragmentTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getFragmentsListTest() throws Exception {
-//        this.mockMvc.perform(get("/fragments")).andDo(print()).andExpect(status().isOk())
-//                .andExpect(view().name("fragment/list"))
-//                .andExpect(model().attributeExists("jpcEdition", "tscEdition", "rzEdition", "jpEdition", "fragments"));
+        this.mockMvc.perform(get("/fragments")).andDo(print()).andExpect(status().isOk())
+                .andExpect(view().name("fragment/list"))
+                .andExpect(model().attributeExists("jpcEdition", "tscEdition", "rzEdition", "jpEdition", "fragments"));
     }
 
     @Test
@@ -252,7 +252,7 @@ public class FragmentTest {
 
     @Test
     @Atomic(mode = TxMode.WRITE)
-    @WithUserDetails("ars")
+    @WithUserDetails(ARS)
     public void getScholarInterThreeTest() throws Exception {
         Fragment frag = TextModule.getInstance().getFragmentByXmlId("Fr001");
 

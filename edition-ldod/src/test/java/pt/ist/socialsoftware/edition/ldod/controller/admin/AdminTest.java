@@ -71,12 +71,12 @@ public class AdminTest {
     @BeforeAll
     @Atomic(mode = Atomic.TxMode.WRITE)
     public static void setUpAll() throws FileNotFoundException {
-
+        TestLoadUtils.setUpDatabaseWithCorpus();
     }
 
     @AfterAll
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public static void tearDownAll() throws FileNotFoundException {
+    public static void tearDownAll() {
     }
 
     @BeforeEach
@@ -271,7 +271,6 @@ public class AdminTest {
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
-    //  @WithUserDetails("ars")
     public void deleteUserSessionsTest() throws Exception {
         when(sessionRegistry.getAllPrincipals()).thenReturn(new ArrayList<>());
         this.userMockMvc.perform(post("/admin/sessions/delete"))
@@ -281,7 +280,6 @@ public class AdminTest {
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
-    @WithUserDetails("ars")
     public void getUserListTest() throws Exception {
         this.userMockMvc.perform(get("/admin/user/list")).andDo(print())
                 .andExpect(status().isOk())
