@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -826,10 +825,12 @@ public class VirtualEditionTest {
     @WithUserDetails(value = ARS)
 	public void createClassificationGameTest() throws Exception {
         VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
+                VirtualEdition.ACRONYM_PREFIX +"NEWA",
                 "titleX", LocalDate.now(), true, VirtualModule.getInstance().getArchiveEdition().getAcronym());
 
-		this.gameMockMvc
+        int number = ClassificationModule.getInstance().getClassificationGameSet().size();
+
+        this.gameMockMvc
 				.perform(post("/virtualeditions/restricted/{externalId}/classificationGame/create", testEdition.getExternalId())
 						.param("description", "Description")
 						.param("date", "08/08/2020 09:00")
@@ -838,6 +839,7 @@ public class VirtualEditionTest {
 				.andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrl("/virtualeditions/restricted/" + testEdition.getExternalId() + "/classificationGame"));
 
+		assertEquals(number + 1, ClassificationModule.getInstance().getClassificationGameSet().size());
         testEdition.remove();
 	}
 
@@ -846,10 +848,12 @@ public class VirtualEditionTest {
     @WithUserDetails(value = ARS)
 	public void removeClassificationGame() throws Exception {
         VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
+                VirtualEdition.ACRONYM_PREFIX +"NEWB",
                 "titleX", LocalDate.now(), true, VirtualModule.getInstance().getArchiveEdition().getAcronym());
 
 		ClassificationGame classificationGame = new ClassificationGame(new VirtualEditionDto(testEdition), "Description", DateTime.now(), new VirtualEditionInterDto(testEdition.getAllDepthVirtualEditionInters().get(0)), ARS);
+
+		int number = ClassificationModule.getInstance().getClassificationGameSet().size();
 
 		this.gameMockMvc
 				.perform(post("/virtualeditions/restricted/{externalId}/classificationGame/{gameId}/remove", testEdition.getExternalId(), classificationGame.getExternalId()))
@@ -857,6 +861,7 @@ public class VirtualEditionTest {
 				.andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrl("/virtualeditions/restricted/" + testEdition.getExternalId() + "/classificationGame"));
 
+        assertEquals(number -1, ClassificationModule.getInstance().getClassificationGameSet().size());
         testEdition.remove();
 	}
 
