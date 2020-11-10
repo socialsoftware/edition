@@ -57,7 +57,7 @@
         </fenix.framework.codeGeneratorClassName>
         <fenix.framework.backend>jvstm-ojb</fenix.framework.backend>
 
-        <version.jacoco.maven.plugin>0.8.5</version.jacoco.maven.plugin>
+        <version.jacoco.maven.plugin>0.8.6</version.jacoco.maven.plugin>
         <coverage.class.ratio>0.15</coverage.class.ratio>
         <coverage.instruction.ratio>0.15</coverage.instruction.ratio>
         <coverage.method.ratio>0.15</coverage.method.ratio>
