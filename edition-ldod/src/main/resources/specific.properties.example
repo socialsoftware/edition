@@ -16,3 +16,6 @@ indexer.dir=PATH/ldod/indexer/
 tests.dir=PATH/ldod/tests/
 
 social.aware.dir=PATH/ldod/social/aware/
+
+load.files.dir=PATH/ldod/load/
+
