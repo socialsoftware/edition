@@ -95,26 +95,26 @@ public class VirtualEditionFragmentsTEIImport {
 
         Map<String, VirtualEditionInter> createdInters = new HashMap<>();
 
-        final int number = -1;
-        final boolean stop = false;
         while (!wits.isEmpty()) {
             Element wit = wits.remove(0);
+
+            String sourceXmlId = wit.getAttributeValue(SOURCE).substring(1);
 
             String interXmlId = wit.getAttributeValue("id", Namespace.XML_NAMESPACE);
             String editionAcronym = interXmlId.substring(interXmlId.lastIndexOf("VIRT.") + "VIRT.".length(),
                     interXmlId.lastIndexOf('.'));
             VirtualEdition virtualEdition = this.virtualModule.getVirtualEdition(editionAcronym);
 
-            String sourceXmlId = wit.getAttributeValue(SOURCE).substring(1);
             ScholarInter scholarInter = fragment.getScholarInterByXmlId(sourceXmlId);
             VirtualEditionInter virtualEditionInter = createdInters.get(sourceXmlId);
 
             if (scholarInter == null && virtualEditionInter == null) {
+                logger.debug("source xmlId was not created yet: {}", sourceXmlId);
                 wits.add(wit);
             }
 
             if (scholarInter != null) {
-                VirtualEditionInter created = virtualEdition.createVirtualEditionInter(new ScholarInterDto(wit.getAttributeValue("source").substring(1)),
+                VirtualEditionInter created = virtualEdition.createVirtualEditionInter(new ScholarInterDto(sourceXmlId),
                         Integer.parseInt(wit.getChild("num", this.namespace).getAttributeValue("value")));
                 if (created == null) {
                     created = virtualEdition.getAllDepthVirtualEditionInters().stream()
@@ -124,6 +124,7 @@ public class VirtualEditionFragmentsTEIImport {
                 }
                 createdInters.put(interXmlId, created);
                 logger.debug("scholarInter != null id: {}, source: {}, created: {}", interXmlId, sourceXmlId, created);
+                logger.debug("virtual edition inter source : {}", created.getXmlId());
             }
 
             if (virtualEditionInter != null) {
@@ -131,6 +132,7 @@ public class VirtualEditionFragmentsTEIImport {
                         Integer.parseInt(wit.getChild("num", this.namespace).getAttributeValue("value")));
                 createdInters.put(interXmlId, created);
                 logger.debug("scholarInter == null id: {}, source: {}, created: {}", interXmlId, sourceXmlId, created);
+                logger.debug("virtual edition inter source : {}", created.getXmlId());
             }
 
         }
@@ -328,11 +330,12 @@ public class VirtualEditionFragmentsTEIImport {
             game.setSync(sync);
 
             if (winner != null && winner.trim().length() != 0) {
+                logger.debug("winner: {}, tag: {}", winner, gameElement.getAttributeValue("tag"));
                 Tag tag = inter.getTagSet().stream()
                         .filter(t -> t.getCategory().getName().equals(gameElement.getAttributeValue("tag"))
                                 && t.getContributor().equals(winner))
-                        .findFirst().get();
-                game.setTagId(tag.getExternalId());
+                        .findFirst().orElse(null);
+                game.setTagId(tag != null ? tag.getExternalId() : null);
             }
             importClassificationGameParticipants(gameElement, game);
             importClassificationGameRounds(gameElement, game);
