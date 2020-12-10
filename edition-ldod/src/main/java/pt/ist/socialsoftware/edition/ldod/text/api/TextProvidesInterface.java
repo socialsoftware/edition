@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.fenixframework.dml.DomainModel;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.text.api.dto.*;
 import pt.ist.socialsoftware.edition.ldod.text.feature.generators.HtmlWriter2CompInters;
@@ -22,13 +23,13 @@ import java.util.stream.Collectors;
 public class TextProvidesInterface {
     private static final Logger logger = LoggerFactory.getLogger(TextProvidesInterface.class);
 
-    private static Map<String, Fragment> fragmentMap = new HashMap<>();
+    private static Map<String, String> fragmentMap = new HashMap<>();
 
     public static void cleanFragmentMapCache() {
         fragmentMap = new HashMap<>();
     }
 
-    private static Map<String, ScholarInter> scholarInterMap = new HashMap<>();
+    private static Map<String, String> scholarInterMap = new HashMap<>();
 
     public static void cleanScholarInterMapCache() {
         scholarInterMap = new HashMap<>();
@@ -459,20 +460,21 @@ public class TextProvidesInterface {
             return Optional.empty();
         }
 
-        ScholarInter scholarInter = scholarInterMap.get(xmlId);
+        String scholarInterId = scholarInterMap.get(xmlId);
 
-        if (scholarInter == null) {
-            scholarInter = TextModule.getInstance().getFragmentsSet().stream()
+        if (scholarInterId == null) {
+            scholarInterId = TextModule.getInstance().getFragmentsSet().stream()
                     .flatMap(fragment -> fragment.getScholarInterSet().stream())
                     .filter(sci -> sci.getXmlId().equals(xmlId))
+                    .map(sci -> sci.getExternalId())
                     .findAny().orElse(null);
 
-            if (scholarInter != null) {
-                scholarInterMap.put(xmlId, scholarInter);
+            if (scholarInterId != null) {
+                scholarInterMap.put(xmlId, scholarInterId);
             }
         }
 
-        return Optional.ofNullable(scholarInter);
+        return Optional.ofNullable(scholarInterId != null ? FenixFramework.getDomainObject(scholarInterId) : null);
     }
 
     private Optional<Fragment> getFragmentByInterXmlId(String scholarInterId) {
@@ -484,18 +486,20 @@ public class TextProvidesInterface {
             return Optional.empty();
         }
 
-        Fragment fragment = fragmentMap.get(xmlId);
+        String fragmentId = fragmentMap.get(xmlId);
 
-        if (fragment == null) {
-            fragment = TextModule.getInstance().getFragmentsSet().stream()
+        if (fragmentId == null) {
+            fragmentId = TextModule.getInstance().getFragmentsSet().stream()
                     .filter(f -> f.getXmlId().equals(xmlId))
+                    .map(f -> f.getExternalId())
                     .findAny().orElse(null);
 
-            if (fragment != null) {
-                fragmentMap.put(xmlId, fragment);
+            if (fragmentId != null) {
+                fragmentMap.put(xmlId, fragmentId);
             }
         }
-        return Optional.ofNullable(fragmentMap.get(xmlId));
+
+        return Optional.ofNullable(fragmentId != null ? FenixFramework.getDomainObject(fragmentId) : null) ;
     }
 
     private Optional<ExpertEdition> getExpertEditionByAcronym(String acronym) {

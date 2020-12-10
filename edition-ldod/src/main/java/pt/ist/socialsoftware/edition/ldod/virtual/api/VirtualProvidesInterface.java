@@ -18,19 +18,19 @@ import java.util.stream.Collectors;
 public class VirtualProvidesInterface {
     private static final Logger logger = LoggerFactory.getLogger(VirtualProvidesInterface.class);
 
-    private static Map<String, VirtualEdition> virtualEditionMap = new HashMap<>();
+    private static Map<String, String> virtualEditionMap = new HashMap<>();
 
     public static void cleanVirtualEditionMapCache() {
         virtualEditionMap = new HashMap<>();
     }
 
-    private static Map<String, VirtualEditionInter> virtualEditionInterMapByXmlId = new HashMap<>();
+    private static Map<String, String> virtualEditionInterMapByXmlId = new HashMap<>();
 
     public static void cleanVirtualEditionInterMapByXmlIdCache() {
         virtualEditionInterMapByXmlId = new HashMap<>();
     }
 
-    private static Map<String, VirtualEditionInter> virtualEditionInterMapByUrlId = new HashMap<>();
+    private static Map<String, String> virtualEditionInterMapByUrlId = new HashMap<>();
 
     public static void cleanVirtualEditionInterMapByUrlIdCache() {
         virtualEditionInterMapByUrlId = new HashMap<>();
@@ -517,20 +517,21 @@ public class VirtualProvidesInterface {
             return Optional.empty();
         }
 
-        VirtualEditionInter virtualEditionInter = virtualEditionInterMapByXmlId.get(xmlId);
+        String virtualEditionInterInter = virtualEditionInterMapByXmlId.get(xmlId);
 
-        if (virtualEditionInter == null) {
-            virtualEditionInter = VirtualModule.getInstance().getVirtualEditionInterSet().stream()
+        if (virtualEditionInterInter == null) {
+            virtualEditionInterInter = VirtualModule.getInstance().getVirtualEditionInterSet().stream()
                     .filter(vei -> vei.getXmlId().equals(xmlId))
                     .findAny()
+                    .map(vi -> vi.getExternalId())
                     .orElse(null);
 
-            if (virtualEditionInter != null) {
-                virtualEditionInterMapByXmlId.put(xmlId, virtualEditionInter);
+            if (virtualEditionInterInter != null) {
+                virtualEditionInterMapByXmlId.put(xmlId, virtualEditionInterInter);
             }
         }
 
-        return Optional.ofNullable(virtualEditionInter);
+        return Optional.ofNullable(virtualEditionInterInter != null ? FenixFramework.getDomainObject(virtualEditionInterInter) : null);
     }
 
     private Optional<VirtualEditionInter> getVirtualEditionInterByUrlIdUtil(String urlId) {
@@ -538,20 +539,21 @@ public class VirtualProvidesInterface {
             return Optional.empty();
         }
 
-        VirtualEditionInter virtualEditionInter = virtualEditionInterMapByUrlId.get(urlId);
+        String virtualEditionInterId = virtualEditionInterMapByUrlId.get(urlId);
 
-        if (virtualEditionInter == null) {
-            virtualEditionInter = VirtualModule.getInstance().getVirtualEditionInterSet().stream()
+        if (virtualEditionInterId == null) {
+            virtualEditionInterId = VirtualModule.getInstance().getVirtualEditionInterSet().stream()
                     .filter(vei -> vei.getUrlId().equals(urlId))
                     .findAny()
+                    .map(vei -> vei.getExternalId())
                     .orElse(null);
 
-            if (virtualEditionInter != null) {
-                virtualEditionInterMapByUrlId.put(urlId, virtualEditionInter);
+            if (virtualEditionInterId != null) {
+                virtualEditionInterMapByUrlId.put(urlId, virtualEditionInterId);
             }
         }
 
-        return Optional.ofNullable(virtualEditionInter);
+        return Optional.ofNullable(virtualEditionInterId != null ? FenixFramework.getDomainObject(virtualEditionInterId) : null);
     }
 
     private Optional<VirtualEdition> getVirtualEditionByAcronymUtil(String acronym) {
@@ -559,20 +561,21 @@ public class VirtualProvidesInterface {
             return Optional.empty();
         }
 
-        VirtualEdition virtualEdition = virtualEditionMap.get(acronym);
+        String virtualEditionId = virtualEditionMap.get(acronym);
 
-        if (virtualEdition == null) {
-            virtualEdition = VirtualModule.getInstance().getVirtualEditionsSet().stream()
+        if (virtualEditionId == null) {
+            virtualEditionId = VirtualModule.getInstance().getVirtualEditionsSet().stream()
                     .filter(ve -> ve.getAcronym().equals(acronym))
                     .findAny()
+                    .map(ve -> ve.getExternalId())
                     .orElse(null);
 
-            if (virtualEdition != null) {
-                virtualEditionMap.put(acronym, virtualEdition);
+            if (virtualEditionId != null) {
+                virtualEditionMap.put(acronym, virtualEditionId);
             }
         }
 
-        return Optional.ofNullable(virtualEdition);
+        return Optional.ofNullable(virtualEditionId != null ? FenixFramework.getDomainObject(virtualEditionId) : null);
     }
 
 }
