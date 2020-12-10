@@ -46,7 +46,7 @@ public class FragmentController {
         model.addAttribute("tscEdition", this.feTextRequiresInterface.getExpertEditionByAcronym(ExpertEdition.CUNHA_EDITION_ACRONYM));
         model.addAttribute("rzEdition", this.feTextRequiresInterface.getExpertEditionByAcronym(ExpertEdition.ZENITH_EDITION_ACRONYM));
         model.addAttribute("jpEdition", this.feTextRequiresInterface.getExpertEditionByAcronym(ExpertEdition.PIZARRO_EDITION_ACRONYM));
-        model.addAttribute("fragments", this.feTextRequiresInterface.getFragmentDtoSet());
+        model.addAttribute("fragments", this.feTextRequiresInterface.getFragmentDtosWithScholarInterDtos());
 
         return "fragment/list";
     }

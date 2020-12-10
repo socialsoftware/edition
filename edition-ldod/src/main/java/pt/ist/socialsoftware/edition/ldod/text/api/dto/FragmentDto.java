@@ -3,8 +3,11 @@ package pt.ist.socialsoftware.edition.ldod.text.api.dto;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.text.api.TextProvidesInterface;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class FragmentDto {
     private final TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
@@ -16,6 +19,8 @@ public class FragmentDto {
     private String externalId;
 
     private Set<SourceDto> embeddedSourceDtos;
+
+    private Set<ScholarInterDto> embeddedScholarInterDtos;
 
     public FragmentDto(Fragment fragment) {
         setXmlId(fragment.getXmlId());
@@ -39,6 +44,14 @@ public class FragmentDto {
         this.embeddedSourceDtos = embeddedSourceDtos;
     }
 
+    public Set<ScholarInterDto> getEmbeddedScholarInterDtos() {
+        return embeddedScholarInterDtos;
+    }
+
+    public void setEmbeddedScholarInterDtos(Set<ScholarInterDto> embeddedScholarInterDtos) {
+        this.embeddedScholarInterDtos = embeddedScholarInterDtos;
+    }
+
     public ScholarInterDto getScholarInterDtoByUrlId(String urlId) {
         return this.textProvidesInterface.getScholarInterDtoByFragmentXmlIdAndUrlId(getXmlId(), urlId);
     }
@@ -56,12 +69,22 @@ public class FragmentDto {
         return this.textProvidesInterface.getFragmentScholarInterDtoSetForExpertEdtion(getXmlId(), acronym);
     }
 
-    public ScholarInterDto getScholarInterByUrlId(String urlId) {
-        return this.textProvidesInterface.getFragmentScholarInterByUrlId(this.xmlId, urlId);
+    public Set<ScholarInterDto> getEmbeddedScholarInterDtoSetForExpertEdition(String acronym) {
+        return this.embeddedScholarInterDtos.stream()
+                .filter(scholarInterDto -> scholarInterDto.getAcronym().equals(acronym)).collect(Collectors.toSet());
     }
 
     public List<ScholarInterDto> getSortedSourceInter() {
         return this.textProvidesInterface.getFragmentSortedSourceInter(this.xmlId);
+    }
+
+    public List<ScholarInterDto> getEmbeddedSourceInter() {
+        return this.embeddedScholarInterDtos.stream()
+                .filter(scholarInterDto -> scholarInterDto.isSourceInter()).collect(Collectors.toList());
+    }
+
+    public ScholarInterDto getScholarInterByUrlId(String urlId) {
+        return this.textProvidesInterface.getFragmentScholarInterByUrlId(this.xmlId, urlId);
     }
 
     // Only necessary due to manual ordering of virtual edition javascript code

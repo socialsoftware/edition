@@ -52,6 +52,12 @@ public class FeTextRequiresInterface {
         return this.textProvidesInterface.getFragmentDtosWithSourceDtos();
     }
 
+    public Set<FragmentDto> getFragmentDtosWithScholarInterDtos() {
+        return this.textProvidesInterface.getFragmentDtosWithScholarInterDtos();
+    }
+
+
+
 
     // Uses Virtual Edition Module
     private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();

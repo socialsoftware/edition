@@ -14,6 +14,8 @@ public class ScholarInterDto {
 
     private static final Logger logger = LoggerFactory.getLogger(ScholarInterDto.class);
 
+    private String acronym;
+
     private String xmlId;
 
     //cached attributes
@@ -39,7 +41,7 @@ public class ScholarInterDto {
         this.title = scholarInter.getTitle();
         this.urlId = scholarInter.getUrlId();
 
-        if((scholarInter.isExpertInter() && scholarInter.getEdition() != null) ||
+        if ((scholarInter.isExpertInter() && scholarInter.getEdition() != null) ||
                 (!scholarInter.isExpertInter() && ((SourceInter) scholarInter).getSource() != null )) {
             this.shortName = scholarInter.getShortName();
             this.reference = scholarInter.getReference();
@@ -47,8 +49,10 @@ public class ScholarInterDto {
 
         this.isExpertInter = scholarInter.isExpertInter();
 
-        if(scholarInter.getEdition() != null)
+        if (scholarInter.getEdition() != null) {
+            this.acronym = scholarInter.getEdition().getAcronym();
             this.editionReference = scholarInter.getEdition().getReference();
+        }
 
         this.number = scholarInter.getNumber();
         this.fragXmlId = scholarInter.getFragment().getXmlId();
@@ -66,14 +70,16 @@ public class ScholarInterDto {
         this.title = scholarInter.getTitle();
         this.urlId = scholarInter.getUrlId();
 
-        if((scholarInter.isExpertInter() && scholarInter.getEdition() != null) ||
+        if ((scholarInter.isExpertInter() && scholarInter.getEdition() != null) ||
                 (!scholarInter.isExpertInter() && ((SourceInter) scholarInter).getSource() != null )) {
             this.shortName = scholarInter.getShortName();
             this.reference = scholarInter.getReference();
         }
 
-        if(scholarInter.getEdition() != null)
+        if (scholarInter.getEdition() != null) {
+            this.acronym = scholarInter.getEdition().getAcronym();
             this.editionReference = scholarInter.getEdition().getReference();
+        }
 
         this.isExpertInter = scholarInter.isExpertInter();
         this.number = scholarInter.getNumber();
@@ -84,6 +90,14 @@ public class ScholarInterDto {
         this.notes = this.isExpertInter ? ((ExpertEditionInter) scholarInter).getNotes() : null;
         this.completeNumber = this.isExpertInter ? ((ExpertEditionInter) scholarInter).getCompleteNumber() : null;
 
+    }
+
+    public String getAcronym() {
+        return acronym;
+    }
+
+    public void setAcronym(String acronym) {
+        this.acronym = acronym;
     }
 
     public String getXmlId() {

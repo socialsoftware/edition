@@ -42,35 +42,35 @@
                                 href="${contextPath}/fragments/fragment/${fragment.xmlId}">${fragment.title}</a>
                         </td>
                         <td><c:forEach var="inter"
-                                       items='${fragment.getScholarInterDtoSetForExpertEdtion(jpcEdition.acronym)}'>
+                                       items='${fragment.getEmbeddedScholarInterDtoSetForExpertEdition(jpcEdition.acronym)}'>
                             <%@ include
                                     file="/WEB-INF/jsp/fragment/interMetaInfo.jsp" %>
                             <br>
                             <br>
                         </c:forEach></td>
                         <td><c:forEach var="inter"
-                                       items='${fragment.getScholarInterDtoSetForExpertEdtion(tscEdition.acronym)}'>
+                                       items='${fragment.getEmbeddedScholarInterDtoSetForExpertEdition(tscEdition.acronym)}'>
                             <%@ include
                                     file="/WEB-INF/jsp/fragment/interMetaInfo.jsp" %>
                             <br>
                             <br>
                         </c:forEach></td>
                         <td><c:forEach var="inter"
-                                       items='${fragment.getScholarInterDtoSetForExpertEdtion(rzEdition.acronym)}'>
+                                       items='${fragment.getEmbeddedScholarInterDtoSetForExpertEdition(rzEdition.acronym)}'>
                             <%@ include
                                     file="/WEB-INF/jsp/fragment/interMetaInfo.jsp" %>
                             <br>
                             <br>
                         </c:forEach></td>
                         <td><c:forEach var="inter"
-                                       items='${fragment.getScholarInterDtoSetForExpertEdtion(jpEdition.acronym)}'>
+                                       items='${fragment.getEmbeddedScholarInterDtoSetForExpertEdition(jpEdition.acronym)}'>
                             <%@ include
                                     file="/WEB-INF/jsp/fragment/interMetaInfo.jsp" %>
                             <br>
                             <br>
                         </c:forEach></td>
                         <c:forEach var="inter"
-                                   items='${fragment.getSortedSourceInter()}'>
+                                   items='${fragment.getEmbeddedSourceInter()}'>
                             <td>
                                 <%@ include
                                         file="/WEB-INF/jsp/fragment/interMetaInfo.jsp" %>

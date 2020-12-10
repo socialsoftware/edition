@@ -278,6 +278,22 @@ public class TextProvidesInterface {
         return result;
     }
 
+    public Set<FragmentDto> getFragmentDtosWithScholarInterDtos() {
+        Set<FragmentDto> result = new HashSet<>();
+        for (Fragment fragment : TextModule.getInstance().getFragmentsSet()) {
+            FragmentDto fragmentDto = new FragmentDto(fragment);
+            result.add(fragmentDto);
+
+            Set<ScholarInterDto> scholarInterDtos = new HashSet<>();
+            for (ScholarInter scholarInter : fragment.getScholarInterSet()) {
+                scholarInterDtos.add(new ScholarInterDto(scholarInter));
+            }
+            fragmentDto.setEmbeddedScholarInterDtos(scholarInterDtos);
+        }
+
+        return result;
+    }
+
     public Set<ScholarInterDto> getScholarInterDto4FragmentXmlId(String xmlId) {
         return getFragmentByFragmentXmlId(xmlId).map(fragment -> fragment.getScholarInterSet()).orElse(new HashSet<>()).stream().map(ScholarInterDto::new).collect(Collectors.toSet());
     }
