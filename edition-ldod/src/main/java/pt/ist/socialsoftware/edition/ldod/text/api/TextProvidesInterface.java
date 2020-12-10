@@ -261,6 +261,23 @@ public class TextProvidesInterface {
 //        return TextModule.getInstance().getFragmentsSet().stream().map(FragmentDto::new).collect(Collectors.toSet());
     }
 
+
+    public Set<FragmentDto> getFragmentDtosWithSourceDtos() {
+        Set<FragmentDto> result = new HashSet<>();
+        for (Fragment fragment : TextModule.getInstance().getFragmentsSet()) {
+            FragmentDto fragmentDto = new FragmentDto(fragment);
+            result.add(fragmentDto);
+
+            Set<SourceDto> sources = new HashSet<>();
+            for (Source source : fragment.getSourcesSet()) {
+                sources.add(new SourceDto(source));
+            }
+            fragmentDto.setEmbeddedSourceDtos(sources);
+        }
+
+        return result;
+    }
+
     public Set<ScholarInterDto> getScholarInterDto4FragmentXmlId(String xmlId) {
         return getFragmentByFragmentXmlId(xmlId).map(fragment -> fragment.getScholarInterSet()).orElse(new HashSet<>()).stream().map(ScholarInterDto::new).collect(Collectors.toSet());
     }
@@ -482,6 +499,5 @@ public class TextProvidesInterface {
                         .collect(Collectors.toList()))
                 .orElse(new ArrayList<>());
     }
-
 
 }

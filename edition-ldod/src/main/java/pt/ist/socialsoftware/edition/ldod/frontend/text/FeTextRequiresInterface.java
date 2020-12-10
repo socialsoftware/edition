@@ -48,6 +48,10 @@ public class FeTextRequiresInterface {
         return this.textProvidesInterface.getFragmentDtoSet();
     }
 
+    public Set<FragmentDto> getFragmentDtosWithSourceDtos() {
+        return this.textProvidesInterface.getFragmentDtosWithSourceDtos();
+    }
+
 
     // Uses Virtual Edition Module
     private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
@@ -63,6 +67,5 @@ public class FeTextRequiresInterface {
     public VirtualEditionInterDto getVirtualEditionInterByExternalId(String externalId) {
         return this.virtualProvidesInterface.getVirtualEditionInterByExternalId(externalId);
     }
-
 
 }

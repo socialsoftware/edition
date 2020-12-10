@@ -36,8 +36,8 @@ public class SourceController {
     public String getListOfSources(Model model) {
         logger.debug("getListOfSources");
         List<SourceDto> sources = new ArrayList<>();
-        for (FragmentDto frag : this.feTextRequiresInterface.getFragmentDtoSet()) {
-            sources.addAll(frag.getSourcesSet());
+        for (FragmentDto frag : this.feTextRequiresInterface.getFragmentDtosWithSourceDtos()) {
+            sources.addAll(frag.getEmbeddedSourceDtos());
         }
 
         sources.sort(Comparator.comparing(SourceDto::getName));

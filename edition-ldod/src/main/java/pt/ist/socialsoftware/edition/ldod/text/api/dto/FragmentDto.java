@@ -15,6 +15,8 @@ public class FragmentDto {
     private String title;
     private String externalId;
 
+    private Set<SourceDto> embeddedSourceDtos;
+
     public FragmentDto(Fragment fragment) {
         setXmlId(fragment.getXmlId());
         this.title = fragment.getTitle();
@@ -27,6 +29,14 @@ public class FragmentDto {
 
     public void setXmlId(String xmlId) {
         this.xmlId = xmlId;
+    }
+
+    public Set<SourceDto> getEmbeddedSourceDtos() {
+        return embeddedSourceDtos;
+    }
+
+    public void setEmbeddedSourceDtos(Set<SourceDto> embeddedSourceDtos) {
+        this.embeddedSourceDtos = embeddedSourceDtos;
     }
 
     public ScholarInterDto getScholarInterDtoByUrlId(String urlId) {
