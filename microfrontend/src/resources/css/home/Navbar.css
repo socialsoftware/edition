@@ -1,0 +1,125 @@
+.home{
+    font-family: 'Work Sans', sans-serif;
+}
+
+.home-navbar{
+    border-top: 10px solid #FC1B27;
+    font-family: 'Space-Mono';
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.home-navbar-top{
+    border-bottom: 1px solid #FC1B27;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    height: 62px;
+}
+
+.home-navbar-top-content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 62px;
+    margin: auto;
+    width: 1140px;
+}
+
+
+.home-navbar-top-content-title{
+    color: black;
+    font-weight: 900;
+    font-size: 30px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.home-navbar-top-content-title:hover{
+    color: #0C4EF6
+}
+.home-navbar-top-content-auth{
+    font-family: 'Space Mono', monospace;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+}
+.home-navbar-top-content-auth:hover{
+    color: #0C4EF6
+}
+
+.home-navbar-container{
+    width: 1140px;
+    margin: auto;
+    height: 50px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-family: 'Space Mono', monospace;
+}
+.home-navbar-container-div{
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.home-navbar-container-option{
+    cursor: pointer;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.home-navbar-container-option-selected{
+    color: #FC1B27;
+    cursor: pointer;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.home-navbar-container-arrow{
+    width: 8px;
+    height: 8px;
+    margin-left: 10px;
+}
+
+@media (max-width: 1200px){
+    .home-navbar-container{
+        width: 940px;
+    }
+    .home-navbar-top-content{
+        width: 940px;
+    }
+}
+@media (max-width: 990px){
+    .home-navbar-container{
+        width: 720px;
+    }
+    .home-navbar-top-content{
+        width: 720px;
+    }
+}
+.home-navbar-language{
+    display: flex;
+    justify-content: space-between;
+    width: 70px;
+}
+.home-navbar-language-option{
+    cursor: pointer;
+}
+.home-navbar-language-option:hover{
+    color: #0C4EF6;
+}
+.home-navbar-dropdown-div{
+    position: absolute;
+    left: 0;
+    width: 100%;
+    border-top: 1px dashed #FC1B27;
+    border-bottom: 1px solid #FC1B27;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 15px 0;
+    font-family: 'Space Mono', monospace;
+    text-align: left;
+}
