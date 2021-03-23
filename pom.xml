@@ -123,6 +123,7 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
+                        <forceJavacCompilerUse>true</forceJavacCompilerUse>
                         <source>11</source>
                         <target>11</target>
                     </configuration>
@@ -274,6 +275,8 @@
                         </execution>
                     </executions>
                 </plugin>
+
+
             </plugins>
         </pluginManagement>
     </build>
@@ -552,6 +555,25 @@
             <artifactId>jblas</artifactId>
             <version>${version.org.jblas.jblas}</version>
         </dependency>
+        <dependency>
+
+            <groupId>org.twitter4j</groupId>
+            <artifactId>twitter4j-core</artifactId>
+            <version>4.0.7</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20180813</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version>
+        </dependency>
     </dependencies>
 
     <repositories>
@@ -578,8 +600,17 @@
     </pluginRepositories>
 
     <modules>
-        <module>classification-game</module>
-        <module>ldod-visual</module>
-        <module>edition-ldod</module>
+<!--        <module>classification-game</module>-->
+<!--        <module>ldod-visual</module>-->
+
+        <module>visual</module>
+        <module>recommendation</module>
+        <module>search</module>
+        <module>game</module>
+        <module>virtual</module>
+        <module>text</module>
+        <module>notification</module>
+        <module>user</module>
+        <module>front-end</module>
     </modules>
 </project>

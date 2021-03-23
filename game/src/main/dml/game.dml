@@ -1,0 +1,69 @@
+package pt.ist.socialsoftware.edition.game.domain;
+
+enum ClassificationGame.ClassificationGameState as ClassificationGameState;
+
+class ClassificationModule{
+}
+
+relation DomainRootHasClassificationModule  {
+    .pt.ist.fenixframework.DomainRoot playsRole root {
+    		multiplicity 1..1;
+    }
+    ClassificationModule playsRole classificationModule {
+        multiplicity 0..1;
+    }
+}
+
+class ClassificationGame {
+    String editionId;
+    String interId;
+    String tagId;
+    ClassificationGameState state;
+	String description;
+	DateTime dateTime;
+	boolean sync;
+	String responsible;
+}
+
+class Player {
+    String user;
+	double score;
+}
+
+relation ClassificationModuleHasPlayers {
+	ClassificationModule playsRole classificationModule {multiplicity 1..1;}
+	Player playsRole player {multiplicity 0..*;}
+}
+
+class ClassificationGameRound {
+    int number;
+    int round;
+    String tag;
+    double vote;
+    DateTime time;
+}
+
+class ClassificationGameParticipant {
+    boolean winner;
+    double score;
+}
+
+relation ClassificationModuleHasClassificationGames {
+	ClassificationModule playsRole classificationModule {multiplicity 1..1;}
+	ClassificationGame playsRole classificationGame {multiplicity 0..*;}
+}
+
+relation ClassificationGameParticipantIsPlayer {
+	ClassificationGameParticipant playsRole classificationGameParticipant {multiplicity 0..*;}
+	Player playsRole player {multiplicity 1..1;}
+}
+
+relation ClassificationGameParticipantInGame {
+	ClassificationGameParticipant playsRole classificationGameParticipant {multiplicity 0..*;}
+	ClassificationGame playsRole classificationGame {multiplicity 1..1;}
+}
+
+relation ClassificationGameParticipantInGameRounds {
+	ClassificationGameParticipant playsRole classificationGameParticipant {multiplicity 1..1;}
+	ClassificationGameRound playsRole classificationGameRound {multiplicity 0..*;}
+}

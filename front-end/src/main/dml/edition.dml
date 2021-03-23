@@ -1,0 +1,60 @@
+package pt.ist.socialsoftware.edition.ldod.frontend.domain;
+
+
+// React composable application related changes
+
+class EditionModule {
+    String name;
+}
+
+class UiComponent;
+
+class Menu{
+    String name;
+    int position;
+}
+
+class Option {
+    String name;
+    String link;
+    int position;
+}
+
+relation DomainRootHasEditionModules {
+    .pt.ist.fenixframework.DomainRoot playsRole root {
+        multiplicity 1..1;
+    }
+    EditionModule playsRole module {
+        multiplicity 0..*;
+    }
+}
+
+relation EditionModuleHasUiComponent {
+    EditionModule playsRole module {
+        multiplicity 1..1;
+    }
+
+    UiComponent playsRole uiComponent {
+        multiplicity 1..1;
+    }
+}
+
+relation UiComponentHasMenu {
+    UiComponent playsRole uiComponent {
+        multiplicity 1..1;
+    }
+
+    Menu playsRole menu {
+        multiplicity 0..*;
+    }
+}
+
+relation MenuHasOption {
+    Menu playsRole menu {
+        multiplicity 1..1;
+    }
+
+    Option playsRole option {
+        multiplicity 0..*;
+    }
+}

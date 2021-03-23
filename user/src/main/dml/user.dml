@@ -1,0 +1,86 @@
+package pt.ist.socialsoftware.edition.user.domain;
+
+enum User.SocialMediaService as SocialMediaService;
+enum Role.RoleType as RoleType;
+
+class UserModule {
+	boolean admin;
+}
+
+relation DomainRootHasUserModule {
+	.pt.ist.fenixframework.DomainRoot playsRole root {
+		multiplicity 1..1;
+	}
+	UserModule playsRole userModule {
+		multiplicity 0..1;
+	}
+}
+
+class Role {
+	RoleType type;
+}
+
+relation UserModuleHasRoles {
+	UserModule playsRole userModule {multiplicity 1..1;}
+	Role playsRole roles {multiplicity 0..*;}
+}
+
+class UserConnection {
+	String userId;
+	String providerId;
+	String providerUserId;
+	int rank;
+	String displayName;
+	String profileUrl;
+	String imageUrl;
+	String accessToken;
+	String secret;
+	String refreshToken;
+	Long expireTime;
+}
+
+relation UserModuleHasUserConnections {
+	UserModule playsRole userModule {multiplicity 1..1;}
+	UserConnection playsRole userConnection {multiplicity 0..*;}
+}
+
+class User {
+	boolean enabled;
+	boolean active;
+	String username;
+	String password;
+	String firstName;
+	String lastName;
+	String email;
+	LocalDate lastLogin;
+	SocialMediaService socialMediaService;
+	String socialMediaId;
+}
+
+relation UserModuleHasUsers {
+	.pt.ist.socialsoftware.edition.user.domain.UserModule playsRole userModule {multiplicity 1..1;}
+	User playsRole users {multiplicity 0..*;}
+}
+
+class RegistrationToken {
+	String token;
+	Long expireTime;
+	boolean authorized;
+}
+
+relation UserModuleHasRegistrationToken {
+	UserModule playsRole userModule {multiplicity 1..1;}
+	RegistrationToken playsRole token {multiplicity 0..*;}
+}
+
+relation UserHasRegistrationToken {
+	User playsRole user {multiplicity 1..1;}
+	RegistrationToken playsRole token {multiplicity 0..1;}
+}
+
+
+
+relation UsersAndRoles {
+	User playsRole users {multiplicity 0..*;}
+	Role playsRole roles {multiplicity 0..*;}
+}
