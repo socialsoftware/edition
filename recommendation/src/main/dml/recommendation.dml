@@ -1,0 +1,28 @@
+package pt.ist.socialsoftware.edition.recommendation.domain;
+
+class RecommendationModule;
+
+relation DomainRootHasRecommendationModule {
+    .pt.ist.fenixframework.DomainRoot playsRole root {
+    		multiplicity 1..1;
+    }
+    RecommendationModule playsRole recommendationModule {
+        multiplicity 0..1;
+    }
+}
+
+
+
+class RecommendationWeights {
+    String virtualEditionAcronym;
+	String user;
+	double heteronymWeight;
+	double dateWeight;
+	double textWeight;
+	double taxonomyWeight;
+}
+
+relation RecommendationModuleHasRecommendationWeights {
+	RecommendationModule playsRole recommendationModule {multiplicity 1..1;}
+	RecommendationWeights playsRole recommendationWeights {multiplicity 0..*;}
+}
