@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Ultra&display=swap');
+@font-face {
+    font-family: 'LeagueGothic';
+    src: local('LeagueGothic'), url(../../fonts/LeagueGothic-CondensedRegular.otf) format('opentype');
+}
+.home{
+    width: 100%
+}
+.home-container{
+    width: 1140px;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+.frag-excerpt{
+    display: flex;
+}.frag-number{
+    font-size: 80px;
+    font-family: 'Ultra', serif;
+    color: #FC1B27;
+    margin-left: 10%;
+}
+.frag-editor{
+    font-size: 40px;
+    color: #FC1B27;
+    font-family: 'LeagueGothic';
+    font-weight: 500;
+    margin-top: 15px;
+    margin-left: 20px;
+}
+.frag-excerpt-text{
+    text-align: left;
+    font-weight: 600;
+    font-size: 50px;
+    line-height: 58px;
+}
+hr{
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+.line-points{
+    border-top: 3px dotted #FC1B27;
+}
+.ldod-text{
+    font-family: 'Space Mono', monospace;
+    color: #0C4EF6;
+    font-size: 36px;
+    line-height: 48px;
+    text-align: left;
+}
+.line-x{
+    height: 20px;
+    background: url(../../assets/x.png) repeat-x 0 0;
+    border: 0;
+}
+.div-link{
+    cursor: pointer;
+    position: relative;
+}
+.div-link .img-hover{
+    visibility: hidden;
+}
+.div-link:hover .img-hover{
+    visibility: visible;
+}
+img{
+    width: 100%;
+}
+.img-hover{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.home-info{
+    width:1140px;
+    margin: auto;
+    margin-top: 30px;
+    text-align: left;
+}
+.home-boxes-web{
+    display: block;
+}
+.home-boxes-mobile{
+    display: none;
+}
+@media (max-width: 1200px){
+    .home-container {
+        width: 970px;
+    }
+    .home-info {
+        width: 970px;
+    }
+}
+@media (max-width: 992px){
+    .home-container {
+        width: 720px;
+    }
+    .home-info {
+        width: 720px;
+    }
+}
+@media (max-width: 768px){
+    .home-container {
+        width: 750px;
+    }
+    .home-info {
+        width: 750px;
+    }
+    .home-boxes-web{
+        display: none;
+    }
+    .home-boxes-mobile{
+        display: block;
+    }
+}

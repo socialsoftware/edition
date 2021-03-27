@@ -5,60 +5,62 @@ const initialState = {
     language: "pt",
     modules: [
         {
-            name: "about",
+            name: "header_about",
             active: true,
-            pt:"ACERCA",
-            en: "ABOUT",
-            es: "ACERCA",
-            pages: ["ARQUIVO LDOD", "VÍDEOS", "TUTORIAIS E OFICINAS", "PERGUNTAS FREQUENTES"]
+            pages: [{id:"header_archive", route:"/about/archive"},
+                    {id:"header_videos", route:"/about/videos"},
+                    {id:"header_tutorials", route:"/about/tutorials"},
+                    {id:"header_faq", route:"/about/faq"},
+                    {id:"header_encoding", route:"/about/encoding"},
+                    {id:"header_bibliography", route:"/about/articles"},
+                    {id:"header_conduct", route:"/about/conduct"},
+                    {id:"header_privacy", route:"/about/privacy"},
+                    {id:"header_team", route:"/about/team"},
+                    {id:"header_acknowledgements", route:"/about/acknowledgements"},
+                    {id:"header_contact", route:"/about/contact"},
+                    {id:"header_copyright", route:"/about/copyright"}]
         },
         {
-            name: "reading",
+            name: "general_reading",
             active: true,
-            pt:"LEITURA",
-            en: "READING",
-            es: "LECTURA",
-            pages: ["SEQUENCIA DE LEITURA", "LIVRO VISUAL", "CITACOES NO TWITTER"]
+            pages: [{id:"general_reading_sequences", route:"/reading"},
+                    {id:"general_reading_visual", route:"/ldod-visual"},
+                    {id:"general_citations_twitter", route:"/citations"}]
         },
         {
-            name: "documents",
+            name: "header_documents",
             active: true,
-            pt:"DOCUMENTOS",
-            en: "DOCUMENTS",
-            es: "DOCUMENTOS",
-            pages: ["SEQUENCIA DE LEITURA", "LIVRO VISUAL", "CITACOES NO TWITTER"]
+            pages: [{id:"authorial_source", route:"/source/list"},
+                    {id:"fragment_codified", route:"/fragments"}]
         },
         {
-            name: "editions",
+            name: "header_editions",
             active: true,
-            pt:"EDIÇÕES",
-            en: "EDITIONS",
-            es: "ADICIONES",
-            pages: ["SEQUENCIA DE LEITURA", "LIVRO VISUAL", "CITACOES NO TWITTER"]
+            pages: [{id:"general_editor_prado", route:"/edition/acronym/JPC"},
+                    {id:"general_editor_cunha", route:"/edition/acronym/TSC"},
+                    {id:"general_editor_zenith", route:"/edition/acronym/RZ"},
+                    {id:"general_editor_pizarro", route:"/edition/acronym/JP"},
+                    {id:"header_title", route:"/edition/acronym/LdoD-Arquivo"}]
         },
         {           
-            name: "search",
+            name: "header_search",
             active: true,
-            pt:"PESQUISA",
-            en: "SEARCH",
-            es: "BÚSQUEDA",
-            pages: ["SEQUENCIA DE LEITURA", "LIVRO VISUAL", "CITACOES NO TWITTER"]
+            pages: [{id:"header_search_simple", route:"/search/simple"},
+                    {id:"header_search_advanced", route:"/search/advanced"}]
         },
         {
-            name: "virtual",
+            name: "header_virtual",
             active: true,
-            pt: "VIRTUAL",
-            en: "VIRTUAL",
-            es: "VIRTUAL",
-            pages: ["SEQUENCIA DE LEITURA", "LIVRO VISUAL", "CITACOES NO TWITTER"]
+            pages: [{id:"header_virtualeditions", route:"/virtualeditions"},
+                    {id:"general_classificationGame", route:"/classificationGames"}]
         },
         {
-            name: "admin",
+            name: "header_admin",
             active: false,
-            pt: "ADMIN",
-            en: "ADMIN",
-            es: "ADMIN",
-            pages: ["SEQUENCIA DE LEITURA", "LIVRO VISUAL", "CITACOES NO TWITTER"]
+            pages: [{id:"load", route:"/admin/loadForm"},
+                    {id:"general_export", route:"/admin/exportForm"},
+                    {id:"fragment_delete", route:"/admin/fragment/list"},
+                    {id:"user_manage", route:"/admin/user/list"}]
         }
     ]
 }

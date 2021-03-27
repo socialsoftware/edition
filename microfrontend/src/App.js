@@ -1,12 +1,12 @@
 import './App.css';
-import Home from './microfrontends/home/Home';
 import './App.css'
+import Root from './microfrontends/Root';
 
 
 function App() {
   return (
     <div className="App">
-      <Home/>
+      <Root/>
     </div>
   );
 }

@@ -7,6 +7,7 @@
     font-family: 'Space-Mono';
     font-weight: bold;
     font-size: 14px;
+    width: 100%;
 }
 
 .home-navbar-top{
@@ -34,6 +35,7 @@
     font-size: 30px;
     cursor: pointer;
     text-decoration: none;
+    font-family: 'Work-Sans';
 }
 .home-navbar-top-content-title:hover{
     color: #0C4EF6
@@ -43,6 +45,7 @@
     cursor: pointer;
     text-decoration: none;
     color: black;
+    text-transform: uppercase;
 }
 .home-navbar-top-content-auth:hover{
     color: #0C4EF6
@@ -63,6 +66,7 @@
     align-items: center;
 }
 .home-navbar-container-option{
+    text-transform: uppercase;
     cursor: pointer;
     -moz-user-select: none;
     -khtml-user-select: none;
@@ -71,6 +75,7 @@
     user-select: none;
 }
 .home-navbar-container-option-selected{
+    text-transform: uppercase;
     color: #FC1B27;
     cursor: pointer;
     -moz-user-select: none;
@@ -122,4 +127,25 @@
     padding: 15px 0;
     font-family: 'Space Mono', monospace;
     text-align: left;
+}
+.dropdown-item{
+    margin: 8px 0;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+.dropdown-item:hover{
+    color: #0C4EF6;
+}
+.dropdown-item-ldod{
+    margin: 4px 0;
+    cursor: pointer;
+    text-transform: uppercase;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    width: 180px;
+    padding: 10px 0;
+    height: 20px;
+}
+.dropdown-item:hover-ldod{
+    color: #0C4EF6;
 }
