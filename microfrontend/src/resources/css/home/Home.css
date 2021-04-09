@@ -6,6 +6,9 @@
 .home{
     width: 100%
 }
+body{
+    margin: 0;
+}
 .home-container{
     width: 1140px;
     margin: 0 auto;

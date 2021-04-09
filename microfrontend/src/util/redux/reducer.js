@@ -30,8 +30,8 @@ const initialState = {
         {
             name: "header_documents",
             active: true,
-            pages: [{id:"authorial_source", route:"/source/list"},
-                    {id:"fragment_codified", route:"/fragments"}]
+            pages: [{id:"authorial_source", route:"/documents/source/list"},
+                    {id:"fragment_codified", route:"/documents/fragments"}]
         },
         {
             name: "header_editions",

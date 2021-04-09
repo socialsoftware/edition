@@ -76,7 +76,7 @@ const Home = (props) => {
                         <img className="img-hover" src={require(`../../resources/assets/boxes/D-${props.language}-01-${img1}-h.svg`).default} alt="img1"></img>
                     </div>
                     <hr className="line-points"></hr>
-                    <div onClick={() => {history.push("/source/list")}} className="div-link">
+                    <div onClick={() => {history.push("/documents/source/list")}} className="div-link">
                         <img className="img" src={require(`../../resources/assets/boxes/D-${props.language}-02-${img2}.svg`).default} alt="img1"></img>
                         <img className="img-hover" src={require(`../../resources/assets/boxes/D-${props.language}-02-${img2}-h.svg`).default} alt="img1"></img>
                     </div>
@@ -102,7 +102,7 @@ const Home = (props) => {
                         <img className="img-hover" src={require(`../../resources/assets/boxes/M-${props.language}-01-${img1}-h.svg`).default} alt="img1"></img>
                     </div>
                     <hr className="line-points"></hr>
-                    <div onClick={() => {history.push("/source/list")}} className="div-link">
+                    <div onClick={() => {history.push("/documents/source/list")}} className="div-link">
                         <img className="img" src={require(`../../resources/assets/boxes/M-${props.language}-02-${img2}.svg`).default} alt="img1"></img>
                         <img className="img-hover" src={require(`../../resources/assets/boxes/M-${props.language}-02-${img2}-h.svg`).default} alt="img1"></img>
                     </div>
@@ -126,7 +126,7 @@ const Home = (props) => {
             </div>
             <Info/>
             
-        </div>
+        </div>  
     )
 }
 

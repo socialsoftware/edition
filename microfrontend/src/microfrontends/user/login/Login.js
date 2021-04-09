@@ -15,7 +15,7 @@ const Login = (props) => {
     const handleLogin = (event) => {
         event.preventDefault()
         const loginRequest = {
-            usernameOrEmail:emailOrUsername,
+            username:emailOrUsername,
             password:password
         }
         login(loginRequest) //API COMMUNICATION

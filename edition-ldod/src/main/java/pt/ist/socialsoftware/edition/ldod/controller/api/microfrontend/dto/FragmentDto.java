@@ -14,15 +14,47 @@ public class FragmentDto {
     private List<SourceInterDto> sourceInterDtoList;
 
     public FragmentDto(Fragment fragment) {
-        this.fragmentXmlId = fragment.getXmlId();
-        this.title = fragment.getTitle();
+        this.setFragmentXmlId(fragment.getXmlId());
+        this.setTitle(fragment.getTitle());
 
-        this.expertEditionInterDtoMap = fragment.getExpertEditionInterSet().stream()
+        this.setExpertEditionInterDtoMap(fragment.getExpertEditionInterSet().stream()
                 .map(ExpertEditionInterDto::new)
-                .collect(Collectors.toMap(ExpertEditionInterDto::getEditionAcronym, Function.identity()));
+                .collect(Collectors.toMap(ExpertEditionInterDto::getEditionAcronym, Function.identity(), (existing, replacement) -> existing)));
 
-        this.sourceInterDtoList = fragment.getSortedSourceInter().stream()
+        this.setSourceInterDtoList(fragment.getSortedSourceInter().stream()
                 .map(SourceInterDto::new)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
     }
+
+	public String getFragmentXmlId() {
+		return fragmentXmlId;
+	}
+
+	public void setFragmentXmlId(String fragmentXmlId) {
+		this.fragmentXmlId = fragmentXmlId;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public Map<String, ExpertEditionInterDto> getExpertEditionInterDtoMap() {
+		return expertEditionInterDtoMap;
+	}
+
+	public void setExpertEditionInterDtoMap(Map<String, ExpertEditionInterDto> expertEditionInterDtoMap) {
+		this.expertEditionInterDtoMap = expertEditionInterDtoMap;
+	}
+
+	public List<SourceInterDto> getSourceInterDtoList() {
+		return sourceInterDtoList;
+	}
+
+	public void setSourceInterDtoList(List<SourceInterDto> sourceInterDtoList) {
+		this.sourceInterDtoList = sourceInterDtoList;
+	}
 }

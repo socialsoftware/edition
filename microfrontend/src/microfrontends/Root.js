@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import '../resources/css/home/Navbar.css'
-import Navbar from './home/Navbar'
+import Navbar from './common/Navbar'
 import { BrowserRouter, Route, Switch} from "react-router-dom";
 import Login from './user/login/Login';
 import Register from './user/register/Register';
@@ -14,7 +14,8 @@ import * as messages_en from '../constants/messages_en'
 import * as messages_pt from '../constants/messages_pt'
 import * as messages_es from '../constants/messages_es'
 import About_DISPATCHER from './about/About_DISPATCHER';
-import Home from './home/Home';
+import Documents_DISPATCHER from './documents/Documents_DISPATCHER';
+import Home from './common/Home';
 
 const Root = () => {
 
@@ -47,7 +48,6 @@ const Root = () => {
     }, [])
 
     const loadCurrentUser = () => {
-
         getCurrentUser()
         .then(response => {
             console.log(response)
@@ -108,6 +108,13 @@ const Root = () => {
                         </Route>
                         <Route path="/about" 
                             component={(props) => <About_DISPATCHER 
+                            {...props} 
+                            language={language}
+                            messages={messages}
+                            />}>
+                        </Route>
+                        <Route path="/documents" 
+                            component={(props) => <Documents_DISPATCHER 
                             {...props} 
                             language={language}
                             messages={messages}

@@ -23,11 +23,18 @@ export function checkEmailAvailability(email) {
     });
 } */
 
+export function getFragmentList () {
+    return axios.get(API_BASE_URL + `/api/microfrontend/fragments`)
+}
+export function getSourceList () {
+    return axios.get(API_BASE_URL + `/api/microfrontend/sources`)
+}
+
 export function getCurrentUser() {
     if(!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");
     }
-    return axios.get(API_BASE_URL + `/user/me`, {
+    return axios.get(API_BASE_URL + `/api/user`, {
         headers: {
             'Content-type' : 'application/json',
             Accept: 'application/json',
