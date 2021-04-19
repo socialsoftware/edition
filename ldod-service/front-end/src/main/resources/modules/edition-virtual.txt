@@ -1,0 +1,2 @@
+topBar.editions.title : Arquivo LdoD#/edition/acronym/LdoD-Arquivo#1, LdoD-JPC-ANOT#/edition/acronym/LdoD-JPC-anot#2, LdoD-JOGO-CLASS#/edition/acronym/LdoD-Jogo-Class#3, LdoD-MALLET#/edition/acronym/LdoD-Mallet#4, LdoD-TWITTER#/edition/acronym/LdoD-Twitter#5
+topBar.virtual.title : topBar.virtual.editions#/virtualeditions#1, topBar.virtual.game#/classificationGames#2

@@ -14,6 +14,10 @@ public class SurfaceDto {
         setGraphic(surface.getGraphic());
     }
 
+    public SurfaceDto() {
+        super();
+    }
+
     public String getXmlId() {
         return xmlId;
     }

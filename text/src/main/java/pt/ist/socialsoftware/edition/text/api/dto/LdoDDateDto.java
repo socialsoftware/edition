@@ -16,6 +16,7 @@ public class LdoDDateDto {
         setPrecision(ldoDDate.getPrecision());
     }
 
+
     public String print() {
         switch (getType()) {
             case YEAR:
@@ -36,6 +37,7 @@ public class LdoDDateDto {
     public void setType(LdoDDate.DateType type) {
         this.type = type;
     }
+
 
     public LocalDate getDate() {
         return this.date;

@@ -1,0 +1,24 @@
+package pt.ist.socialsoftware.edition.search.feature.options;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import pt.ist.socialsoftware.edition.search.api.dto.ManuscriptSearchOptionDto;
+import pt.ist.socialsoftware.edition.virtual.api.textdto.SourceDto;
+
+public final class ManuscriptSearchOption extends AuthoralSearchOption {
+    public static final String MANUSCRIPTID = "manus";
+
+    public ManuscriptSearchOption(@JsonProperty("hasLdoDMark") String hasLdoD,
+                                  @JsonProperty("date") DateSearchOption date) {
+        super(hasLdoD, date);
+    }
+
+    public ManuscriptSearchOption(ManuscriptSearchOptionDto manuscriptSearchOptionDto) {
+        super(manuscriptSearchOptionDto.getHasLdoD(), manuscriptSearchOptionDto.getDateSearchOption().createSearchOption());
+    }
+
+    @Override
+    protected boolean isOfDocumentType(SourceDto source) {
+        return source.hasHandNoteSet();
+    }
+
+}

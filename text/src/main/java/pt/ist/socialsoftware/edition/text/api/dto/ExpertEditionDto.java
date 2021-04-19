@@ -1,5 +1,8 @@
 package pt.ist.socialsoftware.edition.text.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import pt.ist.socialsoftware.edition.text.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.text.api.TextProvidesInterface;
 
@@ -13,11 +16,20 @@ public class ExpertEditionDto {
     // cached attributes
     private String editor;
     private String externalId;
+    private String author;
+    private String title;
 
     public ExpertEditionDto(ExpertEdition expertEdition) {
         this.acronym = expertEdition.getAcronym();
         this.editor = expertEdition.getEditor();
         this.externalId = expertEdition.getExternalId();
+        this.author = expertEdition.getAuthor();
+        this.title = expertEdition.getTitle();
+    }
+
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public ExpertEditionDto(@JsonProperty("acronym") String acronym) {
+        this.acronym = acronym;
     }
 
     public String getAcronym() {
@@ -29,16 +41,16 @@ public class ExpertEditionDto {
         return this.editor;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
     public String getExternalId() {
         return externalId;
-    }
-
-    public List<ScholarInterDto> getExpertEditionInters() {
-        return this.textProvidesInterface.getExpertEditionScholarInterDtoList(this.acronym);
-    }
-
-    public List<ScholarInterDto> getSortedInter4Frag(String fragmentXmlId) {
-        return this.textProvidesInterface.getExpertEditionSortedInter4Frag(this.acronym, fragmentXmlId);
     }
 
     public boolean isExpertEdition() {

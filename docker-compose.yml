@@ -1,16 +1,20 @@
 version: '3.3'
 services:
-  db:
+  db_service:
     image: mysql:latest
     restart: always
     environment:
       MYSQL_DATABASE: 'edition'
       # So you don't have to use root, but you can if you like
-      MYSQL_USER: 'root'
+      MYSQL_USER: 'darfo'
       # You can use whatever password you like
-      MYSQL_PASSWORD: ''
+      MYSQL_PASSWORD: 'darfo'
       # Password for root access
-      MYSQL_ROOT_PASSWORD: ''
+      MYSQL_ROOT_PASSWORD: 'darfo'
+
+    networks:
+      - backend
+
     ports:
       # <Port exposed> : < MySQL Port running inside container>
       - '3307:3307'
@@ -18,22 +22,30 @@ services:
       # Opens port 3307 on the container
       - '3307'
       # Where our data will be persisted
-    volumes:
-      - my-db:/var/lib/mysql
+#    volumes:
+#      - my-db:/var/lib/mysql
 
-  docker-ldod:
-    image: docker-ldod
+
+
+  docker-service:
+    image: docker-service
     restart: on-failure
     depends_on:
-      - db
+      - db_service
+      - db_text
+      - docker-text
+
+    networks:
+      - backend
+
     ports:
       - 8080:8080
 
     environment:
-      dbAlias: jdbc:mysql://db:3306/edition?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
+      dbAlias: jdbc:mysql://db_service:3306/edition?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
       # Database username and password
-      dbUsername:
-      dbPassword:
+      dbUsername: 'darfo'
+      dbPassword: 'darfo'
 
     volumes:
       - /opt/ldod/corpus/:/opt/ldod/corpus
@@ -46,6 +58,72 @@ services:
       - /opt/ldod/indexer/:/opt/ldod/indexer/
       - /opt/ldod/tests/:/opt/ldod/tests/
       - /opt/ldod/social/aware/:/opt/ldod/social/aware/
+
+  db_text:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'text'
+      # So you don't have to use root, but you can if you like
+      MYSQL_USER: 'darfo'
+      # You can use whatever password you like
+      MYSQL_PASSWORD: 'darfo'
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: 'darfo'
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '3308:3308'
+    networks:
+      - backend
+
+    expose:
+      # Opens port 3307 on the container
+      - '3308'
+      # Where our data will be persisted
+#    volumes:
+#      - my-db:/var/lib/mysql
+
+
+  docker-text:
+    image: docker-text
+    restart: on-failure
+    depends_on:
+      - db_text
+    networks:
+      - backend
+    ports:
+      - 8081:8081
+
+    environment:
+      dbAlias: jdbc:mysql://db_text:3306/text?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
+        # Database username and password
+      dbUsername: 'darfo'
+      dbPassword: 'darfo'
+
+    volumes:
+        - /opt/ldod/corpus/:/opt/ldod/corpus/
+        - /opt/ldod/corpus/files/:/opt/ldod/corpus/files/
+        - /opt/ldod/corpus/stoplist-pt.txt:/opt/ldod/corpus/stoplist-pt.txt
+        - /opt/ldod/inters/:/opt/ldod/inters/
+        - /opt/ldod/facsimiles/:/opt/ldod/facsimiles/
+        - /opt/ldod/encoding/:/opt/ldod/encoding/
+        - /opt/ldod/export/:/opt/ldod/export/
+        - /opt/ldod/indexer/:/opt/ldod/indexer/
+        - /opt/ldod/tests/:/opt/ldod/tests/
+        - /opt/ldod/social/aware/:/opt/ldod/social/aware/
+
+  docker-activemq:
+    image: rmohr/activemq
+    restart: on-failure
+    networks:
+      - backend
+    ports:
+    - 61616:61616
+    - 8161:8161
+
+networks:
+  backend:
+    driver: bridge
 
 # Names our volume
 volumes:

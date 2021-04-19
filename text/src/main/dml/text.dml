@@ -407,6 +407,7 @@ class Citation {
 	String sourceLink;
 	String date;
 	String fragText;
+	long id;
 }
 
 
@@ -423,10 +424,11 @@ class InfoRange {
   	int endOffset;
   	String quote;
 	String text;
+	long id;
 }
 
 relation CitationHasInfoRanges {
-	Citation playsRole citation {multiplicity 1..1;}
+	Citation playsRole citation {multiplicity 0..1;}
 	InfoRange playsRole infoRange {multiplicity 0..*;}
 }
 

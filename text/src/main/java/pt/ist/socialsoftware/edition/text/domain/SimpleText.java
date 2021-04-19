@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.notification.event.Event;
 import pt.ist.socialsoftware.edition.notification.event.EventInterface;
+import pt.ist.socialsoftware.edition.text.api.BeanUtil;
+import pt.ist.socialsoftware.edition.text.api.TextEventPublisher;
 import pt.ist.socialsoftware.edition.text.feature.generators.TextPortionVisitor;
 
 /**
@@ -22,7 +24,9 @@ public class SimpleText extends SimpleText_Base {
     @Override
     public void remove() {
 
-        EventInterface.getInstance().publish(new Event(Event.EventType.SIMPLE_TEXT_REMOVE, this.getXmlId()));
+//        EventInterface.getInstance().publish(new Event(Event.EventType.SIMPLE_TEXT_REMOVE, this.getXmlId()));
+        TextEventPublisher eventPublisher = BeanUtil.getBean(TextEventPublisher.class);
+        eventPublisher.publishEvent(new Event(Event.EventType.SIMPLE_TEXT_REMOVE, this.getXmlId()));
 
 //        for (HumanAnnotation annotation : getStartAnnotationsSet()) {
 //            annotation.remove();

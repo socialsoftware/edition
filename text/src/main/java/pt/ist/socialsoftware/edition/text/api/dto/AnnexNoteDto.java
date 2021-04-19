@@ -9,6 +9,10 @@ public class AnnexNoteDto {
 
     private String text;
 
+    public AnnexNoteDto() {
+        super();
+    }
+
     public AnnexNoteDto(AnnexNote note){
         setNumber(note.getNumber());
         setText(note.getNoteText().generatePresentationText());

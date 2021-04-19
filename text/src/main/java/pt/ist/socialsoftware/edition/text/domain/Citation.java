@@ -5,7 +5,7 @@ import pt.ist.socialsoftware.edition.text.api.dto.FragmentDto;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public abstract class Citation extends Citation_Base {
+public class Citation extends Citation_Base {
 
 	public void init(Fragment fragment, String sourceLink, String date, String fragText) {
 		setFragment(fragment);
@@ -14,11 +14,12 @@ public abstract class Citation extends Citation_Base {
 		setFragText(fragText);
 	}
 
-	public void init(FragmentDto fragment, String sourceLink, String date, String fragText) {
-		setFragment(TextModule.getInstance().getFragmentByXmlId(fragment.getXmlId()));
+	public void init(String fragmentXmlId, String sourceLink, String date, String fragText, long id) {
+		setFragment(TextModule.getInstance().getFragmentByXmlId(fragmentXmlId));
 		setSourceLink(sourceLink);
 		setDate(date);
 		setFragText(fragText);
+		setId(id);
 	}
 
 	public void remove() {
@@ -31,7 +32,6 @@ public abstract class Citation extends Citation_Base {
 		deleteDomainObject();
 	}
 
-	public abstract long getId();
 
 	// atualmente está a ser utilizado o método da AwareFactory em vez deste
 	// TODO: não deveria ser == inter.getLastUsed() ??
@@ -40,7 +40,9 @@ public abstract class Citation extends Citation_Base {
 				.orElse(null);
 	}
 
-	public abstract int getNumberOfRetweets();
+	public int getNumberOfRetweets() {
+		return 0;
+	}
 
 	public LocalDateTime getFormatedDate() {
 		DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");

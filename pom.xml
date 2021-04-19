@@ -296,10 +296,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-security</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -574,6 +574,21 @@
             <artifactId>json-simple</artifactId>
             <version>1.1.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
     </dependencies>
 
     <repositories>
@@ -600,17 +615,8 @@
     </pluginRepositories>
 
     <modules>
-<!--        <module>classification-game</module>-->
-<!--        <module>ldod-visual</module>-->
-
-        <module>visual</module>
-        <module>recommendation</module>
-        <module>search</module>
-        <module>game</module>
-        <module>virtual</module>
-        <module>text</module>
+        <module>ldod-service</module>
+<!--        <module>text</module>-->
         <module>notification</module>
-        <module>user</module>
-        <module>front-end</module>
     </modules>
 </project>

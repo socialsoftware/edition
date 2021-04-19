@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.notification.event.Event;
 import pt.ist.socialsoftware.edition.notification.event.EventInterface;
+import pt.ist.socialsoftware.edition.text.api.BeanUtil;
+import pt.ist.socialsoftware.edition.text.api.TextEventPublisher;
 
 
 import java.time.LocalDateTime;
@@ -34,7 +36,10 @@ public abstract class ScholarInter extends ScholarInter_Base {
 
     public void remove() {
 
-        EventInterface.getInstance().publish(new Event(Event.EventType.SCHOLAR_INTER_REMOVE, this.getXmlId()));
+//        EventInterface.getInstance().publish(new Event(Event.EventType.SCHOLAR_INTER_REMOVE, this.getXmlId()));
+        TextEventPublisher eventPublisher = BeanUtil.getBean(TextEventPublisher.class);
+        eventPublisher.publishEvent(new Event(Event.EventType.SCHOLAR_INTER_REMOVE, this.getXmlId()));
+
         setFragment(null);
         setHeteronym(null);
 

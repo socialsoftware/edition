@@ -28,6 +28,12 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
                 .collect(Collectors.toList());
     }
 
+    public HtmlWriter2CompInters(List<String> externalIds, boolean optional) {
+        this.interps = externalIds.stream()
+                .map(externalId -> (ScholarInter) FenixFramework.getDomainObject(externalId))
+                .collect(Collectors.toList());
+    }
+
     public void write(Boolean lineByLine, Boolean showSpaces) {
         this.lineByLine = lineByLine;
         this.showSpaces = showSpaces;
@@ -42,6 +48,10 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 
     public String getTranscription(ScholarInterDto interDto) {
         return getTranscription((ScholarInter) FenixFramework.getDomainObject(interDto.getExternalId()));
+    }
+
+    public String getTranscription(String externalId) {
+        return getTranscription((ScholarInter) FenixFramework.getDomainObject(externalId));
     }
 
     public String getTranscription(ScholarInter inter) {

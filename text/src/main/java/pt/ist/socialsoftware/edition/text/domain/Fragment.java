@@ -2,16 +2,22 @@ package pt.ist.socialsoftware.edition.text.domain;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.notification.event.Event;
 import pt.ist.socialsoftware.edition.notification.event.EventInterface;
+import pt.ist.socialsoftware.edition.text.api.BeanUtil;
+import pt.ist.socialsoftware.edition.text.api.TextEventPublisher;
 
 
 import java.util.*;
 
+
 public class Fragment extends Fragment_Base implements Comparable<Fragment> {
     private static final Logger logger = LoggerFactory.getLogger(Fragment.class);
+
 
     public enum PrecisionType {
         HIGH("high"), MEDIUM("medium"), LOW("low"), UNKNOWN("unknown");
@@ -36,7 +42,9 @@ public class Fragment extends Fragment_Base implements Comparable<Fragment> {
     @Atomic(mode = TxMode.WRITE)
     public void remove() {
 
-        EventInterface.getInstance().publish(new Event(Event.EventType.FRAGMENT_REMOVE, this.getXmlId()));
+//        EventInterface.getInstance().publish(new Event(Event.EventType.FRAGMENT_REMOVE, this.getXmlId()));
+        TextEventPublisher eventPublisher = BeanUtil.getBean(TextEventPublisher.class);
+        eventPublisher.publishEvent(new Event(Event.EventType.FRAGMENT_REMOVE, this.getXmlId()));
 
         setTextModule(null);
 

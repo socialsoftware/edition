@@ -1,12 +1,20 @@
 package pt.ist.socialsoftware.edition.text.api.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import pt.ist.fenixframework.Atomic;
+import pt.ist.socialsoftware.edition.text.api.TextProvidesInterface;
 import pt.ist.socialsoftware.edition.text.domain.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+
 public class SourceDto {
+
     private String xmlId;
 
     //cached attributes
@@ -95,67 +103,6 @@ public class SourceDto {
         return this.material;
     }
 
-    public String getFormattedDimensions() {
-        return getSourceByXmlId(this.xmlId)
-                .filter(ManuscriptSource.class::isInstance)
-                .map(ManuscriptSource.class::cast)
-                .map(ManuscriptSource::getDimensionsSet)
-                .orElse(new HashSet<>())
-                .stream().map(dimensions -> dimensions.getHeight() + "x" + dimensions.getWidth())
-                .collect(Collectors.joining(";"));
-    }
-
-    public List<DimensionsDto> getSortedDimensionsDto() {
-        return getSourceByXmlId(this.xmlId)
-                .filter(ManuscriptSource.class::isInstance)
-                .map(ManuscriptSource.class::cast)
-                .map(ManuscriptSource::getSortedDimensions)
-                .orElse(new ArrayList<>())
-                .stream().map(DimensionsDto::new)
-                .collect(Collectors.toList());
-    }
-
-    public List<AbstractMap.SimpleEntry<String, String>> getFormattedHandNote() {
-        return getSourceByXmlId(this.xmlId)
-                .filter(ManuscriptSource.class::isInstance)
-                .map(ManuscriptSource.class::cast)
-                .map(ManuscriptSource::getHandNoteSet)
-                .orElse(new HashSet<>())
-                .stream().map(handNote ->
-                        new AbstractMap.SimpleEntry<>((handNote.getMedium() != null ? handNote.getMedium().getDesc() : ""), handNote.getNote()))
-                .collect(Collectors.toList());
-    }
-
-    public Set<ManuscriptNote> getHandNoteSet() {
-        return getSourceByXmlId(this.xmlId)
-                .filter(ManuscriptSource.class::isInstance)
-                .map(ManuscriptSource.class::cast)
-                .map(ManuscriptSource::getHandNoteSet)
-                .orElse(new HashSet<>())
-                .stream().map(ManuscriptNote::new)
-                .collect(Collectors.toSet());
-    }
-
-    public List<AbstractMap.SimpleEntry<String, String>> getFormattedTypeNote() {
-        return getSourceByXmlId(this.xmlId)
-                .filter(ManuscriptSource.class::isInstance)
-                .map(ManuscriptSource.class::cast)
-                .map(ManuscriptSource::getTypeNoteSet)
-                .orElse(new HashSet<>())
-                .stream().map(typeNote ->
-                        new AbstractMap.SimpleEntry<>((typeNote.getMedium() != null ? typeNote.getMedium().getDesc() : ""), typeNote.getNote()))
-                .collect(Collectors.toList());
-    }
-
-    public Set<ManuscriptNote> getTypeNoteSet() {
-        return getSourceByXmlId(this.xmlId)
-                .filter(ManuscriptSource.class::isInstance)
-                .map(ManuscriptSource.class::cast)
-                .map(ManuscriptSource::getHandNoteSet)
-                .orElse(new HashSet<>())
-                .stream().map(ManuscriptNote::new)
-                .collect(Collectors.toSet());
-    }
 
     public int getColumns() {
        /* return getSourceByXmlId(this.xmlId)
@@ -254,37 +201,12 @@ public class SourceDto {
         return this.hasTypeNoteSet;
     }
 
-    public LdoDDateDto getLdoDDate() {
-        return getSourceByXmlId(this.xmlId)
-                .map(source -> source.getLdoDDate() != null ? new LdoDDateDto(source.getLdoDDate()) : null)
-                .orElse(null);
-    }
-
-    public LdoDDateDto getLdoDDateDto() {
-        return getSourceByXmlId(this.xmlId)
-                .map(Source_Base::getLdoDDate)
-                .map(LdoDDateDto::new)
-                .orElse(null);
-    }
-
-    public List<SurfaceDto> getSurfaces() {
-        List<Surface> surfaces = getSourceByXmlId(this.xmlId)
-                .map(Source_Base::getFacsimile)
-                .map(Facsimile::getSurfaces).orElse(new ArrayList<>());
-        return surfaces.stream().map(SurfaceDto::new).collect(Collectors.toList());
-    }
-
     public Source.SourceType getType() {
         //return getSourceByXmlId(this.xmlId).map(source -> source.getType()).orElse(null);
         return this.type;
     }
 
-    public HeteronymDto getHeteronym() {
-        return getSourceByXmlId(this.xmlId)
-                .map(Source::getHeteronym)
-                .map(HeteronymDto::new)
-                .orElse(null);
-    }
+
 
     public ManuscriptSource.Form getForm() {
        /* return getSourceByXmlId(this.xmlId)
@@ -293,17 +215,5 @@ public class SourceDto {
                 .map(ManuscriptSource::getForm)
                 .orElse(null);*/
        return this.form;
-    }
-
-    public Set<ScholarInterDto> getSourceIntersSet() {
-        Set<SourceInter> sourceInters = getSourceByXmlId(this.xmlId).map(Source::getSourceIntersSet).orElse(new HashSet<>());
-        return sourceInters.stream().map(ScholarInterDto::new).collect(Collectors.toSet());
-    }
-
-    private Optional<Source> getSourceByXmlId(String xmlId) {
-        return TextModule.getInstance().getFragmentsSet().stream()
-                .flatMap(fragment -> fragment.getSourcesSet().stream())
-                .filter(source -> source.getXmlId().equals(xmlId))
-                .findAny();
     }
 }

@@ -5,7 +5,7 @@ import pt.ist.socialsoftware.edition.text.utils.DateUtils;
 
 
 public class LdoDDate extends LdoDDate_Base {
-	public static enum DateType {
+	public  enum DateType {
 		YEAR, MONTH, DAY
 	}
 

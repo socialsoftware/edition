@@ -1,8 +1,12 @@
 package pt.ist.socialsoftware.edition.text.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.text.domain.Fragment;
 import pt.ist.socialsoftware.edition.text.api.TextProvidesInterface;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -16,15 +20,17 @@ public class FragmentDto {
     private String title;
     private String externalId;
 
-    private Set<SourceDto> embeddedSourceDtos;
+    private Set<SourceDto> embeddedSourceDtos = new HashSet<>(  );
 
-    private Set<ScholarInterDto> embeddedScholarInterDtos;
+    private Set<ScholarInterDto> embeddedScholarInterDtos = new HashSet<>();
 
     public FragmentDto(Fragment fragment) {
         setXmlId(fragment.getXmlId());
         this.title = fragment.getTitle();
         this.externalId = fragment.getExternalId();
     }
+
+    public FragmentDto() { super(); }
 
     public String getXmlId() {
         return this.xmlId;
@@ -50,55 +56,30 @@ public class FragmentDto {
         this.embeddedScholarInterDtos = embeddedScholarInterDtos;
     }
 
-    public ScholarInterDto getScholarInterDtoByUrlId(String urlId) {
-        return this.textProvidesInterface.getScholarInterDtoByFragmentXmlIdAndUrlId(getXmlId(), urlId);
-    }
-
     public String getTitle() {
         //return this.textProvidesInterface.getFragmentTitle(getXmlId());
         return this.title;
     }
 
-    public Set<ScholarInterDto> getScholarInterDtoSet() {
-        return this.textProvidesInterface.getScholarInterDto4FragmentXmlId(getXmlId());
-    }
-
-    public Set<ScholarInterDto> getScholarInterDtoSetForExpertEdtion(String acronym) {
-        return this.textProvidesInterface.getFragmentScholarInterDtoSetForExpertEdtion(getXmlId(), acronym);
-    }
 
     public Set<ScholarInterDto> getEmbeddedScholarInterDtoSetForExpertEdition(String acronym) {
         return this.embeddedScholarInterDtos.stream()
                 .filter(scholarInterDto -> scholarInterDto.getAcronym().equals(acronym)).collect(Collectors.toSet());
     }
 
-    public List<ScholarInterDto> getSortedSourceInter() {
-        return this.textProvidesInterface.getFragmentSortedSourceInter(this.xmlId);
-    }
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public List<ScholarInterDto> getEmbeddedSourceInter() {
         return this.embeddedScholarInterDtos.stream()
                 .filter(scholarInterDto -> scholarInterDto.isSourceInter()).collect(Collectors.toList());
     }
 
-    public ScholarInterDto getScholarInterByUrlId(String urlId) {
-        return this.textProvidesInterface.getFragmentScholarInterByUrlId(this.xmlId, urlId);
-    }
-
-    public ScholarInterDto getScholarInterByXmlId(String xmlId) {
-        return this.textProvidesInterface.getScholarInter(xmlId);
-    }
 
     // Only necessary due to manual ordering of virtual edition javascript code
     public String getExternalId() {
         //return this.textProvidesInterface.getFragmentExternalId(getXmlId());
         return this.externalId;
     }
-
-    public Set<SourceDto> getSourcesSet() {
-        return this.textProvidesInterface.getFragmentSourceSet(this.xmlId);
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -117,8 +98,5 @@ public class FragmentDto {
         return this.xmlId.hashCode();
     }
 
-    public Set<CitationDto> getCitationSet() {
-        return this.textProvidesInterface.getFragmentCitationSet(this.xmlId);
-    }
 
 }

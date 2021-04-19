@@ -1,8 +1,14 @@
 package pt.ist.socialsoftware.edition.text.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.web.reactive.function.client.WebClient;
+import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.text.api.TextProvidesInterface;
 
 import pt.ist.socialsoftware.edition.text.domain.ExpertEditionInter;
@@ -14,7 +20,6 @@ import java.util.List;
 
 
 public class ScholarInterDto {
-    private final TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
 
     private static final Logger logger = LoggerFactory.getLogger(ScholarInterDto.class);
 
@@ -28,6 +33,7 @@ public class ScholarInterDto {
     private String urlId;
     private String shortName;
     private boolean isExpertInter;
+    private boolean isSourceInter;
     private String reference;
     private String editionReference;
     private int number;
@@ -52,6 +58,7 @@ public class ScholarInterDto {
         }
 
         this.isExpertInter = scholarInter.isExpertInter();
+        this.isSourceInter = !scholarInter.isExpertInter();
 
         if (scholarInter.getEdition() != null) {
             this.acronym = scholarInter.getEdition().getAcronym();
@@ -86,6 +93,8 @@ public class ScholarInterDto {
         }
 
         this.isExpertInter = scholarInter.isExpertInter();
+        this.isSourceInter = !scholarInter.isExpertInter();
+
         this.number = scholarInter.getNumber();
         this.fragXmlId = scholarInter.getFragment().getXmlId();
         this.volume = this.isExpertInter ? ((ExpertEditionInter) scholarInter).getVolume() : null;
@@ -94,6 +103,10 @@ public class ScholarInterDto {
         this.notes = this.isExpertInter ? ((ExpertEditionInter) scholarInter).getNotes() : null;
         this.completeNumber = this.isExpertInter ? ((ExpertEditionInter) scholarInter).getCompleteNumber() : null;
 
+    }
+
+    public ScholarInterDto() {
+        super();
     }
 
     public String getAcronym() {
@@ -115,14 +128,6 @@ public class ScholarInterDto {
     public String getExternalId() {
        //return this.textProvidesInterface.getScholarInterExternalId(this.xmlId);
         return this.externalId;
-    }
-
-    public LdoDDateDto getLdoDDate() {
-        return this.textProvidesInterface.getScholarInterDate(this.xmlId);
-    }
-
-    public HeteronymDto getHeteronym() {
-        return this.textProvidesInterface.getScholarInterHeteronym(this.xmlId);
     }
 
     //check
@@ -150,39 +155,27 @@ public class ScholarInterDto {
         return this.editionReference;
     }
 
-    public ExpertEditionDto getExpertEdition() {
-        return this.textProvidesInterface.getScholarInterExpertEdition(this.xmlId);
-    }
-
     public int getNumber() {
         //return this.textProvidesInterface.getScholarInterNumber(this.xmlId);
         return this.number;
     }
 
+    @JsonProperty(value = "isSourceInter")
     public boolean isSourceInter() {
         //return !this.textProvidesInterface.isExpertInter(this.xmlId);
-        return !this.isExpertInter;
+        return this.isSourceInter;
     }
 
-    public SourceDto getSourceDto() {
-        return this.textProvidesInterface.getSourceOfSourceInter(this.xmlId);
+    @JsonProperty(value = "isExpertInter")
+    public boolean isExpertInter() {
+        //return !this.textProvidesInterface.isExpertInter(this.xmlId);
+        return this.isExpertInter;
     }
 
-    public String getExpertEditionAcronym() {
-        return this.textProvidesInterface.getExpertEditionAcronym(this.xmlId);
-    }
+//    public SourceDto getSourceDto() {
+//        return this.textProvidesInterface.getSourceOfSourceInter(this.xmlId);
+//    }
 
-    public int getNumberOfTimesCited() {
-        return this.textProvidesInterface.getNumberOfTimesCited(this.xmlId);
-    }
-
-    public int getNumberOfTimesCitedIncludingRetweets() {
-        return this.textProvidesInterface.getNumberOfTimesCitedIncludingRetweets(this.xmlId);
-    }
-
-    public FragmentDto getFragmentDto() {
-        return this.textProvidesInterface.getFragmentOfScholarInterDto(this);
-    }
 
     public String getTitle() {
         //return this.textProvidesInterface.getScholarInterTitle(this.xmlId);
@@ -199,30 +192,9 @@ public class ScholarInterDto {
         return this.shortName;
     }
 
-    public ScholarInterDto getNextScholarInter() {
-        return this.textProvidesInterface.getScholarInterNextNumberInter(this.xmlId);
-    }
-
-    public ScholarInterDto getPrevScholarInter() {
-        return this.textProvidesInterface.getScholarInterPrevNumberInter(this.xmlId);
-    }
-
     public String getVolume() {
         //return this.textProvidesInterface.getExpertEditionInterVolume(this.xmlId);
         return this.volume;
-    }
-
-    public String getTranscription() {
-        return this.textProvidesInterface.getScholarInterTranscription(this.xmlId);
-    }
-
-    public String getSourceTranscription(boolean diff, boolean del, boolean ins,
-                                         boolean subst, boolean notes) {
-        return this.textProvidesInterface.getSourceInterTranscription(this.xmlId, diff, del, ins, subst, notes);
-    }
-
-    public String getExpertTranscription(boolean diff) {
-        return this.textProvidesInterface.getExpertInterTranscription(this.xmlId, diff);
     }
 
     public String getCompleteNumber() {
@@ -243,18 +215,6 @@ public class ScholarInterDto {
     public String getNotes() {
         //return this.textProvidesInterface.getExpertEditionInterNotes(this.xmlId);
         return this.notes;
-    }
-
-    public List<AnnexNoteDto> getSortedAnnexNote() {
-        return this.textProvidesInterface.getScholarInterSortedAnnexNotes(this.xmlId);
-    }
-
-    public ScholarInterDto getNextNumberInter() {
-        return this.textProvidesInterface.getScholarInterNextNumberInter(this.xmlId);
-    }
-
-    public ScholarInterDto getPrevNumberInter() {
-        return this.textProvidesInterface.getScholarInterPrevNumberInter(this.xmlId);
     }
 
     @Override

@@ -29,6 +29,10 @@ public class CitationDto {
        this.hasNoInfoRange = citation.getInfoRangeSet().isEmpty();
     }
 
+    public CitationDto() {
+        super();
+    }
+
     public long getId() {
         return id;
     }
@@ -61,12 +65,9 @@ public class CitationDto {
         return hasNoInfoRange;
     }
 
-    public LocalDateTime getFormatedDate() {
-        DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
-        return LocalDateTime.parse(getDate(), formater);
-    }
+//    public LocalDateTime getFormatedDate() {
+//        DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
+//        return LocalDateTime.parse(getDate(), formater);
+//    }
 
-    public void remove() {
-        this.textProvidesInterface.removeAllCitations();
-    }
 }

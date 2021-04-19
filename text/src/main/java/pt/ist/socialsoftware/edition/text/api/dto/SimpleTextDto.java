@@ -12,6 +12,10 @@ public class SimpleTextDto {
         this.externalId = simpleText.getExternalId();
     }
 
+    public SimpleTextDto() {
+        super();
+    }
+
     public String getXmlId() {
         return xmlId;
     }

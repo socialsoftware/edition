@@ -1,8 +1,11 @@
 package pt.ist.socialsoftware.edition.notification.event;
 
-public class Event {
+import java.io.Serializable;
 
-    public enum EventType {
+public class Event implements Serializable {
+
+
+    public enum EventType implements Serializable {
         FRAGMENT_REMOVE, SCHOLAR_INTER_REMOVE, USER_REMOVE, VIRTUAL_EDITION_REMOVE, VIRTUAL_EDITION_UPDATE,
         VIRTUAL_INTER_REMOVE, TAG_REMOVE, VIRTUAL_EXPORT, SIMPLE_TEXT_REMOVE
     }
@@ -17,6 +20,7 @@ public class Event {
         this.identifier = identifier;
     }
 
+
     public EventType getType() {
         return this.type;
     }
@@ -25,4 +29,11 @@ public class Event {
         return this.identifier;
     }
 
+    public void setType(EventType type) {
+        this.type = type;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
 }
