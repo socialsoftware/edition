@@ -6,6 +6,7 @@ import InterMetaInfo from './InterMetaInfo';
 import CircleLoader from "react-spinners/RotateLoader";
 import lupaIcon from '../../../resources/assets/lupa.svg'
 import Table from 'react-bootstrap/Table'
+
 const FragmentList = (props) => {
 
     const [fragmentsData, setFragmentsData] = useState([])
@@ -16,7 +17,6 @@ const FragmentList = (props) => {
     useEffect(() => {
         getFragmentList()
             .then(res => {
-                console.log(res);
                 setFragmentsData(res.data)
                 setTimeout(() => setLoading(false), 500)
             })
@@ -141,8 +141,8 @@ const FragmentList = (props) => {
         <p className="list-title">{props.messages.fragment_codified} <span>{`(${fragmentsData.length})`}</span></p>
         <CircleLoader loading={loading}></CircleLoader>
         <div className={loading?"loading-table":"search-container"}>
-            <input ref={inputEl} className="frag-search" placeholder="Search"></input>
-            <img src={lupaIcon} alt="lupa" className="frag-search-icon" onClick={() => handleSearchUpdate()}></img>
+            <input ref={inputEl} className="search" placeholder="Search"></input>
+            <img src={lupaIcon} alt="lupa" className="search-icon" onClick={() => handleSearchUpdate()}></img>
         </div>
         
         <div className={loading?"loading-table":"table-div"}>

@@ -40,7 +40,11 @@ const initialState = {
                     {id:"general_editor_cunha", route:"/edition/acronym/TSC"},
                     {id:"general_editor_zenith", route:"/edition/acronym/RZ"},
                     {id:"general_editor_pizarro", route:"/edition/acronym/JP"},
-                    {id:"header_title", route:"/edition/acronym/LdoD-Arquivo"}]
+                    {id:"header_title", route:"/edition/acronym/LdoD-Arquivo"},
+                    {id:"virtual_anot", route:"/edition/acronym/LdoD-JPC-anot"},
+                    {id:"virtual_class", route:"/edition/acronym/LdoD-Jogo-Class"},
+                    {id:"virtual_mallet", route:"/edition/acronym/LdoD-Mallet"},
+                    {id:"virtual_twitter", route:"/edition/acronym/LdoD-Twitter"}]
         },
         {           
             name: "header_search",

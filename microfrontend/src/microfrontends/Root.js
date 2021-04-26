@@ -16,6 +16,7 @@ import * as messages_es from '../constants/messages_es'
 import About_DISPATCHER from './about/About_DISPATCHER';
 import Documents_DISPATCHER from './documents/Documents_DISPATCHER';
 import Home from './common/Home';
+import Edition_DISPATCHER from './edition/Edition_DISPATCHER';
 
 const Root = () => {
 
@@ -115,6 +116,13 @@ const Root = () => {
                         </Route>
                         <Route path="/documents" 
                             component={(props) => <Documents_DISPATCHER 
+                            {...props} 
+                            language={language}
+                            messages={messages}
+                            />}>
+                        </Route>
+                        <Route path="/edition" 
+                            component={(props) => <Edition_DISPATCHER 
                             {...props} 
                             language={language}
                             messages={messages}

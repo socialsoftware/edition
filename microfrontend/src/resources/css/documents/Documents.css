@@ -107,7 +107,7 @@ td p{
     margin: 0 auto;
     height: 40px;
 }
-.frag-search{
+.search{
     position: absolute;
     top: -10px; 
     right: 0;
@@ -127,7 +127,7 @@ td p{
     -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
-.frag-search-icon{
+.search-icon{
     position: absolute;
     top: -10px; 
     right: 0;
@@ -143,7 +143,7 @@ td p{
     height: 20px;
     cursor: pointer;
 }
-.frag-search-icon:hover{
+.search-icon:hover{
     -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
     box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
     -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
@@ -152,7 +152,7 @@ td p{
     background-color: #ddd;
 }
 
-.frag-search:focus{
+.search:focus{
     border-color: #66afe9;
     outline: 0;
     -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(102 175 233 / 60%);

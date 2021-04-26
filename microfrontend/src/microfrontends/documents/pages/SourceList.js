@@ -144,8 +144,8 @@ const SourceList = (props) => {
 
             <CircleLoader loading={loading}></CircleLoader>
             <div className={loading?"loading-table":"search-container"}>
-                <input ref={inputEl} className="frag-search" placeholder="Search"></input>
-                <img src={lupaIcon} alt="lupa" className="frag-search-icon" onClick={() => handleSearchUpdate()}></img>
+                <input ref={inputEl} className="search" placeholder="Search"></input>
+                <img src={lupaIcon} alt="lupa" className="search-icon" onClick={() => handleSearchUpdate()}></img>
             </div>
 
             <div className={loading?"loading-table":"table-div"}>

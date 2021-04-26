@@ -8,6 +8,7 @@
     font-weight: bold;
     font-size: 14px;
     width: 100%;
+    z-index: 3;
 }
 
 .home-navbar-top{
@@ -146,6 +147,7 @@
     padding: 10px 0;
     height: 20px;
 }
-.dropdown-item:hover-ldod{
+
+.dropdown-item-ldod:hover{
     color: #0C4EF6;
 }

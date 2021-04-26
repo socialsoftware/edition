@@ -22,6 +22,30 @@ export function checkEmailAvailability(email) {
         method: 'GET'
     });
 } */
+export function getUserContributions (val) {
+    return axios.get(API_BASE_URL + `/api/microfrontend/user/${val}`)
+}
+
+export function getEdition (val) {
+    return axios.get(API_BASE_URL + `/api/microfrontend/acronym/${val}`)
+}
+
+export function getExpertEditionList (val) {
+    return axios.get(API_BASE_URL + `/api/microfrontend/expert/acronym/${val}`)
+}
+
+export function getVirtualEditionList (val) {
+    return axios.get(API_BASE_URL + `/api/microfrontend/virtual/acronym/${val}`)
+}
+
+export function getTaxonomyList (val) {
+    return axios.get(API_BASE_URL + `/api/microfrontend/acronym/${val}/taxonomy`)
+}
+
+export function getCategoryList (val, val2) {
+    return axios.get(API_BASE_URL + `/api/microfrontend/acronym/${val}/category/${val2}`)
+}
+
 
 export function getFragmentList () {
     return axios.get(API_BASE_URL + `/api/microfrontend/fragments`)
