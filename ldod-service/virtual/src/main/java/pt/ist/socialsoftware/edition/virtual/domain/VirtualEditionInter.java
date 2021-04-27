@@ -12,10 +12,10 @@ import pt.ist.socialsoftware.edition.notification.event.EventInterface;
 
 import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
 
-import pt.ist.socialsoftware.edition.virtual.api.textdto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.HeteronymDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.LdoDDateDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.HeteronymDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.LdoDDateDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.virtual.utils.CategoryDTO;
 import pt.ist.socialsoftware.edition.virtual.utils.LdoDException;
 import pt.ist.socialsoftware.edition.virtual.utils.RangeJson;

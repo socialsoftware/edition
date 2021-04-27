@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.controller.virtual.VirtualEditionTest;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.frontend.config.Application;
 import pt.ist.socialsoftware.edition.ldod.frontend.filters.TransactionFilter;
 
@@ -29,7 +28,7 @@ import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.recommendation.api.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.recommendation.api.dto.WeightsDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;

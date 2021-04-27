@@ -9,7 +9,7 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.FragmentDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
 import pt.ist.socialsoftware.edition.virtual.domain.*;
 
 

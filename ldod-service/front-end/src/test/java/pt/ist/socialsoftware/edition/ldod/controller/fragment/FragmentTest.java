@@ -17,21 +17,19 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.frontend.config.Application;
 import pt.ist.socialsoftware.edition.ldod.frontend.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FragmentController;
 
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.AnnotationDTO;
+import pt.ist.socialsoftware.edition.ldod.frontend.utils.Emailer;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.PermissionDTO;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.controller.LdoDExceptionHandler;
 
-import pt.ist.socialsoftware.edition.user.domain.User;
-import pt.ist.socialsoftware.edition.user.utils.Emailer;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.virtual.domain.HumanAnnotation;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualEditionInter;
@@ -473,7 +471,7 @@ public class FragmentTest {
         VirtualEdition otherVe = new VirtualEdition( ldod, "ars", "XPTO", "TITLE", LocalDate.now(), true, ve.getAcronym());
 
 //        PermissionDTO permissionDTO = new PermissionDTO(ve, User.USER_ARS);
-        PermissionDTO permissionDTO = new PermissionDTO(new VirtualEditionDto(ve), User.USER_ARS);
+        PermissionDTO permissionDTO = new PermissionDTO(new VirtualEditionDto(ve), ARS);
 
 
         // create annotationDTO
@@ -660,7 +658,7 @@ public class FragmentTest {
         List<RangeJson> list = new ArrayList<>();
         list.add(rj);
 
-        return fragInter.createHumanAnnotation("A arte é um esquivar-se a agir", "Interesting", User.USER_ARS,
+        return fragInter.createHumanAnnotation("A arte é um esquivar-se a agir", "Interesting", ARS,
                 list, Arrays.asList("tag1", "tag2"));
 
     }

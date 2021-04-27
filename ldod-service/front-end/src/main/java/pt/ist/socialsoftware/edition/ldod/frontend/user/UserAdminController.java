@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDLoadException;
-import pt.ist.socialsoftware.edition.user.api.dto.UserDto;
 
 import pt.ist.socialsoftware.edition.ldod.frontend.user.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.security.UserModuleUserDetails;

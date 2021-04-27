@@ -2,12 +2,12 @@ package pt.ist.socialsoftware.edition.ldod.frontend.user.session;
 
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.notification.event.Event;
 import pt.ist.socialsoftware.edition.notification.event.EventInterface;
 import pt.ist.socialsoftware.edition.notification.event.EventVirtualEditionUpdate;
 import pt.ist.socialsoftware.edition.notification.event.SubscribeInterface;
-import pt.ist.socialsoftware.edition.user.api.UserProvidesInterface;
-import pt.ist.socialsoftware.edition.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
 
@@ -73,10 +73,20 @@ public class SessionRequiresInterface implements SubscribeInterface {
     }
 
     // Uses User Module
-    UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
+    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
 
     public UserDto getUser(String user) {
-        return this.userProvidesInterface.getUser(user);
+        return webClientUser.build()
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/user")
+                        .queryParam("username", user)
+                        .build())
+                .retrieve()
+                .bodyToMono(UserDto.class)
+                .blockOptional()
+                .orElse(null);
+        //        return this.userProvidesInterface.getUser(user);
 
     }
 

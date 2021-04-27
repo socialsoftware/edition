@@ -2,7 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.frontend.utils.dto;
 
 
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ExpertEditionDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ExpertEditionDto;
 
 public class EditionDto {
     private String acronym;

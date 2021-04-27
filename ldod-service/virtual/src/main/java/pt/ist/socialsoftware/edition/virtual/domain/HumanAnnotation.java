@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.SimpleTextDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.SimpleTextDto;
 
 
 import java.util.List;

@@ -10,8 +10,8 @@ import org.springframework.web.context.request.WebRequest;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
-import pt.ist.socialsoftware.edition.user.api.dto.UserDto;
 
 public class SigninUtils {
     private static final Logger log = LoggerFactory.getLogger(SigninUtils.class);

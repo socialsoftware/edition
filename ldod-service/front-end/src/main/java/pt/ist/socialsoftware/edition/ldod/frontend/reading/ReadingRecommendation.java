@@ -3,8 +3,8 @@ package pt.ist.socialsoftware.edition.ldod.frontend.reading;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.recommendation.api.dto.WeightsDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 
 
 import java.io.Serializable;

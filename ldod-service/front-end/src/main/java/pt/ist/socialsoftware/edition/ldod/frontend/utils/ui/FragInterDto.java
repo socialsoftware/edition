@@ -2,7 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.frontend.utils.ui;
 
 
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 
 public class FragInterDto {
 

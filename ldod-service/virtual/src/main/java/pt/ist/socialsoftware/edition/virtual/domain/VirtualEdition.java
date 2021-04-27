@@ -12,12 +12,13 @@ import pt.ist.socialsoftware.edition.notification.event.Event;
 import pt.ist.socialsoftware.edition.notification.event.EventInterface;
 import pt.ist.socialsoftware.edition.notification.event.EventVirtualEditionUpdate;
 
-import pt.ist.socialsoftware.edition.user.api.dto.UserDto;
-import pt.ist.socialsoftware.edition.user.utils.PropertiesManager;
+
 import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.userDto.UserDto;
 import pt.ist.socialsoftware.edition.virtual.utils.LdoDDuplicateAcronymException;
 import pt.ist.socialsoftware.edition.virtual.utils.LdoDException;
+import pt.ist.socialsoftware.edition.virtual.utils.PropertiesManager;
 
 import java.io.File;
 import java.io.IOException;

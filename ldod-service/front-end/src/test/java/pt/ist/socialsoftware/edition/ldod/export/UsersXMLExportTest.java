@@ -6,21 +6,23 @@ import org.junit.jupiter.api.Test;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
-import pt.ist.socialsoftware.edition.user.domain.RegistrationToken;
-import pt.ist.socialsoftware.edition.user.domain.User;
-import pt.ist.socialsoftware.edition.user.domain.UserModule;
-import pt.ist.socialsoftware.edition.user.feature.inout.UsersXMLExport;
-import pt.ist.socialsoftware.edition.user.feature.inout.UsersXMLImport;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.RegistrationTokenDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 
 
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 
 import static org.junit.Assert.*;
 
 public class UsersXMLExportTest {
+
+    private final FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
+
     @BeforeEach
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void setUp() throws FileNotFoundException {
@@ -36,35 +38,34 @@ public class UsersXMLExportTest {
     @Test
     @Atomic
     public void test() throws WriteOnReadError, NotSupportedException, SystemException {
-        UsersXMLExport export = new UsersXMLExport();
-        String usersXML = export.export();
 
-        int numOfUsers = UserModule.getInstance().getUsersSet().size();
-        int numOfUserConnections = UserModule.getInstance().getUserConnectionSet().size();
-        int numOfRegistrationTokens = UserModule.getInstance().getTokenSet().size();
+        String usersXML = feUserRequiresInterface.exportXMLUsers();
 
-        UserModule.getInstance().getUsersSet().stream().forEach(u -> u.remove());
-        UserModule.getInstance().getUserConnectionSet().stream().forEach(u -> u.remove());
-        UserModule.getInstance().getTokenSet().stream().forEach(u -> u.remove());
+        int numOfUsers = feUserRequiresInterface.getUsersSet().size();
+        int numOfUserConnections = feUserRequiresInterface.getUserConnectionSet().size();
+        int numOfRegistrationTokens = feUserRequiresInterface.getTokensSet().size();
 
-        assertTrue(UserModule.getInstance().getUsersSet().size() == 0);
-        assertTrue(UserModule.getInstance().getUserConnectionSet().size() == 0);
-        assertTrue(UserModule.getInstance().getTokenSet().size() == 0);
+        feUserRequiresInterface.getUsersSet().forEach(u -> u.removeUser());
+        feUserRequiresInterface.getUserConnectionSet().stream().forEach(u -> u.removeUserConnection());
+        feUserRequiresInterface.getTokensSet().stream().forEach(u -> u.removeToken());
 
-        UsersXMLImport load = new UsersXMLImport();
-        load.importUsers(usersXML);
+        assertTrue(feUserRequiresInterface.getUsersSet().size() == 0);
+        assertTrue(feUserRequiresInterface.getUserConnectionSet().size() == 0);
+        assertTrue(feUserRequiresInterface.getTokensSet().size() == 0);
 
-        assertEquals(numOfUsers, UserModule.getInstance().getUsersSet().size());
-        assertEquals(numOfUserConnections, UserModule.getInstance().getUserConnectionSet().size());
-        assertEquals(numOfRegistrationTokens, UserModule.getInstance().getTokenSet().size());
+        feUserRequiresInterface.importUsersFromXML(new ByteArrayInputStream(usersXML.getBytes()));
 
-        for (User user : UserModule.getInstance().getUsersSet()) {
+        assertEquals(numOfUsers, feUserRequiresInterface.getUsersSet().size());
+        assertEquals(numOfUserConnections, feUserRequiresInterface.getUserConnectionSet().size());
+        assertEquals(numOfRegistrationTokens, feUserRequiresInterface.getTokensSet().size());
+
+        for (UserDto user : feUserRequiresInterface.getUsersSet()) {
             if (!user.getUsername().equals("Twitter")) {
                 assertTrue(user.getRolesSet().size() != 0);
             }
         }
 
-        for (RegistrationToken token : UserModule.getInstance().getTokenSet()) {
+        for (RegistrationTokenDto token :feUserRequiresInterface.getTokensSet()) {
             assertNotNull(token.getUser());
         }
     }

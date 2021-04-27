@@ -4,7 +4,7 @@ import pt.ist.socialsoftware.edition.search.api.dto.AuthoralSearchOptionDto;
 import pt.ist.socialsoftware.edition.search.api.SearchRequiresInterface;
 import pt.ist.socialsoftware.edition.search.api.dto.SearchableElementDto;
 import pt.ist.socialsoftware.edition.search.utils.SourceType;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.SourceDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.SourceDto;
 
 import java.util.stream.Stream;
 

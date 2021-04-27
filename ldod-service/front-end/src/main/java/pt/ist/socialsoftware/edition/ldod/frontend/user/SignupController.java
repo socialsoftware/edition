@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 
 
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.RegistrationTokenDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.utils.Emailer;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.PropertiesManager;
-import pt.ist.socialsoftware.edition.user.api.dto.RegistrationTokenDto;
-import pt.ist.socialsoftware.edition.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.forms.SignupForm;
-import pt.ist.socialsoftware.edition.user.utils.Emailer;
 
 import javax.inject.Inject;
 import javax.mail.MessagingException;
@@ -193,7 +193,7 @@ public class SignupController {
             return "signin";
         }
 
-        registrationToken.setAuthorized(true);
+        registrationToken.setTokenAuthorized(true);
 
         try {
             registrationToken.requestConfirmation(servletRequest, emailer);

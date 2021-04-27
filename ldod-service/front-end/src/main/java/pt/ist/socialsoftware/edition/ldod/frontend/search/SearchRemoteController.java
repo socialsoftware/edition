@@ -15,7 +15,7 @@ import pt.ist.socialsoftware.edition.search.api.dto.AuthoralForSearchDto;
 import pt.ist.socialsoftware.edition.search.api.dto.DatesForSearchDto;
 import pt.ist.socialsoftware.edition.search.api.dto.ExpertEditionForSearchDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.*;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.*;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

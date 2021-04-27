@@ -16,12 +16,13 @@ import pt.ist.socialsoftware.edition.ldod.ControllersTestWithFragmentsLoading;
 
 import pt.ist.socialsoftware.edition.ldod.frontend.config.Application;
 import pt.ist.socialsoftware.edition.ldod.frontend.filters.TransactionFilter;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.SignupController;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.RegistrationTokenDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.forms.SignupForm;
+import pt.ist.socialsoftware.edition.ldod.frontend.utils.Emailer;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.controller.LdoDExceptionHandler;
-import pt.ist.socialsoftware.edition.user.domain.RegistrationToken;
-import pt.ist.socialsoftware.edition.user.domain.UserModule;
-import pt.ist.socialsoftware.edition.user.utils.Emailer;
+
 
 import java.io.FileNotFoundException;
 import static org.hamcrest.Matchers.notNullValue;
@@ -36,6 +37,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
 public class SignupTest extends ControllersTestWithFragmentsLoading {
+
+    private final FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
 
     @Mock
     PasswordEncoder passwordEncoder;
@@ -112,10 +115,11 @@ public class SignupTest extends ControllersTestWithFragmentsLoading {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void authorizeRegistrationTest() throws Exception {
-        RegistrationToken token = new RegistrationToken("token", UserModule.getInstance().getUser("ars"));
+//        RegistrationToken token = new RegistrationToken("token", UserModule.getInstance().getUser("ars"));
+        RegistrationTokenDto tokenDto = this.feUserRequiresInterface.createRegistrationToken("ars", "token");
 
         this.mockMvc.perform(get("/signup/registrationAuthorization")
-                .param("token", token.getToken()))
+                .param("token", tokenDto.getToken()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("signin"))
@@ -124,11 +128,12 @@ public class SignupTest extends ControllersTestWithFragmentsLoading {
 
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void confirmRegistrationTest() throws Exception {
-        RegistrationToken token = new RegistrationToken("token", UserModule.getInstance().getUser("ars"));
-        token.setAuthorized(true);
+//        RegistrationToken token = new RegistrationToken("token", UserModule.getInstance().getUser("ars"));
+        RegistrationTokenDto tokenDto = this.feUserRequiresInterface.createRegistrationToken("ars", "token");
+        tokenDto.setTokenAuthorized(true);
 
         this.mockMvc.perform(get("/signup/registrationConfirm")
-                .param("token", token.getToken()))
+                .param("token", tokenDto.getToken()))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/signin"));

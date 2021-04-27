@@ -13,18 +13,17 @@ import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterListDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.CitationDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ExpertEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ExpertEditionInterListDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ExpertEditionDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ExpertEditionInterListDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 
 import java.util.List;
 import java.util.Map;
 
 public class VisualRequiresInterface {
 
-    //    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+//    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
     // Requires the Text Module
 

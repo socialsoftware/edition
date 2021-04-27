@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
-import pt.ist.socialsoftware.edition.user.api.dto.UserDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.forms.ChangePasswordForm;
 
 public class ChangePasswordValidator implements Validator {

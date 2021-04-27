@@ -8,11 +8,10 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
 import pt.ist.socialsoftware.edition.virtual.api.dto.TwitterCitationDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.CitationDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.CitationDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

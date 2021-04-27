@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.virtual.api.dto;
 
-import pt.ist.socialsoftware.edition.virtual.api.textdto.CitationDto;
 import pt.ist.socialsoftware.edition.virtual.domain.TwitterCitation;
 
 public class TwitterCitationDto  {

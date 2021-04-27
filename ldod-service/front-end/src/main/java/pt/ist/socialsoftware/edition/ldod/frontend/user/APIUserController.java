@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.LdoDUserViewDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.security.UserModuleUserDetails;
-import pt.ist.socialsoftware.edition.user.api.dto.UserDto;
 
 
 @RestController

@@ -11,15 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-import pt.ist.socialsoftware.edition.user.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
 import pt.ist.socialsoftware.edition.virtual.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.virtual.utils.LdoDException;
-import pt.ist.socialsoftware.edition.virtual.utils.TopicDTO;
-import pt.ist.socialsoftware.edition.virtual.utils.TopicInterPercentageDTO;
-import pt.ist.socialsoftware.edition.virtual.utils.TopicListDTO;
+import pt.ist.socialsoftware.edition.virtual.utils.*;
 
 
 import java.io.File;

@@ -23,13 +23,12 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 
-import pt.ist.socialsoftware.edition.user.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
-import pt.ist.socialsoftware.edition.virtual.api.dto.TwitterCitationDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.CitationDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.CitationDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.virtual.domain.*;
+import pt.ist.socialsoftware.edition.virtual.utils.PropertiesManager;
 
 import java.io.*;
 import java.nio.file.Path;

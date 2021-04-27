@@ -7,8 +7,8 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 
 
-import pt.ist.socialsoftware.edition.user.api.UserProvidesInterface;
-import pt.ist.socialsoftware.edition.user.api.dto.UserDto;
+import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
+import pt.ist.socialsoftware.edition.virtual.api.userDto.UserDto;
 import pt.ist.socialsoftware.edition.virtual.utils.LdoDException;
 import pt.ist.socialsoftware.edition.virtual.utils.TopicDTO;
 import pt.ist.socialsoftware.edition.virtual.utils.TopicInterPercentageDTO;
@@ -168,8 +168,8 @@ public class Taxonomy extends Taxonomy_Base {
             return;
         }
 
-        UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
-        UserDto user = userProvidesInterface.getUser(topicList.getUsername());
+
+        UserDto user = VirtualRequiresInterface.getInstance().getUser(topicList.getUsername());
 
         for (TopicDTO topic : topicList.getTopics()) {
             Category category = new Category();

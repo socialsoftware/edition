@@ -1,9 +1,9 @@
 package pt.ist.socialsoftware.edition.virtual.domain;
 
 import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.CitationDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.InfoRangeDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.CitationDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.InfoRangeDto;
 
 import java.util.Set;
 

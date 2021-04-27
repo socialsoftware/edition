@@ -17,8 +17,8 @@ import pt.ist.socialsoftware.edition.recommendation.feature.VSMVirtualEditionInt
 import pt.ist.socialsoftware.edition.recommendation.feature.properties.*;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ExpertEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ExpertEditionDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;
 

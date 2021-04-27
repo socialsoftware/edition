@@ -1,28 +1,25 @@
 package pt.ist.socialsoftware.edition.search.api;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.LdoDDateDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.SourceDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.LdoDDateDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.SourceDto;
 
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SearchRequiresInterface {
 
 
-//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+//    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
 
     // Requires from Text Module

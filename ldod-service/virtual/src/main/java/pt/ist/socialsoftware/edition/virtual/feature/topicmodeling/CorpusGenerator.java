@@ -1,17 +1,16 @@
 package pt.ist.socialsoftware.edition.virtual.feature.topicmodeling;
 
 
-import pt.ist.socialsoftware.edition.user.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.utils.PropertiesManager;
 
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.stream.Collectors;
 
 public class CorpusGenerator {
 

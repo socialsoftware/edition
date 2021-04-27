@@ -5,9 +5,9 @@ package pt.ist.socialsoftware.edition.ldod.frontend.reading;
 import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.socialsoftware.edition.recommendation.api.RecommendationProvidesInterface;
 import pt.ist.socialsoftware.edition.recommendation.api.dto.WeightsDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ExpertEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ExpertEditionDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 
 
 import java.util.List;
@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
 
 public class FeReadingRequiresInterface {
 
-    //    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
     // Uses Text Module
 

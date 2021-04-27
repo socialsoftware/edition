@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.search.api.SearchRequiresInterface;
 import pt.ist.socialsoftware.edition.search.api.dto.SearchableElementDto;
 import pt.ist.socialsoftware.edition.search.api.dto.TextSearchOptionDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 
 import java.util.ArrayList;
 import java.util.HashSet;

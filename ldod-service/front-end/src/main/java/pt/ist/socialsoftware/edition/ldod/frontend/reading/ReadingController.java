@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDException;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 
 
 import java.util.Set;

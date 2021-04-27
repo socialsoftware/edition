@@ -11,8 +11,8 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.core.WriteOnReadError;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
-import pt.ist.socialsoftware.edition.user.domain.User;
-import pt.ist.socialsoftware.edition.user.domain.UserModule;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.virtual.domain.*;
 import pt.ist.socialsoftware.edition.virtual.feature.inout.VirtualEditionsTEICorpusExport;
 import pt.ist.socialsoftware.edition.virtual.feature.inout.VirtualEditionsTEICorpusImport;
@@ -34,8 +34,8 @@ public class VirtualEditionsTEICorpusExportTest {
     private VirtualModule virtualModule;
 //    private TextModule text;
     private FeTextRequiresInterface feTextRequiresInterface;
-    private UserModule userModule;
-    private User user;
+    private FeUserRequiresInterface feUserRequiresInterface;
+    private UserDto userDto;
 
     public static void logger(Object toPrint) {
         System.out.println(toPrint);
@@ -48,11 +48,11 @@ public class VirtualEditionsTEICorpusExportTest {
 
 //        this.text = TextModule.getInstance();
         this.feTextRequiresInterface = new FeTextRequiresInterface();
-        this.userModule = UserModule.getInstance();
+        this.feUserRequiresInterface = new FeUserRequiresInterface();
         this.virtualModule = VirtualModule.getInstance();
-        this.user = new User(this.userModule, "ars1", "ars", "Antonio", "Silva", "a@a.a");
+        this.userDto = feUserRequiresInterface.createTestUser("ars1", "ars", "Antonio", "Silva", "a@a.a");
         LocalDate localDate = LocalDate.parse("20018-07-20");
-        this.virtualEdition = new VirtualEdition(this.virtualModule, this.user.getUsername(), "acronym1", "title", localDate, true,
+        this.virtualEdition = new VirtualEdition(this.virtualModule, this.userDto.getUsername(), "acronym1", "title", localDate, true,
 //                this.text.getRZEdition().getAcronym());
                 "RZ");
     }
@@ -76,10 +76,10 @@ public class VirtualEditionsTEICorpusExportTest {
         int numOfVirtualEditions = VirtualModule.getInstance().getVirtualEditionsSet().size();
 
         this.virtualEdition.remove();
-        this.user.remove();
-        this.user = new User(this.userModule, "ars1", "ars", "Antonio", "Silva", "a@a.a");
+        this.userDto.removeUser();
+        this.userDto = feUserRequiresInterface.createTestUser("ars1", "ars", "Antonio", "Silva", "a@a.a");
         LocalDate localDate = LocalDate.parse("20018-07-20");
-        this.virtualEdition = new VirtualEdition(this.virtualModule, this.user.getUsername(), "acronym1", "title", localDate, true,
+        this.virtualEdition = new VirtualEdition(this.virtualModule, this.userDto.getUsername(), "acronym1", "title", localDate, true,
 //                this.text.getRZEdition().getAcronym());
                 "RZ");
 
@@ -108,10 +108,10 @@ public class VirtualEditionsTEICorpusExportTest {
         // Clean
         VirtualModule.getInstance().getTweetSet().forEach(t -> t.remove());
         this.virtualEdition.remove();
-        this.user.remove();
-        this.user = new User(this.userModule, "ars1", "ars", "Antonio", "Silva", "a@a.a");
+        this.userDto.removeUser();
+        this.userDto = feUserRequiresInterface.createTestUser("ars1", "ars", "Antonio", "Silva", "a@a.a");
         LocalDate localDate = LocalDate.parse("20018-07-20");
-        this.virtualEdition = new VirtualEdition(this.virtualModule, this.user.getUsername(), "acronym1", "title", localDate, true,
+        this.virtualEdition = new VirtualEdition(this.virtualModule, this.userDto.getUsername(), "acronym1", "title", localDate, true,
         "RZ");
 //                this.text.getRZEdition().getAcronym());
 

@@ -1,9 +1,9 @@
 package pt.ist.socialsoftware.edition.virtual.api.dto;
 
 import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
+import pt.ist.socialsoftware.edition.virtual.api.userDto.UserDto;
 import pt.ist.socialsoftware.edition.virtual.domain.Category;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.user.api.dto.UserDto;
 
 import java.util.List;
 import java.util.stream.Collectors;

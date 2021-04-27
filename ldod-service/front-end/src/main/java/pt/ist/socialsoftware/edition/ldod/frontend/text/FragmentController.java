@@ -8,8 +8,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pt.ist.fenixframework.DomainObject;
-import pt.ist.fenixframework.FenixFramework;
 
 
 import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
@@ -22,15 +20,14 @@ import pt.ist.socialsoftware.edition.virtual.api.dto.AnnotationDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.HumanAnnotationDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.SurfaceDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.SurfaceDto;
 
 import static pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition.*;
 
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 

@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.virtual.api.dto;
 
 import org.joda.time.LocalDate;
-import pt.ist.socialsoftware.edition.user.api.dto.UserDto;
+import pt.ist.socialsoftware.edition.virtual.api.userDto.UserDto;
 import pt.ist.socialsoftware.edition.virtual.domain.Member;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;

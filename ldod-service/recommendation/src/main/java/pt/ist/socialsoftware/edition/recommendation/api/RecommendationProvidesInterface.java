@@ -14,8 +14,8 @@ import pt.ist.socialsoftware.edition.recommendation.feature.properties.TaxonomyP
 import pt.ist.socialsoftware.edition.recommendation.utils.RecommendationBootstrap;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 
 import java.util.*;
 import java.util.stream.Collectors;

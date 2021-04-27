@@ -16,16 +16,16 @@ import pt.ist.socialsoftware.edition.ldod.frontend.domain.Menu;
 import pt.ist.socialsoftware.edition.ldod.frontend.domain.Option;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserProvidesInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.AnnotationSearchJson;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.enums.Source_Type;
-import pt.ist.socialsoftware.edition.user.api.UserProvidesInterface;
-import pt.ist.socialsoftware.edition.user.api.dto.UserDto;
 import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.virtual.api.dto.*;
 
-import pt.ist.socialsoftware.edition.virtual.api.textdto.*;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.*;
 import pt.ist.socialsoftware.edition.virtual.utils.CategoryDTO;
 
 
@@ -43,8 +43,8 @@ public class ReactUiController {
 
     private final FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
     private final FeUserProvidesInterface feUserProvidesInterface = new FeUserProvidesInterface();
-    private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
     private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+    private final FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
 
     @Inject
     private PasswordEncoder passwordEncoder;
@@ -563,7 +563,7 @@ public class ReactUiController {
 
         String username = this.feUserProvidesInterface.getAuthenticatedUser();
 
-        if (this.userProvidesInterface.getUser(username) != null) {
+        if (this.feUserRequiresInterface.getUser(username) != null) {
             List<String> assignedInfo = new ArrayList<>();
             for (CategoryDto category : inter.getAllDepthCategoriesUsedByUserInTags(username)) {
                 assignedInfo.add(category.getNameInEdition());
@@ -732,7 +732,7 @@ public class ReactUiController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        UserDto user = this.userProvidesInterface.getUser(username);
+        UserDto user = this.feUserRequiresInterface.getUser(username);
 
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

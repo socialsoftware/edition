@@ -5,17 +5,14 @@ import org.joda.time.LocalDate;
 import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserProvidesInterface;
 
-import pt.ist.socialsoftware.edition.ldod.frontend.utils.ui.FragInterDto;
 import pt.ist.socialsoftware.edition.search.api.SearchProvidesInterface;
 import pt.ist.socialsoftware.edition.search.api.dto.AdvancedSearchResultDto;
 import pt.ist.socialsoftware.edition.search.api.dto.SearchDto;
-import pt.ist.socialsoftware.edition.search.api.dto.VirtualEditionSearchOptionDto;
 import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.*;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.*;
 
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,8 +20,8 @@ import java.util.stream.Collectors;
 
 public class FeSearchRequiresInterface {
 
-    //    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
     // Requires from User Module
     private final FeUserProvidesInterface feUserProvidesInterface = new FeUserProvidesInterface();

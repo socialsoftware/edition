@@ -9,11 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.user.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.virtual.domain.LastTwitterID;
 import pt.ist.socialsoftware.edition.virtual.domain.Tweet;
 import pt.ist.socialsoftware.edition.virtual.domain.TwitterCitation;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;
+import pt.ist.socialsoftware.edition.virtual.utils.PropertiesManager;
 
 
 import java.io.*;

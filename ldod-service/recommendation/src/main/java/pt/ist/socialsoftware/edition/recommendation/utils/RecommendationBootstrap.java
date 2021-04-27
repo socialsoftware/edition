@@ -7,7 +7,7 @@ import pt.ist.socialsoftware.edition.recommendation.api.RecommendationRequiresIn
 import pt.ist.socialsoftware.edition.recommendation.domain.RecommendationModule;
 import pt.ist.socialsoftware.edition.recommendation.feature.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.recommendation.feature.properties.*;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.FragmentDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
 
 import java.util.ArrayList;
 import java.util.List;

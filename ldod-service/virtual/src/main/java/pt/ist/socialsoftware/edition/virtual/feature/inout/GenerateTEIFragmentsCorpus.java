@@ -5,8 +5,8 @@ import pt.ist.fenixframework.Atomic;
 
 
 import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.virtual.feature.topicmodeling.CorpusGenerator;
@@ -15,7 +15,6 @@ import pt.ist.socialsoftware.edition.virtual.utils.LdoDLoadException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class GenerateTEIFragmentsCorpus {
 

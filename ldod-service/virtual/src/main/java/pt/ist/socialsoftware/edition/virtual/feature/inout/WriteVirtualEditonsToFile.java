@@ -6,10 +6,10 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.notification.event.Event;
 import pt.ist.socialsoftware.edition.notification.event.EventInterface;
 
-import pt.ist.socialsoftware.edition.user.api.UserProvidesInterface;
-import pt.ist.socialsoftware.edition.user.utils.PropertiesManager;
+
 import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.FragmentDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.virtual.utils.PropertiesManager;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -18,8 +18,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class WriteVirtualEditonsToFile {
-
-    private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
 
     @Atomic
     public String export() throws IOException, FileNotFoundException {
@@ -68,7 +66,7 @@ public class WriteVirtualEditonsToFile {
 
     private InputStream generateUsersInputStream() throws IOException {
 //        UsersXMLExport usersExporter = new UsersXMLExport();
-        InputStream in = IOUtils.toInputStream(userProvidesInterface.exportXMLUsers(), "UTF-8");
+        InputStream in = IOUtils.toInputStream(VirtualRequiresInterface.getInstance().exportXMLUsers(), "UTF-8");
         return in;
     }
 

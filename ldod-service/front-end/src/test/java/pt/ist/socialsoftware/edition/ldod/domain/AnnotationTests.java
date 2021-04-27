@@ -8,8 +8,7 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.MockitoExtension;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
-import pt.ist.socialsoftware.edition.user.domain.User;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.SimpleTextDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.virtual.domain.HumanAnnotation;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualEditionInter;
@@ -30,7 +29,7 @@ public class AnnotationTests extends TestWithFragmentsLoading {
     @Mock
     VirtualEditionInter inter;
     @Mock
-    User user;
+    UserDto user;
 //    @Mock
 //    SimpleTextDto startText, endText;
     @Mock

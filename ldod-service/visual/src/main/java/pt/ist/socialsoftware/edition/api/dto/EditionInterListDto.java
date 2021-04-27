@@ -5,11 +5,10 @@ import pt.ist.socialsoftware.edition.virtual.api.dto.LdoDUserViewDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.TaxonomyDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterGameDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterListDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ExpertEditionInterListDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ExpertEditionInterListDto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class EditionInterListDto {
     private List<VirtualEditionInterGameDto> virtualEditionInterList = new ArrayList<>();

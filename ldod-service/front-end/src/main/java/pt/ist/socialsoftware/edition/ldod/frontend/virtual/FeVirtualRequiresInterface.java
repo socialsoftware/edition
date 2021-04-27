@@ -8,13 +8,10 @@ import pt.ist.socialsoftware.edition.game.api.GameProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserProvidesInterface;
 
 
-
-import pt.ist.socialsoftware.edition.user.api.UserProvidesInterface;
-import pt.ist.socialsoftware.edition.user.api.dto.UserDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.virtual.api.dto.*;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.CitationDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ExpertEditionDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.CitationDto;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,10 +31,22 @@ public class FeVirtualRequiresInterface {
 
 
     // Uses User Module
-    private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
+    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
+//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+
 
     public UserDto getUser(String username) {
-        return this.userProvidesInterface.getUser(username);
+        return webClientUser.build()
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/user")
+                        .queryParam("username", username)
+                        .build())
+                .retrieve()
+                .bodyToMono(UserDto.class)
+                .blockOptional()
+                .orElse(null);
+        //        return this.userProvidesInterface.getUser(username);
     }
 
 
@@ -54,8 +63,8 @@ public class FeVirtualRequiresInterface {
 
     // Uses Text Module
     @Autowired
-//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
 
     public List<CitationDto> getCitationsWithInfoRanges() {

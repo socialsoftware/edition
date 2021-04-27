@@ -1,24 +1,16 @@
 package pt.ist.socialsoftware.edition.text.api;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import org.springframework.jms.annotation.EnableJms;
-import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.DomainObject;
 import pt.ist.fenixframework.FenixFramework;
 
-import pt.ist.socialsoftware.edition.notification.event.Event;
 import pt.ist.socialsoftware.edition.text.api.dto.*;
 
 import pt.ist.socialsoftware.edition.text.domain.*;

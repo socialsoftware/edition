@@ -12,10 +12,10 @@ import pt.ist.socialsoftware.edition.ldod.MockitoExtension;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDException;
-import pt.ist.socialsoftware.edition.user.domain.User;
-import pt.ist.socialsoftware.edition.user.domain.UserModule;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ExpertEditionDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ExpertEditionDto;
 import pt.ist.socialsoftware.edition.virtual.domain.*;
 
 import static org.junit.Assert.assertEquals;
@@ -27,6 +27,7 @@ import static org.mockito.Mockito.*;
 public class CriteriaTests extends TestWithFragmentsLoading {
 
     private FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
+    private final FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
 
     // utilizado no mock test para testar se todos os métodos são chamados
     @Mock
@@ -38,7 +39,7 @@ public class CriteriaTests extends TestWithFragmentsLoading {
     // rule: Class cannot be mocked
     Class<?> clazz;
 
-    private User user;
+    private UserDto user;
 
     @Override
     protected String[] fragmentsToLoad4Test() {
@@ -51,9 +52,7 @@ public class CriteriaTests extends TestWithFragmentsLoading {
     @Atomic(mode = TxMode.WRITE)
     public void populate4Test() {
         VirtualModule virtualModule = VirtualModule.getInstance();
-        System.out.println("AAAAAAAAAAAAAAAAAA\n");
-        System.out.println(UserModule.getInstance());
-        this.user = new User(UserModule.getInstance(), "ars1", "ars", "Antonio", "Silva", "a@a.a");
+        this.user = feUserRequiresInterface.createTestUser("ars1", "ars", "Antonio", "Silva", "a@a.a");
         LocalDate localDate = LocalDate.parse("20018-07-20");
 //        ExpertEdition expertEdition = TextModule.getInstance().getRZEdition();
         ExpertEditionDto expertEdition = feTextRequiresInterface.getExpertEditionByAcronym("RZ");

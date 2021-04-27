@@ -8,7 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import pt.ist.socialsoftware.edition.user.api.dto.UserDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.forms.ChangePasswordForm;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.validator.ChangePasswordValidator;
 

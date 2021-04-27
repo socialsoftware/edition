@@ -98,7 +98,7 @@
                             <configuration>
                                 <classifier>spring-boot</classifier>
                                 <mainClass>
-                                    pt.ist.socialsoftware.edition.text.api.TextApplication
+                                    pt.ist.socialsoftware.edition.text.config.TextApplication
                                 </mainClass>
                             </configuration>
                         </execution>
@@ -275,7 +275,7 @@
                         <configuration>
                             <classifier>spring-boot</classifier>
                             <mainClass>
-                                pt.ist.socialsoftware.edition.text.api.TextApplication
+                                pt.ist.socialsoftware.edition.text.config.TextApplication
                             </mainClass>
                         </configuration>
                     </execution>

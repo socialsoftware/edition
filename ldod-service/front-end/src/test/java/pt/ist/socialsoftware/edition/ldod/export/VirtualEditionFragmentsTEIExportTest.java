@@ -10,9 +10,9 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
 import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.CitationDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.CitationDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.virtual.domain.TwitterCitation;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;

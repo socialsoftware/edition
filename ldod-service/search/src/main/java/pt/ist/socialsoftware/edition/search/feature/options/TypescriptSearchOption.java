@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.search.feature.options;
 
 import pt.ist.socialsoftware.edition.search.api.dto.TypescriptSearchOptionDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.SourceDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.SourceDto;
 
 public final class TypescriptSearchOption extends AuthoralSearchOption {
     public static final String TYPESCRIPT = "datil";

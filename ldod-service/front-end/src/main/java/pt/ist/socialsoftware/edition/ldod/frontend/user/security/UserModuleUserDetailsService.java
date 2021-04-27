@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
-import pt.ist.socialsoftware.edition.user.api.dto.UserDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -48,6 +48,8 @@ public class UserModuleUserDetailsService implements UserDetailsService {
                     && (!this.userRequiresInterface.getAdmin() || user.hasRoleTypeAdmin())) {
                 Set<GrantedAuthority> authorities = new HashSet<>();
                 for (String role : user.getRolesSet()) {
+                    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAA\n");
+                    System.out.println(role);
                     authorities.add(new GrantedAuthorityImpl(role));
                 }
                 matchingUser = new UserModuleUserDetails(user, user.getUsername(), user.getPassword(), authorities);

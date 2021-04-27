@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import pt.ist.socialsoftware.edition.game.api.dtoc.VirtualEditionInterGameDto;
 
 
-import pt.ist.socialsoftware.edition.api.dto.EditionInterListDto;
-import pt.ist.socialsoftware.edition.user.api.UserProvidesInterface;
-import pt.ist.socialsoftware.edition.user.api.dto.UserDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterListDto;
@@ -75,7 +74,7 @@ public class APIVirtualEditionController {
     public @ResponseBody
     ResponseEntity<List<VirtualEditionInterListDto>> getVirtualEditions4User(
             @PathVariable(value = "username") String username) {
-        UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
+        FeUserRequiresInterface userProvidesInterface = new FeUserRequiresInterface();
         UserDto userDto = userProvidesInterface.getUser(username);
 
         if (userDto != null) {
@@ -95,7 +94,7 @@ public class APIVirtualEditionController {
     public @ResponseBody
     ResponseEntity<List<VirtualEditionInterListDto>> getPublicVirtualEditions4User(
             @PathVariable(value = "username") String username) {
-        UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
+        FeUserRequiresInterface userProvidesInterface = new FeUserRequiresInterface();
         UserDto userDto = userProvidesInterface.getUser(username);
 
         if (userDto != null) {

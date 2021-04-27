@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.search.api.SearchRequiresInterface;
 import pt.ist.socialsoftware.edition.search.api.dto.DateSearchOptionDto;
 import pt.ist.socialsoftware.edition.search.api.dto.SearchableElementDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.LdoDDateDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.LdoDDateDto;
 
 import java.util.stream.Stream;
 

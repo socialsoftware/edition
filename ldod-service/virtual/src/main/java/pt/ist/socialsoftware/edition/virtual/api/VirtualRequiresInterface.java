@@ -1,9 +1,7 @@
 package pt.ist.socialsoftware.edition.virtual.api;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -12,7 +10,8 @@ import pt.ist.socialsoftware.edition.notification.event.Event;
 
 import pt.ist.socialsoftware.edition.notification.event.EventInterface;
 import pt.ist.socialsoftware.edition.notification.event.SubscribeInterface;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.*;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.*;
+import pt.ist.socialsoftware.edition.virtual.api.userDto.UserDto;
 import pt.ist.socialsoftware.edition.virtual.domain.HumanAnnotation;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;
@@ -32,8 +31,8 @@ public class VirtualRequiresInterface implements SubscribeInterface {
         scholarInterMap = new HashMap<>();
     }
 
-//    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-    private  WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+//    private  WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
 
     private static VirtualRequiresInterface instance;
@@ -377,5 +376,35 @@ public class VirtualRequiresInterface implements SubscribeInterface {
                 .retrieve()
                 .bodyToMono(SimpleTextDto.class)
                 .blockOptional().get();
+    }
+
+    // Uses User Service
+
+    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
+//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+
+
+    public UserDto getUser(String username) {
+        return webClientUser.build()
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/user")
+                        .queryParam("username", username)
+                        .build())
+                .retrieve()
+                .bodyToMono(UserDto.class)
+                .blockOptional()
+                .orElse(null);
+        //        return this.userProvidesInterface.getUser(username);
+    }
+
+    public String exportXMLUsers() {
+        return webClientUser.build()
+                .get()
+                .uri("/exportXMLUsers")
+                .retrieve()
+                .bodyToMono(String.class)
+                .blockOptional()
+                .orElse("");
     }
 }

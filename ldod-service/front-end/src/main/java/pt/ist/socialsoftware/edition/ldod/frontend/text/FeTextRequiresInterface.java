@@ -1,26 +1,19 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.text;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserProvidesInterface;
 
-import pt.ist.socialsoftware.edition.recommendation.feature.StoredVectors;
 import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.*;
-import reactor.core.publisher.Mono;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.*;
 
 
-import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -32,8 +25,8 @@ import java.util.stream.Collectors;
 public class FeTextRequiresInterface {
 
     @Autowired
-//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
 
 

@@ -3,10 +3,10 @@ package pt.ist.socialsoftware.edition.ldod.frontend.game;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.socialsoftware.edition.game.api.GameProvidesInterface;
 import pt.ist.socialsoftware.edition.game.api.dtoc.ClassificationGameDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserProvidesInterface;
-import pt.ist.socialsoftware.edition.user.api.UserProvidesInterface;
 import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.virtual.api.dto.CategoryDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.TagDto;
@@ -30,14 +30,30 @@ public class FeGameRequiresInterface {
 
 
     // Uses User Module
-    private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
+    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
+
+//    private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
 
     public String getFirstName(String username) {
-        return this.userProvidesInterface.getFirstName(username);
+        return webClientUser.build()
+                .get()
+                .uri("/user/" + username + "/first")
+                .retrieve()
+                .bodyToMono(String.class)
+                .blockOptional()
+                .orElse("");
+        //        return this.userProvidesInterface.getFirstName(username);
     }
 
     public String getLastName(String username) {
-        return this.userProvidesInterface.getLastName(username);
+        return webClientUser.build()
+                .get()
+                .uri("/user/" + username + "/last")
+                .retrieve()
+                .bodyToMono(String.class)
+                .blockOptional()
+                .orElse("");
+        //        return this.userProvidesInterface.getLastName(username);
     }
 
 

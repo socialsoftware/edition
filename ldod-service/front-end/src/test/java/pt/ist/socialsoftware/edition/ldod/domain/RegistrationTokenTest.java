@@ -5,9 +5,10 @@ import org.junit.jupiter.api.*;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
-import pt.ist.socialsoftware.edition.user.domain.RegistrationToken;
-import pt.ist.socialsoftware.edition.user.domain.User;
-import pt.ist.socialsoftware.edition.user.domain.UserModule;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.RegistrationTokenDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
+
 
 import java.io.FileNotFoundException;
 
@@ -15,9 +16,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RegistrationTokenTest {
 
-    UserModule userModule;
-    User user;
-    private RegistrationToken registration;
+    private final FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
+
+    UserDto user;
+    private RegistrationTokenDto registration;
 
 
     @BeforeEach
@@ -25,10 +27,8 @@ public class RegistrationTokenTest {
     public void setUpAll() throws FileNotFoundException {
         TestLoadUtils.setUpDatabaseWithCorpus();
 
-        this.userModule = UserModule.getInstance();
-
-        this.user = new User(this.userModule, "ars1", "ars", "Antonio", "Silva", "a@a.a");
-        this.registration = new RegistrationToken("token", this.user);
+        this.user = feUserRequiresInterface.createTestUser("ars1", "ars", "Antonio", "Silva", "a@a.a");
+        this.registration = feUserRequiresInterface.createRegistrationToken(this.user.getUsername(), "token");
     }
 
     @AfterEach
@@ -40,27 +40,31 @@ public class RegistrationTokenTest {
     @Test
     @Atomic(mode = TxMode.WRITE)
     public void removeOutdatedTokensOne() {
-        int size = this.userModule.getUsersSet().size();
-        int tokens = this.userModule.getTokenSet().size();
+//        int size = this.userModule.getUsersSet().size();
+//        int tokens = this.userModule.getTokenSet().size();
+        int size = feUserRequiresInterface.getUsersSet().size();
+        int tokens = feUserRequiresInterface.getTokensSet().size();
 
-        this.userModule.removeOutdatedUnconfirmedUsers();
+        this.feUserRequiresInterface.removeOutdatedUnconfirmedUsers();
 
-        assertEquals(tokens, this.userModule.getTokenSet().size());
-        assertEquals(size, this.userModule.getUsersSet().size());
+        assertEquals(tokens, this.feUserRequiresInterface.getTokensSet().size());
+        assertEquals(size, this.feUserRequiresInterface.getUsersSet().size());
     }
 
     @Test
     @Atomic(mode = TxMode.WRITE)
     public void removeOutdatedTokensTwo() {
-        this.user.getToken().setExpireTimeDateTime(new DateTime(2014, 1, 1, 0, 0, 0, 0));
+//        this.user.getToken().setExpireTimeDateTime(new DateTime(2014, 1, 1, 0, 0, 0, 0));
+        this.user.getToken().updateExpireTimeDateTime(2014, 1, 1, 0, 0, 0, 0);
 
-        int size = this.userModule.getUsersSet().size();
-        int tokens = this.userModule.getTokenSet().size();
 
-        this.userModule.removeOutdatedUnconfirmedUsers();
+        int size = this.feUserRequiresInterface.getUsersSet().size();
+        int tokens = this.feUserRequiresInterface.getTokensSet().size();
 
-        assertEquals(tokens - 1, this.userModule.getTokenSet().size());
-        assertEquals(size - 1, this.userModule.getUsersSet().size());
+        this.feUserRequiresInterface.removeOutdatedUnconfirmedUsers();
+
+        assertEquals(tokens - 1, this.feUserRequiresInterface.getTokensSet().size());
+        assertEquals(size - 1, this.feUserRequiresInterface.getUsersSet().size());
     }
 
 }

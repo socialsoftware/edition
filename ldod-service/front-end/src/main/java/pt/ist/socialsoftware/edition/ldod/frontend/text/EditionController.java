@@ -9,25 +9,25 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import pt.ist.fenixframework.DomainObject;
-import pt.ist.fenixframework.FenixFramework;
+
 
 import pt.ist.socialsoftware.edition.game.api.dtoc.ClassificationGameDto;
 
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
 import pt.ist.socialsoftware.edition.game.api.GameProvidesInterface;
 import pt.ist.socialsoftware.edition.game.api.dtoc.PlayerDto;
 
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.dto.EditionDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.ui.UiInterface;
-import pt.ist.socialsoftware.edition.user.api.UserProvidesInterface;
-import pt.ist.socialsoftware.edition.user.api.dto.UserDto;
+
 import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.virtual.api.dto.CategoryDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.TaxonomyDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ExpertEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.HeteronymDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ExpertEditionDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.HeteronymDto;
 
 
 import java.util.Set;
@@ -38,10 +38,9 @@ import java.util.stream.Collectors;
 public class EditionController {
     private static final Logger logger = LoggerFactory.getLogger(EditionController.class);
 
-    private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
+    private final FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
     private final GameProvidesInterface gameProvidesInterface = new GameProvidesInterface();
     private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
-//    private final TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
     private final FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
 
     @ModelAttribute("frontendSession")
@@ -123,7 +122,7 @@ public class EditionController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/user/{username}")
     public String getUserContributions(Model model, @PathVariable String username) {
-        UserDto userDto = this.userProvidesInterface.getUser(username);
+        UserDto userDto = this.feUserRequiresInterface.getUser(username);
         if (userDto != null) {
             model.addAttribute("userDto", userDto);
             model.addAttribute("publicVirtualEditionsOrUserIsParticipant", this.virtualProvidesInterface.getPublicVirtualEditionsOrUserIsParticipant(username));
@@ -149,7 +148,7 @@ public class EditionController {
         TaxonomyDto taxonomy = this.virtualProvidesInterface.getVirtualEditionTaxonomy(acronym);
         if (taxonomy != null) {
             model.addAttribute("taxonomy", taxonomy);
-            model.addAttribute("userInterface", this.userProvidesInterface);
+            model.addAttribute("userInterface", feUserRequiresInterface);
             return "edition/taxonomyTableOfContents";
         } else {
             return "redirect:/error";
@@ -172,7 +171,7 @@ public class EditionController {
         }
 
         model.addAttribute("category", category);
-        model.addAttribute("userInterface", this.userProvidesInterface);
+        model.addAttribute("userInterface", this.feUserRequiresInterface);
         model.addAttribute("uiInterface", new UiInterface());
 
         return "edition/categoryTableOfContents";

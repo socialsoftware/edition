@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 
-import pt.ist.socialsoftware.edition.user.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.virtual.utils.PropertiesManager;
 import twitter4j.*;
 import twitter4j.Query.ResultType;
 import twitter4j.conf.ConfigurationBuilder;

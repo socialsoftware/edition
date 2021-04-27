@@ -16,21 +16,19 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.frontend.config.Application;
 import pt.ist.socialsoftware.edition.ldod.frontend.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.TextAdminController;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.UserAdminController;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.controller.LdoDExceptionHandler;
+import pt.ist.socialsoftware.edition.ldod.frontend.utils.enums.Role_Type;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.VirtualAdminController;
-import pt.ist.socialsoftware.edition.user.domain.Role;
-import pt.ist.socialsoftware.edition.user.domain.User;
-import pt.ist.socialsoftware.edition.user.domain.UserModule;
-import pt.ist.socialsoftware.edition.user.feature.inout.UsersXMLExport;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.FragmentDto;
+
 import pt.ist.socialsoftware.edition.virtual.domain.Tweet;
 import pt.ist.socialsoftware.edition.virtual.domain.TwitterCitation;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition;
@@ -72,6 +70,7 @@ public class AdminTest {
     VirtualAdminController virtualAdminController;
 
     private final FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
+    private final FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
 
     protected MockMvc textMockMvc;
     protected MockMvc userMockMvc;
@@ -277,13 +276,15 @@ public class AdminTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void switchAdminTest() throws Exception {
 
-        boolean original = UserModule.getInstance().getAdmin();
+//        boolean original = UserModule.getInstance().getAdmin();
+        boolean original = feUserRequiresInterface.getAdmin();
+
 
         this.userMockMvc.perform(post("/admin/switch")).andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/user/list"));
 
-        assertNotEquals(original, UserModule.getInstance().getAdmin());
+        assertNotEquals(original, feUserRequiresInterface.getAdmin());
     }
 
     @Test
@@ -309,10 +310,11 @@ public class AdminTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getEditUserFormTest() throws Exception {
-        User user = UserModule.getInstance().getUser("ars");
+//        User user = UserModule.getInstance().getUser("ars");
+        UserDto userDto = feUserRequiresInterface.getUser("ars");
 
         MvcResult res = this.userMockMvc.perform(get("/admin/user/edit")
-                .param("externalId", user.getExternalId()))
+                .param("externalId", userDto.getExternalId()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/user/edit"))
@@ -320,25 +322,26 @@ public class AdminTest {
 
         EditUserForm form = (EditUserForm) res.getModelAndView().getModel().get("editUserForm");
 
-        assertEquals(user.getFirstName(), form.getFirstName());
-        assertEquals(user.getLastName(), form.getLastName());
-        assertEquals(user.getUsername(), form.getNewUsername());
-        assertEquals(user.getUsername(), form.getOldUsername());
-        assertEquals(user.getEmail(), form.getEmail());
+        assertEquals(userDto.getFirstName(), form.getFirstName());
+        assertEquals(userDto.getLastName(), form.getLastName());
+        assertEquals(userDto.getUsername(), form.getNewUsername());
+        assertEquals(userDto.getUsername(), form.getOldUsername());
+        assertEquals(userDto.getEmail(), form.getEmail());
     }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void postEditUserFormTest() throws Exception {
-        Role user = Role.getRole(Role.RoleType.ROLE_USER);
-        Role admin = Role.getRole(Role.RoleType.ROLE_ADMIN);
+//        Role user = Role.getRole(Role.RoleType.ROLE_USER);
+//        Role admin = Role.getRole(Role.RoleType.ROLE_ADMIN);
+//
+//        User temp = new User(UserModule.getInstance(), "temp", "$2a$11$FqP6hxx1OzHeP/MHm8Ccier/ZQjEY5opPTih37DR6nQE1XFc0lzqW",
+//                "Temp", "Temp", "temp@temp.temp");
+        UserDto temp = this.feUserRequiresInterface.createUser(passwordEncoder, "temp", "$2a$11$FqP6hxx1OzHeP/MHm8Ccier/ZQjEY5opPTih37DR6nQE1XFc0lzqW", "Temp", "Temp", "temp@temp.temp", null, null );
 
-        User temp = new User(UserModule.getInstance(), "temp", "$2a$11$FqP6hxx1OzHeP/MHm8Ccier/ZQjEY5opPTih37DR6nQE1XFc0lzqW",
-                "Temp", "Temp", "temp@temp.temp");
-
-        temp.setEnabled(true);
-        temp.addRoles(user);
-        temp.addRoles(admin);
+        temp.setUserEnabled(true);
+        temp.addRolesToUser(Role_Type.ROLE_USER);
+        temp.addRolesToUser(Role_Type.ROLE_ADMIN);
 
         this.userMockMvc.perform(post("/admin/user/edit")
                 .param("oldUsername", "temp")
@@ -351,27 +354,20 @@ public class AdminTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/user/list"));
 
-        assertNull(UserModule.getInstance().getUser("temp"));
-        assertNotNull(UserModule.getInstance().getUser("newtemp"));
+        assertNull(feUserRequiresInterface.getUser("temp"));
+        assertNotNull(feUserRequiresInterface.getUser("newtemp"));
 
-
-        UserModule.getInstance().getUser("newtemp").remove();
+        feUserRequiresInterface.getUser("newtemp").removeUser();
+//        UserModule.getInstance().getUser("newtemp").remove();
     }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void switchActiveTest() throws Exception {
-        User user = UserModule.getInstance().getUser("ars");
+//        User user = UserModule.getInstance().getUser("ars");
+        UserDto user = feUserRequiresInterface.getUser("ars");
 
-        boolean original = user.getActive();
-
-        this.userMockMvc.perform(post("/admin/user/active")
-                .param("externalId", user.getExternalId()))
-                .andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/admin/user/list"));
-
-        assertNotEquals(original, user.getActive());
+        boolean original = user.isActive();
 
         this.userMockMvc.perform(post("/admin/user/active")
                 .param("externalId", user.getExternalId()))
@@ -379,21 +375,28 @@ public class AdminTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/user/list"));
 
-        assertEquals(original, user.getActive());
+        assertNotEquals(original, feUserRequiresInterface.getUser("ars").isActive());
+
+        this.userMockMvc.perform(post("/admin/user/active")
+                .param("externalId", user.getExternalId()))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/admin/user/list"));
+
+        assertEquals(original, user.isActive());
     }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void removeUserTest() throws Exception {
-        Role user = Role.getRole(Role.RoleType.ROLE_USER);
-        Role admin = Role.getRole(Role.RoleType.ROLE_ADMIN);
+//        Role user = Role.getRole(Role.RoleType.ROLE_USER);
+//        Role admin = Role.getRole(Role.RoleType.ROLE_ADMIN);
 
-        User temp = new User(UserModule.getInstance(), "temp", "$2a$11$FqP6hxx1OzHeP/MHm8Ccier/ZQjEY5opPTih37DR6nQE1XFc0lzqW",
-                "Temp", "Temp", "temp@temp.temp");
+        UserDto temp = this.feUserRequiresInterface.createUser(passwordEncoder, "temp", "$2a$11$FqP6hxx1OzHeP/MHm8Ccier/ZQjEY5opPTih37DR6nQE1XFc0lzqW", "Temp", "Temp", "temp@temp.temp", null, null );
 
-        temp.setEnabled(true);
-        temp.addRoles(user);
-        temp.addRoles(admin);
+        temp.setUserEnabled(true);
+        temp.addRolesToUser(Role_Type.ROLE_USER);
+        temp.addRolesToUser(Role_Type.ROLE_ADMIN);
 
         this.userMockMvc.perform(post("/admin/user/delete")
                 .param("externalId", temp.getExternalId()))
@@ -401,7 +404,7 @@ public class AdminTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/user/list"));
 
-        assertNull(UserModule.getInstance().getUser("temp"));
+        assertNull(feUserRequiresInterface.getUser("temp"));
     }
 
     @Test
@@ -508,12 +511,11 @@ public class AdminTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void importUsersTest() throws Exception {
-        UsersXMLExport exporter = new UsersXMLExport();
 
-        String usersXml = exporter.export();
+        String usersXml = feUserRequiresInterface.exportXMLUsers();
 
-        UserModule.getInstance().getUser("ars").remove();
-        UserModule.getInstance().getUser("Twitter").remove();
+        feUserRequiresInterface.getUser("ars").removeUser();
+        feUserRequiresInterface.getUser("Twitter").removeUser();
 
         InputStream stream = new ByteArrayInputStream(usersXml.getBytes(StandardCharsets.UTF_8));
 
@@ -526,8 +528,8 @@ public class AdminTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/loadForm"));
 
-        assertNotNull(UserModule.getInstance().getUser("ars"));
-        assertNotNull(UserModule.getInstance().getUser("Twitter"));
+        assertNotNull(feUserRequiresInterface.getUser("ars"));
+        assertNotNull(feUserRequiresInterface.getUser("Twitter"));
     }
 
     @Test
@@ -660,13 +662,13 @@ public class AdminTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void createTestUsersTest() throws Exception {
-        when(this.passwordEncoder.encode(anyString())).thenReturn(anyString());
+//        when(this.passwordEncoder.encode(anyString())).thenReturn(anyString());
 
         this.userMockMvc.perform(post("/admin/createTestUsers"))
                 .andDo(print())
                 .andExpect(redirectedUrl("/admin/user/list"));
 
-            assertNotNull(UserModule.getInstance().getUser("ars"));
+            assertNotNull(feUserRequiresInterface.getUser("ars"));
     }
 
     @Test

@@ -9,12 +9,9 @@ import pt.ist.socialsoftware.edition.notification.event.SubscribeInterface;
 import pt.ist.socialsoftware.edition.recommendation.domain.RecommendationModule;
 
 import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
-import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.CitationDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.HeteronymDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.HeteronymDto;
 
-import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,8 +19,8 @@ import java.util.stream.Collectors;
 
 public class RecommendationRequiresInterface implements SubscribeInterface {
 
-//    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+//    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
 
     private static RecommendationRequiresInterface instance;

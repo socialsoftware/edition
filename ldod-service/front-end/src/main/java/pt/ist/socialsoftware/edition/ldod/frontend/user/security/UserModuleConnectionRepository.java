@@ -8,7 +8,7 @@ import org.springframework.util.MultiValueMap;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
-import pt.ist.socialsoftware.edition.user.api.dto.UserConnectionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserConnectionDto;
 
 import java.util.*;
 import java.util.stream.Collectors;

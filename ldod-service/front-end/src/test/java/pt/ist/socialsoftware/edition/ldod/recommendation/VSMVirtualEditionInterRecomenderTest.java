@@ -17,10 +17,9 @@ import pt.ist.socialsoftware.edition.recommendation.feature.VSMRecommender;
 import pt.ist.socialsoftware.edition.recommendation.feature.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.recommendation.feature.properties.*;
 
-import pt.ist.socialsoftware.edition.user.domain.User;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.virtual.domain.*;
 
 import java.io.FileNotFoundException;
@@ -34,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class VSMVirtualEditionInterRecomenderTest {
     private static final String ACRONYM = "TestRecommendations";
+    private static String USER_ARS = "ars";
 
     private static final Logger logger = LoggerFactory.getLogger(VSMVirtualEditionInterRecomenderTest.class);
     private FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
@@ -60,7 +60,7 @@ public class VSMVirtualEditionInterRecomenderTest {
 //        ExpertEdition pizarroEdition = TextModule.getInstance().getJPEdition();
 
         // create virtual edition
-        this.virtualEdition = virtualModule.createVirtualEdition(User.USER_ARS, ACRONYM, "Name", LocalDate.now(), true,
+        this.virtualEdition = virtualModule.createVirtualEdition(USER_ARS, ACRONYM, "Name", LocalDate.now(), true,
                 "JP");
 
         // set open vocabulary taxonomy

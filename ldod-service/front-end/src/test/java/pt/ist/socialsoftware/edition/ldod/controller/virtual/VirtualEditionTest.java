@@ -20,10 +20,11 @@ import pt.ist.socialsoftware.edition.ldod.frontend.config.Application;
 import pt.ist.socialsoftware.edition.ldod.frontend.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.frontend.game.GameController;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.VirtualEditionController;
-import pt.ist.socialsoftware.edition.user.domain.User;
-import pt.ist.socialsoftware.edition.user.domain.UserModule;
+
 import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
@@ -49,6 +50,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class VirtualEditionTest {
     public static final String ARS = "ars";
     private final FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
+    private final FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
 
     @InjectMocks
     VirtualEditionController virtualEditionController;
@@ -353,7 +355,7 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails(value = ARS)
     public void submitParticipantTest() throws Exception {
-        User user = new User(UserModule.getInstance(), "other", "password", "Tó", "Zé", "a@a.a");
+        UserDto userDto = feUserRequiresInterface.createTestUser("other", "password", "Tó", "Zé", "a@a.a");
         VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition("other",
                 VirtualEdition.ACRONYM_PREFIX +"NEWT",
                 "titleX", LocalDate.now(), false, null);
@@ -364,7 +366,7 @@ public class VirtualEditionTest {
         assertEquals(1,testEdition.getParticipantSet().size());
         assertEquals(2,testEdition.getMemberSet().size());
         testEdition.remove();
-        user.remove();
+        userDto.removeUser();
     }
 
     @Test
@@ -379,7 +381,7 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails(value = "ars")
     public void cancelParticipantTest() throws Exception {
-        User user = new User(UserModule.getInstance(), "other", "password", "Tó", "Zé", "a@a.a");
+        UserDto userDto = feUserRequiresInterface.createTestUser("other", "password", "Tó", "Zé", "a@a.a");
         VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition("other",
                 VirtualEdition.ACRONYM_PREFIX +"NEWT",
                 "titleX", LocalDate.now(), false, null);
@@ -391,7 +393,7 @@ public class VirtualEditionTest {
         assertEquals(1,testEdition.getParticipantSet().size());
         assertEquals(1,testEdition.getMemberSet().size());
         testEdition.remove();
-        user.remove();
+        userDto.removeUser();
     }
 
     @Test
@@ -406,7 +408,7 @@ public class VirtualEditionTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void approveParticipantTest() throws Exception {
-        User user = new User(UserModule.getInstance(), "other", "password", "Tó", "Zé", "a@a.a");
+        UserDto userDto = feUserRequiresInterface.createTestUser("other", "password", "Tó", "Zé", "a@a.a");
         VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition("other",
                 VirtualEdition.ACRONYM_PREFIX +"NEWT",
                 "titleX", LocalDate.now(), false, null);
@@ -421,13 +423,13 @@ public class VirtualEditionTest {
         assertEquals(2,testEdition.getMemberSet().size());
 
         testEdition.remove();
-        user.remove();
+        userDto.removeUser();
     }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void addParticipantTest() throws Exception {
-        User user = new User(UserModule.getInstance(), "other", "password", "Tó", "Zé", "a@a.a");
+        UserDto userDto = feUserRequiresInterface.createTestUser("other", "password", "Tó", "Zé", "a@a.a");
         VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition("other",
                 VirtualEdition.ACRONYM_PREFIX +"NEWT",
                 "titleX", LocalDate.now(), false, null);
@@ -441,14 +443,14 @@ public class VirtualEditionTest {
         assertEquals(2,testEdition.getMemberSet().size());
 
         testEdition.remove();
-        user.remove();
+        userDto.removeUser();
     }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails(value = "ars")
     public void switchRoleTest() throws Exception {
-        User user = new User(UserModule.getInstance(), "other", "password", "Tó", "Zé", "a@a.a");
+        UserDto userDto = feUserRequiresInterface.createTestUser("other", "password", "Tó", "Zé", "a@a.a");
         VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition("other",
                 VirtualEdition.ACRONYM_PREFIX +"NEWT",
                 "titleX", LocalDate.now(), false, null);
@@ -461,19 +463,19 @@ public class VirtualEditionTest {
                 .andExpect(redirectedUrl("/virtualeditions/restricted/" + testEdition.getExternalId() + "/participants"));
 
         testEdition.remove();
-        user.remove();
+        userDto.removeUser();
     }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails(value = "ars")
     public void removeParticipantTest() throws Exception {
-        User user = new User(UserModule.getInstance(), "other", "password", "Tó", "Zé", "a@a.a");
+        UserDto userDto = feUserRequiresInterface.createTestUser("other", "password", "Tó", "Zé", "a@a.a");
         VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition("other",
                 VirtualEdition.ACRONYM_PREFIX +"NEWT",
                 "titleX", LocalDate.now(), false, null);
         testEdition.addMember("ars", Member.MemberRole.ADMIN, false);
-        testEdition.addMember(user.getUsername(), Member.MemberRole.MEMBER, true);
+        testEdition.addMember(userDto.getUsername(), Member.MemberRole.MEMBER, true);
 
         this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/remove", testEdition.getExternalId())
                 .param("user", "other"))
@@ -484,7 +486,7 @@ public class VirtualEditionTest {
         assertEquals(2,testEdition.getMemberSet().size());
 
         testEdition.remove();
-        user.remove();
+        userDto.removeUser();
     }
 
     @Test

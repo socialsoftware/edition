@@ -16,12 +16,12 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.ControllersTestWithFragmentsLoading;
 
 import pt.ist.socialsoftware.edition.ldod.frontend.config.Application;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.UserController;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.forms.ChangePasswordForm;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.Bootstrap;
-import pt.ist.socialsoftware.edition.user.domain.Role;
-import pt.ist.socialsoftware.edition.user.domain.User;
-import pt.ist.socialsoftware.edition.user.domain.UserModule;
+import pt.ist.socialsoftware.edition.ldod.frontend.utils.enums.Role_Type;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;
 
 import java.io.FileNotFoundException;
@@ -38,6 +38,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
 public class UserTest extends ControllersTestWithFragmentsLoading {
+
+    private final FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
 
     @Mock
     PasswordEncoder passwordEncoder;
@@ -84,22 +86,18 @@ public class UserTest extends ControllersTestWithFragmentsLoading {
             Bootstrap.initializeSystem();
         }
 
-        Role user = Role.getRole(Role.RoleType.ROLE_USER);
-        Role admin = Role.getRole(Role.RoleType.ROLE_ADMIN);
+        UserDto temp = new FeUserRequiresInterface().createTestUser("temp", "$2a$11$FqP6hxx1OzHeP/MHm8Ccier/ZQjEY5opPTih37DR6nQE1XFc0lzqW", "Temp", "Temp", "temp@temp.temp");
 
-        User temp = new User(UserModule.getInstance(), "temp", "$2a$11$FqP6hxx1OzHeP/MHm8Ccier/ZQjEY5opPTih37DR6nQE1XFc0lzqW",
-                "Temp", "Temp", "temp@temp.temp");
-
-        temp.setEnabled(true);
-        temp.addRoles(user);
-        temp.addRoles(admin);
+        temp.setUserEnabled(true);
+        temp.addRolesToUser(Role_Type.ROLE_USER);
+        temp.addRolesToUser(Role_Type.ROLE_ADMIN);
 
     }
 
     @AfterAll
     @Atomic(mode = Atomic.TxMode.WRITE)
     public static void tearDownAll() {
-        UserModule.getInstance().getUser("temp").remove();
+        new FeUserRequiresInterface().getUser("temp").removeUser();
     }
 
     @Test

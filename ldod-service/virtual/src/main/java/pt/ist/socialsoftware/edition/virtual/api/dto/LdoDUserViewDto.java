@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.virtual.api.dto;
 
-import pt.ist.socialsoftware.edition.user.api.dto.UserDto;
+
+import pt.ist.socialsoftware.edition.virtual.api.userDto.UserDto;
 
 import javax.validation.constraints.NotBlank;
 

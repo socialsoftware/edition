@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.social.security.SocialUserDetails;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
-import pt.ist.socialsoftware.edition.user.api.dto.UserDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 
 import java.util.Collection;
 import java.util.HashSet;

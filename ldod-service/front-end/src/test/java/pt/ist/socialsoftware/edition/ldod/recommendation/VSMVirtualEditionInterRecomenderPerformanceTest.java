@@ -11,7 +11,6 @@ import pt.ist.socialsoftware.edition.recommendation.feature.VSMRecommender;
 import pt.ist.socialsoftware.edition.recommendation.feature.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.recommendation.feature.properties.*;
 
-import pt.ist.socialsoftware.edition.user.domain.User;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualEditionInter;
@@ -31,6 +30,7 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.assertTrue;
 
 public class VSMVirtualEditionInterRecomenderPerformanceTest {
+    private static String USER_ARS = "ars";
     public static final String TEST_PIZARRO_ACRONYM = "TestPizarroRecommendations";
     private static VirtualEdition pizarroVirtualEdition = null;
     private static Set<VirtualEditionInterDto> pizarroVirtualEditionInters = null;
@@ -59,7 +59,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 //        ExpertEdition cunhaEdition = text.getTSCEdition();
 
         // create pizarro virtual edition
-        pizarroVirtualEdition = virtualModule.createVirtualEdition(User.USER_ARS, TEST_PIZARRO_ACRONYM,
+        pizarroVirtualEdition = virtualModule.createVirtualEdition(USER_ARS, TEST_PIZARRO_ACRONYM,
                 "TestPizarroRecommendations", LocalDate.now(), true, "JP");
         pizarroVirtualEditionInters = pizarroVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast).map(VirtualEditionInterDto::new)
                 .collect(Collectors.toSet());
@@ -68,7 +68,7 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
         TopicModeler modeler = new TopicModeler();
         TopicListDTO topicListDTO = null;
         try {
-            topicListDTO = modeler.generate(User.USER_ARS, pizarroVirtualEdition, 50, 6, 11, 100);
+            topicListDTO = modeler.generate(USER_ARS, pizarroVirtualEdition, 50, 6, 11, 100);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -77,13 +77,13 @@ public class VSMVirtualEditionInterRecomenderPerformanceTest {
 
         // create zenith virtual edition
 
-        zenithVirtualEdition = virtualModule.createVirtualEdition(User.USER_ARS, "TestZenithRecommendations",
+        zenithVirtualEdition = virtualModule.createVirtualEdition(USER_ARS, "TestZenithRecommendations",
                 "TestZenithRecommendations", LocalDate.now(), true, "RZ");
         zenithVirtualEditionInters = zenithVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast).map(VirtualEditionInterDto::new)
                 .collect(Collectors.toSet());
 
         // create cunha virtual edition
-        cunhaVirtualEdition = virtualModule.createVirtualEdition(User.USER_ARS, "TestCunhaRecommendations", "TestCunhaRecommendations",
+        cunhaVirtualEdition = virtualModule.createVirtualEdition(USER_ARS, "TestCunhaRecommendations", "TestCunhaRecommendations",
                 LocalDate.now(), true, "TSC");
         cunhaVirtualEditionInters = cunhaVirtualEdition.getIntersSet().stream().map(VirtualEditionInter.class::cast).map(VirtualEditionInterDto::new)
                 .collect(Collectors.toSet());

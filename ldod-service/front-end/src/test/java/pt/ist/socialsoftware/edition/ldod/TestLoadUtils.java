@@ -8,6 +8,7 @@ import pt.ist.socialsoftware.edition.game.api.GameRequiresInterface;
 import pt.ist.socialsoftware.edition.game.domain.ClassificationModule;
 import pt.ist.socialsoftware.edition.game.feature.classification.inout.GameXMLImport;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.session.SessionRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.Bootstrap;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDLoadException;
@@ -18,7 +19,6 @@ import pt.ist.socialsoftware.edition.recommendation.domain.RecommendationModule;
 
 import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
 
-import pt.ist.socialsoftware.edition.user.domain.UserModule;
 import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.virtual.feature.inout.VirtualEditionFragmentsTEIImport;
@@ -105,6 +105,7 @@ public class TestLoadUtils {
 
     public static void cleanDatabase() {
         FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
+        FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
 
         feTextRequiresInterface.cleanFragmentMapCache();
         feTextRequiresInterface.cleanScholarInterMapCache();
@@ -121,10 +122,10 @@ public class TestLoadUtils {
 
        feTextRequiresInterface.removeTextModule();
 
-        UserModule userModule = UserModule.getInstance();
+       feUserRequiresInterface.removeUserModule();
+
         VirtualModule virtualModule = VirtualModule.getInstance();
-        if (userModule != null) {
-            userModule.remove();
+        if (virtualModule != null) {
             virtualModule.remove();
         }
 

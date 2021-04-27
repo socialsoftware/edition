@@ -8,7 +8,7 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.*;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.*;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;
 import pt.ist.socialsoftware.edition.virtual.utils.enums.SourceType;
 

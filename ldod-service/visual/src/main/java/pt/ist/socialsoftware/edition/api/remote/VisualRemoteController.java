@@ -19,9 +19,9 @@ import pt.ist.socialsoftware.edition.api.dto.EditionInterListDto;
 import pt.ist.socialsoftware.edition.api.dto.Fragment4VisualDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ExpertEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ExpertEditionInterListDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ExpertEditionDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ExpertEditionInterListDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 
 import java.util.ArrayList;
 import java.util.Comparator;

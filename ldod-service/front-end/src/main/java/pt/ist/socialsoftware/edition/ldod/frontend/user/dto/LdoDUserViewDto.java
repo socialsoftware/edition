@@ -1,8 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.user.dto;
 
-
-import pt.ist.socialsoftware.edition.user.api.dto.UserDto;
-
 import javax.validation.constraints.NotBlank;
 
 public class LdoDUserViewDto {

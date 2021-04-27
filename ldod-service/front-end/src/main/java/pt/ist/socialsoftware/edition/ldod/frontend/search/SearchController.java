@@ -11,7 +11,7 @@ import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
 import pt.ist.socialsoftware.edition.search.api.dto.AdvancedSearchResultDto;
 import pt.ist.socialsoftware.edition.search.api.dto.SearchDto;
 import pt.ist.socialsoftware.edition.search.api.dto.SearchOptionDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 
 import java.util.List;
 import java.util.Map;

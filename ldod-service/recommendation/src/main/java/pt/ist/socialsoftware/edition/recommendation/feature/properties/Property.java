@@ -5,8 +5,8 @@ import pt.ist.socialsoftware.edition.recommendation.api.RecommendationRequiresIn
 import pt.ist.socialsoftware.edition.recommendation.feature.StoredVectors;
 
 import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textdto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 
 
 public abstract class Property {

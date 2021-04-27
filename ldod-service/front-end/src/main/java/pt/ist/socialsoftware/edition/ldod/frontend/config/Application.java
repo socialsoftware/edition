@@ -17,7 +17,7 @@ import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.security.UserModuleSignInAdapter;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.Bootstrap;
-import pt.ist.socialsoftware.edition.user.utils.Emailer;
+import pt.ist.socialsoftware.edition.ldod.frontend.utils.Emailer;
 
 
 import javax.servlet.http.HttpServletRequest;

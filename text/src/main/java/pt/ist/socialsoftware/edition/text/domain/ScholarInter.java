@@ -3,8 +3,7 @@ package pt.ist.socialsoftware.edition.text.domain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.notification.event.Event;
-import pt.ist.socialsoftware.edition.notification.event.EventInterface;
-import pt.ist.socialsoftware.edition.text.api.BeanUtil;
+import pt.ist.socialsoftware.edition.text.config.BeanUtil;
 import pt.ist.socialsoftware.edition.text.api.TextEventPublisher;
 
 
