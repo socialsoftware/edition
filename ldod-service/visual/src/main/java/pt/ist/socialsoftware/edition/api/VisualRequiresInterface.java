@@ -80,7 +80,7 @@ public class VisualRequiresInterface {
                 .uri("/scholarinter/ext/" + interId)
                 .retrieve()
                 .bodyToMono(ScholarInterDto.class)
-                .blockOptional().get();
+                .blockOptional().orElse(null);
     }
 
     public List<Map.Entry<String, Double>> getScholarInterTermFrequency(ScholarInterDto scholarInterDto) {
@@ -125,16 +125,16 @@ public class VisualRequiresInterface {
     RecommendationProvidesInterface recommendationProvidesInterface = new RecommendationProvidesInterface();
 
     public List<InterIdDistancePairDto> getIntersByDistance(String externalId, WeightsDto weights) {
-        VirtualEditionInterDto virtualEditionInterDto = this.virtualProvidesInterface.getVirtualEditionInterByExternalId(externalId);
-        if (virtualEditionInterDto != null) {
-            return this.recommendationProvidesInterface.getIntersByDistance(virtualEditionInterDto, weights);
-        }
 
         ScholarInterDto scholarInterDto = getScholarInterbyExternalId(externalId);
         if (scholarInterDto != null) {
             return this.recommendationProvidesInterface.getIntersByDistance(scholarInterDto, weights);
         }
 
+        VirtualEditionInterDto virtualEditionInterDto = this.virtualProvidesInterface.getVirtualEditionInterByExternalId(externalId);
+        if (virtualEditionInterDto != null) {
+            return this.recommendationProvidesInterface.getIntersByDistance(virtualEditionInterDto, weights);
+        }
         return null;
     }
 

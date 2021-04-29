@@ -113,8 +113,7 @@ public class VirtualEdition extends VirtualEdition_Base {
     public void remove() {
 //        EventInterface eventInterface = new EventInterface();
 //        eventInterface.publish(new Event(Event.EventType.VIRTUAL_EDITION_REMOVE, this.getAcronym()));
-
-        EventInterface.getInstance().publish(new Event(Event.EventType.VIRTUAL_EDITION_REMOVE, this.getAcronym()));
+        String acronym = this.getAcronym();
 
         // delete directory and all its files if it exists
         String path = PropertiesManager.getProperties().getProperty("corpus.dir");
@@ -149,6 +148,7 @@ public class VirtualEdition extends VirtualEdition_Base {
         }
 
         deleteDomainObject();
+        EventInterface.getInstance().publish(new Event(Event.EventType.VIRTUAL_EDITION_REMOVE, acronym));
     }
 
     @Override

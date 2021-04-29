@@ -1,6 +1,8 @@
 package pt.ist.socialsoftware.edition.text.api.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.joda.time.LocalDate;
+import pt.ist.socialsoftware.edition.text.config.CustomDateSerializer;
 import pt.ist.socialsoftware.edition.text.domain.Fragment;
 import pt.ist.socialsoftware.edition.text.domain.LdoDDate;
 
@@ -38,7 +40,7 @@ public class LdoDDateDto {
         this.type = type;
     }
 
-
+    @JsonSerialize(using = CustomDateSerializer.class)
     public LocalDate getDate() {
         return this.date;
     }

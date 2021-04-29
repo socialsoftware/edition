@@ -25,6 +25,7 @@ import javax.inject.Inject;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayInputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -272,9 +273,9 @@ public class UserProvidesInterface {
 
     @PostMapping("/requestAuthorization")
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public void requestAuthorization(@RequestParam(name = "token") String token, HttpServletRequest httpServletRequest) throws MessagingException {
+    public HashMap<String, String> requestAuthorization(@RequestParam(name = "token") String token, HttpServletRequest httpServletRequest) throws MessagingException {
         System.out.println("requestAuthorization: " + token);
-        UserModule.getInstance().getTokenSet(token).requestAuthorization(httpServletRequest, this.emailer);
+        return UserModule.getInstance().getTokenSet(token).requestAuthorization(httpServletRequest, this.emailer);
     }
 
     @PostMapping("/setAuthorized")
@@ -286,9 +287,9 @@ public class UserProvidesInterface {
 
     @PostMapping("/requestConfirmation")
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public void requestConfirmation(@RequestParam(name = "token") String token, HttpServletRequest httpServletRequest) throws MessagingException {
+    public HashMap<String, String> requestConfirmation(@RequestParam(name = "token") String token, HttpServletRequest httpServletRequest) throws MessagingException {
         System.out.println("requestConfirmation: " + token);
-        UserModule.getInstance().getTokenSet(token).requestConfirmation(httpServletRequest, this.emailer);
+        return UserModule.getInstance().getTokenSet(token).requestConfirmation(httpServletRequest, this.emailer);
     }
 
     @GetMapping("/registrationToken/{token}/user")

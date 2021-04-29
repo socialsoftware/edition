@@ -2,6 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.frontend.user.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.joda.time.DateTime;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.socialsoftware.edition.ldod.frontend.config.CustomDateTimeDeserializer;
@@ -9,6 +10,8 @@ import pt.ist.socialsoftware.edition.ldod.frontend.utils.Emailer;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
 
 public class RegistrationTokenDto {
 
@@ -69,15 +72,15 @@ public class RegistrationTokenDto {
                 .block();
     }
 
-    public void requestAuthorization(HttpServletRequest servletRequest, Emailer emailer) throws MessagingException {
-        webClientUser.build()
+    public HashMap<String, String> requestAuthorization(HttpServletRequest servletRequest, Emailer emailer) throws MessagingException {
+       return webClientUser.build()
                 .post()
                 .uri( uriBuilder -> uriBuilder
                     .path("/requestAuthorization")
                     .queryParam("token", token)
                     .build())
                 .retrieve()
-                .bodyToMono(Void.class)
+                .bodyToMono(new ParameterizedTypeReference<HashMap<String, String>>() {})
                 .block();
         //        this.userProvidesInterface.requestAuthorization(this.token, servletRequest, emailer);
     }
@@ -96,15 +99,15 @@ public class RegistrationTokenDto {
         //        this.userProvidesInterface.setAuthorized(this.token, authorized);
     }
 
-    public void requestConfirmation(HttpServletRequest servletRequest, Emailer emailer) throws MessagingException {
-        webClientUser.build()
+    public HashMap<String, String> requestConfirmation() throws MessagingException {
+       return webClientUser.build()
                 .post()
                 .uri( uriBuilder -> uriBuilder
                         .path("/requestConfirmation")
                         .queryParam("token", token)
                         .build())
                 .retrieve()
-                .bodyToMono(Void.class)
+                .bodyToMono(new ParameterizedTypeReference<HashMap<String, String>>() {})
                 .block();
         //        this.userProvidesInterface.requestConfirmation(this.token, servletRequest, emailer);
     }

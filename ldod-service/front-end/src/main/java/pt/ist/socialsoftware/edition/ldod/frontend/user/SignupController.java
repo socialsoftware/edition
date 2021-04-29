@@ -31,6 +31,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.UUID;
 
 @Controller
@@ -156,7 +157,8 @@ public class SignupController {
 
             if (user != null) {
                 try {
-                    token.requestAuthorization(servletRequest, emailer);
+                    HashMap<String, String> mail = token.requestAuthorization(servletRequest, emailer);
+                    emailer.sendEmail(mail.get("to"), mail.get("subject"), mail.get("msg"), mail.get("from"));
                 } catch (AddressException e) {
                     throw new LdoDException("Token Confirmation - AddressException");
                 } catch (MessagingException e) {
@@ -196,7 +198,8 @@ public class SignupController {
         registrationToken.setTokenAuthorized(true);
 
         try {
-            registrationToken.requestConfirmation(servletRequest, emailer);
+           HashMap<String, String> mail = registrationToken.requestConfirmation();
+            emailer.sendEmail(mail.get("to"), mail.get("subject"), mail.get("msg"), mail.get("from"));
         } catch (MessagingException e) {
             throw new LdoDException("Token Confirmation - MessagingException");
         }

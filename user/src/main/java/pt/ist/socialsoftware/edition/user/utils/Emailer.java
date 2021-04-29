@@ -27,6 +27,9 @@ public class Emailer {
 
     private void sendMessage(Session getMailSession, Message generateMailMessage) throws MessagingException {
         Transport transport = getMailSession.getTransport("smtp");
+        System.out.println((String) PropertiesManager.getProperties().get("registration.confirmation.mail.smtp.host"));
+        System.out.println((String) PropertiesManager.getProperties().get("registration.confirmation.email.user"));
+        System.out.println((String) PropertiesManager.getProperties().get("registration.confirmation.email.password"));
         transport.connect((String) PropertiesManager.getProperties().get("registration.confirmation.mail.smtp.host"),
                 (String) PropertiesManager.getProperties().get("registration.confirmation.email.user"),
                 (String) PropertiesManager.getProperties().get("registration.confirmation.email.password"));

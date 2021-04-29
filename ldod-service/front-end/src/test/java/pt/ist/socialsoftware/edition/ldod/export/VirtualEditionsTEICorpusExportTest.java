@@ -129,7 +129,7 @@ public class VirtualEditionsTEICorpusExportTest {
     }
 
     @Test
-    @Atomic
+    @Atomic(mode = TxMode.WRITE)
     public void exportTweetsTest() {
         new Tweet(this.virtualModule, "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
                 "profImgURL", 9999l, true, null);
@@ -142,7 +142,7 @@ public class VirtualEditionsTEICorpusExportTest {
     }
 
     @Test
-    @Atomic
+    @Atomic(mode = TxMode.WRITE)
     public void exportEmptyCriteriaTest() {
         logger.debug("exportEmptyCriteriaTest");
 
@@ -153,7 +153,7 @@ public class VirtualEditionsTEICorpusExportTest {
     }
 
     @Test
-    @Atomic
+    @Atomic(mode = TxMode.WRITE)
     public void exportMediaSourceTest() {
         logger.debug("exportMediaSourceTest");
 
@@ -165,7 +165,7 @@ public class VirtualEditionsTEICorpusExportTest {
     }
 
     @Test
-    @Atomic
+    @Atomic(mode = TxMode.WRITE)
     public void exportTimeWindowTest() {
         logger.debug("exportTimeWindowTest");
 
@@ -177,7 +177,7 @@ public class VirtualEditionsTEICorpusExportTest {
     }
 
     @Test
-    @Atomic
+    @Atomic(mode = TxMode.WRITE)
     public void exportGeographicLocationTest() {
         logger.debug("exportGeographicLocationTest");
 
@@ -189,7 +189,7 @@ public class VirtualEditionsTEICorpusExportTest {
     }
 
     @Test
-    @Atomic
+    @Atomic(mode = TxMode.WRITE)
     public void exportFrequencyTest() {
         logger.debug("exportFrequencyTest");
 
@@ -201,7 +201,7 @@ public class VirtualEditionsTEICorpusExportTest {
     }
 
     @Test
-    @Atomic
+    @Atomic(mode = TxMode.WRITE)
     public void exportSeveralCriteriaTest() {
         logger.debug("exportSeveralCriteriaTest");
 
@@ -214,7 +214,7 @@ public class VirtualEditionsTEICorpusExportTest {
     }
 
     @Test
-    @Atomic
+    @Atomic(mode = TxMode.WRITE)
     public void exportAllCriteriaTest() {
         logger.debug("exportAllCriteriaTest");
 

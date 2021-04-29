@@ -50,7 +50,6 @@ public class VirtualRequiresInterface implements SubscribeInterface {
 
 
     @JmsListener(id = "1", containerFactory = "jmsListenerContainerFactory", destination = "test-queue")
-    @Atomic(mode = Atomic.TxMode.WRITE)
     public void listener(Event message){
         EventInterface.getInstance().publish(message);
     }

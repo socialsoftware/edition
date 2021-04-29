@@ -12,6 +12,7 @@ import pt.ist.socialsoftware.edition.user.utils.PropertiesManager;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 
 public class RegistrationToken extends RegistrationToken_Base {
     private static final int EXPIRATION = 1440;
@@ -44,7 +45,10 @@ public class RegistrationToken extends RegistrationToken_Base {
         deleteDomainObject();
     }
 
-    public void requestAuthorization(HttpServletRequest request, Emailer emailer) throws AddressException, MessagingException {
+    public HashMap<String, String> requestAuthorization(HttpServletRequest request, Emailer emailer) throws AddressException, MessagingException {
+
+        HashMap<String, String> map = new HashMap<>();
+
         String recipientAddress = PropertiesManager.getProperties()
                 .getProperty("registration.authorization.email.address");
 
@@ -54,15 +58,26 @@ public class RegistrationToken extends RegistrationToken_Base {
                 + request.getContextPath();
         String authorizationUrl = path + "/signup/registrationAuthorization?token=" + getToken();
 
-        emailer.sendEmail(recipientAddress, subject,
-                "Autorize o registo no arquivo do VirtualModule do utilizador " + getUser().getFirstName() + " "
+        map.put("to", recipientAddress);
+        map.put("subject", subject);
+        map.put("msg", "Autorize o registo no arquivo do VirtualModule do utilizador " + getUser().getFirstName() + " "
                         + getUser().getLastName() + " com username " + getUser().getUsername()
                         + " com o endereço de email " + getUser().getEmail() + " nesta ligação <a href=\""
-                        + authorizationUrl + "\">" + authorizationUrl + "</a>",
-                PropertiesManager.getProperties().getProperty("registration.confirmation.email.address"));
+                        + authorizationUrl + "\">" + authorizationUrl + "</a>");
+        map.put("from", PropertiesManager.getProperties().getProperty("registration.confirmation.email.address"));
+        return map;
+
+//        emailer.sendEmail(recipientAddress, subject,
+//                "Autorize o registo no arquivo do VirtualModule do utilizador " + getUser().getFirstName() + " "
+//                        + getUser().getLastName() + " com username " + getUser().getUsername()
+//                        + " com o endereço de email " + getUser().getEmail() + " nesta ligação <a href=\""
+//                        + authorizationUrl + "\">" + authorizationUrl + "</a>",
+//                PropertiesManager.getProperties().getProperty("registration.confirmation.email.address"));
     }
 
-    public void requestConfirmation(HttpServletRequest request, Emailer emailer) throws AddressException, MessagingException {
+    public HashMap<String, String> requestConfirmation(HttpServletRequest request, Emailer emailer) throws AddressException, MessagingException {
+        HashMap<String, String> map = new HashMap<>();
+
         String recipientAddress = getUser().getEmail();
 
         String subject = "VirtualModule - Confirmação de Registo";
@@ -71,11 +86,19 @@ public class RegistrationToken extends RegistrationToken_Base {
                 + request.getContextPath();
         String confirmationUrl = path + "/signup/registrationConfirm?token=" + getToken();
 
-        emailer.sendEmail(recipientAddress, subject,
-                "Confirme o registo no arquivo do VirtualModule do utilizador " + getUser().getUsername()
-                        + " com o endereço de email " + getUser().getEmail() + " nesta ligação <a href=\""
-                        + confirmationUrl + "\">" + confirmationUrl + "</a>",
-                PropertiesManager.getProperties().getProperty("registration.confirmation.email.address"));
+        map.put("to", recipientAddress);
+        map.put("subject", subject);
+        map.put("msg", "Confirme o registo no arquivo do VirtualModule do utilizador " + getUser().getUsername()
+                + " com o endereço de email " + getUser().getEmail() + " nesta ligação <a href=\""
+                + confirmationUrl + "\">" + confirmationUrl + "</a>");
+        map.put("from", PropertiesManager.getProperties().getProperty("registration.confirmation.email.address"));
+
+        return map;
+//        emailer.sendEmail(recipientAddress, subject,
+//                "Confirme o registo no arquivo do VirtualModule do utilizador " + getUser().getUsername()
+//                        + " com o endereço de email " + getUser().getEmail() + " nesta ligação <a href=\""
+//                        + confirmationUrl + "\">" + confirmationUrl + "</a>",
+//                PropertiesManager.getProperties().getProperty("registration.confirmation.email.address"));
     }
 
 }

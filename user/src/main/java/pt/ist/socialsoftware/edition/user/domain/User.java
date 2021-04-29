@@ -56,8 +56,7 @@ public class User extends User_Base {
     public void remove() {
 
 //        EventInterface.getInstance().publish(new Event(Event.EventType.USER_REMOVE, getUsername()));
-        UserEventPublisher userEventPublisher = BeanUtil.getBean(UserEventPublisher.class);
-        userEventPublisher.publishEvent(new Event(Event.EventType.USER_REMOVE, getUsername()));
+        String username = getUsername();
 
         getUserModule().getUserConnectionSet().stream().filter(uc -> uc.getUserId().equals(getUsername()))
                 .forEach(uc -> uc.remove());
@@ -68,6 +67,9 @@ public class User extends User_Base {
         setUserModule(null);
 
         deleteDomainObject();
+
+        UserEventPublisher userEventPublisher = BeanUtil.getBean(UserEventPublisher.class);
+        userEventPublisher.publishEvent(new Event(Event.EventType.USER_REMOVE, username));
     }
 
     public User(UserModule userModule, String username, String password, String firstName, String lastName, String email) {
