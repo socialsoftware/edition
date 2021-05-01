@@ -15,7 +15,9 @@ import java.util.List;
 
 public class RegistrationTokenDto {
 
-    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
+//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
+    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
+
 
 
     private String token;

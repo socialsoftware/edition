@@ -31,8 +31,8 @@ public class VirtualRequiresInterface implements SubscribeInterface {
         scholarInterMap = new HashMap<>();
     }
 
-    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-//    private  WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+//    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
 
     private static VirtualRequiresInterface instance;
@@ -191,7 +191,7 @@ public class VirtualRequiresInterface implements SubscribeInterface {
                 .uri("/fragment/xmlId/" + xmlId)
                 .retrieve()
                 .bodyToMono(FragmentDto.class)
-                .blockOptional().get();
+                .blockOptional().orElse(null);
     }
     
     
@@ -379,8 +379,8 @@ public class VirtualRequiresInterface implements SubscribeInterface {
 
     // Uses User Service
 
-    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
-//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
+    public WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
 
 
     public UserDto getUser(String username) {
