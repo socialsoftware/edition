@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.game.api.dtoc;
 
 
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
+import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionInterDto;
 
 public class VirtualEditionInterGameDto {
     private String fragmentId;

@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pt.ist.socialsoftware.edition.ldod.frontend.search.SearchController;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.SourceDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.SourceDto;
+
 
 
 import java.util.ArrayList;

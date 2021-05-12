@@ -18,8 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.PropertiesManager;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
 
 
 import javax.inject.Inject;

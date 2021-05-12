@@ -9,26 +9,27 @@ import pt.ist.socialsoftware.edition.game.feature.classification.inout.GameXMLIm
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
-import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.CitationDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.virtual.domain.TwitterCitation;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;
-import pt.ist.socialsoftware.edition.virtual.feature.inout.VirtualEditionFragmentsTEIExport;
-import pt.ist.socialsoftware.edition.virtual.feature.inout.VirtualEditionFragmentsTEIImport;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.CitationDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.TwitterCitationDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionInterDto;
+
 
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
 public class VirtualEditionFragmentsTEIExportTest {
-    private VirtualEditionFragmentsTEIExport export;
+//    private VirtualEditionFragmentsTEIExport export;
+    private FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
     private FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
 
     public static void logger(Object toPrint) {
@@ -54,34 +55,37 @@ public class VirtualEditionFragmentsTEIExportTest {
     @Test
     @Atomic
     public void test() throws WriteOnReadError, NotSupportedException, SystemException {
-        VirtualEditionFragmentsTEIExport export = new VirtualEditionFragmentsTEIExport();
         int count = 0;
 //        for (Fragment fragment : TextModule.getInstance().getFragmentsSet()) {
         for (FragmentDto fragment : feTextRequiresInterface.getFragmentDtoSet()) {
 
             if (count < 15) {
-                String fragmentTEI = export.exportFragment(fragment.getXmlId());
+                String fragmentTEI = feVirtualRequiresInterface.exportFragment(fragment.getXmlId());
                 logger(fragmentTEI);
 
-                int numberOfInters = VirtualModule.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).size();
+                int numberOfInters = feVirtualRequiresInterface.getVirtualEditionInterSetFromFragment(fragment.getXmlId()).size();
 
-                for (VirtualEditionInter inter : VirtualModule.getInstance().getVirtualEditionInterSet(fragment.getXmlId())) {
-                    inter.remove();
+                for (VirtualEditionInterDto inter : feVirtualRequiresInterface.getVirtualEditionInterSetFromFragment(fragment.getXmlId())) {
+                    inter.removeInter();
                 }
                 fragment.getCitationSet().forEach(citation -> citation.remove());
 
-                VirtualEditionFragmentsTEIImport im = new VirtualEditionFragmentsTEIImport();
-                im.importFragmentFromTEI(fragmentTEI);
+
+                try {
+                    feVirtualRequiresInterface.importVirtualEditionFragmentFromTEI(new File(fragmentTEI));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 GameXMLImport gameloader = new GameXMLImport();
                 gameloader.importGamesFromTEI(fragmentTEI);
 
-                System.out.println(export.exportFragment(fragment.getXmlId()));
+                System.out.println(feVirtualRequiresInterface.exportFragment(fragment.getXmlId()));
 
-                assertEquals(numberOfInters, VirtualModule.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).size());
+                assertEquals(numberOfInters, feVirtualRequiresInterface.getVirtualEditionInterSetFromFragment(fragment.getXmlId()).size());
 
                 assertEquals(Arrays.stream(fragmentTEI.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-                        Arrays.stream(export.exportFragment(fragment.getXmlId()).split("\\r?\\n")).sorted()
+                        Arrays.stream(feVirtualRequiresInterface.exportFragment(fragment.getXmlId()).split("\\r?\\n")).sorted()
                                 .collect(Collectors.joining("\\n")));
             }
             count++;
@@ -92,13 +96,13 @@ public class VirtualEditionFragmentsTEIExportTest {
 
     // aux method
     private String exportPrintCleanAndImportFragment(FragmentDto fragment) {
-        this.export = new VirtualEditionFragmentsTEIExport();
-        String result = this.export.exportFragment(fragment.getXmlId());
+
+        String result = feVirtualRequiresInterface.exportFragment(fragment.getXmlId());
         System.out.println(result);
 
         // Saving value for assert
         int numOfCitations = fragment.getCitationSet().size();
-        int numberOfInters = VirtualModule.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).size();
+        int numberOfInters = feVirtualRequiresInterface.getVirtualEditionInterSetFromFragment(fragment.getXmlId()).size();
 
 
         int numOfInfoRanges = 0;
@@ -115,8 +119,8 @@ public class VirtualEditionFragmentsTEIExportTest {
             System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB\n");
             System.out.println(altNumOfInfoRanges);
             altNumOfInfoRanges += citation.getNumberOfTimesCited();
-            TwitterCitation twitterCitation = new TwitterCitation(citation);
-            numOfAwareAnnotations += twitterCitation.getAwareAnnotationSet().size();
+            TwitterCitationDto twitterCitation = feVirtualRequiresInterface.createTwitterCitationFromCitation(citation);
+            numOfAwareAnnotations += twitterCitation.getAwareAnnotationDtos().size();
 //            while (true) {}
         }
         logger("numOfAwareAnnotations: " + numOfAwareAnnotations);
@@ -125,23 +129,26 @@ public class VirtualEditionFragmentsTEIExportTest {
         assertEquals(numOfInfoRanges, altNumOfInfoRanges);
 
         // Clean
-        for (VirtualEditionInter inter : VirtualModule.getInstance().getVirtualEditionInterSet(fragment.getXmlId())) {
-            inter.remove();
+        for (VirtualEditionInterDto inter : feVirtualRequiresInterface.getVirtualEditionInterSetFromFragment(fragment.getXmlId())) {
+            inter.removeInter();
         }
         fragment.getCitationSet().forEach(citation -> citation.remove());
 
         // Import
-        VirtualEditionFragmentsTEIImport im = new VirtualEditionFragmentsTEIImport();
-        im.importFragmentFromTEI(result);
+        try {
+            feVirtualRequiresInterface.importVirtualEditionFragmentFromTEI(new File(result));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         GameXMLImport gameloader = new GameXMLImport();
         gameloader.importGamesFromTEI(result);
 
-        System.out.println(this.export.exportFragment(fragment.getXmlId()));
+        System.out.println(feVirtualRequiresInterface.exportFragment(fragment.getXmlId()));
 
         //TODO: add way to load citations independently from frag
         //assertEquals(numOfCitations, fragment.getCitationSet().size());
-        assertEquals(numberOfInters, VirtualModule.getInstance().getVirtualEditionInterSet(fragment.getXmlId()).size());
+        assertEquals(numberOfInters, feVirtualRequiresInterface.getVirtualEditionInterSetFromFragment(fragment.getXmlId()).size());
         int numOfInfoRangesAfterImport = 0;
         for (ScholarInterDto scholarInter : fragment.getScholarInterDtoSet()) {
             numOfInfoRangesAfterImport += scholarInter.getNumberOfTimesCited();
@@ -152,8 +159,8 @@ public class VirtualEditionFragmentsTEIExportTest {
         int numOfAwareAnnotationsAfterImport = 0;
         for (CitationDto citation : fragment.getCitationSet()) {
             altNumOfInfoRangesAfterImport += citation.getNumberOfTimesCited();
-            TwitterCitation twitterCitation = new TwitterCitation(citation);
-            numOfAwareAnnotationsAfterImport += twitterCitation.getAwareAnnotationSet().size();
+            TwitterCitationDto twitterCitation = feVirtualRequiresInterface.createTwitterCitationFromCitation(citation);
+            numOfAwareAnnotations += twitterCitation.getAwareAnnotationDtos().size();
         }
         //TODO: add way to load citations independently from frag
         //assertEquals(altNumOfInfoRanges, altNumOfInfoRangesAfterImport);
@@ -171,13 +178,12 @@ public class VirtualEditionFragmentsTEIExportTest {
             if (count < 20) {
 //                new TwitterCitation(fragment, "sourceLink", "date", "fragText", "tweetText", 7777l, "location",
 //                        "country", "username", "profURL", "profImgURL");
-                new TwitterCitation((fragment), "sourceLink", "date", "fragText", "tweetText", 7777l, "location",
+                feVirtualRequiresInterface.createTwitterCitation((fragment.getXmlId()), "sourceLink", "date", "fragText", "tweetText", 7777l, "location",
                         "country", "username", "profURL", "profImgURL");
-
                 String result = exportPrintCleanAndImportFragment(fragment);
                 // Check if it was well exported
                 assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-                        Arrays.stream(this.export.exportFragment(fragment.getXmlId()).split("\\r?\\n")).sorted()
+                        Arrays.stream(feVirtualRequiresInterface.exportFragment(fragment.getXmlId()).split("\\r?\\n")).sorted()
                                 .collect(Collectors.joining("\\n")));
             }
             count++;
@@ -193,18 +199,19 @@ public class VirtualEditionFragmentsTEIExportTest {
             if (count < 15) {
 //                TwitterCitation tc = new TwitterCitation(, "sourceLink", "date", "fragText", "tweetText", 7777l,
 //                        "location", "country", "username", "profURL", "profImgURL");
-                TwitterCitation tc = new TwitterCitation((fragment), "sourceLink", "date", "fragText", "tweetText", 7777l,
-                        "location", "country", "username", "profURL", "profImgURL");
+
+                TwitterCitationDto tc = feVirtualRequiresInterface.createTwitterCitation((fragment.getXmlId()), "sourceLink", "date", "fragText", "tweetText", 7777l, "location",
+                        "country", "username", "profURL", "profImgURL");
                 String num = fragment.getXmlId();
                 // logger("num: " + num);
                 if (fragment.getScholarInterByXmlId(num + ".WIT.ED.CRIT.Z") != null) {
-                    VirtualRequiresInterface.getInstance().createInfoRange(tc.getId(), (num + ".WIT.ED.CRIT.Z"), "/div[1]/div[1]/p[3]", 10,
+                    feVirtualRequiresInterface.createInfoRange(tc.getId(), (num + ".WIT.ED.CRIT.Z"), "/div[1]/div[1]/p[3]", 10,
                             "/div[1]/div[1]/p[3]", 20, "quoteExample", "textExample");
                 }
                 String result = exportPrintCleanAndImportFragment(fragment);
                 // Check if it was well exported
                 assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-                        Arrays.stream(this.export.exportFragment(fragment.getXmlId()).split("\\r?\\n")).sorted()
+                        Arrays.stream(feVirtualRequiresInterface.exportFragment(fragment.getXmlId()).split("\\r?\\n")).sorted()
                                 .collect(Collectors.joining("\\n")));
             }
             count++;
@@ -220,12 +227,12 @@ public class VirtualEditionFragmentsTEIExportTest {
             if (count < 15) {
 //                TwitterCitation tc = new TwitterCitation(fragment, "sourceLink", "date", "fragText", "tweetText", 7777l,
 //                        "location", "country", "username", "profURL", "profImgURL");
-                TwitterCitation tc = new TwitterCitation((fragment), "sourceLink", "date", "fragText", "tweetText", 7777l,
-                        "location", "country", "username", "profURL", "profImgURL");
+                TwitterCitationDto tc = feVirtualRequiresInterface.createTwitterCitation((fragment.getXmlId()), "sourceLink", "date", "fragText", "tweetText", 7777l, "location",
+                        "country", "username", "profURL", "profImgURL");
                 String num = fragment.getXmlId();
                 // logger("num: " + num);
                 if (fragment.getScholarInterByXmlId(num + ".WIT.ED.CRIT.Z") != null) {
-                    VirtualRequiresInterface.getInstance().createInfoRange(tc.getId(), (num + ".WIT.ED.CRIT.Z"), "/div[1]/div[1]/p[3]", 10,
+                    feVirtualRequiresInterface.createInfoRange(tc.getId(), (num + ".WIT.ED.CRIT.Z"), "/div[1]/div[1]/p[3]", 10,
                             "/div[1]/div[1]/p[3]", 20, "quoteExample", "textExample");
                 }
 				/*FragInter fragInter = fragment.getScholarInterByXmlId("Fr023.WIT.ED.VIRT.VirtualModule-Duarte.1");
@@ -239,7 +246,7 @@ public class VirtualEditionFragmentsTEIExportTest {
                 String result = exportPrintCleanAndImportFragment(fragment);
                 // Check if it was well exported
                 assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-                        Arrays.stream(this.export.exportFragment(fragment.getXmlId()).split("\\r?\\n")).sorted()
+                        Arrays.stream(feVirtualRequiresInterface.exportFragment(fragment.getXmlId()).split("\\r?\\n")).sorted()
                                 .collect(Collectors.joining("\\n")));
             }
             count++;

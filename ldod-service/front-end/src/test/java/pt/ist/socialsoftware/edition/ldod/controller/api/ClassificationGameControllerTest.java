@@ -14,6 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
+import pt.ist.socialsoftware.edition.game.api.GameRequiresInterface;
 import pt.ist.socialsoftware.edition.game.domain.ClassificationGame;
 import pt.ist.socialsoftware.edition.game.domain.ClassificationGameParticipant;
 import pt.ist.socialsoftware.edition.game.domain.ClassificationGameRound;
@@ -22,12 +23,12 @@ import pt.ist.socialsoftware.edition.ldod.frontend.config.Application;
 import pt.ist.socialsoftware.edition.ldod.frontend.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.game.api.remote.ClassificationGameController;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.controller.LdoDExceptionHandler;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
+import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionDto;
+
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -38,6 +39,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
 public class ClassificationGameControllerTest {
+    public static final String ARCHIVE_EDITION_ACRONYM = "LdoD-Arquivo";
+
     @InjectMocks
     ClassificationGameController classificationGameController;
 
@@ -45,7 +48,7 @@ public class ClassificationGameControllerTest {
 
     @BeforeAll
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public static void setUpAll() throws FileNotFoundException {
+    public static void setUpAll() throws IOException {
 
         TestLoadUtils.setUpDatabaseWithCorpus();
 
@@ -73,9 +76,12 @@ public class ClassificationGameControllerTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void getActiveGamesTest() throws Exception {
-        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(VirtualEdition.ARCHIVE_EDITION_ACRONYM);
-        ClassificationGame classificationGame = new ClassificationGame(new VirtualEditionDto(virtualEdition), "Description", DateTime.now(),
-                new VirtualEditionInterDto(virtualEdition.getAllDepthVirtualEditionInters().get(0)), "ars");
+//        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(VirtualEdition.ARCHIVE_EDITION_ACRONYM);
+//        ClassificationGame classificationGame = new ClassificationGame(new VirtualEditionDto(virtualEdition), "Description", DateTime.now(),
+//                new VirtualEditionInterDto(virtualEdition.getAllDepthVirtualEditionInters().get(0)), "ars");
+        VirtualEditionDto virtualEdition = GameRequiresInterface.getInstance().getVirtualEdition(ARCHIVE_EDITION_ACRONYM);
+        ClassificationGame classificationGame = new ClassificationGame((virtualEdition), "Description", DateTime.now(),
+                virtualEdition.getIntersSet().stream().findFirst().get(), "ars");
         classificationGame.addParticipant("ars");
 
         this.mockMvc.perform(get("/api/services/ldod-game/{username}/active", "ars"))
@@ -88,9 +94,9 @@ public class ClassificationGameControllerTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void endTest() throws Exception {
-        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(VirtualEdition.ARCHIVE_EDITION_ACRONYM);
-        ClassificationGame classificationGame = new ClassificationGame(new VirtualEditionDto(virtualEdition), "Description", DateTime.now(),
-                new VirtualEditionInterDto(virtualEdition.getAllDepthVirtualEditionInters().get(0)), "ars");
+        VirtualEditionDto virtualEdition = GameRequiresInterface.getInstance().getVirtualEdition(ARCHIVE_EDITION_ACRONYM);
+        ClassificationGame classificationGame = new ClassificationGame((virtualEdition), "Description", DateTime.now(),
+                virtualEdition.getIntersSet().stream().findFirst().get(), "ars");
         classificationGame.addParticipant("ars");
         ClassificationGameParticipant participant = classificationGame.getParticipant("ars");
 
@@ -113,9 +119,9 @@ public class ClassificationGameControllerTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void getLeaderboardTest() throws Exception {
-        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(VirtualEdition.ARCHIVE_EDITION_ACRONYM);
-        ClassificationGame classificationGame = new ClassificationGame(new VirtualEditionDto(virtualEdition), "Description", DateTime.now(),
-                new VirtualEditionInterDto(virtualEdition.getAllDepthVirtualEditionInters().get(0)), "ars");
+        VirtualEditionDto virtualEdition = GameRequiresInterface.getInstance().getVirtualEdition(ARCHIVE_EDITION_ACRONYM);
+        ClassificationGame classificationGame = new ClassificationGame((virtualEdition), "Description", DateTime.now(),
+                virtualEdition.getIntersSet().stream().findFirst().get(), "ars");
         classificationGame.addParticipant("ars");
         ClassificationGameParticipant participant = classificationGame.getParticipant("ars");
 

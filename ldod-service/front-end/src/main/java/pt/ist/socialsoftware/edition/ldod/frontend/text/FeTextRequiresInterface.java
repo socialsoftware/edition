@@ -1,17 +1,19 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.text;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.fenixframework.Atomic;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.*;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserProvidesInterface;
-
-import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.*;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionInterDto;
 
 
 import java.io.IOException;
@@ -25,8 +27,8 @@ import java.util.stream.Collectors;
 public class FeTextRequiresInterface {
 
     @Autowired
-//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
 
 
@@ -449,28 +451,79 @@ public class FeTextRequiresInterface {
 
 
     // Uses Virtual Edition Module
-    private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
 
     public VirtualEditionDto getVirtualEditionByAcronym(String acronym) {
-        return this.virtualProvidesInterface.getVirtualEditionByAcronym(acronym);
+        return webClientVirtual.build()
+                .get()
+                .uri("/virtualEdition/acronym/" + acronym)
+                .retrieve()
+                .bodyToMono(VirtualEditionDto.class)
+                .block();
+        //        return this.virtualProvidesInterface.getVirtualEditionByAcronym(acronym);
     }
 
     public VirtualEditionInterDto getVirtualEditionInterByUrlId(String urlId) {
-        return this.virtualProvidesInterface.getVirtualEditionInterByUrlId(urlId);
+        return webClientVirtual.build()
+                .get()
+                .uri("/virtualEditionInter/urlId/" + urlId)
+                .retrieve()
+                .bodyToMono(VirtualEditionInterDto.class)
+                .block();
+        //        return this.virtualProvidesInterface.getVirtualEditionInterByUrlId(urlId);
     }
 
     public VirtualEditionInterDto getVirtualEditionInterByExternalId(String externalId) {
-        return this.virtualProvidesInterface.getVirtualEditionInterByExternalId(externalId);
+        return webClientVirtual.build()
+                .get()
+                .uri("/virtualEditionInter/ext/" + externalId)
+                .retrieve()
+                .bodyToMono(VirtualEditionInterDto.class)
+                .block();
+        //        return this.virtualProvidesInterface.getVirtualEditionInterByExternalId(externalId);
     }
 
     public void getLoaderTEICorpusVirtual(InputStream file) {
-        this.virtualProvidesInterface.loadTEICorpusVirtual(file);
+        try {
+            webClientVirtual.build()
+                    .post()
+                    .uri("/loadTEICorpusVirtual")
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .bodyValue(file.readAllBytes())
+                    .retrieve()
+                    .bodyToMono(Void.class)
+                    .block();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //        this.virtualProvidesInterface.loadTEICorpusVirtual(file);
     }
 
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getFragmentCorpusGenerator() {
-       Set<FragmentDto> fragments = this.getFragmentDtosWithScholarInterDtos();
-       this.virtualProvidesInterface.loadTEIFragmentCorpus(fragments);
+       Set<FragmentBaseDto> fragments = webClient.build()
+               .get()
+               .uri("/fragmentDtosWithScholarInterDtos")
+               .retrieve()
+               .bodyToFlux(FragmentBaseDto.class).toStream()
+               .collect(Collectors.toSet());
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        try {
+            String json = ow.writeValueAsString(fragments);
+            System.out.println(json);
+            webClientVirtual.build()
+                    .post()
+                    .uri("/loadTEIFragmentCorpus")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .bodyValue(BodyInserters.fromValue(json))
+                    .retrieve()
+                    .bodyToMono(Void.class)
+                    .block();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+       //       this.virtualProvidesInterface.loadTEIFragmentCorpus(fragments);
     }
 
     @Atomic(mode = Atomic.TxMode.WRITE)
@@ -489,7 +542,8 @@ public class FeTextRequiresInterface {
                 .get()
                 .uri("/sortedHeteronyms")
                 .retrieve()
-                .bodyToFlux(HeteronymDto.class).toStream().collect(Collectors.toList());
+                .bodyToFlux(HeteronymDto.class).toStream()
+                .collect(Collectors.toList());
     }
 
     public void cleanFragmentMapCache() {

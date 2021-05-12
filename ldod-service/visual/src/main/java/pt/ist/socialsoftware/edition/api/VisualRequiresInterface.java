@@ -6,16 +6,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.socialsoftware.edition.recommendation.api.RecommendationProvidesInterface;
 import pt.ist.socialsoftware.edition.recommendation.api.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.recommendation.api.dto.WeightsDto;
+import pt.ist.socialsoftware.edition.recommendation.api.textDto.ExpertEditionDto;
+import pt.ist.socialsoftware.edition.recommendation.api.textDto.ExpertEditionInterListDto;
+import pt.ist.socialsoftware.edition.recommendation.api.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionInterDto;
+import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionInterListDto;
 
-
-
-import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterListDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.ExpertEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.ExpertEditionInterListDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 
 import java.util.List;
 import java.util.Map;
@@ -96,19 +93,39 @@ public class VisualRequiresInterface {
 
 
     // Requires the Virtual Module
-    VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
 
     public List<VirtualEditionInterListDto> getPublicVirtualEditionInterListDto() {
-        return this.virtualProvidesInterface.getPublicVirtualEditionInterListDto();
+        return webClientVirtual.build()
+                .get()
+                .uri("/publicVirtualEditionInterList")
+                .retrieve()
+                .bodyToFlux(VirtualEditionInterListDto.class)
+                .collectList()
+                .block();
+        //        return this.virtualProvidesInterface.getPublicVirtualEditionInterListDto();
     }
 
     public VirtualEditionDto getVirtualEdition(String acronym) {
-        return this.virtualProvidesInterface.getVirtualEdition(acronym);
+        return webClientVirtual.build()
+                .get()
+                .uri("/virtualEdition/" + acronym)
+                .retrieve()
+                .bodyToMono(VirtualEditionDto.class)
+                .block();
+        //        return this.virtualProvidesInterface.getVirtualEdition(acronym);
     }
 
     public ScholarInterDto getScholarInterByExternalIdOfInter(String interId) {
         ScholarInterDto scholarInterDto =
-                this.virtualProvidesInterface.getScholarInterbyExternalId(interId);
+                this.webClientVirtual.build()
+                        .get()
+                        .uri("/scholarInter/ext/" + interId)
+                        .retrieve()
+                        .bodyToMono(ScholarInterDto.class)
+                        .block();
+
+//                        .getScholarInterbyExternalId(interId);
 
         if (scholarInterDto == null) {
             scholarInterDto = getScholarInterbyExternalId(interId);
@@ -116,9 +133,6 @@ public class VisualRequiresInterface {
 
         return scholarInterDto;
     }
-
-
-
 
 
     // Requires the Recommendation Module
@@ -131,7 +145,13 @@ public class VisualRequiresInterface {
             return this.recommendationProvidesInterface.getIntersByDistance(scholarInterDto, weights);
         }
 
-        VirtualEditionInterDto virtualEditionInterDto = this.virtualProvidesInterface.getVirtualEditionInterByExternalId(externalId);
+        VirtualEditionInterDto virtualEditionInterDto = webClientVirtual.build()
+                .get()
+                .uri("/virtualEditionInter/ext/" + externalId)
+                .retrieve()
+                .bodyToMono(VirtualEditionInterDto.class)
+                .block();
+//                this.virtualProvidesInterface.getVirtualEditionInterByExternalId(externalId);
         if (virtualEditionInterDto != null) {
             return this.recommendationProvidesInterface.getIntersByDistance(virtualEditionInterDto, weights);
         }

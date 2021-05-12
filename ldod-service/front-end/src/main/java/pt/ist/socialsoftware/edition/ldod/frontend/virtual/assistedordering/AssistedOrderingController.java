@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDCreateVirtualEditionException;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.validator.VirtualEditionValidator;
+
 import pt.ist.socialsoftware.edition.recommendation.api.dto.RecommendVirtualEditionParam;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
+import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionInterDto;
 
 
 import java.util.ArrayList;

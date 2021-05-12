@@ -10,11 +10,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import pt.ist.socialsoftware.edition.game.api.dtoc.ClassificationGameDto;
+import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.game.validator.ClassificationGameValidator;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDCreateClassificationGameException;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDException;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
+
 
 
 import java.util.List;

@@ -1,6 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.utils;
 
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
+
+
+import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionDto;
 
 import java.util.ArrayList;
 import java.util.List;

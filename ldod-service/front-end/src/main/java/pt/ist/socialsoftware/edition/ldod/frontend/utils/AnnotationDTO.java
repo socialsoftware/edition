@@ -1,10 +1,11 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.utils;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import pt.ist.socialsoftware.edition.virtual.api.dto.AnnotationDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.HumanAnnotationDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.TagDto;
-import pt.ist.socialsoftware.edition.virtual.utils.RangeJson;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.AnnotationDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.HumanAnnotationDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.RangeJson;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.TagDto;
+
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ public class AnnotationDTO implements Serializable {
         setUri(annotation.getInterExternalId());
 
         this.ranges = new ArrayList<>();
-        this.ranges.addAll(annotation.getRangeSet().stream().map(RangeJson::new).collect(Collectors.toList()));
+        this.ranges.addAll(new ArrayList<>(annotation.getRangeSet()));
 
         setUser(annotation.getUser());
 

@@ -26,7 +26,7 @@
         <p>
             <strong><spring:message code="general.participant"/>: </strong>
             <c:forEach var="game" items="${games}" varStatus="loop">
-                <a href="${contextPath}/virtualeditions/${virtualProvidesInterface.getVirtualEdition(game.getEditionId()).externalId}/classificationGame/${game.getExternalId()}">
+                <a href="${contextPath}/virtualeditions/${virtualProvidesInterface.getVirtualEditionByAcronym(game.getEditionId()).externalId}/classificationGame/${game.getExternalId()}">
                     < ${virtualProvidesInterface.getVirtualEditionTitleByAcronym(game.getEditionId())}
                     - ${virtualProvidesInterface.getVirtualEditionInterTitle(game.getInterId())}</a>>
                 <c:if test="${!loop.last}">, </c:if>

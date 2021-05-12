@@ -3,7 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.frontend.virtual.validator;
 
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.validator.AbstractLdoDValidator;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.validator.LdoDValidatorFunctions;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
 
 public class VirtualEditionValidator extends AbstractLdoDValidator {
 

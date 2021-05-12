@@ -24,7 +24,7 @@
             </td>
         </tr>
     </c:forEach>
-    <c:forEach var="annotation" items='${inter. getAllDepthAnnotationsAccessibleByUser(user)}'>
+    <c:forEach var="annotation" items='${inter.getAllDepthAnnotationsAccessibleByUser(user)}'>
         <tr>
             <td>${annotation.quote}</td>
 

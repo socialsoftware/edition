@@ -4,8 +4,8 @@ package pt.ist.socialsoftware.edition.search.api;
 import pt.ist.socialsoftware.edition.search.api.dto.AdvancedSearchResultDto;
 import pt.ist.socialsoftware.edition.search.api.dto.SearchDto;
 import pt.ist.socialsoftware.edition.search.api.dto.VirtualEditionSearchOptionDto;
+import pt.ist.socialsoftware.edition.search.api.textDto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.search.feature.SearchProcessor;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 
 import java.util.Arrays;
 import java.util.List;

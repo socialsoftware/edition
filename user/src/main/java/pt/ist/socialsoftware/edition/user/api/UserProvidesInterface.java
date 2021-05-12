@@ -203,9 +203,6 @@ public class UserProvidesInterface {
     @Atomic(mode = Atomic.TxMode.READ)
     public List<String> getRolesFromUser(@PathVariable("username") String username) {
         System.out.println("getRolesFromUser: " + username);
-        for (String v: UserModule.getInstance().getUser(username).getRolesSet().stream().map(role -> role.getType().name()).collect(Collectors.toList())) {
-            System.out.println(v);
-        }
         return UserModule.getInstance().getUser(username).getRolesSet().stream().map(role -> role.getType().name()).collect(Collectors.toList());
     }
 

@@ -6,11 +6,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.socialsoftware.edition.notification.event.Event;
 import pt.ist.socialsoftware.edition.notification.event.EventInterface;
 import pt.ist.socialsoftware.edition.notification.event.SubscribeInterface;
+import pt.ist.socialsoftware.edition.recommendation.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.recommendation.api.textDto.HeteronymDto;
+import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.recommendation.domain.RecommendationModule;
 
-import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.HeteronymDto;
+
 
 import java.util.List;
 import java.util.Map;
@@ -19,8 +20,8 @@ import java.util.stream.Collectors;
 
 public class RecommendationRequiresInterface implements SubscribeInterface {
 
-//    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+//    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
 
     private static RecommendationRequiresInterface instance;
@@ -115,14 +116,51 @@ public class RecommendationRequiresInterface implements SubscribeInterface {
 
 
     // Uses Virtual Module
-    private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
 
     public List<String> getVirtualEditionSortedCategoryList(String acronym) {
-        return this.virtualProvidesInterface.getVirtualEditionSortedCategoryList(acronym);
+        return webClientVirtual.build()
+                .get()
+                .uri("/virtualEdition/" + acronym + "/sortedCategory")
+                .retrieve()
+                .bodyToFlux(String.class)
+                .collectList()
+                .block();
+        //        return this.virtualProvidesInterface.getVirtualEditionSortedCategoryList(acronym);
     }
 
     public List<String> getFragmentCategoriesInVirtualEditon(String acronym, String xmlId) {
-        return this.virtualProvidesInterface.getFragmentCategoriesInVirtualEditon(acronym, xmlId);
+        return webClientVirtual.build()
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                    .path("/virtualEdition/" + acronym + "/fragmentCategories")
+                    .queryParam("xmlId", xmlId)
+                    .build())
+                .retrieve()
+                .bodyToFlux(String.class)
+                .collectList()
+                .block();
+        //        return this.virtualProvidesInterface.getFragmentCategoriesInVirtualEditon(acronym, xmlId);
+    }
+
+    public VirtualEditionDto getArchiveEdition() {
+        return webClientVirtual.build()
+                .get()
+                .uri("/archiveVirtualEdition")
+                .retrieve()
+                .bodyToMono(VirtualEditionDto.class)
+                .block();
+//        return this.virtualProvidesInterface.getArchiveVirtualEdition();
+    }
+
+    public VirtualEditionDto getVirtualEditionByAcronym(String acronym) {
+        return webClientVirtual.build()
+                .get()
+                .uri("/virtualEdition/" + acronym)
+                .retrieve()
+                .bodyToMono(VirtualEditionDto.class)
+                .block();
+        //        return this.virtualProvidesInterface.getVirtualEdition(acronym);
     }
 
 }

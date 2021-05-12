@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.recommendation.feature;
 
+import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.recommendation.feature.properties.Property;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
 
 
 public class VSMVirtualEditionInterRecommender extends VSMRecommender<VirtualEditionInterDto> {

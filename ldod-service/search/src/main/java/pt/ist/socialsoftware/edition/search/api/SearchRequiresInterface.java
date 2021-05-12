@@ -1,14 +1,12 @@
 package pt.ist.socialsoftware.edition.search.api;
 
 import org.springframework.web.reactive.function.client.WebClient;
-
-import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.LdoDDateDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.SourceDto;
+import pt.ist.socialsoftware.edition.search.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.search.api.textDto.LdoDDateDto;
+import pt.ist.socialsoftware.edition.search.api.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.search.api.textDto.SourceDto;
+import pt.ist.socialsoftware.edition.search.api.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.search.api.virtualDto.VirtualEditionInterDto;
 
 
 import java.util.List;
@@ -122,26 +120,66 @@ public class SearchRequiresInterface {
 
 
     // Requires from Virtual Module
-    private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
 
     public Set<VirtualEditionInterDto> getVirtualEditionInterSet() {
-        return this.virtualProvidesInterface.getVirtualEditionInterSet();
+        return webClientVirtual.build()
+                .get()
+                .uri("/virtualEditionInterSet")
+                .retrieve()
+                .bodyToFlux(VirtualEditionInterDto.class)
+                .toStream()
+                .collect(Collectors.toSet());
+        //        return this.virtualProvidesInterface.getVirtualEditionInterSet();
     }
 
     public List<String> getVirtualEditionSortedCategoryList(String xmlId) {
-        return this.virtualProvidesInterface.getVirtualEditionSortedCategoryList(xmlId);
+        return webClientVirtual.build()
+                .get()
+                .uri("/virtualEdition/" + xmlId + "/sortedCategory")
+                .retrieve()
+                .bodyToFlux(String.class)
+                .collectList()
+                .block();
+        //        return this.virtualProvidesInterface.getVirtualEditionSortedCategoryList(xmlId);
     }
 
     public boolean isInterInVirtualEdition(String interXmlId, String virtualEditionAcronym) {
-        return this.virtualProvidesInterface.isInterInVirtualEdition(interXmlId, virtualEditionAcronym);
+        return webClientVirtual.build()
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                    .path("/isInterInVirtualEdition")
+                    .queryParam("xmlId", interXmlId)
+                    .queryParam("acronym", virtualEditionAcronym)
+                    .build())
+                .retrieve()
+                .bodyToMono(Boolean.class)
+                .blockOptional().orElse(false);
+        //        return this.virtualProvidesInterface.isInterInVirtualEdition(interXmlId, virtualEditionAcronym);
     }
 
     public String getVirtualEditionAcronymByVirtualEditionInterXmlId(String interXmlId) {
-        return this.virtualProvidesInterface.getVirtualEditionAcronymByVirtualEditionInterXmlId(interXmlId);
+        return webClientVirtual.build()
+                .get()
+                .uri("/virtualEditionsInter/" + interXmlId + "/virtualEditionAcronym")
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+        //        return this.virtualProvidesInterface.getVirtualEditionAcronymByVirtualEditionInterXmlId(interXmlId);
     }
 
     public Set<VirtualEditionDto> getPublicVirtualEditionsOrUserIsParticipant(String username) {
-        return this.virtualProvidesInterface.getPublicVirtualEditionsOrUserIsParticipant(username);
+        return webClientVirtual.build()
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                    .path("/virtualEditions/getPublicVirtualEditionsOrUserIsParticipant")
+                    .queryParam("username", username)
+                    .build())
+                .retrieve()
+                .bodyToFlux(VirtualEditionDto.class)
+                .toStream()
+                .collect(Collectors.toSet());
+        //        return this.virtualProvidesInterface.getPublicVirtualEditionsOrUserIsParticipant(username);
     }
 
 }

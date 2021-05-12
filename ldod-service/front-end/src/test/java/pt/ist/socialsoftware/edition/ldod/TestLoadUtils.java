@@ -13,16 +13,11 @@ import pt.ist.socialsoftware.edition.ldod.frontend.user.session.SessionRequiresI
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.Bootstrap;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.PropertiesManager;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
 import pt.ist.socialsoftware.edition.notification.event.EventInterface;
 import pt.ist.socialsoftware.edition.recommendation.api.RecommendationRequiresInterface;
 import pt.ist.socialsoftware.edition.recommendation.domain.RecommendationModule;
 
-import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
-
-import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;
-import pt.ist.socialsoftware.edition.virtual.feature.inout.VirtualEditionFragmentsTEIImport;
-import pt.ist.socialsoftware.edition.virtual.feature.inout.VirtualEditionsTEICorpusImport;
 
 
 import java.io.File;
@@ -44,8 +39,7 @@ public class TestLoadUtils {
 //            LoadTEICorpus corpusLoader1 = new LoadTEICorpus();
 //            corpusLoader1.loadTEICorpus(new FileInputStream(file));
             feTextRequiresInterface.getLoaderTEICorpus(new FileInputStream(file));
-            VirtualEditionsTEICorpusImport corpusLoader = new VirtualEditionsTEICorpusImport();
-            corpusLoader.loadTEICorpusVirtual(new FileInputStream(file));
+            new FeVirtualRequiresInterface().loadTEICorpusVirtual(new FileInputStream(file));
 
         }
     }
@@ -56,9 +50,7 @@ public class TestLoadUtils {
 		File corpus = new File(directory, "virtual-corpus.xml");
 		FileInputStream fis1 = new FileInputStream(corpus);
 
-		VirtualEditionsTEICorpusImport loader = new VirtualEditionsTEICorpusImport();
-
-        loader.importVirtualEditionsCorpus(fis1);
+        new FeVirtualRequiresInterface().importVirtualEditionCorupus(fis1);
     }
 
     public static void loadFragments(String[] fragmentsToLoad) throws LdoDLoadException, FileNotFoundException {
@@ -80,19 +72,18 @@ public class TestLoadUtils {
         if (fragmentFiles.length > 0){  new FeTextRequiresInterface().getFragmentCorpusGenerator(); }
     }
 
-	public static void loadVirtualEditionFragments(String[] fragmentsToLoad) throws LdoDLoadException, FileNotFoundException {
+	public static void loadVirtualEditionFragments(String[] fragmentsToLoad) throws LdoDLoadException, IOException {
 		String testFilesDirectory = PropertiesManager.getProperties().getProperty("test.files.dir");
 		File directory = new File(testFilesDirectory);
 
 		String[] fragmentFiles = fragmentsToLoad;
 
-		VirtualEditionFragmentsTEIImport loader = new VirtualEditionFragmentsTEIImport();
         GameXMLImport gameloader = new GameXMLImport();
 
 		File file;
 		for (int i = 0; i < fragmentFiles.length; i++) {
 			file = new File(directory, fragmentFiles[i]);
-			loader.importFragmentFromTEI(new FileInputStream(file));
+			new FeVirtualRequiresInterface().importVirtualEditionFragmentFromTEI((file));
 			gameloader.importGamesFromTEI(new FileInputStream(file));
 		}
 	}
@@ -106,16 +97,16 @@ public class TestLoadUtils {
     public static void cleanDatabase() {
         FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
         FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
+        FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
 
         feTextRequiresInterface.cleanFragmentMapCache();
         feTextRequiresInterface.cleanScholarInterMapCache();
-        VirtualProvidesInterface.cleanVirtualEditionInterMapByUrlIdCache();
-        VirtualProvidesInterface.cleanVirtualEditionInterMapByXmlIdCache();
-        VirtualProvidesInterface.cleanVirtualEditionMapCache();
+        feVirtualRequiresInterface.cleanVirtualEditionInterMapByUrlIdCache();
+        feVirtualRequiresInterface.cleanVirtualEditionInterMapByXmlIdCache();
+        feVirtualRequiresInterface.cleanVirtualEditionMapCache();
         
 
         EventInterface.getInstance();
-        VirtualRequiresInterface.getInstance();
         SessionRequiresInterface.getInstance();
         GameRequiresInterface.getInstance();
         RecommendationRequiresInterface.getInstance();
@@ -124,10 +115,7 @@ public class TestLoadUtils {
 
        feUserRequiresInterface.removeUserModule();
 
-        VirtualModule virtualModule = VirtualModule.getInstance();
-        if (virtualModule != null) {
-            virtualModule.remove();
-        }
+        feVirtualRequiresInterface.removeVirtualModule();
 
         RecommendationModule recommendationModule = RecommendationModule.getInstance();
         if (recommendationModule != null) {
@@ -152,16 +140,16 @@ public class TestLoadUtils {
         File corpus = new File(directory, "virtual-corpus.xml");
         FileInputStream fis1 = new FileInputStream(corpus);
 
-        VirtualEditionsTEICorpusImport loader = new VirtualEditionsTEICorpusImport();
+        FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
 
-        loader.importVirtualEditionsCorpus(fis1);
+        feVirtualRequiresInterface.importVirtualEditionCorupus(fis1);
 
         File frag1 = new File(directory, "virtual-Fr001.xml");
         FileInputStream fisfrag = new FileInputStream(frag1);
 
-        VirtualEditionFragmentsTEIImport fragloader = new VirtualEditionFragmentsTEIImport();
 
-        fragloader.importFragmentFromTEI(fisfrag);
+
+        feVirtualRequiresInterface.importFragmentFromTEI(fisfrag);
 
         GameXMLImport gameloader = new GameXMLImport();
         gameloader.importGamesFromTEI(new FileInputStream(frag1));
@@ -169,7 +157,7 @@ public class TestLoadUtils {
     }
 
     public static void deleteTestVirtualEdition() {
-        VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").remove();
+        new FeVirtualRequiresInterface().getVirtualEditionByAcronym("LdoD-Teste").removeByExternalId();
     }
 
 }

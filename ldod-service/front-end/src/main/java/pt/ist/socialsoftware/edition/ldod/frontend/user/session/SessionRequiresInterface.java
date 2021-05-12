@@ -4,12 +4,12 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.notification.event.Event;
 import pt.ist.socialsoftware.edition.notification.event.EventInterface;
 import pt.ist.socialsoftware.edition.notification.event.EventVirtualEditionUpdate;
 import pt.ist.socialsoftware.edition.notification.event.SubscribeInterface;
-import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
+
 
 import java.util.List;
 
@@ -54,27 +54,63 @@ public class SessionRequiresInterface implements SubscribeInterface {
     }
 
     // Uses Virtual Module
-    private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
 
     public VirtualEditionDto getVirtualEditionByAcronym(String acronym) {
-        return this.virtualProvidesInterface.getVirtualEditionByAcronym(acronym);
+        return webClientVirtual.build()
+                .get()
+                .uri("/virtualEdition/acronym/" + acronym)
+                .retrieve()
+                .bodyToMono(VirtualEditionDto.class)
+                .block();
+        //        return this.virtualProvidesInterface.getVirtualEditionByAcronym(acronym);
     }
 
     public void removeSelectedByUser(String user, String virtualEditionAcronym) {
-        this.virtualProvidesInterface.removeVirtualEditionSelectedByUser(user, virtualEditionAcronym);
+        webClientVirtual.build()
+                .post()
+                .uri(uriBuilder -> uriBuilder
+                   .path("/removeVirtualEditionSelectedByUser")
+                   .queryParam("user", user)
+                   .queryParam("virtualEditionAcronym", virtualEditionAcronym)
+                    .build())
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
+        //        this.virtualProvidesInterface.removeVirtualEditionSelectedByUser(user, virtualEditionAcronym);
     }
 
     public void addSelectedByUser(String user, String virtualEditionAcronym) {
-        this.virtualProvidesInterface.addVirtualEditionSelectedByUser(user, virtualEditionAcronym);
+        webClientVirtual.build()
+                .post()
+                .uri(uriBuilder -> uriBuilder
+                    .path("/addVirtualEditionSelectedByUser")
+                    .queryParam("user", user)
+                    .queryParam("virtualEditionAcronym", virtualEditionAcronym)
+                .build())
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
+        //        this.virtualProvidesInterface.addVirtualEditionSelectedByUser(user, virtualEditionAcronym);
     }
 
     public List<String> getSelectedVirtualEditionsByUser(String username) {
-        return this.virtualProvidesInterface.getSelectedVirtualEditionsByUser(username);
+        return webClientVirtual.build()
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                    .path("/userSelectedVirtualEditions")
+                    .queryParam("username", username)
+                .build())
+                .retrieve()
+                .bodyToFlux(String.class)
+                .collectList()
+                .block();
+        //        return this.virtualProvidesInterface.getSelectedVirtualEditionsByUser(username);
     }
 
     // Uses User Module
-//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
-    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
+    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
+//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
 
 
     public UserDto getUser(String user) {

@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.utils.dto;
 
 
-import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.FragmentDto;
 
 public class MainFragmentDto {
 

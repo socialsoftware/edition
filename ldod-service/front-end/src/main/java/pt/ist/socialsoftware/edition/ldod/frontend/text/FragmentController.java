@@ -10,21 +10,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.SurfaceDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.AnnotationSearchJson;
-
-
-import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
-import pt.ist.socialsoftware.edition.virtual.api.dto.AnnotationDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.HumanAnnotationDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.SurfaceDto;
-
-import static pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition.*;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.AnnotationDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.HumanAnnotationDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionInterDto;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,9 +37,10 @@ public class FragmentController {
     private static final String CUNHA_EDITION_ACRONYM = "TSC";
     private static final String ZENITH_EDITION_ACRONYM = "RZ";
     private static final String PIZARRO_EDITION_ACRONYM = "JP";
+    private static final String ARCHIVE_EDITION_ACRONYM = "LdoD-Arquivo";
 
     private final FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
-    private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+    private final FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
 
     @ModelAttribute("frontendSession")
     public FrontendSession getFrontendSession() {
@@ -141,7 +138,7 @@ public class FragmentController {
             ScholarInterDto scholarInter = this.feTextRequiresInterface.getScholarInterByExternalId(externalId);
             return "redirect:/fragments/fragment/" + scholarInter.getFragmentXmlId() + "/inter/" + scholarInter.getUrlId();
         } else {
-            VirtualEditionInterDto virtualEditionInter = this.virtualProvidesInterface.getVirtualEditionInterByExternalId(externalId);
+            VirtualEditionInterDto virtualEditionInter = this.feVirtualRequiresInterface.getVirtualEditionInterByExternalId(externalId);
             return virtualEditionInter == null ?  "redirect:/error" :  "redirect:/fragments/fragment/" + virtualEditionInter.getFragmentXmlId() + "/inter/" + virtualEditionInter.getUrlId();
         }
 
@@ -188,7 +185,7 @@ public class FragmentController {
         }
 
         //VirtualEditionInter virtualEditionInter = VirtualModule.getInstance().getVirtualEditionInterByUrlId(urlId);
-        VirtualEditionInterDto virtualEditionInter = this.virtualProvidesInterface.getVirtualEditionInterByUrlId(urlId);
+        VirtualEditionInterDto virtualEditionInter = this.feVirtualRequiresInterface.getVirtualEditionInterByUrlId(urlId);
         if (virtualEditionInter != null) {
 //            virtualEditionInter = virtualEditionInter.getNextNumberInter();
             virtualEditionInter = virtualEditionInter.getNextInter();
@@ -220,7 +217,7 @@ public class FragmentController {
         }
 
 //        VirtualEditionInter virtualEditionInter = VirtualModule.getInstance().getVirtualEditionInterByUrlId(urlId);
-        VirtualEditionInterDto virtualEditionInter = this.virtualProvidesInterface.getVirtualEditionInterByUrlId(urlId);
+        VirtualEditionInterDto virtualEditionInter = this.feVirtualRequiresInterface.getVirtualEditionInterByUrlId(urlId);
         if (virtualEditionInter != null) {
             virtualEditionInter = virtualEditionInter.getPrevInter();
 
@@ -422,7 +419,7 @@ public class FragmentController {
         logger.debug("searchAnnotations uri: " + uri);
         List<AnnotationDTO> annotations = new ArrayList<>();
 
-        VirtualEditionInterDto inter = this.virtualProvidesInterface.getVirtualEditionInterByExternalId(uri);
+        VirtualEditionInterDto inter = this.feVirtualRequiresInterface.getVirtualEditionInterByExternalId(uri);
 
         for (AnnotationDto annotation : inter.getAllDepthAnnotationsAccessibleByUser(this.feTextRequiresInterface.getAuthenticatedUser())) {
             AnnotationDTO annotationJson = new AnnotationDTO(annotation);
@@ -437,14 +434,14 @@ public class FragmentController {
     ResponseEntity<AnnotationDTO> createAnnotation(Model model,
                                                    @RequestBody AnnotationDTO annotationJson, HttpServletRequest request) {
 
-        VirtualEditionInterDto inter = this.virtualProvidesInterface.getVirtualEditionInterByExternalId(annotationJson.getUri());
+        VirtualEditionInterDto inter = this.feVirtualRequiresInterface.getVirtualEditionInterByExternalId(annotationJson.getUri());
 
         VirtualEditionDto virtualEdition = inter.getVirtualEditionDto();
         String user = this.feTextRequiresInterface.getAuthenticatedUser();
 
         HumanAnnotationDto annotationDto;
-        if (this.virtualProvidesInterface.canManipulateAnnotation(virtualEdition.getAcronym(), user)) {
-            annotationDto = this.virtualProvidesInterface.createHumanAnnotation(inter.getXmlId(), annotationJson.getQuote(), annotationJson.getText(), user,
+        if (this.feVirtualRequiresInterface.canManipulateAnnotation(virtualEdition.getAcronym(), user)) {
+            annotationDto = this.feVirtualRequiresInterface.createHumanAnnotation(inter.getXmlId(), annotationJson.getQuote(), annotationJson.getText(), user,
                     annotationJson.getRanges(), annotationJson.getTags());
             annotationJson.setId(annotationDto.getExternalId());
 
@@ -458,7 +455,7 @@ public class FragmentController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/annotations/{id}")
     public @ResponseBody
     ResponseEntity<AnnotationDTO> getAnnotation(Model model, @PathVariable String id) {
-        HumanAnnotationDto annotation = this.virtualProvidesInterface.getHumanAnnotationfromId(id);
+        HumanAnnotationDto annotation = this.feVirtualRequiresInterface.getHumanAnnotationfromId(id);
         if (annotation != null) {
             return new ResponseEntity<>(new AnnotationDTO(annotation), HttpStatus.OK);
         } else {
@@ -471,15 +468,15 @@ public class FragmentController {
     ResponseEntity<AnnotationDTO> updateAnnotation(Model model, @PathVariable String id,
                                                    @RequestBody AnnotationDTO annotationJson) {
 
-        HumanAnnotationDto annotation = this.virtualProvidesInterface.getHumanAnnotationfromId(id);
+        HumanAnnotationDto annotation = this.feVirtualRequiresInterface.getHumanAnnotationfromId(id);
         String user = this.feTextRequiresInterface.getAuthenticatedUser();
 
         if (annotation == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        if (this.virtualProvidesInterface.canUserUpdateHumanAnnotation(id, user)) {
-            annotation = this.virtualProvidesInterface.updateHumanAnnotation(id, annotationJson.getText(), annotationJson.getTags());
+        if (this.feVirtualRequiresInterface.canUserUpdateHumanAnnotation(id, user)) {
+            annotation = this.feVirtualRequiresInterface.updateHumanAnnotation(id, annotationJson.getText(), annotationJson.getTags());
             return new ResponseEntity<>(new AnnotationDTO(annotation), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -492,15 +489,15 @@ public class FragmentController {
     ResponseEntity<AnnotationDTO> deleteAnnotation(Model model, @PathVariable String id,
                                                    @RequestBody AnnotationDTO annotationJson) {
 
-        HumanAnnotationDto annotation = this.virtualProvidesInterface.getHumanAnnotationfromId(id);
+        HumanAnnotationDto annotation = this.feVirtualRequiresInterface.getHumanAnnotationfromId(id);
         String user = this.feTextRequiresInterface.getAuthenticatedUser();
 
         if (annotation == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        if (this.virtualProvidesInterface.canUserDeleteHumanAnnotation(id, user)) {
-            this.virtualProvidesInterface.removeHumanAnnotation(id);
+        if (this.feVirtualRequiresInterface.canUserDeleteHumanAnnotation(id, user)) {
+            this.feVirtualRequiresInterface.removeHumanAnnotation(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -511,7 +508,7 @@ public class FragmentController {
     public @ResponseBody
     ResponseEntity<String[]> getAnnotationInter(Model model, @PathVariable String annotationId) {
 
-        HumanAnnotationDto annotation = this.virtualProvidesInterface.getHumanAnnotationfromId(annotationId);
+        HumanAnnotationDto annotation = this.feVirtualRequiresInterface.getHumanAnnotationfromId(annotationId);
 
       String[] categories = annotation.getTags().stream().map(tagDto -> tagDto.getNameInEdition()).toArray(size -> new String[size]);
 

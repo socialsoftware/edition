@@ -30,21 +30,23 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.controller.LdoDExceptionHandler;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.CategoryDto;
 
-import pt.ist.socialsoftware.edition.virtual.domain.Category;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
 public class EditionTest {
 
+	public static final String ARCHIVE_EDITION_ACRONYM = "LdoD-Arquivo";
 	public static final String PIZARRO_EDITION_ACRONYM = "JP";
 
-	private FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
+	private final FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
+	private final FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
 
     @InjectMocks
     private EditionController editionController;
@@ -53,7 +55,7 @@ public class EditionTest {
 
 	@BeforeAll
 	@Atomic(mode = TxMode.WRITE)
-	public static void setUpAll() throws FileNotFoundException {
+	public static void setUpAll() throws IOException {
 		TestLoadUtils.setUpDatabaseWithCorpus();
 
 		String[] fragments = { "001.xml", "002.xml", "003.xml" };
@@ -88,10 +90,10 @@ public class EditionTest {
 
 	@Test
 	public void getEditionArchiveTest() throws Exception {
-		this.mockMvc.perform(get("/edition/acronym/{acronym}", VirtualEdition.ARCHIVE_EDITION_ACRONYM)).andDo(print())
+		this.mockMvc.perform(get("/edition/acronym/{acronym}", ARCHIVE_EDITION_ACRONYM)).andDo(print())
 				.andExpect(status().isOk()).andExpect(view().name("edition/tableOfContents"))
 				.andExpect(model().attribute("heteronym", nullValue())).andExpect(model().attribute("editionDto",
-				hasProperty("acronym", equalTo(VirtualEdition.ARCHIVE_EDITION_ACRONYM))));
+				hasProperty("acronym", equalTo(ARCHIVE_EDITION_ACRONYM))));
 
 	}
 
@@ -170,7 +172,7 @@ public class EditionTest {
 	@Test
 	@Atomic(mode = TxMode.READ)
 	public void getTaxonomyTableOfContentsTest() throws Exception {
-		this.mockMvc.perform(get("/edition/acronym/{acronym}/taxonomy", VirtualEdition.ARCHIVE_EDITION_ACRONYM))
+		this.mockMvc.perform(get("/edition/acronym/{acronym}/taxonomy", ARCHIVE_EDITION_ACRONYM))
 				.andDo(print())
 				.andDo(print()).andExpect(status().isOk())
 				.andExpect(view().name("edition/taxonomyTableOfContents"));
@@ -179,12 +181,12 @@ public class EditionTest {
 	@Test
 	@Atomic(mode = TxMode.READ)
 	public void getCategoryTableOfContentsTest() throws Exception {
-		Category category = VirtualModule.getInstance().getVirtualEdition(VirtualEdition.ARCHIVE_EDITION_ACRONYM)
+		CategoryDto category = feVirtualRequiresInterface.getVirtualEditionByAcronym(ARCHIVE_EDITION_ACRONYM)
 				.getTaxonomy().getCategoriesSet().stream()
 				.findAny()
 				.orElse(null);
 
-		this.mockMvc.perform(get("/edition/acronym/{acronym}/category/{urlId}", VirtualEdition.ARCHIVE_EDITION_ACRONYM, category.getUrlId()))
+		this.mockMvc.perform(get("/edition/acronym/{acronym}/category/{urlId}", ARCHIVE_EDITION_ACRONYM, category.getUrlId()))
 				.andDo(print())
 				.andDo(print()).andExpect(status().isOk())
 				.andExpect(view().name("edition/categoryTableOfContents"));

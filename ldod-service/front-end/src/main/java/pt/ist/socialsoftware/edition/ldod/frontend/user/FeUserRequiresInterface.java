@@ -7,13 +7,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.RegistrationTokenDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserConnectionDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
-import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionInterDto;
 
 
 import java.io.IOException;
@@ -25,8 +24,8 @@ import java.util.stream.Collectors;
 public class FeUserRequiresInterface {
 
     // Uses User Module
-//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
-    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
+    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
+//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
 
 
     public UserDto getUser(String username) {
@@ -359,11 +358,29 @@ public class FeUserRequiresInterface {
                 .collect(Collectors.toSet());
     }
 
+    public String getFirstName(String username) {
+        return webClientUser.build()
+                .get()
+                .uri("/user/" + username + "/first")
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+    }
+
+    public String getLastName(String username) {
+        return webClientUser.build()
+                .get()
+                .uri("/user/" + username + "/last")
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+    }
+
 
     // User Text Module
 
-//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
     public FragmentDto getFragmentByXmlId(String xmlId) {
         return   webClient.build()
@@ -376,39 +393,88 @@ public class FeUserRequiresInterface {
 
 
     // Uses Virtual Module
-    private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
 
 
     public Set<VirtualEditionDto> getPublicVirtualEditionsOrUserIsParticipant(String username) {
-        return this.virtualProvidesInterface.getPublicVirtualEditionsOrUserIsParticipant(username);
+        return webClientVirtual.build()
+                .get()
+                .uri("/virtualEditions/getPublicVirtualEditionsOrUserIsParticipant")
+                .retrieve()
+                .bodyToFlux(VirtualEditionDto.class)
+                .toStream()
+                .collect(Collectors.toSet());
+        //        return this.virtualProvidesInterface.getPublicVirtualEditionsOrUserIsParticipant(username);
     }
 
     public VirtualEditionDto getVirtualEditionByExternalId(String externalId) {
-        return this.virtualProvidesInterface.getVirtualEditionByExternalId(externalId);
+        return webClientVirtual.build()
+                .get()
+                .uri("/virtualEdition/ext/" + externalId)
+                .retrieve()
+                .bodyToMono(VirtualEditionDto.class)
+                .block();
+        //        return this.virtualProvidesInterface.getVirtualEditionByExternalId(externalId);
     }
 
     public VirtualEditionDto getVirtualEditionByAcronym(String acronym) {
-        return this.virtualProvidesInterface.getVirtualEditionByAcronym(acronym);
+        return webClientVirtual.build()
+                .get()
+                .uri("/virtualEdition/acronym/" + acronym)
+                .retrieve()
+                .bodyToMono(VirtualEditionDto.class)
+                .block();
+        //        return this.virtualProvidesInterface.getVirtualEditionByAcronym(acronym);
     }
 
     public VirtualEditionInterDto getVirtualEditionInterByExternalId(String externalId) {
-        return this.virtualProvidesInterface.getVirtualEditionInterByExternalId(externalId);
+        return webClientVirtual.build()
+                .get()
+                .uri("/virtualEditionInter/ext/" + externalId)
+                .retrieve()
+                .bodyToMono(VirtualEditionInterDto.class)
+                .block();
+        //        return this.virtualProvidesInterface.getVirtualEditionInterByExternalId(externalId);
     }
 
     public VirtualEditionDto getVirtualEditionOfTaxonomyByExternalId(String externalId) {
-        return this.virtualProvidesInterface.getVirtualEditionOfTaxonomyByExternalId(externalId);
+        return webClientVirtual.build()
+                .get()
+                .uri("/taxonomy/" + externalId + "/virtualEdition")
+                .retrieve()
+                .bodyToMono(VirtualEditionDto.class)
+                .block();
+        //        return this.virtualProvidesInterface.getVirtualEditionOfTaxonomyByExternalId(externalId);
     }
 
     public VirtualEditionDto getVirtualEditionOfCategoryByExternalId(String externalId) {
-        return this.virtualProvidesInterface.getVirtualEditionOfCategoryByExternalId(externalId);
+        return webClientVirtual.build()
+                .get()
+                .uri("/category/" + externalId + "/virtualEdition")
+                .retrieve()
+                .bodyToMono(VirtualEditionDto.class)
+                .block();
+        //        return this.virtualProvidesInterface.getVirtualEditionOfCategoryByExternalId(externalId);
     }
 
     public VirtualEditionDto getVirtualEditionOfTagByExternalId(String externalId) {
-        return this.virtualProvidesInterface.getVirtualEditionOfTagByExternalId(externalId);
+        return webClientVirtual.build()
+                .get()
+                .uri("/tag/" + externalId + "/virtualEdition")
+                .retrieve()
+                .bodyToMono(VirtualEditionDto.class)
+                .block();
+        //        return this.virtualProvidesInterface.getVirtualEditionOfTagByExternalId(externalId);
     }
 
     public VirtualEditionInterDto getVirtualEditionInterByUrlId(String urlId) {
-        return this.virtualProvidesInterface.getVirtualEditionInterByUrlId(urlId);
+        return webClientVirtual.build()
+                .get()
+                .uri("/virtualEditionInter/urlId/" + urlId)
+                .retrieve()
+                .bodyToMono(VirtualEditionInterDto.class)
+                .block();
+        //        return this.virtualProvidesInterface.getVirtualEditionInterByUrlId(urlId);
     }
 
     public boolean initializeUserModule() {

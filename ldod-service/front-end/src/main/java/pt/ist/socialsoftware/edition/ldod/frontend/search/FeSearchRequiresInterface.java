@@ -5,12 +5,11 @@ import org.joda.time.LocalDate;
 import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserProvidesInterface;
 
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.search.api.SearchProvidesInterface;
 import pt.ist.socialsoftware.edition.search.api.dto.AdvancedSearchResultDto;
 import pt.ist.socialsoftware.edition.search.api.dto.SearchDto;
-import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.*;
+import pt.ist.socialsoftware.edition.search.api.textDto.*;
 
 
 import java.util.List;
@@ -198,10 +197,20 @@ public class FeSearchRequiresInterface {
 
 
     // Requires from Virtual Module
-    private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
 
     public Set<VirtualEditionDto> getPublicVirtualEditionsOrUserIsParticipant(String username) {
-        return this.virtualProvidesInterface.getPublicVirtualEditionsOrUserIsParticipant(username);
+        return webClientVirtual.build()
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                    .path("/virtualEditions/getPublicVirtualEditionsOrUserIsParticipant")
+                    .queryParam("username", username)
+                .build())
+                .retrieve()
+                .bodyToFlux(VirtualEditionDto.class)
+                .toStream()
+                .collect(Collectors.toSet());
+        //        return this.virtualProvidesInterface.getPublicVirtualEditionsOrUserIsParticipant(username);
     }
 
 }

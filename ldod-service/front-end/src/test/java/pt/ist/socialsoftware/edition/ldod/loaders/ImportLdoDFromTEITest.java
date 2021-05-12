@@ -5,14 +5,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.game.utils.SourceType;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.*;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;
-import pt.ist.socialsoftware.edition.virtual.utils.enums.SourceType;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.*;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
+
 
 import java.io.FileNotFoundException;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -20,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 public class ImportLdoDFromTEITest {
     private FragmentDto fragmentTest;
     private final FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
+    private final FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
 
     @BeforeEach
     @Atomic(mode = Atomic.TxMode.WRITE)
@@ -43,10 +46,10 @@ public class ImportLdoDFromTEITest {
     @Atomic(mode = TxMode.READ)
     public void testCorpusIdLoadead() {
 
-        VirtualModule virtualModule = VirtualModule.getInstance();
+//        VirtualModule virtualModule = VirtualModule.getInstance();
 //        TextModule text = TextModule.getInstance();
 
-        checkTitleStmtLoad(virtualModule);
+        checkTitleStmtLoad();
         checkListBiblLoad();
         checkHeteronymsLoad();
     }
@@ -132,13 +135,14 @@ public class ImportLdoDFromTEITest {
 //        }
 //    }
 
-    private void checkTitleStmtLoad(VirtualModule virtualModule) {
-        assertEquals("O Livro do Desassossego", virtualModule.getTitle());
-        assertEquals("Fernando Pessoa", virtualModule.getAuthor());
-        assertEquals("Project: Nenhum Problema tem Solução", virtualModule.getEditor());
-        assertEquals("", virtualModule.getSponsor());
-        assertEquals("FCT", virtualModule.getFunder());
-        assertEquals("Manuel Portela", virtualModule.getPrincipal());
+    private void checkTitleStmtLoad() {
+        List<String> list = feVirtualRequiresInterface.checkTitleStmtLoad();
+        assertEquals("O Livro do Desassossego", list.get(0));
+        assertEquals("Fernando Pessoa", list.get(1));
+        assertEquals("Project: Nenhum Problema tem Solução", list.get(2));
+        assertEquals("", list.get(3));
+        assertEquals("FCT", list.get(4));
+        assertEquals("Manuel Portela", list.get(5));
     }
 
 }

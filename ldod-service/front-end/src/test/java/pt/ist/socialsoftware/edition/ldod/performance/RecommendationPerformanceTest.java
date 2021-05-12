@@ -19,14 +19,14 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.frontend.config.Application;
 import pt.ist.socialsoftware.edition.ldod.frontend.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.controller.LdoDExceptionHandler;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.assistedordering.AssistedOrderingController;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.recommendation.api.dto.HeteronymPropertyDto;
 import pt.ist.socialsoftware.edition.recommendation.api.dto.PropertyDto;
 import pt.ist.socialsoftware.edition.recommendation.api.dto.RecommendVirtualEditionParam;
 import pt.ist.socialsoftware.edition.recommendation.api.dto.TextPropertyDto;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;
+
 
 
 import java.io.FileNotFoundException;
@@ -42,6 +42,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
 public class RecommendationPerformanceTest {
+    public static final String ARCHIVE_EDITION_ACRONYM = "LdoD-Arquivo";
+    private final FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
+
     protected MockMvc mockMvc;
 
     @InjectMocks
@@ -74,15 +77,15 @@ public class RecommendationPerformanceTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void setLinearTest() throws Exception {
-        VirtualEditionInter vi = VirtualModule.getInstance().getVirtualEdition(VirtualEdition.ARCHIVE_EDITION_ACRONYM)
-                .getAllDepthVirtualEditionInters().get(0);
+        VirtualEditionInterDto vi = feVirtualRequiresInterface.getVirtualEditionByAcronym(ARCHIVE_EDITION_ACRONYM)
+                .getIntersSet().stream().findFirst().get();
 
         List<PropertyDto> propertyList = new ArrayList<>();
-        propertyList.add(new HeteronymPropertyDto("1.0", VirtualEdition.ARCHIVE_EDITION_ACRONYM));
+        propertyList.add(new HeteronymPropertyDto("1.0", ARCHIVE_EDITION_ACRONYM));
 //        propertyList.add(new DatePropertyDto("1.0", VirtualEdition.ARCHIVE_EDITION_ACRONYM));
-        propertyList.add(new TextPropertyDto("1.0", VirtualEdition.ARCHIVE_EDITION_ACRONYM));
+        propertyList.add(new TextPropertyDto("1.0", ARCHIVE_EDITION_ACRONYM));
 //        propertyList.add(new TaxonomyPropertyDto("1.0", VirtualEdition.ARCHIVE_EDITION_ACRONYM));
-        RecommendVirtualEditionParam paramn = new RecommendVirtualEditionParam(VirtualEdition.ARCHIVE_EDITION_ACRONYM,
+        RecommendVirtualEditionParam paramn = new RecommendVirtualEditionParam(ARCHIVE_EDITION_ACRONYM,
                 vi.getExternalId(), propertyList);
 
         this.mockMvc.perform(post("/recommendation/linear")

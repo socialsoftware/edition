@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.game.api.GameRequiresInterface;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
+import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionInterDto;
 
 
 import java.time.format.DateTimeFormatter;

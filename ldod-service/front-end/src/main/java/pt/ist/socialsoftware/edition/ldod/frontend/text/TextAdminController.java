@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDLoadException;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;

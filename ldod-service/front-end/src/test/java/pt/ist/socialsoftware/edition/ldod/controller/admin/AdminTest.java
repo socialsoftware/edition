@@ -27,13 +27,10 @@ import pt.ist.socialsoftware.edition.ldod.frontend.user.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.enums.Role_Type;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.VirtualAdminController;
-
-import pt.ist.socialsoftware.edition.virtual.domain.Tweet;
-import pt.ist.socialsoftware.edition.virtual.domain.TwitterCitation;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;
-import pt.ist.socialsoftware.edition.virtual.feature.inout.VirtualEditionsTEICorpusImport;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.TwitterCitationDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
 
 
 import java.io.*;
@@ -71,6 +68,7 @@ public class AdminTest {
 
     private final FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
     private final FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
+    private final FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
 
     protected MockMvc textMockMvc;
     protected MockMvc userMockMvc;
@@ -567,7 +565,7 @@ public class AdminTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/loadForm"));
 
-        assertNotNull(VirtualModule.getInstance().getVirtualEdition(LDOD_TESTE));
+        assertNotNull(feVirtualRequiresInterface.getVirtualEditionByAcronym(LDOD_TESTE));
 
     }
 
@@ -585,9 +583,9 @@ public class AdminTest {
         File corpus = new File(directory, "virtual-corpus.xml");
         FileInputStream fis1 = new FileInputStream(corpus);
 
-        VirtualEditionsTEICorpusImport loader = new VirtualEditionsTEICorpusImport();
 
-        loader.importVirtualEditionsCorpus(fis1);
+
+        feVirtualRequiresInterface.importVirtualEditionCorupus(fis1);
 
         // load virtual fragment for mocking
         File frag1 = new File(directory, "virtual-Fr001.xml");
@@ -601,7 +599,7 @@ public class AdminTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/loadForm"));
 
-        assertNotEquals(0, VirtualModule.getInstance().getVirtualEdition(LDOD_TESTE).getIntersSet().size());
+        assertNotEquals(0, feVirtualRequiresInterface.getVirtualEditionByAcronym(LDOD_TESTE).getIntersSet().size());
     }
 
     @Test
@@ -633,12 +631,12 @@ public class AdminTest {
         TestLoadUtils.loadTestVirtualEdition();
 
         this.virtualMockMvc.perform(post("/admin/virtual/delete")
-                .param("externalId", VirtualModule.getInstance().getArchiveEdition().getExternalId()))
+                .param("externalId", feVirtualRequiresInterface.getArchiveEdition().getExternalId()))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/virtual/list"));
 
-        assertNull(VirtualModule.getInstance().getArchiveEdition());
+        assertNull(feVirtualRequiresInterface.getArchiveEdition());
 
     }
 
@@ -683,10 +681,11 @@ public class AdminTest {
 
 //        TwitterCitation twitterCitation = new TwitterCitation(TextModule.getInstance().getFragmentByXmlId("Fr001"),
 //                "A", "B", "C", "D", 23,"E", "F", "ars", "H", "I");
-        TwitterCitation twitterCitation = new TwitterCitation(feTextRequiresInterface.getFragmentByXmlId("Fr001"),
+
+        TwitterCitationDto twitterCitation = feVirtualRequiresInterface.createTwitterCitation(feTextRequiresInterface.getFragmentByXmlId("Fr001").getXmlId(),
                 "A", "B", "C", "D", 23,"E", "F", "ars", "H", "I");
-        new Tweet(VirtualModule.getInstance(), "sourceLink", "12/12/2020", "tweetText", 34,  "location",
-                "country", "ars", "profURL","profImgURL", -1,  false, twitterCitation);
+        feVirtualRequiresInterface.createTweet("sourceLink", "12/12/2020", "tweetText", 34,  "location",
+                "country", "ars", "profURL","profImgURL", -1,  false);
 
         this.virtualMockMvc.perform(get("/admin/tweets")).andDo(print())
                 .andExpect(status().isOk())
@@ -708,10 +707,10 @@ public class AdminTest {
 
 //        TwitterCitation twitterCitation = new TwitterCitation(TextModule.getInstance().getFragmentByXmlId("Fr001"),
 //                "A", "B", "C", "D", 23,"E", "F", "ars", "H", "I");
-        TwitterCitation twitterCitation = new TwitterCitation(feTextRequiresInterface.getFragmentByXmlId("Fr001"),
+        TwitterCitationDto twitterCitation = feVirtualRequiresInterface.createTwitterCitation(feTextRequiresInterface.getFragmentByXmlId("Fr001").getXmlId(),
                 "A", "B", "C", "D", 23,"E", "F", "ars", "H", "I");
-        new Tweet(VirtualModule.getInstance(), "sourceLink", "12/12/2020", "tweetText", 34,  "location",
-                "country", "ars", "profURL","profImgURL", -1,  false, twitterCitation);
+        feVirtualRequiresInterface.createTweet("sourceLink", "12/12/2020", "tweetText", 34,  "location",
+                "country", "ars", "profURL","profImgURL", -1,  false);
 
 
         this.virtualMockMvc.perform(post("/admin/tweets/removeTweets"))
@@ -719,7 +718,7 @@ public class AdminTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/tweets"));
 
-        assertEquals(0, VirtualModule.getInstance().getTweetSet().size());
+        assertEquals(0, feVirtualRequiresInterface.getAllTweets().size());
     }
 
     @Test
@@ -732,15 +731,17 @@ public class AdminTest {
 
         TestLoadUtils.loadTestVirtualEdition();
 
-        VirtualEdition ldoDArchiveEdition = new VirtualEdition(VirtualModule.getInstance(),"Twitter", VirtualModule.TWITTER_EDITION_ACRONYM,
+//        VirtualEdition ldoDArchiveEdition = new VirtualEdition(VirtualModule.getInstance(),"Twitter", VirtualModule.TWITTER_EDITION_ACRONYM,
+//               "Twitter", new LocalDate(), true, null);
+         feVirtualRequiresInterface.createVirtualEdition("Twitter", "VirtualModule-Twitter",
                "Twitter", new LocalDate(), true, null);
 
 //        TwitterCitation twitterCitation = new TwitterCitation(TextModule.getInstance().getFragmentByXmlId("Fr001"),
 //                "A", "B", "C", "D", 23,"E", "F", "ars", "H", "I");
-        TwitterCitation twitterCitation = new TwitterCitation(feTextRequiresInterface.getFragmentByXmlId("Fr001"),
+        TwitterCitationDto twitterCitation = feVirtualRequiresInterface.createTwitterCitation(feTextRequiresInterface.getFragmentByXmlId("Fr001").getXmlId(),
                 "A", "B", "C", "D", 23,"E", "F", "ars", "H", "I");
-        new Tweet(VirtualModule.getInstance(), "sourceLink", "12/12/2020", "tweetText", 34,  "location",
-                "country", "ars", "profURL","profImgURL", -1,  false, twitterCitation);
+        feVirtualRequiresInterface.createTweet("sourceLink", "12/12/2020", "tweetText", 34,  "location",
+                "country", "ars", "profURL","profImgURL", -1,  false);
 
 
         this.virtualMockMvc.perform(post("/admin/tweets/generateCitations"))

@@ -19,6 +19,7 @@ import pt.ist.socialsoftware.edition.ldod.frontend.game.GameFrontendController;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.controller.LdoDExceptionHandler;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -37,7 +38,7 @@ public class ClassificationGameTest {
 
     @BeforeAll
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public static void setUpAll() throws FileNotFoundException {
+    public static void setUpAll() throws IOException {
         TestLoadUtils.setUpDatabaseWithCorpus();
 
         String[] fragments = { "001.xml", "002.xml", "003.xml" };

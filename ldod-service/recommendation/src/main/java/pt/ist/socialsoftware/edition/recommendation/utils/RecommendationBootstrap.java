@@ -4,10 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.recommendation.api.RecommendationRequiresInterface;
+import pt.ist.socialsoftware.edition.recommendation.api.textDto.FragmentDto;
 import pt.ist.socialsoftware.edition.recommendation.domain.RecommendationModule;
 import pt.ist.socialsoftware.edition.recommendation.feature.VSMFragmentRecommender;
 import pt.ist.socialsoftware.edition.recommendation.feature.properties.*;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
 
 import java.util.ArrayList;
 import java.util.List;

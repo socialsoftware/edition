@@ -7,6 +7,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,7 +43,7 @@ public class ReadingTest {
 
 	@BeforeAll
 	@Atomic(mode = TxMode.WRITE)
-	public static void setUpAll() throws FileNotFoundException {
+	public static void setUpAll() throws IOException {
 		TestLoadUtils.setUpDatabaseWithCorpus();
 
 		String[] fragments = { "001.xml", "002.xml", "003.xml" };

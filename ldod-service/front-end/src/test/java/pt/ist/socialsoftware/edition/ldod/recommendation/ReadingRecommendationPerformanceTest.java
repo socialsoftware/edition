@@ -12,15 +12,17 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.frontend.reading.ReadingRecommendation;
 
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.ExpertEditionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
+
+import pt.ist.socialsoftware.edition.recommendation.api.RecommendationRequiresInterface;
+import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.recommendation.feature.VSMRecommender;
 import pt.ist.socialsoftware.edition.recommendation.feature.VSMVirtualEditionInterRecommender;
 import pt.ist.socialsoftware.edition.recommendation.feature.properties.*;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.ExpertEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;
+
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -33,6 +35,8 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class ReadingRecommendationPerformanceTest {
+    public static final String ARCHIVE_EDITION_ACRONYM = "LdoD-Arquivo";
+    private final FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
 
     @BeforeAll
     @Atomic(mode = TxMode.WRITE)
@@ -55,17 +59,16 @@ public class ReadingRecommendationPerformanceTest {
     @Atomic(mode = TxMode.WRITE)
     protected void setUp() {
 
-        VirtualModule virtualModule = VirtualModule.getInstance();
 
-        VirtualEditionDto archiveEdition = new VirtualEditionDto(virtualModule.getArchiveEdition());
+        VirtualEditionDto archiveEdition = (RecommendationRequiresInterface.getInstance().getArchiveEdition());
         List<VirtualEditionInterDto> archiveVirtualEditionInters = archiveEdition.getSortedVirtualEditionInterDtoList();
 
-        VSMRecommender<VirtualEditionInterDto> recommender = new VSMVirtualEditionInterRecommender();
+        VSMRecommender<pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionInterDto> recommender = new VSMVirtualEditionInterRecommender();
 
         List<Property> properties = new ArrayList<>();
         properties.add(new HeteronymProperty(1));
         properties.add(new DateProperty(1));
-        properties.add(new TaxonomyProperty(1, VirtualEdition.ARCHIVE_EDITION_ACRONYM, Property.PropertyCache.ON));
+        properties.add(new TaxonomyProperty(1, ARCHIVE_EDITION_ACRONYM, Property.PropertyCache.ON));
         properties.add(new TextProperty(1));
 
         // warm the system in order to create all the caches
@@ -89,7 +92,7 @@ public class ReadingRecommendationPerformanceTest {
                 .get(0);
 
         for (int i = 0; i < 100; i++) {
-            Set<ScholarInterDto> nextInters = recommender.getNextRecommendations(inter.getExternalId());
+            Set<pt.ist.socialsoftware.edition.recommendation.api.textDto.ScholarInterDto> nextInters = recommender.getNextRecommendations(inter.getExternalId());
             assertFalse(nextInters.isEmpty());
         }
 

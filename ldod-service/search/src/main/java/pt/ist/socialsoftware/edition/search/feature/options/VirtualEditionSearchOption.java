@@ -3,7 +3,7 @@ package pt.ist.socialsoftware.edition.search.feature.options;
 import pt.ist.socialsoftware.edition.search.api.SearchRequiresInterface;
 import pt.ist.socialsoftware.edition.search.api.dto.SearchableElementDto;
 import pt.ist.socialsoftware.edition.search.api.dto.VirtualEditionSearchOptionDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.search.api.virtualDto.VirtualEditionDto;
 
 
 import java.util.Set;

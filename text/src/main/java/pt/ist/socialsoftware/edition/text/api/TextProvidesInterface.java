@@ -1333,6 +1333,15 @@ public class TextProvidesInterface {
         getScholarInterByXmlId(xmlId).orElse(null).remove();
     }
 
+    @PostMapping("/removeCitation")
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void removeCitation(@RequestParam(name = "externalId") String externalId) {
+        DomainObject domainObject = FenixFramework.getDomainObject(externalId);
+        if (domainObject instanceof Citation) {
+            ((Citation) domainObject).remove();
+        }
+    }
+
     private static Optional<ScholarInter> getScholarInterByXmlId(String xmlId) {
         if (xmlId == null) {
             return Optional.empty();

@@ -3,7 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.frontend.user.session;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import pt.ist.socialsoftware.edition.ldod.frontend.reading.ReadingRecommendation;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;

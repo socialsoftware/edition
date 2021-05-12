@@ -43,19 +43,5 @@
     </build>
 
 
-    <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>pt.ist.socialsoftware</groupId>-->
-<!--            <artifactId>text</artifactId>-->
-<!--            <version>1.0</version>-->
-<!--        </dependency>-->
-
-        <dependency>
-            <groupId>pt.ist.socialsoftware</groupId>
-            <artifactId>virtual</artifactId>
-            <version>1.0</version>
-        </dependency>
-
-    </dependencies>
 
 </project>

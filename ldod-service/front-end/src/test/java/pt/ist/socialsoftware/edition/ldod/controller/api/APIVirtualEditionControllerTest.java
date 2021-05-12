@@ -19,11 +19,12 @@ import pt.ist.socialsoftware.edition.ldod.frontend.config.Application;
 import pt.ist.socialsoftware.edition.ldod.frontend.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.APIVirtualEditionController;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionInterDto;
+
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -35,6 +36,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
 public class APIVirtualEditionControllerTest {
+    public static final String ARCHIVE_EDITION_ACRONYM = "LdoD-Arquivo";
+
+    private final FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
+
     @InjectMocks
     APIVirtualEditionController apiVirtualEditionController;
 
@@ -42,7 +47,7 @@ public class APIVirtualEditionControllerTest {
 
     @BeforeAll
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public static void setUpAll() throws FileNotFoundException {
+    public static void setUpAll() throws IOException {
         TestLoadUtils.setUpDatabaseWithCorpus();
 
         String[] fragments = { "001.xml", "002.xml", "003.xml" };
@@ -69,7 +74,7 @@ public class APIVirtualEditionControllerTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void getVirtualEditionIndexTest() throws Exception {
-        this.mockMvc.perform(get("/api/services/edition/{acronym}/index", VirtualEdition.ARCHIVE_EDITION_ACRONYM))
+        this.mockMvc.perform(get("/api/services/edition/{acronym}/index", ARCHIVE_EDITION_ACRONYM))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(notNullValue()));
@@ -79,9 +84,10 @@ public class APIVirtualEditionControllerTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void getVirtualEditionInterTextTest() throws Exception {
-        VirtualEditionInter inter = VirtualModule.getInstance().getVirtualEdition(VirtualEdition.ARCHIVE_EDITION_ACRONYM).getAllDepthVirtualEditionInters().get(0);
+//        VirtualEditionInter inter = VirtualModule.getInstance().getVirtualEdition(ARCHIVE_EDITION_ACRONYM).getAllDepthVirtualEditionInters().get(0);
+        VirtualEditionInterDto inter = feVirtualRequiresInterface.getVirtualEditionByAcronym(ARCHIVE_EDITION_ACRONYM).getIntersSet().stream().findFirst().get();
 
-        this.mockMvc.perform(get("/api/services/edition/{acronym}/inter/{urlId}", VirtualEdition.ARCHIVE_EDITION_ACRONYM, inter.getUrlId()))
+        this.mockMvc.perform(get("/api/services/edition/{acronym}/inter/{urlId}", ARCHIVE_EDITION_ACRONYM, inter.getUrlId()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(notNullValue()));
@@ -91,7 +97,8 @@ public class APIVirtualEditionControllerTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void getVirtualEditions4UserTest() throws Exception {
-        VirtualEditionInter inter = VirtualModule.getInstance().getVirtualEdition(VirtualEdition.ARCHIVE_EDITION_ACRONYM).getAllDepthVirtualEditionInters().get(0);
+//        VirtualEditionInter inter = VirtualModule.getInstance().getVirtualEdition(ARCHIVE_EDITION_ACRONYM).getAllDepthVirtualEditionInters().get(0);
+        VirtualEditionInterDto inter = feVirtualRequiresInterface.getVirtualEditionByAcronym(ARCHIVE_EDITION_ACRONYM).getIntersSet().stream().findFirst().get();
 
         this.mockMvc.perform(get("/api/services/{username}/restricted/virtualeditions", "ars"))
                 .andDo(print())
@@ -103,7 +110,7 @@ public class APIVirtualEditionControllerTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void getPublicVirtualEditions4UserTest() throws Exception {
-        VirtualEditionInter inter = VirtualModule.getInstance().getVirtualEdition(VirtualEdition.ARCHIVE_EDITION_ACRONYM).getAllDepthVirtualEditionInters().get(0);
+        VirtualEditionInterDto inter = feVirtualRequiresInterface.getVirtualEditionByAcronym(ARCHIVE_EDITION_ACRONYM).getIntersSet().stream().findFirst().get();
 
         this.mockMvc.perform(get("/api/services/{username}/public/virtualeditions", "ars"))
                 .andDo(print())

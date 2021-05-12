@@ -2,12 +2,13 @@ package pt.ist.socialsoftware.edition.recommendation.feature.properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.ist.socialsoftware.edition.recommendation.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.recommendation.api.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.recommendation.api.textDto.SourceDto;
+import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.recommendation.domain.RecommendationWeights;
 
-import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.SourceDto;
+
 
 
 import java.util.HashSet;

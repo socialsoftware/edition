@@ -3,8 +3,8 @@ package pt.ist.socialsoftware.edition.ldod.frontend.utils.ui;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
-import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionInterDto;
 
 
 import java.util.ArrayList;
@@ -35,8 +35,8 @@ public class UiInterface {
     }
 
     public boolean isVirtualEdition(String acronym) {
-        VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
 
-        return virtualProvidesInterface.getVirtualEdition(acronym) != null;
+
+        return new FeVirtualRequiresInterface().getVirtualEditionByAcronym(acronym) != null;
     }
 }

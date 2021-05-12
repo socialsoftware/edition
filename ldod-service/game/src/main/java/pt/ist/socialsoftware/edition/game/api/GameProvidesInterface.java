@@ -11,6 +11,8 @@ import pt.ist.socialsoftware.edition.game.api.dtoc.ClassificationGameDto;
 import pt.ist.socialsoftware.edition.game.api.dtoc.ClassificationGameParticipantDto;
 import pt.ist.socialsoftware.edition.game.api.dtoc.ClassificationVirtualGameDto;
 import pt.ist.socialsoftware.edition.game.api.dtoc.PlayerDto;
+import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.game.domain.ClassificationGame;
 import pt.ist.socialsoftware.edition.game.domain.ClassificationGameParticipant;
 import pt.ist.socialsoftware.edition.game.domain.ClassificationModule;
@@ -18,8 +20,7 @@ import pt.ist.socialsoftware.edition.game.domain.Player;
 import pt.ist.socialsoftware.edition.game.feature.classification.GameRunner;
 import pt.ist.socialsoftware.edition.game.feature.classification.inout.GameXMLImport;
 import pt.ist.socialsoftware.edition.game.utils.GameBootstrap;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
+
 
 import java.io.InputStream;
 import java.util.*;

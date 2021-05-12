@@ -7,8 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
-import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
-import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
+
 
 import java.io.FileNotFoundException;
 
@@ -31,12 +31,13 @@ public abstract class TestWithFragmentsLoading {
     public void setUp() throws FileNotFoundException {
 
         FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
+        FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
 
         feTextRequiresInterface.cleanFragmentMapCache();
         feTextRequiresInterface.cleanScholarInterMapCache();
-        VirtualProvidesInterface.cleanVirtualEditionInterMapByUrlIdCache();
-        VirtualProvidesInterface.cleanVirtualEditionInterMapByXmlIdCache();
-        VirtualProvidesInterface.cleanVirtualEditionMapCache();
+        feVirtualRequiresInterface.cleanVirtualEditionInterMapByUrlIdCache();
+        feVirtualRequiresInterface.cleanVirtualEditionInterMapByXmlIdCache();
+        feVirtualRequiresInterface.cleanVirtualEditionMapCache();
 
 
         TestLoadUtils.loadFragments(fragmentsToLoad4Test());

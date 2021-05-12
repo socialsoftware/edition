@@ -10,8 +10,8 @@ import pt.ist.socialsoftware.edition.ldod.frontend.utils.enums.Role_Type;
 import java.util.List;
 
 public class UserDto {
-//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
-    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
+    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
+//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
 
 
     private String username;
@@ -38,6 +38,8 @@ public class UserDto {
 
     public UserDto(String username) {
         setUsername(username);
+        this.firstName = getFirstNameFromService();
+        this.lastName = getLastNameFromService();
     }
 
     public String getUsername() {
@@ -299,5 +301,23 @@ public class UserDto {
                 .bodyToMono(RegistrationTokenDto.class)
                 .blockOptional()
                 .orElse(null);
+    }
+
+    public String getFirstNameFromService() {
+        return webClientUser.build()
+                .get()
+                .uri("/user/" + username + "/first")
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+    }
+
+    public String getLastNameFromService() {
+        return webClientUser.build()
+                .get()
+                .uri("/user/" + username + "/last")
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
     }
 }

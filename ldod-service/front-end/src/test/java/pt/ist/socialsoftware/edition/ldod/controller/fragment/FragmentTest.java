@@ -22,19 +22,18 @@ import pt.ist.socialsoftware.edition.ldod.frontend.filters.TransactionFilter;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FragmentController;
 
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.Emailer;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.PermissionDTO;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.controller.LdoDExceptionHandler;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.HumanAnnotationDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.RangeJson;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionInterDto;
 
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.virtual.domain.HumanAnnotation;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;
-import pt.ist.socialsoftware.edition.virtual.utils.RangeJson;
 
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -53,6 +52,7 @@ public class FragmentTest {
     public static final String ARS = "ars";
 
     private FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
+    private FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
 
     @Mock
     private Emailer emailer;
@@ -89,16 +89,16 @@ public class FragmentTest {
     @AfterEach
     @Atomic(mode = TxMode.WRITE)
     public void tearDown() {
-        Set<VirtualEditionInter> fragInterSet = VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+        Set<VirtualEditionInterDto> fragInterSet = feVirtualRequiresInterface.getVirtualEditionByAcronym("LdoD-Teste").getIntersSet();
 
-        List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
+        List<VirtualEditionInterDto> frags = new ArrayList<>(fragInterSet);
 
-        VirtualEditionInter fragInter = frags.get(0);
+        VirtualEditionInterDto fragInter = frags.get(0);
 
-        List<HumanAnnotation> list = new ArrayList<>(fragInter.getAllDepthHumanAnnotationsAccessibleByUser(ARS));
+        List<HumanAnnotationDto> list = new ArrayList<>(fragInter.getAllDepthHumanAnnotationsAccessibleByUser(ARS));
 
         if (!list.isEmpty()) {
-            HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotationsAccessibleByUser(ARS)).get(0);
+            HumanAnnotationDto a = new ArrayList<>(fragInter.getAllDepthHumanAnnotationsAccessibleByUser(ARS)).get(0);
             a.remove();
         }
     }
@@ -131,7 +131,8 @@ public class FragmentTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getFragInterFromIdVirtual() throws Exception {
-        VirtualEditionInter inter = VirtualModule.getInstance().getArchiveEdition().getAllDepthVirtualEditionInters().get(0);
+//        VirtualEditionInter inter = VirtualModule.getInstance().getArchiveEdition().getAllDepthVirtualEditionInters().get(0);
+        VirtualEditionInterDto inter = feVirtualRequiresInterface.getArchiveEdition().getIntersSet().stream().findFirst().get();
 
         this.mockMvc.perform(get("/fragments/fragment/{xmlId}/inter/{urlId}", "Fr001", inter.getUrlId()))
                 .andDo(print()).andExpect(status().isOk()).andExpect(view().name("fragment/main"))
@@ -155,7 +156,8 @@ public class FragmentTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getNextFragmentWithVirtualInter() throws Exception {
-        VirtualEditionInter inter = VirtualModule.getInstance().getArchiveEdition().getAllDepthVirtualEditionInters().get(0);
+//        VirtualEditionInter inter = VirtualModule.getInstance().getArchiveEdition().getAllDepthVirtualEditionInters().get(0);
+        VirtualEditionInterDto inter = feVirtualRequiresInterface.getArchiveEdition().getIntersSet().stream().findFirst().get();
 
         this.mockMvc.perform(get("/fragments/fragment/{xmlId}/inter/{urlId}/next", "Fr001", inter.getUrlId()))
                 .andDo(print())
@@ -179,7 +181,9 @@ public class FragmentTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getPrevFragmentWithVirtualInter() throws Exception {
-        VirtualEditionInter inter = VirtualModule.getInstance().getArchiveEdition().getAllDepthVirtualEditionInters().get(0);
+//        VirtualEditionInter inter = VirtualModule.getInstance().getArchiveEdition().getAllDepthVirtualEditionInters().get(0);
+        VirtualEditionInterDto inter = feVirtualRequiresInterface.getArchiveEdition().getIntersSet().stream().findFirst().get();
+
 
         this.mockMvc.perform(get("/fragments/fragment/{xmlId}/inter/{urlId}/prev", "Fr001", inter.getUrlId()))
                 .andDo(print())
@@ -209,7 +213,7 @@ public class FragmentTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getFragInterByVirtualExternalId() throws Exception {
-        VirtualEditionInter inter = VirtualModule.getInstance().getArchiveEdition().getAllDepthVirtualEditionInters().get(0);
+        VirtualEditionInterDto inter = feVirtualRequiresInterface.getArchiveEdition().getIntersSet().stream().findFirst().get();
 
         this.mockMvc.perform(get("/fragments/fragment/inter/{externalId}", inter.getExternalId())).andDo(print())
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/fragments/fragment/"
@@ -229,11 +233,11 @@ public class FragmentTest {
     @WithUserDetails(ARS)
     public void getFragInterTaxonomyTest() throws Exception {
 
-        Set<VirtualEditionInter> fragInterSet = VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+        Set<VirtualEditionInterDto> fragInterSet = feVirtualRequiresInterface.getVirtualEditionByAcronym("LdoD-Teste").getIntersSet();
 
-        List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
+        List<VirtualEditionInterDto> frags = new ArrayList<>(fragInterSet);
 
-        VirtualEditionInter fragInter = frags.get(0);
+        VirtualEditionInterDto fragInter = frags.get(0);
 
         this.mockMvc.perform(get("/fragments/fragment/inter/{externalId}/taxonomy", fragInter.getExternalId()))
                 .andDo(print())
@@ -303,7 +307,7 @@ public class FragmentTest {
 //        Fragment frag = TextModule.getInstance().getFragmentByXmlId("Fr001");
         FragmentDto frag = feTextRequiresInterface.getFragmentByXmlId("Fr001");
 
-        VirtualEditionInter inter = VirtualModule.getInstance().getArchiveEdition().getAllDepthVirtualEditionInters().get(0);
+        VirtualEditionInterDto inter = feVirtualRequiresInterface.getArchiveEdition().getIntersSet().stream().findFirst().get();
 
         String[] inters = {
                 inter.getExternalId()
@@ -430,11 +434,11 @@ public class FragmentTest {
     @Test
     @Atomic(mode = TxMode.WRITE)
     public void searchAnnotationsTest() throws Exception {
-        Set<VirtualEditionInter> fragInterSet = VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+        Set<VirtualEditionInterDto> fragInterSet = feVirtualRequiresInterface.getVirtualEditionByAcronym("LdoD-Teste").getIntersSet();
 
-        List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
+        List<VirtualEditionInterDto> frags = new ArrayList<>(fragInterSet);
 
-        VirtualEditionInter fragInter = frags.get(0);
+        VirtualEditionInterDto fragInter = frags.get(0);
 
         String response = this.mockMvc.perform(get("/fragments/fragment/search")
                 .param("limit", "2")
@@ -457,21 +461,22 @@ public class FragmentTest {
     @Atomic(mode = TxMode.WRITE)
     @WithUserDetails(ARS)
     public void createAnnotationTest() throws Exception {
-        Set<VirtualEditionInter> fragInterSet = VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+        Set<VirtualEditionInterDto> fragInterSet = feVirtualRequiresInterface.getVirtualEditionByAcronym("LdoD-Teste").getIntersSet();
 
-        List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
+        List<VirtualEditionInterDto> frags = new ArrayList<>(fragInterSet);
 
-        VirtualEditionInter fragInter = frags.get(0);
+        VirtualEditionInterDto fragInter = frags.get(0);
 
-        VirtualModule ldod = VirtualModule.getInstance();
-
-        // create permissionDTO
-        VirtualEdition ve = ldod.getArchiveEdition();
-
-        VirtualEdition otherVe = new VirtualEdition( ldod, "ars", "XPTO", "TITLE", LocalDate.now(), true, ve.getAcronym());
+//        VirtualModule ldod = VirtualModule.getInstance();
+//
+//        // create permissionDTO
+//        VirtualEdition ve = ldod.getArchiveEdition();
+//
+//        VirtualEdition otherVe = new VirtualEdition( ldod, "ars", "XPTO", "TITLE", LocalDate.now(), true, ve.getAcronym());
+        VirtualEditionDto  ve = feVirtualRequiresInterface.getArchiveEdition();
 
 //        PermissionDTO permissionDTO = new PermissionDTO(ve, User.USER_ARS);
-        PermissionDTO permissionDTO = new PermissionDTO(new VirtualEditionDto(ve), ARS);
+        PermissionDTO permissionDTO = new PermissionDTO(ve, ARS);
 
 
         // create annotationDTO
@@ -507,15 +512,15 @@ public class FragmentTest {
     @WithUserDetails(ARS)
     public void getAnnotationTest() throws Exception {
 
-        Set<VirtualEditionInter> fragInterSet = VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+        Set<VirtualEditionInterDto> fragInterSet = feVirtualRequiresInterface.getVirtualEditionByAcronym("LdoD-Teste").getIntersSet();
 
-        List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
+        List<VirtualEditionInterDto> frags = new ArrayList<>(fragInterSet);
 
-        VirtualEditionInter fragInter = frags.get(0);
+        VirtualEditionInterDto fragInter = frags.get(0);
 
         createTestAnnotation();
 
-        HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotationsAccessibleByUser(ARS)).get(0);
+        HumanAnnotationDto a = new ArrayList<>(fragInter.getAllDepthHumanAnnotationsAccessibleByUser(ARS)).get(0);
 
         AnnotationDTO dto = new AnnotationDTO();
 
@@ -542,15 +547,15 @@ public class FragmentTest {
     @Atomic(mode = TxMode.WRITE)
     @WithUserDetails(ARS)
     public void updateAnnotationTest() throws Exception {
-        Set<VirtualEditionInter> fragInterSet = VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+        Set<VirtualEditionInterDto> fragInterSet = feVirtualRequiresInterface.getVirtualEditionByAcronym("LdoD-Teste").getIntersSet();
 
-        List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
+        List<VirtualEditionInterDto> frags = new ArrayList<>(fragInterSet);
 
-        VirtualEditionInter fragInter = frags.get(0);
+        VirtualEditionInterDto fragInter = frags.get(0);
 
         createTestAnnotation();
 
-        HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotationsAccessibleByUser(ARS)).get(0);
+        HumanAnnotationDto a = new ArrayList<>(fragInter.getAllDepthHumanAnnotationsAccessibleByUser(ARS)).get(0);
 
         AnnotationDTO dto = new AnnotationDTO();
 
@@ -587,17 +592,17 @@ public class FragmentTest {
     @WithUserDetails(ARS)
     public void deleteAnnotationTest() throws Exception {
 
-        Set<VirtualEditionInter> fragInterSet = VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+        Set<VirtualEditionInterDto> fragInterSet = feVirtualRequiresInterface.getVirtualEditionByAcronym("LdoD-Teste").getIntersSet();
 
-        List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
+        List<VirtualEditionInterDto> frags = new ArrayList<>(fragInterSet);
 
-        VirtualEditionInter fragInter = frags.get(0);
+        VirtualEditionInterDto fragInter = frags.get(0);
 
         fragInter.getAllDepthAnnotationsAccessibleByUser(ARS).stream().forEach(annotation -> annotation.remove());
 
         createTestAnnotation();
 
-        HumanAnnotation a = new ArrayList<>(fragInter.getAllDepthHumanAnnotationsAccessibleByUser(ARS)).get(0);
+        HumanAnnotationDto a = new ArrayList<>(fragInter.getAllDepthHumanAnnotationsAccessibleByUser(ARS)).get(0);
 
         this.mockMvc.perform(delete("/fragments/fragment/annotations/{id}", a.getExternalId())
                 .content(TestLoadUtils.jsonBytes(new AnnotationDTO()))
@@ -626,13 +631,13 @@ public class FragmentTest {
     @WithUserDetails(ARS)
     public void getAnnotationInterTest() throws Exception {
 
-        Set<VirtualEditionInter> fragInterSet = VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+        Set<VirtualEditionInterDto> fragInterSet = feVirtualRequiresInterface.getVirtualEditionByAcronym("LdoD-Teste").getIntersSet();
 
-        List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
+        List<VirtualEditionInterDto> frags = new ArrayList<>(fragInterSet);
 
-        VirtualEditionInter fragInter = frags.get(0);
+        VirtualEditionInterDto fragInter = frags.get(0);
 
-        HumanAnnotation humanAnnotation =createTestAnnotation();
+        HumanAnnotationDto humanAnnotation = createTestAnnotation();
 
         this.mockMvc.perform(get("/fragments/fragment/annotation/{annotationId}/categories", humanAnnotation.getExternalId()))
                 .andDo(print())
@@ -642,12 +647,12 @@ public class FragmentTest {
                 .andExpect(content().string(containsString("tag2")));
     }
 
-    private HumanAnnotation createTestAnnotation() {
-        Set<VirtualEditionInter> fragInterSet = VirtualModule.getInstance().getVirtualEdition("LdoD-Teste").getIntersSet();
+    private HumanAnnotationDto createTestAnnotation() {
+        Set<VirtualEditionInterDto> fragInterSet = feVirtualRequiresInterface.getVirtualEditionByAcronym("LdoD-Teste").getIntersSet();
 
-        List<VirtualEditionInter> frags = new ArrayList<>(fragInterSet);
+        List<VirtualEditionInterDto> frags = new ArrayList<>(fragInterSet);
 
-        VirtualEditionInter fragInter = frags.get(0);
+        VirtualEditionInterDto fragInter = frags.get(0);
 
         RangeJson rj = new RangeJson();
         rj.setStart("/div[1]/div[1]/p[3]");

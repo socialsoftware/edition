@@ -6,12 +6,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.socialsoftware.edition.game.api.GameProvidesInterface;
 import pt.ist.socialsoftware.edition.game.api.dtoc.ClassificationGameDto;
+import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserProvidesInterface;
-import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
-import pt.ist.socialsoftware.edition.virtual.api.dto.CategoryDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.TagDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.CategoryDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.TagDto;
+
 
 import java.io.InputStream;
 import java.util.List;
@@ -60,34 +60,82 @@ public class FeGameRequiresInterface {
 
 
     // Uses Virtual Module
-    private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
 
     public VirtualEditionDto getVirtualEditionByExternalId(String externalId) {
-        return this.virtualProvidesInterface.getVirtualEditionByExternalId(externalId);
+        return webClientVirtual.build()
+                .get()
+                .uri("/virtualEdition/ext/" + externalId)
+                .retrieve()
+                .bodyToMono(VirtualEditionDto.class)
+                .block();
+        //        return this.virtualProvidesInterface.getVirtualEditionByExternalId(externalId);
     }
 
     public VirtualEditionInterDto getVirtualEditionInterByExternalId(String externalId) {
-        return this.virtualProvidesInterface.getVirtualEditionInterByExternalId(externalId);
+        return webClientVirtual.build()
+                .get()
+                .uri("/virtualEditionInter/ext/" + externalId)
+                .retrieve()
+                .bodyToMono(VirtualEditionInterDto.class)
+                .block();
+        //        return this.virtualProvidesInterface.getVirtualEditionInterByExternalId(externalId);
     }
 
     public String getVirtualEditionExternalIdByAcronym(String acronym) {
-        return this.virtualProvidesInterface.getVirtualEditionExternalIdByAcronym(acronym);
+        return webClientVirtual.build()
+                .get()
+                .uri("/virtualEdition/" + acronym + "/externalId")
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+        //        return this.virtualProvidesInterface.getVirtualEditionExternalIdByAcronym(acronym);
     }
 
     public boolean getVirtualEditionTaxonomyAnnotationStatus(String acronym) {
-        return this.virtualProvidesInterface.getVirtualEditionTaxonomyAnnotationStatus(acronym);
+        return webClientVirtual.build()
+                .get()
+                .uri("/virtualEdition/" + acronym + "/taxonomyAnnotationStatus")
+                .retrieve()
+                .bodyToMono(Boolean.class)
+                .blockOptional().orElse(false);
+        //        return this.virtualProvidesInterface.getVirtualEditionTaxonomyAnnotationStatus(acronym);
     }
 
     public String getVirtualEditionInterTitle(String interId) {
-        return this.virtualProvidesInterface.getVirtualEditionInterTitle(interId);
+        return webClientVirtual.build()
+                .get()
+                .uri("/virtualEditionInter/" + interId + "/title")
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+        //        return this.virtualProvidesInterface.getVirtualEditionInterTitle(interId);
     }
 
     public TagDto getTagInInter(String interId, String tagId) {
-        return this.virtualProvidesInterface.getTagInInter(interId, tagId);
+        return webClientVirtual.build()
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                    .path("/virtualEditionInter/" + interId + "/tag")
+                    .queryParam("urlId", tagId)
+                .build())
+                .retrieve()
+                .bodyToMono(TagDto.class)
+                .block();
+        //        return this.virtualProvidesInterface.getTagInInter(interId, tagId);
     }
 
     public CategoryDto getTagCategory(String interId, String tagId) {
-        return this.virtualProvidesInterface.getTagCategory(interId, tagId);
+        return webClientVirtual.build()
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                .path("/virtualEditionInter/" + interId + "/tagCategory")
+                .queryParam("urlId", tagId)
+                .build())
+                .retrieve()
+                .bodyToMono(CategoryDto.class)
+                .block();
+        //        return this.virtualProvidesInterface.getTagCategory(interId, tagId);
     }
 
     //Uses Game Module

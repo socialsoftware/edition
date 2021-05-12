@@ -26,12 +26,13 @@ import pt.ist.socialsoftware.edition.api.remote.VisualRemoteController;
 import pt.ist.socialsoftware.edition.ldod.frontend.search.FeSearchRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.controller.LdoDExceptionHandler;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.recommendation.api.dto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.recommendation.api.dto.WeightsDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualEditionInter;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;
+import pt.ist.socialsoftware.edition.search.api.textDto.ScholarInterDto;
+
 
 import java.io.FileNotFoundException;
 
@@ -50,10 +51,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class VisualTest {
     private static final Logger log = LoggerFactory.getLogger(VirtualEditionTest.class);
+    public static final String ARCHIVE_EDITION_ACRONYM = "LdoD-Arquivo";
     public static final String CUNHA_EDITION_ACRONYM = "TSC";
     public static final String ZENITH_EDITION_ACRONYM = "RZ";
 
     private FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
+    private final FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
 
     @InjectMocks
     VisualRemoteController visualRemoteController;
@@ -95,7 +98,7 @@ public class VisualTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void getVirtualFragmentsVirtualTest() throws Exception {
-        this.mockMvc.perform(get("/visual/editions/acronym/{acronym}/fragments", VirtualEdition.ARCHIVE_EDITION_ACRONYM))
+        this.mockMvc.perform(get("/visual/editions/acronym/{acronym}/fragments", ARCHIVE_EDITION_ACRONYM))
                 .andDo(print()).andExpect(status().isOk()).andExpect(content().string(notNullValue()));
     }
 
@@ -145,8 +148,8 @@ public class VisualTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void getIntersByDistanceVirtualEditionTest() throws Exception {
-        VirtualEditionInter vi = VirtualModule.getInstance().getArchiveEdition()
-                .getAllDepthVirtualEditionInters().get(0);
+        VirtualEditionInterDto vi = feVirtualRequiresInterface.getArchiveEdition()
+                .getIntersSet().stream().findFirst().get();
 
         WeightsDto dto = new WeightsDto(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -184,10 +187,10 @@ public class VisualTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getInterIdTFIDFTermsTest() throws Exception {
-        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
-        VirtualEditionInter inter = ve.getAllDepthVirtualEditionInters().get(0);
+        VirtualEditionDto ve = feVirtualRequiresInterface.getArchiveEdition();
+        VirtualEditionInterDto inter = ve.getIntersSet().stream().findFirst().get();
 
-        this.mockMvc.perform(get("/visual/editions/acronym/{acronym}/interId/{interId}/tfidf", VirtualEdition.ARCHIVE_EDITION_ACRONYM, inter.getExternalId()))
+        this.mockMvc.perform(get("/visual/editions/acronym/{acronym}/interId/{interId}/tfidf", ARCHIVE_EDITION_ACRONYM, inter.getExternalId()))
                 .andDo(print()).andExpect(status().isOk()).andExpect(content().string(notNullValue()));
     }
 

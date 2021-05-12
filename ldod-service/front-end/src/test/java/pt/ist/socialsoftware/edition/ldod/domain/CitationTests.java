@@ -18,15 +18,16 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.MockitoExtension;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
-import pt.ist.socialsoftware.edition.virtual.domain.Tweet;
-import pt.ist.socialsoftware.edition.virtual.domain.TwitterCitation;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.TweetDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.TwitterCitationDto;
+
 
 @ExtendWith(MockitoExtension.class)
 public class CitationTests extends TestWithFragmentsLoading {
 	@Mock
-	TwitterCitation twitterCitation;
+	TwitterCitationDto twitterCitation;
 	@Mock
-	Tweet tweet;
+	TweetDto tweet;
 
 	@Override
 	protected void populate4Test() {
@@ -49,10 +50,10 @@ public class CitationTests extends TestWithFragmentsLoading {
 	public void getIdTest() {
 		doCallRealMethod().when(this.twitterCitation).getId();
 
-		when(this.twitterCitation.getTweetID()).thenReturn(1111l);
+		when(this.twitterCitation.getTweetId()).thenReturn(1111l);
 
 		this.twitterCitation.getId();
-		verify(this.twitterCitation, times(1)).getTweetID();
+		verify(this.twitterCitation, times(1)).getTweetId();
 		assertEquals(1111l, this.twitterCitation.getId());
 	}
 
@@ -61,12 +62,12 @@ public class CitationTests extends TestWithFragmentsLoading {
 	public void getNumberOfRetweetsTest() {
 		doCallRealMethod().when(this.twitterCitation).getNumberOfRetweets();
 
-		Set<Tweet> tweets = new HashSet<Tweet>();
+		Set<TweetDto> tweets = new HashSet<TweetDto>();
 		tweets.add(this.tweet);
-		when(this.twitterCitation.getTweetSet()).thenReturn(tweets);
+		when(this.twitterCitation.getTweets()).thenReturn(tweets);
 
 		this.twitterCitation.getNumberOfRetweets();
-		verify(this.twitterCitation, times(1)).getTweetSet();
+		verify(this.twitterCitation, times(1)).getTweets();
 		assertEquals(0, this.twitterCitation.getNumberOfRetweets());
 	}
 }

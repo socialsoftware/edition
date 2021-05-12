@@ -8,12 +8,13 @@ import org.jdom2.output.XMLOutputter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
+import pt.ist.socialsoftware.edition.game.api.GameRequiresInterface;
+import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.game.domain.ClassificationGame;
 import pt.ist.socialsoftware.edition.game.domain.ClassificationGameParticipant;
 import pt.ist.socialsoftware.edition.game.domain.ClassificationModule;
 import pt.ist.socialsoftware.edition.game.domain.Player;
-import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
+
 
 
 public class GameXMLExport {
@@ -42,7 +43,7 @@ public class GameXMLExport {
         Element sourceDesc = new Element("sourceDesc", this.xmlns);
         fileDesc.addContent(sourceDesc);
 
-        VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+
 
         Element listPlayer = generatePlayerList(teiHeader);
         for (Player player : ClassificationModule.getInstance().getPlayerSet()) {
@@ -51,7 +52,7 @@ public class GameXMLExport {
 
         Element profileDesc = new Element("profileDesc", this.xmlns);
         teiHeader.addContent(profileDesc);
-        for (VirtualEditionInterDto virtualDto : virtualProvidesInterface.getVirtualEditionInterSet()) {
+        for (VirtualEditionInterDto virtualDto : GameRequiresInterface.getInstance().getVirtualEditionInterDtoSet()) {
             if (!ClassificationModule.getInstance().getClassificationGamesForInter(virtualDto.getXmlId()).isEmpty()) {
                 Element textClass = new Element("textClass", this.xmlns);
                 textClass.setAttribute("source", "#" + virtualDto.getXmlId());

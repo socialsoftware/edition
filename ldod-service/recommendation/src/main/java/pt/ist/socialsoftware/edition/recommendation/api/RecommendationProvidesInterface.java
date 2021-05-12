@@ -2,6 +2,10 @@ package pt.ist.socialsoftware.edition.recommendation.api;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.ist.socialsoftware.edition.recommendation.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.recommendation.api.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.recommendation.domain.RecommendationModule;
 import pt.ist.socialsoftware.edition.recommendation.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.recommendation.api.dto.InterIdDistancePairDto;
@@ -12,10 +16,6 @@ import pt.ist.socialsoftware.edition.recommendation.feature.VSMVirtualEditionInt
 import pt.ist.socialsoftware.edition.recommendation.feature.properties.Property;
 import pt.ist.socialsoftware.edition.recommendation.feature.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.recommendation.utils.RecommendationBootstrap;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 
 import java.util.*;
 import java.util.stream.Collectors;

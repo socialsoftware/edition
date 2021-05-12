@@ -9,9 +9,10 @@ import pt.ist.socialsoftware.edition.ldod.MockitoExtension;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.TestWithFragmentsLoading;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
-import pt.ist.socialsoftware.edition.virtual.domain.HumanAnnotation;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.HumanAnnotationDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionInterDto;
+
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,15 +26,15 @@ import static org.mockito.Mockito.*;
 // @RunWith(JUnitPlatform.class)
 public class AnnotationTests extends TestWithFragmentsLoading {
     @Mock
-    VirtualEdition virtualEdition;
+    VirtualEditionDto virtualEdition;
     @Mock
-    VirtualEditionInter inter;
+    VirtualEditionInterDto inter;
     @Mock
     UserDto user;
 //    @Mock
 //    SimpleTextDto startText, endText;
     @Mock
-    HumanAnnotation annotation;
+    HumanAnnotationDto annotation;
 
     @Override
     protected void populate4Test() {
@@ -66,17 +67,17 @@ public class AnnotationTests extends TestWithFragmentsLoading {
     @Test
     @Atomic(mode = TxMode.WRITE)
     public void canUpdateTest() {
-        doCallRealMethod().when(this.annotation).canUpdate(any());
+        doCallRealMethod().when(this.annotation).canUpdate(annotation.getExternalId(), any());
 
         when(this.annotation.getVirtualEditionInter()).thenReturn(this.inter);
-        when(this.inter.getVirtualEdition()).thenReturn(this.virtualEdition);
+        when(this.inter.getVirtualEditionDto()).thenReturn(this.virtualEdition);
         Set<String> users = new HashSet<>();
         users.add(this.user.getUsername());
         System.out.println(this.user);
         when(this.virtualEdition.getParticipantSet()).thenReturn(users);
         when(this.annotation.getUser()).thenReturn(this.user.getUsername());
 
-        assertTrue(this.annotation.canUpdate(this.user.getUsername()));
+        assertTrue(this.annotation.canUpdate(annotation.getExternalId(), this.user.getUsername()));
     }
 
 }

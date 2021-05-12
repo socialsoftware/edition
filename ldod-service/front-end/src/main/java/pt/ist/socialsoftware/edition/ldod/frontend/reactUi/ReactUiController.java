@@ -15,6 +15,7 @@ import pt.ist.socialsoftware.edition.ldod.frontend.domain.EditionModule;
 import pt.ist.socialsoftware.edition.ldod.frontend.domain.Menu;
 import pt.ist.socialsoftware.edition.ldod.frontend.domain.Option;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.*;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
@@ -22,11 +23,8 @@ import pt.ist.socialsoftware.edition.ldod.frontend.utils.AnnotationDTO;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.AnnotationSearchJson;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.enums.Source_Type;
-import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
-import pt.ist.socialsoftware.edition.virtual.api.dto.*;
-
-import pt.ist.socialsoftware.edition.virtual.api.textDto.*;
-import pt.ist.socialsoftware.edition.virtual.utils.CategoryDTO;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.*;
 
 
 import javax.inject.Inject;
@@ -43,7 +41,7 @@ public class ReactUiController {
 
     private final FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
     private final FeUserProvidesInterface feUserProvidesInterface = new FeUserProvidesInterface();
-    private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+    private final FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
     private final FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
 
     @Inject
@@ -199,7 +197,7 @@ public class ReactUiController {
         if (scholarInter != null) {
             result = scholarInter.getTranscription();
         } else {
-            VirtualEditionInterDto virtualEditionInter = this.virtualProvidesInterface.getVirtualEditionInterSet().stream()
+            VirtualEditionInterDto virtualEditionInter = this.feVirtualRequiresInterface.getVirtualEditionInterSet().stream()
                     .filter(dto -> dto.getUrlId().equals(urlId)).findAny().orElse(null);
             if (virtualEditionInter == null) {
                 logger.debug("Inter not found");
@@ -421,7 +419,7 @@ public class ReactUiController {
 
         //TODO : delete the following assignment and uncomment the following lines when
         // login capabilities are added to react frontend and a way to select virtual editions is possible
-        Set<VirtualEditionDto> virtualEditions = this.virtualProvidesInterface.getVirtualEditions();
+        Set<VirtualEditionDto> virtualEditions = this.feVirtualRequiresInterface.getVirtualEditions();
 
         /*Set<VirtualEdition> virtualEditions = new LinkedHashSet<>(FrontendSession.getFrontendSession().materializeVirtualEditions());
 
@@ -465,7 +463,7 @@ public class ReactUiController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        VirtualEditionInterDto inter = this.virtualProvidesInterface.getVirtualEditionInterSet().stream()
+        VirtualEditionInterDto inter = this.feVirtualRequiresInterface.getVirtualEditionInterSet().stream()
                 .filter(virtualEditionInter -> virtualEditionInter.getUrlId().equals(urlId)).findFirst().orElse(null);
 
         if (inter == null) {
@@ -475,8 +473,8 @@ public class ReactUiController {
 
         Map<String, String> editionInfo = new LinkedHashMap<>();
 
-        VirtualEditionDto virtualEdition = this.virtualProvidesInterface.getVirtualEditions().stream()
-                .filter(virtualEditionDto -> this.virtualProvidesInterface.isInterInVirtualEdition(inter.getXmlId(), virtualEditionDto.getAcronym()))
+        VirtualEditionDto virtualEdition = this.feVirtualRequiresInterface.getVirtualEditions().stream()
+                .filter(virtualEditionDto -> this.feVirtualRequiresInterface.isInterInVirtualEdition(inter.getXmlId(), virtualEditionDto.getAcronym()))
                 .findAny().orElse(null);
 
         editionInfo.put("editionTitle", virtualEdition.getTitle());
@@ -506,7 +504,7 @@ public class ReactUiController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        VirtualEditionInterDto inter = this.virtualProvidesInterface.getVirtualEditionInterSet().stream()
+        VirtualEditionInterDto inter = this.feVirtualRequiresInterface.getVirtualEditionInterSet().stream()
                 .filter(virtualEditionInter -> virtualEditionInter.getUrlId().equals(urlId)).findFirst().orElse(null);
 
         if (inter == null) {
@@ -551,7 +549,7 @@ public class ReactUiController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        VirtualEditionInterDto inter = this.virtualProvidesInterface.getVirtualEditionInterSet().stream()
+        VirtualEditionInterDto inter = this.feVirtualRequiresInterface.getVirtualEditionInterSet().stream()
                 .filter(virtualEditionInter -> virtualEditionInter.getUrlId().equals(urlId)).findFirst().orElse(null);
 
         if (inter == null) {
@@ -633,7 +631,7 @@ public class ReactUiController {
         List<VirtualEditionInterDto> inters = new ArrayList<>();
 
         for (String id : interIds.split("%2C")) {
-            VirtualEditionInterDto vei = this.virtualProvidesInterface.getVirtualEditionInterByExternalId(id);
+            VirtualEditionInterDto vei = this.feVirtualRequiresInterface.getVirtualEditionInterByExternalId(id);
             if (vei != null) {
                 inters.add(vei);
             }
@@ -644,8 +642,8 @@ public class ReactUiController {
         for (VirtualEditionInterDto inter : inters) {
             Map<String, Object> info = new LinkedHashMap<>();
 
-            VirtualEditionDto virtualEditionDto = this.virtualProvidesInterface.getVirtualEditions().stream()
-                    .filter(dto -> this.virtualProvidesInterface.isInterInVirtualEdition(inter.getXmlId(), dto.getAcronym()))
+            VirtualEditionDto virtualEditionDto = this.feVirtualRequiresInterface.getVirtualEditions().stream()
+                    .filter(dto -> this.feVirtualRequiresInterface.isInterInVirtualEdition(inter.getXmlId(), dto.getAcronym()))
                     .findAny().orElseThrow(LdoDException::new);
 
             info.put("reference", virtualEditionDto.getReference());
@@ -708,14 +706,14 @@ public class ReactUiController {
     public ResponseEntity<?> associateCategoriesToInter(@RequestParam String externalId, @RequestParam String categories) {
         String[] names = categories.split("%2C");
 
-        this.virtualProvidesInterface.associateVirtualEditionInterCategories(externalId, this.feUserProvidesInterface.getAuthenticatedUser(), Arrays.stream(names).collect(Collectors.toSet()));
+        this.feVirtualRequiresInterface.associateVirtualEditionInterCategories(externalId, this.feUserProvidesInterface.getAuthenticatedUser(), Arrays.stream(names).collect(Collectors.toSet()));
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/restricted/dissociate-category")
     public ResponseEntity<?> dissociateCategoryFromInter(@RequestParam String externalId, @RequestParam String categoryId) {
-        this.virtualProvidesInterface.dissociateVirtualEditionInterCategory(externalId, this.feUserProvidesInterface.getAuthenticatedUser(), categoryId);
+        this.feVirtualRequiresInterface.dissociateVirtualEditionInterCategory(externalId, this.feUserProvidesInterface.getAuthenticatedUser(), categoryId);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -748,7 +746,7 @@ public class ReactUiController {
     @GetMapping("/inter/categories")
     public ResponseEntity<?> getCategoriesForInter(@RequestParam String id) {
 
-        VirtualEditionInterDto inter = this.virtualProvidesInterface.getVirtualEditionInterByExternalId(id);
+        VirtualEditionInterDto inter = this.feVirtualRequiresInterface.getVirtualEditionInterByExternalId(id);
 
         if (inter == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -770,7 +768,7 @@ public class ReactUiController {
         logger.debug("Got annotation for quote:");
         logger.debug(annotationJson.getQuote());
 
-        VirtualEditionInterDto inter = this.virtualProvidesInterface.getVirtualEditionInterByExternalId(annotationJson.getUri());
+        VirtualEditionInterDto inter = this.feVirtualRequiresInterface.getVirtualEditionInterByExternalId(annotationJson.getUri());
         VirtualEditionDto virtualEdition = inter.getVirtualEditionDto();
 
         String username = this.feUserProvidesInterface.getAuthenticatedUser();
@@ -790,7 +788,7 @@ public class ReactUiController {
 
     @GetMapping("/restricted/annotations/{id}")
     public ResponseEntity<?> getAnnotation(@PathVariable String id) {
-       HumanAnnotationDto annotation = this.virtualProvidesInterface.getHumanAnnotationfromId(id);
+       HumanAnnotationDto annotation = this.feVirtualRequiresInterface.getHumanAnnotationfromId(id);
         if (annotation != null) {
             return new ResponseEntity<>(new AnnotationDTO(annotation), HttpStatus.OK);
         } else {
@@ -801,7 +799,7 @@ public class ReactUiController {
 
     @PutMapping("/restricted/annotations/{id}")
     public ResponseEntity<?> updateAnnotation(@PathVariable String id, @RequestBody AnnotationDTO annotationJson) {
-          HumanAnnotationDto annotation = this.virtualProvidesInterface.getHumanAnnotationfromId(id);
+          HumanAnnotationDto annotation = this.feVirtualRequiresInterface.getHumanAnnotationfromId(id);
         if (annotation == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -817,7 +815,7 @@ public class ReactUiController {
     @DeleteMapping("/restricted/annotations/{id}")
     public ResponseEntity<?> deleteAnnotation(@PathVariable String id) {
 
-        HumanAnnotationDto annotation = this.virtualProvidesInterface.getHumanAnnotationfromId(id);
+        HumanAnnotationDto annotation = this.feVirtualRequiresInterface.getHumanAnnotationfromId(id);
 
         if (annotation == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -837,7 +835,7 @@ public class ReactUiController {
         logger.debug("searchAnnotations uri: " + uri);
         List<AnnotationDTO> annotations = new ArrayList<>();
 
-        VirtualEditionInterDto inter = this.virtualProvidesInterface.getVirtualEditionInterByExternalId(uri);
+        VirtualEditionInterDto inter = this.feVirtualRequiresInterface.getVirtualEditionInterByExternalId(uri);
 
         for (AnnotationDto annotation : inter.getAllDepthAnnotationsAccessibleByUser(this.feUserProvidesInterface.getAuthenticatedUser())) {
             AnnotationDTO annotationJson = new AnnotationDTO(annotation);

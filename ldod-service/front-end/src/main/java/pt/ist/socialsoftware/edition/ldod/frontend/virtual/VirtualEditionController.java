@@ -14,20 +14,10 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
-import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDCreateVirtualEditionException;
-import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDEditVirtualEditionException;
-import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDException;
-import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDExceptionNonAuthorized;
+import pt.ist.socialsoftware.edition.ldod.frontend.utils.*;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.ui.UiInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.validator.VirtualEditionValidator;
-
-import pt.ist.socialsoftware.edition.virtual.api.dto.CategoryDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.TaxonomyDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.utils.LdoDDuplicateAcronymException;
-import pt.ist.socialsoftware.edition.virtual.utils.LdoDDuplicateNameException;
-import pt.ist.socialsoftware.edition.virtual.utils.TopicListDTO;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.*;
 
 
 import java.io.IOException;

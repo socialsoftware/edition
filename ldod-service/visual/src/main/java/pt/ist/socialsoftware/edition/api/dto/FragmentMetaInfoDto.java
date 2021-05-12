@@ -1,10 +1,12 @@
 package pt.ist.socialsoftware.edition.api.dto;
 
 
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.SourceDto;
 
+
+
+import pt.ist.socialsoftware.edition.recommendation.api.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.recommendation.api.textDto.SourceDto;
+import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionInterDto;
 
 import java.util.ArrayList;
 import java.util.List;

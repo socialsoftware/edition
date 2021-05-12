@@ -23,6 +23,7 @@ import pt.ist.socialsoftware.edition.ldod.frontend.search.SearchRemoteController
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.controller.LdoDExceptionHandler;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -51,7 +52,7 @@ public class SearchTest {
 
     @BeforeAll
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public static void setUpAll() throws FileNotFoundException {
+    public static void setUpAll() throws IOException {
         TestLoadUtils.setUpDatabaseWithCorpus();
 
         String[] fragments = { "001.xml", "002.xml", "003.xml", "181.xml", "560.xml", "593.xml" };

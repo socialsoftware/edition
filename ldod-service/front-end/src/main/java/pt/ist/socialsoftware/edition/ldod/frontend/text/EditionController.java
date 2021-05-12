@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import pt.ist.socialsoftware.edition.game.api.dtoc.ClassificationGameDto;
 
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.ExpertEditionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.HeteronymDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
@@ -21,13 +23,10 @@ import pt.ist.socialsoftware.edition.game.api.dtoc.PlayerDto;
 
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.dto.EditionDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.ui.UiInterface;
-
-import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
-import pt.ist.socialsoftware.edition.virtual.api.dto.CategoryDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.TaxonomyDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.ExpertEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.HeteronymDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.CategoryDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.TaxonomyDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
 
 
 import java.util.Set;
@@ -40,7 +39,7 @@ public class EditionController {
 
     private final FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
     private final GameProvidesInterface gameProvidesInterface = new GameProvidesInterface();
-    private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+    private final FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
     private final FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
 
     @ModelAttribute("frontendSession")
@@ -66,7 +65,7 @@ public class EditionController {
             return "edition/tableOfContents";
         }
 
-        VirtualEditionDto virtualEdition = this.virtualProvidesInterface.getVirtualEdition(acronym);
+        VirtualEditionDto virtualEdition = this.feVirtualRequiresInterface.getVirtualEditionByAcronym(acronym);
 
         if (virtualEdition == null) {
             return "redirect:/error";
@@ -88,7 +87,7 @@ public class EditionController {
         String virtualEdition = null;
 
         if (scholarEdition == null) {
-            virtualEdition = this.virtualProvidesInterface.getVirtualEditionByExternalId(externalId).getAcronym();
+            virtualEdition = this.feVirtualRequiresInterface.getVirtualEditionByExternalId(externalId).getAcronym();
         }
         if (scholarEdition == null && virtualEdition == null) {
             return "redirect:/error";
@@ -125,8 +124,8 @@ public class EditionController {
         UserDto userDto = this.feUserRequiresInterface.getUser(username);
         if (userDto != null) {
             model.addAttribute("userDto", userDto);
-            model.addAttribute("publicVirtualEditionsOrUserIsParticipant", this.virtualProvidesInterface.getPublicVirtualEditionsOrUserIsParticipant(username));
-            model.addAttribute("virtualEditionIntersUserIsContributor", this.virtualProvidesInterface.getVirtualEditionIntersUserIsContributor(username));
+            model.addAttribute("publicVirtualEditionsOrUserIsParticipant", this.feVirtualRequiresInterface.getPublicVirtualEditionsOrUserIsParticipant(username));
+            model.addAttribute("virtualEditionIntersUserIsContributor", this.feVirtualRequiresInterface.getVirtualEditionIntersUserIsContributor(username));
             PlayerDto player = this.gameProvidesInterface.getPlayerByUsername(username);
             if (player != null) {
                 model.addAttribute("player", player);
@@ -135,7 +134,7 @@ public class EditionController {
                 model.addAttribute("position", this.gameProvidesInterface.getOverallUserPosition(username));
             }
             model.addAttribute("uiInterface", new UiInterface());
-            model.addAttribute("virtualProvidesInterface", this.virtualProvidesInterface);
+            model.addAttribute("virtualProvidesInterface", this.feVirtualRequiresInterface);
             return "edition/userContributions";
         } else {
             return "redirect:/error";
@@ -145,7 +144,7 @@ public class EditionController {
     @RequestMapping(method = RequestMethod.GET, value = "/acronym/{acronym}/taxonomy")
     @PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
     public String getTaxonomyTableOfContents(Model model, @PathVariable String acronym) {
-        TaxonomyDto taxonomy = this.virtualProvidesInterface.getVirtualEditionTaxonomy(acronym);
+        TaxonomyDto taxonomy = this.feVirtualRequiresInterface.getVirtualEditionTaxonomy(acronym);
         if (taxonomy != null) {
             model.addAttribute("taxonomy", taxonomy);
             model.addAttribute("userInterface", feUserRequiresInterface);
@@ -159,7 +158,7 @@ public class EditionController {
     @PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
     public String getCategoryTableOfContents(Model model, @PathVariable String acronym, @PathVariable String urlId) {
 
-        VirtualEditionDto virtualEdition = this.virtualProvidesInterface.getVirtualEdition(acronym);
+        VirtualEditionDto virtualEdition = this.feVirtualRequiresInterface.getVirtualEditionByAcronym(acronym);
         if (virtualEdition == null) {
             return "redirect:/error";
         }

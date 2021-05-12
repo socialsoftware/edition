@@ -12,6 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
+import pt.ist.socialsoftware.edition.game.api.GameRequiresInterface;
 import pt.ist.socialsoftware.edition.game.domain.ClassificationGame;
 import pt.ist.socialsoftware.edition.game.domain.ClassificationModule;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
@@ -23,18 +24,13 @@ import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.controller.LdoDExceptionHandler;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.VirtualEditionController;
-
-import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.domain.*;
-import pt.ist.socialsoftware.edition.virtual.utils.TopicDTO;
-import pt.ist.socialsoftware.edition.virtual.utils.TopicInterPercentageDTO;
-import pt.ist.socialsoftware.edition.virtual.utils.TopicListDTO;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.*;
 
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 
 import static org.hamcrest.Matchers.*;
@@ -49,8 +45,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class VirtualEditionTest {
     public static final String ARS = "ars";
+    public static String ACRONYM_PREFIX = "LdoD-";
+
     private final FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
     private final FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
+    private final FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
 
     @InjectMocks
     VirtualEditionController virtualEditionController;
@@ -63,7 +62,7 @@ public class VirtualEditionTest {
 
     @BeforeAll
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public static void setUpAll() throws FileNotFoundException {
+    public static void setUpAll() throws IOException {
         TestLoadUtils.setUpDatabaseWithCorpus();
         String[] fragments = {"001.xml", "002.xml", "003.xml"};
         TestLoadUtils.loadFragments(fragments);
@@ -83,9 +82,9 @@ public class VirtualEditionTest {
     @BeforeEach
     public void setUp() throws FileNotFoundException {
 
-        VirtualProvidesInterface.cleanVirtualEditionInterMapByUrlIdCache();
-        VirtualProvidesInterface.cleanVirtualEditionInterMapByXmlIdCache();
-        VirtualProvidesInterface.cleanVirtualEditionMapCache();
+        feVirtualRequiresInterface.cleanVirtualEditionInterMapByUrlIdCache();
+        feVirtualRequiresInterface.cleanVirtualEditionInterMapByXmlIdCache();
+        feVirtualRequiresInterface.cleanVirtualEditionMapCache();
 
 
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.virtualEditionController)
@@ -118,7 +117,7 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails(value = "ars")
     public void manageVirtualEditionsTest() throws Exception {
-        String id = VirtualModule.getInstance().getArchiveEdition().getExternalId();
+        String id = feVirtualRequiresInterface.getArchiveEdition().getExternalId();
 
         this.mockMvc.perform(get("/virtualeditions/restricted/manage/{externalId}", id)).andDo(print())
                 .andExpect(status().isOk()).andExpect(view().name("virtual/manage"))
@@ -139,7 +138,7 @@ public class VirtualEditionTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void editFormVirtualEditionTest() throws Exception {
-        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+        VirtualEditionDto ve = feVirtualRequiresInterface.getArchiveEdition();
 
         this.mockMvc.perform(get("/virtualeditions/restricted/editForm/{externalId}", ve.getExternalId()))
                 .andDo(print()).andExpect(status().isOk()).andExpect(view().name("virtual/edition"))
@@ -159,7 +158,7 @@ public class VirtualEditionTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void showTaxonomyTest() throws Exception {
-        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+        VirtualEditionDto ve = feVirtualRequiresInterface.getArchiveEdition();
 
         this.mockMvc.perform(get("/virtualeditions/restricted/{externalId}/taxonomy", ve.getExternalId()))
                 .andDo(print()).andExpect(status().isOk()).andExpect(view().name("virtual/taxonomy"))
@@ -176,7 +175,7 @@ public class VirtualEditionTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void showFragInterTest() throws Exception {
-        String id = VirtualModule.getInstance().getVirtualEditionInterByXmlId("Fr001.WIT.ED.VIRT.LdoD-Arquivo.1")
+        String id = feVirtualRequiresInterface.getVirtualEditionInterByXmlId("Fr001.WIT.ED.VIRT.LdoD-Arquivo.1")
                 .getExternalId();
 
         this.mockMvc.perform(get("/virtualeditions/restricted/fraginter/{fragInterId}", id)).andDo(print())
@@ -200,21 +199,23 @@ public class VirtualEditionTest {
                         .param("pub", "true").param("use", "no"))
                 .andDo(print()).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions"));
 
-        VirtualEdition testEdition = VirtualModule.getInstance().getVirtualEdition(VirtualEdition.ACRONYM_PREFIX + "Test");
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX + "Test");
 
         assertEquals("Test", testEdition.getShortAcronym());
         assertEquals("Test", testEdition.getTitle());
 
-        testEdition.remove();
+        testEdition.removeByExternalId();
     }
 
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void editVirtualEditionIsSAVETest() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
+
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
                 "titleX", LocalDate.now(), true, null);
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
         this.mockMvc
                 .perform(post("/virtualeditions/restricted/edit/{externalId}", testEdition.getExternalId())
@@ -239,15 +240,16 @@ public class VirtualEditionTest {
         assertFalse(testEdition.getPub());
         assertEquals("Synopsis", testEdition.getSynopsis());
 
-        testEdition.remove();
+        testEdition.removeByExternalId();
     }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void editVirtualEditionIsNotSAVETest() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
                 "titleX", LocalDate.now(), true, null);
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
         this.mockMvc
                 .perform(post("/virtualeditions/restricted/edit/{externalId}", testEdition.getExternalId())
@@ -272,22 +274,23 @@ public class VirtualEditionTest {
         assertFalse(testEdition.getPub());
         assertEquals("Synopsis", testEdition.getSynopsis());
 
-        testEdition.remove();
+        testEdition.removeByExternalId();
     }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteVirtualEditionTest() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, null);
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, null);
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
         String id = testEdition.getExternalId();
 
         this.mockMvc.perform(post("/virtualeditions/restricted/delete").param("externalId", id)).andDo(print())
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions"));
 
-        assertNull(VirtualModule.getInstance().getVirtualEdition(VirtualEdition.ACRONYM_PREFIX + "Test"));
+        assertNull(feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX + "Test"));
     }
 
     @Test
@@ -302,7 +305,7 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails(value = "ars")
     public void toggleVirtualEditionTest() throws Exception {
-        String id = VirtualModule.getInstance().getArchiveEdition().getExternalId();
+        String id = feVirtualRequiresInterface.getArchiveEdition().getExternalId();
 
         this.mockMvc.perform(post("/virtualeditions/toggleselection").param("externalId", id)).andDo(print())
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions"));
@@ -319,7 +322,7 @@ public class VirtualEditionTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void reorderVirtualEditionTest() throws Exception {
-        String id = VirtualModule.getInstance().getArchiveEdition().getExternalId();
+        String id = feVirtualRequiresInterface.getArchiveEdition().getExternalId();
 
         this.mockMvc.perform(post("/virtualeditions/restricted/reorder/{externalId}", id).param("fraginters", ""))
                 .andDo(print()).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions"));
@@ -335,7 +338,7 @@ public class VirtualEditionTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void showParticipantsTest() throws Exception {
-        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+        VirtualEditionDto ve = feVirtualRequiresInterface.getArchiveEdition();
 
         this.mockMvc.perform(get("/virtualeditions/restricted/{externalId}/participants", ve.getExternalId()))
                 .andDo(print()).andExpect(status().isOk()).andExpect(view().name("virtual/participants"))
@@ -356,16 +359,17 @@ public class VirtualEditionTest {
     @WithUserDetails(value = ARS)
     public void submitParticipantTest() throws Exception {
         UserDto userDto = feUserRequiresInterface.createTestUser("other", "password", "Tó", "Zé", "a@a.a");
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition("other",
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, null);
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, null);
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
         this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/submit", testEdition.getExternalId())).andDo(print())
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions"));
 
         assertEquals(1,testEdition.getParticipantSet().size());
         assertEquals(2,testEdition.getMemberSet().size());
-        testEdition.remove();
+        testEdition.removeByExternalId();
         userDto.removeUser();
     }
 
@@ -382,17 +386,19 @@ public class VirtualEditionTest {
     @WithUserDetails(value = "ars")
     public void cancelParticipantTest() throws Exception {
         UserDto userDto = feUserRequiresInterface.createTestUser("other", "password", "Tó", "Zé", "a@a.a");
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition("other",
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, null);
-        testEdition.addMember("other", Member.MemberRole.ADMIN, false);
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, null);
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
+//        testEdition.addMember("other", Member.MemberRole.ADMIN, false);
+        testEdition.addMemberAdminByExternalId("other", false);
 
         this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/cancel", testEdition.getExternalId())).andDo(print())
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions"));
 
         assertEquals(1,testEdition.getParticipantSet().size());
         assertEquals(1,testEdition.getMemberSet().size());
-        testEdition.remove();
+        testEdition.removeByExternalId();
         userDto.removeUser();
     }
 
@@ -409,10 +415,11 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void approveParticipantTest() throws Exception {
         UserDto userDto = feUserRequiresInterface.createTestUser("other", "password", "Tó", "Zé", "a@a.a");
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition("other",
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, null);
-        testEdition.addMember("ars", Member.MemberRole.ADMIN, false);
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, null);
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
+        testEdition.addMemberAdminByExternalId("ars", false);
 
         this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/approve", testEdition.getExternalId())
                 .param("username", "ars"))
@@ -422,7 +429,7 @@ public class VirtualEditionTest {
         assertEquals(2,testEdition.getParticipantSet().size());
         assertEquals(2,testEdition.getMemberSet().size());
 
-        testEdition.remove();
+        testEdition.removeByExternalId();
         userDto.removeUser();
     }
 
@@ -430,9 +437,10 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void addParticipantTest() throws Exception {
         UserDto userDto = feUserRequiresInterface.createTestUser("other", "password", "Tó", "Zé", "a@a.a");
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition("other",
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, null);
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, null);
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
         this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/add", testEdition.getExternalId())
                 .param("username", "ars"))
@@ -442,7 +450,7 @@ public class VirtualEditionTest {
         assertEquals(2,testEdition.getParticipantSet().size());
         assertEquals(2,testEdition.getMemberSet().size());
 
-        testEdition.remove();
+        testEdition.removeByExternalId();
         userDto.removeUser();
     }
 
@@ -451,10 +459,11 @@ public class VirtualEditionTest {
     @WithUserDetails(value = "ars")
     public void switchRoleTest() throws Exception {
         UserDto userDto = feUserRequiresInterface.createTestUser("other", "password", "Tó", "Zé", "a@a.a");
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition("other",
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, null);
-        testEdition.addMember(ARS, Member.MemberRole.ADMIN, true);
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, null);
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
+        testEdition.addMemberAdminByExternalId(ARS, true);
 
         this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/role", testEdition.getExternalId())
                 .param("username", ARS))
@@ -462,7 +471,7 @@ public class VirtualEditionTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/virtualeditions/restricted/" + testEdition.getExternalId() + "/participants"));
 
-        testEdition.remove();
+        testEdition.removeByExternalId();
         userDto.removeUser();
     }
 
@@ -471,11 +480,12 @@ public class VirtualEditionTest {
     @WithUserDetails(value = "ars")
     public void removeParticipantTest() throws Exception {
         UserDto userDto = feUserRequiresInterface.createTestUser("other", "password", "Tó", "Zé", "a@a.a");
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition("other",
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, null);
-        testEdition.addMember("ars", Member.MemberRole.ADMIN, false);
-        testEdition.addMember(userDto.getUsername(), Member.MemberRole.MEMBER, true);
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, null);
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
+        testEdition.addMemberAdminByExternalId("ars", false);
+        testEdition.addMemberByExternalId(userDto.getUsername(), true);
 
         this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/remove", testEdition.getExternalId())
                 .param("user", "other"))
@@ -485,23 +495,24 @@ public class VirtualEditionTest {
         assertEquals(1,testEdition.getParticipantSet().size());
         assertEquals(2,testEdition.getMemberSet().size());
 
-        testEdition.remove();
+        testEdition.removeByExternalId();
         userDto.removeUser();
     }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getTaxonomyTest() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, null);
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, null);
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
         this.mockMvc.perform(get("/virtualeditions/restricted/{externalId}/taxonomy", testEdition.getExternalId()))
                 .andDo(print())
                 .andExpect(status().isOk()).andExpect(view().name("virtual/taxonomy"))
                 .andExpect(model().attribute("virtualEdition", notNullValue()));
 
-        testEdition.remove();
+        testEdition.removeByExternalId();
     }
 
     @Test
@@ -515,9 +526,10 @@ public class VirtualEditionTest {
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void editTaxonomyTest() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, null);
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, null);
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
         this.mockMvc
                 .perform(post("/virtualeditions/restricted/{externalId}/taxonomy/edit", testEdition.getExternalId())
@@ -527,15 +539,16 @@ public class VirtualEditionTest {
                 .andDo(print()).andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/virtualeditions/restricted/" + testEdition.getExternalId() + "/taxonomy"));
 
-        testEdition.remove();
+        testEdition.removeByExternalId();
     }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteTaxonomyTest() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, null);
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, null);
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
         this.mockMvc
                 .perform(post("/virtualeditions/restricted/{externalId}/taxonomy/clean", testEdition.getExternalId())
@@ -543,30 +556,32 @@ public class VirtualEditionTest {
                 .andDo(print()).andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/virtualeditions/restricted/" + testEdition.getExternalId() + "/taxonomy"));
 
-        testEdition.remove();
+        testEdition.removeByExternalId();
     }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteErrorTaxonomyTest() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, null);
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, null);
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
         this.mockMvc
                 .perform(post("/virtualeditions/restricted/{externalId}/taxonomy/clean", testEdition.getExternalId())
                         .param("taxonomyExternalId", "ERROR"))
                 .andDo(print()).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/error"));
 
-        testEdition.remove();
+        testEdition.removeByExternalId();
     }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void createCategoryTest() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, null);
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, null);
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
         this.mockMvc
                 .perform(post("/virtualeditions/restricted/category/create")
@@ -575,7 +590,7 @@ public class VirtualEditionTest {
                 .andDo(print()).andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/virtualeditions/restricted/" + testEdition.getExternalId() + "/taxonomy"));
 
-        testEdition.remove();
+        testEdition.removeByExternalId();
     }
 
     @Test
@@ -591,11 +606,12 @@ public class VirtualEditionTest {
 	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void deleteCategoryTest() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, null);
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, null);
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
-		Category category = testEdition.getTaxonomy().createCategory("first");
+        CategoryDto category = testEdition.getTaxonomy().createTestCategory("first");
 
 		this.mockMvc
 				.perform(post("/virtualeditions/restricted/category/delete")
@@ -603,36 +619,38 @@ public class VirtualEditionTest {
 				.andDo(print()).andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrl("/virtualeditions/restricted/" + testEdition.getExternalId() + "/taxonomy"));
 
-		testEdition.remove();
+		testEdition.removeByExternalId();
 	}
 
 	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void showCategoryTest() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, null);
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, null);
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
-        Category category = testEdition.getTaxonomy().createCategory("first");
+        CategoryDto category = testEdition.getTaxonomy().createTestCategory("first");
 
 		this.mockMvc
 				.perform(get("/virtualeditions/restricted/category/{categoryId}",  category.getExternalId()))
 				.andDo(print()).andExpect(status().isOk())
 				.andExpect(view().name("virtual/category"));
 
-		testEdition.remove();
+		testEdition.removeByExternalId();
 	}
 
 	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void mergeCategoriesMergeTest() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, null);
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, null);
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
 		String[] categories = {
-                testEdition.getTaxonomy().createCategory("first").getExternalId(),
-                testEdition.getTaxonomy().createCategory("second").getExternalId()
+                testEdition.getTaxonomy().createTestCategory("first").getExternalId(),
+                testEdition.getTaxonomy().createTestCategory("second").getExternalId()
 		};
 
 		this.mockMvc
@@ -643,20 +661,21 @@ public class VirtualEditionTest {
 				.andDo(print()).andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrlPattern("/virtualeditions/restricted/category/*"));
 
-		testEdition.remove();
+		testEdition.removeByExternalId();
 	}
 
 	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void extractCategoryTest() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, VirtualModule.getInstance().getArchiveEdition().getAcronym());
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, null);
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
-		String categoryId = testEdition.getTaxonomy().createCategory("first-to-extract").getExternalId();
+		String categoryId = testEdition.getTaxonomy().createTestCategory("first-to-extract").getExternalId();
 
 		String[] inters = {
-                testEdition.getAllDepthVirtualEditionInters().get(0).getExternalId(),
+                testEdition.getIntersSet().stream().findFirst().get().getExternalId(),
 		};
 
 		this.mockMvc
@@ -666,43 +685,48 @@ public class VirtualEditionTest {
 				.andDo(print()).andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrlPattern("/virtualeditions/restricted/category/*"));
 
-		testEdition.remove();
+		testEdition.removeByExternalId();
 	}
 
 	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails(value = "ars")
 	public void associateCategoryTest() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, VirtualModule.getInstance().getArchiveEdition().getAcronym());
+//        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
+//                VirtualEdition.ACRONYM_PREFIX +"NEWT",
+//                "titleX", LocalDate.now(), false, VirtualModule.getInstance().getArchiveEdition().getAcronym());
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
 		String[] categories = {
-                testEdition.getTaxonomy().createCategory("first-to-associate").getName()
+                testEdition.getTaxonomy().createTestCategory("first-to-associate").getName()
 		};
 
 		this.mockMvc
 				.perform(post("/virtualeditions/restricted/tag/associate")
-						.param("fragInterId", testEdition.getAllDepthVirtualEditionInters().get(0).getExternalId())
+						.param("fragInterId", testEdition.getIntersSet().stream().findFirst().get().getExternalId())
 						.param("categories[]", categories))
 				.andDo(print()).andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrlPattern("/fragments/fragment/inter/*"));
 
-		testEdition.remove();
+		testEdition.removeByExternalId();
 	}
 
 	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails(value = "ars")
 	public void dissociateCategoryTest() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, VirtualModule.getInstance().getArchiveEdition().getAcronym());
-		Category category = testEdition.getTaxonomy().createCategory("first-to-dissociate");
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
+		CategoryDto category = testEdition.getTaxonomy().createTestCategory("first-to-dissociate");
 		Set<String> categories = new HashSet<String>();
 		categories.add(category.getName());
 
-		VirtualEditionInter inter = testEdition.getAllDepthVirtualEditionInters().get(0);
+		VirtualEditionInterDto inter = testEdition.getIntersSet().stream().findFirst().get();
 		inter.associate("ars", categories);
 
 		this.mockMvc
@@ -710,17 +734,18 @@ public class VirtualEditionTest {
 				.andDo(print()).andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrlPattern("/fragments/fragment/inter/*"));
 
-		testEdition.remove();
+		testEdition.removeByExternalId();
 	}
 
 	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void mergeCategoriesDeleteTest() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, null);
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, null);
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 		String[] categories = {
-                testEdition.getTaxonomy().createCategory("first").getExternalId(),
+                testEdition.getTaxonomy().createTestCategory("first").getExternalId(),
 		};
 
 		this.mockMvc
@@ -731,16 +756,17 @@ public class VirtualEditionTest {
 				.andDo(print()).andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrl("/virtualeditions/restricted/" + testEdition.getExternalId() + "/taxonomy"));
 
-		testEdition.remove();
+		testEdition.removeByExternalId();
 	}
 
 	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails(value = "ars")
 	public void generateTopicModellingTest() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, VirtualModule.getInstance().getArchiveEdition().getAcronym());
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
 		this.mockMvc
 				.perform(get("/virtualeditions/restricted/{externalId}/taxonomy/generateTopics", testEdition.getExternalId())
@@ -751,17 +777,18 @@ public class VirtualEditionTest {
 				.andDo(print())
 				.andExpect(status().isOk());
 
-		testEdition.remove();
+		testEdition.removeByExternalId();
 	}
 
 	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void createTopicModellingTest() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, VirtualModule.getInstance().getArchiveEdition().getAcronym());
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
-		VirtualEditionInter virtualEditionInter = testEdition.getAllDepthVirtualEditionInters().get(0);
+		VirtualEditionInterDto virtualEditionInter = testEdition.getIntersSet().stream().findFirst().get();
 
 		TopicListDTO topicList = new TopicListDTO();
 		topicList.setTaxonomyExternalId(testEdition.getTaxonomy().getExternalId());
@@ -783,23 +810,24 @@ public class VirtualEditionTest {
 				.andDo(print())
 				.andExpect(status().isOk());
 
-		testEdition.remove();
+		testEdition.removeByExternalId();
 	}
 
 	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void addInterTest() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, VirtualModule.getInstance().getArchiveEdition().getAcronym());
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
-		VirtualEditionInter virtualEditionInter = testEdition.getAllDepthVirtualEditionInters().get(0);
-		String interExternalId = virtualEditionInter.getUses() != null
-                ? virtualEditionInter.getUses().getExternalId()
+		VirtualEditionInterDto virtualEditionInter = testEdition.getIntersSet().stream().findFirst().get();
+		String interExternalId = virtualEditionInter.getUsesInter() != null
+                ? virtualEditionInter.getUsesInter().getExternalId()
 //                : TextModule.getInstance().getScholarInterByXmlId(virtualEditionInter.getUsesScholarInterId()).getExternalId();
                 : feTextRequiresInterface.getScholarInterByXmlId(virtualEditionInter.getUsesScholarInterId()).getExternalId();
 
-		virtualEditionInter.remove();
+		virtualEditionInter.removeInter();
 
 		this.mockMvc
 				.perform(post("/virtualeditions/restricted/addinter/{veId}/{interId}", testEdition.getExternalId(), interExternalId))
@@ -807,7 +835,7 @@ public class VirtualEditionTest {
 				.andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrlPattern("/fragments/fragment/inter/*"));
 
-		testEdition.remove();
+		testEdition.removeByExternalId();
 	}
 
 	// TODO included in a different controller related with Classification Game
@@ -815,7 +843,7 @@ public class VirtualEditionTest {
 	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void classificationGameTest() throws Exception {
-        VirtualEdition ve = VirtualModule.getInstance().getArchiveEdition();
+        VirtualEditionDto ve = feVirtualRequiresInterface.getArchiveEdition();
 
 		this.gameMockMvc
 				.perform(get("/virtualeditions/restricted/{externalId}/classificationGame", ve.getExternalId()))
@@ -827,9 +855,10 @@ public class VirtualEditionTest {
 	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void createClassificationGameFormTest() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, VirtualModule.getInstance().getArchiveEdition().getAcronym());
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
 		this.gameMockMvc
 				.perform(get("/virtualeditions/restricted/{externalId}/classificationGame/create", testEdition.getExternalId()))
@@ -837,16 +866,17 @@ public class VirtualEditionTest {
 				.andExpect(status().isOk())
 				.andExpect(view().name("virtual/createClassificationGame"));
 
-        testEdition.remove();
+        testEdition.removeByExternalId();
 	}
 
 	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails(value = ARS)
 	public void createClassificationGameTest() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWA",
-                "titleX", LocalDate.now(), true, VirtualModule.getInstance().getArchiveEdition().getAcronym());
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
         int number = ClassificationModule.getInstance().getClassificationGameSet().size();
 
@@ -854,24 +884,25 @@ public class VirtualEditionTest {
 				.perform(post("/virtualeditions/restricted/{externalId}/classificationGame/create", testEdition.getExternalId())
 						.param("description", "Description")
 						.param("date", "08/08/2020 09:00")
-						.param("interExternalId", testEdition.getAllDepthVirtualEditionInters().get(0).getExternalId()))
+						.param("interExternalId", testEdition.getIntersSet().stream().findFirst().get().getExternalId()))
 				.andDo(print())
 				.andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrl("/virtualeditions/restricted/" + testEdition.getExternalId() + "/classificationGame"));
 
 		assertEquals(number + 1, ClassificationModule.getInstance().getClassificationGameSet().size());
-        testEdition.remove();
+        testEdition.removeByExternalId();
 	}
 
 	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails(value = ARS)
 	public void removeClassificationGame() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWB",
-                "titleX", LocalDate.now(), true, VirtualModule.getInstance().getArchiveEdition().getAcronym());
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
+        pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionDto testEdition = GameRequiresInterface.getInstance().getVirtualEdition(ACRONYM_PREFIX +"NEWT");
 
-		ClassificationGame classificationGame = new ClassificationGame(new VirtualEditionDto(testEdition), "Description", DateTime.now(), new VirtualEditionInterDto(testEdition.getAllDepthVirtualEditionInters().get(0)), ARS);
+		ClassificationGame classificationGame = new ClassificationGame(testEdition, "Description", DateTime.now(), testEdition.getIntersSet().stream().findFirst().get(), ARS);
 
 		int number = ClassificationModule.getInstance().getClassificationGameSet().size();
 
@@ -882,18 +913,20 @@ public class VirtualEditionTest {
 				.andExpect(redirectedUrl("/virtualeditions/restricted/" + testEdition.getExternalId() + "/classificationGame"));
 
         assertEquals(number -1, ClassificationModule.getInstance().getClassificationGameSet().size());
-        testEdition.remove();
+        testEdition.removeByExternalId();
 	}
 
 	@Test
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void getClassificationGame() throws Exception {
-        VirtualEdition testEdition = VirtualModule.getInstance().createVirtualEdition(ARS,
-                VirtualEdition.ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), false, VirtualModule.getInstance().getArchiveEdition().getAcronym());
+        feVirtualRequiresInterface.createVirtualEdition(ARS,
+                ACRONYM_PREFIX +"NEWT",
+                "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
+        pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionDto testEdition = GameRequiresInterface.getInstance().getVirtualEdition(ACRONYM_PREFIX +"NEWT");
 
-		ClassificationGame classificationGame = new ClassificationGame(new VirtualEditionDto(testEdition), "Description", DateTime.now(), new VirtualEditionInterDto(testEdition.getAllDepthVirtualEditionInters().get(0)), "ars");
-		classificationGame.addParticipant("ars");
+        ClassificationGame classificationGame = new ClassificationGame(testEdition, "Description", DateTime.now(), testEdition.getIntersSet().stream().findFirst().get(), ARS);
+
+        classificationGame.addParticipant("ars");
 
 		this.gameMockMvc
 				.perform(get("/virtualeditions/{externalId}/classificationGame/{gameId}", testEdition.getExternalId(), classificationGame.getExternalId()))
@@ -901,7 +934,7 @@ public class VirtualEditionTest {
 				.andExpect(status().isOk())
 				.andExpect(view().name("virtual/classificationGameContent"));
 
-        testEdition.remove();
+        testEdition.removeByExternalId();
 	}
 
 }

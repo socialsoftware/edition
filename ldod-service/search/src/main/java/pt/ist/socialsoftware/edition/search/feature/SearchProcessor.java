@@ -5,8 +5,8 @@ import pt.ist.socialsoftware.edition.search.api.dto.AdvancedSearchResultDto;
 import pt.ist.socialsoftware.edition.search.api.dto.SearchDto;
 import pt.ist.socialsoftware.edition.search.api.dto.SearchableElementDto;
 
+import pt.ist.socialsoftware.edition.search.api.textDto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.search.feature.options.*;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 
 
 import java.util.ArrayList;

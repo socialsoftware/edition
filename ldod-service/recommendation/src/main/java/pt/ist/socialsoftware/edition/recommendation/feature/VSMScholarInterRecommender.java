@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.recommendation.feature;
 
+import pt.ist.socialsoftware.edition.recommendation.api.textDto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.recommendation.feature.properties.Property;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 
 
 public class VSMScholarInterRecommender extends VSMRecommender<ScholarInterDto> {

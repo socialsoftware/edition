@@ -13,13 +13,13 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
-import pt.ist.socialsoftware.edition.virtual.domain.*;
-import pt.ist.socialsoftware.edition.virtual.feature.inout.VirtualEditionsTEICorpusExport;
-import pt.ist.socialsoftware.edition.virtual.feature.inout.VirtualEditionsTEICorpusImport;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
 
 
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -29,10 +29,9 @@ import static org.junit.Assert.assertEquals;
 public class VirtualEditionsTEICorpusExportTest {
     private static final Logger logger = LoggerFactory.getLogger(VirtualEditionsTEICorpusExportTest.class);
 
-    private VirtualEditionsTEICorpusExport export;
-    private VirtualEdition virtualEdition;
-    private VirtualModule virtualModule;
+    private VirtualEditionDto virtualEdition;
 //    private TextModule text;
+    private FeVirtualRequiresInterface feVirtualRequiresInterface;
     private FeTextRequiresInterface feTextRequiresInterface;
     private FeUserRequiresInterface feUserRequiresInterface;
     private UserDto userDto;
@@ -49,12 +48,12 @@ public class VirtualEditionsTEICorpusExportTest {
 //        this.text = TextModule.getInstance();
         this.feTextRequiresInterface = new FeTextRequiresInterface();
         this.feUserRequiresInterface = new FeUserRequiresInterface();
-        this.virtualModule = VirtualModule.getInstance();
         this.userDto = feUserRequiresInterface.createTestUser("ars1", "ars", "Antonio", "Silva", "a@a.a");
         LocalDate localDate = LocalDate.parse("20018-07-20");
-        this.virtualEdition = new VirtualEdition(this.virtualModule, this.userDto.getUsername(), "acronym1", "title", localDate, true,
+        feVirtualRequiresInterface.createVirtualEdition(this.userDto.getUsername(), "acronym1", "title", localDate, true,
 //                this.text.getRZEdition().getAcronym());
                 "RZ");
+        this.virtualEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym("acronym1");
     }
 
     @AfterEach
@@ -66,62 +65,63 @@ public class VirtualEditionsTEICorpusExportTest {
     // Original test that exports and imports everything
     @Test
     @Atomic(mode = TxMode.WRITE)
-    public void test() throws WriteOnReadError, NotSupportedException, SystemException {
+    public void test() throws WriteOnReadError, NotSupportedException, SystemException, FileNotFoundException {
         logger.debug("test");
 
-        VirtualEditionsTEICorpusExport export = new VirtualEditionsTEICorpusExport();
-        String virtualEditionsCorpus = export.export();
+        String virtualEditionsCorpus = feVirtualRequiresInterface.exportVirtualEditionsTEICorpus();
         System.out.println(virtualEditionsCorpus);
 
-        int numOfVirtualEditions = VirtualModule.getInstance().getVirtualEditionsSet().size();
+        int numOfVirtualEditions = feVirtualRequiresInterface.getVirtualEditions().size();
 
-        this.virtualEdition.remove();
+        this.virtualEdition.removeByExternalId();
         this.userDto.removeUser();
         this.userDto = feUserRequiresInterface.createTestUser("ars1", "ars", "Antonio", "Silva", "a@a.a");
         LocalDate localDate = LocalDate.parse("20018-07-20");
-        this.virtualEdition = new VirtualEdition(this.virtualModule, this.userDto.getUsername(), "acronym1", "title", localDate, true,
+        feVirtualRequiresInterface.createVirtualEdition(this.userDto.getUsername(), "acronym1", "title", localDate, true,
 //                this.text.getRZEdition().getAcronym());
                 "RZ");
+        this.virtualEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym("acronym1");
 
-        VirtualEditionsTEICorpusImport im = new VirtualEditionsTEICorpusImport();
-        im.importVirtualEditionsCorpus(virtualEditionsCorpus);
 
-        assertEquals(numOfVirtualEditions, VirtualModule.getInstance().getVirtualEditionsSet().size());
+        feVirtualRequiresInterface.importVirtualEditionCorupus(new FileInputStream(virtualEditionsCorpus));
 
-        System.out.println(export.export());
+        assertEquals(numOfVirtualEditions, feVirtualRequiresInterface.getVirtualEditions().size());
+
+        System.out.println(feVirtualRequiresInterface.exportVirtualEditionsTEICorpus());
 
         // descomentar
         assertEquals(Arrays.stream(virtualEditionsCorpus.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-                Arrays.stream(export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
+                Arrays.stream(feVirtualRequiresInterface.exportVirtualEditionsTEICorpus().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
     }
 
     // aux method
-    private String exportPrintCleanAndImport() {
-        this.export = new VirtualEditionsTEICorpusExport();
-        String result = this.export.export();
+    private String exportPrintCleanAndImport() throws FileNotFoundException {
+
+        String result = feVirtualRequiresInterface.exportVirtualEditionsTEICorpus();
         System.out.println(result);
 
         // Saving value for assert
-        int numOfCriteria = this.virtualEdition.getCriteriaSet().size();
-        int numOfTweets = this.virtualModule.getTweetSet().size();
+        int numOfCriteria = this.virtualEdition.getNumberOfCriterias();
+        int numOfTweets = feVirtualRequiresInterface.getAllTweets().size();
 
         // Clean
-        VirtualModule.getInstance().getTweetSet().forEach(t -> t.remove());
-        this.virtualEdition.remove();
+        feVirtualRequiresInterface.getAllTweets().forEach(t -> t.remove());
+        this.virtualEdition.removeByExternalId();
         this.userDto.removeUser();
         this.userDto = feUserRequiresInterface.createTestUser("ars1", "ars", "Antonio", "Silva", "a@a.a");
         LocalDate localDate = LocalDate.parse("20018-07-20");
-        this.virtualEdition = new VirtualEdition(this.virtualModule, this.userDto.getUsername(), "acronym1", "title", localDate, true,
-        "RZ");
+        feVirtualRequiresInterface.createVirtualEdition(this.userDto.getUsername(), "acronym1", "title", localDate, true,
+//                this.text.getRZEdition().getAcronym());
+                "RZ");
+        this.virtualEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym("acronym1");
 //                this.text.getRZEdition().getAcronym());
 
         // Import
-        VirtualEditionsTEICorpusImport imp = new VirtualEditionsTEICorpusImport();
-        imp.importVirtualEditionsCorpus(result);
+        feVirtualRequiresInterface.importVirtualEditionCorupus(new FileInputStream(result));
 
-        System.out.println(this.export.export());
+        System.out.println(feVirtualRequiresInterface.exportVirtualEditionsTEICorpus());
 
-        assertEquals(numOfCriteria, this.virtualModule.getVirtualEdition("acronym1").getCriteriaSet().size());
+        assertEquals(numOfCriteria, feVirtualRequiresInterface.getVirtualEditionByAcronym("acronym1").getNumberOfCriterias());
         //TODO: add way to load citations independently from frag
         //assertEquals(numOfTweets, this.virtualModule.getTweetSet().size());
 
@@ -130,102 +130,106 @@ public class VirtualEditionsTEICorpusExportTest {
 
     @Test
     @Atomic(mode = TxMode.WRITE)
-    public void exportTweetsTest() {
-        new Tweet(this.virtualModule, "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
-                "profImgURL", 9999l, true, null);
-        new Tweet(this.virtualModule, "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
-                "profImgURL", -1l, false, null);
+    public void exportTweetsTest() throws FileNotFoundException {
+        feVirtualRequiresInterface.createTweet( "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
+                "profImgURL", 9999l, true);
+        feVirtualRequiresInterface.createTweet( "sourceLink", "date", "tweetText", 1111l, "location", "country", "username", "profURL",
+                "profImgURL", -1l, false);
         String result = exportPrintCleanAndImport();
         // Check if it was well exported
         assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-                Arrays.stream(this.export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
+                Arrays.stream(feVirtualRequiresInterface.exportVirtualEditionsTEICorpus().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
     }
 
     @Test
     @Atomic(mode = TxMode.WRITE)
-    public void exportEmptyCriteriaTest() {
+    public void exportEmptyCriteriaTest() throws FileNotFoundException {
         logger.debug("exportEmptyCriteriaTest");
 
         String result = exportPrintCleanAndImport();
         // Check if it was well exported
         assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-                Arrays.stream(this.export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
+                Arrays.stream(feVirtualRequiresInterface.exportVirtualEditionsTEICorpus().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
     }
 
     @Test
     @Atomic(mode = TxMode.WRITE)
-    public void exportMediaSourceTest() {
+    public void exportMediaSourceTest() throws FileNotFoundException {
         logger.debug("exportMediaSourceTest");
 
-        new MediaSource(this.virtualEdition, "Twitter");
+//        new MediaSource(this.virtualEdition, "Twitter");
+        feVirtualRequiresInterface.createMediaSource(virtualEdition.getAcronym(), "Twitter");
         String result = exportPrintCleanAndImport();
         // Check if it was well exported
         assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-                Arrays.stream(this.export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
+                Arrays.stream(feVirtualRequiresInterface.exportVirtualEditionsTEICorpus().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
     }
 
     @Test
     @Atomic(mode = TxMode.WRITE)
-    public void exportTimeWindowTest() {
+    public void exportTimeWindowTest() throws FileNotFoundException {
         logger.debug("exportTimeWindowTest");
 
-        new TimeWindow(this.virtualEdition, new LocalDate("2018-03-06"), new LocalDate("2018-06-24"));
+//        new TimeWindow(this.virtualEdition, new LocalDate("2018-03-06"), new LocalDate("2018-06-24"));
+        feVirtualRequiresInterface.createTimeWindow(virtualEdition.getAcronym(), new LocalDate("2018-03-06"), new LocalDate("2018-06-24") );
         String result = exportPrintCleanAndImport();
         // Check if it was well exported
         assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-                Arrays.stream(this.export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
+                Arrays.stream(feVirtualRequiresInterface.exportVirtualEditionsTEICorpus().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
     }
 
     @Test
     @Atomic(mode = TxMode.WRITE)
-    public void exportGeographicLocationTest() {
+    public void exportGeographicLocationTest() throws FileNotFoundException {
         logger.debug("exportGeographicLocationTest");
 
-        new GeographicLocation(this.virtualEdition, "Portugal", "Lisboa");
+//        new GeographicLocation(this.virtualEdition, "Portugal", "Lisboa");
+        feVirtualRequiresInterface.createGeographicLocation(this.virtualEdition.getAcronym(), "Portugal", "Lisboa");
         String result = exportPrintCleanAndImport();
         // Check if it was well exported
         assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-                Arrays.stream(this.export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
+                Arrays.stream(feVirtualRequiresInterface.exportVirtualEditionsTEICorpus().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
     }
 
     @Test
     @Atomic(mode = TxMode.WRITE)
-    public void exportFrequencyTest() {
+    public void exportFrequencyTest() throws FileNotFoundException {
         logger.debug("exportFrequencyTest");
 
-        new Frequency(this.virtualEdition, 10);
+//        new Frequency(this.virtualEdition, 10);
+        feVirtualRequiresInterface.createFrequency(this.virtualEdition.getAcronym(), 10);
         String result = exportPrintCleanAndImport();
         // Check if it was well exported
         assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-                Arrays.stream(this.export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
+                Arrays.stream(feVirtualRequiresInterface.exportVirtualEditionsTEICorpus().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
     }
 
     @Test
     @Atomic(mode = TxMode.WRITE)
-    public void exportSeveralCriteriaTest() {
+    public void exportSeveralCriteriaTest() throws FileNotFoundException {
         logger.debug("exportSeveralCriteriaTest");
 
-        new GeographicLocation(this.virtualEdition, "Portugal", "Lisboa");
-        new Frequency(this.virtualEdition, 10);
+        feVirtualRequiresInterface.createGeographicLocation(this.virtualEdition.getAcronym(), "Portugal", "Lisboa");
+        feVirtualRequiresInterface.createFrequency(this.virtualEdition.getAcronym(), 10);
         String result = exportPrintCleanAndImport();
         // Check if it was well exported
         assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-                Arrays.stream(this.export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
+                Arrays.stream(feVirtualRequiresInterface.exportVirtualEditionsTEICorpus().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
     }
 
     @Test
     @Atomic(mode = TxMode.WRITE)
-    public void exportAllCriteriaTest() {
+    public void exportAllCriteriaTest() throws FileNotFoundException {
         logger.debug("exportAllCriteriaTest");
 
-        new MediaSource(this.virtualEdition, "Twitter");
-        new TimeWindow(this.virtualEdition, new LocalDate("2018-03-06"), new LocalDate("2018-06-24"));
-        new GeographicLocation(this.virtualEdition, "Portugal", "Lisboa");
-        new Frequency(this.virtualEdition, 10);
+        feVirtualRequiresInterface.createMediaSource(virtualEdition.getAcronym(), "Twitter");
+        feVirtualRequiresInterface.createTimeWindow(virtualEdition.getAcronym(), new LocalDate("2018-03-06"), new LocalDate("2018-06-24") );
+        feVirtualRequiresInterface.createGeographicLocation(this.virtualEdition.getAcronym(), "Portugal", "Lisboa");
+        feVirtualRequiresInterface.createFrequency(this.virtualEdition.getAcronym(), 10);
         String result = exportPrintCleanAndImport();
         // Check if it was well exported
         assertEquals(Arrays.stream(result.split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")),
-                Arrays.stream(this.export.export().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
+                Arrays.stream(feVirtualRequiresInterface.exportVirtualEditionsTEICorpus().split("\\r?\\n")).sorted().collect(Collectors.joining("\\n")));
     }
 
 }

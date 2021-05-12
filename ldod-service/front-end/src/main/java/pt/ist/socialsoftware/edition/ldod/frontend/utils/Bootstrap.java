@@ -24,10 +24,6 @@ import pt.ist.socialsoftware.edition.recommendation.api.RecommendationProvidesIn
 import pt.ist.socialsoftware.edition.recommendation.api.RecommendationRequiresInterface;
 
 
-import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
-
-
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import java.io.*;
@@ -99,7 +95,6 @@ public class Bootstrap implements WebApplicationInitializer {
 //        textProvidesInterface.getScholarInter(null);
 
         EventInterface.getInstance();
-        VirtualRequiresInterface.getInstance();
         SessionRequiresInterface.getInstance();
         GameRequiresInterface.getInstance();
         RecommendationRequiresInterface.getInstance();

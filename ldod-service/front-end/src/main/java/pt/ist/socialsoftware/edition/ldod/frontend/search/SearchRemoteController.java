@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.enums.Medium;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.search.api.dto.AuthoralForSearchDto;
 import pt.ist.socialsoftware.edition.search.api.dto.DatesForSearchDto;
 import pt.ist.socialsoftware.edition.search.api.dto.ExpertEditionForSearchDto;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.*;
+import pt.ist.socialsoftware.edition.search.api.textDto.*;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

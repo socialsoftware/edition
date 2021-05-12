@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.recommendation.feature;
 
+import pt.ist.socialsoftware.edition.recommendation.api.textDto.FragmentDto;
 import pt.ist.socialsoftware.edition.recommendation.feature.properties.Property;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
 
 public class VSMFragmentRecommender extends VSMRecommender<FragmentDto> {
 

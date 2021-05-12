@@ -13,14 +13,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 
+import pt.ist.socialsoftware.edition.game.api.GameRequiresInterface;
+import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.game.domain.ClassificationGame;
 import pt.ist.socialsoftware.edition.game.domain.ClassificationGameParticipant;
 import pt.ist.socialsoftware.edition.game.domain.ClassificationGameRound;
 import pt.ist.socialsoftware.edition.game.domain.Player;
-
-import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.utils.LdoDLoadException;
+import pt.ist.socialsoftware.edition.game.utils.LdoDLoadException;
 
 
 import java.io.ByteArrayInputStream;
@@ -72,11 +71,11 @@ public class GameXMLImport {
         XPathExpression<Element> xp = xpfac.compile("//def:textClass", Filters.element(), null,
                 Namespace.getNamespace("def", this.namespace.getURI()));
 
-        VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+
         for (Element textClass : xp.evaluate(doc)) {
 
 //            try {
-               VirtualEditionInterDto virtualEditionInter = virtualProvidesInterface.getVirtualEditionInterFromModule(textClass.getAttributeValue("source").substring(1));
+               VirtualEditionInterDto virtualEditionInter = GameRequiresInterface.getInstance().getVirtualEditionInterFromModule(textClass.getAttributeValue("source").substring(1));
                importClassificationGames(textClass, virtualEditionInter);
 //            }catch (LdoDException e) {
 //

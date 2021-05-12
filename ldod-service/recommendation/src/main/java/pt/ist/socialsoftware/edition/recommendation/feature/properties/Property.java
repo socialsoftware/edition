@@ -1,12 +1,13 @@
 package pt.ist.socialsoftware.edition.recommendation.feature.properties;
 
+import pt.ist.socialsoftware.edition.recommendation.api.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.recommendation.api.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.recommendation.domain.RecommendationWeights;
 import pt.ist.socialsoftware.edition.recommendation.api.RecommendationRequiresInterface;
 import pt.ist.socialsoftware.edition.recommendation.feature.StoredVectors;
 
-import pt.ist.socialsoftware.edition.virtual.api.dto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
-import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
+
 
 
 public abstract class Property {

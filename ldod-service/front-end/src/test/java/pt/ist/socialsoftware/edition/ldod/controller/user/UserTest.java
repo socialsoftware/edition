@@ -22,7 +22,6 @@ import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.forms.ChangePasswordForm;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.Bootstrap;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.enums.Role_Type;
-import pt.ist.socialsoftware.edition.virtual.domain.VirtualModule;
 
 import java.io.FileNotFoundException;
 
@@ -82,9 +81,9 @@ public class UserTest extends ControllersTestWithFragmentsLoading {
         // Temp user for use in changePasswordTest
         // Must be created in static beforeAll context due to requirements of the WithUserDetails annotation
 
-        if (VirtualModule.getInstance() == null) {
+//        if (VirtualModule.getInstance() == null) {
             Bootstrap.initializeSystem();
-        }
+//        }
 
         UserDto temp = new FeUserRequiresInterface().createTestUser("temp", "$2a$11$FqP6hxx1OzHeP/MHm8Ccier/ZQjEY5opPTih37DR6nQE1XFc0lzqW", "Temp", "Temp", "temp@temp.temp");
 
