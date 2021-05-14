@@ -12,6 +12,7 @@ public class FragmentDto {
     private String title;
     private Map<String, ExpertEditionInterDto> expertEditionInterDtoMap;
     private List<SourceInterDto> sourceInterDtoList;
+	private String externalId;
 
     public FragmentDto(Fragment fragment) {
         this.setFragmentXmlId(fragment.getXmlId());
@@ -24,6 +25,7 @@ public class FragmentDto {
         this.setSourceInterDtoList(fragment.getSortedSourceInter().stream()
                 .map(SourceInterDto::new)
                 .collect(Collectors.toList()));
+        this.setExternalId(fragment.getExternalId());
     }
 
 	public String getFragmentXmlId() {
@@ -56,5 +58,13 @@ public class FragmentDto {
 
 	public void setSourceInterDtoList(List<SourceInterDto> sourceInterDtoList) {
 		this.sourceInterDtoList = sourceInterDtoList;
+	}
+
+	public String getExternalId() {
+		return externalId;
+	}
+
+	public void setExternalId(String externalId) {
+		this.externalId = externalId;
 	}
 }

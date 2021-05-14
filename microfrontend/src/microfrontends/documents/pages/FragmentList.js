@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { getFragmentList } from '../../../util/utilsAPI';
-import '../../../resources/css/documents/Documents.css'
 import { Link } from 'react-router-dom';
 import InterMetaInfo from './InterMetaInfo';
 import CircleLoader from "react-spinners/RotateLoader";
 import lupaIcon from '../../../resources/assets/lupa.svg'
 import Table from 'react-bootstrap/Table'
+
 
 const FragmentList = (props) => {
 
@@ -146,7 +146,7 @@ const FragmentList = (props) => {
         </div>
         
         <div className={loading?"loading-table":"table-div"}>
-            <Table className={loading?"loading-table":"frag-table"} data-pagination="false">
+            <Table className={loading?"loading-table":"table"} data-pagination="false">
                 <thead>
                     <tr>
                         <th style={{maxWidth:"100px"}}>{props.messages.tableofcontents_title}</th>

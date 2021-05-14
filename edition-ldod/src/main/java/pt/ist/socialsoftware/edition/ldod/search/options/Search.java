@@ -41,6 +41,8 @@ public class Search {
 		Set<SearchOption> options = Arrays.stream(getSearchOptions()).collect(Collectors.toSet());
 		Map<Fragment, Map<FragInter, List<SearchOption>>> resultSet = null;
 
+		System.out.println(options);
+		System.out.println(getMode());
 		if (getMode().equals(Mode.OR)) {
 			resultSet = searchOptionsORComposition(options);
 		}

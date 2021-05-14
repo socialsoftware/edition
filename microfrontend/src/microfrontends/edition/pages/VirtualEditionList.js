@@ -4,6 +4,7 @@ import CircleLoader from "react-spinners/RotateLoader";
 import { getVirtualEditionList } from '../../../util/utilsAPI';
 import lupaIcon from '../../../resources/assets/lupa.svg'
 
+
 const VirtualEditionList = (props) => {
 
     const [editionData, setEditionData] = useState([])
@@ -131,7 +132,7 @@ const VirtualEditionList = (props) => {
                     <img src={lupaIcon} alt="lupa" className="search-icon" onClick={() => handleSearchUpdate()}></img>
             </div>
             <div style={{marginTop:"50px"}} className={loading?"loading-table":"table-div"}>
-            <table className={loading?"loading-table":"frag-table"} data-pagination="false">
+            <table className={loading?"loading-table":"table"} data-pagination="false">
                 <thead>
                     <tr>
                         <th> <span className="tip">{props.messages.tableofcontents_tt_number}</span>{props.messages.tableofcontents_number}</th>

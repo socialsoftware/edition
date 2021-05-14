@@ -149,7 +149,7 @@ const SourceList = (props) => {
             </div>
 
             <div className={loading?"loading-table":"table-div"}>
-            <table className={loading?"loading-table":"frag-table"}>
+            <table className={loading?"loading-table":"table"}>
                 <thead>
                     <tr>
                         <th >{props.messages.header_documents}</th>

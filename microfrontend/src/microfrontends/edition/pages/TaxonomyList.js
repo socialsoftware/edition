@@ -4,7 +4,6 @@ import CircleLoader from "react-spinners/RotateLoader";
 import { getTaxonomyList } from '../../../util/utilsAPI';
 import lupaIcon from '../../../resources/assets/lupa.svg'
 
-
 const TaxonomyList = (props) => {
 
     const [taxonomyData, setTaxonomyData] = useState(null)
@@ -124,7 +123,7 @@ const TaxonomyList = (props) => {
                     <img src={lupaIcon} alt="lupa" className="search-icon" onClick={() => handleSearchUpdate()}></img>
             </div>
             <div style={{marginTop:"10px"}} className={loading?"loading-table":"table-div"}>
-            <table className={loading?"loading-table":"frag-table"} data-pagination="false">
+            <table className={loading?"loading-table":"table"} data-pagination="false">
                 <thead>
                     <tr>
                         <th>{props.messages.general_category}</th>

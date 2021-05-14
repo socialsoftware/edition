@@ -2,7 +2,9 @@ import React from 'react'
 import { Route, Switch} from "react-router-dom";
 import FragmentList from './pages/FragmentList';
 import SourceList from './pages/SourceList';
-
+import '../../resources/css/documents/Documents.css'
+import '../../resources/css/common/Table.css'
+import '../../resources/css/common/SearchInput.css'
 
 const Documents_DISPATCHER = (props) => {
     return (

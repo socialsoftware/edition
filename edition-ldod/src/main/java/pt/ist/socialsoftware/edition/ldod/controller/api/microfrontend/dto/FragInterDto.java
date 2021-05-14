@@ -2,16 +2,21 @@ package pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto;
 
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.Category;
+import pt.ist.socialsoftware.edition.ldod.domain.Edition.EditionType;
+import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
-
+import pt.ist.socialsoftware.edition.ldod.search.options.SearchOption;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import bsh.This;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
+import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
+import pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType;
+import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
 
 public class FragInterDto {
 	
@@ -29,6 +34,25 @@ public class FragInterDto {
 	private String volume;
 	private String editionTitle;
 	private List<UserDto> userDtoList;
+	private String externalId;
+	private String shortName;
+	private String simpleName;
+	private EditionType type;
+	
+	
+	private String fragment_title;
+	private String fragment_externalId;
+	private String fragment_xmlId;
+	private String editor;
+	private int search_size;
+	private SourceType sourceType;
+	private boolean handNoteSetEmptyBoolean;
+	private boolean typeNoteSetEmptyBoolean;
+	private Boolean hasLdoDLabel;
+	private String name;
+	private String ldoDDatePrint;
+	private String ldoDDatePrintExpert;
+	private List<SearchOption> search;
 
 	public FragInterDto(FragInter fragInter) {
 		this.setXmlId(fragInter.getFragment().getXmlId());
@@ -62,8 +86,10 @@ public class FragInterDto {
 				this.setVolume(((ExpertEditionInter) fragInter).getVolume());
 			}
 		}
-		
-		
+		this.setExternalId(fragInter.getExternalId());
+		this.setShortName(fragInter.getShortName());
+		this.setSimpleName(fragInter.getClass().getSimpleName());
+		this.setType(fragInter.getSourceType());
 
 		
 	}
@@ -133,6 +159,71 @@ public class FragInterDto {
 		this.setUserDtoList(((VirtualEditionInter) fragInter).getContributorSet(category).stream()
 										.map(UserDto::new)
 										.collect(Collectors.toList()));
+	}
+
+	public FragInterDto(FragInter fragInter, Fragment frag) {
+		this.setXmlId(fragInter.getFragment().getXmlId());
+		this.setUrlId(fragInter.getUrlId());
+		if(fragInter.getTitle() != null) {
+			this.setTitle(fragInter.getTitle());
+		}
+		this.setExternalId(fragInter.getExternalId());
+		this.setShortName(fragInter.getShortName());
+		this.setSimpleName(fragInter.getClass().getSimpleName());
+		this.setType(fragInter.getSourceType());
+		if(fragInter instanceof ExpertEditionInter) {
+			this.setEditor(((ExpertEdition) ((ExpertEditionInter) fragInter).getEdition()).getEditor());
+		}
+		
+		this.setFragment_title(frag.getTitle());
+		this.setFragment_externalId(frag.getExternalId());
+		this.setFragment_xmlId(frag.getXmlId());
+		
+	}
+
+	public FragInterDto(Fragment frag, FragInter fragInter, List<SearchOption> search) {
+		this.setFragment_title(frag.getTitle());
+		this.setFragment_externalId(frag.getExternalId());
+		this.setSearch_size(search.size());
+		this.setSearch(search);
+		this.setXmlId(fragInter.getFragment().getXmlId());
+		this.setUrlId(fragInter.getUrlId());
+		if(fragInter.getHeteronym() != null) {
+			this.setName(fragInter.getHeteronym().getName());
+		}
+		
+		if(fragInter.getTitle() != null) {
+			this.setTitle(fragInter.getTitle());
+		}
+		this.setExternalId(fragInter.getExternalId());
+		this.setShortName(fragInter.getShortName());
+		this.setSimpleName(fragInter.getClass().getSimpleName());
+		this.setType(fragInter.getSourceType());
+		if(fragInter instanceof ExpertEditionInter) {
+			this.setEditor(((ExpertEdition) ((ExpertEditionInter) fragInter).getEdition()).getEditor());
+			if(((ExpertEditionInter) fragInter).getLdoDDate() != null) {
+				this.setLdoDDatePrintExpert(((ExpertEditionInter) fragInter).getLdoDDate().print());
+			}
+			
+		}
+		if(fragInter instanceof SourceInter) {
+			if(fragInter.getClass().getSimpleName().equals("SourceInter")) {
+				this.setSourceType(((SourceInter) fragInter).getSource().getType());
+				if(((SourceInter) fragInter).getSource() instanceof ManuscriptSource) {
+					ManuscriptSource source = (ManuscriptSource) ((SourceInter) fragInter).getSource();
+					this.setHandNoteSetEmptyBoolean(source.getHandNoteSet().isEmpty());
+					this.setTypeNoteSetEmptyBoolean(source.getTypeNoteSet().isEmpty());
+					this.setHasLdoDLabel(source.getHasLdoDLabel());
+					if(source.getLdoDDate() != null) {
+						this.setLdoDDatePrint(source.getLdoDDate().print());
+					}
+				}
+				
+			}
+		}
+
+		
+		
 	}
 
 	public String getXmlId() {
@@ -247,6 +338,142 @@ public class FragInterDto {
 
 	public void setUserDtoList(List<UserDto> userDtoList) {
 		this.userDtoList = userDtoList;
+	}
+
+	public String getExternalId() {
+		return externalId;
+	}
+
+	public void setExternalId(String externalId) {
+		this.externalId = externalId;
+	}
+
+	public String getShortName() {
+		return shortName;
+	}
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
+	}
+
+	public String getSimpleName() {
+		return simpleName;
+	}
+
+	public void setSimpleName(String simpleName) {
+		this.simpleName = simpleName;
+	}
+
+	public EditionType getType() {
+		return type;
+	}
+
+	public void setType(EditionType type) {
+		this.type = type;
+	}
+
+	public String getFragment_title() {
+		return fragment_title;
+	}
+
+	public void setFragment_title(String fragment_title) {
+		this.fragment_title = fragment_title;
+	}
+
+	public String getFragment_externalId() {
+		return fragment_externalId;
+	}
+
+	public void setFragment_externalId(String fragment_externalId) {
+		this.fragment_externalId = fragment_externalId;
+	}
+
+	public String getFragment_xmlId() {
+		return fragment_xmlId;
+	}
+
+	public void setFragment_xmlId(String fragment_xmlId) {
+		this.fragment_xmlId = fragment_xmlId;
+	}
+
+	public String getEditor() {
+		return editor;
+	}
+
+	public void setEditor(String editor) {
+		this.editor = editor;
+	}
+
+	public int getSearch_size() {
+		return search_size;
+	}
+
+	public void setSearch_size(int search_size) {
+		this.search_size = search_size;
+	}
+
+	public SourceType getSourceType() {
+		return sourceType;
+	}
+
+	public void setSourceType(SourceType sourceType) {
+		this.sourceType = sourceType;
+	}
+
+	public boolean isHandNoteSetEmptyBoolean() {
+		return handNoteSetEmptyBoolean;
+	}
+
+	public void setHandNoteSetEmptyBoolean(boolean handNoteSetEmptyBoolean) {
+		this.handNoteSetEmptyBoolean = handNoteSetEmptyBoolean;
+	}
+
+	public boolean isTypeNoteSetEmptyBoolean() {
+		return typeNoteSetEmptyBoolean;
+	}
+
+	public void setTypeNoteSetEmptyBoolean(boolean typeNoteSetEmptyBoolean) {
+		this.typeNoteSetEmptyBoolean = typeNoteSetEmptyBoolean;
+	}
+
+	public Boolean getHasLdoDLabel() {
+		return hasLdoDLabel;
+	}
+
+	public void setHasLdoDLabel(Boolean hasLdoDLabel) {
+		this.hasLdoDLabel = hasLdoDLabel;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLdoDDatePrint() {
+		return ldoDDatePrint;
+	}
+
+	public void setLdoDDatePrint(String ldoDDatePrint) {
+		this.ldoDDatePrint = ldoDDatePrint;
+	}
+
+	public String getLdoDDatePrintExpert() {
+		return ldoDDatePrintExpert;
+	}
+
+	public void setLdoDDatePrintExpert(String ldoDDatePrintExpert) {
+		this.ldoDDatePrintExpert = ldoDDatePrintExpert;
+	}
+
+	public List<SearchOption> getSearch() {
+		return search;
+	}
+
+	public void setSearch(List<SearchOption> search) {
+		this.search = search;
 	}
 
 }

@@ -147,7 +147,7 @@ const UserContributions = (props) => {
             </div>
             <div style={{marginTop:"10px"}} className={loading?"loading-table":"table-div"}>
                 
-            <table className={loading?"loading-table":"frag-table"} data-pagination="false">
+            <table className={loading?"loading-table":"table"} data-pagination="false">
                 <thead>
                     <tr>
                         <th>{props.messages.tableofcontents_title}</th>

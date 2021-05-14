@@ -6,8 +6,9 @@ import VirtualEditionList from './pages/VirtualEditionList';
 import UserContributions from './pages/UserContributions';
 import TaxonomyList from './pages/TaxonomyList';
 import CategoryList from './pages/CategoryList';
-
-
+import '../../resources/css/common/Table.css'
+import '../../resources/css/common/SearchInput.css'
+import '../../resources/css/edition/edition.css'
 
 const Edition_DISPATCHER = (props) => {
 

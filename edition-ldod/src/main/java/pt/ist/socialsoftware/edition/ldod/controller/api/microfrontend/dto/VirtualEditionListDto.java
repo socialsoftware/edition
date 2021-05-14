@@ -37,7 +37,6 @@ public class VirtualEditionListDto {
 
 	private void setSortedInterpsList(List<FragInterDto> sortedInterpsList) {
 		this.sortedInterpsList = sortedInterpsList;
-		
 	}
 	
 	public List<FragInterDto> getSortedInterpsList() {

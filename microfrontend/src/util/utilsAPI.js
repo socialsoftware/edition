@@ -54,15 +54,39 @@ export function getSourceList () {
     return axios.get(API_BASE_URL + `/api/microfrontend/sources`)
 }
 
+export function getVirtualEditionMap (val) {
+    return axios.get(API_BASE_URL + `/api/microfrontend/getVirtualEditions`)
+}
+
 export function getCurrentUser() {
     if(!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");
     }
     return axios.get(API_BASE_URL + `/api/user`, {
         headers: {
-            'Content-type' : 'application/json',
+            'Content-type': 'application/json',
             Accept: 'application/json',
             Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
         }
     })
+}
+
+export function getSimpleSearchList(data) {
+
+    return axios.post(API_BASE_URL + `/api/microfrontend/simple/result`, data, {
+        headers: {
+            'Content-Type': 'text/plain;charset=UTF-8',
+        }
+        } 
+    )
+}
+
+export function getAdvancedSearchList(data) {
+
+    return axios.post(API_BASE_URL + `/api/microfrontend/advanced/result`, data, {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+        } 
+    )
 }

@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react'
 import { getExpertEditionList } from '../../../util/utilsAPI';
-import '../../../resources/css/edition/edition.css'
 import CircleLoader from "react-spinners/RotateLoader";
 import { Link } from 'react-router-dom';
 import eyeIcon from '../../../resources/assets/eye.svg'
@@ -87,7 +86,7 @@ const ExpertEditionList = (props) => {
                     <img src={lupaIcon} alt="lupa" className="search-icon" onClick={() => handleSearchUpdate()}></img>
             </div>
             <div className={loading?"loading-table":"table-div"}>
-                <table className={loading?"loading-table":"frag-table"} data-pagination="false">
+                <table className={loading?"loading-table":"table"} data-pagination="false">
                     <thead>
                         <tr>
                             <th style={{textAlign:"center"}}> <span className="tip">{props.messages.tableofcontents_tt_number}</span>{props.messages.tableofcontents_number}</th>

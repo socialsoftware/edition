@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import CircleLoader from "react-spinners/RotateLoader";
 import { getCategoryList } from '../../../util/utilsAPI';
 import lupaIcon from '../../../resources/assets/lupa.svg'
-
+import '../../../resources/css/common/Table.css'
+import '../../../resources/css/common/SearchInput.css'
 
 const CategoryList = (props) => {
 
@@ -106,7 +107,7 @@ const CategoryList = (props) => {
                     <img src={lupaIcon} alt="lupa" className="search-icon" onClick={() => handleSearchUpdate()}></img>
             </div>
             <div style={{marginTop:"10px"}} className={loading?"loading-table":"table-div"}>
-            <table className={loading?"loading-table":"frag-table"} data-pagination="false">
+            <table className={loading?"loading-table":"table"} data-pagination="false">
                 <thead>
                     <tr>
                         <th>{props.messages.tableofcontents_title}</th>

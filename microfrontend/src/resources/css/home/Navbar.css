@@ -75,6 +75,10 @@
     -ms-user-select: none;
     user-select: none;
 }
+
+.home-navbar-container-option:hover{
+    color: #0C4EF6
+}
 .home-navbar-container-option-selected{
     text-transform: uppercase;
     color: #FC1B27;
@@ -128,6 +132,7 @@
     padding: 15px 0;
     font-family: 'Space Mono', monospace;
     text-align: left;
+    z-index: 1;
 }
 .dropdown-item{
     margin: 8px 0;
