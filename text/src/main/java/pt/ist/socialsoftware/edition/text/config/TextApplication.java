@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.text.config;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.activemq.command.ActiveMQQueue;
+import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -36,8 +37,9 @@ public class TextApplication extends SpringBootServletInitializer implements Ini
         return new Jackson2ObjectMapperBuilder().serializationInclusion(JsonInclude.Include.NON_NULL).build();
     }
 
+
     @Bean
-    public Queue queue(){
-        return new ActiveMQQueue("test-queue");
+    public ActiveMQTopic queue(){
+        return new ActiveMQTopic("test-topic");
     }
 }

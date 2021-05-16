@@ -213,9 +213,9 @@ public class VirtualEditionTest {
     public void editVirtualEditionIsSAVETest() throws Exception {
 
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+                "NEWT",
                 "titleX", LocalDate.now(), true, null);
-        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX + "NEWT");
 
         this.mockMvc
                 .perform(post("/virtualeditions/restricted/edit/{externalId}", testEdition.getExternalId())
@@ -236,6 +236,7 @@ public class VirtualEditionTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/virtualeditions/restricted/manage/" + testEdition.getExternalId()));
 
+        testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX + "NEW");
         assertEquals("Title", testEdition.getTitle());
         assertFalse(testEdition.getPub());
         assertEquals("Synopsis", testEdition.getSynopsis());
@@ -247,9 +248,10 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void editVirtualEditionIsNotSAVETest() throws Exception {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+                "NEWT",
                 "titleX", LocalDate.now(), true, null);
-        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX + "NEWT");
+
 
         this.mockMvc
                 .perform(post("/virtualeditions/restricted/edit/{externalId}", testEdition.getExternalId())
@@ -270,6 +272,8 @@ public class VirtualEditionTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/virtualeditions/restricted/manage/" + testEdition.getExternalId()));
 
+        testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX + "NEW");
+
         assertEquals("Title", testEdition.getTitle());
         assertFalse(testEdition.getPub());
         assertEquals("Synopsis", testEdition.getSynopsis());
@@ -281,16 +285,17 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteVirtualEditionTest() throws Exception {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+                "NEWT",
                 "titleX", LocalDate.now(), true, null);
-        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX + "NEWT");
+
 
         String id = testEdition.getExternalId();
 
         this.mockMvc.perform(post("/virtualeditions/restricted/delete").param("externalId", id)).andDo(print())
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions"));
 
-        assertNull(feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX + "Test"));
+        assertNull(feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX + "NEWT"));
     }
 
     @Test
@@ -359,13 +364,16 @@ public class VirtualEditionTest {
     @WithUserDetails(value = ARS)
     public void submitParticipantTest() throws Exception {
         UserDto userDto = feUserRequiresInterface.createTestUser("other", "password", "Tó", "Zé", "a@a.a");
-        feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+        feVirtualRequiresInterface.createVirtualEdition("other",
+                "NEWT",
                 "titleX", LocalDate.now(), true, null);
-        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX + "NEWT");
+
 
         this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/submit", testEdition.getExternalId())).andDo(print())
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions"));
+
+        testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX + "NEWT");
 
         assertEquals(1,testEdition.getParticipantSet().size());
         assertEquals(2,testEdition.getMemberSet().size());
@@ -386,15 +394,18 @@ public class VirtualEditionTest {
     @WithUserDetails(value = "ars")
     public void cancelParticipantTest() throws Exception {
         UserDto userDto = feUserRequiresInterface.createTestUser("other", "password", "Tó", "Zé", "a@a.a");
-        feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+        feVirtualRequiresInterface.createVirtualEdition("other",
+                "NEWT",
                 "titleX", LocalDate.now(), true, null);
-        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX + "NEWT");
+
 //        testEdition.addMember("other", Member.MemberRole.ADMIN, false);
         testEdition.addMemberAdminByExternalId("other", false);
 
         this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/cancel", testEdition.getExternalId())).andDo(print())
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions"));
+
+        testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX + "NEWT");
 
         assertEquals(1,testEdition.getParticipantSet().size());
         assertEquals(1,testEdition.getMemberSet().size());
@@ -415,16 +426,19 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void approveParticipantTest() throws Exception {
         UserDto userDto = feUserRequiresInterface.createTestUser("other", "password", "Tó", "Zé", "a@a.a");
-        feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+        feVirtualRequiresInterface.createVirtualEdition("other",
+                "NEWT",
                 "titleX", LocalDate.now(), true, null);
-        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX + "NEWT");
+
         testEdition.addMemberAdminByExternalId("ars", false);
 
         this.mockMvc.perform(post("/virtualeditions/restricted/{externalId}/participants/approve", testEdition.getExternalId())
                 .param("username", "ars"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions/restricted/" + testEdition.getExternalId() + "/participants"));
+
+        testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX + "NEWT");
 
         assertEquals(2,testEdition.getParticipantSet().size());
         assertEquals(2,testEdition.getMemberSet().size());
@@ -437,8 +451,8 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void addParticipantTest() throws Exception {
         UserDto userDto = feUserRequiresInterface.createTestUser("other", "password", "Tó", "Zé", "a@a.a");
-        feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+        feVirtualRequiresInterface.createVirtualEdition("other",
+                "NEWT",
                 "titleX", LocalDate.now(), true, null);
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
@@ -446,6 +460,8 @@ public class VirtualEditionTest {
                 .param("username", "ars"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions/restricted/" + testEdition.getExternalId() + "/participants"));
+
+        testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX + "NEWT");
 
         assertEquals(2,testEdition.getParticipantSet().size());
         assertEquals(2,testEdition.getMemberSet().size());
@@ -459,8 +475,8 @@ public class VirtualEditionTest {
     @WithUserDetails(value = "ars")
     public void switchRoleTest() throws Exception {
         UserDto userDto = feUserRequiresInterface.createTestUser("other", "password", "Tó", "Zé", "a@a.a");
-        feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+        feVirtualRequiresInterface.createVirtualEdition("other",
+                "NEWT",
                 "titleX", LocalDate.now(), true, null);
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
         testEdition.addMemberAdminByExternalId(ARS, true);
@@ -480,8 +496,8 @@ public class VirtualEditionTest {
     @WithUserDetails(value = "ars")
     public void removeParticipantTest() throws Exception {
         UserDto userDto = feUserRequiresInterface.createTestUser("other", "password", "Tó", "Zé", "a@a.a");
-        feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+        feVirtualRequiresInterface.createVirtualEdition("other",
+                "NEWT",
                 "titleX", LocalDate.now(), true, null);
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
         testEdition.addMemberAdminByExternalId("ars", false);
@@ -491,6 +507,8 @@ public class VirtualEditionTest {
                 .param("user", "other"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/virtualeditions/restricted/" + testEdition.getExternalId() + "/participants"));
+
+        testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX + "NEWT");
 
         assertEquals(1,testEdition.getParticipantSet().size());
         assertEquals(2,testEdition.getMemberSet().size());
@@ -503,7 +521,7 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void getTaxonomyTest() throws Exception {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+                "NEWT",
                 "titleX", LocalDate.now(), true, null);
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
@@ -527,7 +545,7 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void editTaxonomyTest() throws Exception {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+                "NEWT",
                 "titleX", LocalDate.now(), true, null);
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
@@ -546,7 +564,7 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteTaxonomyTest() throws Exception {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+                "NEWT",
                 "titleX", LocalDate.now(), true, null);
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
@@ -563,7 +581,7 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteErrorTaxonomyTest() throws Exception {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+                "NEWT",
                 "titleX", LocalDate.now(), true, null);
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
@@ -579,7 +597,7 @@ public class VirtualEditionTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void createCategoryTest() throws Exception {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+                "NEWT",
                 "titleX", LocalDate.now(), true, null);
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
@@ -607,7 +625,7 @@ public class VirtualEditionTest {
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void deleteCategoryTest() throws Exception {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+                "NEWT",
                 "titleX", LocalDate.now(), true, null);
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
@@ -626,7 +644,7 @@ public class VirtualEditionTest {
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void showCategoryTest() throws Exception {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+                "NEWT",
                 "titleX", LocalDate.now(), true, null);
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
@@ -644,7 +662,7 @@ public class VirtualEditionTest {
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void mergeCategoriesMergeTest() throws Exception {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+                "NEWT",
                 "titleX", LocalDate.now(), true, null);
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
@@ -668,8 +686,8 @@ public class VirtualEditionTest {
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void extractCategoryTest() throws Exception {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), true, null);
+                "NEWT",
+                "titleX", LocalDate.now(), false, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
 		String categoryId = testEdition.getTaxonomy().createTestCategory("first-to-extract").getExternalId();
@@ -696,8 +714,8 @@ public class VirtualEditionTest {
 //                VirtualEdition.ACRONYM_PREFIX +"NEWT",
 //                "titleX", LocalDate.now(), false, VirtualModule.getInstance().getArchiveEdition().getAcronym());
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
-                "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
+                "NEWT",
+                "titleX", LocalDate.now(), false, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
 		String[] categories = {
@@ -719,7 +737,7 @@ public class VirtualEditionTest {
     @WithUserDetails(value = "ars")
 	public void dissociateCategoryTest() throws Exception {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+                "NEWT",
                 "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 		CategoryDto category = testEdition.getTaxonomy().createTestCategory("first-to-dissociate");
@@ -741,7 +759,7 @@ public class VirtualEditionTest {
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void mergeCategoriesDeleteTest() throws Exception {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+                "NEWT",
                 "titleX", LocalDate.now(), true, null);
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 		String[] categories = {
@@ -764,7 +782,7 @@ public class VirtualEditionTest {
     @WithUserDetails(value = "ars")
 	public void generateTopicModellingTest() throws Exception {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+                "NEWT",
                 "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
@@ -784,7 +802,7 @@ public class VirtualEditionTest {
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void createTopicModellingTest() throws Exception {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+                "NEWT",
                 "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
@@ -817,7 +835,7 @@ public class VirtualEditionTest {
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void addInterTest() throws Exception {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+                "NEWT",
                 "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
@@ -856,7 +874,7 @@ public class VirtualEditionTest {
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void createClassificationGameFormTest() throws Exception {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+                "NEWT",
                 "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
@@ -874,7 +892,7 @@ public class VirtualEditionTest {
     @WithUserDetails(value = ARS)
 	public void createClassificationGameTest() throws Exception {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+                "NEWT",
                 "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
@@ -898,7 +916,7 @@ public class VirtualEditionTest {
     @WithUserDetails(value = ARS)
 	public void removeClassificationGame() throws Exception {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+                "NEWT",
                 "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
         pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionDto testEdition = GameRequiresInterface.getInstance().getVirtualEdition(ACRONYM_PREFIX +"NEWT");
 
@@ -920,7 +938,7 @@ public class VirtualEditionTest {
 	@Atomic(mode = Atomic.TxMode.WRITE)
 	public void getClassificationGame() throws Exception {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
-                ACRONYM_PREFIX +"NEWT",
+                "NEWT",
                 "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
         pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionDto testEdition = GameRequiresInterface.getInstance().getVirtualEdition(ACRONYM_PREFIX +"NEWT");
 

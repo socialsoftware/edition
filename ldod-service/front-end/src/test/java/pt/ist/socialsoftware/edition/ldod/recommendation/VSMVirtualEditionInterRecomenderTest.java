@@ -65,7 +65,7 @@ public class VSMVirtualEditionInterRecomenderTest {
         // create virtual edition
         feVirtualRequiresInterface.createVirtualEdition(USER_ARS, ACRONYM, "Name", LocalDate.now(), true,
                 "JP");
-        this.virtualEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM);
+        this.virtualEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym("LdoD-" + ACRONYM);
 
         // set open vocabulary taxonomy
         this.virtualEdition.getTaxonomy().setOpenVocabulary(true);
@@ -78,7 +78,7 @@ public class VSMVirtualEditionInterRecomenderTest {
     @Test
     @Atomic
     public void testGetMostSimilarItemForHeteronym() {
-        pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto virtualEdition = RecommendationRequiresInterface.getInstance().getVirtualEditionByAcronym(ACRONYM);
+        pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto virtualEdition = RecommendationRequiresInterface.getInstance().getVirtualEditionByAcronym("LdoD-" + ACRONYM);
         VirtualEditionInterDto virtualEditionInter = null;
         for (VirtualEditionInterDto inter : virtualEdition.getIntersSet()) {
             if (inter.getLastUsed().getHeteronym() != null) {
@@ -103,7 +103,7 @@ public class VSMVirtualEditionInterRecomenderTest {
     @Test
     @Atomic
     public void testGetMostSimilarItemForNoHeteronym() {
-        pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto virtualEdition = RecommendationRequiresInterface.getInstance().getVirtualEditionByAcronym(ACRONYM);
+        pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto virtualEdition = RecommendationRequiresInterface.getInstance().getVirtualEditionByAcronym("LdoD-" + ACRONYM);
         VirtualEditionInterDto virtualEditionInter = null;
         for (VirtualEditionInterDto inter : virtualEdition.getIntersSet()) {
             if (getLastUsedScholarEditionInter(inter).getHeteronym().getName().equals("não atribuído")) {
@@ -131,7 +131,7 @@ public class VSMVirtualEditionInterRecomenderTest {
     @Test
     @Atomic
     public void testGetMostSimilarItemForDate() {
-        pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto virtualEdition = RecommendationRequiresInterface.getInstance().getVirtualEditionByAcronym(ACRONYM);
+        pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto virtualEdition = RecommendationRequiresInterface.getInstance().getVirtualEditionByAcronym("LdoD-" + ACRONYM);
         VirtualEditionInterDto virtualEditionInter = null;
         for (VirtualEditionInterDto inter : virtualEdition.getIntersSet()) {
             if (inter.getLastUsed().getLdoDDate() != null){
@@ -163,7 +163,7 @@ public class VSMVirtualEditionInterRecomenderTest {
     @Test
     @Atomic(mode = TxMode.WRITE)
     public void testGetMostSimilarItemForNoDate() {
-        pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto virtualEdition = RecommendationRequiresInterface.getInstance().getVirtualEditionByAcronym(ACRONYM);
+        pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto virtualEdition = RecommendationRequiresInterface.getInstance().getVirtualEditionByAcronym("LdoD-" + ACRONYM);
         VirtualEditionInterDto virtualEditionInter = null;
         for (VirtualEditionInterDto inter : virtualEdition.getIntersSet()) {
             if ((inter.getLastUsed()).getLdoDDate() == null) {
@@ -189,7 +189,7 @@ public class VSMVirtualEditionInterRecomenderTest {
     @Test
     @Atomic
     public void testGetMostSimilarItemForTaxonomy() {
-        pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto virtualEdition = RecommendationRequiresInterface.getInstance().getVirtualEditionByAcronym(ACRONYM);
+        pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto virtualEdition = RecommendationRequiresInterface.getInstance().getVirtualEditionByAcronym("LdoD-" + ACRONYM);
         CategoryDto category = new CategoryDto();
         virtualEdition.getTaxonomy().createCategory("car");
 //        category.init(virtualEdition.getTaxonomy(), "car");
@@ -212,7 +212,7 @@ public class VSMVirtualEditionInterRecomenderTest {
         }
 
         List<Property> properties = new ArrayList<>();
-        properties.add(new TaxonomyProperty(1.0, ACRONYM, Property.PropertyCache.OFF));
+        properties.add(new TaxonomyProperty(1.0, "LdoD-"+ACRONYM, Property.PropertyCache.OFF));
 
         VirtualEditionInterDto virtualEditionInterDto = (virtualEditionInter1);
 
@@ -227,7 +227,7 @@ public class VSMVirtualEditionInterRecomenderTest {
     @Test
     @Atomic
     public void testGetMostSimilarItemForText() throws IOException, ParseException {
-        pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto virtualEdition = RecommendationRequiresInterface.getInstance().getVirtualEditionByAcronym(ACRONYM);
+        pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto virtualEdition = RecommendationRequiresInterface.getInstance().getVirtualEditionByAcronym("LdoD-" + ACRONYM);
         VirtualEditionInterDto virtualEditionInter = null;
 //        Indexer indexer = Indexer.getIndexer();
 
@@ -235,7 +235,7 @@ public class VSMVirtualEditionInterRecomenderTest {
         for (VirtualEditionInterDto inter : virtualEdition.getIntersSet()) {
             tfidfWords = RecommendationRequiresInterface.getInstance().getFragmentTFIDF(getFragment(inter).getXmlId(), TextProperty.NUMBER_OF_TERMS);
             System.out.println(tfidfWords.get(0));
-            if (tfidfWords.get(0).contains("noite")) {
+            if (tfidfWords.contains("noite")) {
                 virtualEditionInter = inter;
                 break;
             }
@@ -256,7 +256,7 @@ public class VSMVirtualEditionInterRecomenderTest {
     @Test
     @Atomic
     public void testGetMostSimilarItemForAll() throws IOException, ParseException {
-        pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto virtualEdition = RecommendationRequiresInterface.getInstance().getVirtualEditionByAcronym(ACRONYM);
+        pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto virtualEdition = RecommendationRequiresInterface.getInstance().getVirtualEditionByAcronym("LdoD-" + ACRONYM);
         VirtualEditionInterDto virtualEditionInter = null;
 //        Indexer indexer = Indexer.getIndexer();
 
@@ -264,7 +264,7 @@ public class VSMVirtualEditionInterRecomenderTest {
         for (VirtualEditionInterDto inter : virtualEdition.getIntersSet()) {
 //            tfidfWords = indexer.getTFIDFTerms(getFragment(inter), TextProperty.NUMBER_OF_TERMS);
             tfidfWords = RecommendationRequiresInterface.getInstance().getFragmentTFIDF(getFragment(inter).getXmlId(), TextProperty.NUMBER_OF_TERMS);
-            if (tfidfWords.get(0).contains("noite")) {
+            if (tfidfWords.contains("noite")) {
                 virtualEditionInter = inter;
                 break;
             }
@@ -273,7 +273,7 @@ public class VSMVirtualEditionInterRecomenderTest {
         List<Property> properties = new ArrayList<>();
         properties.add(new HeteronymProperty(1.0));
         properties.add(new DateProperty(1.0));
-        properties.add(new TaxonomyProperty(1.0, ACRONYM, Property.PropertyCache.OFF));
+        properties.add(new TaxonomyProperty(1.0, "LdoD-" + ACRONYM, Property.PropertyCache.OFF));
         properties.add(new TextProperty(1.0));
 
         VirtualEditionInterDto virtualEditionInterDto = (virtualEditionInter);

@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.recommendation.api;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient;
+import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.notification.event.Event;
 import pt.ist.socialsoftware.edition.notification.event.EventInterface;
 import pt.ist.socialsoftware.edition.notification.event.SubscribeInterface;
@@ -37,6 +38,7 @@ public class RecommendationRequiresInterface implements SubscribeInterface {
         EventInterface.getInstance().subscribe(this);
     }
 
+    @Atomic(mode = Atomic.TxMode.WRITE)
     public void notify(Event event) {
         if (event.getType().equals(Event.EventType.USER_REMOVE)) {
             String username = event.getIdentifier();
@@ -100,8 +102,7 @@ public class RecommendationRequiresInterface implements SubscribeInterface {
                         .queryParam("numberOfTerms", numberOfTerms)
                         .build())
                 .retrieve()
-                .bodyToFlux(String.class)
-                .collectList()
+                .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
                 .block();
         //  return this.textProvidesInterface.getFragmentTFIDF(xmlId, numberOfTerms);
     }
@@ -123,8 +124,7 @@ public class RecommendationRequiresInterface implements SubscribeInterface {
                 .get()
                 .uri("/virtualEdition/" + acronym + "/sortedCategory")
                 .retrieve()
-                .bodyToFlux(String.class)
-                .collectList()
+                .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
                 .block();
         //        return this.virtualProvidesInterface.getVirtualEditionSortedCategoryList(acronym);
     }
@@ -137,8 +137,7 @@ public class RecommendationRequiresInterface implements SubscribeInterface {
                     .queryParam("xmlId", xmlId)
                     .build())
                 .retrieve()
-                .bodyToFlux(String.class)
-                .collectList()
+                .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
                 .block();
         //        return this.virtualProvidesInterface.getFragmentCategoriesInVirtualEditon(acronym, xmlId);
     }

@@ -9,13 +9,14 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 
 import pt.ist.socialsoftware.edition.notification.event.Event;
-import pt.ist.socialsoftware.edition.notification.event.EventInterface;
 import pt.ist.socialsoftware.edition.notification.event.EventVirtualEditionUpdate;
 
 
+import pt.ist.socialsoftware.edition.virtual.api.VirtualEventPublisher;
 import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
 import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.virtual.api.userDto.UserDto;
+import pt.ist.socialsoftware.edition.virtual.config.BeanUtil;
 import pt.ist.socialsoftware.edition.virtual.utils.LdoDDuplicateAcronymException;
 import pt.ist.socialsoftware.edition.virtual.utils.LdoDException;
 import pt.ist.socialsoftware.edition.virtual.utils.PropertiesManager;
@@ -66,11 +67,9 @@ public class VirtualEdition extends VirtualEdition_Base {
                     }
                 }
 
-//                EventInterface eventInterface = new EventInterface();
-//                Event event = new EventVirtualEditionUpdate(this.getAcronym(), acronym);
-//                eventInterface.publish(event);
-
-                EventInterface.getInstance().publish(new EventVirtualEditionUpdate(this.getAcronym(), acronym));
+//                EventInterface.getInstance().publish(new EventVirtualEditionUpdate(this.getAcronym(), acronym));
+                VirtualEventPublisher virtualEventPublisher = BeanUtil.getBean(VirtualEventPublisher.class);
+                virtualEventPublisher.publishEvent(new EventVirtualEditionUpdate(this.getAcronym(), acronym));
 
                 super.setAcronym(acronym);
             }
@@ -93,7 +92,7 @@ public class VirtualEdition extends VirtualEdition_Base {
         setPub(pub);
         setTaxonomy(new Taxonomy());
         createSection(Section.DEFAULT, 0);
-        if (acronymOfUsed != null) {
+        if (acronymOfUsed != null && !acronymOfUsed.equals("")) {
             VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronymOfUsed);
             if (virtualEdition != null) {
                 for (VirtualEditionInter inter : virtualEdition.getIntersSet()) {
@@ -111,8 +110,6 @@ public class VirtualEdition extends VirtualEdition_Base {
 
     @Atomic(mode = TxMode.WRITE)
     public void remove() {
-//        EventInterface eventInterface = new EventInterface();
-//        eventInterface.publish(new Event(Event.EventType.VIRTUAL_EDITION_REMOVE, this.getAcronym()));
         String acronym = this.getAcronym();
 
         // delete directory and all its files if it exists
@@ -148,7 +145,9 @@ public class VirtualEdition extends VirtualEdition_Base {
         }
 
         deleteDomainObject();
-        EventInterface.getInstance().publish(new Event(Event.EventType.VIRTUAL_EDITION_REMOVE, acronym));
+//        EventInterface.getInstance().publish(new Event(Event.EventType.VIRTUAL_EDITION_REMOVE, acronym));
+        VirtualEventPublisher virtualEventPublisher = BeanUtil.getBean(VirtualEventPublisher.class);
+        virtualEventPublisher.publishEvent(new Event(Event.EventType.VIRTUAL_EDITION_REMOVE, acronym));
     }
 
     @Override

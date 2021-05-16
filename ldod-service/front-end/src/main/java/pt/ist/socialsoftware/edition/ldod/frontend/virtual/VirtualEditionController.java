@@ -431,7 +431,8 @@ public class VirtualEditionController {
 
         VirtualEditionDto virtualEdition = this.FEVirtualRequiresInterface.getVirtualEditionByExternalId(veId);
 
-        DomainObject inter = FenixFramework.getDomainObject(interId);
+//        DomainObject inter = FenixFramework.getDomainObject(interId);
+        VirtualEditionInterDto inter = this.FEVirtualRequiresInterface.getVirtualEditionInterByExternalId(interId);
 
         if (virtualEdition == null || inter == null) {
             return "redirect:/error";

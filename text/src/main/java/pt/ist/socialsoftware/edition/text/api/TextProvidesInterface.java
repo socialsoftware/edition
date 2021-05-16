@@ -350,7 +350,6 @@ public class TextProvidesInterface {
     public List<String> getFragmentTFIDF(@PathVariable("xmlId") String xmlId, @RequestParam(name = "numberOfTerms") int numberOfTerms) {
         System.out.println("getFragmentTFIDF: " + xmlId + ", " + numberOfTerms);
         try {
-            System.out.println(Indexer.getIndexer().getTFIDFTerms(getFragmentByFragmentXmlId(xmlId).get(), numberOfTerms));
             return Indexer.getIndexer().getTFIDFTerms(getFragmentByFragmentXmlId(xmlId).get(), numberOfTerms);
         } catch (IOException | ParseException e) {
             throw new LdoDException("IO or Parse exception when getting tfidf from indexer");
@@ -1098,6 +1097,7 @@ public class TextProvidesInterface {
     @GetMapping("/fragment/citations/{xmlId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<CitationDto> getFragmentCitationSet(@PathVariable(name = "xmlId") String xmlId) {
+        System.out.println("getFragmentCitationSet: " + xmlId);
         return TextModule.getInstance().getFragmentByXmlId(xmlId).getCitationSet().stream().map(CitationDto::new).collect(Collectors.toSet());
     }
 

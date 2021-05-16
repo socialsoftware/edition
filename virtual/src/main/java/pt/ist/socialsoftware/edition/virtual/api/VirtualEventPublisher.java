@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.user.api;
+package pt.ist.socialsoftware.edition.virtual.api;
 
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTopic;
@@ -14,7 +14,7 @@ import javax.jms.Queue;
 import javax.jms.Topic;
 
 @Component
-public class UserEventPublisher {
+public class VirtualEventPublisher {
 
     @Autowired
     private final Topic queue = new ActiveMQTopic("test-topic");
@@ -29,4 +29,5 @@ public class UserEventPublisher {
         System.out.println("published Event!");
         return new ResponseEntity(event, HttpStatus.OK);
     }
+
 }

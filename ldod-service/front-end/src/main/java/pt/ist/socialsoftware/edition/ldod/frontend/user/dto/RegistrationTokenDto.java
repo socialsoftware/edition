@@ -3,15 +3,14 @@ package pt.ist.socialsoftware.edition.ldod.frontend.user.dto;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.joda.time.DateTime;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.socialsoftware.edition.ldod.frontend.config.CustomDateTimeDeserializer;
+import pt.ist.socialsoftware.edition.ldod.frontend.config.CustomLocalDateDeserializer;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.Emailer;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
-import java.util.List;
 
 public class RegistrationTokenDto {
 

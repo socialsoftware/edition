@@ -62,7 +62,7 @@ public class FragmentController {
     @RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}")
     public String getFragment(Model model, @PathVariable String xmlId) {
         FragmentDto fragmentDto = this.feTextRequiresInterface.getFragmentByXmlId(xmlId);
-        logger.debug(fragmentDto.getClass().toString());
+//        logger.debug(fragmentDto.getClass().toString());
         if (fragmentDto == null) {
             return "redirect:/error";
         } else {
@@ -443,6 +443,7 @@ public class FragmentController {
         if (this.feVirtualRequiresInterface.canManipulateAnnotation(virtualEdition.getAcronym(), user)) {
             annotationDto = this.feVirtualRequiresInterface.createHumanAnnotation(inter.getXmlId(), annotationJson.getQuote(), annotationJson.getText(), user,
                     annotationJson.getRanges(), annotationJson.getTags());
+            System.out.println("bliblibliblb");
             annotationJson.setId(annotationDto.getExternalId());
 
             return new ResponseEntity<>(new AnnotationDTO(annotationDto), HttpStatus.CREATED);

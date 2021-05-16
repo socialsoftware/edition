@@ -2,6 +2,8 @@ package pt.ist.socialsoftware.edition.ldod.frontend.text.textDto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.web.reactive.function.client.WebClient;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.baseDto.ScholarInterBaseDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.baseDto.SourceBaseDto;
 
 import java.util.HashSet;
 import java.util.List;
@@ -20,9 +22,9 @@ public class FragmentDto {
     private String title;
     private String externalId;
 
-    private Set<SourceDto> embeddedSourceDtos = new HashSet<>(  );
+    private Set<SourceBaseDto> embeddedSourceDtos = new HashSet<>(  );
 
-    private Set<ScholarInterDto> embeddedScholarInterDtos = new HashSet<>();
+    private Set<ScholarInterBaseDto> embeddedScholarInterDtos = new HashSet<>();
 
 
     public FragmentDto() { super(); }
@@ -35,19 +37,19 @@ public class FragmentDto {
         this.xmlId = xmlId;
     }
 
-    public Set<SourceDto> getEmbeddedSourceDtos() {
+    public Set<SourceBaseDto> getEmbeddedSourceDtos() {
         return embeddedSourceDtos;
     }
 
-    public void setEmbeddedSourceDtos(Set<SourceDto> embeddedSourceDtos) {
+    public void setEmbeddedSourceDtos(Set<SourceBaseDto> embeddedSourceDtos) {
         this.embeddedSourceDtos = embeddedSourceDtos;
     }
 
-    public Set<ScholarInterDto> getEmbeddedScholarInterDtos() {
+    public Set<ScholarInterBaseDto> getEmbeddedScholarInterDtos() {
         return embeddedScholarInterDtos;
     }
 
-    public void setEmbeddedScholarInterDtos(Set<ScholarInterDto> embeddedScholarInterDtos) {
+    public void setEmbeddedScholarInterDtos(Set<ScholarInterBaseDto> embeddedScholarInterDtos) {
         this.embeddedScholarInterDtos = embeddedScholarInterDtos;
     }
 
@@ -97,7 +99,7 @@ public class FragmentDto {
 
     public Set<ScholarInterDto> getEmbeddedScholarInterDtoSetForExpertEdition(String acronym) {
         return this.embeddedScholarInterDtos.stream()
-                .filter(scholarInterDto -> scholarInterDto.getAcronym().equals(acronym)).collect(Collectors.toSet());
+                .filter(scholarInterDto -> scholarInterDto.getAcronym().equals(acronym)).map(ScholarInterDto::new).collect(Collectors.toSet());
     }
 
 
@@ -115,7 +117,7 @@ public class FragmentDto {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public List<ScholarInterDto> getEmbeddedSourceInter() {
         return this.embeddedScholarInterDtos.stream()
-                .filter(scholarInterDto -> scholarInterDto.isSourceInter()).collect(Collectors.toList());
+                .filter(scholarInterDto -> scholarInterDto.isSourceInter()).map(ScholarInterDto::new).collect(Collectors.toList());
     }
 
 
@@ -197,4 +199,11 @@ public class FragmentDto {
                 .block();
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
+    }
 }

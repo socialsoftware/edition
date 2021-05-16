@@ -116,7 +116,10 @@ public class TaxonomyDto {
 	public void createGeneratedCategories(TopicListDTO topicList) {
 		webClientVirtual.build()
 				.post()
-				.uri("/createGeneratedCategories")
+				.uri(uriBuilder -> uriBuilder
+					.path("/createGeneratedCategories")
+					.queryParam("editionAcronym", editionAcronym)
+				.build())
 				.body(BodyInserters.fromValue(topicList))
 				.retrieve()
 				.bodyToMono(Void.class)
@@ -184,7 +187,7 @@ public class TaxonomyDto {
 		return webClientVirtual.build()
 				.post()
 				.uri(uriBuilder -> uriBuilder
-						.path("/extractCategory")
+						.path("/extractCategories")
 						.queryParam("externalId", externalId)
 						.queryParam("editionAcronym", editionAcronym)
 						.build())

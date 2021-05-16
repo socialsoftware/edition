@@ -1,14 +1,20 @@
 package pt.ist.socialsoftware.edition.virtual.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import pt.ist.socialsoftware.edition.virtual.api.VirtualProvidesInterface;
 import pt.ist.socialsoftware.edition.virtual.domain.Annotation;
 import pt.ist.socialsoftware.edition.virtual.domain.Range;
 
 import java.util.Set;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
+@JsonSubTypes({@JsonSubTypes.Type(value = AwareAnnotationDto.class, name = AnnotationDto.AWARE),
+        @JsonSubTypes.Type(value = HumanAnnotationDto.class, name = AnnotationDto.HUMAN)})
 public abstract class AnnotationDto {
 
-    private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
+    public static final String AWARE = "aware";
+    public static final String HUMAN = "human";
 
     private String quote;
     private String username;
@@ -65,4 +71,8 @@ public abstract class AnnotationDto {
     }
 
     public abstract boolean isHumanAnnotation();
+
+    public String getInterXmlId() {
+        return interXmlId;
+    }
 }

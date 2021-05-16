@@ -74,10 +74,11 @@ public class CategoryDto {
         this.users = users;
     }
 
-
+    @JsonIgnore
     public List<String> getUsernames() {
         return getUsers().stream().map(userDto -> userDto.getUsername()).collect(Collectors.toList());
     }
+
 
     @JsonIgnore
     public TaxonomyDto getTaxonomy() {

@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.text.textDto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -40,7 +41,7 @@ public class ExpertEditionDto {
         return externalId;
     }
 
-
+    @JsonIgnore
     public List<ScholarInterDto> getExpertEditionInters() {
         return webClient.build()
                 .get()

@@ -2,6 +2,11 @@ package pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto;
 
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -394,8 +399,8 @@ public class VirtualEditionInterDto {
         webClientVirtual.build()
                 .post()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/dissociateVirtualEditionInterCategory")
-                        .queryParam("xmlId", xmlId)
+                        .path("/associateVirtualEditionInterCategoriesByExternalId")
+                        .queryParam("externalId", externalId)
                         .queryParam("username", authenticatedUser)
                         .queryParam("categories", collect)
                         .build())
@@ -406,6 +411,19 @@ public class VirtualEditionInterDto {
     }
 
     public HumanAnnotationDto createHumanAnnotation(String quote, String text, String username, List<RangeJson> ranges, List<String> tags) {
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+//        String json = "";
+//        try {
+//            json = ow.writeValueAsString(ranges.get(0));
+//            System.out.println(json);
+//
+//            ObjectMapper mapper = new ObjectMapper();
+//            mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+//            RangeJson rangeJson = mapper.convertValue(json, RangeJson.class);
+//            System.out.println(rangeJson);
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
         return webClientVirtual.build()
                 .post()
                 .uri(uriBuilder -> uriBuilder
@@ -416,7 +434,7 @@ public class VirtualEditionInterDto {
                     .queryParam("user", username)
                     .queryParam("tags", tags)
                     .build())
-                .bodyValue(BodyInserters.fromValue(ranges))
+                .bodyValue(ranges)
                 .retrieve()
                 .bodyToMono(HumanAnnotationDto.class)
                 .block();

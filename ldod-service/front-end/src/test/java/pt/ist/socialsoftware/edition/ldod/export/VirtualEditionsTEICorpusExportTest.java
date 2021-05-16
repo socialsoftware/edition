@@ -31,7 +31,7 @@ public class VirtualEditionsTEICorpusExportTest {
 
     private VirtualEditionDto virtualEdition;
 //    private TextModule text;
-    private FeVirtualRequiresInterface feVirtualRequiresInterface;
+    private FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
     private FeTextRequiresInterface feTextRequiresInterface;
     private FeUserRequiresInterface feUserRequiresInterface;
     private UserDto userDto;
@@ -48,12 +48,13 @@ public class VirtualEditionsTEICorpusExportTest {
 //        this.text = TextModule.getInstance();
         this.feTextRequiresInterface = new FeTextRequiresInterface();
         this.feUserRequiresInterface = new FeUserRequiresInterface();
+        this.feVirtualRequiresInterface = new FeVirtualRequiresInterface();
         this.userDto = feUserRequiresInterface.createTestUser("ars1", "ars", "Antonio", "Silva", "a@a.a");
         LocalDate localDate = LocalDate.parse("20018-07-20");
         feVirtualRequiresInterface.createVirtualEdition(this.userDto.getUsername(), "acronym1", "title", localDate, true,
 //                this.text.getRZEdition().getAcronym());
                 "RZ");
-        this.virtualEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym("acronym1");
+        this.virtualEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym("LdoD-acronym1");
     }
 
     @AfterEach
@@ -83,7 +84,7 @@ public class VirtualEditionsTEICorpusExportTest {
         this.virtualEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym("acronym1");
 
 
-        feVirtualRequiresInterface.importVirtualEditionCorupus(new FileInputStream(virtualEditionsCorpus));
+        feVirtualRequiresInterface.importVirtualEditionCorupus((virtualEditionsCorpus));
 
         assertEquals(numOfVirtualEditions, feVirtualRequiresInterface.getVirtualEditions().size());
 
@@ -117,11 +118,11 @@ public class VirtualEditionsTEICorpusExportTest {
 //                this.text.getRZEdition().getAcronym());
 
         // Import
-        feVirtualRequiresInterface.importVirtualEditionCorupus(new FileInputStream(result));
+        feVirtualRequiresInterface.importVirtualEditionCorupus((result));
 
         System.out.println(feVirtualRequiresInterface.exportVirtualEditionsTEICorpus());
 
-        assertEquals(numOfCriteria, feVirtualRequiresInterface.getVirtualEditionByAcronym("acronym1").getNumberOfCriterias());
+        assertEquals(numOfCriteria, feVirtualRequiresInterface.getVirtualEditionByAcronym("LdoD-acronym1").getNumberOfCriterias());
         //TODO: add way to load citations independently from frag
         //assertEquals(numOfTweets, this.virtualModule.getTweetSet().size());
 

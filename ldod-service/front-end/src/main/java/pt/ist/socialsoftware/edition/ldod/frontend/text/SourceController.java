@@ -17,6 +17,7 @@ import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/source")
@@ -36,7 +37,7 @@ public class SourceController {
         List<SourceDto> sources = new ArrayList<>();
 
         for (FragmentDto frag : this.feTextRequiresInterface.getFragmentDtosWithSourceDtos()) {
-            sources.addAll(frag.getEmbeddedSourceDtos());
+            sources.addAll(frag.getEmbeddedSourceDtos().stream().map(SourceDto::new).collect(Collectors.toSet()));
         }
 
         sources.sort(Comparator.comparing(SourceDto::getName));

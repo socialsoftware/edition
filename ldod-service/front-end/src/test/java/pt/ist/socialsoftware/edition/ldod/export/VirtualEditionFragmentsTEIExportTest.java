@@ -72,7 +72,7 @@ public class VirtualEditionFragmentsTEIExportTest {
 
 
                 try {
-                    feVirtualRequiresInterface.importVirtualEditionFragmentFromTEI(new File(fragmentTEI));
+                    feVirtualRequiresInterface.importVirtualEditionFragmentFromTEI((fragmentTEI));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -116,7 +116,6 @@ public class VirtualEditionFragmentsTEIExportTest {
         int altNumOfInfoRanges = 0;
         int numOfAwareAnnotations = 0;
         for (CitationDto citation : fragment.getCitationSet()) {
-            System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB\n");
             System.out.println(altNumOfInfoRanges);
             altNumOfInfoRanges += citation.getNumberOfTimesCited();
             TwitterCitationDto twitterCitation = feVirtualRequiresInterface.createTwitterCitationFromCitation(citation);
@@ -136,7 +135,8 @@ public class VirtualEditionFragmentsTEIExportTest {
 
         // Import
         try {
-            feVirtualRequiresInterface.importVirtualEditionFragmentFromTEI(new File(result));
+            feVirtualRequiresInterface.importVirtualEditionFragmentFromTEI((result));
+            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

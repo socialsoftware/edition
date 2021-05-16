@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.text.textDto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalDateTime;
@@ -55,6 +56,7 @@ public class CitationDto {
         return hasNoInfoRange;
     }
 
+    @JsonIgnore
     public LocalDateTime getFormatedDate() {
         DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
         return LocalDateTime.parse(getDate(), formater);
@@ -80,5 +82,33 @@ public class CitationDto {
                 .bodyToFlux(InfoRangeDto.class)
                 .toStream()
                 .collect(Collectors.toSet()).size();
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setFragmentXmlId(String fragmentXmlId) {
+        this.fragmentXmlId = fragmentXmlId;
+    }
+
+    public void setFragmentTitle(String fragmentTitle) {
+        this.fragmentTitle = fragmentTitle;
+    }
+
+    public void setSourceLink(String sourceLink) {
+        this.sourceLink = sourceLink;
+    }
+
+    public void setHasNoInfoRange(boolean hasNoInfoRange) {
+        this.hasNoInfoRange = hasNoInfoRange;
     }
 }

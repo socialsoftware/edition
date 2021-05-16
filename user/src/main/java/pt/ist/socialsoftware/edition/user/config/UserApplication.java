@@ -4,6 +4,7 @@ package pt.ist.socialsoftware.edition.user.config;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.activemq.command.ActiveMQQueue;
+import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -41,8 +42,8 @@ public class UserApplication extends SpringBootServletInitializer implements Ini
     }
 
     @Bean
-    public Queue queue(){
-        return new ActiveMQQueue("test-queue");
+    public ActiveMQTopic queue(){
+        return new ActiveMQTopic("test-topic");
     }
 
     @Bean

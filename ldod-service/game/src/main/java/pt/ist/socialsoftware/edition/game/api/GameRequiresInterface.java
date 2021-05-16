@@ -4,7 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.game.api.virtualDto.TagDto;
 import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionInterDto;
@@ -21,6 +24,7 @@ import pt.ist.socialsoftware.edition.notification.event.SubscribeInterface;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Component
 public class GameRequiresInterface implements SubscribeInterface {
     private static final Logger logger = LoggerFactory.getLogger(GameRequiresInterface.class);
 
@@ -33,8 +37,14 @@ public class GameRequiresInterface implements SubscribeInterface {
         return instance;
     }
 
+    @JmsListener(id = "1", containerFactory = "jmsListenerContainerFactory", destination = "test-topic")
+    public void listener(Event message){
+        EventInterface.getInstance().publish(message);
+    }
+
     protected GameRequiresInterface() {   EventInterface.getInstance().subscribe(this);    }
 
+    @Atomic(mode = Atomic.TxMode.WRITE)
     public void notify(Event event) {
         if (event.getType().equals(Event.EventType.USER_REMOVE)) {
             String username = event.getIdentifier();

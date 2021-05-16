@@ -477,7 +477,7 @@ public class VirtualEditionDto {
         return webClientVirtual.build()
                 .post()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/createVirtualEditionInterFromScholarInter")
+                        .path("/createVirtualEditionInterFromVirtualEditionInter")
                         .queryParam("externalId", this.externalId)
                         .queryParam("interExternalId", externalId)
                         .queryParam("max", max)
@@ -574,5 +574,17 @@ public class VirtualEditionDto {
                 .retrieve()
                 .bodyToMono(Integer.class)
                 .blockOptional().orElse(0);
+    }
+
+    public void setXmlId(String xmlId) {
+        this.xmlId = xmlId;
+    }
+
+    public void setAcronym(String acronym) {
+        this.acronym = acronym;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
     }
 }

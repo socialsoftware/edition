@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.fenixframework.Atomic;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.baseDto.FragmentBaseDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.*;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
@@ -243,8 +244,7 @@ public class FeTextRequiresInterface {
                         .queryParam("scholarInters", scholarInters)
                         .build())
                 .retrieve()
-                .bodyToFlux(String.class)
-                .collectList()
+                .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
                 .block();
     }
 
@@ -409,10 +409,9 @@ public class FeTextRequiresInterface {
 
     public List<String> getSourceInterFacUrls(String xmlId) {
         return webClient.build().get()
-                .uri("/sourceInter/{xmlId}/facUrls")
+                .uri("/sourceInter/" + xmlId + "/facUrls")
                 .retrieve()
-                .bodyToFlux(String.class)
-                .collectList()
+                .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
                 .block();
     }
 
@@ -515,7 +514,7 @@ public class FeTextRequiresInterface {
                     .post()
                     .uri("/loadTEIFragmentCorpus")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .bodyValue(BodyInserters.fromValue(json))
+                    .bodyValue(json)
                     .retrieve()
                     .bodyToMono(Void.class)
                     .block();

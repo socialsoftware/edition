@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.fenixframework.Atomic;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.baseDto.ScholarInterBaseDto;
 
 import java.util.List;
 
@@ -37,6 +38,26 @@ public class ScholarInterDto {
     private int endPage;
     private String completeNumber;
     private String notes;
+
+    public ScholarInterDto(ScholarInterBaseDto baseDto) {
+        this.acronym = baseDto.getAcronym();
+        this.completeNumber = baseDto.getCompleteNumber();
+        this.editionReference = baseDto.getEditionReference();
+        this.endPage = baseDto.getEndPage();
+        this.isSourceInter = baseDto.isSourceInter();
+        this.isExpertInter = baseDto.isExpertInter();
+        this.externalId = baseDto.getExternalId();
+        this.xmlId = baseDto.getXmlId();
+        this.fragXmlId = baseDto.getFragmentXmlId();
+        this.urlId = baseDto.getUrlId();
+        this.notes = baseDto.getNotes();
+        this.number = baseDto.getNumber();
+        this.shortName = baseDto.getShortName();
+        this.title = baseDto.getTitle();
+        this.volume = baseDto.getVolume();
+        this.startPage = baseDto.getStartPage();
+        this.reference = baseDto.getReference();
+    }
 
     public ScholarInterDto() {
         super();
@@ -212,7 +233,7 @@ public class ScholarInterDto {
         return this.shortName;
     }
 
-
+    @JsonIgnore
     public ScholarInterDto getNextScholarInter() {
         return  webClient.build()
                 .get()
@@ -224,6 +245,7 @@ public class ScholarInterDto {
     }
 
 
+    @JsonIgnore
     public ScholarInterDto getPrevScholarInter() {
         return webClient.build()
                 .get()
@@ -318,6 +340,7 @@ public class ScholarInterDto {
     }
 
 
+    @JsonIgnore
     public ScholarInterDto getNextNumberInter() {
        return webClient.build()
                 .get()
@@ -328,7 +351,7 @@ public class ScholarInterDto {
         //  return this.textProvidesInterface.getScholarInterNextNumberInter(this.xmlId);
     }
 
-
+    @JsonIgnore
     public ScholarInterDto getPrevNumberInter() {
         return webClient.build()
                 .get()

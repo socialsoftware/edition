@@ -3,6 +3,8 @@ package pt.ist.socialsoftware.edition.virtual.domain;
 
 import pt.ist.socialsoftware.edition.notification.event.EventInterface;
 import pt.ist.socialsoftware.edition.notification.event.EventTagRemove;
+import pt.ist.socialsoftware.edition.virtual.api.VirtualEventPublisher;
+import pt.ist.socialsoftware.edition.virtual.config.BeanUtil;
 import pt.ist.socialsoftware.edition.virtual.utils.LdoDException;
 
 
@@ -37,8 +39,6 @@ public class Tag extends Tag_Base implements Comparable<Tag> {
     }
 
     public void remove() {
-//        EventInterface eventInterface = new EventInterface();
-//        eventInterface.publish(new EventTagRemove(getInter().getXmlId(), getCategory().getUrlId()));
         String InterXmlId = getInter().getXmlId();
         String categoryXmlId = getCategory().getUrlId();
 
@@ -55,7 +55,10 @@ public class Tag extends Tag_Base implements Comparable<Tag> {
 
         setAnnotation(null);
 
-        EventInterface.getInstance().publish(new EventTagRemove(InterXmlId, categoryXmlId));
+//        EventInterface.getInstance().publish(new EventTagRemove(InterXmlId, categoryXmlId));
+        VirtualEventPublisher virtualEventPublisher = BeanUtil.getBean(VirtualEventPublisher.class);
+        virtualEventPublisher.publishEvent(new EventTagRemove(InterXmlId, categoryXmlId));
+
 
         deleteDomainObject();
     }

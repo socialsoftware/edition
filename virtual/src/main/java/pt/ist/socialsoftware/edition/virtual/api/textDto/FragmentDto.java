@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.virtual.api.textDto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.web.reactive.function.client.WebClient;
 
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +26,7 @@ public class FragmentDto {
     private Set<ScholarInterDto> embeddedScholarInterDtos = new HashSet<>();
 
     public FragmentDto() { super(); }
+
 
     public String getXmlId() {
         return this.xmlId;
@@ -195,5 +197,14 @@ public class FragmentDto {
                 .bodyToMono(String.class)
                 .block();
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
+    }
+
 
 }

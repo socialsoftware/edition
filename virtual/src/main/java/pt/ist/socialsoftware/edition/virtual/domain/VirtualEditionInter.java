@@ -7,15 +7,17 @@ import org.slf4j.LoggerFactory;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.notification.event.Event;
-import pt.ist.socialsoftware.edition.notification.event.EventInterface;
 
 
+import pt.ist.socialsoftware.edition.notification.event.EventTagRemove;
+import pt.ist.socialsoftware.edition.virtual.api.VirtualEventPublisher;
 import pt.ist.socialsoftware.edition.virtual.api.VirtualRequiresInterface;
 
 import pt.ist.socialsoftware.edition.virtual.api.textDto.FragmentDto;
 import pt.ist.socialsoftware.edition.virtual.api.textDto.HeteronymDto;
 import pt.ist.socialsoftware.edition.virtual.api.textDto.LdoDDateDto;
 import pt.ist.socialsoftware.edition.virtual.api.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.virtual.config.BeanUtil;
 import pt.ist.socialsoftware.edition.virtual.utils.CategoryDTO;
 import pt.ist.socialsoftware.edition.virtual.utils.LdoDException;
 import pt.ist.socialsoftware.edition.virtual.utils.RangeJson;
@@ -69,8 +71,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
     }
 
     public void remove() {
-//        EventInterface eventInterface = new EventInterface();
-//        eventInterface.publish(new Event(Event.EventType.VIRTUAL_INTER_REMOVE, getXmlId()));
+
         String XmlId = getXmlId();
 
         for (Tag tag : getTagSet()) {
@@ -92,7 +93,9 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
 
         setUses(null);
 
-        EventInterface.getInstance().publish(new Event(Event.EventType.VIRTUAL_INTER_REMOVE, XmlId));
+//        EventInterface.getInstance().publish(new Event(Event.EventType.VIRTUAL_INTER_REMOVE, XmlId));
+        VirtualEventPublisher virtualEventPublisher = BeanUtil.getBean(VirtualEventPublisher.class);
+        virtualEventPublisher.publishEvent(new Event(Event.EventType.VIRTUAL_INTER_REMOVE, XmlId));
 
         deleteDomainObject();
     }

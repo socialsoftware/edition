@@ -1,9 +1,11 @@
 package pt.ist.socialsoftware.edition.virtual.api;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.fenixframework.Atomic;
@@ -72,6 +74,7 @@ public class VirtualProvidesInterface {
     public VirtualEditionDto getVirtualEdition(@PathVariable("acronym") String acronym) {
         System.out.println("getVirtualEdition: " + acronym);
         VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
+        System.out.println(virtualEdition);
         if (virtualEdition != null) {
             return new VirtualEditionDto(virtualEdition);
         }
@@ -314,6 +317,7 @@ public class VirtualProvidesInterface {
     @Atomic(mode = Atomic.TxMode.READ)
     public VirtualEditionDto getVirtualEditionByAcronym(@PathVariable("acronym") String acronym) {
         System.out.println("getVirtualEditionByAcronym: " + acronym);
+        System.out.println(VirtualModule.getInstance().getVirtualEdition(acronym));
         return getVirtualEditionByAcronymUtil(acronym).map(VirtualEditionDto::new).orElse(null);
     }
 
@@ -617,13 +621,14 @@ public class VirtualProvidesInterface {
         }
     }
 
-    @JsonDeserialize()
+
     @PostMapping("/createVirtualEdition")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void createVirtualEdition(@RequestParam(name = "username") String username, @RequestParam(name = "acronym") String acronym,
                                      @RequestParam(name = "title") String title, @RequestParam(name = "pub") boolean pub,
                                      @RequestParam(name = "acronymOfUsed", required = false) String acronymOfUsed, @RequestParam(name = "inters", required = false) String[] inters) {
         System.out.println("createVirtualEdition: " + username + ", " + acronym);
+
         VirtualEdition virtualEdition = VirtualModule.getInstance().createVirtualEdition(username,
                 VirtualEdition.ACRONYM_PREFIX + acronym, title, new LocalDate(), pub, acronymOfUsed);
 
@@ -917,7 +922,7 @@ public class VirtualProvidesInterface {
 
     @GetMapping("/annotation/{externalId}/ranges")
     @Atomic(mode = Atomic.TxMode.READ)
-    public Set<RangeJson> getRangeSetFromAnnotation(String externalId) {
+    public Set<RangeJson> getRangeSetFromAnnotation(@PathVariable("externalId") String externalId) {
         System.out.println("getRangeSetFromAnnotation: " + externalId);
         Annotation annotation = FenixFramework.getDomainObject(externalId);
         if (annotation != null) {
@@ -1056,10 +1061,12 @@ public class VirtualProvidesInterface {
     @PostMapping("/virtualEdition/{externalId}/addMember")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void addMemberByExternalId(@PathVariable("externalId") String externalId, @RequestParam(name = "user") String user, @RequestParam(name = "b") boolean b) {
-        System.out.println("addMemberByExternalId: " + externalId );
+        System.out.println("addMemberByExternalId: " + externalId + ", " + user);
         DomainObject virtualEdition = FenixFramework.getDomainObject(externalId);
         if (virtualEdition instanceof VirtualEdition) {
+            System.out.println(((VirtualEdition) virtualEdition).getMemberSet().size());
             ((VirtualEdition) virtualEdition).addMember(user, Member.MemberRole.MEMBER, b);
+            System.out.println(((VirtualEdition) virtualEdition).getMemberSet().size());
         }
     }
 
@@ -1367,6 +1374,14 @@ public class VirtualProvidesInterface {
         loader.importVirtualEditionsCorpus(new ByteArrayInputStream(inputStream));
     }
 
+    @PostMapping("/importVirtualEditionCorpusString")
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void importVirtualEditionCorpus(@RequestBody String inputStream) {
+        System.out.println("importVirtualEditionCorpus");
+        VirtualEditionsTEICorpusImport loader = new VirtualEditionsTEICorpusImport();
+        loader.importVirtualEditionsCorpus((inputStream));
+    }
+
     @PostMapping("/importVirtualEditionFragmentFromTEI")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public String importVirtualEditionFragmentFromTEI(@RequestBody byte[] inputStream) {
@@ -1375,8 +1390,16 @@ public class VirtualProvidesInterface {
         return loader.importFragmentFromTEI(new ByteArrayInputStream(inputStream));
     }
 
+    @PostMapping("/importVirtualEditionFragmentFromTEIString")
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void importVirtualEditionFragmentFromTEI(@RequestBody String inputStream) {
+        System.out.println("importVirtualEditionFragmentFromTEI");
+        VirtualEditionFragmentsTEIImport loader = new VirtualEditionFragmentsTEIImport();
+        loader.importFragmentFromTEI((inputStream));
+    }
+
     @GetMapping("/allTwitterCitations")
-    @Atomic(mode = Atomic.TxMode.READ)
+    @Atomic(mode = Atomic.TxMode.WRITE)
     public List<TwitterCitationDto> getAllTwitterCitations() {
         System.out.println("getAllTwitterCitations");
         DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
@@ -1580,16 +1603,16 @@ public class VirtualProvidesInterface {
 
     @PostMapping("/createTwitterCitation")
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public TwitterCitationDto createTwitterCitation(String fragmentXmlId, String sourceLink, String date, String fragText, String tweetText,
-                                      long tweetID, String location, String country, String username, String profURL, String profImgURL) {
+    public TwitterCitationDto createTwitterCitation(@RequestParam(name = "fragmentXmlId") String fragmentXmlId, @RequestParam(name = "sourceLink") String sourceLink, @RequestParam(name = "date") String date, @RequestParam(name = "fragText") String fragText, @RequestParam(name = "tweetText") String tweetText,
+                                      @RequestParam(name = "tweetID") long tweetID, @RequestParam(name = "location") String location, @RequestParam(name = "country") String country, @RequestParam(name = "username") String username, @RequestParam(name = "profURL") String profURL, @RequestParam(name = "profImgURL") String profImgURL) {
         return new TwitterCitationDto(new TwitterCitation(VirtualRequiresInterface.getInstance().getFragmentByXmlId(fragmentXmlId), sourceLink, date, fragText,
                 tweetText, tweetID, location, country, username, profURL, profImgURL));
     }
 
     @PostMapping("/createTweet")
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public void createTweet(String sourceLink, String date, String tweetText, long tweetID, String location,
-                            String country, String username, String profURL, String profImgURL, long originalTweetID, boolean isRetweet) {
+    public void createTweet(@RequestParam(name = "sourceLink") String sourceLink, @RequestParam(name = "date") String date, @RequestParam(name = "tweetText") String tweetText, @RequestParam(name = "tweetID") long tweetID, @RequestParam(name = "location") String location,
+                           @RequestParam(name = "country") String country, @RequestParam(name = "username") String username, @RequestParam(name = "profURL") String profURL, @RequestParam(name = "profImgURL") String profImgURL, @RequestParam(name = "originalTweetID") long originalTweetID, @RequestParam(name = "isRetweet") boolean isRetweet) {
         TwitterCitation twitterCitation = VirtualModule.getInstance().getTwitterCitationByTweetID(23);
         new Tweet(VirtualModule.getInstance(), sourceLink, date, tweetText, tweetID, location, country, username, profURL, profImgURL, originalTweetID, isRetweet, twitterCitation);
     }
@@ -1620,6 +1643,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/members")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<MemberDto> getMemberSet(@PathVariable("acronym") String acronym) {
+        System.out.println("getMemberSet: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym).get().getMemberSet().stream().map(MemberDto::new).collect(Collectors.toSet());
     }
 
@@ -1673,12 +1697,14 @@ public class VirtualProvidesInterface {
     @PostMapping("/createTwitterCitationFromCitation")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public TwitterCitationDto createTwitterCitationFromCitation(@RequestBody CitationDto citationDto) {
+        System.out.println("createTwitterCitationFromCitation: " + citationDto.getId());
         return new TwitterCitationDto(new TwitterCitation(citationDto));
     }
 
     @GetMapping("/twitterCitation/{id}/awareAnnotations")
-    @Atomic(mode = Atomic.TxMode.READ)
+    @Atomic(mode = Atomic.TxMode.WRITE)
     public Set<AwareAnnotationDto> getAwareAnnotations(@PathVariable("id") long id) {
+        System.out.println(VirtualModule.getInstance().getAllTwitterCitation());
         return VirtualModule.getInstance().getTwitterCitationByTweetID(id).getAwareAnnotationSet().stream().map(AwareAnnotationDto::new).collect(Collectors.toSet());
     }
 
@@ -1697,7 +1723,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/criteriaSize")
     @Atomic(mode = Atomic.TxMode.READ)
     public int getVirtualEditionCriteriaSetSize(@PathVariable("acronym") String acronym) {
-        return getVirtualEditionByAcronymUtil(acronym).get().getCriteriaSet().size();
+        return VirtualModule.getInstance().getVirtualEdition(acronym).getCriteriaSet().size();
     }
 
     @PostMapping("/virtualEdition/{acronym}/createMediaSource")
@@ -1708,7 +1734,7 @@ public class VirtualProvidesInterface {
 
     @PostMapping("/virtualEdition/{acronym}/createTimeWindow")
     @Atomic(mode = Atomic.TxMode.WRITE)
-    public void createTimeWindow(@PathVariable("acronym") String acronym, @RequestParam(name = "beginDate") LocalDate beginDate, @RequestParam(name = "endDate") LocalDate endDate) {
+    public void createTimeWindow(@PathVariable("acronym") String acronym, @RequestParam(name = "beginDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate beginDate,  @RequestParam(name = "endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
         new TimeWindow(VirtualModule.getInstance().getVirtualEdition(acronym), beginDate, endDate);
     }
 
@@ -1716,6 +1742,12 @@ public class VirtualProvidesInterface {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void createFrequency(@PathVariable("acronym") String acronym, @RequestParam(name = "frequency") int frequency) {
         new Frequency(VirtualModule.getInstance().getVirtualEdition(acronym), frequency);
+    }
+
+    @PostMapping("/virtualEdition/{acronym}/createGeographicLocation")
+    @Atomic(mode = Atomic.TxMode.WRITE)
+    public void createGeographicLocation(@PathVariable("acronym") String acronym, @RequestParam(name = "country") String country, @RequestParam(name = "location") String location) {
+        new GeographicLocation(VirtualModule.getInstance().getVirtualEdition(acronym), country, location);
     }
 
     @GetMapping("/citationDetecterLastIndexOfCapitalLetter")

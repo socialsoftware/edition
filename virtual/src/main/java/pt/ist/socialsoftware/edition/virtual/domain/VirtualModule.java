@@ -90,8 +90,7 @@ public class VirtualModule extends VirtualModule_Base {
 
     public Set<TwitterCitation> getAllTwitterCitation() {
         // allTwitterCitations -> all twitter citations in the archive
-        Set<TwitterCitation> allTwitterCitations = VirtualRequiresInterface.getInstance().getCitationSet().stream().filter(TwitterCitationDto.class::isInstance)
-                .map(TwitterCitation.class::cast).collect(Collectors.toSet());
+        Set<TwitterCitation> allTwitterCitations = VirtualRequiresInterface.getInstance().getCitationSet().stream().map(TwitterCitation::new).collect(Collectors.toSet());
         return allTwitterCitations;
     }
 
@@ -213,7 +212,7 @@ public class VirtualModule extends VirtualModule_Base {
 
     @Atomic(mode = TxMode.WRITE)
     public static void dailyRegenerateTwitterCitationEdition() {
-        VirtualEdition twitterEdition = VirtualModule.getInstance().getVirtualEdition(TWITTER_EDITION_ACRONYM);
+        VirtualEdition twitterEdition = VirtualModule.getInstance().getVirtualEdition("LdoD-" + TWITTER_EDITION_ACRONYM);
 
         System.out.println(twitterEdition);
         twitterEdition.getAllDepthVirtualEditionInters().stream().

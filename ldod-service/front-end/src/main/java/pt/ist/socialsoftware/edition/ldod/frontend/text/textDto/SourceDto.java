@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.fenixframework.Atomic;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.baseDto.SourceBaseDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.enums.Form;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.enums.Material;
 import pt.ist.socialsoftware.edition.search.utils.SourceType;
@@ -46,6 +47,28 @@ public class SourceDto {
 
     public SourceDto() {
         super();
+    }
+
+    public SourceDto(SourceBaseDto sourceBaseDto) {
+        this.name = sourceBaseDto.getName();
+        this.type = sourceBaseDto.getType();
+        this.title = sourceBaseDto.getTitle();
+        this.idno = sourceBaseDto.getIdno();
+        this.altIdentifier = sourceBaseDto.getAltIdentifier();
+        this.journal = sourceBaseDto.getJournal();
+        this.issue = sourceBaseDto.getIssue();
+        this.pubPlace = sourceBaseDto.getPubPlace();
+        this.notes = sourceBaseDto.getNotes();
+        this.startPage = sourceBaseDto.getStartPage();
+        this.endPage = sourceBaseDto.getEndPage();
+        this.form = sourceBaseDto.getForm();
+        this.material = sourceBaseDto.getMaterial();
+        this.columns = sourceBaseDto.getColumns();
+        this.ldoDLabel = sourceBaseDto.getHasLdoDLabel();
+        this.hasHandNoteSet = sourceBaseDto.hasHandNoteSet();
+        this.hasTypeNoteSet = sourceBaseDto.hasTypeNoteSet();
+        this.xmlId = sourceBaseDto.getXmlId();
+
     }
 
     public String getXmlId() {

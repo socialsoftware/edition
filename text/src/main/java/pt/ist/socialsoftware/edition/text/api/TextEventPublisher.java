@@ -1,6 +1,6 @@
 package pt.ist.socialsoftware.edition.text.api;
 
-import org.apache.activemq.command.ActiveMQQueue;
+import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import pt.ist.socialsoftware.edition.notification.event.Event;
 
 import javax.jms.Queue;
+import javax.jms.Topic;
 
 @Component
 public class TextEventPublisher {
 
     @Autowired
-    private final Queue queue = new ActiveMQQueue("test-queue");
+    private final Topic queue = new ActiveMQTopic("test-topic");
 
     @Autowired
     private JmsTemplate jmsTemplate;

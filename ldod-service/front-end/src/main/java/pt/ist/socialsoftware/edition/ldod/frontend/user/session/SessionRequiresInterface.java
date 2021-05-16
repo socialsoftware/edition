@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.frontend.user.session;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.notification.event.Event;

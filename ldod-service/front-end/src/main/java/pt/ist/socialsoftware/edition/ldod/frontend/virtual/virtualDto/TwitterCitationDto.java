@@ -55,7 +55,7 @@ public class TwitterCitationDto  {
     public Set<AwareAnnotationDto> getAwareAnnotationDtos() {
         return webClientVirtual.build()
                 .get()
-                .uri("/twitterCitation/" + getId() + "/awareAnnotations")
+                .uri("/twitterCitation/" + tweetId + "/awareAnnotations")
                 .retrieve()
                 .bodyToFlux(AwareAnnotationDto.class)
                 .toStream()
@@ -80,5 +80,33 @@ public class TwitterCitationDto  {
                 .retrieve()
                 .bodyToFlux(TweetDto.class)
                 .toStream().collect(Collectors.toSet());
+    }
+
+    public void setTweetText(String tweetText) {
+        this.tweetText = tweetText;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setUserProfileUrl(String userProfileUrl) {
+        this.userProfileUrl = userProfileUrl;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setTweetId(long tweetId) {
+        this.tweetId = tweetId;
     }
 }

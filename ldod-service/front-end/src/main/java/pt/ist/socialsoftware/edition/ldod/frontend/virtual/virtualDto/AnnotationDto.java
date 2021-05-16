@@ -1,12 +1,20 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto;
 
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
+@JsonSubTypes({@JsonSubTypes.Type(value = AwareAnnotationDto.class, name = AnnotationDto.AWARE),
+        @JsonSubTypes.Type(value = HumanAnnotationDto.class, name = AnnotationDto.HUMAN)})
 public abstract class AnnotationDto {
+
+    public static final String AWARE = "aware";
+    public static final String HUMAN = "human";
 
     private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
 
@@ -93,5 +101,21 @@ public abstract class AnnotationDto {
                 .retrieve()
                 .bodyToMono(Void.class)
                 .block();
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
+    }
+
+    public void setInterExternalId(String interExternalId) {
+        this.interExternalId = interExternalId;
+    }
+
+    public void setInterXmlId(String interXmlId) {
+        this.interXmlId = interXmlId;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 }

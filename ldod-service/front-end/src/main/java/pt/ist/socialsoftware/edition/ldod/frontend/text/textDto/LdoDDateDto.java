@@ -2,7 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.frontend.text.textDto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.joda.time.LocalDate;
-import pt.ist.socialsoftware.edition.ldod.frontend.config.CustomDateTimeDeserializer;
+import pt.ist.socialsoftware.edition.ldod.frontend.config.CustomLocalDateDeserializer;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.enums.PrecisionType;
 
 
@@ -44,7 +44,7 @@ public class LdoDDateDto {
         this.type = type;
     }
 
-    @JsonDeserialize(using = CustomDateTimeDeserializer.class)
+    @JsonDeserialize(using = CustomLocalDateDeserializer.class)
     public LocalDate getDate() {
         return this.date;
     }

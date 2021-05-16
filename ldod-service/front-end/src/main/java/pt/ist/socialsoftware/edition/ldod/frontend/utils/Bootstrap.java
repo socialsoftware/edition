@@ -160,6 +160,7 @@ public class Bootstrap implements WebApplicationInitializer {
             return;
         }
 
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         for (File file : files) {
             try {
                 feTextRequiresInterface.getLoadTEIFragmentsStepByStep(new FileInputStream(file));

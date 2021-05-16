@@ -5,32 +5,33 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.io.IOException;
 
-public class CustomDateTimeDeserializer extends StdDeserializer<DateTime> {
+public class CustomDateTimeDeserializer extends StdDeserializer<LocalDate> {
 
     private static final long serialVersionUID = 1L;
-    private static DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+    private static DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd");
 
     public CustomDateTimeDeserializer() {
         this(null);
     }
 
-    public CustomDateTimeDeserializer(Class<DateTime> t) {
+    public CustomDateTimeDeserializer(Class<LocalDate> t) {
         super(t);
     }
 
     @Override
-    public DateTime deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
+    public LocalDate deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
 
         String date = parser.getText();
         System.out.println(date);
         System.out.println(format);
 
-        return format.parseDateTime(date);
+        return format.parseLocalDate(date);
 
     }
 

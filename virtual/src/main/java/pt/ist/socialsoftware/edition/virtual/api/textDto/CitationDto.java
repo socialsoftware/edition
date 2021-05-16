@@ -67,4 +67,32 @@ public class CitationDto {
     public int getNumberOfTimesCited() {
         return VirtualRequiresInterface.getInstance().getInfoRangeDtoSetFromCitation(id).size();
     }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setFragmentXmlId(String fragmentXmlId) {
+        this.fragmentXmlId = fragmentXmlId;
+    }
+
+    public void setFragmentTitle(String fragmentTitle) {
+        this.fragmentTitle = fragmentTitle;
+    }
+
+    public void setSourceLink(String sourceLink) {
+        this.sourceLink = sourceLink;
+    }
+
+    public void setHasNoInfoRange(boolean hasNoInfoRange) {
+        this.hasNoInfoRange = hasNoInfoRange;
+    }
 }

@@ -1,5 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.virtual;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -178,7 +181,7 @@ public class FeVirtualRequiresInterface {
                 .uri("/virtualEditionInter/ext/" + externalId)
                 .retrieve()
                 .bodyToMono(VirtualEditionInterDto.class)
-                .block();
+                .blockOptional().orElse(null);
         //        return this.virtualProvidesInterface.getVirtualEditionInterByExternalId(externalId);
     }
 
@@ -206,6 +209,16 @@ public class FeVirtualRequiresInterface {
             e.printStackTrace();
         }
         //        this.virtualProvidesInterface.importVirtualEditionCorpus(inputStream);
+    }
+
+    public void importVirtualEditionCorupus(String corpus) {
+        webClientVirtual.build()
+                .post()
+                .uri("/importVirtualEditionCorpusString")
+                .bodyValue(corpus)
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
     }
 
     public void loadTEICorpusVirtual(InputStream inputStream) {
@@ -315,12 +328,18 @@ public class FeVirtualRequiresInterface {
     }
 
     public void dailyRegenerateTwitterCitationEdition() {
-        webClientVirtual.build()
-                .post()
-                .uri("/dailyRegenerateTwitterCitationEdition")
-                .retrieve()
-                .bodyToMono(Void.class)
-                .block();
+//        try {
+            webClientVirtual.build()
+                    .post()
+                    .uri("/dailyRegenerateTwitterCitationEdition")
+                    .retrieve()
+                    .bodyToMono(Void.class)
+                    .doOnError(ex -> System.out.println("error"))
+                    .block();
+//        }catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
         //        this.virtualProvidesInterface.dailyRegenerateTwitterCitationEdition();
     }
 
@@ -389,6 +408,16 @@ public class FeVirtualRequiresInterface {
                 .block();
         this.gameProvidesInterface.importGamesFromTEI(new FileInputStream(file));
         return result;
+    }
+
+    public void importVirtualEditionFragmentFromTEI(String fragmentTEI) throws IOException {
+        webClientVirtual.build()
+                .post()
+                .uri("/importVirtualEditionFragmentFromTEIString")
+                .bodyValue(fragmentTEI)
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
     }
 
     public boolean initializeVirtualModule() {
@@ -503,7 +532,7 @@ public class FeVirtualRequiresInterface {
                     .queryParam("user", user)
                     .queryParam("tags", tags)
                 .build())
-                .bodyValue(BodyInserters.fromValue(ranges))
+                .bodyValue(ranges)
                 .retrieve()
                 .bodyToMono(HumanAnnotationDto.class)
                 .block();
@@ -718,16 +747,26 @@ public class FeVirtualRequiresInterface {
     }
 
     public TwitterCitationDto createTwitterCitationFromCitation(CitationDto citation) {
-        return webClientVirtual.build()
-                .post()
-                .uri("/createTwitterCitationFromCitation")
-                .bodyValue(BodyInserters.fromValue(citation))
-                .retrieve()
-                .bodyToMono(TwitterCitationDto.class)
-                .block();
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        try {
+            String json = ow.writeValueAsString(citation);
+            System.out.println(json);
+            return webClientVirtual.build()
+                    .post()
+                    .uri("/createTwitterCitationFromCitation")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .bodyValue((json))
+                    .retrieve()
+                    .bodyToMono(TwitterCitationDto.class)
+                    .block();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public void createInfoRange(long id, String xmlId, String s, int htmlStart, String s1, int htmlEnd, String infoQuote, String infoText) {
+
+        public void createInfoRange(long id, String xmlId, String s, int htmlStart, String s1, int htmlEnd, String infoQuote, String infoText) {
         webClient.build()
                 .post()
                 .uri( uriBuilder -> uriBuilder
@@ -835,7 +874,7 @@ public class FeVirtualRequiresInterface {
         return webClientVirtual.build()
                 .get()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/citationDetecterPatternFinding")
+                        .path("/citationDetecterMaxJaroValue")
                         .queryParam("text", text)
                         .queryParam("wordToFind", wordToFind)
                         .build())

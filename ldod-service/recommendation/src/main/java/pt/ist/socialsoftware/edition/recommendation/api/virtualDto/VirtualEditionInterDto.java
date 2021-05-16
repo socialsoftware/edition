@@ -2,6 +2,7 @@ package pt.ist.socialsoftware.edition.recommendation.api.virtualDto;
 
 
 
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.socialsoftware.edition.recommendation.api.textDto.FragmentDto;
@@ -133,8 +134,7 @@ public class VirtualEditionInterDto {
                 .get()
                 .uri("/virtualEditionInter/" + this.xmlId + "/sortedCategoriesName")
                 .retrieve()
-                .bodyToFlux(String.class)
-                .collectList()
+                .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
                 .block();
         //        return this.virtualProvidesInterface.getSortedVirtualEditionInterCategoriesName(this.xmlId);
     }
@@ -431,7 +431,7 @@ public class VirtualEditionInterDto {
         this.title = title;
     }
 
-    public void setFragId(String fragId) {
+    public void setFragmentXmlId(String fragId) {
         this.fragId = fragId;
     }
 

@@ -568,7 +568,7 @@ public class FragmentTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-
+        a = new ArrayList<>(fragInter.getAllDepthHumanAnnotationsAccessibleByUser(ARS)).get(0);
         assertEquals("Even more interesting", a.getText());
     }
 
