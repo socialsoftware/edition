@@ -90,7 +90,7 @@
                             <configuration>
                                 <classifier>spring-boot</classifier>
                                 <mainClass>
-                                    pt.ist.socialsoftware.edition.user.config.UserApplication
+                                    pt.ist.socialsoftware.edition.virtual.config.VirtualApplication
                                 </mainClass>
                             </configuration>
                         </execution>

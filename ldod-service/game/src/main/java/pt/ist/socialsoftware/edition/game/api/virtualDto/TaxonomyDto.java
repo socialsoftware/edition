@@ -10,7 +10,8 @@ import java.util.stream.Collectors;
 
 public class TaxonomyDto {
 
-	private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
+//	private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
+	private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
 
 
 	private boolean openManagement;

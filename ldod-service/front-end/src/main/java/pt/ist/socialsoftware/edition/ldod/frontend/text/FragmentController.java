@@ -90,7 +90,6 @@ public class FragmentController {
         FragmentDto fragmentDto = this.feTextRequiresInterface.getFragmentByXmlId(xmlId);
 
         if (fragmentDto == null) {
-            logger.debug("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa\n");
             return "redirect:/error";
         }
 
@@ -105,7 +104,6 @@ public class FragmentController {
             List<VirtualEditionInterDto> inters = new ArrayList<>();
             VirtualEditionInterDto virtualEditionInterDto = this.feTextRequiresInterface.getVirtualEditionInterByUrlId(urlId);
             if (virtualEditionInterDto == null) {
-                logger.debug("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB\n");
                 return "redirect:/error";
             }
             writer = this.feTextRequiresInterface.getWriteFromPlainHtmlWriter4OneInter(virtualEditionInterDto.getLastUsed().getXmlId(), false);
@@ -118,7 +116,6 @@ public class FragmentController {
         model.addAttribute("ldoDArchiveEdition", this.feTextRequiresInterface.getVirtualEditionByAcronym(ARCHIVE_EDITION_ACRONYM));
         model.addAttribute("fragment", fragmentDto);
         model.addAttribute("writer", writer);
-        System.out.println("BCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCBB\n");
         return "fragment/main";
     }
 
@@ -285,11 +282,8 @@ public class FragmentController {
                 variations.put(inter, new FeTextRequiresInterface());
             }
 
-            System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDDD");
             List<String> apps = this.feTextRequiresInterface.putAppTextWithVariations(externalId, scholarInters.stream()
                     .map(scholarInterDto -> scholarInterDto.getXmlId()).collect(Collectors.toList()));
-            System.out.println(apps);
-
 
 //            writer.write(lineByLine, false);
 //            String writer = this.feTextRequiresInterface.getWriteFromHtmlWriter2CompIntersLineByLine(scholarInters, lineByLine, false);
@@ -443,7 +437,6 @@ public class FragmentController {
         if (this.feVirtualRequiresInterface.canManipulateAnnotation(virtualEdition.getAcronym(), user)) {
             annotationDto = this.feVirtualRequiresInterface.createHumanAnnotation(inter.getXmlId(), annotationJson.getQuote(), annotationJson.getText(), user,
                     annotationJson.getRanges(), annotationJson.getTags());
-            System.out.println("bliblibliblb");
             annotationJson.setId(annotationDto.getExternalId());
 
             return new ResponseEntity<>(new AnnotationDTO(annotationDto), HttpStatus.CREATED);

@@ -18,4 +18,12 @@ public class SimpleTextDto {
     public String getExternalId() {
         return externalId;
     }
+
+    public void setXmlId(String xmlId) {
+        this.xmlId = xmlId;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
+    }
 }

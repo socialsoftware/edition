@@ -24,7 +24,9 @@ public class FEAssistedOrderingRequiresInterface {
 
 
     // Uses Virtual Module
-    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
+//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
+
 
     public VirtualEditionDto getVirtualEditionByAcronym(String acronym) {
         return webClientVirtual.build()

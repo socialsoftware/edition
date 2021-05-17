@@ -31,8 +31,8 @@ public class VirtualRequiresInterface implements SubscribeInterface {
         scholarInterMap = new HashMap<>();
     }
 
-    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-//    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+//    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
     private static VirtualRequiresInterface instance;
 
@@ -44,13 +44,14 @@ public class VirtualRequiresInterface implements SubscribeInterface {
     }
 
     protected VirtualRequiresInterface() {
-        EventInterface.getInstance().subscribe(this);
+//        EventInterface.getInstance().subscribe(this);
     }
 
 
     @JmsListener(id = "2", containerFactory = "jmsListenerContainerFactory", destination = "test-topic")
     public void listener(Event message){
-        EventInterface.getInstance().publish(message);
+        this.notify(message);
+        //        EventInterface.getInstance().publish(message);
     }
 
 
@@ -379,8 +380,8 @@ public class VirtualRequiresInterface implements SubscribeInterface {
 
     // Uses User Service
 
-    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
-//    public WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
+//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
+    public WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
 
 
     public UserDto getUser(String username) {

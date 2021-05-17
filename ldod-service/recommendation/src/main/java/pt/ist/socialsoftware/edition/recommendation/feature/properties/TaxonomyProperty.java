@@ -37,9 +37,6 @@ public class TaxonomyProperty extends Property {
     @Override
     protected double[] extractVector(VirtualEditionInterDto inter) {
         double[] vector = getDefaultVector();
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
-        System.out.println(sortedCategories);
-        System.out.println(inter.getSortedCategoriesName());
         for (String category : inter.getSortedCategoriesName()) {
             vector[this.sortedCategories.indexOf(category)] = 1.0;
         }

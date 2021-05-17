@@ -13,8 +13,8 @@ import java.util.List;
 
 public class ScholarInterDto {
 
-    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-//    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+//    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
     private static final Logger logger = LoggerFactory.getLogger(ScholarInterDto.class);
 

@@ -3,7 +3,6 @@ FROM maven:3.6.3-jdk-11-slim as DEPS
 
 WORKDIR /opt/app
 
-COPY virtual/pom.xml /opt/app/virtual/pom.xml
 COPY search/pom.xml /opt/app/search/pom.xml
 COPY recommendation/pom.xml /opt/app/recommendation/pom.xml
 COPY visual/pom.xml /opt/app/visual/pom.xml
@@ -22,7 +21,6 @@ COPY --from=deps /root/.m2 /root/.m2
 COPY --from=deps /opt/app /opt/app
 
 
-COPY virtual/src /opt/app/virtual/src
 COPY search/src /opt/app/search/src
 COPY recommendation/src /opt/app/recommendation/src
 COPY visual/src /opt/app/visual/src
