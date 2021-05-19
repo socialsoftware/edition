@@ -38,8 +38,8 @@ public class FeVirtualRequiresInterface {
 
 
     // Uses User Module
-//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
-    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
+    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
+//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
 
 
     public UserDto getUser(String username) {
@@ -58,8 +58,8 @@ public class FeVirtualRequiresInterface {
 
 
     // Uses Virtual Module
-//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
-    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
+//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
 
 
     public Set<VirtualEditionDto> getPublicVirtualEditionsOrUserIsParticipant(String username) {
@@ -86,8 +86,8 @@ public class FeVirtualRequiresInterface {
     }
 
     // Uses Text Module
-//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
 
     public List<CitationDto> getCitationsWithInfoRanges() {

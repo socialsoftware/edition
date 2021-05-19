@@ -164,7 +164,65 @@ public class ScholarInterBaseDto {
         return this.xmlId.hashCode();
     }
 
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
+    }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setUrlId(String urlId) {
+        this.urlId = urlId;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
+    public void setExpertInter(boolean expertInter) {
+        isExpertInter = expertInter;
+    }
+
+    public void setSourceInter(boolean sourceInter) {
+        isSourceInter = sourceInter;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public void setEditionReference(String editionReference) {
+        this.editionReference = editionReference;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public void setFragXmlId(String fragXmlId) {
+        this.fragXmlId = fragXmlId;
+    }
+
+    public void setVolume(String volume) {
+        this.volume = volume;
+    }
+
+    public void setStartPage(int startPage) {
+        this.startPage = startPage;
+    }
+
+    public void setEndPage(int endPage) {
+        this.endPage = endPage;
+    }
+
+    public void setCompleteNumber(String completeNumber) {
+        this.completeNumber = completeNumber;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
 }
 
 
