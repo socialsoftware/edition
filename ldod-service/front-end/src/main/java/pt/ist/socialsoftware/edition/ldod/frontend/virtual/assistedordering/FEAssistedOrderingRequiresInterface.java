@@ -2,12 +2,12 @@ package pt.ist.socialsoftware.edition.ldod.frontend.virtual.assistedordering;
 
 import org.joda.time.LocalDate;
 import org.springframework.web.reactive.function.client.WebClient;
+import pt.ist.socialsoftware.edition.ldod.frontend.reading.recommendationDto.PropertyDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.reading.recommendationDto.wrappers.RecommendationVirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.baseDto.VirtualEditionBaseDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserProvidesInterface;
-
-import pt.ist.socialsoftware.edition.recommendation.api.RecommendationProvidesInterface;
-import pt.ist.socialsoftware.edition.recommendation.api.dto.PropertyDto;
-import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionInterDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionInterDto;
 
 
 import java.util.ArrayList;
@@ -81,14 +81,23 @@ public class FEAssistedOrderingRequiresInterface {
     }
 
     // Uses Recommendation Module
-    private final RecommendationProvidesInterface recommendationProvidesInterface = new RecommendationProvidesInterface();
+//    private final RecommendationProvidesInterface recommendationProvidesInterface = new RecommendationProvidesInterface();
+    public WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl("http://localhost:8084/api");
 
     public List<VirtualEditionInterDto> generateRecommendationFromVirtualEditionInter(VirtualEditionInterDto virtualEditionInterDto, String username, VirtualEditionDto virtualEdition, List<PropertyDto> properties) {
-        return this.recommendationProvidesInterface.generateRecommendationFromVirtualEditionInter(virtualEditionInterDto, username, virtualEdition, properties.stream().map(PropertyDto::getProperty).collect(Collectors.toList()));
+        return webClientRecommendation.build()
+                .post()
+                .uri("/generateRecommendationFromVirtualEditionInter")
+                .bodyValue(new RecommendationVirtualEditionInter(virtualEditionInterDto, username, new VirtualEditionBaseDto(virtualEdition), properties))
+                .retrieve()
+                .bodyToFlux(VirtualEditionInterDto.class)
+                .collectList()
+                .block();
+        //        return this.recommendationProvidesInterface.generateRecommendationFromVirtualEditionInter(virtualEditionInterDto, username, virtualEdition, properties.stream().map(PropertyDto::getProperty).collect(Collectors.toList()));
     }
 
 
-    public List<pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto> getVirtualEditionsUserIsParticipant(String username) {
+    public List<VirtualEditionDto> getVirtualEditionsUserIsParticipant(String username) {
 //        return new ArrayList<>(this.virtualProvidesInterface.getVirtualEditionsUserIsParticipant(username));
         return new ArrayList<>(webClientVirtual.build()
             .get()
@@ -97,7 +106,7 @@ public class FEAssistedOrderingRequiresInterface {
                 .queryParam("username", username)
                 .build())
             .retrieve()
-            .bodyToFlux(pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto.class)
+            .bodyToFlux(VirtualEditionDto.class)
             .collectList()
             .blockOptional().get());
 

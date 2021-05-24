@@ -1,8 +1,8 @@
 package pt.ist.socialsoftware.edition.api.dto;
 
 
-import pt.ist.socialsoftware.edition.recommendation.api.textDto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionInterDto;
+import pt.ist.socialsoftware.edition.api.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.api.virtualDto.VirtualEditionInterDto;
 
 public class Fragment4VisualDto {
     private String interId;

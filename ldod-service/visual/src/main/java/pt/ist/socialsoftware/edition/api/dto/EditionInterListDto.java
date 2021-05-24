@@ -1,13 +1,11 @@
 package pt.ist.socialsoftware.edition.api.dto;
 
 
-
-
-import pt.ist.socialsoftware.edition.recommendation.api.textDto.ExpertEditionInterListDto;
-import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.LdoDUserViewDto;
-import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.TaxonomyDto;
-import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionInterGameDto;
-import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionInterListDto;
+import pt.ist.socialsoftware.edition.api.textDto.ExpertEditionInterListDto;
+import pt.ist.socialsoftware.edition.api.virtualDto.LdoDUserViewDto;
+import pt.ist.socialsoftware.edition.api.virtualDto.TaxonomyDto;
+import pt.ist.socialsoftware.edition.api.virtualDto.VirtualEditionInterGameDto;
+import pt.ist.socialsoftware.edition.api.virtualDto.VirtualEditionInterListDto;
 
 import java.util.ArrayList;
 import java.util.List;

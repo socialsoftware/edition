@@ -15,13 +15,13 @@ import pt.ist.socialsoftware.edition.ldod.frontend.domain.Menu;
 import pt.ist.socialsoftware.edition.ldod.frontend.domain.Option;
 import pt.ist.socialsoftware.edition.ldod.frontend.domain.UiComponent;
 import pt.ist.socialsoftware.edition.ldod.frontend.game.FeGameRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.reading.FeReadingRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.session.SessionRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
 import pt.ist.socialsoftware.edition.notification.event.EventInterface;
-import pt.ist.socialsoftware.edition.recommendation.api.RecommendationProvidesInterface;
-import pt.ist.socialsoftware.edition.recommendation.api.RecommendationRequiresInterface;
+
 
 
 import javax.servlet.ServletContext;
@@ -47,7 +47,7 @@ public class Bootstrap implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext arg0) throws ServletException {
         initializeSystem();
-        new RecommendationProvidesInterface().loadRecommendationCache();
+        new FeReadingRequiresInterface().loadRecommendationCache();
     }
 
     @Atomic(mode = TxMode.WRITE)
@@ -71,7 +71,7 @@ public class Bootstrap implements WebApplicationInitializer {
 
         virtualCreate = new FeVirtualRequiresInterface().initializeVirtualModule();
 
-        new RecommendationProvidesInterface().initializeRecommendationModule();
+        new FeReadingRequiresInterface().initializeRecommendationModule();
 
         new FeGameRequiresInterface().initializeGameModule();
 
@@ -97,7 +97,6 @@ public class Bootstrap implements WebApplicationInitializer {
         EventInterface.getInstance();
         SessionRequiresInterface.getInstance();
         GameRequiresInterface.getInstance();
-        RecommendationRequiresInterface.getInstance();
     }
 
     private static void loadGamesFromFile() {

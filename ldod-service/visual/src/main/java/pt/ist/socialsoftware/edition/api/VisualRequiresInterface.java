@@ -3,15 +3,15 @@ package pt.ist.socialsoftware.edition.api;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient;
-import pt.ist.socialsoftware.edition.recommendation.api.RecommendationProvidesInterface;
-import pt.ist.socialsoftware.edition.recommendation.api.dto.InterIdDistancePairDto;
-import pt.ist.socialsoftware.edition.recommendation.api.dto.WeightsDto;
-import pt.ist.socialsoftware.edition.recommendation.api.textDto.ExpertEditionDto;
-import pt.ist.socialsoftware.edition.recommendation.api.textDto.ExpertEditionInterListDto;
-import pt.ist.socialsoftware.edition.recommendation.api.textDto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionInterListDto;
+import pt.ist.socialsoftware.edition.api.recommendationDto.InterIdDistancePairDto;
+import pt.ist.socialsoftware.edition.api.recommendationDto.WeightsDto;
+import pt.ist.socialsoftware.edition.api.recommendationDto.wrappers.IntersByDistance;
+import pt.ist.socialsoftware.edition.api.textDto.ExpertEditionDto;
+import pt.ist.socialsoftware.edition.api.textDto.ExpertEditionInterListDto;
+import pt.ist.socialsoftware.edition.api.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.api.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.api.virtualDto.VirtualEditionInterDto;
+import pt.ist.socialsoftware.edition.api.virtualDto.VirtualEditionInterListDto;
 
 
 import java.util.List;
@@ -138,13 +138,14 @@ public class VisualRequiresInterface {
 
 
     // Requires the Recommendation Module
-    RecommendationProvidesInterface recommendationProvidesInterface = new RecommendationProvidesInterface();
+//    RecommendationProvidesInterface recommendationProvidesInterface = new RecommendationProvidesInterface();
+    private final WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl("http://localhost:8084/api");
 
     public List<InterIdDistancePairDto> getIntersByDistance(String externalId, WeightsDto weights) {
 
         ScholarInterDto scholarInterDto = getScholarInterbyExternalId(externalId);
         if (scholarInterDto != null) {
-            return this.recommendationProvidesInterface.getIntersByDistance(scholarInterDto, weights);
+            return getScholarIntersByDistance(scholarInterDto, weights);
         }
 
         VirtualEditionInterDto virtualEditionInterDto = webClientVirtual.build()
@@ -155,9 +156,31 @@ public class VisualRequiresInterface {
                 .block();
 //                this.virtualProvidesInterface.getVirtualEditionInterByExternalId(externalId);
         if (virtualEditionInterDto != null) {
-            return this.recommendationProvidesInterface.getIntersByDistance(virtualEditionInterDto, weights);
+            return geVirtualEditiontIntersByDistance(virtualEditionInterDto, weights);
         }
         return null;
     }
 
+
+    private List<InterIdDistancePairDto> getScholarIntersByDistance(ScholarInterDto scholarInterDto, WeightsDto weightsDto) {
+        return webClientRecommendation.build()
+                .post()
+                .uri("/scholarIntersByDistance")
+                .bodyValue(new IntersByDistance(scholarInterDto, weightsDto))
+                .retrieve()
+                .bodyToFlux(InterIdDistancePairDto.class)
+                .collectList()
+                .block();
+    }
+
+    private List<InterIdDistancePairDto> geVirtualEditiontIntersByDistance(VirtualEditionInterDto virtualEditionInterDto, WeightsDto weightsDto) {
+        return webClientRecommendation.build()
+                .post()
+                .uri("/virtualEditionIntersByDistance")
+                .bodyValue(new IntersByDistance(virtualEditionInterDto, weightsDto))
+                .retrieve()
+                .bodyToFlux(InterIdDistancePairDto.class)
+                .collectList()
+                .block();
+    }
 }

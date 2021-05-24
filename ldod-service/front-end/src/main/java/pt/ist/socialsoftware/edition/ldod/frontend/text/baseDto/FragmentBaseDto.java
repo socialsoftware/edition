@@ -25,6 +25,12 @@ public class FragmentBaseDto {
 
     public FragmentBaseDto() {  }
 
+    public FragmentBaseDto(FragmentDto fragmentDto) {
+        this.xmlId = fragmentDto.getXmlId();
+        this.title = fragmentDto.getTitle();
+        this.externalId = fragmentDto.getExternalId();
+    }
+
     public String getXmlId() {
         return this.xmlId;
     }

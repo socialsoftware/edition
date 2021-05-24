@@ -9,19 +9,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import pt.ist.socialsoftware.edition.recommendation.api.dto.InterIdDistancePairDto;
-import pt.ist.socialsoftware.edition.recommendation.api.dto.WeightsDto;
-
 
 import pt.ist.socialsoftware.edition.api.VisualRequiresInterface;
 import pt.ist.socialsoftware.edition.api.dto.EditionFragmentsDto;
 import pt.ist.socialsoftware.edition.api.dto.EditionInterListDto;
 import pt.ist.socialsoftware.edition.api.dto.Fragment4VisualDto;
-import pt.ist.socialsoftware.edition.recommendation.api.textDto.ExpertEditionDto;
-import pt.ist.socialsoftware.edition.recommendation.api.textDto.ExpertEditionInterListDto;
-import pt.ist.socialsoftware.edition.recommendation.api.textDto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.recommendation.api.virtualDto.VirtualEditionInterDto;
+import pt.ist.socialsoftware.edition.api.recommendationDto.InterIdDistancePairDto;
+import pt.ist.socialsoftware.edition.api.recommendationDto.WeightsDto;
+import pt.ist.socialsoftware.edition.api.textDto.ExpertEditionDto;
+import pt.ist.socialsoftware.edition.api.textDto.ExpertEditionInterListDto;
+import pt.ist.socialsoftware.edition.api.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.api.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.api.virtualDto.VirtualEditionInterDto;
 
 
 import java.util.ArrayList;

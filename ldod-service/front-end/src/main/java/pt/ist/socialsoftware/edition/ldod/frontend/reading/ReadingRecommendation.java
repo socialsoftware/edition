@@ -2,10 +2,10 @@ package pt.ist.socialsoftware.edition.ldod.frontend.reading;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import pt.ist.socialsoftware.edition.recommendation.api.dto.WeightsDto;
-import pt.ist.socialsoftware.edition.recommendation.api.textDto.FragmentDto;
-import pt.ist.socialsoftware.edition.recommendation.api.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.reading.recommendationDto.WeightsDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.baseDto.FragmentBaseDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.ScholarInterDto;
 
 
 import java.io.Serializable;
@@ -75,23 +75,23 @@ public class ReadingRecommendation implements Serializable {
 
         this.read.add(expertEditionInterId);
 
-        List<Entry<FragmentDto, Double>> mostSimilars = this.FEReadingRequiresInterface.
-                getMostSimilarFragmentsOfGivenFragment(toReadFragment, toBeRecommended,
+        List<Entry<String, Double>> mostSimilars = this.FEReadingRequiresInterface.
+                getMostSimilarFragmentsOfGivenFragment(new FragmentBaseDto(toReadFragment), toBeRecommended.stream().map(FragmentBaseDto::new).collect(Collectors.toSet()),
                         new WeightsDto(getHeteronymWeight(), getDateWeight(), getTextWeight(), getTaxonomyWeight()));
 
         Set<ScholarInterDto> result = new HashSet<>();
         Double value = mostSimilars.get(0).getValue();
-        for (Entry<FragmentDto, Double> entry : mostSimilars) {
+        for (Entry<String, Double> entry : mostSimilars) {
             // logger.debug("ReadingRecommendation value1:{}, value2:{}", value,
             // entry.getValue());
             // add all interpretations that are similar
             if (Math.abs(value - entry.getValue()) < 0.001 && result.size() < 5) {
-                result.addAll(entry.getKey().getScholarInterDtoSetForExpertEdtion(toReadInter.getExpertEditionAcronym()));
+                result.addAll(FEReadingRequiresInterface.getFragmentByXmlId(entry.getKey()).getScholarInterDtoSetForExpertEdtion(toReadInter.getExpertEditionAcronym()));
                 // if the most similar fragment does not have an interpretation
                 // in this edition, use the next most similar fragment
             } else if (result.size() == 0) {
                 value = entry.getValue();
-                result.addAll(entry.getKey().getScholarInterDtoSetForExpertEdtion(toReadInter.getExpertEditionAcronym()));
+                result.addAll(FEReadingRequiresInterface.getFragmentByXmlId(entry.getKey()).getScholarInterDtoSetForExpertEdtion(toReadInter.getExpertEditionAcronym()));
             } else {
                 break;
             }

@@ -166,11 +166,6 @@
         </dependency>
         <dependency>
             <groupId>pt.ist.socialsoftware</groupId>
-            <artifactId>recommendation</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>pt.ist.socialsoftware</groupId>
             <artifactId>search</artifactId>
             <version>1.0</version>
         </dependency>

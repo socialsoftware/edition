@@ -23,14 +23,14 @@ import pt.ist.socialsoftware.edition.ldod.frontend.config.Application;
 import pt.ist.socialsoftware.edition.ldod.frontend.filters.TransactionFilter;
 
 import pt.ist.socialsoftware.edition.api.remote.VisualRemoteController;
+import pt.ist.socialsoftware.edition.ldod.frontend.reading.recommendationDto.InterIdDistancePairDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.reading.recommendationDto.WeightsDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.search.FeSearchRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.recommendation.api.dto.InterIdDistancePairDto;
-import pt.ist.socialsoftware.edition.recommendation.api.dto.WeightsDto;
 import pt.ist.socialsoftware.edition.search.api.textDto.ScholarInterDto;
 
 

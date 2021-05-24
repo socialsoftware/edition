@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import pt.ist.socialsoftware.edition.game.api.GameRequiresInterface;
 import pt.ist.socialsoftware.edition.game.domain.ClassificationModule;
 import pt.ist.socialsoftware.edition.game.feature.classification.inout.GameXMLImport;
+import pt.ist.socialsoftware.edition.ldod.frontend.reading.FeReadingRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.session.SessionRequiresInterface;
@@ -15,8 +16,7 @@ import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
 import pt.ist.socialsoftware.edition.notification.event.EventInterface;
-import pt.ist.socialsoftware.edition.recommendation.api.RecommendationRequiresInterface;
-import pt.ist.socialsoftware.edition.recommendation.domain.RecommendationModule;
+
 
 
 
@@ -109,7 +109,6 @@ public class TestLoadUtils {
         EventInterface.getInstance();
         SessionRequiresInterface.getInstance();
         GameRequiresInterface.getInstance();
-        RecommendationRequiresInterface.getInstance();
 
        feTextRequiresInterface.removeTextModule();
 
@@ -117,10 +116,7 @@ public class TestLoadUtils {
 
         feVirtualRequiresInterface.removeVirtualModule();
 
-        RecommendationModule recommendationModule = RecommendationModule.getInstance();
-        if (recommendationModule != null) {
-            recommendationModule.remove();
-        }
+        new FeReadingRequiresInterface().removeRecommendationModule();
 
         ClassificationModule classificationModule = ClassificationModule.getInstance();
         if (classificationModule != null) {

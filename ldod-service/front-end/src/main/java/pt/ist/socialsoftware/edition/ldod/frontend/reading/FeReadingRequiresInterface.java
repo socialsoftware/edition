@@ -2,13 +2,14 @@ package pt.ist.socialsoftware.edition.ldod.frontend.reading;
 
 
 
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import pt.ist.socialsoftware.edition.recommendation.api.RecommendationProvidesInterface;
-import pt.ist.socialsoftware.edition.recommendation.api.dto.WeightsDto;
-import pt.ist.socialsoftware.edition.recommendation.api.textDto.ExpertEditionDto;
-import pt.ist.socialsoftware.edition.recommendation.api.textDto.FragmentDto;
-import pt.ist.socialsoftware.edition.recommendation.api.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.reading.recommendationDto.WeightsDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.reading.recommendationDto.wrappers.MostSimilarFragments;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.baseDto.FragmentBaseDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.ExpertEditionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.FragmentDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.ScholarInterDto;
 
 
 import java.util.List;
@@ -72,11 +73,46 @@ public class FeReadingRequiresInterface {
     }
 
     // Uses Recommendation Module
-    private final RecommendationProvidesInterface recommendationProvidesInterface = new RecommendationProvidesInterface();
+//    private final RecommendationProvidesInterface recommendationProvidesInterface = new RecommendationProvidesInterface();
+    public WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl("http://localhost:8084/api");
 
-    public List<Map.Entry<FragmentDto, Double>> getMostSimilarFragmentsOfGivenFragment(FragmentDto toReadFragment, Set<FragmentDto> toBeRecommended, WeightsDto weightsDto) {
-        return this.recommendationProvidesInterface.getMostSimilarFragmentsOfGivenFragment(toReadFragment, toBeRecommended, weightsDto);
+    public List<Map.Entry<String, Double>> getMostSimilarFragmentsOfGivenFragment(FragmentBaseDto toReadFragment, Set<FragmentBaseDto> toBeRecommended, WeightsDto weightsDto) {
+        return webClientRecommendation.build()
+                .post()
+                .uri("/mostSimilarFragmentsOfGivenFragment")
+                .bodyValue(new MostSimilarFragments(toReadFragment, toBeRecommended, weightsDto))
+                .retrieve()
+                .bodyToFlux(new ParameterizedTypeReference<Map.Entry<String, Double>>() {})
+                .collectList()
+                .block();
+        //        return this.recommendationProvidesInterface.getMostSimilarFragmentsOfGivenFragment(toReadFragment, toBeRecommended, weightsDto);
     }
 
 
+    public void initializeRecommendationModule() {
+        webClientRecommendation.build()
+                .post()
+                .uri("/initializeRecommendationModule")
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
+    }
+
+    public void loadRecommendationCache() {
+        webClientRecommendation.build()
+                .post()
+                .uri("/loadRecommendationCache")
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
+    }
+
+    public void removeRecommendationModule() {
+        webClientRecommendation.build()
+                .post()
+                .uri("/removeRecommendationModule")
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
+    }
 }

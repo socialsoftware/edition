@@ -74,7 +74,6 @@ public class VirtualProvidesInterface {
     public VirtualEditionDto getVirtualEdition(@PathVariable("acronym") String acronym) {
         System.out.println("getVirtualEdition: " + acronym);
         VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
-        System.out.println(virtualEdition);
         if (virtualEdition != null) {
             return new VirtualEditionDto(virtualEdition);
         }

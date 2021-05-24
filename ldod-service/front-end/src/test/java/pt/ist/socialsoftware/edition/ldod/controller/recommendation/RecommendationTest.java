@@ -18,12 +18,12 @@ import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 
 import pt.ist.socialsoftware.edition.ldod.frontend.config.Application;
 import pt.ist.socialsoftware.edition.ldod.frontend.filters.TransactionFilter;
+import pt.ist.socialsoftware.edition.ldod.frontend.reading.recommendationDto.RecommendVirtualEditionParam;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.assistedordering.AssistedOrderingController;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionInterDto;
-import pt.ist.socialsoftware.edition.recommendation.api.dto.RecommendVirtualEditionParam;
 
 
 

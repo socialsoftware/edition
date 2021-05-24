@@ -727,7 +727,6 @@
 
         <modules>
             <module>visual</module>
-            <module>recommendation</module>
             <module>search</module>
             <module>game</module>
             <module>front-end</module>

@@ -2,6 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -79,6 +80,7 @@ public class VirtualEditionInterDto {
         return this.shortName;
     }
 
+    @JsonIgnore
     public ScholarInterDto getLastUsed() {
         //return this.virtualProvidesInterface.getVirtualEditionLastUsedScholarInter(this.xmlId);
         if (this.lastUsed == null)
@@ -93,6 +95,7 @@ public class VirtualEditionInterDto {
         return this.lastUsed;
     }
 
+    @JsonIgnore
     public String getUsesScholarInterId() {
         return getLastUsed().getXmlId();
     }
@@ -107,6 +110,7 @@ public class VirtualEditionInterDto {
         return this.number;
     }
 
+    @JsonIgnore
     public VirtualEditionInterDto getNextInter() {
         return webClientVirtual.build()
                 .get()
@@ -117,6 +121,7 @@ public class VirtualEditionInterDto {
         //        return this.virtualProvidesInterface.getNextVirtualInter(this.xmlId);
     }
 
+    @JsonIgnore
     public VirtualEditionInterDto getPrevInter() {
         return webClientVirtual.build()
                 .get()
@@ -127,6 +132,7 @@ public class VirtualEditionInterDto {
         //        return this.virtualProvidesInterface.getPrevVirtualInter(this.xmlId);
     }
 
+    @JsonIgnore
     public VirtualEditionInterDto getUsesInter() {
         return webClientVirtual.build()
                 .get()
@@ -137,6 +143,7 @@ public class VirtualEditionInterDto {
         //        return this.virtualProvidesInterface.getVirtualEditionInterUses(this.xmlId);
     }
 
+    @JsonIgnore
     public List<String> getSortedCategoriesName() {
         return webClientVirtual.build()
                 .get()
@@ -147,6 +154,7 @@ public class VirtualEditionInterDto {
         //        return this.virtualProvidesInterface.getSortedVirtualEditionInterCategoriesName(this.xmlId);
     }
 
+    @JsonIgnore
     public List<CategoryDto> getSortedCategories(VirtualEditionDto virtualEditionDto) {
         return webClientVirtual.build()
                 .get()
@@ -161,6 +169,7 @@ public class VirtualEditionInterDto {
         //        return this.virtualProvidesInterface.getSortedVirtualEditionInterCategoriesFromVirtualEdition(this.xmlId, virtualEditionDto.getAcronym());
     }
 
+    @JsonIgnore
     public List<CategoryDto> getCategoriesUsedInTags(String username) {
         return webClientVirtual.build()
                 .get()
@@ -176,6 +185,7 @@ public class VirtualEditionInterDto {
         //        return this.virtualProvidesInterface.getCategoriesUsedInTags(this.xmlId, username);
     }
 
+    @JsonIgnore
     public List<CategoryDTO> getAllDepthCategoriesAccessibleByUser(String username) {
         return webClientVirtual.build()
                 .get()
@@ -190,6 +200,7 @@ public class VirtualEditionInterDto {
         //        return this.virtualProvidesInterface.getVirtualEditionInterAllDepthCategoriesAccessibleByUser(this.xmlId, username);
     }
 
+    @JsonIgnore
     public Set<TagDto> getAllDepthTagsAccessibleByUser(String username) {
         return webClientVirtual.build()
                 .get()
@@ -204,6 +215,7 @@ public class VirtualEditionInterDto {
         //        return this.virtualProvidesInterface.getVirtualEditionInterAllDepthTagsAccessibleByUser(this.xmlId, username);
     }
 
+    @JsonIgnore
     public Set<TagDto> getTagSet(){
         return webClientVirtual.build()
                 .get()
@@ -215,6 +227,7 @@ public class VirtualEditionInterDto {
         //        return this.virtualProvidesInterface.getAllTags(xmlId);
     }
 
+    @JsonIgnore
     public List<CategoryDto> getAllDepthCategoriesUsedByUserInTags(String username) {
         return webClientVirtual.build()
                 .get()
@@ -229,6 +242,7 @@ public class VirtualEditionInterDto {
         //        return this.virtualProvidesInterface.getVirtualEditionInterAllDepthCategoriesUsedByUserInTags(this.xmlId, username);
     }
 
+    @JsonIgnore
     public List<CategoryDto> getAllDepthCategoriesNotUsedInTags(String username) {
         return webClientVirtual.build()
                 .get()
@@ -243,6 +257,7 @@ public class VirtualEditionInterDto {
         //        return this.virtualProvidesInterface.getVirtualEditionInterAllDepthCategoriesNotUsedInTags(this.xmlId, username);
     }
 
+    @JsonIgnore
     public VirtualEditionDto getVirtualEditionDto() {
         return webClientVirtual.build()
                 .get()
@@ -253,6 +268,7 @@ public class VirtualEditionInterDto {
         //        return this.virtualProvidesInterface.getVirtualEditionOfVirtualEditionInter(this.xmlId);
     }
 
+    @JsonIgnore
     public List<AnnotationDto> getAllDepthAnnotationsAccessibleByUser(String username) {
         return webClientVirtual.build()
                 .get()
@@ -267,6 +283,7 @@ public class VirtualEditionInterDto {
         //        return this.virtualProvidesInterface.getAllDepthAnnotationsAccessibleByUser(this.xmlId, username);
     }
 
+    @JsonIgnore
     public List<TagDto> getAllDepthTagsNotHumanAnnotationAccessibleByUser(String username) {
         return webClientVirtual.build()
                 .get()
@@ -281,6 +298,7 @@ public class VirtualEditionInterDto {
         //        return this.virtualProvidesInterface.getAllDepthTagsNotHumanAnnotationAccessibleByUser(this.xmlId, username);
     }
 
+    @JsonIgnore
     public List<HumanAnnotationDto> getVirtualEditionInterHumanAnnotationsAccessibleByUser(String username) {
         return webClientVirtual.build()
                 .get()
@@ -295,6 +313,7 @@ public class VirtualEditionInterDto {
         //        return this.virtualProvidesInterface.getVirtualEditionInterHumanAnnotationsAccessibleByUser(this.xmlId, username);
     }
 
+    @JsonIgnore
     public List<AwareAnnotationDto> getVirtualEditionInterAwareAnnotationsAccessibleByUser(String username) {
         return webClientVirtual.build()
                 .get()
@@ -309,6 +328,7 @@ public class VirtualEditionInterDto {
         //        return this.virtualProvidesInterface.getVirtualEditionInterAwareAnnotationsAccessibleByUser(this.xmlId, username);
     }
 
+    @JsonIgnore
     public List<VirtualEditionInterDto> getUsesPath() {
         List<VirtualEditionInterDto> usesPath = new ArrayList<>();
         VirtualEditionInterDto uses = getUsesInter();
@@ -320,6 +340,7 @@ public class VirtualEditionInterDto {
         return usesPath;
     }
 
+    @JsonIgnore
     public List<CategoryDto> getAllDepthCategoriesUsedInTags(String username) {
         return webClientVirtual.build()
                 .get()
@@ -334,10 +355,12 @@ public class VirtualEditionInterDto {
         //        return this.virtualProvidesInterface.getVirtualEditionInterAllDepthCategoriesUsedInTags(this.xmlId, username);
     }
 
+    @JsonIgnore
     public FragmentDto getFragmentDto() {
         return getLastUsed().getFragmentDto();
     }
 
+    @JsonIgnore
     public String getAllDepthCategoriesJSON(String username) {
         return webClientVirtual.build()
                 .get()
@@ -351,6 +374,7 @@ public class VirtualEditionInterDto {
         //        return this.virtualProvidesInterface.getAllDepthCategoriesJSON(this.xmlId, username);
     }
 
+    @JsonIgnore
     public Set<String> getContributorSet(String externalId, String username) {
         return webClientVirtual.build()
                 .get()
@@ -382,6 +406,7 @@ public class VirtualEditionInterDto {
         return this.xmlId.hashCode();
     }
 
+    @JsonIgnore
     public void dissociate(String authenticatedUser, String category) {
         webClientVirtual.build()
                 .post()
@@ -397,6 +422,7 @@ public class VirtualEditionInterDto {
         //        this.virtualProvidesInterface.dissociateVirtualEditionInterCategory(this.xmlId, authenticatedUser, category);
     }
 
+    @JsonIgnore
     public void associate(String authenticatedUser, Set<String> collect) {
         webClientVirtual.build()
                 .post()
@@ -412,20 +438,8 @@ public class VirtualEditionInterDto {
         //        this.virtualProvidesInterface.associateVirtualEditionInterCategoriesbyExternalId(this.externalId, authenticatedUser, collect);
     }
 
+    @JsonIgnore
     public HumanAnnotationDto createHumanAnnotation(String quote, String text, String username, List<RangeJson> ranges, List<String> tags) {
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-//        String json = "";
-//        try {
-//            json = ow.writeValueAsString(ranges.get(0));
-//            System.out.println(json);
-//
-//            ObjectMapper mapper = new ObjectMapper();
-//            mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-//            RangeJson rangeJson = mapper.convertValue(json, RangeJson.class);
-//            System.out.println(rangeJson);
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
         return webClientVirtual.build()
                 .post()
                 .uri(uriBuilder -> uriBuilder
@@ -443,6 +457,7 @@ public class VirtualEditionInterDto {
         //       return this.virtualProvidesInterface.createHumanAnnotation(this.xmlId, quote, text, username, ranges, tags);
     }
 
+    @JsonIgnore
     public List<HumanAnnotationDto> getAllDepthHumanAnnotationsAccessibleByUser(String username) {
         return webClientVirtual.build()
                 .get()
@@ -456,6 +471,7 @@ public class VirtualEditionInterDto {
                 .block();
     }
 
+    @JsonIgnore
     public void removeInter() {
         webClientVirtual.build()
                 .post()
