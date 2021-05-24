@@ -83,6 +83,8 @@ public class FEAssistedOrderingRequiresInterface {
     // Uses Recommendation Module
 //    private final RecommendationProvidesInterface recommendationProvidesInterface = new RecommendationProvidesInterface();
     public WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl("http://localhost:8084/api");
+    //    private final WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl("http://docker-recommendation:8084/api");
+
 
     public List<VirtualEditionInterDto> generateRecommendationFromVirtualEditionInter(VirtualEditionInterDto virtualEditionInterDto, String username, VirtualEditionDto virtualEdition, List<PropertyDto> properties) {
         return webClientRecommendation.build()

@@ -4,7 +4,6 @@ FROM maven:3.6.3-jdk-11-slim as DEPS
 WORKDIR /opt/app
 
 COPY search/pom.xml /opt/app/search/pom.xml
-COPY recommendation/pom.xml /opt/app/recommendation/pom.xml
 COPY visual/pom.xml /opt/app/visual/pom.xml
 COPY game/pom.xml /opt/app/game/pom.xml
 COPY front-end/pom.xml /opt/app/front-end/pom.xml
@@ -22,7 +21,6 @@ COPY --from=deps /opt/app /opt/app
 
 
 COPY search/src /opt/app/search/src
-COPY recommendation/src /opt/app/recommendation/src
 COPY visual/src /opt/app/visual/src
 COPY game/src /opt/app/game/src
 COPY front-end/src /opt/app/front-end/src

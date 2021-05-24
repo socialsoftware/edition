@@ -140,6 +140,7 @@ public class VisualRequiresInterface {
     // Requires the Recommendation Module
 //    RecommendationProvidesInterface recommendationProvidesInterface = new RecommendationProvidesInterface();
     private final WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl("http://localhost:8084/api");
+    //    private final WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl("http://docker-recommendation:8084/api");
 
     public List<InterIdDistancePairDto> getIntersByDistance(String externalId, WeightsDto weights) {
 
