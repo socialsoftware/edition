@@ -2,6 +2,15 @@
 const initialState = {
     user : {},
     data: {},
+    recommendation: {
+        read: [],
+        heteronymWeight: 0,
+        dateWeight: 0,
+        textWeight: 1,
+        taxonomyWeight: 0,
+        currentInterpretation: null,
+        prevRecomendation: null
+    },
     language: "pt",
     modules: [
         {
@@ -24,8 +33,8 @@ const initialState = {
             name: "general_reading",
             active: true,
             pages: [{id:"general_reading_sequences", route:"/reading"},
-                    {id:"general_reading_visual", route:"/ldod-visual"},
-                    {id:"general_citations_twitter", route:"/citations"}]
+                    {id:"general_reading_visual", route:"/reading/ldod-visual"},
+                    {id:"general_citations_twitter", route:"/reading/citations"}]
         },
         {
             name: "header_documents",
@@ -81,6 +90,13 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 data : action.payload.data
+            }
+            
+        }
+        case "SET_REC" : {
+            return {
+                ...state,
+                recommendation : action.payload
             }
             
         }

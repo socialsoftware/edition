@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.DateProperty;
@@ -20,13 +22,22 @@ import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TaxonomyProperty;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TextProperty;
+import pt.ist.socialsoftware.edition.ldod.search.options.Search;
+import pt.ist.socialsoftware.edition.ldod.search.options.SearchOption;
 
 public class ReadingRecommendation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private static final String HETERONYM = "heteronymWeight";
+	private static final String DATE = "dateWeight";
+	private static final String TEXT = "textWeight";
+	private static final String TAXONOMY = "taxonomyWeight";
+	private static final String READ = "read";
+	
+	
 	private static Logger logger = LoggerFactory.getLogger(ReadingRecommendation.class);
 
-	private final List<String> read = new ArrayList<>();
+	private List<String> read = new ArrayList<>();
 	private double heteronymWeight = 0.0;
 	private double dateWeight = 0.0;
 	private double textWeight = 1.0;
@@ -35,6 +46,18 @@ public class ReadingRecommendation implements Serializable {
 	public ReadingRecommendation() {
 	}
 
+	public ReadingRecommendation(
+		@JsonProperty(ReadingRecommendation.HETERONYM) double heteronymWeight, @JsonProperty(ReadingRecommendation.DATE) double dateWeight,
+		@JsonProperty(ReadingRecommendation.TEXT) double textWeight, @JsonProperty(ReadingRecommendation.TAXONOMY) double taxonomyWeight, 
+		@JsonProperty(ReadingRecommendation.READ) List<String> read) {
+		
+		setHeteronymWeight(heteronymWeight);
+		setDateWeight(dateWeight);
+		setTextWeight(textWeight);
+		setTaxonomyWeight(taxonomyWeight);
+		setRead(read);
+	}
+	
 	public void clean() {
 		this.read.clear();
 		this.heteronymWeight = 0.0;
@@ -143,7 +166,18 @@ public class ReadingRecommendation implements Serializable {
 	}
 
 	public String getCurrentInterpretation() {
-		return this.read.get(this.read.size() - 1);
+		if(this.read.size() > 1) {
+			return this.read.get(this.read.size() - 1);
+		}
+		return null;
+	}
+	
+	public List<String> getRead() {
+		return this.read;
+	}
+	
+	public void setRead(List<String> read) {
+		this.read = read;
 	}
 
 	public double getHeteronymWeight() {

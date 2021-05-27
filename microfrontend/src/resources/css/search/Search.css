@@ -100,12 +100,23 @@
 
 }
 
+.search-table-search{
+    width: 1170px;
+    max-width: 1170px;
+    margin: 0 auto;
+    position: relative;
+}
+
+
 @media (max-width: 1200px){
     .search-page {
         width: 970px;
     }
     .edition-special{
         margin-top: 20px;
+    }
+    .search-table-search{
+        width: 970px;
     }
 
     
@@ -117,6 +128,10 @@
     .form-advanced-options-edition{
         flex-direction: column;
     }
+    .search-table-search{
+        width: 750px;
+    }
+
 }
 @media (max-width: 768px){
     .search-page {
@@ -187,25 +202,10 @@
     overflow-x: auto;
     overflow-y: hidden;
     border-left: 1px solid #ddd;
-    
+    margin: 0 auto;
 }
 
-.result-adv table {
-    /* Make sure the inner table is always as wide as needed */
-    width: 100%;
-    border-spacing: 0;
-    position: relative;
-    
-}
 
-.result-adv td {
-    margin: 0;
-    padding: 0.5rem;
-    border-bottom: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    width: 1%;
-    text-align: left;
-}
 .table-d-link{
     color: #0C4EF6 !important;
     cursor: pointer;
@@ -214,32 +214,12 @@
 .table-d-link:hover{
     text-decoration: underline;
 }
-.result-adv th {
-    margin: 0;
-    padding: 0.5rem;
-    border-bottom: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    width: 1%;
-    text-align: left;
-}
 
-.result-adv th:last-child{
-    border-right: 0;
-}
-.result-adv td:last-child{
-    border-right: 0;
-}
 
 .pagination{
     margin-top: 10px;
 }
 
-.search-table-search{
-    width: 1170px;
-    max-width: 1170px;
-    margin: 0 auto;
-    position: relative;
-}
 
 .input-filter{
     position: absolute;

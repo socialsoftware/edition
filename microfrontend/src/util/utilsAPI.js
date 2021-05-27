@@ -58,6 +58,65 @@ export function getVirtualEditionMap (val) {
     return axios.get(API_BASE_URL + `/api/microfrontend/getVirtualEditions`)
 }
 
+export function getReadingExperts () {
+    return axios.get(API_BASE_URL + `/api/microfrontend/reading`)
+}
+export function getStartReadingFragment (acronym, data) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/edition/${acronym}/start`, data, {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+        })
+}
+export function getCurrentReadingFragment (val, val1) {
+    return axios.get(API_BASE_URL + `/api/microfrontend/reading/fragment/${val}/inter/${val1}`)
+}
+
+
+export function getCurrentReadingFragmentJson(val, val1, data) {
+
+    return axios.post(API_BASE_URL + `/api/microfrontend/reading/fragment/${val}/interJson/${val1}`, data, {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+        } 
+    )
+}
+
+export function getNextReadingFragment (val, val1, data) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/fragment/${val}/inter/${val1}/next`, data, {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+        })
+}
+export function getPrevReadingFragment (val, val1, data) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/fragment/${val}/inter/${val1}/prev`, data, {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+        })
+}
+
+export function resetPrevRecom (data) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/inter/prev/recom/reset`, data, {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+        })
+}
+export function getPrevRecom (data) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/inter/prev/recom`, data, {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+        })
+}
+
+export function getTwitterCitations () {
+    return axios.get(API_BASE_URL + `/api/microfrontend/citations`)
+}
+
 export function getCurrentUser() {
     if(!localStorage.getItem(ACCESS_TOKEN)) {
         return Promise.reject("No access token set.");

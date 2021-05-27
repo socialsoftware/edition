@@ -18,6 +18,7 @@ import Documents_DISPATCHER from './documents/Documents_DISPATCHER';
 import Home from './common/Home';
 import Edition_DISPATCHER from './edition/Edition_DISPATCHER';
 import Search_DISPATCHER from './search/Search_DISPATCHER';
+import Reading_DISPATCHER from './reading/Reading_DISPATCHER';
 
 const Root = () => {
 
@@ -35,10 +36,12 @@ const Root = () => {
             setLanguage("pt")
         }
         else if(val === "en" && language!==val){
+            // @ts-ignore
             setMessages(messages_en)
             setLanguage("en")
         }
         else if(val === "es" && language!==val){
+            // @ts-ignore
             setMessages(messages_es)
             setLanguage("es")
         }
@@ -131,6 +134,13 @@ const Root = () => {
                         </Route>
                         <Route path="/search" 
                             component={(props) => <Search_DISPATCHER 
+                            {...props} 
+                            language={language}
+                            messages={messages}
+                            />}>
+                        </Route>
+                        <Route path="/reading" 
+                            component={(props) => <Reading_DISPATCHER 
                             {...props} 
                             language={language}
                             messages={messages}

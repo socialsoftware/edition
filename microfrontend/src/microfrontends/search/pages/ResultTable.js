@@ -25,6 +25,7 @@ const ResultTable = (props) => {
         }
       )
       let i = 1
+      // @ts-ignore
       for(let el of props.data.search){
         let h = `C${i}`
         let a = `c${i}`
@@ -163,6 +164,7 @@ const ResultTable = (props) => {
       globalFilter,
       setGlobalFilter,
     }) {
+      // @ts-ignore
       const count = preGlobalFilteredRows.length
       const [value, setValue] = React.useState(globalFilter)
       const onChange = useAsyncDebounce(value => {
@@ -185,29 +187,41 @@ const ResultTable = (props) => {
     }
 
     function Table({ columns, data }) {
-        // Use the state and functions returned from useTable to build your UI
         const {
           getTableProps,
           getTableBodyProps,
           headerGroups,
           prepareRow,
+          // @ts-ignore
           page,
+          // @ts-ignore
           canPreviousPage,
+          // @ts-ignore
           canNextPage,
+          // @ts-ignore
           pageOptions,
+          // @ts-ignore
           pageCount,
+          // @ts-ignore
           gotoPage,
+          // @ts-ignore
           nextPage,
+          // @ts-ignore
           previousPage,
+          // @ts-ignore
           setPageSize,
+          // @ts-ignore
           preGlobalFilteredRows,
+          // @ts-ignore
           setGlobalFilter,
           state,
+          // @ts-ignore
           state: { pageIndex, pageSize },
         } = useTable(
           {
             columns,
             data,
+            // @ts-ignore
             initialState: { pageIndex: 0 },
           },
           
@@ -221,6 +235,7 @@ const ResultTable = (props) => {
           <div className="search-table-search">
           <GlobalFilter
                   preGlobalFilteredRows={preGlobalFilteredRows}
+                  // @ts-ignore
                   globalFilter={state.globalFilter}
                   setGlobalFilter={setGlobalFilter}
                 />
@@ -237,7 +252,9 @@ const ResultTable = (props) => {
                 ))}
               </thead>
               <tbody {...getTableBodyProps()}>
-                {page.map((row, i) => {
+                {page.map((row, 
+// @ts-ignore
+                i) => {
                   prepareRow(row)
                   return (
                     <tr {...row.getRowProps()} className="table-row">

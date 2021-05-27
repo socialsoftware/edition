@@ -19,6 +19,9 @@ public class ExpertEditionInterDto {
 	private List<AnnexNoteDto> annexNoteDtoList;
 	private String desc;
 	private String date;
+	private String urlId;
+	private int number;
+	private String fragmentXmlId;
 
     public ExpertEditionInterDto(ExpertEditionInter expertEditionInter) {
         this.editionAcronym = expertEditionInter.getEdition().getAcronym();
@@ -41,9 +44,12 @@ public class ExpertEditionInterDto {
         		this.setDesc(expertEditionInter.getLdoDDate().getPrecision().getDesc());
         	}	
         }
+        this.setUrlId(expertEditionInter.getUrlId());
+        this.setNumber(expertEditionInter.getNumber());
+        this.setFragmentXmlId(expertEditionInter.getFragment().getXmlId());
     }
 
-    public String getEditionAcronym() {
+	public String getEditionAcronym() {
         return editionAcronym;
     }
 
@@ -145,5 +151,29 @@ public class ExpertEditionInterDto {
 
 	public void setDate(String date) {
 		this.date = date;
+	}
+
+	public String getUrlId() {
+		return urlId;
+	}
+
+	public void setUrlId(String urlId) {
+		this.urlId = urlId;
+	}
+
+	public int getNumber() {
+		return number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
+	}
+
+	public String getFragmentXmlId() {
+		return fragmentXmlId;
+	}
+
+	public void setFragmentXmlId(String fragmentXmlId) {
+		this.fragmentXmlId = fragmentXmlId;
 	}
 }

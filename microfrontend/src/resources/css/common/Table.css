@@ -77,6 +77,44 @@ td p{
     display: none;
 }
 
+.result-adv th {
+    margin: 0;
+    padding: 0.5rem;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    width: 1%;
+    text-align: left;
+}
+
+.result-adv th:last-child{
+    border-right: 0;
+}
+.result-adv td:last-child{
+    border-right: 0;
+}
+
+.result-adv table {
+    width: 100%;
+    border-spacing: 0;
+    position: relative;   
+}
+
+.result-adv td {
+    margin: 0;
+    padding: 0.5rem;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    width: 1%;
+    text-align: left;
+}
+.result-adv td {
+    margin: 0;
+    padding: 0.5rem;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    width: 1%;
+    text-align: left;
+}
 @media (max-width: 1200px){
     .table-div {
         width: 970px;
