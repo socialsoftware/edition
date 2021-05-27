@@ -292,7 +292,7 @@ public class VirtualRequiresInterface implements SubscribeInterface {
                     .blockOptional().orElse(null);
 
             if (scholarInterId != null) {
-//                scholarInterMap.put(xmlId, scholarInterId);
+                scholarInterMap.put(xmlId, scholarInterId);
             }
         }
 

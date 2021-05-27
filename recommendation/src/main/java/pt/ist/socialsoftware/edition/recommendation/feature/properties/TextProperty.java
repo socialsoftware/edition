@@ -10,6 +10,7 @@ import pt.ist.socialsoftware.edition.recommendation.domain.RecommendationWeights
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,6 +22,10 @@ public class TextProperty extends Property {
     public static final int NUMBER_OF_TERMS_TO_SHOW = 3;
 
     private static final Map<String, Map<String, double[]>> vectorsCache = new ConcurrentHashMap<>();
+    private static final Map<String, FragmentDto> fragmentsCache = new HashMap<>();
+    private static final Map<String, List<String>> commonTermsTFIDFCache = new ConcurrentHashMap<>();
+    private static final Map<String, Map<String, Double>> TFIDFCache = new ConcurrentHashMap<>();
+
 
     private List<String> commonTerms;
 
@@ -33,7 +38,7 @@ public class TextProperty extends Property {
 
     @Override
     public void prepareToLoadProperty(ScholarInterDto inter1, ScholarInterDto inter2) {
-        prepareToLoadProperty(inter1.getFragmentDto(), inter2.getFragmentDto());
+        prepareToLoadProperty(getFragmentFromCache(inter1), getFragmentFromCache(inter2));
     }
 
     @Override
@@ -70,7 +75,8 @@ public class TextProperty extends Property {
 
     @Override
     protected double[] extractVector(ScholarInterDto scholarInter) {
-        return extractVector(scholarInter.getFragmentDto());
+        return extractVector(getFragmentFromCache(scholarInter));
+        //        return extractVector(scholarInter.getFragmentDto());
     }
 
     @Override
@@ -106,17 +112,48 @@ public class TextProperty extends Property {
     private double[] generateFragmentVector(FragmentDto fragment) {
         this.commonTerms = getFragmentsCommonTerms(this.fragment1, this.fragment2);
 
-        Map<String, Double> tfidf = this.recommendationRequiresInterface.getFragmentTFIDF(fragment.getXmlId(), this.commonTerms);
+//        Map<String, Double> tfidf = this.recommendationRequiresInterface.getFragmentTFIDF(fragment.getXmlId(), this.commonTerms);
+        Map<String, Double> tfidf = getFragmentTFIDF(fragment, this.commonTerms);
 
         return buildVector(tfidf);
     }
 
+    private Map<String, Double> getFragmentTFIDF(FragmentDto fragment, List<String> commonTerms) {
+        String id = fragment.getExternalId();
+        if (TFIDFCache.containsKey(id)) {
+            Map<String, Double> TFIDFMap = new HashMap<>(TFIDFCache.get(id));
+            TFIDFMap.keySet().retainAll(commonTerms);
+            return TFIDFMap;
+        }
+        Map<String, Double> tfidf = this.recommendationRequiresInterface.getFragmentTFIDF(fragment.getXmlId(), commonTerms);
+        TFIDFCache.put(id, tfidf);
+        return tfidf;
+    }
+
     private List<String> getFragmentsCommonTerms(FragmentDto fragment1, FragmentDto fragment2) {
         List<String> result = new ArrayList<>();
-        result.addAll(this.recommendationRequiresInterface.getFragmentTFIDF(fragment1.getXmlId(), NUMBER_OF_TERMS));
-        result.addAll(this.recommendationRequiresInterface.getFragmentTFIDF(fragment2.getXmlId(), NUMBER_OF_TERMS));
+        result.addAll(getCommonTermsFromCache(fragment1.getXmlId()));
+        result.addAll(getCommonTermsFromCache(fragment2.getXmlId()));
 
         return result;
+    }
+
+    private FragmentDto getFragmentFromCache(ScholarInterDto scholarInterDto) {
+        FragmentDto fragmentDto = fragmentsCache.get(scholarInterDto.getXmlId());
+        if (fragmentDto == null) {
+            fragmentDto = scholarInterDto.getFragmentDto();
+            fragmentsCache.put(scholarInterDto.getXmlId(), fragmentDto);
+        }
+        return fragmentDto;
+    }
+
+    private List<String> getCommonTermsFromCache(String xmlId) {
+        List<String> commonTerms = commonTermsTFIDFCache.get(xmlId);
+        if (commonTerms == null) {
+            commonTerms = this.recommendationRequiresInterface.getFragmentTFIDF(xmlId, NUMBER_OF_TERMS);
+            commonTermsTFIDFCache.put(xmlId, commonTerms);
+        }
+        return commonTerms;
     }
 
     @Override

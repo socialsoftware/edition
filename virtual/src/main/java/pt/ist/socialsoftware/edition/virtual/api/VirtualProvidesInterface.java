@@ -234,7 +234,6 @@ public class VirtualProvidesInterface {
     @Atomic(mode = Atomic.TxMode.READ)
     public ScholarInterDto getVirtualEditionLastUsedScholarInter(@PathVariable("xmlId") String xmlId) {
         System.out.println("getVirtualEditionLastUsedScholarInter: " + xmlId);
-        System.out.println(getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getLastUsed).orElse(null).getXmlId());
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getLastUsed).orElse(null);
     }
 
