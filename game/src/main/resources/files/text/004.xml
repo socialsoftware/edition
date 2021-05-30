@@ -1,0 +1,1130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="Fr004">
+   <teiHeader type="text">
+      <fileDesc>
+         <titleStmt>
+            <title>Quedar-nos-hemos indifferentes à verdade</title>
+            <author>Fernando Pessoa</author>
+            <respStmt>
+               <resp>encoding</resp>
+               <name>Diego Giménez</name>
+            </respStmt>
+            <respStmt>
+               <name>Tiago Santos, Daniela Maduro, Manuel Portela</name>
+               <resp>revision</resp>
+            </respStmt>
+         </titleStmt>
+         <publicationStmt>
+            <publisher>Centre for Portuguese Literature at the University of Coimbra</publisher>
+            <pubPlace>Coimbra</pubPlace>
+            <availability status="restricted">
+               <licence target="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <p>All items in the LdoD Archive may be shared in accordance with the Creative Commons “Attribution-NonCommercial 4.0 International” license (CC BY-NC 4.0).</p>
+               </licence>
+            </availability>
+            <date when="2016" />
+         </publicationStmt>
+         <sourceDesc>
+            <listBibl xml:id="Fr004.SRC">
+               <listBibl xml:id="Fr004.SRC.MS">
+                  <msDesc xml:id="Fr004.SRC.MS.Fr004a">
+                     <msIdentifier>
+                        <settlement>Lisbon</settlement>
+                        <repository>BN</repository>
+                        <idno>bn-acpc-e-e3-1-1-89_0007_4_t24-C-R0150</idno>
+                        <altIdentifier type="SC">
+                           <idno>BNP/E3, 1-4</idno>
+                        </altIdentifier>
+                     </msIdentifier>
+                     <physDesc>
+                        <objectDesc form="leaf">
+                           <supportDesc material="paper">
+                              <extent>
+                                 <dimensions unit="cm">
+                                    <height>27.4</height>
+                                    <width>21.3</width>
+                                 </dimensions>
+                              </extent>
+                           </supportDesc>
+                           <layoutDesc>
+                              <layout columns="1"/>
+                           </layoutDesc>
+                        </objectDesc>
+                        <handDesc>
+                           <handNote medium="pencil">
+                              <locus target="#AAA #AAA2 #AAA4">Testemunho manuscrito a lápis.</locus>
+                           </handNote>
+                        </handDesc>
+                        <typeDesc>
+                           <typeNote medium="blue-ink">
+                              <locus target="#BBB #BBB2 #BBB3 #BBB4 #BBB5 #BBB6">Testemunho datiloscrito a tinta azul.</locus>
+                           </typeNote>
+                        </typeDesc>
+                        <additions/>
+                        <bindingDesc>
+                           <binding>
+                              <p>Texto escrito em recto e verso de uma folha inteira de papel de máquina.</p>
+                           </binding>
+                        </bindingDesc>
+                     </physDesc>
+                  </msDesc>
+               </listBibl>
+            </listBibl>
+            <listWit xml:id="Fr004.WIT">
+               <listWit xml:id="Fr004.WIT.MS">
+                  <witness xml:id="Fr004.WIT.MS.Fr004a.4">
+                     <ref target="#Fr004.SRC.MS.Fr004a" />
+                  </witness>
+               </listWit>
+               <listWit xml:id="Fr004.WIT.ED">
+                  <head>O grupo de testemunhos impressos do fragmento</head>
+                  <listWit xml:id="Fr004.WIT.ED.CRIT">
+                     <witness xml:id="Fr004.WIT.ED.CRIT.C">
+                        <ref target="#ED.CRIT.C" />
+                        <bibl>
+                           <respStmt>
+                              <resp>heterónimo</resp>
+                              <persName corresp="#HT.BS">Bernardo Soares</persName>
+                           </respStmt>
+                           <title level="a">Quedar-nos-hemos indifferentes à verdade</title>
+                           <biblScope unit="number">473</biblScope>
+                           <note type="physDesc">[1-4, misto]</note>
+                           <biblScope unit="vol">II</biblScope>
+                           <biblScope unit="pp" from="208" to="210" />
+                        </bibl>
+                     </witness>
+                     <witness xml:id="Fr004.WIT.ED.CRIT.SC.1">
+                        <ref target="#ED.CRIT.SC" />
+                        <bibl>
+                           <respStmt>
+                              <resp>heterónimo</resp>
+                              <persName corresp="#HT.BS">Bernardo Soares</persName>
+                           </respStmt>
+                           <title level="a">Quedar-nos-emos indiferentes à verdade</title>
+                           <biblScope unit="number">691</biblScope>
+                           <note type="physDesc">[1-4, misto]</note>
+                           <note type="annex">Na edição de 2008, Teresa Sobral Cunha integra a parte datiloscrita deste testemunho na sequência "OMAR KHAYYAM | Atinge o extremo doloroso",
+                              separando os dois parágrafos manuscritos finais como um texto autónomo. Na edição de 2013, a parte datiloscrita do testemunho é
+                              editada autonomamente, imediatamente a seguir a "OMAR KHAYYAM | Atinge o extremo doloroso". Dada esta decisão, "Quedar-nos-emos indiferentes à verdade" 
+                              surge representado como uma unidade textual no "Arquivo LdoD".</note>
+                           <biblScope unit="pp" from="557" to="557" />
+                        </bibl>
+                     </witness>
+                     <witness xml:id="Fr004.WIT.ED.CRIT.SC.2">
+                        <ref target="#ED.CRIT.SC" />
+                        <bibl>
+                           <respStmt>
+                              <resp>heterónimo</resp>
+                              <persName corresp="#HT.BS">Bernardo Soares</persName>
+                           </respStmt>
+                           <title level="a">Para além destas coisas do mundo profano</title>
+                           <biblScope unit="number">692</biblScope>
+                           <note type="physDesc">[1-4, misto]</note>
+                           <biblScope unit="pp" from="557" to="558" />
+                        </bibl>
+                     </witness>
+                     <witness xml:id="Fr004.WIT.ED.CRIT.Z">
+                        <ref target="#ED.CRIT.Z" />
+                        <bibl>
+                           <respStmt>
+                              <resp>heterónimo</resp>
+                              <persName corresp="#HT.BS">Bernardo Soares</persName>
+                           </respStmt>
+                           <title level="a">Quedar-nos-emos indiferentes à verdade</title>
+                           <biblScope unit="number">447</biblScope>
+                           <note type="physDesc">[1-4, misto]</note>
+                           <date />
+                           <biblScope unit="pp" from="398" to="399" />
+                        </bibl>
+                     </witness>
+                  </listWit>
+               </listWit>
+            </listWit>
+         </sourceDesc>
+      </fileDesc>
+   </teiHeader>
+   <facsimile xml:id="Fr004-fs" corresp="#Fr004.SRC.MS.Fr004a">
+      <surface>
+         <graphic url="bn-acpc-e-e3-1-1-89_0007_4_t24-C-R0150.jpg" />
+      </surface>
+      <surface>
+         <graphic url="bn-acpc-e-e3-1-1-89_0008_4v_t24-C-R0150.jpg" />
+      </surface>
+   </facsimile>
+   <text>
+      <body>
+         <div xml:id="Fr004.TEXT">
+            <p xml:id="BBB">
+               <app>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.SC.2"></rdg>
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">Quedar-nos-hemos indifferentes</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">Quedar-nos-emos indiferentes</rdg>
+                  </rdgGrp>
+               </app>
+               à verdade ou mentira
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               de todas as religiões, de todas as
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">philosophias</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">filosofias</rdg>
+                  </rdgGrp>
+               </app>
+               , de to
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" type="hyphenated" break="no" />
+               das as
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">hypotheses</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">hipóteses</rdg>
+                  </rdgGrp>
+               </app>
+               inutilmente
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">verificaveis</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">verificáveis</rdg>
+                  </rdgGrp>
+               </app>
+               a que chamamos
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">sciencias</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">ciências</rdg>
+                  </rdgGrp>
+               </app>
+               .
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">Tampouco</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">Tão-pouco</rdg>
+                  </rdgGrp>
+               </app>
+               nos
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">preoccupará</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">preocupará</rdg>
+                  </rdgGrp>
+               </app>
+               o destino da chamada
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               humanidade, ou o que
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">soffra</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">sofra</rdg>
+                  </rdgGrp>
+               </app>
+               ou não
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">soffra</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">sofra</rdg>
+                  </rdgGrp>
+               </app>
+               em seu
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4">
+                        conjunc
+                        <lb ed="#Fr004.WIT.MS.Fr004a.4" type="hyphenated" break="no" />
+                        to
+                     </rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.SC.1">conjunto</rdg>
+                  </rdgGrp>
+               </app>
+               . Caridade, sim, para com o
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">"proximo"</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">"próximo"</rdg>
+                  </rdgGrp>
+               </app>
+               <app type="punctuation">
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.Z ">,</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.SC.1"></rdg>
+               </app>
+               como no Evange
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" type="hyphenated" break="no" />
+               lho se diz, e não com o homem, de que
+               <app>
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4">
+                     <del rend="overtyped">elle não fall</del>
+                     nelle
+                  </rdg>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.ED.CRIT.C">nelle</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">nele</rdg>
+                  </rdgGrp>
+               </app>
+               se
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               não
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">falla</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">fala</rdg>
+                  </rdgGrp>
+               </app>. 
+                  </rdg>
+               </app>
+               <app>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.SC.2 #Fr004.WIT.ED.CRIT.SC.1"></rdg>
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.Z">
+               
+               E todos, até certo 
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4">poncto</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.SC.1">ponto</rdg>
+                  </rdgGrp>
+               </app>
+               <app type="punctuation">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C"></rdg>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">,</rdg>
+               </app>assim somos: que
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               nos pesa, ao melhor de nós, um massacre na China? Mais
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               nos
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">doe</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">dói</rdg>
+                  </rdgGrp>
+               </app>
+               , ao que de nós mais imagine, a bofetada injusta
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               que vimos dar na rua a uma
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">creança</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">criança</rdg>
+                  </rdgGrp>
+               </app>
+               .
+               <app>
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">
+                     <space dim="vertical" quantity="1" unit="minims" />
+                  </rdg>
+               </app>
+                  </rdg>
+               </app>
+            </p>
+            <p>
+            <app type="paragraph">
+               <rdg wit="#Fr004.WIT.ED.CRIT.SC.2 #Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.Z "></rdg>
+               <rdg wit="#Fr004.WIT.ED.CRIT.SC.1">
+                  
+                  E todos, até certo 
+                  <app>
+                     <rdgGrp type="orthographic">
+                        <rdg wit="#Fr004.WIT.MS.Fr004a.4">poncto</rdg>
+                        <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.SC.1">ponto</rdg>
+                     </rdgGrp>
+                  </app>
+                  <app type="punctuation">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C"></rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">,</rdg>
+                  </app>assim somos: que
+                  
+                  nos pesa, ao melhor de nós, um massacre na China? Mais
+                  
+                  nos
+                  <app>
+                     <rdgGrp type="orthographic">
+                        <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">doe</rdg>
+                        <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">dói</rdg>
+                     </rdgGrp>
+                  </app>
+                  , ao que de nós mais imagine, a bofetada injusta
+                  
+                  que vimos dar na rua a uma
+                  <app>
+                     <rdgGrp type="orthographic">
+                        <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">creança</rdg>
+                        <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">criança</rdg>
+                     </rdgGrp>
+                  </app>
+                  .
+                  <app>
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">
+                        <space dim="vertical" quantity="1" unit="minims" />
+                     </rdg>
+                  </app>
+               </rdg>
+            </app>
+            </p>
+            <p xml:id="BBB2">
+               <app>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.SC.2 #Fr004.WIT.ED.CRIT.SC.1"></rdg>
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.Z ">
+               Caridade para com todos, intimidade com nenhum. As
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" type="hyphenated" break="no" />
+               sim interpreta
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.SC.1">Fitzgerald</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z ">FitzGerald</rdg>
+                  </rdgGrp>
+               </app>
+               , em um passo de uma sua nota,
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               qualquer
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">cousa</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">coisa</rdg>
+                  </rdgGrp>
+               </app>
+               da
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">etica</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">ética</rdg>
+                  </rdgGrp>
+               </app>
+                     <app>
+                        <rdgGrp type="substantive">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.C">de Khayyam</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.SC.1">do poeta persa, Mestre do desconsolo e da desilusão</rdg>
+                        </rdgGrp>
+                     </app> .
+               <app>
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4">
+                     <space dim="vertical" quantity="2" unit="minims" />
+                  </rdg>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.C">
+                     <space dim="vertical" quantity="1" unit="minims" />
+                  </rdg>
+               </app>
+                  </rdg>
+               </app>
+            </p>
+            <p xml:id="BBB3">
+               <app>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.SC.2 #Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.Z  "></rdg>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.SC.1 ">
+                     <app>
+                        <rdgGrp type="orthographic">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">Recommenda</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">Recomenda</rdg>
+                        </rdgGrp>
+                     </app>
+                     o Evangelho
+                     <app>
+                        <rdg wit="#Fr004.WIT.MS.Fr004a.4">
+                           <del rend="overtyped">caridade para</del>
+                        </rdg>
+                     </app>
+                     amor ao
+                     <app>
+                        <rdgGrp type="orthographic">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">
+                              pro
+                              <lb ed="#Fr004.WIT.MS.Fr004a.4" type="hyphenated" break="no" />
+                              ximo
+                           </rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">próximo</rdg>
+                        </rdgGrp>
+                     </app>
+                     : não diz amor ao homem ou à humanidade, de que verdadeiramente
+                     <app>
+                        <rdgGrp type="orthographic">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">ninguem</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">ninguém</rdg>
+                        </rdgGrp>
+                     </app>
+                     pode curar.
+                     <app>
+                        <rdg wit="#Fr004.WIT.MS.Fr004a.4">
+                           <space dim="vertical" quantity="2" unit="minims" />
+                        </rdg>
+                        <rdg wit="#Fr004.WIT.ED.CRIT.C">
+                           <space dim="vertical" quantity="1" unit="minims" />
+                        </rdg>
+                     </app>
+                  </rdg>
+               </app>
+            </p>
+            <p xml:id="BBB4">
+               <app>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.SC.2 #Fr004.WIT.ED.CRIT.SC.1"></rdg>
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.Z ">
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">Recommenda</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">Recomenda</rdg>
+                  </rdgGrp>
+               </app>
+               o Evangelho
+               <app>
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4">
+                     <del rend="overtyped">caridade para</del>
+                  </rdg>
+               </app>
+               amor ao
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">
+                        pro
+                        <lb ed="#Fr004.WIT.MS.Fr004a.4" type="hyphenated" break="no" />
+                        ximo
+                     </rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">próximo</rdg>
+                  </rdgGrp>
+               </app>
+                     : não diz amor ao homem ou à humanidade, de que ver<lb ed="#Fr004.WIT.MS.Fr004a.4" type="hyphenated" break="no" />dadeiramente
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">ninguem</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">ninguém</rdg>
+                  </rdgGrp>
+               </app>
+               pode curar.
+               <app>
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4">
+                     <space dim="vertical" quantity="2" unit="minims" />
+                  </rdg>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.C">
+                     <space dim="vertical" quantity="1" unit="minims" />
+                  </rdg>
+               </app>
+                  </rdg>
+               </app>
+            </p>
+            <p xml:id="BBB5">
+               <app>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.SC.2 #Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.Z"></rdg>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.SC.1">
+                     Caridade para com todos, intimidade com nenhum. Assim interpreta
+                     <app>
+                        <rdgGrp type="orthographic">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.SC.1">Fitzgerald</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.Z">FitzGerald</rdg>
+                        </rdgGrp>
+                     </app>
+                     , em um passo de uma sua nota,
+                     
+                     qualquer
+                     <app>
+                        <rdgGrp type="orthographic">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">cousa</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">coisa</rdg>
+                        </rdgGrp>
+                     </app>
+                     da
+                     <app>
+                        <rdgGrp type="orthographic">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">etica</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">ética</rdg>
+                        </rdgGrp>
+                     </app>
+                     <app>
+                        <rdgGrp type="substantive">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.C">de Khayyam</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.SC.1">do poeta persa, Mestre do desconsolo e da desilusão</rdg>
+                        </rdgGrp>
+                     </app> .
+                     <app>
+                        <rdg wit="#Fr004.WIT.MS.Fr004a.4">
+                           <space dim="vertical" quantity="2" unit="minims" />
+                        </rdg>
+                        <rdg wit="#Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.SC.1">
+                           <space dim="vertical" quantity="1" unit="minims" />
+                        </rdg>
+                     </app>
+                  </rdg>
+               </app>
+            </p>
+            <p xml:id="BBB6">
+               <app>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.SC.2"></rdg>
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">Perguntar-se-ha</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">Perguntar-se-á</rdg>
+                  </rdgGrp>
+               </app>
+               talvez se faço minha a
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">
+                        philosophia
+                        <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+                     </rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">filosofia</rdg>
+                  </rdgGrp>
+               </app>
+               de Khayyam, tal como aqui, creio que com justeza, a es
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" type="hyphenated" break="no" />
+               crevi de novo e interpreto. Responderei que não sei.
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">
+                        Ha
+                        <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+                     </rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">Há</rdg>
+                  </rdgGrp>
+               </app>
+               dias em que essa me parece a melhor, e até a
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">unica</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">única</rdg>
+                  </rdgGrp>
+               </app>
+               , de
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               todas as
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">philosophias</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">filosofias</rdg>
+                  </rdgGrp>
+               </app>
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4">practicas</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.C">prácticas</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">práticas</rdg>
+                  </rdgGrp>
+               </app>
+               .
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">Ha</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">Há</rdg>
+                  </rdgGrp>
+               </app>
+               outros dias em que
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               me parece
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">nulla</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">nula</rdg>
+                  </rdgGrp>
+               </app>
+               ,
+               <app>
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4">
+                     <del rend="overtyped">como um copo,</del>
+                  </rdg>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.C" />
+                  <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1" />
+               </app>
+               morta,
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">inutil</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">inútil</rdg>
+                  </rdgGrp>
+               </app>
+               , como um
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               copo vazio. Não me conheço, porque penso. Não sei pois
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               o que verdadeiramente penso. Não seria assim se tivesse
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               fé; mas
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">tambem</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.1">também</rdg>
+                  </rdgGrp>
+               </app>
+               não seria assim se estivesse louco. Na
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               verdade, se fosse outro seria outro.
+               <app>
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4">
+                     <space dim="vertical" quantity="1" unit="minims" />
+                  </rdg>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.C">
+                     <space dim="vertical" quantity="1" unit="minims" />
+                  </rdg>
+               </app>
+                  </rdg>
+               </app>
+            </p>
+            <p xml:id="AAA">
+               <app>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.SC.1"></rdg>
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">
+               Para além d'estas
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">cousas</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">coisas</rdg>
+                  </rdgGrp>
+               </app>
+               do mundo profano,
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">ha</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">há</rdg>
+                  </rdgGrp>
+               </app>
+               , é certo, as lições secretas das ordens iniciá
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" type="hyphenated" break="no" />
+               ticas, os
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">mysterios</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">mistérios</rdg>
+                  </rdgGrp>
+               </app>
+               <app>
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4">
+                     <seg xml:id="declarados">declarados</seg>
+                     <add place="above" hand="#FP"><seg xml:id="patentes">patentes</seg></add>
+                     <alt mode="excl" target="#declarados #patentes" weights="0.5 0.5"/></rdg>
+                  <rdgGrp type="substantive">
+                  <rdg wit="#Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.Z">declarados</rdg>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.SC.2">patentes</rdg>
+                  </rdgGrp>
+               </app>
+               , quando secretos,
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               ou velados, quando os figuram ritos
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">publicos</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">públicos</rdg>
+                  </rdgGrp>
+               </app>
+               .
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">Ha</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">Há</rdg>
+                  </rdgGrp>
+               </app>
+               o que está
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">occulto</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">oculto</rdg>
+                  </rdgGrp>
+               </app>
+               ou
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">meio-occulto</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">meio oculto</rdg>
+                  </rdgGrp>
+               </app>
+               nos
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               grandes ritos
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">catholicos</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">católicos</rdg>
+                  </rdgGrp>
+               </app>
+               <app type="punctuation">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C"></rdg>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">,</rdg>
+               </app>
+               seja no Ritual de
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               Maria na Igreja Romana, seja a
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">
+                        Cerimonia
+                        <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+                     </rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">Cerimónia</rdg>
+                  </rdgGrp>
+               </app>
+               do
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">Espirito</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">Espírito</rdg>
+                  </rdgGrp>
+               </app>
+               na Franco-Maçonaria.
+               <pb ed="#Fr004.WIT.MS.Fr004a.4" facs="bn-acpc-e-e3-1-1-89_0008_4v_t24-C-R0150.jpg" />
+               <app>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.C">
+                     <space dim="vertical" quantity="1" unit="minims" />
+                  </rdg>
+               </app>
+                  </rdg>
+               </app>
+               
+               <app>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.SC.1 #Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.Z"></rdg>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.SC.2">
+                     Mas quem nos diz
+                     <app type="punctuation">
+                        <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">,</rdg>
+                        <rdg wit="#Fr004.WIT.ED.CRIT.C" />
+                     </app>
+                     afinal
+                     <app type="punctuation">
+                        <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">,</rdg>
+                        <rdg wit="#Fr004.WIT.ED.CRIT.C" />
+                     </app> que o iniciado
+                     <app type="punctuation">
+                        <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">,</rdg>
+                        <rdg wit="#Fr004.WIT.ED.CRIT.C" />
+                     </app> quando
+                    
+                     <app>
+                        <rdgGrp type="orthographic">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">incola</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">íncola</rdg>
+                        </rdgGrp>
+                     </app>
+                     <app>
+                        <rdg wit="#Fr004.WIT.ED.CRIT.C">
+                           [?]
+                        </rdg>
+                     </app>
+                     dos 
+                     <app>
+                        <rdgGrp type="orthographic">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">penetraes</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">penetrais</rdg>
+                        </rdgGrp>
+                     </app> dos
+                     <app>
+                        <rdgGrp type="orthographic">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">mysterios</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">mistérios</rdg>
+                        </rdgGrp>
+                     </app>
+                     , não é senão
+                     
+                     <app type="substantive">
+                        <rdg wit="#Fr004.WIT.MS.Fr004a.4">
+                           <add place="above">
+                              <del rend="overstrike"><gap reason="illegible" unit="word" extent="1"></gap>
+                              </del>
+                              avara
+                           </add>
+                        </rdg>
+                        <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.SC.2">avara</rdg>
+                     </app>
+                     presa da nossa nova 
+                     <app>
+                        <rdgGrp type="orthographic">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">fáce</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">face</rdg>
+                        </rdgGrp>
+                     </app> da 
+                     <app>
+                        <rdgGrp type="orthographic">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">illusão</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">ilusão</rdg>
+                        </rdgGrp>
+                     </app>? Que é
+                     
+                     a certeza que tem, se mais firme que
+                     <app>
+                        <rdgGrp type="orthographic">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">elle</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">ele</rdg>
+                        </rdgGrp>
+                     </app>
+                     a
+                     
+                     tem um louco no que lhe é loucura? Dizia
+                     
+                     Spencer que o que sabemos é uma
+                     <app>
+                        <rdgGrp type="orthographic">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">
+                              esphera
+                              
+                           </rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">esfera</rdg>
+                        </rdgGrp>
+                     </app>
+                     que, quanto mais se alarga, em tantos
+                     
+                     mais pontos tem contacto com o que
+                    
+                     não 
+                     <app>
+                        <rdg wit="#Fr004.WIT.MS.Fr004a.4">
+                           <seg xml:id="sabemos">sabemos</seg>
+                           <add place="inline" hand="#FP"><seg xml:id="sabemosnunca">(sabemos nunca)</seg></add>
+                           <alt mode="excl" target="#sabemos #sabemosnunca" weights="0.5 0.5"/></rdg>
+                        <rdgGrp type="substantive">
+                        <rdg wit="#Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.Z">sabemos</rdg>
+                        <rdg wit="#Fr004.WIT.ED.CRIT.SC.2">sabemos nunca</rdg>
+                        </rdgGrp>
+                     </app>
+                     . Nem
+                     
+                     me esquecem, neste
+                     <app>
+                        <rdgGrp type="orthographic">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">capitulo</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">capítulo</rdg>
+                        </rdgGrp>
+                     </app>
+                     do que as
+                     
+                     iniciações podem ministrar, as palavras
+                     
+                     <app>
+                        <rdgGrp type="orthographic">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">terriveis</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">terríveis</rdg>
+                        </rdgGrp>
+                     </app>
+                     de um mestre da Magia "Já
+                    
+                     vi
+                     <app>
+                        <rdgGrp type="orthographic">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">Isis"</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">Ísis"</rdg>
+                        </rdgGrp>
+                     </app>
+                     <app>
+                        <rdgGrp type="punctuation">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.Z "></rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.SC.2">,</rdg>
+                        </rdgGrp>
+                     </app>
+                      diz, "já toquei em
+                     <app>
+                        <rdgGrp type="orthographic">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">Isis</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">Ísis</rdg>
+                        </rdgGrp>
+                     </app>
+                     : não
+                    
+                     sei contudo se
+                     <app>
+                        <rdgGrp type="orthographic">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">ella</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">ela</rdg>
+                        </rdgGrp>
+                     </app>
+                     <app>
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.Z">existe".</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.SC.2">existe."</rdg> 
+                     </app> 
+                     <app>
+                        <rdg wit="#Fr004.WIT.MS.Fr004a.4">
+                           <space dim="vertical" quantity="2" unit="minims" />
+                        </rdg>
+                        <rdg wit="#Fr004.WIT.ED.CRIT.C">
+                           <space dim="vertical" quantity="1" unit="minims" />
+                        </rdg>
+                     </app>
+                  </rdg>
+               </app>
+            </p>
+            <p xml:id="AAA2">
+               <app type="paragraph">
+                  <rdg wit="#Fr004.WIT.ED.CRIT.SC.1 #Fr004.WIT.ED.CRIT.SC.2"></rdg>
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.Z ">
+               Mas quem nos diz
+               <app type="punctuation">
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">,</rdg>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.C" />
+               </app>
+               afinal
+               <app type="punctuation">
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">,</rdg>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.C" />
+               </app> que o iniciado
+               <app type="punctuation">
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">,</rdg>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.C" />
+               </app> quando
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">incola</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">íncola</rdg>
+                  </rdgGrp>
+               </app>
+               <app>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.C">
+                     [?]
+                  </rdg>
+               </app>
+               dos 
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">penetraes</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">penetrais</rdg>
+                  </rdgGrp>
+               </app> dos
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">mysterios</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">mistérios</rdg>
+                  </rdgGrp>
+               </app>
+               , não é senão
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               <app type="substantive">
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4">
+                     <add place="above">
+                        <del rend="overstrike"><gap reason="illegible" unit="word" extent="1"></gap>
+                        </del>
+                        avara
+                     </add>
+                  </rdg>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.SC.2">avara</rdg>
+               </app>
+               presa da nossa nova 
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">fáce</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">face</rdg>
+                  </rdgGrp>
+               </app> da illusão? Que é
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               a certeza que tem, se mais firme que
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">elle</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">ele</rdg>
+                  </rdgGrp>
+               </app>
+               a
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               tem um louco no que lhe é loucura? Dizia
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               Spencer que o que sabemos é uma
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">
+                        esphera
+                        <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+                     </rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">esfera</rdg>
+                  </rdgGrp>
+               </app>
+               que, quanto mais se alarga, em tantos
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               mais pontos tem contacto com o que
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               não 
+                     <app>
+                        <rdg wit="#Fr004.WIT.MS.Fr004a.4">
+                           <seg xml:id="sabemos2">sabemos</seg>
+                           <add place="inline" hand="#FP"><seg xml:id="sabemosnunca2">(sabemos nunca)</seg></add>
+                           <alt mode="excl" target="#sabemos #sabemosnunca" weights="0.5 0.5"/></rdg>
+                        <rdgGrp type="substantive">
+                           <rdg wit="#Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.Z">sabemos</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.SC.2">sabemos nunca</rdg>
+                        </rdgGrp>
+                     </app>
+               . Nem
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               me esquecem, neste
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">capitulo</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">capítulo</rdg>
+                  </rdgGrp>
+               </app>
+               do que as
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               iniciações podem ministrar, as palavras
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">terriveis</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">terríveis</rdg>
+                  </rdgGrp>
+               </app>
+               de um mestre da Magia "Já
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+                     vi
+                     <app>
+                        <rdgGrp type="orthographic">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">Isis"</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">Ísis"</rdg>
+                        </rdgGrp>
+                     </app>
+                     diz, "já toquei em
+                     <app>
+                        <rdgGrp type="orthographic">
+                           <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">Isis</rdg>
+                           <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">Ísis</rdg>
+                        </rdgGrp>
+                     </app>
+                     : não
+               <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+               sei contudo se
+               <app>
+                  <rdgGrp type="orthographic">
+                     <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">ella</rdg>
+                     <rdg wit="#Fr004.WIT.ED.CRIT.Z #Fr004.WIT.ED.CRIT.SC.2">ela</rdg>
+                  </rdgGrp>
+               </app>
+                     <app>
+                        <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C #Fr004.WIT.ED.CRIT.Z">existe".</rdg>
+                        <rdg wit="#Fr004.WIT.ED.CRIT.SC.2">existe."</rdg> 
+                     </app> 
+               <app>
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4">
+                     <space dim="vertical" quantity="2" unit="minims" />
+                  </rdg>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.C">
+                     <space dim="vertical" quantity="1" unit="minims" />
+                  </rdg>
+               </app>
+                  </rdg>
+               </app>
+            </p>
+            <p xml:id="AAA3">
+               <app>
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4">
+                     ________________
+                     <lb />
+                  </rdg>
+               </app>
+               <app>
+                  <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">
+                     <app>
+                        <rdg wit="#Fr004.WIT.MS.Fr004a.4">
+                           <add place="above" hand="#FP">O poeta persa</add>
+                        </rdg>
+                        <rdg wit="#Fr004.WIT.ED.CRIT.C">O poeta persa</rdg>
+                     </app>
+                     Mestre do desconsolo e da 
+                     <app type="orthographic">
+                        <rdg wit="#Fr004.WIT.ED.CRIT.Z">
+                           desilusão
+                        </rdg>
+                        <rdg wit="#Fr004.WIT.MS.Fr004a.4 #Fr004.WIT.ED.CRIT.C">
+                           desillusão
+                        </rdg>
+                        </app>
+                     .
+                     <lb ed="#Fr004.WIT.MS.Fr004a.4" />
+                  </rdg>
+                  <rdg wit="#Fr004.WIT.ED.CRIT.Z" />
+               </app>
+            </p>
+         </div>
+      </body>
+   </text>
+</TEI>

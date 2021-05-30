@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 
-import pt.ist.socialsoftware.edition.game.api.dtoc.ClassificationGameDto;
-
+import pt.ist.socialsoftware.edition.ldod.frontend.game.FeGameRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.game.gameDto.ClassificationGameDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.game.gameDto.PlayerDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.ExpertEditionDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.HeteronymDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
-import pt.ist.socialsoftware.edition.game.api.GameProvidesInterface;
-import pt.ist.socialsoftware.edition.game.api.dtoc.PlayerDto;
+
 
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.dto.EditionDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.ui.UiInterface;
@@ -38,7 +38,7 @@ public class EditionController {
     private static final Logger logger = LoggerFactory.getLogger(EditionController.class);
 
     private final FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
-    private final GameProvidesInterface gameProvidesInterface = new GameProvidesInterface();
+    private final FeGameRequiresInterface gameProvidesInterface = new FeGameRequiresInterface();
     private final FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
     private final FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
 

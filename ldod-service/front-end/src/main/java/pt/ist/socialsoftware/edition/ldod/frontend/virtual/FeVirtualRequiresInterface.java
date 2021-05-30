@@ -10,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import pt.ist.socialsoftware.edition.game.api.GameProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.CitationDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserProvidesInterface;
@@ -19,10 +18,7 @@ import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -384,7 +380,7 @@ public class FeVirtualRequiresInterface {
     }
 
     //Uses Virtual and Game Module
-    private final GameProvidesInterface gameProvidesInterface = new GameProvidesInterface();
+    private final WebClient.Builder webClientGame = WebClient.builder().baseUrl("http://localhost:8085/api");
 
     public String importVirtualEditionFragmentFromTEI(MultipartFile file) throws IOException {
         String result = webClientVirtual.build()
@@ -395,7 +391,15 @@ public class FeVirtualRequiresInterface {
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
-        this.gameProvidesInterface.importGamesFromTEI(file.getInputStream());
+        webClientGame.build()
+                .post()
+                .uri("/importGamesFromTEI")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .bodyValue(file.getInputStream().readAllBytes())
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
+        //        this.gameProvidesInterface.importGamesFromTEI(file.getInputStream());
         return result;
     }
 
@@ -408,7 +412,15 @@ public class FeVirtualRequiresInterface {
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
-        this.gameProvidesInterface.importGamesFromTEI(new FileInputStream(file));
+        webClientGame.build()
+                .post()
+                .uri("/importGamesFromTEI")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .bodyValue(new FileInputStream(file).readAllBytes())
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
+        //        this.gameProvidesInterface.importGamesFromTEI(new FileInputStream(file));
         return result;
     }
 

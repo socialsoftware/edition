@@ -4,12 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!--    <parent>-->
-    <!--        <groupId>pt.ist.socialsoftware</groupId>-->
-    <!--        <artifactId>edition</artifactId>-->
-    <!--        <version>1.0</version>-->
-    <!--    </parent>-->
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -17,12 +11,10 @@
         <relativePath></relativePath>
     </parent>
 
-    <name>ldod-service</name>
+    <name>game</name>
+    <artifactId>game</artifactId>
+    <packaging>jar</packaging>
 
-    <groupId>pt.ist.socialsoftware</groupId>
-    <artifactId>ldod-service</artifactId>
-    <version>1.0</version>
-    <packaging>pom</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -82,112 +74,28 @@
         <coverage.line.ratio>0.15</coverage.line.ratio>
     </properties>
 
-    <!--    <build>-->
-    <!--        <plugins>-->
-
-    <!--            <plugin>-->
-    <!--                <groupId>org.springframework.boot</groupId>-->
-    <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-    <!--                <executions>-->
-    <!--                    <execution>-->
-    <!--                        <goals>-->
-    <!--                            <goal>repackage</goal>-->
-    <!--                        </goals>-->
-    <!--                        <configuration>-->
-    <!--                            <classifier>spring-boot</classifier>-->
-    <!--                            <mainClass>-->
-    <!--                                pt.ist.socialsoftware.edition.ldod.frontend.config.Application-->
-    <!--                            </mainClass>-->
-    <!--                        </configuration>-->
-    <!--                    </execution>-->
-    <!--                </executions>-->
-    <!--            </plugin>-->
-
-    <!--            <plugin>-->
-    <!--                <groupId>org.apache.maven.plugins</groupId>-->
-    <!--                <artifactId>maven-compiler-plugin</artifactId>-->
-    <!--            </plugin>-->
-    <!--            <plugin>-->
-    <!--                <groupId>org.codehaus.gmavenplus</groupId>-->
-    <!--                <artifactId>gmavenplus-plugin</artifactId>-->
-    <!--            </plugin>-->
-    <!--            <plugin>-->
-    <!--                <groupId>org.apache.maven.plugins</groupId>-->
-    <!--                <artifactId>maven-surefire-plugin</artifactId>-->
-    <!--            </plugin>-->
-    <!--            <plugin>-->
-    <!--                <groupId>pt.ist</groupId>-->
-    <!--                <artifactId>ff-maven-plugin</artifactId>-->
-    <!--                <version>2.8.0</version>-->
-    <!--            </plugin>-->
-    <!--            <plugin>-->
-    <!--                <groupId>org.jacoco</groupId>-->
-    <!--                <artifactId>jacoco-maven-plugin</artifactId>-->
-    <!--            </plugin>-->
-    <!--        </plugins>-->
-    <!--    </build>-->
-
-    <profiles>
-        <profile>
-            <id>jmeter</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <skipTests>true</skipTests>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-            <properties>
-                <activatedProperties>jmeter</activatedProperties>
-            </properties>
-        </profile>
-        <profile>
-            <id>test</id>
-            <properties>
-                <activatedProperties>test</activatedProperties>
-            </properties>
-        </profile>
-        <profile>
-            <id>dev</id>
-            <properties>
-                <activatedProperties>dev</activatedProperties>
-            </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-    </profiles>
 
     <build>
         <finalName>ldod</finalName>
         <pluginManagement>
             <plugins>
-<!--                <plugin>-->
-<!--                    <groupId>org.springframework.boot</groupId>-->
-<!--                    <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--                </plugin>-->
-
-                            <plugin>
-                                <groupId>org.springframework.boot</groupId>
-                                <artifactId>spring-boot-maven-plugin</artifactId>
-                                <executions>
-                                    <execution>
-                                        <goals>
-                                            <goal>repackage</goal>
-                                        </goals>
-                                        <configuration>
-                                            <classifier>spring-boot</classifier>
-                                            <mainClass>
-                                                pt.ist.socialsoftware.edition.ldod.frontend.config.Application
-                                            </mainClass>
-                                        </configuration>
-                                    </execution>
-                                </executions>
-                            </plugin>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                            <configuration>
+                                <classifier>spring-boot</classifier>
+                                <mainClass>
+                                    pt.ist.socialsoftware.edition.virtual.config.VirtualApplication
+                                </mainClass>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -348,6 +256,23 @@
         </pluginManagement>
 
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>spring-boot</classifier>
+                            <mainClass>
+                                pt.ist.socialsoftware.edition.virtual.config.VirtualApplication
+                            </mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -725,42 +650,4 @@
         </pluginRepository>
     </pluginRepositories>
 
-        <modules>
-            <module>visual</module>
-            <module>search</module>
-            <module>front-end</module>
-        </modules>
-
 </project>
-
-
-        <!--<?xml version="1.0" encoding="UTF-8"?>-->
-        <!--<project xmlns="http://maven.apache.org/POM/4.0.0"-->
-        <!--         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
-        <!--         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">-->
-        <!--    <modelVersion>4.0.0</modelVersion>-->
-
-
-
-        <!--    <artifactId>ldod-service</artifactId>-->
-        <!--    <version>1.0</version>-->
-        <!--    <packaging>pom</packaging>-->
-
-        <!--    <parent>-->
-        <!--        <groupId>pt.ist.socialsoftware</groupId>-->
-        <!--        <artifactId>edition</artifactId>-->
-        <!--        <version>1.0</version>-->
-        <!--    </parent>-->
-
-        <!--    <name>ldod-service</name>-->
-
-        <!--    <modules>-->
-        <!--        <module>visual</module>-->
-        <!--        <module>recommendation</module>-->
-        <!--        <module>search</module>-->
-        <!--        <module>game</module>-->
-        <!--        <module>virtual</module>-->
-        <!--        <module>user</module>-->
-        <!--        <module>front-end</module>-->
-        <!--    </modules>-->
-        <!--</project>-->

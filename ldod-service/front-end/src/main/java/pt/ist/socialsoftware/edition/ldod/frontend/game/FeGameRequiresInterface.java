@@ -3,19 +3,26 @@ package pt.ist.socialsoftware.edition.ldod.frontend.game;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
-import pt.ist.socialsoftware.edition.game.api.GameProvidesInterface;
-import pt.ist.socialsoftware.edition.game.api.dtoc.ClassificationGameDto;
-import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionInterDto;
+
+import pt.ist.socialsoftware.edition.ldod.frontend.game.gameDto.ClassificationGameDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.game.gameDto.PlayerDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.game.gameDto.wrapper.CreateGameWrapper;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.baseDto.VirtualEditionBaseDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserProvidesInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.CategoryDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.TagDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionInterDto;
 
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class FeGameRequiresInterface {
@@ -140,37 +147,169 @@ public class FeGameRequiresInterface {
     }
 
     //Uses Game Module
-    private final GameProvidesInterface gameProvidesInterface = new GameProvidesInterface();
+    private final WebClient.Builder webClientGame = WebClient.builder().baseUrl("http://localhost:8085/api");
 
     public Set<ClassificationGameDto> getClassificationGamesForEdition(String acronym) {
-        return this.gameProvidesInterface.getClassificationGamesForEdition(acronym);
+        return webClientGame.build()
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                    .path("/classificationGamesForEdition")
+                    .queryParam("acronym", acronym)
+                .build())
+                .retrieve()
+                .bodyToFlux(ClassificationGameDto.class)
+                .toStream()
+                .collect(Collectors.toSet());
+        //        return this.gameProvidesInterface.getClassificationGamesForEdition(acronym);
     }
 
     public void createClassificationGame(VirtualEditionDto virtualEdition, String description, DateTime parse, VirtualEditionInterDto inter, String authenticatedUser) {
-        this.gameProvidesInterface.createClassificationGame(virtualEdition, description, parse, inter, authenticatedUser);
+        webClientGame.build()
+                .post()
+                .uri("/createClassificationGame")
+                .bodyValue(new CreateGameWrapper(new VirtualEditionBaseDto(virtualEdition), description, parse, inter, authenticatedUser))
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
+
+        //        this.gameProvidesInterface.createClassificationGame(virtualEdition, description, parse, inter, authenticatedUser);
     }
 
     public ClassificationGameDto getClassificationGameByExternalId(String externalId) {
-        return this.gameProvidesInterface.getClassificationGameByExternalId(externalId);
+        return webClientGame.build()
+                .get()
+                .uri("/classificationGame/ext/" + externalId)
+                .retrieve()
+                .bodyToMono(ClassificationGameDto.class)
+                .block();
+        //        return this.gameProvidesInterface.getClassificationGameByExternalId(externalId);
     }
 
     public void importGamesFromTEI(InputStream inputStream) {
-        this.gameProvidesInterface.importGamesFromTEI(inputStream);
+        try {
+            webClientGame.build()
+                    .post()
+                    .uri("/importGamesFromTEI")
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .bodyValue(inputStream.readAllBytes())
+                    .retrieve()
+                    .bodyToMono(Void.class)
+                    .block();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //        this.gameProvidesInterface.importGamesFromTEI(inputStream);
     }
 
     public void initializeGameModule() {
-        this.gameProvidesInterface.initializeGameModule();
+        webClientGame.build()
+                .post()
+                .uri("/initializeGameModule")
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
+        //        this.gameProvidesInterface.initializeGameModule();
     }
 
     public void startGameRunner(String id) {
-        this.gameProvidesInterface.startGameRunner(id);
+        webClientGame.build()
+                .post()
+                .uri(uriBuilder -> uriBuilder
+                    .path("/startGameRunner")
+                    .queryParam("id", id)
+                    .build())
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
+        //        this.gameProvidesInterface.startGameRunner(id);
     }
 
     public List<String> getGamesForScheduledTasks(DateTime now) {
-        return this.gameProvidesInterface.getGamesForScheduledTasks(now);
+        return webClientGame.build()
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                    .path("/getGamesForScheduledTasks")
+                    .queryParam("now", now)
+                .build())
+                .retrieve()
+                .bodyToFlux(new ParameterizedTypeReference<String>() {})
+                .collectList()
+                .block();
+        //        return this.gameProvidesInterface.getGamesForScheduledTasks(now);
     }
 
     public void manageDailyClassificationGames() {
-        this.gameProvidesInterface.manageDailyClassificationGames();
+        webClientGame.build()
+                .post()
+                .uri("/manageDailyClassificationGames")
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
+//        this.gameProvidesInterface.manageDailyClassificationGames();
+    }
+
+    public PlayerDto getPlayerByUsername(String username) {
+        return webClientGame.build()
+                .get()
+                .uri("/player/" + username)
+                .retrieve()
+                .bodyToMono(PlayerDto.class)
+                .block();
+    }
+
+    public Set<ClassificationGameDto> getClassificationGamesForPlayer(String username) {
+        return webClientGame.build()
+                .get()
+                .uri("/player/" + username + "/classificationGames")
+                .retrieve()
+                .bodyToFlux(ClassificationGameDto.class)
+                .toStream()
+                .collect(Collectors.toSet());
+    }
+
+
+    public Set<ClassificationGameDto> getClassificationGames() {
+        return webClientGame.build()
+                .get()
+                .uri("/classificationGames")
+                .retrieve()
+                .bodyToFlux(ClassificationGameDto.class)
+                .toStream()
+                .collect(Collectors.toSet());
+    }
+
+    public int getOverallUserPosition(String username) {
+        return webClientGame.build()
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                    .path("/overallUserPosition")
+                    .queryParam("username", username)
+                .build())
+                .retrieve()
+                .bodyToMono(Integer.class)
+                .block();
+    }
+
+    // Test Calls
+    public void setTestGameRound(String acronym, String username) {
+        webClientGame.build()
+                .post()
+                .uri(uriBuilder -> uriBuilder
+                    .path("/setTestGameRound")
+                    .queryParam("acronym", acronym)
+                    .queryParam("username", username)
+                .build())
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
+    }
+
+    public void removeGameModule() {
+        webClientGame.build()
+                .post()
+                .uri("/removeGameModule")
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
     }
 }

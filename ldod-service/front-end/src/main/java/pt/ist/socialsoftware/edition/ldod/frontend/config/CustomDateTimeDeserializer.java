@@ -28,9 +28,6 @@ public class CustomDateTimeDeserializer extends StdDeserializer<DateTime> {
     public DateTime deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
 
         String date = parser.getText();
-        System.out.println(date);
-        System.out.println(format);
-
         return format.parseDateTime(date);
 
     }

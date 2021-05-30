@@ -39,10 +39,13 @@ public class GameRequiresInterface implements SubscribeInterface {
 
     @JmsListener(id = "1", containerFactory = "jmsListenerContainerFactory", destination = "test-topic")
     public void listener(Event message){
-        EventInterface.getInstance().publish(message);
+        this.notify(message);
+        //        EventInterface.getInstance().publish(message);
     }
 
-    protected GameRequiresInterface() {   EventInterface.getInstance().subscribe(this);    }
+    protected GameRequiresInterface() {
+//        EventInterface.getInstance().subscribe(this);
+    }
 
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void notify(Event event) {

@@ -5,11 +5,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.game.utils.SourceType;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.*;
+import pt.ist.socialsoftware.edition.ldod.frontend.utils.enums.Source_Type;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
 
 
@@ -79,12 +79,12 @@ public class ImportLdoDFromTEITest {
     public void testLoadSources() {
         assertEquals(1, this.fragmentTest.getSourcesSet().size());
         for (SourceDto source : this.fragmentTest.getSourcesSet()) {
-            if (source.getType().equals(SourceType.MANUSCRIPT)) {
+            if (source.getType().equals(Source_Type.MANUSCRIPT)) {
 //                ManuscriptSource manuscript = (ManuscriptSource) source;
                 assertEquals("Lisbon", source.getSettlement());
                 assertEquals("BN", source.getRepository());
                 assertTrue(source.getIdno().equals("bn-acpc-e-e3-1-1-89_0001_1_t24-C-R0150"));
-            } else if (source.getType().equals(SourceType.PRINTED)) {
+            } else if (source.getType().equals(Source_Type.PRINTED)) {
 //                PrintedSource printedSource = (PrintedSource) source;
                 assertEquals("Revista Descobrimento", source.getJournal());
                 assertEquals("Lisbon", source.getPubPlace());

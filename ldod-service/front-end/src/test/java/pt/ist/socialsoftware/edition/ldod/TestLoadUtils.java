@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.ist.socialsoftware.edition.game.api.GameRequiresInterface;
-import pt.ist.socialsoftware.edition.game.domain.ClassificationModule;
-import pt.ist.socialsoftware.edition.game.feature.classification.inout.GameXMLImport;
+import pt.ist.socialsoftware.edition.ldod.frontend.game.FeGameRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.reading.FeReadingRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
@@ -78,13 +76,11 @@ public class TestLoadUtils {
 
 		String[] fragmentFiles = fragmentsToLoad;
 
-        GameXMLImport gameloader = new GameXMLImport();
-
 		File file;
 		for (int i = 0; i < fragmentFiles.length; i++) {
 			file = new File(directory, fragmentFiles[i]);
 			new FeVirtualRequiresInterface().importVirtualEditionFragmentFromTEI((file));
-			gameloader.importGamesFromTEI(new FileInputStream(file));
+			new FeGameRequiresInterface().importGamesFromTEI(new FileInputStream(file));
 		}
 	}
 
@@ -108,7 +104,6 @@ public class TestLoadUtils {
 
         EventInterface.getInstance();
         SessionRequiresInterface.getInstance();
-        GameRequiresInterface.getInstance();
 
        feTextRequiresInterface.removeTextModule();
 
@@ -118,10 +113,7 @@ public class TestLoadUtils {
 
         new FeReadingRequiresInterface().removeRecommendationModule();
 
-        ClassificationModule classificationModule = ClassificationModule.getInstance();
-        if (classificationModule != null) {
-            classificationModule.remove();
-        }
+        new FeGameRequiresInterface().removeGameModule();
     }
 
     public static byte[] jsonBytes(Object object) throws IOException {
@@ -147,8 +139,7 @@ public class TestLoadUtils {
 
         feVirtualRequiresInterface.importFragmentFromTEI(fisfrag);
 
-        GameXMLImport gameloader = new GameXMLImport();
-        gameloader.importGamesFromTEI(new FileInputStream(frag1));
+        new FeGameRequiresInterface().importGamesFromTEI(new FileInputStream(frag1));
 
     }
 

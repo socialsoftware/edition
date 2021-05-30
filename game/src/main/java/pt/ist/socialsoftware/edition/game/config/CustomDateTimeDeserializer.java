@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.frontend.config;
+package pt.ist.socialsoftware.edition.game.config;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,25 +11,25 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.io.IOException;
 
-public class CustomLocalDateDeserializer extends StdDeserializer<LocalDate> {
+public class CustomDateTimeDeserializer extends StdDeserializer<DateTime> {
 
     private static final long serialVersionUID = 1L;
     private static DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd");
 
-    public CustomLocalDateDeserializer() {
+    public CustomDateTimeDeserializer() {
         this(null);
     }
 
-    public CustomLocalDateDeserializer(Class<DateTime> t) {
+    public CustomDateTimeDeserializer(Class<DateTime> t) {
         super(t);
     }
 
     @Override
-    public LocalDate deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
+    public DateTime deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
 
         String date = parser.getText();
 
-        return format.parseLocalDate(date);
+        return format.parseDateTime(date);
 
     }
 

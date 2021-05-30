@@ -1,9 +1,9 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.game.validator;
 
-import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.game.FeGameRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.validator.AbstractLdoDValidator;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.validator.LdoDValidatorFunctions;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionInterDto;
 
 
 public class ClassificationGameValidator extends AbstractLdoDValidator {

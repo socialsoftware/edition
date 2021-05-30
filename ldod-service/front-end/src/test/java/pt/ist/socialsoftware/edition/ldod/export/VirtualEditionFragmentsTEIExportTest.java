@@ -5,9 +5,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.core.WriteOnReadError;
-import pt.ist.socialsoftware.edition.game.feature.classification.inout.GameXMLImport;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 
+import pt.ist.socialsoftware.edition.ldod.frontend.game.FeGameRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.CitationDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.FragmentDto;
@@ -19,6 +19,7 @@ import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEdi
 
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,9 +29,10 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.assertEquals;
 
 public class VirtualEditionFragmentsTEIExportTest {
-//    private VirtualEditionFragmentsTEIExport export;
+
     private FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
     private FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
+    private FeGameRequiresInterface feGameRequiresInterface = new FeGameRequiresInterface();
 
     public static void logger(Object toPrint) {
         System.out.println(toPrint);
@@ -77,8 +79,8 @@ public class VirtualEditionFragmentsTEIExportTest {
                     e.printStackTrace();
                 }
 
-                GameXMLImport gameloader = new GameXMLImport();
-                gameloader.importGamesFromTEI(fragmentTEI);
+
+                feGameRequiresInterface.importGamesFromTEI(new ByteArrayInputStream(fragmentTEI.getBytes()));
 
                 System.out.println(feVirtualRequiresInterface.exportFragment(fragment.getXmlId()));
 
@@ -141,8 +143,7 @@ public class VirtualEditionFragmentsTEIExportTest {
             e.printStackTrace();
         }
 
-        GameXMLImport gameloader = new GameXMLImport();
-        gameloader.importGamesFromTEI(result);
+        feGameRequiresInterface.importGamesFromTEI(new ByteArrayInputStream(result.getBytes()));
 
         System.out.println(feVirtualRequiresInterface.exportFragment(fragment.getXmlId()));
 

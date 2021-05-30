@@ -12,14 +12,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
-import pt.ist.socialsoftware.edition.game.api.GameRequiresInterface;
-import pt.ist.socialsoftware.edition.game.domain.ClassificationGame;
-import pt.ist.socialsoftware.edition.game.domain.ClassificationModule;
+
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.frontend.config.Application;
 import pt.ist.socialsoftware.edition.ldod.frontend.filters.TransactionFilter;
+import pt.ist.socialsoftware.edition.ldod.frontend.game.FeGameRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.game.GameController;
+import pt.ist.socialsoftware.edition.ldod.frontend.game.gameDto.ClassificationGameDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.FeTextRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserRequiresInterface;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
@@ -50,6 +50,7 @@ public class VirtualEditionTest {
     private final FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
     private final FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
     private final FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
+    private final FeGameRequiresInterface feGameRequiresInterface = new FeGameRequiresInterface();
 
     @InjectMocks
     VirtualEditionController virtualEditionController;
@@ -896,7 +897,7 @@ public class VirtualEditionTest {
                 "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
         VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
-        int number = ClassificationModule.getInstance().getClassificationGameSet().size();
+        int number = feGameRequiresInterface.getClassificationGames().size();
 
         this.gameMockMvc
 				.perform(post("/virtualeditions/restricted/{externalId}/classificationGame/create", testEdition.getExternalId())
@@ -907,7 +908,7 @@ public class VirtualEditionTest {
 				.andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrl("/virtualeditions/restricted/" + testEdition.getExternalId() + "/classificationGame"));
 
-		assertEquals(number + 1, ClassificationModule.getInstance().getClassificationGameSet().size());
+		assertEquals(number + 1, feGameRequiresInterface.getClassificationGames().size());
         testEdition.removeByExternalId();
 	}
 
@@ -918,19 +919,21 @@ public class VirtualEditionTest {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
                 "NEWT",
                 "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
-        pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionDto testEdition = GameRequiresInterface.getInstance().getVirtualEdition(ACRONYM_PREFIX +"NEWT");
+//        pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionDto testEdition = GameRequiresInterface.getInstance().getVirtualEdition(ACRONYM_PREFIX +"NEWT");
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
-		ClassificationGame classificationGame = new ClassificationGame(testEdition, "Description", DateTime.now(), testEdition.getIntersSet().stream().findFirst().get(), ARS);
+//		ClassificationGame classificationGame = new ClassificationGame(testEdition, "Description", DateTime.now(), testEdition.getIntersSet().stream().findFirst().get(), ARS);
+        feGameRequiresInterface.createClassificationGame(testEdition, "Description", DateTime.now(), testEdition.getIntersSet().stream().findFirst().get(), ARS);
 
-		int number = ClassificationModule.getInstance().getClassificationGameSet().size();
+		int number = feGameRequiresInterface.getClassificationGames().size();
 
 		this.gameMockMvc
-				.perform(post("/virtualeditions/restricted/{externalId}/classificationGame/{gameId}/remove", testEdition.getExternalId(), classificationGame.getExternalId()))
+				.perform(post("/virtualeditions/restricted/{externalId}/classificationGame/{gameId}/remove", testEdition.getExternalId(), feGameRequiresInterface.getClassificationGamesForEdition(testEdition.getAcronym()).stream().findFirst().get().getExternalId()))
 				.andDo(print())
 				.andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrl("/virtualeditions/restricted/" + testEdition.getExternalId() + "/classificationGame"));
 
-        assertEquals(number -1, ClassificationModule.getInstance().getClassificationGameSet().size());
+        assertEquals(number -1, feGameRequiresInterface.getClassificationGames().size());
         testEdition.removeByExternalId();
 	}
 
@@ -940,10 +943,11 @@ public class VirtualEditionTest {
         feVirtualRequiresInterface.createVirtualEdition(ARS,
                 "NEWT",
                 "titleX", LocalDate.now(), true, feVirtualRequiresInterface.getArchiveEdition().getAcronym());
-        pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionDto testEdition = GameRequiresInterface.getInstance().getVirtualEdition(ACRONYM_PREFIX +"NEWT");
+        VirtualEditionDto testEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ACRONYM_PREFIX +"NEWT");
 
-        ClassificationGame classificationGame = new ClassificationGame(testEdition, "Description", DateTime.now(), testEdition.getIntersSet().stream().findFirst().get(), ARS);
+        feGameRequiresInterface.createClassificationGame(testEdition, "Description", DateTime.now(), testEdition.getIntersSet().stream().findFirst().get(), ARS);
 
+        ClassificationGameDto classificationGame = feGameRequiresInterface.getClassificationGamesForEdition(testEdition.getAcronym()).stream().findFirst().get();
         classificationGame.addParticipant("ars");
 
 		this.gameMockMvc

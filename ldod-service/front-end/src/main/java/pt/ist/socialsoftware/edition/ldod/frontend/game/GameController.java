@@ -9,13 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import pt.ist.socialsoftware.edition.game.api.dtoc.ClassificationGameDto;
-import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionInterDto;
+
+import pt.ist.socialsoftware.edition.ldod.frontend.game.gameDto.ClassificationGameDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.game.validator.ClassificationGameValidator;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDCreateClassificationGameException;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.LdoDException;
-
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionInterDto;
 
 
 import java.util.List;
@@ -96,6 +96,7 @@ public class GameController {
         if (virtualEdition == null || game == null) {
             return "redirect:/error";
         } else {
+            System.out.println(game.canBeRemoved());
             if (game.canBeRemoved()) {
                 game.remove();
             } else {

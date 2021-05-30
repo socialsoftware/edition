@@ -8,7 +8,6 @@ import org.springframework.web.WebApplicationInitializer;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.game.api.GameRequiresInterface;
 
 import pt.ist.socialsoftware.edition.ldod.frontend.domain.EditionModule;
 import pt.ist.socialsoftware.edition.ldod.frontend.domain.Menu;
@@ -96,7 +95,6 @@ public class Bootstrap implements WebApplicationInitializer {
 
         EventInterface.getInstance();
         SessionRequiresInterface.getInstance();
-        GameRequiresInterface.getInstance();
     }
 
     private static void loadGamesFromFile() {

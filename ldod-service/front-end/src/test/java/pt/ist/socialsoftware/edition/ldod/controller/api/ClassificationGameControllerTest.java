@@ -14,17 +14,16 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
-import pt.ist.socialsoftware.edition.game.api.GameRequiresInterface;
-import pt.ist.socialsoftware.edition.game.domain.ClassificationGame;
-import pt.ist.socialsoftware.edition.game.domain.ClassificationGameParticipant;
-import pt.ist.socialsoftware.edition.game.domain.ClassificationGameRound;
+
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
 import pt.ist.socialsoftware.edition.ldod.frontend.config.Application;
 import pt.ist.socialsoftware.edition.ldod.frontend.filters.TransactionFilter;
-import pt.ist.socialsoftware.edition.game.api.remote.ClassificationGameController;
+import pt.ist.socialsoftware.edition.ldod.frontend.game.FeGameRequiresInterface;
+import pt.ist.socialsoftware.edition.ldod.frontend.game.gameDto.ClassificationGameDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.game.gameDto.ClassificationGameParticipantDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.FeVirtualRequiresInterface;
-import pt.ist.socialsoftware.edition.game.api.virtualDto.VirtualEditionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
 
 
 import java.io.FileNotFoundException;
@@ -40,9 +39,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class ClassificationGameControllerTest {
     public static final String ARCHIVE_EDITION_ACRONYM = "LdoD-Arquivo";
+    private final FeGameRequiresInterface feGameRequiresInterface = new FeGameRequiresInterface();
+    private final FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
 
-    @InjectMocks
-    ClassificationGameController classificationGameController;
+//    @InjectMocks
+//    ClassificationGameController classificationGameController;
 
     protected MockMvc mockMvc;
 
@@ -66,22 +67,24 @@ public class ClassificationGameControllerTest {
         TestLoadUtils.cleanDatabase();
     }
 
-    @BeforeEach
-    public void setUp() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(this.classificationGameController)
-                .setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
-    }
+//    @BeforeEach
+//    public void setUp() {
+//        this.mockMvc = MockMvcBuilders.standaloneSetup(this.classificationGameController)
+//                .setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
+//    }
 
     @Test
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void getActiveGamesTest() throws Exception {
-//        VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(VirtualEdition.ARCHIVE_EDITION_ACRONYM);
-//        ClassificationGame classificationGame = new ClassificationGame(new VirtualEditionDto(virtualEdition), "Description", DateTime.now(),
-//                new VirtualEditionInterDto(virtualEdition.getAllDepthVirtualEditionInters().get(0)), "ars");
-        VirtualEditionDto virtualEdition = GameRequiresInterface.getInstance().getVirtualEdition(ARCHIVE_EDITION_ACRONYM);
-        ClassificationGame classificationGame = new ClassificationGame((virtualEdition), "Description", DateTime.now(),
+
+        VirtualEditionDto virtualEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ARCHIVE_EDITION_ACRONYM);
+//        ClassificationGame classificationGame = new ClassificationGame((virtualEdition), "Description", DateTime.now(),
+//                virtualEdition.getIntersSet().stream().findFirst().get(), "ars");
+        feGameRequiresInterface.createClassificationGame(virtualEdition, "Description", DateTime.now(),
                 virtualEdition.getIntersSet().stream().findFirst().get(), "ars");
+
+        ClassificationGameDto classificationGame = feGameRequiresInterface.getClassificationGamesForEdition(virtualEdition.getAcronym()).stream().findFirst().get();
         classificationGame.addParticipant("ars");
 
         this.mockMvc.perform(get("/api/services/ldod-game/{username}/active", "ars"))
@@ -94,20 +97,18 @@ public class ClassificationGameControllerTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void endTest() throws Exception {
-        VirtualEditionDto virtualEdition = GameRequiresInterface.getInstance().getVirtualEdition(ARCHIVE_EDITION_ACRONYM);
-        ClassificationGame classificationGame = new ClassificationGame((virtualEdition), "Description", DateTime.now(),
+//        VirtualEditionDto virtualEdition = GameRequiresInterface.getInstance().getVirtualEdition(ARCHIVE_EDITION_ACRONYM);
+//        ClassificationGame classificationGame = new ClassificationGame((virtualEdition), "Description", DateTime.now(),
+//                virtualEdition.getIntersSet().stream().findFirst().get(), "ars");
+//        classificationGame.addParticipant("ars");
+        VirtualEditionDto virtualEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ARCHIVE_EDITION_ACRONYM);
+        feGameRequiresInterface.createClassificationGame(virtualEdition, "Description", DateTime.now(),
                 virtualEdition.getIntersSet().stream().findFirst().get(), "ars");
-        classificationGame.addParticipant("ars");
-        ClassificationGameParticipant participant = classificationGame.getParticipant("ars");
 
-        ClassificationGameRound round = new ClassificationGameRound();
-        round.setNumber(1);
-        round.setRound(1);
-        round.setTag("XXXX");
-        round.setVote(1);
-        round.setClassificationGameParticipant(participant);
-        round.setTime(DateTime.now());
-        participant.setScore(participant.getScore() + ClassificationGame.SUBMIT_TAG);
+        ClassificationGameDto classificationGame = feGameRequiresInterface.getClassificationGamesForEdition(virtualEdition.getAcronym()).stream().findFirst().get();
+        classificationGame.addParticipant("ars");
+
+        feGameRequiresInterface.setTestGameRound(ARCHIVE_EDITION_ACRONYM, "ars");
 
         this.mockMvc.perform(get("/api/services/ldod-game/end/{gameId}", classificationGame.getExternalId()))
                 .andDo(print())
@@ -119,20 +120,29 @@ public class ClassificationGameControllerTest {
     @Atomic(mode = Atomic.TxMode.WRITE)
     @WithUserDetails("ars")
     public void getLeaderboardTest() throws Exception {
-        VirtualEditionDto virtualEdition = GameRequiresInterface.getInstance().getVirtualEdition(ARCHIVE_EDITION_ACRONYM);
-        ClassificationGame classificationGame = new ClassificationGame((virtualEdition), "Description", DateTime.now(),
-                virtualEdition.getIntersSet().stream().findFirst().get(), "ars");
-        classificationGame.addParticipant("ars");
-        ClassificationGameParticipant participant = classificationGame.getParticipant("ars");
+//        VirtualEditionDto virtualEdition = GameRequiresInterface.getInstance().getVirtualEdition(ARCHIVE_EDITION_ACRONYM);
+//        ClassificationGame classificationGame = new ClassificationGame((virtualEdition), "Description", DateTime.now(),
+//                virtualEdition.getIntersSet().stream().findFirst().get(), "ars");
+//        classificationGame.addParticipant("ars");
+//        ClassificationGameParticipant participant = classificationGame.getParticipant("ars");
+//
+//        ClassificationGameRound round = new ClassificationGameRound();
+//        round.setNumber(1);
+//        round.setRound(1);
+//        round.setTag("XXXX");
+//        round.setVote(1);
+//        round.setClassificationGameParticipant(participant);
+//        round.setTime(DateTime.now());
+//        participant.setScore(participant.getScore() + ClassificationGame.SUBMIT_TAG);
 
-        ClassificationGameRound round = new ClassificationGameRound();
-        round.setNumber(1);
-        round.setRound(1);
-        round.setTag("XXXX");
-        round.setVote(1);
-        round.setClassificationGameParticipant(participant);
-        round.setTime(DateTime.now());
-        participant.setScore(participant.getScore() + ClassificationGame.SUBMIT_TAG);
+        VirtualEditionDto virtualEdition = feVirtualRequiresInterface.getVirtualEditionByAcronym(ARCHIVE_EDITION_ACRONYM);
+        feGameRequiresInterface.createClassificationGame(virtualEdition, "Description", DateTime.now(),
+                virtualEdition.getIntersSet().stream().findFirst().get(), "ars");
+
+        ClassificationGameDto classificationGame = feGameRequiresInterface.getClassificationGamesForEdition(virtualEdition.getAcronym()).stream().findFirst().get();
+        classificationGame.addParticipant("ars");
+
+        feGameRequiresInterface.setTestGameRound(ARCHIVE_EDITION_ACRONYM, "ars");
 
         this.mockMvc.perform(get("/api/services/ldod-game/leaderboard"))
                 .andDo(print())

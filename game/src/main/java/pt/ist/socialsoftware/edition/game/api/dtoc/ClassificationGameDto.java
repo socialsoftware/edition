@@ -81,6 +81,8 @@ public class ClassificationGameDto {
         return canBeRemoved;
     }
 
+    public boolean getCanBeRemoved() { return canBeRemoved; }
+
     public void remove() {
         this.gameProvidesInterface.removeClassificationGame(this.externalId);
     }

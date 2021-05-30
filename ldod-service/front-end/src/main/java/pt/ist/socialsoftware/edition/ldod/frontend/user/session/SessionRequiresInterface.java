@@ -31,6 +31,13 @@ public class SessionRequiresInterface implements SubscribeInterface {
     }
 
 
+    @JmsListener(id = "3", containerFactory = "jmsListenerContainerFactory", destination = "test-topic")
+    public void listener(Event message){
+//        this.notify(message);
+                EventInterface.getInstance().publish(message);
+    }
+
+
     // Requires asynchronous events
     public void notify(Event event) {
         if (event.getType().equals(Event.EventType.VIRTUAL_EDITION_REMOVE) ||
