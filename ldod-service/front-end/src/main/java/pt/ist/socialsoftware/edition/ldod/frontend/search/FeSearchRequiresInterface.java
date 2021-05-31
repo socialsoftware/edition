@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 
 public class FeSearchRequiresInterface {
 
-    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
     // Requires from User Module
     private final FeUserProvidesInterface feUserProvidesInterface = new FeUserProvidesInterface();
@@ -197,8 +197,8 @@ public class FeSearchRequiresInterface {
 
 
     // Requires from Virtual Module
-    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
-//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
+//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
 
 
     public Set<VirtualEditionDto> getPublicVirtualEditionsOrUserIsParticipant(String username) {

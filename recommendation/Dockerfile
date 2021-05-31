@@ -21,5 +21,5 @@ RUN mvn clean install -DskipTests=true
 FROM openjdk:12-alpine
 WORKDIR /opt/app/
 COPY --from=builder /opt/app/ /opt/app/
-EXPOSE 8081
+EXPOSE 8084
 CMD [ "java", "-jar", "/opt/app/target/ldod.jar" ]
