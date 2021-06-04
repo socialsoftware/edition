@@ -1,9 +1,9 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.text.baseDto;
 
 
+import pt.ist.socialsoftware.edition.api.utils.enums.SourceType;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.enums.Form;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.enums.Material;
-import pt.ist.socialsoftware.edition.search.utils.SourceType;
 
 public class SourceBaseDto {
 

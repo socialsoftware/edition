@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.fenixframework.Atomic;
+import pt.ist.socialsoftware.edition.api.utils.enums.SourceType;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.baseDto.SourceBaseDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.enums.Form;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.enums.Material;
-import pt.ist.socialsoftware.edition.search.utils.SourceType;
 
 
 import java.util.AbstractMap;
@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 
 public class SourceDto {
 
-//    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+//    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
     private String xmlId;
 

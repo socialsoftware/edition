@@ -2,14 +2,15 @@ package pt.ist.socialsoftware.edition.ldod.frontend.search;
 
 import org.joda.time.LocalDate;
 
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient;
+import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.AdvancedSearchResultDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.SearchDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.*;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.FeUserProvidesInterface;
 
 import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionDto;
-import pt.ist.socialsoftware.edition.search.api.SearchProvidesInterface;
-import pt.ist.socialsoftware.edition.search.api.dto.AdvancedSearchResultDto;
-import pt.ist.socialsoftware.edition.search.api.dto.SearchDto;
-import pt.ist.socialsoftware.edition.search.api.textDto.*;
+
 
 
 import java.util.List;
@@ -19,8 +20,8 @@ import java.util.stream.Collectors;
 
 public class FeSearchRequiresInterface {
 
-//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
     // Requires from User Module
     private final FeUserProvidesInterface feUserProvidesInterface = new FeUserProvidesInterface();
@@ -31,14 +32,34 @@ public class FeSearchRequiresInterface {
 
 
     // Requires from Search Module
-    SearchProvidesInterface searchProvidesInterface = new SearchProvidesInterface();
+    public WebClient.Builder webClientSearch = WebClient.builder().baseUrl("http://localhost:8086/api");
+//    public WebClient.Builder webClientSearch = WebClient.builder().baseUrl("http://docker-search:8086/api");
 
     public Map<String, List<ScholarInterDto>> getSimpleSearch(String params) {
-        return this.searchProvidesInterface.simpleSearch(params);
+        return webClientSearch.build()
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                    .path("/simpleSearch")
+                    .queryParam("params", params)
+                    .build())
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<Map<String, List<ScholarInterDto>>>() {})
+                .block();
+        //        return this.searchProvidesInterface.simpleSearch(params);
     }
 
     public AdvancedSearchResultDto advancedSearch(SearchDto search, String username) {
-        return this.searchProvidesInterface.advancedSearch(search, username);
+        return webClientSearch.build()
+                .post()
+                .uri(uriBuilder -> uriBuilder
+                    .path("/advancedSearch")
+                    .queryParam("username", username)
+                    .build())
+                .bodyValue(search)
+                .retrieve()
+                .bodyToMono(AdvancedSearchResultDto.class)
+                .block();
+        //        return this.searchProvidesInterface.advancedSearch(search, username);
     }
 
 
@@ -197,8 +218,8 @@ public class FeSearchRequiresInterface {
 
 
     // Requires from Virtual Module
-//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
-    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
+//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
 
 
     public Set<VirtualEditionDto> getPublicVirtualEditionsOrUserIsParticipant(String username) {

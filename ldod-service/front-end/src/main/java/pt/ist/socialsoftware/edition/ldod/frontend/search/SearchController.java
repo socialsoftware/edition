@@ -7,11 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.AdvancedSearchResultDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.SearchDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.SearchOptionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
-import pt.ist.socialsoftware.edition.search.api.dto.AdvancedSearchResultDto;
-import pt.ist.socialsoftware.edition.search.api.dto.SearchDto;
-import pt.ist.socialsoftware.edition.search.api.dto.SearchOptionDto;
-import pt.ist.socialsoftware.edition.search.api.textDto.ScholarInterDto;
+
 
 import java.util.List;
 import java.util.Map;

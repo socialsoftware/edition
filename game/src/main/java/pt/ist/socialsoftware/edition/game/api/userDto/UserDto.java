@@ -6,8 +6,8 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 public class UserDto {
-//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
-    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
+    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
+//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
 
 
     private String username;

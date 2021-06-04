@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 
 public class FeReadingRequiresInterface {
 
-//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
     // Uses Text Module
 
@@ -74,8 +74,8 @@ public class FeReadingRequiresInterface {
 
     // Uses Recommendation Module
 //    private final RecommendationProvidesInterface recommendationProvidesInterface = new RecommendationProvidesInterface();
-//    public WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl("http://localhost:8084/api");
-        private final WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl("http://docker-recommendation:8084/api");
+    public WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl("http://localhost:8084/api");
+//        private final WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl("http://docker-recommendation:8084/api");
 
 
     public List<Map.Entry<String, Double>> getMostSimilarFragmentsOfGivenFragment(FragmentBaseDto toReadFragment, Set<FragmentBaseDto> toBeRecommended, WeightsDto weightsDto) {
