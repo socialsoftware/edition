@@ -441,7 +441,7 @@ public class VirtualEditionInterDto {
         this.title = title;
     }
 
-    public void setFragId(String fragId) {
+    public void setFragmentXmlId(String fragId) {
         this.fragId = fragId;
     }
 

@@ -161,7 +161,7 @@ public class FeSearchRequiresInterface {
 
         ScholarInterDto scholarInterDto = webClient.build()
                 .get()
-                .uri("/scholarinter/xmlId/" + xmlId)
+                .uri("/scholarInter/" + xmlId)
                 .retrieve()
                 .bodyToMono(ScholarInterDto.class)
                 .blockOptional().orElse(null);

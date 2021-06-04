@@ -1,5 +1,8 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.search;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -7,13 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.AdvancedSearchResultDto;
-import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.SearchDto;
-import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.SearchOptionDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.search.dto.*;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.ScholarInterDto;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.session.FrontendSession;
 
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -84,7 +86,8 @@ public class SearchController {
         model.addAttribute("interCount", advancedSearchResultDto.getInterCount());
         model.addAttribute("fragCountNotAdded", advancedSearchResultDto.getFragCountNotAdded());
         model.addAttribute("interCountNotAdded", advancedSearchResultDto.getInterCountNotAdded());
-        model.addAttribute("results", advancedSearchResultDto.getResults());
+//        model.addAttribute("results", advancedSearchResultDto.getResults());
+        model.addAttribute("results", advancedSearchResultDto.convert());
 
         SearchOptionDto[] searchOptions = search.getSearchOptions();
 

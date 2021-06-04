@@ -2,9 +2,13 @@ package pt.ist.socialsoftware.edition.ldod.frontend.search.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class AdvancedSearchResultDto {
     private final boolean showEdition;
@@ -18,13 +22,13 @@ public class AdvancedSearchResultDto {
     private final int interCount;
     private final int fragCountNotAdded;
     private final int interCountNotAdded;
-    private final Map<String, Map<SearchableElementDto, List<String>>> results;
+    private Map<String, Map<String, List<String>>> results;
 
 //    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public AdvancedSearchResultDto(@JsonProperty("showEdition") boolean showEdition, @JsonProperty("showHeteronym") boolean showHeteronym, @JsonProperty("showDate") boolean showDate, @JsonProperty("showLdoD") boolean showLdoD,
                                    @JsonProperty("showSource") boolean showSource, @JsonProperty("showSourceType") boolean showSourceType, @JsonProperty("showTaxonomy") boolean showTaxonomy, @JsonProperty("fragCount") int fragCount,
                                    @JsonProperty("interCount") int interCount, @JsonProperty("fragCountNotAdded") int fragCountNotAdded,
-                                   @JsonProperty("interCountNotAdded") int interCountNotAdded, @JsonProperty("results") Map<String, Map<SearchableElementDto,  List<String>>> results) {
+                                   @JsonProperty("interCountNotAdded") int interCountNotAdded, @JsonProperty("results") Map<String, Map<String,  List<String>>> results) {
         this.showEdition = showEdition;
         this.showHeteronym = showHeteronym;
         this.showDate = showDate;
@@ -85,9 +89,23 @@ public class AdvancedSearchResultDto {
         return this.interCountNotAdded;
     }
 
-    public Map<String, Map<SearchableElementDto, List<String>>> getResults() {
+    public Map<String, Map<String, List<String>>> getResults() {
         return this.results;
     }
 
+    public Map<String, Map<SearchableElementDto, List<String>>> convert() {
+        ObjectReader objectMapper = new ObjectMapper().readerFor(SearchableElementDto.class);
+
+        Map<String, Map<SearchableElementDto, List<String>>> test = results.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, ev -> ev.getValue().entrySet().stream()
+                .collect(Collectors.toMap(stringListEntry -> {
+                    try {
+                        return objectMapper.readValue(stringListEntry.getKey());
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }, ev2 -> ev2.getValue()))));
+        return test;
+    }
 
 }

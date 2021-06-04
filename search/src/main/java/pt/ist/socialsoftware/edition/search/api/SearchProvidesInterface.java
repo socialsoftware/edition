@@ -39,17 +39,6 @@ public class SearchProvidesInterface {
                 .forEach(searchOptionDto -> ((VirtualEditionSearchOptionDto) searchOptionDto).setUsername(username));
         }
 
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        ObjectReader or = new ObjectMapper().reader();
-        try {
-            String json = ow.writeValueAsString(new SearchProcessor().advancedSearch(search).getResults().entrySet().stream().findFirst().get().getValue().keySet().stream().findFirst().get());
-            System.out.println(json);
-            Map<String, Map<SearchableElementDto,  List<String>>> test = new ObjectMapper().readValue(json, new TypeReference<Map<String, Map<SearchableElementDto,  List<String>>>>() {});
-            System.out.println(test);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
         return new SearchProcessor().advancedSearch(search);
     }
 

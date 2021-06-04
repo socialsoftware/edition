@@ -11,7 +11,7 @@ public final class HeteronymSearchOptionDto extends SearchOptionDto {
 
     private final String xmlId4Heteronym;
 
-    public HeteronymSearchOptionDto(@JsonProperty("heteronym") String xmlId) {
+    public HeteronymSearchOptionDto(@JsonProperty("xmlId4Heteronym") String xmlId) {
         logger.debug("HeteronymSearchOption xmlId: {}", xmlId);
         this.xmlId4Heteronym = xmlId.equals("null") ? null : xmlId;
     }
