@@ -37,8 +37,8 @@ public class FeGameRequiresInterface {
 
 
     // Uses User Module
-    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
-//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
+//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
+    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
 
 
 //    private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
@@ -67,8 +67,8 @@ public class FeGameRequiresInterface {
 
 
     // Uses Virtual Module
-    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
-//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
+//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
 
     public VirtualEditionDto getVirtualEditionByExternalId(String externalId) {
         return webClientVirtual.build()
@@ -147,8 +147,8 @@ public class FeGameRequiresInterface {
     }
 
     //Uses Game Module
-    private final WebClient.Builder webClientGame = WebClient.builder().baseUrl("http://localhost:8085/api");
-//    private final WebClient.Builder webClientGame = WebClient.builder().baseUrl("http://docker-game:8085/api");
+//    private final WebClient.Builder webClientGame = WebClient.builder().baseUrl("http://localhost:8085/api");
+    private final WebClient.Builder webClientGame = WebClient.builder().baseUrl("http://docker-game:8085/api");
 
     public Set<ClassificationGameDto> getClassificationGamesForEdition(String acronym) {
         return webClientGame.build()

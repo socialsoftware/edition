@@ -332,6 +332,28 @@ services:
       - /opt/ldod/tests/:/opt/ldod/tests/
       - /opt/ldod/social/aware/:/opt/ldod/social/aware/
 
+  docker-search:
+    image: docker-search
+    restart: on-failure
+
+    ports:
+      - 8086:8086
+
+    networks:
+      - backend
+
+    volumes:
+      - /opt/ldod/corpus/:/opt/ldod/corpus/
+      - /opt/ldod/corpus/files/:/opt/ldod/corpus/files/
+      - /opt/ldod/corpus/stoplist-pt.txt:/opt/ldod/corpus/stoplist-pt.txt
+      - /opt/ldod/inters/:/opt/ldod/inters/
+      - /opt/ldod/facsimiles/:/opt/ldod/facsimiles/
+      - /opt/ldod/encoding/:/opt/ldod/encoding/
+      - /opt/ldod/export/:/opt/ldod/export/
+      - /opt/ldod/indexer/:/opt/ldod/indexer/
+      - /opt/ldod/tests/:/opt/ldod/tests/
+      - /opt/ldod/social/aware/:/opt/ldod/social/aware/
+
   docker-activemq:
     image: rmohr/activemq
     restart: on-failure

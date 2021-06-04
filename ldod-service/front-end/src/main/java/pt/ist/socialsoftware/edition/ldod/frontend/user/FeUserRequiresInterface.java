@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
 public class FeUserRequiresInterface {
 
     // Uses User Module
-    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
-//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
+//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
+    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
 
 
     public UserDto getUser(String username) {
@@ -379,8 +379,8 @@ public class FeUserRequiresInterface {
 
     // User Text Module
 
-    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
     public FragmentDto getFragmentByXmlId(String xmlId) {
         return   webClient.build()
@@ -393,8 +393,8 @@ public class FeUserRequiresInterface {
 
 
     // Uses Virtual Module
-    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
-//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
+//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
 
 
 

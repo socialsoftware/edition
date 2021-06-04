@@ -9,8 +9,8 @@ import java.util.List;
 
 public class ClassificationGameDto {
 
-    private final WebClient.Builder webClientGame = WebClient.builder().baseUrl("http://localhost:8085/api");
-//    private final WebClient.Builder webClientGame = WebClient.builder().baseUrl("http://docker-game:8085/api");
+//    private final WebClient.Builder webClientGame = WebClient.builder().baseUrl("http://localhost:8085/api");
+    private final WebClient.Builder webClientGame = WebClient.builder().baseUrl("http://docker-game:8085/api");
 
     private String editionId;
     private String interId;

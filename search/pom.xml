@@ -610,12 +610,6 @@
         </dependency>
 
         <dependency>
-            <groupId>pt.ist.socialsoftware</groupId>
-            <artifactId>notification</artifactId>
-            <version>1.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-activemq</artifactId>
         </dependency>
@@ -631,11 +625,6 @@
         <repository>
             <id>fenixedu-maven-repository</id>
             <url>https://repo.fenixedu.org/fenixedu-maven-repository</url>
-        </repository>
-        <repository>
-            <id>local-repo</id>
-            <name>repo</name>
-            <url>file:${project.basedir}/repo</url>
         </repository>
     </repositories>
     <pluginRepositories>

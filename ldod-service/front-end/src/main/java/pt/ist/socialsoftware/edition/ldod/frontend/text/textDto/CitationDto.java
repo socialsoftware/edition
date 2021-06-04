@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 
 public class CitationDto {
 
-    private final WebClient.Builder webClientText = WebClient.builder().baseUrl("http://localhost:8081/api");
-//    private WebClient.Builder webClientText = WebClient.builder().baseUrl("http://docker-text:8081/api");
+//    private final WebClient.Builder webClientText = WebClient.builder().baseUrl("http://localhost:8081/api");
+    private WebClient.Builder webClientText = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
 
     private long id;
