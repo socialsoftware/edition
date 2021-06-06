@@ -1,9 +1,10 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.reading.recommendationDto.wrappers;
 
 
-import pt.ist.socialsoftware.edition.api.textDto.ScholarInterDto;
-import pt.ist.socialsoftware.edition.api.virtualDto.VirtualEditionInterDto;
+
 import pt.ist.socialsoftware.edition.ldod.frontend.reading.recommendationDto.WeightsDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.text.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto.VirtualEditionInterDto;
 
 public class IntersByDistance {
 

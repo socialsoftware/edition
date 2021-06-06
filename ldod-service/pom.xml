@@ -726,7 +726,6 @@
     </pluginRepositories>
 
         <modules>
-            <module>visual</module>
             <module>front-end</module>
         </modules>
 

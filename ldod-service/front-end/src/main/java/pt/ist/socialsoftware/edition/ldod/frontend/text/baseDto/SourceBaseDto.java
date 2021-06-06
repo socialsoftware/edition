@@ -1,9 +1,9 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.text.baseDto;
 
 
-import pt.ist.socialsoftware.edition.api.utils.enums.SourceType;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.enums.Form;
 import pt.ist.socialsoftware.edition.ldod.frontend.utils.enums.Material;
+import pt.ist.socialsoftware.edition.ldod.frontend.utils.enums.Source_Type;
 
 public class SourceBaseDto {
 
@@ -11,7 +11,7 @@ public class SourceBaseDto {
 
     //cached attributes
     private String name;
-    private SourceType type;
+    private Source_Type type;
     private String title;
     private String idno;
     private String altIdentifier;
@@ -167,7 +167,7 @@ public class SourceBaseDto {
         return this.hasTypeNoteSet;
     }
 
-    public SourceType getType() {
+    public Source_Type getType() {
         //return getSourceByXmlId(this.xmlId).map(source -> source.getType()).orElse(null);
         return this.type;
     }
