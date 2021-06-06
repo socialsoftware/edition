@@ -267,7 +267,7 @@
                         <configuration>
                             <classifier>spring-boot</classifier>
                             <mainClass>
-                                pt.ist.socialsoftware.edition.virtual.config.VirtualApplication
+                                pt.ist.socialsoftware.edition.config.VisualApplication
                             </mainClass>
                         </configuration>
                     </execution>
@@ -607,12 +607,6 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>pt.ist.socialsoftware</groupId>
-            <artifactId>notification</artifactId>
-            <version>1.0</version>
         </dependency>
 
         <dependency>
