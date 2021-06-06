@@ -153,7 +153,8 @@ public class GameProvidesInterface {
 
     @GetMapping("/getGamesForScheduledTasks")
     @Atomic(mode = Atomic.TxMode.READ)
-    public List<String> getGamesForScheduledTasks( @RequestParam(name = "now") @DateTimeFormat(pattern = "yyyy-MM-dd") DateTime now) {
+    public List<String> getGamesForScheduledTasks() {
+        DateTime now = DateTime.now();
         System.out.println("getGamesForScheduledTasks: " + now);
         return ClassificationModule.getInstance().getClassificationGameSet().stream()
                 .filter(g -> g.getState().equals(ClassificationGame.ClassificationGameState.CREATED)

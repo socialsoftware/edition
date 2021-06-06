@@ -213,6 +213,7 @@ public class FeGameRequiresInterface {
     }
 
     public void startGameRunner(String id) {
+        System.out.println(id);
         webClientGame.build()
                 .post()
                 .uri(uriBuilder -> uriBuilder
@@ -230,11 +231,9 @@ public class FeGameRequiresInterface {
                 .get()
                 .uri(uriBuilder -> uriBuilder
                     .path("/getGamesForScheduledTasks")
-                    .queryParam("now", now)
                 .build())
                 .retrieve()
-                .bodyToFlux(new ParameterizedTypeReference<String>() {})
-                .collectList()
+                .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
                 .block();
         //        return this.gameProvidesInterface.getGamesForScheduledTasks(now);
     }
