@@ -85,6 +85,7 @@ public class ScholarInterDto {
     }
 
 
+    @JsonIgnore
     public LdoDDateDto getLdoDDate() {
         return webClient.build()
                 .get()
@@ -95,7 +96,7 @@ public class ScholarInterDto {
         //    return this.textProvidesInterface.getScholarInterDate(this.xmlId);
     }
 
-
+    @JsonIgnore
     public HeteronymDto getHeteronym() {
         return webClient.build()
                 .get()
@@ -131,6 +132,7 @@ public class ScholarInterDto {
         return this.editionReference;
     }
 
+    @JsonIgnore
     @Atomic(mode = Atomic.TxMode.READ)
     public ExpertEditionDto getExpertEdition() {
         return webClient.build()
@@ -159,7 +161,7 @@ public class ScholarInterDto {
         return this.isExpertInter;
     }
 
-
+    @JsonIgnore
     public SourceDto getSourceDto() {
         return webClient.build()
                 .get()
@@ -173,6 +175,7 @@ public class ScholarInterDto {
 //        return new SourceDto(new TextProvidesInterface().getSourceOfSourceInter(this.xmlId));
 //    }
 
+    @JsonIgnore
     @Atomic(mode = Atomic.TxMode.READ)
     public String getExpertEditionAcronym() {
         return  webClient.build()
@@ -184,6 +187,7 @@ public class ScholarInterDto {
         //  return this.textProvidesInterface.getExpertEditionAcronym(this.xmlId);
     }
 
+    @JsonIgnore
     @Atomic(mode = Atomic.TxMode.READ)
     public int getNumberOfTimesCited() {
         return  webClient.build()
@@ -195,6 +199,7 @@ public class ScholarInterDto {
         //return this.textProvidesInterface.getNumberOfTimesCited(this.xmlId);
     }
 
+    @JsonIgnore
     @Atomic(mode = Atomic.TxMode.READ)
     public int getNumberOfTimesCitedIncludingRetweets() {
         return  webClient.build()
@@ -205,7 +210,6 @@ public class ScholarInterDto {
                 .blockOptional().get();
         //    return this.textProvidesInterface.getNumberOfTimesCitedIncludingRetweets(this.xmlId);
     }
-
 
     @JsonIgnore
     public FragmentDto getFragmentDto() {
@@ -261,6 +265,7 @@ public class ScholarInterDto {
         return this.volume;
     }
 
+    @JsonIgnore
     @Atomic(mode = Atomic.TxMode.READ)
     public String getTranscription() {
         return webClient.build()
@@ -272,6 +277,7 @@ public class ScholarInterDto {
         //    return this.textProvidesInterface.getScholarInterTranscription(this.xmlId);
     }
 
+    @JsonIgnore
     @Atomic(mode = Atomic.TxMode.READ)
     public String getSourceTranscription(boolean diff, boolean del, boolean ins,
                                          boolean subst, boolean notes) {
@@ -292,6 +298,7 @@ public class ScholarInterDto {
         //    return this.textProvidesInterface.getSourceInterTranscription(this.xmlId, diff, del, ins, subst, notes);
     }
 
+    @JsonIgnore
     @Atomic(mode = Atomic.TxMode.READ)
     public String getExpertTranscription(boolean diff) {
         return  webClient.build()
@@ -327,6 +334,7 @@ public class ScholarInterDto {
         return this.notes;
     }
 
+    @JsonIgnore
     @Atomic(mode = Atomic.TxMode.READ)
     public List<AnnexNoteDto> getSortedAnnexNote() {
         return webClient.build()

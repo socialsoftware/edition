@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!--
+This example contains a TEI condification proposal for Pessoa'a Book of Disquiet (VirtualModule - Livro do Desassossego)
+
+The example highlights the issues considered relevant (challenging) for the codification of VirtualModule, the Corpus and a Fragment. Therefore it does not intend to contain a complete codification.
+Moreover, the open issues are also higlighted. 
+
+This codification proposal is based in a previous proposal by Timothy Thompson <timathom@gmail.com>
+-->
+<teiCorpus xmlns="http://www.tei-c.org/ns/1.0" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xi="http://www.w3.org/2001/XInclude">
+   <!-- O header de toda a coleção -->
+   <teiHeader type="corpus">
+      <fileDesc>
+         <titleStmt>
+            <title>O Livro do Desassossego</title>
+            <author>Fernando Pessoa</author>
+            <editor>Project: Nenhum Problema tem Solução</editor>
+            <sponsor />
+            <funder>FCT</funder>
+            <principal>Manuel Portela</principal>
+            <respStmt>
+               <resp>schema definition</resp>
+               <name>Timothy Thompson</name>
+            </respStmt>
+            <respStmt>
+               <resp>schema definition</resp>
+               <name>António Rito Silva</name>
+            </respStmt>
+            <respStmt>
+               <resp>encoding</resp>
+               <name>Diego Giménez</name>
+            </respStmt>
+            <respStmt>
+               <resp>encoding</resp>
+               <name>Tiago Santos</name>
+            </respStmt>
+            <respStmt>
+               <name>Tiago Santos, Daniela Maduro, Rita Catania Marrone, Manuel Portela</name>
+               <resp>revision</resp>
+            </respStmt>
+         </titleStmt>
+         <publicationStmt>
+            <publisher>Centre for Portuguese Literature at the University of Coimbra</publisher>
+            <pubPlace>Coimbra</pubPlace>
+            <availability status="restricted">
+               <licence target="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <p>All items in the LdoD Archive may be shared in accordance with the Creative Commons “Attribution-NonCommercial 4.0 International” license (CC BY-NC 4.0).</p>
+               </licence>
+            </availability>
+            <date when="2016" />
+         </publicationStmt>
+         <!-- RELEVANT: Here we codify the 4 existing editions of VirtualModule -->
+         <sourceDesc>
+            <listBibl xml:id="ED.CRIT">
+               <!-- RELEVANT: Each edition contains -->
+               <bibl xml:id="ED.CRIT.C">
+                  <author corresp="#FP">
+                     <persName>Fernando Pessoa</persName>
+                  </author>
+                  <title>O Livro do Desassossego</title>
+                  <editor>
+                     <persName>Jacinto do Prado Coelho</persName>
+                  </editor>
+                  <!-- Other bibliographic information -->
+                  <date when="1982" />
+               </bibl>
+               <bibl xml:id="ED.CRIT.SC">
+                  <author corresp="#FP">
+                     <persName>Fernando Pessoa</persName>
+                  </author>
+                  <title>O Livro do Desassossego</title>
+                  <editor>
+                     <persName>Teresa Sobral Cunha</persName>
+                  </editor>
+                  <!-- Other bibliographic information -->
+                  <date type="edition" when="1997" />
+               </bibl>
+               <bibl xml:id="ED.CRIT.Z">
+                  <author corresp="#FP">
+                     <persName>Fernando Pessoa</persName>
+                  </author>
+                  <title>O Livro do Desassossego</title>
+                  <editor>
+                     <persName>Richard Zenith</persName>
+                  </editor>
+                  <!-- Other bibliographic information -->
+                  <date type="edition" when="2007" />
+               </bibl>
+               <bibl xml:id="ED.CRIT.P">
+                  <author corresp="#FP">
+                     <persName>Fernando Pessoa</persName>
+                  </author>
+                  <title>O Livro do Desassossego</title>
+                  <editor>
+                     <persName>Jerónimo Pizarro</persName>
+                  </editor>
+                  <!-- Other bibliographic information -->
+                  <date type="edition" when="2010" />
+               </bibl>
+            </listBibl>
+         </sourceDesc>
+      </fileDesc>
+      <!-- Encoding information, not relevant for the open -->
+      <encodingDesc>
+         <projectDesc>
+            <p>Description of the Nenhum... project</p>
+         </projectDesc>
+         <samplingDecl>
+            <p>the rationale and methods used in selecting texts, or...</p>
+         </samplingDecl>
+         <editorialDecl>
+            <p>provide details of the editorial practices applied during the encoding</p>
+         </editorialDecl>
+         <!-- Similar to Swinburne Project (http://swinburneproject.indiana.edu/swinburne/resources/swinburne_data.zip) -->
+         <tagsDecl xml:base="includes/tagsDecl.xml">
+            <rendition n="mono" scheme="css" xml:id="mono">font-family: Courier,
+                    monospace</rendition>
+            <rendition n="code" scheme="css" xml:id="code">font-family: courier, monospace;</rendition>
+            <!-- font-size -->
+            <rendition n="small" scheme="css" xml:id="small">font-size: small;</rendition>
+            <rendition n="x-small" scheme="css" xml:id="x-small">font-size: x-small;</rendition>
+            <rendition n="xx-small" scheme="css" xml:id="xx-small">font-size:
+                    xx-small;</rendition>
+            <rendition n="large" scheme="css" xml:id="large">font-size: large;</rendition>
+            <rendition n="x-large" scheme="css" xml:id="x-large">font-size: x-large;</rendition>
+            <rendition n="xx-large" scheme="css" xml:id="xx-large">font-size:
+                    xx-large</rendition>
+            <!-- font-style -->
+            <rendition n="italic" scheme="css" xml:id="i">font-style: italic;</rendition>
+            <rendition n="normal" scheme="css" xml:id="n">font-style: normal;</rendition>
+            <!-- font-variant -->
+            <rendition n="small caps" scheme="css" xml:id="sc">font-variant:
+                    small-caps;</rendition>
+            <!-- font-weight -->
+            <rendition n="bold" scheme="css" xml:id="b">font-weight: bold;</rendition>
+            <!-- text-decoration -->
+            <rendition n="strike through" scheme="css" xml:id="strike">text-decoration:
+                    line-through;</rendition>
+            <rendition n="underline" scheme="css" xml:id="u">text-decoration:
+                    underline;</rendition>
+            <rendition n="double underline" scheme="css" xml:id="uu">text-decoration: underline;
+                    border-bottom: 1px solid black;</rendition>
+            <rendition n="block" scheme="css" xml:id="block">display: block; margin:
+                    4em;</rendition>
+            <rendition n="blockquote" scheme="css" xml:id="blockquote">display: block;
+                    margin-left:4em;</rendition>
+            <rendition n="expanded letter spacing" scheme="css" xml:id="expanded">letter-spacing: +3pt;</rendition>
+            <!-- text-transform -->
+            <rendition n="uppercase" scheme="css" xml:id="uc">text-transform:
+                    uppercase;</rendition>
+            <!-- text-align -->
+            <rendition n="align center" scheme="css" xml:id="center">text-align:
+                    center;</rendition>
+            <rendition n="align right" scheme="css" xml:id="right">text-align:
+                    right;</rendition>
+            <rendition n="align left" scheme="css" xml:id="left">text-align: right;</rendition>
+            <!-- block alignment: centers a block of text, but doesn't affect the alignment of text withing the centered block.-->
+            <rendition n="center block" scheme="css" xml:id="center-block">margin-left:auto;
+                    margin-right:auto;</rendition>
+            <!-- text-indent: hanging indents for verse-->
+            <rendition n="indent 1 level" scheme="css" xml:id="ti-1">text-indent:
+                    1em;</rendition>
+            <rendition n="indent 2 levels" scheme="css" xml:id="ti-2">text-indent:
+                    2em;</rendition>
+            <rendition n="indent 3 levels" scheme="css" xml:id="ti-3">text-indent:
+                    3em;</rendition>
+            <rendition n="indent 4 levels" scheme="css" xml:id="ti-4">text-indent:
+                    4em;</rendition>
+            <rendition n="indent 5 levels" scheme="css" xml:id="ti-5">text-indent:
+                    5em;</rendition>
+            <rendition n="indent 6 levels" scheme="css" xml:id="ti-6">text-indent:
+                    6em;</rendition>
+            <rendition n="indent 7 levels" scheme="css" xml:id="ti-7">text-indent:
+                    7em;</rendition>
+            <rendition n="indent 8 levels" scheme="css" xml:id="ti-8">text-indent:
+                    8em;</rendition>
+            <rendition n="indent 9 levels" scheme="css" xml:id="ti-9">text-indent:
+                    9em;</rendition>
+            <rendition n="indent 10 levels" scheme="css" xml:id="ti-10">text-indent:
+                    10em;</rendition>
+            <rendition n="indent 10 levels" scheme="css" xml:id="ti-11">text-indent:
+                    11em;</rendition>
+            <rendition n="indent 12 levels" scheme="css" xml:id="ti-12">text-indent:
+                    12em;</rendition>
+            <rendition n="indent 13 levels" scheme="css" xml:id="ti-13">text-indent:
+                    13em;</rendition>
+            <rendition n="indent 14 levels" scheme="css" xml:id="ti-14">text-indent:
+                    14em;</rendition>
+            <rendition n="indent 15 levels" scheme="css" xml:id="ti-15">text-indent:
+                    15em;</rendition>
+            <rendition n="indent 16 levels" scheme="css" xml:id="ti-16">text-indent:
+                    16em;</rendition>
+            <rendition n="indent 17 levels" scheme="css" xml:id="ti-17">text-indent:
+                    17em;</rendition>
+            <rendition n="indent 18 levels" scheme="css" xml:id="ti-18">text-indent:
+                    18em;</rendition>
+            <rendition n="indent 19 levels" scheme="css" xml:id="ti-19">text-indent:
+                    19em;</rendition>
+            <rendition n="indent 20 levels" scheme="css" xml:id="ti-20">text-indent:
+                    20em;</rendition>
+            <rendition n="indent 21 levels" scheme="css" xml:id="ti-21">text-indent:
+                    21em;</rendition>
+            <rendition n="indent 22 levels" scheme="css" xml:id="ti-22">text-indent:
+                    22em;</rendition>
+            <!-- vertical-align -->
+            <rendition n="subscript" scheme="css" xml:id="sub">vertical-align: sub;</rendition>
+            <rendition n="superscript" scheme="css" xml:id="super">vertical-align:
+                    super;</rendition>
+            <rendition n="border" scheme="css" xml:id="border">border: 2px solid;</rendition>
+            <!-- color -->
+            <rendition n="red" scheme="css" xml:id="red">color: red;</rendition>
+            <rendition n="green" scheme="css" xml:id="green">color: green;</rendition>
+            <rendition n="blue" scheme="css" xml:id="blue">color: blue;</rendition>
+         </tagsDecl>
+         <variantEncoding location="internal" method="parallel-segmentation" />
+         <classDecl>
+            <!-- RELEVANT: For each classification a taxonomy is defined with its respective categories. -->
+            <!-- OPEN ISSUE: Some of the taxonomies are specific of one edition. How can we represent it? -->
+            <taxonomy xml:id="C.AQ">
+               <bibl>António Quadros</bibl>
+               <category xml:id="C.AQ.FC">
+                  <catDesc>Fase Confessional</catDesc>
+               </category>
+               <category xml:id="C.AQ.FD">
+                  <catDesc>Fase Decadentista</catDesc>
+               </category>
+            </taxonomy>
+         </classDecl>
+      </encodingDesc>
+      <profileDesc>
+         <creation>
+            <date from="1900" to="1900">19xx-19yy</date>
+         </creation>
+         <langUsage>
+            <language ident="pt-PT" usage="100">português</language>
+         </langUsage>
+         <!-- RELEVANT: Here we codify Pessoa's orthonym and heteronyms -->
+         <particDesc>
+            <person xml:id="FP">
+               <persName type="orthonym">Fernando Pessoa</persName>
+            </person>
+            <listPerson type="heteronyms" xml:id="HT">
+               <person xml:id="HT.BS">
+                  <persName>Bernardo Soares</persName>
+               </person>
+               <person xml:id="HT.VG">
+                  <persName>Vicente Guedes</persName>
+               </person>
+            </listPerson>
+         </particDesc>
+      </profileDesc>
+   </teiHeader>
+   <!-- A fragment example -->
+   <TEI xml:id="Fr001">
+      <teiHeader type="text">
+         <fileDesc>
+            <titleStmt>
+               <title>A arte é um esquivar-se a agir</title>
+               <author>Fernando Pessoa</author>
+               <respStmt>
+                  <resp>encoding</resp>
+                  <name>Diego Giménez</name>
+               </respStmt>
+               <respStmt>
+                  <resp>revision</resp>
+                  <name>Manuel Portela</name>
+               </respStmt>      
+            </titleStmt>
+            <!-- RELEVANT: We repeat the publication statement for each fragment -->
+            <publicationStmt>
+               <publisher>Centre for Portuguese Literature at the University of Coimbra</publisher>
+               <pubPlace>Coimbra</pubPlace>
+               <availability status="restricted">
+                  <licence target="https://creativecommons.org/licenses/by-nc/4.0/">
+                     <p>All items in the LdoD Archive may be shared in accordance with the Creative Commons “Attribution-NonCommercial 4.0 International” license (CC BY-NC 4.0).</p>
+                  </licence>
+               </availability>
+               <date when="2016" />
+            </publicationStmt>
+            <sourceDesc>
+               <!-- RELEVANT: Declaration of fragment sources -->
+               <listBibl xml:id="Fr001.SRC">
+                  <!-- RELEVANT: This fragment has two manuscripts -->
+                  <listBibl xml:id="Fr001.SRC.MS">
+                     <!-- RELEVANT: The information for each manuscript -->
+                     <msDesc xml:id="Fr001.SRC.MS.Fr001a">
+                        <msIdentifier>
+                           <!-- National Library -->
+                           <settlement>Lisbon</settlement>
+                           <repository>BN</repository>
+                           <idno>bn-acpc-e-e3-1-1-89_0001_1_t24-C-R0150</idno>
+                           <altIdentifier type="SC">
+                              <idno>BNP/E3, 1-1r</idno>
+                           </altIdentifier>
+                        </msIdentifier>
+                        <physDesc>
+                           <objectDesc form="leaf">
+                              <supportDesc material="paper">
+                                 <extent>
+                                    <dimensions unit="cm">
+                                       <height>27.1</height>
+                                       <width>21.5</width>
+                                    </dimensions>
+                                 </extent>
+                              </supportDesc>
+                              <layoutDesc>
+                                 <layout columns="1"/>
+                              </layoutDesc>
+                           </objectDesc>
+                           <typeDesc>
+                              <typeNote medium="blue-ink">
+                              <p>Testemunho datiloscrito a tinta azul.</p>
+                              </typeNote>
+                           </typeDesc>
+                           <additions>LdoD</additions>
+                           <bindingDesc>
+                              <binding>
+                                 <p>Texto escrito no recto de uma folha inteira de papel de máquina.</p>
+                              </binding>
+                           </bindingDesc>
+                        </physDesc>
+                     </msDesc>
+                  </listBibl>
+               </listBibl>
+               <!-- RELEVANT: The witnesses include the author sources and critical editions -->
+               <!-- OPEN ISSUE: It is not clear the distinction between authorial witnesses and editorial witnesses -->
+               <listWit xml:id="Fr001.WIT">
+                  <!-- RELEVANT: 2 manuscript witnesses -->
+                  <listWit xml:id="Fr001.WIT.MS">
+                     <!-- RELEVANT: Each witness refers to the manuscript or edition -->
+                     <witness xml:id="Fr001.WIT.MS.Fr001a.1">
+                        <!-- RELEVANT: The reference to the manuscript -->
+                        <ref target="#Fr001.SRC.MS.Fr001a" />
+                     </witness>
+                  </listWit>
+                  <!-- RELEVANT: 5 editorial witnesses -->
+                  <listWit xml:id="Fr001.WIT.ED">
+                     <head>O grupo de testemunhos impressos do fragmento</head>
+                     <!-- RELEVANT: 4 critic editorial witnesses -->
+                     <listWit xml:id="Fr001.WIT.ED.CRIT">
+                        <!-- RELEVANT: The information each fragment in the context of an edition -->
+                        <witness xml:id="Fr001.WIT.ED.CRIT.C">
+                           <ref target="#ED.CRIT.C" />
+                           <bibl>
+                              <!-- RELEVANT: The heteronym should be declared here because there is no independent representation of the source for each fragment, 
+                                                       only of the edition as a whole -->
+                              <respStmt>
+                                 <resp>heterónimo</resp>
+                                 <persName corresp="#HT.BS">Bernardo Soares</persName>
+                              </respStmt>
+                              <!-- RELEVANT: There is no title in the edition -->
+                              <title level="a">A arte é um esquivar-se a agir</title>
+                              <!-- RELEVANT: Chapter number in the edition -->
+                              <biblScope unit="number">500</biblScope>
+                              <!-- OPEN ISSUE: This physical description is written in the page and actually is an note of the editor about the (one) manuscript
+                                                         Does it make sense to represent here? -->
+                              <note type="physDesc">[1-1, dact.]</note>
+                              <biblScope unit="vol">II</biblScope>
+                              <biblScope unit="pp" from="247" to="247" />
+                              <!-- OPEN ISSUE: How do we represent a classification of the fragment in the context of the edition? Can we use <note> 
+                                                         for instance <note type="classification" xml:id="C.AQ.FC">Fase Confessional</note> -->
+                           </bibl>
+                        </witness>
+                        <witness xml:id="Fr001.WIT.ED.CRIT.SC">
+                           <ref target="#ED.CRIT.SC" />
+                           <bibl>
+                              <respStmt>
+                                 <resp>heterónimo</resp>
+                                 <persName corresp="#HT.BS">Bernardo Soares</persName>
+                              </respStmt>
+                              <title level="a">A arte é um esquivar-se a agir</title>
+                              <biblScope unit="number">339</biblScope>
+                              <note type="physDesc">[1-1, dact.]</note>
+                              <biblScope unit="pp" from="288" to="288" />
+                           </bibl>
+                        </witness>
+                        <witness xml:id="Fr001.WIT.ED.CRIT.Z">
+                           <ref target="#ED.CRIT.Z" />
+                           <bibl>
+                              <respStmt>
+                                 <resp>heterónimo</resp>
+                                 <persName corresp="#HT.BS">Bernardo Soares</persName>
+                              </respStmt>
+                              <title level="a">A arte é um esquivar-se a agir</title>
+                              <biblScope unit="number">230</biblScope>
+                              <note type="physDesc">[1-1, dact.]</note>
+                              <date />
+                              <biblScope unit="pp" from="234" to="234" />
+                           </bibl>
+                        </witness>
+                        <witness xml:id="Fr001.WIT.ED.CRIT.P">
+                           <ref target="#ED.CRIT.P" />
+                           <bibl>
+                              <title level="a">A arte é um esquivar-se a agir</title>
+                              <biblScope unit="number">500</biblScope>
+                              <note type="physDesc">[1-1r]</note>
+                              <note type="annex">Jerónimo Pizarro inclui este texto em apêndice no conjunto "Textos com destinação múltipla" (2010: 473-476).</note>
+                              <date />
+                              <biblScope unit="pp" from="475" to="475" />
+                           </bibl>
+                        </witness>
+                     </listWit>
+                  </listWit>
+               </listWit>
+            </sourceDesc>
+         </fileDesc>
+      </teiHeader>
+      <!-- RELEVANT: Pending decisions about how to associate transcription with facsimile... -->
+      <facsimile corresp="#Fr001.SRC.MS.Fr001a" xml:id="Fr001a-fs">
+         <surface>
+            <graphic url="bn-acpc-e-e3-1-1-89_0001_1_t24-C-R0150.jpg" />
+         </surface>
+      </facsimile>
+      <!-- RELEVANT: The treanscription codification for all witnesses -->
+      <!-- OPEN ISSUE: How to represent classifications of parts of the fragment. Note that classifications are associated with a particular witness.
+                         For example: <span from="#1" to="#2" @resp="#Fr1.WIT.ED.CRIT.C" xml:id=""C.AQ.FC"">Fase Confessional</span> -->
+      <text>
+         <body>
+            <div xml:id="Fr001.TEXT">
+               <p>
+                  <app>
+                     <rdg wit="#Fr001.WIT.MS.Fr001a.1">
+                        <seg rendition="#u">A. de C. (?)</seg><lb/><space dim="horizontal" unit="minims" quantity="8"/>ou L. do D. (ou outra cousa qualquer)
+                        <lb />
+                        <space dim="vertical" quantity="1" unit="minims" />
+                     </rdg>
+                     <rdg wit="#Fr001.WIT.ED.CRIT.C">
+                        <seg rendition="#i">A. de C. (?)</seg>
+                        <lb />
+                        <space dim="horizontal" unit="minims" quantity="10"/>
+                        <seg rendition="#i">ou L. do D. (ou outra cousa qualquer)</seg>
+                        <space dim="vertical" quantity="1" unit="minims" />
+                     </rdg>
+                     <rdg wit="#Fr001.WIT.ED.CRIT.P">
+                        <seg rendition="#i">A[lvaro] de C[ampos] (?)</seg>
+                        <lb />
+                        <space dim="horizontal" unit="minims" quantity="16"/>ou L. do D. (ou outra cousa qualquer)
+            
+                        <space dim="vertical" quantity="1" unit="minims" />
+                     </rdg>
+                     <rdg wit="#Fr001.WIT.ED.CRIT.SC #Fr001.WIT.ED.CRIT.Z" />
+                  </app>
+               </p><p>
+                  A arte é um esquivar-se a agir, ou a viver. A arte é
+                  <lb ed="#Fr001.WIT.MS.Fr001a.1" />
+                  a expressão
+                  <app>
+                     <rdgGrp type="orthographic">
+                        <rdg wit="#Fr001.WIT.MS.Fr001a.1 #Fr001.WIT.ED.CRIT.C #Fr001.WIT.ED.CRIT.P">intellectual</rdg>
+                        <rdg wit="#Fr001.WIT.ED.CRIT.SC #Fr001.WIT.ED.CRIT.Z">intelectual</rdg>
+                     </rdgGrp>
+                  </app>
+                  da emoção,
+                  <app>
+                     <rdgGrp type="orthographic">
+                        <rdg wit="#Fr001.WIT.MS.Fr001a.1 #Fr001.WIT.ED.CRIT.C #Fr001.WIT.ED.CRIT.P">distincta</rdg>
+                        <rdg wit="#Fr001.WIT.ED.CRIT.SC #Fr001.WIT.ED.CRIT.Z">distinta</rdg>
+                     </rdgGrp>
+                  </app>
+                  da vida, que
+                  <lb ed="#Fr001.WIT.MS.Fr001a.1" />
+                  é a expressão volitiva da emoção. O que não temos, ou não
+                  <lb ed="#Fr001.WIT.MS.Fr001a.1" />
+                  ousamos, ou não conseguimos, podemos
+                  <app>
+                     <rdgGrp type="orthographic">
+                        <rdg wit="#Fr001.WIT.MS.Fr001a.1 #Fr001.WIT.ED.CRIT.C #Fr001.WIT.ED.CRIT.P">possuil-o</rdg>
+                        <rdg wit="#Fr001.WIT.ED.CRIT.SC #Fr001.WIT.ED.CRIT.Z">possuí-lo</rdg>
+                     </rdgGrp>
+                  </app>
+                  em sonho, e
+                  <lb ed="#Fr001.WIT.MS.Fr001a.1" />
+                  é com esse sonho que fazemos arte. Outras vezes a emoção é
+                  <lb ed="#Fr001.WIT.MS.Fr001a.1" />
+                  a tal ponto forte que, embora reduzida
+                  <app>
+                     <rdgGrp type="orthographic">
+                        <rdg wit="#Fr001.WIT.ED.CRIT.C #Fr001.WIT.ED.CRIT.SC">a</rdg>
+                        <rdg wit="#Fr001.WIT.ED.CRIT.Z">à</rdg>
+                        <rdg wit="#Fr001.WIT.ED.CRIT.P #Fr001.WIT.MS.Fr001a.1">á</rdg>
+                     </rdgGrp>
+                  </app>
+                  acção, a acção, a
+                  <lb ed="#Fr001.WIT.MS.Fr001a.1" />
+                  que se reduziu, não a satisfaz; com a emoção que sobra, que
+                  <lb ed="#Fr001.WIT.MS.Fr001a.1" />
+                  ficou inexpressa na vida, se
+                  <app>
+                     <rdgGrp type="orthographic">
+                        <rdg wit="#Fr001.WIT.MS.Fr001a.1 #Fr001.WIT.ED.CRIT.C #Fr001.WIT.ED.CRIT.P">fórma</rdg>
+                        <rdg wit="#Fr001.WIT.ED.CRIT.SC #Fr001.WIT.ED.CRIT.Z">forma</rdg>
+                     </rdgGrp>
+                  </app>
+                  a obra de arte. Assim,
+                  <lb ed="#Fr001.WIT.MS.Fr001a.1" />
+                  <app>
+                     <rdgGrp type="orthographic">
+                        <rdg type="orthographic" wit="#Fr001.WIT.MS.Fr001a.1 #Fr001.WIT.ED.CRIT.C #Fr001.WIT.ED.CRIT.P">ha</rdg>
+                        <rdg wit="#Fr001.WIT.ED.CRIT.SC #Fr001.WIT.ED.CRIT.Z">há</rdg>
+                     </rdgGrp>
+                  </app>
+                  dois
+                  <app>
+                     <rdgGrp type="orthographic">
+                        <rdg type="orthographic" wit="#Fr001.WIT.MS.Fr001a.1 #Fr001.WIT.ED.CRIT.C #Fr001.WIT.ED.CRIT.P">typos</rdg>
+                        <rdg wit="#Fr001.WIT.ED.CRIT.SC #Fr001.WIT.ED.CRIT.Z">tipos</rdg>
+                     </rdgGrp>
+                  </app>
+                  de artista: o que exprime o que não tem
+                  <app type="punctuation">
+                     <rdg wit="#Fr001.WIT.ED.CRIT.SC" />
+                     <rdg wit="#Fr001.WIT.ED.CRIT.C #Fr001.WIT.ED.CRIT.Z #Fr001.WIT.MS.Fr001a.1 #Fr001.WIT.ED.CRIT.P">,</rdg>
+                  </app>
+                  e o
+                  <lb ed="#Fr001.WIT.MS.Fr001a.1" />
+                  que exprime o que sobrou do que teve.
+                  <lb ed="#Fr001.WIT.MS.Fr001a.1" />
+               </p>
+            </div>
+         </body>
+      </text>
+   </TEI>
+</teiCorpus>

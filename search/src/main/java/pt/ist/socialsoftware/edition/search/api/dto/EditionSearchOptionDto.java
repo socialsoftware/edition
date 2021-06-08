@@ -12,15 +12,10 @@ public final class EditionSearchOptionDto extends SearchOptionDto {
     private final DateSearchOptionDto dateSearchOption;
 
     @JsonCreator
-    public EditionSearchOptionDto(@JsonProperty("inclusion") String inclusion, @JsonProperty("edition") String edition,
+    public EditionSearchOptionDto(@JsonProperty("inclusion") boolean inclusion, @JsonProperty("edition") String edition,
                                   @JsonProperty("heteronym") HeteronymSearchOptionDto heteronym, @JsonProperty("date") DateSearchOptionDto date) {
 
-        if (inclusion.equals("in")) {
-            this.inclusion = true;
-        } else {
-            this.inclusion = false;
-        }
-
+        this.inclusion = inclusion;
         this.edition = edition;
         this.heteronymSearchOption = heteronym;
         this.dateSearchOption = date;

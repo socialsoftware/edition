@@ -33,6 +33,7 @@ public class SearchProvidesInterface {
     @PostMapping("/advancedSearch")
     public AdvancedSearchResultDto advancedSearch(@RequestBody SearchDto search, @RequestParam(name = "username") String username) {
         System.out.println("advancedSearch: " + username);
+
         if (username != null) {
             Arrays.stream(search.getSearchOptions())
                 .filter(searchOptionDto -> searchOptionDto instanceof VirtualEditionSearchOptionDto)

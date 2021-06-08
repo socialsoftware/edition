@@ -10,7 +10,7 @@ public class SearchDto {
     private final SearchOptionDto[] searchOptions;
 
     public SearchDto(@JsonProperty(Search.MODE) String mode, @JsonProperty(Search.OPTIONS) SearchOptionDto[] searchOptions) {
-        this.mode = mode.equals(SearchOption.Mode.AND.getMode()) ? SearchOption.Mode.AND : SearchOption.Mode.OR;
+        this.mode = mode.toLowerCase().equals(SearchOption.Mode.AND.getMode()) ? SearchOption.Mode.AND : SearchOption.Mode.OR;
         this.searchOptions = searchOptions;
     }
 

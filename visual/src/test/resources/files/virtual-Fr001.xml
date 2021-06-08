@@ -1,0 +1,53 @@
+<teiCorpus xmlns="http://www.tei-c.org/ns/1.0">
+  <TEI xml:id="Fr001">
+    <teiHeader type="text">
+      <fileDesc>
+        <sourceDesc>
+          <listWit xml:id="Fr001.WIT.ED.VIRT">
+            <witness xml:id="Fr001.WIT.ED.VIRT.LdoD-Arquivo.1" source="#Fr001.WIT.MS.Fr001a.1">
+              <num value="1" />
+            </witness>
+            <witness xml:id="Fr001.WIT.ED.VIRT.LdoD-Teste.1" source="#Fr001.WIT.ED.CRIT.C">
+              <num value="3" />
+            </witness>
+          </listWit>
+        </sourceDesc>
+      </fileDesc>
+      <profileDesc>
+        <textClass source="#Fr001.WIT.ED.VIRT.LdoD-Arquivo.1">
+          <catRef scheme="#ED.VIRT.LdoD-Arquivo" target="#Arte" resp="#ars" />
+          <catRef scheme="#ED.VIRT.LdoD-Arquivo" target="#Sonho" resp="#ars" />
+          <catRef scheme="#ED.VIRT.LdoD-Arquivo" target="#Obra" resp="#ars" />
+          <catRef scheme="#ED.VIRT.LdoD-Arquivo" target="#Emoções" resp="#ars" />
+          <catRef scheme="#ED.VIRT.LdoD-Arquivo" target="#Ação" resp="#ars" />
+          <catRef scheme="#ED.VIRT.LdoD-Arquivo" target="#Arte" resp="#ars" />
+          <classificationGameList />
+        </textClass>
+        <textClass source="#Fr001.WIT.ED.VIRT.LdoD-Teste.1">
+          <note resp="#ars" type="human">
+            Sena, Jorge (1984), «Introdução ao Livro do Desassossego», in Fernando Pessoa &amp; Cª Heterónima (Estudos coligidos 1940-1978), Lisboa, Edições 70, pp. 177-242.
+            <quote from="/div[1]/div[1]/p[2]/u[1]" to="/div[1]/div[1]/p[2]" fromOffset="0" toOffset="67">A. de C. (?)                 ou L. do D. (ou outra cousa qualquer)</quote>
+            <catRef scheme="#ED.VIRT.LdoD-ReCritica1" target="#Jorge de Sena" />
+          </note>
+          <note resp="#ars" type="human">
+            SEPÚLVEDA, Pedro (2014), “Pessoas-livros: O Arquivo Bibliográfico de Fernando Pessoa”, Matlit: Revista do Programa de Doutoramento em Materialidades da Literatura. Vol. 2, Nº 1. 55-77. ISSN 2182-8830 [http://dx.doi.org/10.14195/2182-8830_2-1_3]
+            <quote from="/div[1]/div[1]/p[2]/u[1]" to="/div[1]/div[1]/p[2]" fromOffset="0" toOffset="67">A. de C. (?)                 ou L. do D. (ou outra cousa qualquer)</quote>
+            <catRef scheme="#ED.VIRT.LdoD-ReCritica1" target="#Pedro Sepúlveda" />
+          </note>
+          <note resp="#ars" type="human">
+            LOPES, Teresa Rita (2015), “Introdução ao(s) Livro(s) do Desassossego” in: Fernando Pessoa, Livro(s) do Desassossego. Editado por Teresa Rita Lopes. São Paulo: Global Editora. 1ª edição. ISBN 978-852-60-2206-5
+            <quote from="/div[1]/div[1]/p[2]/u[1]" to="/div[1]/div[1]/p[2]" fromOffset="0" toOffset="67">A. de C. (?)                 ou L. do D. (ou outra cousa qualquer)</quote>
+            <catRef scheme="#ED.VIRT.LdoD-ReCritica1" target="#Teresa Rita Lopes" />
+          </note>
+          <note resp="#ars" type="human">
+            Zenith, Richard (2012), “Prefácio” in: Fernando Pessoa, Livro do Desassossego. Editado por Richard Zenith. Lisboa: Assírio &amp; Alvim. 10ª edição.
+            <quote from="/div[1]/div[1]/p[2]/u[1]" to="/div[1]/div[1]/p[2]" fromOffset="0" toOffset="67">A. de C. (?)                 ou L. do D. (ou outra cousa qualquer)</quote>
+            <catRef scheme="#ED.VIRT.LdoD-ReCritica1" target="#Richard Zenith" />
+          </note>
+          <classificationGameList />
+        </textClass>
+      </profileDesc>
+      <citationList />
+    </teiHeader>
+  </TEI>
+</teiCorpus>

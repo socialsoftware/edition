@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.text.textDto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.socialsoftware.edition.ldod.frontend.text.baseDto.ScholarInterBaseDto;
@@ -54,6 +55,7 @@ public class FragmentDto {
     }
 
 
+    @JsonIgnore
     public ScholarInterDto getScholarInterDtoByUrlId(String urlId) {
         return webClient.build().get()
                 .uri( uriBuilder -> uriBuilder
@@ -72,6 +74,7 @@ public class FragmentDto {
     }
 
 
+    @JsonIgnore
     public Set<ScholarInterDto> getScholarInterDtoSet() {
         return webClient.build().get()
                 .uri("/fragment/" + getXmlId() + "/scholarInters")
@@ -83,6 +86,7 @@ public class FragmentDto {
     }
 
 
+    @JsonIgnore
     public Set<ScholarInterDto> getScholarInterDtoSetForExpertEdtion(String acronym) {
         return webClient.build()
                 .get()
@@ -103,6 +107,7 @@ public class FragmentDto {
     }
 
 
+    @JsonIgnore
     public List<ScholarInterDto> getSortedSourceInter() {
         return webClient.build()
                 .get()
@@ -121,6 +126,7 @@ public class FragmentDto {
     }
 
 
+    @JsonIgnore
     public ScholarInterDto getScholarInterByUrlId(String urlId) {
         return webClient.build()
                 .get()
@@ -132,6 +138,7 @@ public class FragmentDto {
     }
 
 
+    @JsonIgnore
     public ScholarInterDto getScholarInterByXmlId(String xmlId) {
         return webClient.build()
                 .get()
@@ -149,6 +156,7 @@ public class FragmentDto {
     }
 
 
+    @JsonIgnore
     public Set<SourceDto> getSourcesSet() {
         return webClient.build()
                 .get()
@@ -179,6 +187,7 @@ public class FragmentDto {
     }
 
 
+    @JsonIgnore
     public Set<CitationDto> getCitationSet() {
         return webClient.build()
                 .get()
@@ -190,6 +199,7 @@ public class FragmentDto {
         //    return this.textProvidesInterface.getFragmentCitationSet(this.xmlId);
     }
 
+    @JsonIgnore
     public String getRepresentativeSourceInterExternalId() {
         return webClient.build()
                 .get()

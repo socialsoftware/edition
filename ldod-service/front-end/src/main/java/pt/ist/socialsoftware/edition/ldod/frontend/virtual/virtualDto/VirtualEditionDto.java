@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.joda.time.LocalDate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -50,6 +51,7 @@ public class VirtualEditionDto {
         return this.title;
     }
 
+    @JsonIgnore
     public List<String> getSortedCategorySet() {
         return webClientVirtual.build()
                 .get()
@@ -60,6 +62,7 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.getVirtualEditionSortedCategoryList(this.acronym);
     }
 
+    @JsonIgnore
     public List<VirtualEditionInterDto> getSortedVirtualEditionInterDtoList() {
         return webClientVirtual.build()
                 .get()
@@ -71,6 +74,7 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.getSortedVirtualEditionInterDtoList(this.acronym);
     }
 
+    @JsonIgnore
     public Set<VirtualEditionInterDto> getVirtualEditionInterOfFragmentForVirtualEdition(String xmlId) {
         return webClientVirtual.build()
                 .get()
@@ -104,6 +108,7 @@ public class VirtualEditionDto {
         return this.isLdoDEdition;
     }
 
+    @JsonIgnore
     public boolean isPublicOrIsParticipant(String username) {
         return webClientVirtual.build()
                 .get()
@@ -118,6 +123,7 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.isVirtualEditionPublicOrIsUserParticipant(this.acronym, username);
     }
 
+    @JsonIgnore
     public Set<String> getAdminSet() {
         return webClientVirtual.build()
                 .get()
@@ -129,6 +135,7 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.getVirtualEditionAdminSet(this.acronym);
     }
 
+    @JsonIgnore
     public Set<String> getParticipantSet() {
         return webClientVirtual.build()
                 .get()
@@ -140,11 +147,13 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.getVirtualEditionParticipantSet(this.acronym);
     }
 
+    @JsonIgnore
     public List<UserDto> getParticipantList() {
         return getParticipantSet().stream().map(participant -> new UserDto(participant)).sorted(Comparator.comparing(UserDto::getFirstName))
                 .collect(Collectors.toList());
     }
 
+    @JsonIgnore
     public Set<String> getPendingSet() {
         return webClientVirtual.build()
                 .get()
@@ -165,6 +174,7 @@ public class VirtualEditionDto {
         return this.date;
     }
 
+    @JsonIgnore
     public boolean canAddFragInter(String interXmlId) {
         return webClientVirtual.build()
                 .get()
@@ -178,6 +188,7 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.canAddFragInter(this.acronym, interXmlId);
     }
 
+    @JsonIgnore
     public boolean canManipulateAnnotation(String username) {
         return webClientVirtual.build()
                 .get()
@@ -201,6 +212,7 @@ public class VirtualEditionDto {
         return max;
     }
 
+    @JsonIgnore
     public boolean canManipulateTaxonomy(String username) {
         return webClientVirtual.build()
                 .get()
@@ -219,6 +231,7 @@ public class VirtualEditionDto {
         return this.synopsis;
     }
 
+    @JsonIgnore
     public TaxonomyDto getTaxonomy() {
         return webClientVirtual.build()
                 .get()
@@ -229,6 +242,7 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.getVirtualEditionTaxonomy(this.acronym);
     }
 
+    @JsonIgnore
     public String getMediaSourceName() {
         return webClientVirtual.build()
                 .get()
@@ -239,6 +253,7 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.getMediaSourceName(this.acronym);
     }
 
+    @JsonIgnore
     public LocalDate getTimeWindowBeginDate() {
         return webClientVirtual.build()
                 .get()
@@ -249,6 +264,7 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.getTimeWindowBeginDate(acronym);
     }
 
+    @JsonIgnore
     public LocalDate getTimeWindowEndDate() {
         return webClientVirtual.build()
                 .get()
@@ -259,6 +275,7 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.getTimeWindowEndDate(acronym);
     }
 
+    @JsonIgnore
     public boolean containsEveryCountryinGeographicLocation() {
         return webClientVirtual.build()
                 .get()
@@ -269,6 +286,7 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.containsEveryCountryinGeographicLocation(this.acronym);
     }
 
+    @JsonIgnore
     public boolean containsCountryinGeographicLocation(String country) {
         return webClientVirtual.build()
                 .get()
@@ -282,6 +300,7 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.containsCountryinGeographicLocation(this.acronym, country);
     }
 
+    @JsonIgnore
     public int getIntegerFrequency() {
         return webClientVirtual.build()
                 .get()
@@ -292,6 +311,7 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.getIntegerFrequency(this.acronym);
     }
 
+    @JsonIgnore
     public Set<VirtualEditionInterDto> getIntersSet() {
         return webClientVirtual.build()
                 .get()
@@ -303,6 +323,7 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.getVirtualEditionInterSet(this.acronym);
     }
 
+    @JsonIgnore
     public List<VirtualEditionInterDto> getSortedInterps() {
         return webClientVirtual.build()
                 .get()
@@ -404,6 +425,7 @@ public class VirtualEditionDto {
         //        this.virtualProvidesInterface.addApproveByExternalId(externalId, username);
     }
 
+    @JsonIgnore
     public boolean canSwitchRole(String authenticatedUser, String username) {
         return webClientVirtual.build()
                 .post()
@@ -431,6 +453,7 @@ public class VirtualEditionDto {
         //        this.virtualProvidesInterface.switchRole(this.externalId, username);
     }
 
+    @JsonIgnore
     public boolean canRemoveMember(String authenticatedUser, String user) {
         return webClientVirtual.build()
                 .get()
@@ -459,6 +482,7 @@ public class VirtualEditionDto {
     }
 
 
+    @JsonIgnore
     public VirtualEditionInterDto createVirtualEditionInterFromScholarInter(String xmlId, int max) {
         return webClientVirtual.build()
                 .post()
@@ -474,6 +498,7 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.createVirtualEditionInterFromScholarInter(this.externalId, xmlId, max);
     }
 
+    @JsonIgnore
     public VirtualEditionInterDto createVirtualEditionInterFromVirtualEditionInter(String externalId, int max) {
         return webClientVirtual.build()
                 .post()
@@ -489,6 +514,7 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.createVirtualEditionInterFromVirtualEditionInter(this.externalId, externalId, max);
     }
 
+    @JsonIgnore
     public Set<String> getAdminSetByExternalId() {
         return webClientVirtual.build()
                 .get()
@@ -499,6 +525,7 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.getVirtualEditionAdminSetByExternalId(this.externalId);
     }
 
+    @JsonIgnore
     public Set<MemberDto> getActiveMemberSet() {
         return webClientVirtual.build()
                 .get()
@@ -510,6 +537,7 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.getActiveMembersFromVirtualEdition(this.acronym);
     }
 
+    @JsonIgnore
     public Set<MemberDto> getPendingMemberSet() {
         return webClientVirtual.build()
                 .get()
@@ -521,6 +549,7 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.getPendingMemberFromVirtualEdition(this.acronym);
     }
 
+    @JsonIgnore
     public List<String> getAnnotationTextList() {
         return webClientVirtual.build()
                 .get()
@@ -531,6 +560,7 @@ public class VirtualEditionDto {
         //        this.virtualProvidesInterface.getAnnotationTextListFromVirtualEdition(this.acronym);
     }
 
+    @JsonIgnore
     public VirtualEditionInterDto getFragInterByUrlId(String urlId) {
         return webClientVirtual.build()
                 .get()
@@ -544,6 +574,7 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.getVirtualEditionFragInterByUrlId(this.acronym, urlId);
     }
 
+    @JsonIgnore
     public Set<MemberDto> getMemberSet() {
         return webClientVirtual.build()
                 .get()
@@ -568,6 +599,7 @@ public class VirtualEditionDto {
                 .block();
     }
 
+    @JsonIgnore
     public int getNumberOfCriterias() {
         return webClientVirtual.build()
                 .get()

@@ -1,21 +1,27 @@
 package pt.ist.socialsoftware.edition.api;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.socialsoftware.edition.api.recommendationDto.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.api.recommendationDto.WeightsDto;
 import pt.ist.socialsoftware.edition.api.recommendationDto.wrappers.IntersByDistance;
-import pt.ist.socialsoftware.edition.api.textDto.ExpertEditionDto;
-import pt.ist.socialsoftware.edition.api.textDto.ExpertEditionInterListDto;
-import pt.ist.socialsoftware.edition.api.textDto.ScholarInterDto;
+import pt.ist.socialsoftware.edition.api.textDto.*;
 import pt.ist.socialsoftware.edition.api.virtualDto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.api.virtualDto.VirtualEditionInterDto;
 import pt.ist.socialsoftware.edition.api.virtualDto.VirtualEditionInterListDto;
 
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class VisualRequiresInterface {
 
@@ -182,5 +188,219 @@ public class VisualRequiresInterface {
                 .bodyToFlux(InterIdDistancePairDto.class)
                 .collectList()
                 .block();
+    }
+
+
+    // Test Method Calls
+
+    public List<HeteronymDto> getSortedHeteronyms() {
+        return  webClient.build()
+                .get()
+                .uri("/sortedHeteronyms")
+                .retrieve()
+                .bodyToFlux(HeteronymDto.class).toStream()
+                .collect(Collectors.toList());
+    }
+
+    public void getLoaderTEICorpus(InputStream file) {
+        try {
+            webClient.build().post()
+                    .uri("/loadTEICorpus")
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .bodyValue(file.readAllBytes())
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadTEICorpusVirtual(InputStream inputStream) {
+        try {
+            webClientVirtual.build()
+                    .post()
+                    .uri("/loadTEICorpusVirtual")
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .bodyValue(inputStream.readAllBytes())
+                    .retrieve()
+                    .bodyToMono(Void.class)
+                    .block();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void importVirtualEditionCorupus(InputStream inputStream) {
+        try {
+            webClientVirtual.build()
+                    .post()
+                    .uri("/importVirtualEditionCorpus")
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .bodyValue(inputStream.readAllBytes())
+                    .retrieve()
+                    .bodyToMono(Void.class)
+                    .block();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //        this.virtualProvidesInterface.importVirtualEditionCorpus(inputStream);
+    }
+
+    public String getLoadTEIFragmentsAtOnce(InputStream file) {
+        try {
+            return webClient.build()
+                    .post()
+                    .uri("/loadFragmentsAtOnce")
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .bodyValue(file.readAllBytes())
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public void getFragmentCorpusGenerator() {
+        Set<FragmentBaseDto> fragments = webClient.build()
+                .get()
+                .uri("/fragmentDtosWithScholarInterDtos")
+                .retrieve()
+                .bodyToFlux(FragmentBaseDto.class).toStream()
+                .collect(Collectors.toSet());
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        try {
+            String json = ow.writeValueAsString(fragments);
+            webClientVirtual.build()
+                    .post()
+                    .uri("/loadTEIFragmentCorpus")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .bodyValue(json)
+                    .retrieve()
+                    .bodyToMono(Void.class)
+                    .block();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        //       this.virtualProvidesInterface.loadTEIFragmentCorpus(fragments);
+    }
+
+    public void cleanFragmentMapCache() {
+        webClient.build()
+                .get()
+                .uri("/cleanFragmentMapCache")
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
+    }
+
+    public void cleanScholarInterMapCache() {
+        webClient.build()
+                .get()
+                .uri("/cleanScholarInterMapCache")
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
+    }
+
+    public void cleanVirtualEditionInterMapByUrlIdCache() {
+        webClientVirtual.build()
+                .post()
+                .uri("/cleanVirtualEditionInterMapByUrlIdCache")
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
+    }
+
+    public void cleanVirtualEditionInterMapByXmlIdCache() {
+        webClientVirtual.build()
+                .post()
+                .uri("/cleanVirtualEditionInterMapByXmlIdCache")
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
+    }
+
+    public void cleanVirtualEditionMapCache() {
+        webClientVirtual.build()
+                .post()
+                .uri("/cleanVirtualEditionMapCache")
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
+    }
+
+    public void removeTextModule() {
+        webClient.build()
+                .post()
+                .uri("/removeModule")
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
+    }
+
+    public void removeVirtualModule() {
+        webClientVirtual.build()
+                .post()
+                .uri("/removeVirtualModule")
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
+    }
+
+    public void importFragmentFromTEI(InputStream inputStream) {
+        try {
+            webClientVirtual.build()
+                    .post()
+                    .uri("/importVirtualEditionFragmentFromTEI")
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .bodyValue(inputStream.readAllBytes())
+                    .retrieve()
+                    .bodyToMono(Void.class)
+                    .block();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ExpertEditionDto getExpertEditionByAcronym(String acronym) {
+        return webClient.build()
+                .get()
+                .uri("/expertEdition/acronym/" + acronym)
+                .retrieve()
+                .bodyToMono(ExpertEditionDto.class)
+                .blockOptional().orElse(null);
+    }
+
+    public VirtualEditionDto getArchiveEdition() {
+        return webClientVirtual.build()
+                .get()
+                .uri("/archiveVirtualEdition")
+                .retrieve()
+                .bodyToMono(VirtualEditionDto.class)
+                .block();
+//        return this.virtualProvidesInterface.getArchiveVirtualEdition();
+    }
+
+    public boolean initializeTextModule() {
+        return webClient.build().get()
+                .uri("/initializeTextModule")
+                .retrieve()
+                .bodyToMono(Boolean.class)
+                .blockOptional().orElse(false);
+        //return this.textProvidesInterface.initializeTextModule();
+    }
+
+    public boolean initializeVirtualModule() {
+        return webClientVirtual.build()
+                .post()
+                .uri("/initializeVirtualModule")
+                .retrieve()
+                .bodyToMono(Boolean.class)
+                .blockOptional().orElse(false);
+        //        return this.virtualProvidesInterface.initializeVirtualModule();
     }
 }
