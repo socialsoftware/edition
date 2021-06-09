@@ -46,7 +46,7 @@ const Home = (props) => {
     return (
         <div className="home">
             <div className="home-container">
-                <div className="frag-excerpt">
+                <div className="frag-excerpt" onClick={() => {history.push(`/reading/fragment/${excerpts[excerptID][3]}`)}}>
                     <p className="frag-number">{excerpts[excerptID][2]}</p>
                     <p className="frag-editor">{excerpts[excerptID][0]}</p>
                 </div>

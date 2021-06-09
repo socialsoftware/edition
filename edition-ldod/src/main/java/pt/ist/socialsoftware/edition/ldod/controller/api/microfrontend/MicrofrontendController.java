@@ -14,6 +14,7 @@ import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.Categ
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.CitationDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.ExpertEditionDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.ExpertEditionListDto;
+import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.FragmentBodyDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.FragmentDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.ReadingDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.SimpleSearchDto;
@@ -21,6 +22,7 @@ import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.Sourc
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.TaxonomyMicrofrontendDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.UserContributionsDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.VirtualEditionListDto;
+import pt.ist.socialsoftware.edition.ldod.domain.AppText;
 import pt.ist.socialsoftware.edition.ldod.domain.Category;
 import pt.ist.socialsoftware.edition.ldod.domain.Edition;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
@@ -29,9 +31,14 @@ import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.ldod.domain.PbText;
 import pt.ist.socialsoftware.edition.ldod.domain.Source;
+import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
+import pt.ist.socialsoftware.edition.ldod.domain.Surface;
 import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
+import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
+import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.recommendation.ReadingRecommendation;
 import pt.ist.socialsoftware.edition.ldod.search.options.AuthoralSearchOption;
@@ -49,6 +56,7 @@ import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateAcronymE
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -290,7 +298,7 @@ public class MicrofrontendController {
 	}
     
     @RequestMapping(value = "/getVirtualEditions")
-    public Map<String, String> getVirtualEditions(Model model) {
+    public Map<String, String> getVirtualEditions() {
       Stream<VirtualEdition> virtualEditionStream = LdoD.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getPub());
 
       LdoDUser user = LdoDUser.getAuthenticatedUser();
@@ -324,7 +332,7 @@ public class MicrofrontendController {
     
     @RequestMapping(method = RequestMethod.POST, value = "/fragment/{xmlId}/inter/{urlId}/next")
 	public ReadingDto readNextInterpretation(@PathVariable String xmlId, @PathVariable String urlId, @RequestBody ReadingRecommendation jsonRecomendation) {
-		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+    	Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return null;
 		}
@@ -342,7 +350,7 @@ public class MicrofrontendController {
     
     @RequestMapping(method = RequestMethod.POST, value = "/fragment/{xmlId}/inter/{urlId}/prev")
 	public ReadingDto readPrevInterpretation(@PathVariable String xmlId, @PathVariable String urlId, @RequestBody ReadingRecommendation jsonRecomendation) {
-		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+    	Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return null;
 		}
@@ -398,13 +406,223 @@ public class MicrofrontendController {
 		
 		return jsonRecomendation;
 	}
-	
-
-	
+		
 	@RequestMapping(method = RequestMethod.GET, value = "/citations")
 	public List<CitationDto> listCitations() {
 		logger.debug("listCitations");
 		
 		return LdoD.getInstance().getCitationsWithInfoRanges().stream().map(CitationDto::new).collect(Collectors.toList());
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/{xmlId}")
+	public FragmentBodyDto getFragment(@PathVariable String xmlId) {
+		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+
+		if (fragment == null) {
+			return null;
+		} else {
+			return new FragmentBodyDto(LdoD.getInstance(), LdoDUser.getAuthenticatedUser(), fragment, new ArrayList<FragInter>());
+		}
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/fragment/{xmlId}/inter/{urlId}")
+	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
+	public FragmentBodyDto getFragmentWithInterForUrlId(@PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
+
+		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+
+		if (fragment == null) {
+			return null;
+		}
+
+		FragInter inter = fragment.getFragInterByUrlId(urlId);
+
+		if (inter == null) {
+			return null;
+		}
+
+		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter.getLastUsed());
+		writer.write(false);
+
+		boolean hasAccess = true;
+		// if it is a virtual interpretation check access and set session
+		if (inter.getSourceType() == Edition.EditionType.VIRTUAL) {
+			VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
+
+			LdoDUser user = LdoDUser.getAuthenticatedUser();
+			if (!virtualEdition.checkAccess()) {
+				hasAccess = false;
+			}
+		}
+
+		List<FragInter> inters = new ArrayList<>();
+		inters.add(inter);
+
+		return new FragmentBodyDto(LdoD.getInstance(), LdoDUser.getAuthenticatedUser(), fragment, inters, writer, hasAccess, selectedVE);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/fragment/{xmlId}/inter/{urlId}/nextFrag")
+	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
+	public FragmentBodyDto getNextFragmentWithInter(@PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
+		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
+		if (fragment == null) {
+			return null;
+		}
+
+		FragInter inter = fragment.getFragInterByUrlId(urlId);
+		if (inter == null) {
+			return null;
+		}
+
+		Edition edition = inter.getEdition();
+		inter = edition.getNextNumberInter(inter, inter.getNumber());
+
+		return this.getFragmentWithInterForUrlId(inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/fragment/{xmlId}/inter/{urlId}/prevFrag")
+	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
+	public FragmentBodyDto getPrevFragmentWithInter(@PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
+		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
+		if (fragment == null) {
+			return null;
+		}
+
+		FragInter inter = fragment.getFragInterByUrlId(urlId);
+		if (inter == null) {
+			return null;
+		}
+
+		Edition edition = inter.getEdition();
+		inter = edition.getPrevNumberInter(inter, inter.getNumber());
+
+		return this.getFragmentWithInterForUrlId(inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/fragment/inter")
+	public FragmentBodyDto getInter(@RequestParam(value = "fragment", required = true) String externalId,
+			@RequestParam(value = "inters[]", required = false) String[] intersID) {
+
+		Fragment fragment = FenixFramework.getDomainObject(externalId);
+
+		List<FragInter> inters = new ArrayList<>();
+		System.out.println(intersID);
+		if (intersID != null) {
+			for (String interID : intersID) {
+				FragInter inter = (FragInter) FenixFramework.getDomainObject(interID);
+				if (inter != null) {
+					inters.add(inter);
+				}
+			}
+		}
+
+		
+		HtmlWriter2CompInters writer = null;
+		PlainHtmlWriter4OneInter writer4One = null;
+		Boolean lineByLine = false;
+		Map<FragInter, HtmlWriter4Variations> variations = new HashMap<>();
+		List<AppText> apps = new ArrayList<>();
+
+		if (inters.size() == 1) {
+			FragInter inter = inters.get(0);
+			writer4One = new PlainHtmlWriter4OneInter(inter);
+			writer4One.write(false);
+		} else if (inters.size() > 1) {
+			writer = new HtmlWriter2CompInters(inters);
+			if (inters.size() > 2) {
+				lineByLine = true;
+			}
+
+			
+			for (FragInter inter : inters) {
+				variations.put(inter, new HtmlWriter4Variations(inter));
+			}
+
+			inters.get(0).getFragment().getTextPortion().putAppTextWithVariations(apps, inters);
+			Collections.reverse(apps);
+
+			writer.write(lineByLine, false);
+		}
+
+		
+		return new FragmentBodyDto(LdoD.getInstance(), LdoDUser.getAuthenticatedUser(), fragment, inters, writer, writer4One, variations, apps);
+
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/fragment/inter/editorial")
+	public FragmentBodyDto getInterEditorial(@RequestParam(value = "interp[]", required = true) String[] interID,
+			@RequestParam(value = "diff", required = true) boolean displayDiff) {
+		FragInter inter = FenixFramework.getDomainObject(interID[0]);
+
+		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
+		writer.write(displayDiff);
+
+		List<FragInter> inters = new ArrayList<>();
+		inters.add(inter);
+
+		return new FragmentBodyDto(inters, writer);
+
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/fragment/inter/authorial")
+	public FragmentBodyDto getInterAuthorial(@RequestParam(value = "interp[]", required = true) String[] interID,
+			@RequestParam(value = "diff", required = true) boolean displayDiff,
+			@RequestParam(value = "del", required = true) boolean displayDel,
+			@RequestParam(value = "ins", required = true) boolean highlightIns,
+			@RequestParam(value = "subst", required = true) boolean highlightSubst,
+			@RequestParam(value = "notes", required = true) boolean showNotes,
+			@RequestParam(value = "facs", required = true) boolean showFacs,
+			@RequestParam(value = "pb", required = false) String pbTextID) {
+		SourceInter inter = FenixFramework.getDomainObject(interID[0]);
+		PbText pbText = null;
+		System.out.println(pbTextID);
+		if (pbTextID != null && !pbTextID.equals("")) {
+			pbText = FenixFramework.getDomainObject(pbTextID);
+		}
+
+		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
+
+		List<FragInter> inters = new ArrayList<>();
+		inters.add(inter);
+
+		if (showFacs) {
+			Surface surface = null;
+			if (pbText == null) {
+				surface = inter.getSource().getFacsimile().getFirstSurface();
+			} else {
+				surface = pbText.getSurface();
+			}
+
+			writer.write(displayDiff, displayDel, highlightIns, highlightSubst, showNotes, showFacs, pbText);
+			return new FragmentBodyDto(inters, surface, pbText, writer, inter);
+
+		} else {
+			writer.write(displayDiff, displayDel, highlightIns, highlightSubst, showNotes, showFacs, null);
+			return new FragmentBodyDto(inters, writer);
+		}
+
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/fragment/inter/compare")
+	public FragmentBodyDto getInterCompare(@RequestParam(value = "inters[]", required = true) String[] intersID,
+			@RequestParam(value = "line") boolean lineByLine,
+			@RequestParam(value = "spaces", required = true) boolean showSpaces) {
+		List<FragInter> inters = new ArrayList<>();
+		for (String interID : intersID) {
+			inters.add((FragInter) FenixFramework.getDomainObject(interID));
+		}
+
+		HtmlWriter2CompInters writer = new HtmlWriter2CompInters(inters);
+
+		if (inters.size() > 2) {
+			lineByLine = true;
+		}
+		writer.write(lineByLine, showSpaces);
+
+
+		return new FragmentBodyDto(inters, writer);
+
+	}
+
+
 }

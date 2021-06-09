@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getReadingExperts,  getCurrentReadingFragment, getStartReadingFragment,
+import { getReadingExperts, getStartReadingFragment,
             getNextReadingFragment, getPrevReadingFragment, getPrevRecom, resetPrevRecom, getCurrentReadingFragmentJson } from '../../../util/utilsAPI';
 import rightArrow from '../../../resources/assets/right_arrow.svg'
 import leftArrow from '../../../resources/assets/left_arrow.svg'
@@ -33,8 +33,9 @@ const Reading = (props) => {
         if(path[3] && path[5]){
             getCurrentReadingFragmentJson(path[3], path[5], props.recommendation)
             .then(res => {
+                console.log(res.data.expertEditionInterDto.acronym);
                 setFragmentData(res.data)
-                setSelectedExpert(res.data.expertEditionInterDto.editionAcronym)
+                setSelectedExpert(res.data.expertEditionInterDto.acronym)
                 props.setUpdateRecommendation(res.data.readingRecommendation)
             })
             .catch(error => {
@@ -42,6 +43,10 @@ const Reading = (props) => {
             })
         }
     }, [])
+
+    useEffect(() => {
+        console.log(selectedExpert);
+    })
 
     const getFragmentHandler = (xmlId, urlId) => {
         console.log(props.recommendation);
@@ -73,6 +78,7 @@ const Reading = (props) => {
                 console.log(res.data);
                 setFragmentData(res.data)
                 setSelectedExpert(acronym)
+                console.log(acronym);
                 props.setUpdateRecommendation(res.data.readingRecommendation)
                 history.replace(`/reading/fragment/${res.data.fragment.fragmentXmlId}/inter/${res.data.expertEditionInterDto.urlId}`)
             })
@@ -83,6 +89,7 @@ const Reading = (props) => {
             .then(res => {
                 setFragmentData(res.data)
                 setSelectedExpert(acronym)
+                console.log(acronym);
                 props.setUpdateRecommendation(res.data.readingRecommendation)
                 history.replace(`/reading/fragment/${xmlId}/inter/${urlId}`)
             })
@@ -91,8 +98,10 @@ const Reading = (props) => {
     const getNextFragmentHandler = (acronym, xmlId, urlId) => {
         getNextReadingFragment(xmlId, urlId, props.recommendation)
             .then(res => {
+                console.log(res.data);
                 setFragmentData(res.data)
                 setSelectedExpert(acronym)
+                console.log(acronym);
                 props.setUpdateRecommendation(res.data.readingRecommendation)
                 history.replace(`/reading/fragment/${xmlId}/inter/${urlId}`)
             })
@@ -122,8 +131,8 @@ const Reading = (props) => {
     const mapRecommendationsToColumn = () => {
         return fragmentData.recommendations.map((val, i) => {
             return (
-                <div onClick={() => getFragmentWithAcronymHandler(val.fragmentXmlId, val.urlId, val.editionAcronym)} className="recommendation-div-hover">
-                    <p className="reading-recommendation-acronym">{val.editionAcronym}</p>
+                <div onClick={() => getFragmentWithAcronymHandler(val.fragmentXmlId, val.urlId, val.acronym)} className="recommendation-div-hover">
+                    <p className="reading-recommendation-acronym">{val.acronym}</p>
                     <p className="reading-number" >{val.number}</p>
                     <div className="reading-arrows">
                         <img src={rightArrow} style={{margin:0}} className="reading-arrow-right"></img>
@@ -135,12 +144,12 @@ const Reading = (props) => {
     const mapAuthorsInterpsToColumn = (index,flag) => {
         return fragmentData.expertEditionDtoList[index].map((inter, i) => {
             return (
-                <div>
-                    <p onClick={() => getFragmentWithAcronymHandler(fragmentData.fragment.fragmentXmlId, inter.urlId, inter.editionAcronym)} 
+                <div key={i}>
+                    <p onClick={() => getFragmentWithAcronymHandler(fragmentData.fragment.fragmentXmlId, inter.urlId, inter.acronym)} 
                     className={flag?"reading-number-selected":"reading-number"}>{inter.number}</p>
                     <div className="reading-arrows">
-                        <img onClick={() => getPrevFragmentHandler(inter.editionAcronym, fragmentData.fragment.fragmentXmlId, inter.urlId)} src={leftArrow} className="reading-arrow"></img>
-                        <img onClick={() => getNextFragmentHandler(inter.editionAcronym, fragmentData.fragment.fragmentXmlId, inter.urlId)} src={rightArrow} className="reading-arrow-right"></img>
+                        <img onClick={() => getPrevFragmentHandler(inter.acronym, fragmentData.fragment.fragmentXmlId, inter.urlId)} src={leftArrow} className="reading-arrow"></img>
+                        <img onClick={() => getNextFragmentHandler(inter.acronym, fragmentData.fragment.fragmentXmlId, inter.urlId)} src={rightArrow} className="reading-arrow-right"></img>
                     </div>
                 </div>
             )
@@ -216,10 +225,10 @@ const Reading = (props) => {
                 {fragmentData?
                     <div>
                         <div onClick={() => {
-                            setSelectedExpert(fragmentData.expertEditionInterDto.editionAcronym)
+                            setSelectedExpert(fragmentData.expertEditionInterDto.acronym)
                             getFragmentHandler(fragmentData.fragment.fragmentXmlId, fragmentData.expertEditionInterDto.urlId)
                         }} >
-                            <p style={{color:"#FC1B27"}} className="reading-recommendation-acronym">{fragmentData.expertEditionInterDto.editionAcronym}</p>
+                            <p style={{color:"#FC1B27"}} className="reading-recommendation-acronym">{fragmentData.expertEditionInterDto.acronym}</p>
                             <p className="reading-number-selected-no-hover">{fragmentData.expertEditionInterDto.number}</p>
                         </div>
                         
@@ -227,7 +236,7 @@ const Reading = (props) => {
                             {
                             fragmentData.prevCom?
                                 <div style={{marginTop:"20px"}} onClick={() => getPrevRecommendedFragment()}>
-                                    <p className="reading-recommendation-acronym">{fragmentData.prevCom.editionAcronym}</p>
+                                    <p className="reading-recommendation-acronym">{fragmentData.prevCom.acronym}</p>
                                     <p className="reading-number" >{fragmentData.prevCom.number}</p>
                                     <img src={leftArrow} className="reading-arrow"></img>
                                 </div>

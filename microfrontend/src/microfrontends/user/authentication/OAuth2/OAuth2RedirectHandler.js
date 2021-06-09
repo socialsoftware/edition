@@ -13,7 +13,6 @@ const OAuth2RedirectHandler = (props) => {
     }
 
     const [token, setToken] = useState(getUrlParameter("token"))
-    const [error, setError] = useState(getUrlParameter("error"))
 
     useEffect(() => {
     })

@@ -8,6 +8,8 @@ import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.search.options.SearchOption;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +33,7 @@ public class FragInterDto {
 	private String acronym;
 	private String reference;
 	private int startPage;
+	private int endPage;
 	private String volume;
 	private String editionTitle;
 	private List<UserDto> userDtoList;
@@ -38,8 +41,6 @@ public class FragInterDto {
 	private String shortName;
 	private String simpleName;
 	private EditionType type;
-	
-	
 	private String fragment_title;
 	private String fragment_externalId;
 	private String fragment_xmlId;
@@ -53,7 +54,12 @@ public class FragInterDto {
 	private String ldoDDatePrint;
 	private String ldoDDatePrintExpert;
 	private List<SearchOption> search;
-
+	private List<AnnexNoteDto> annexNoteDtoList;
+	private String notes;
+	private String usesReference;
+	private ArrayList<CategoryUserDto> categoryUserDtoList;
+	
+	
 	public FragInterDto(FragInter fragInter) {
 		this.setXmlId(fragInter.getFragment().getXmlId());
 		this.setUrlId(fragInter.getUrlId());
@@ -81,7 +87,12 @@ public class FragInterDto {
 		
 		if(fragInter instanceof ExpertEditionInter) {
 			this.setStartPage(((ExpertEditionInter) fragInter).getStartPage());
-			
+			this.setEndPage(((ExpertEditionInter) fragInter).getEndPage());
+			this.setAnnexNoteDtoList(((ExpertEditionInter) fragInter).getSortedAnnexNote().stream()
+								.map(AnnexNoteDto::new)
+								.collect(Collectors.toList()));
+			this.setNotes(((ExpertEditionInter) fragInter).getNotes());
+						
 			if(((ExpertEditionInter) fragInter).getVolume()!= null) {
 				this.setVolume(((ExpertEditionInter) fragInter).getVolume());
 			}
@@ -90,7 +101,30 @@ public class FragInterDto {
 		this.setShortName(fragInter.getShortName());
 		this.setSimpleName(fragInter.getClass().getSimpleName());
 		this.setType(fragInter.getSourceType());
+		if(fragInter instanceof SourceInter) {
+			if(fragInter.getClass().getSimpleName().equals("SourceInter")) {
+				this.setSourceType(((SourceInter) fragInter).getSource().getType());				
+			}
+		}
+		this.setEditionTitle(fragInter.getEdition().getTitle());
+		this.setUsesReference(fragInter.getLastUsed().getEdition().getReference());
+		
+		if(fragInter instanceof VirtualEditionInter) {
+			this.setCategoryList(((VirtualEditionInter) fragInter).getAssignedCategories().stream()
+					.map(category -> new CategoryDto(category, (VirtualEdition) fragInter.getEdition()))
+					.collect(Collectors.toList()));
+			
+			
+			ArrayList<CategoryUserDto> arr = new ArrayList<CategoryUserDto>();
 
+			for(Category cat : ((VirtualEditionInter) fragInter).getAssignedCategories()) {
+				for(UserDto user : ((VirtualEditionInter) fragInter).getContributorSet(cat).stream().map(UserDto::new).collect(Collectors.toList())) {
+					arr.add(new CategoryUserDto(cat, user));
+				}
+			}
+			this.setCategoryUserDtoList(arr);
+		}
+		
 		
 	}
 	
@@ -474,6 +508,46 @@ public class FragInterDto {
 
 	public void setSearch(List<SearchOption> search) {
 		this.search = search;
+	}
+
+	public int getEndPage() {
+		return endPage;
+	}
+
+	public void setEndPage(int endPage) {
+		this.endPage = endPage;
+	}
+
+	public List<AnnexNoteDto> getAnnexNoteDtoList() {
+		return annexNoteDtoList;
+	}
+
+	public void setAnnexNoteDtoList(List<AnnexNoteDto> annexNoteDtoList) {
+		this.annexNoteDtoList = annexNoteDtoList;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	public String getUsesReference() {
+		return usesReference;
+	}
+
+	public void setUsesReference(String usesReference) {
+		this.usesReference = usesReference;
+	}
+
+	public ArrayList<CategoryUserDto> getCategoryUserDtoList() {
+		return categoryUserDtoList;
+	}
+
+	public void setCategoryUserDtoList(ArrayList<CategoryUserDto> categoryUserDtoList) {
+		this.categoryUserDtoList = categoryUserDtoList;
 	}
 
 }

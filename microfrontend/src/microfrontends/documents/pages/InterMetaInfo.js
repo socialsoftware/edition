@@ -10,7 +10,9 @@ const InterMetaInfo = (props) => {
     const [isPublication, setIsPublication] = useState(false)
 
     useEffect(() => {
+        
         if(props.sourceList!==undefined){
+            console.log(props.sourceList);
             setSourceInfo(props.sourceList)
             if(props.sourceList.sourceType === "MANUSCRIPT") {
                 setIsManuscript(true)
@@ -20,9 +22,12 @@ const InterMetaInfo = (props) => {
             }
         } 
         else if(props.expertEditionMap){
-            let editionInfoAux = props.expertEditionMap[props.author]
+            if(props.author!==undefined){
+                var editionInfoAux = props.expertEditionMap[props.author]
+            }
+            else editionInfoAux = props.expertEditionMap
             if(editionInfoAux){
-                if(editionInfoAux.sourceType === "EDITORIAL"){
+                if(editionInfoAux.sourceType === "EDITORIAL" || editionInfoAux.type === "EDITORIAL"){
                     setIsEditorial(true)
                 }
                 setExpertEditionInfo(editionInfoAux)
@@ -99,8 +104,8 @@ const InterMetaInfo = (props) => {
             {
                 isManuscript||isPublication||isEditiorial?<strong>{props.messages.general_heteronym}: </strong>:null
             }
-            {isEditiorial?!expertEditionInfo.heteronymNull?
-                expertEditionInfo.heteronymName:props.messages.general_heteronym_notassigned:isManuscript||isPublication?
+            {isEditiorial?!expertEditionInfo.heteronym?
+                expertEditionInfo.heteronym:props.messages.general_heteronym_notassigned:isManuscript||isPublication?
                     props.messages.general_heteronym_notassigned:null}
 
             {/* testemunho */}
@@ -148,8 +153,8 @@ const InterMetaInfo = (props) => {
                 
             {/* COMPLETE NUMBER */}
             {isEditiorial?
-                expertEditionInfo.completeNumber!==""?
-                    <p><strong>{props.messages.tableofcontents_number}</strong>: {expertEditionInfo.completeNumber}</p>:null:
+                expertEditionInfo.number!==""?
+                    <p><strong>{props.messages.tableofcontents_number}</strong>: {expertEditionInfo.number}</p>:null:
             isManuscript?
                 null:   
             isPublication?
@@ -203,7 +208,7 @@ const InterMetaInfo = (props) => {
             }
 
             {/* NOTES 2 */}
-            {isEditiorial?handleExtraNotes(expertEditionInfo.annexNoteDtoList):null}
+            {isEditiorial?expertEditionInfo.annexNoteDtoList?handleExtraNotes(expertEditionInfo.annexNoteDtoList):null:null}
 
             {isManuscript || isPublication?
                 <p><strong>{props.messages.general_facsimiles}: </strong> {getSurfacesMap(sourceInfo.surfaceDto)}</p>:null

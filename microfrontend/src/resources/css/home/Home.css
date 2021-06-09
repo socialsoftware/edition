@@ -16,20 +16,25 @@ body{
 }
 .frag-excerpt{
     display: flex;
-}.frag-number{
+    cursor: pointer;
+    color: #FC1B27;
+}
+.frag-excerpt:hover{
+    color: #0C4EF6;
+}
+.frag-number{
     font-size: 80px;
     font-family: 'Ultra', serif;
-    color: #FC1B27;
     margin-left: 10%;
 }
 .frag-editor{
     font-size: 40px;
-    color: #FC1B27;
     font-family: 'LeagueGothic';
     font-weight: 500;
     margin-top: 15px;
     margin-left: 20px;
 }
+
 .frag-excerpt-text{
     text-align: left;
     font-weight: 600;

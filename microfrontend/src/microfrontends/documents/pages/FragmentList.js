@@ -18,6 +18,7 @@ const FragmentList = (props) => {
         getFragmentList()
             .then(res => {
                 setFragmentsData(res.data)
+                console.log(res.data);
                 setTimeout(() => setLoading(false), 500)
             })
             .catch(err => {
@@ -160,7 +161,10 @@ const FragmentList = (props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {mapFragmentToTable()}
+                    {fragmentsData?
+                    mapFragmentToTable()
+                    :null
+                }
                 </tbody>
             </Table>
         </div>

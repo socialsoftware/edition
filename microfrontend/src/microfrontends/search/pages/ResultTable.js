@@ -230,7 +230,7 @@ const ResultTable = (props) => {
         )
       
         return (
-          <>
+
           
           <div className="search-table-search">
           <GlobalFilter
@@ -322,7 +322,7 @@ const ResultTable = (props) => {
             </div>
           </div>
           </div>
-          </>
+
         )
       }
     

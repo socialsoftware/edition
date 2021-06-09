@@ -19,6 +19,7 @@ import Home from './common/Home';
 import Edition_DISPATCHER from './edition/Edition_DISPATCHER';
 import Search_DISPATCHER from './search/Search_DISPATCHER';
 import Reading_DISPATCHER from './reading/Reading_DISPATCHER';
+import Fragment_DISPATCHER from './fragment/Fragment_DISPATCHER';
 
 const Root = () => {
 
@@ -143,6 +144,12 @@ const Root = () => {
                             component={(props) => <Reading_DISPATCHER 
                             {...props} 
                             language={language}
+                            messages={messages}
+                            />}>
+                        </Route>
+                        <Route path="/fragments" 
+                            component={(props) => <Fragment_DISPATCHER 
+                            {...props} 
                             messages={messages}
                             />}>
                         </Route>

@@ -11,6 +11,7 @@ const initialState = {
         currentInterpretation: null,
         prevRecomendation: null
     },
+    selectedVEAcr : ["LdoD-JPC-anot", "LdoD-Jogo-Class", "LdoD-Mallet", "LdoD-Twitter"],
     language: "pt",
     modules: [
         {

@@ -33,12 +33,18 @@ public class SourceInterDto {
 	private List<SurfaceDto> surfaceDto;
 	private String date;
 	private List<SourceInterSimpleDto> sourceInterSet;
+	private String shortName;
+	private String urlId;
+	private String externalId;
 	
 
 
 
     public SourceInterDto(SourceInter sourceInter) {
         this.sourceType = sourceInter.getSource().getType();
+        this.setShortName(sourceInter.getShortName());
+        this.setUrlId(sourceInter.getUrlId());
+        this.setExternalId(sourceInter.getExternalId());
         if(sourceInter.getLdoDDate()!= null) {
         	this.setDate(sourceInter.getLdoDDate().print());
         	if(sourceInter.getLdoDDate().getPrecision() != null) {
@@ -322,6 +328,30 @@ public class SourceInterDto {
 
 	public void setSourceInterSet(List<SourceInterSimpleDto> sourceInterSet) {
 		this.sourceInterSet = sourceInterSet;
+	}
+
+	public String getShortName() {
+		return shortName;
+	}
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
+	}
+
+	public String getUrlId() {
+		return urlId;
+	}
+
+	public void setUrlId(String urlId) {
+		this.urlId = urlId;
+	}
+
+	public String getExternalId() {
+		return externalId;
+	}
+
+	public void setExternalId(String externalId) {
+		this.externalId = externalId;
 	}
 
 }

@@ -20,7 +20,7 @@ public class FragmentDto {
 
         this.setExpertEditionInterDtoMap(fragment.getExpertEditionInterSet().stream()
                 .map(ExpertEditionInterDto::new)
-                .collect(Collectors.toMap(ExpertEditionInterDto::getEditionAcronym, Function.identity(), (existing, replacement) -> existing)));
+                .collect(Collectors.toMap(ExpertEditionInterDto::getAcronym, Function.identity(), (existing, replacement) -> existing)));
 
         this.setSourceInterDtoList(fragment.getSortedSourceInter().stream()
                 .map(SourceInterDto::new)

@@ -59,6 +59,10 @@
     font-size: 2.1em;
     font-family: "LeagueGothicRegular";
     text-transform: uppercase;
+    cursor: pointer;
+}
+.reading-fragment-title:hover{
+    color: #0C4EF6;
 }
 .text-right{
     text-align: right;

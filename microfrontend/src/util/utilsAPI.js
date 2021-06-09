@@ -1,6 +1,8 @@
 import { API_BASE_URL, ACCESS_TOKEN } from '../constants/index';
 import axios from 'axios'
 
+
+/////////////////////// USER ///////////////////////
 export function login(loginRequest) {
     return axios.post(API_BASE_URL + `/api/auth/signin`,loginRequest)
 }
@@ -9,19 +11,20 @@ export function signup(signupRequest) {
     return axios.post(API_BASE_URL + `/api/auth/signup`,signupRequest)
 }
 
-/* export function checkUsernameAvailability(username) {
-    return request({
-        url: API_BASE_URL + "/user/checkUsernameAvailability?username=" + username,
-        method: 'GET'
-    });
+export function getCurrentUser() {
+    if(!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+    return axios.get(API_BASE_URL + `/api/user`, {
+        headers: {
+            'Content-type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+        }
+    })
 }
 
-export function checkEmailAvailability(email) {
-    return request({
-        url: API_BASE_URL + "/user/checkEmailAvailability?email=" + email,
-        method: 'GET'
-    });
-} */
+/////////////////////// EDITION ///////////////////////
 export function getUserContributions (val) {
     return axios.get(API_BASE_URL + `/api/microfrontend/user/${val}`)
 }
@@ -46,7 +49,7 @@ export function getCategoryList (val, val2) {
     return axios.get(API_BASE_URL + `/api/microfrontend/acronym/${val}/category/${val2}`)
 }
 
-
+/////////////////////// DOCUMENTS ///////////////////////
 export function getFragmentList () {
     return axios.get(API_BASE_URL + `/api/microfrontend/fragments`)
 }
@@ -54,10 +57,8 @@ export function getSourceList () {
     return axios.get(API_BASE_URL + `/api/microfrontend/sources`)
 }
 
-export function getVirtualEditionMap (val) {
-    return axios.get(API_BASE_URL + `/api/microfrontend/getVirtualEditions`)
-}
 
+/////////////////////// READING ///////////////////////
 export function getReadingExperts () {
     return axios.get(API_BASE_URL + `/api/microfrontend/reading`)
 }
@@ -71,7 +72,6 @@ export function getStartReadingFragment (acronym, data) {
 export function getCurrentReadingFragment (val, val1) {
     return axios.get(API_BASE_URL + `/api/microfrontend/reading/fragment/${val}/inter/${val1}`)
 }
-
 
 export function getCurrentReadingFragmentJson(val, val1, data) {
 
@@ -98,6 +98,7 @@ export function getPrevReadingFragment (val, val1, data) {
         })
 }
 
+
 export function resetPrevRecom (data) {
     return axios.post(API_BASE_URL + `/api/microfrontend/inter/prev/recom/reset`, data, {
         headers: {
@@ -117,21 +118,8 @@ export function getTwitterCitations () {
     return axios.get(API_BASE_URL + `/api/microfrontend/citations`)
 }
 
-export function getCurrentUser() {
-    if(!localStorage.getItem(ACCESS_TOKEN)) {
-        return Promise.reject("No access token set.");
-    }
-    return axios.get(API_BASE_URL + `/api/user`, {
-        headers: {
-            'Content-type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
-        }
-    })
-}
-
+/////////////////////// SEARCH ///////////////////////
 export function getSimpleSearchList(data) {
-
     return axios.post(API_BASE_URL + `/api/microfrontend/simple/result`, data, {
         headers: {
             'Content-Type': 'text/plain;charset=UTF-8',
@@ -141,7 +129,6 @@ export function getSimpleSearchList(data) {
 }
 
 export function getAdvancedSearchList(data) {
-
     return axios.post(API_BASE_URL + `/api/microfrontend/advanced/result`, data, {
         headers: {
             'Content-Type': 'application/json',
@@ -149,3 +136,86 @@ export function getAdvancedSearchList(data) {
         } 
     )
 }
+
+export function getVirtualEditionMap (val) {
+    return axios.get(API_BASE_URL + `/api/microfrontend/getVirtualEditions`)
+}
+
+/////////////////////// FRAGMENT ///////////////////////
+export function getFragmentWithXml (xmlId) {
+    return axios.get(API_BASE_URL + `/api/microfrontend/fragment/${xmlId}`)
+}
+
+export function getFragmentWithXmlAndUrl (xmlId, urlId, arraySelected) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/fragment/${xmlId}/inter/${urlId}`, arraySelected, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        } 
+    )
+}
+
+export function getNextFragmentWithXmlAndUrl (xmlId, urlId, arraySelected) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/fragment/${xmlId}/inter/${urlId}/nextFrag`, arraySelected, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        } 
+    )
+}
+
+export function getPrevFragmentWithXmlAndUrl (xmlId, urlId, arraySelected) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/fragment/${xmlId}/inter/${urlId}/prevFrag`, arraySelected, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        } 
+    )
+}
+
+export function getIntersByArrayExternalId(fragmentExternalId, arrayInterId) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/fragment/inter`, 
+        `fragment=${fragmentExternalId}&inters[]=${arrayInterId}`, 
+        {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        } 
+    )
+}
+
+export function getInterWithDiff(interID, displayDiff) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/fragment/inter/editorial`, 
+        `interp[]=${interID}&diff=${displayDiff}`, 
+        {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        } 
+    )
+}
+
+export function getAuthorialInterWithDiffs(interID, obj) {
+    console.log(obj);
+    return axios.post(API_BASE_URL + `/api/microfrontend/fragment/inter/authorial`, 
+        `interp[]=${interID}&diff=${obj["diff"]}&del=${obj["del"]}&ins=${obj["ins"]}&subst=${obj["subst"]}&notes=${obj["notes"]}&facs=${obj["facs"]}&pb=${obj["pb"]}`, 
+        {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        } 
+    )
+}
+
+export function getInterCompare(interID, obj) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/fragment/inter/compare`, 
+        `inters[]=${interID}&line=${obj["line"]}&spaces=${obj["spaces"]}`, 
+        {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        } 
+    )
+}
+
+

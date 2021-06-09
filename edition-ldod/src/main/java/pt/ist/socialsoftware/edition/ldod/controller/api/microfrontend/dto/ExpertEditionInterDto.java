@@ -6,11 +6,11 @@ import java.util.stream.Collectors;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
 
 public class ExpertEditionInterDto {
-    private String editionAcronym;
+    private String acronym;
     private String sourceType;
     private String title;
 	private boolean heteronymNull;
-	private String heteronymName;
+	private String heteronym;
 	private String volume;
 	private String completeNumber;
 	private int startPage;
@@ -22,13 +22,14 @@ public class ExpertEditionInterDto {
 	private String urlId;
 	private int number;
 	private String fragmentXmlId;
+	private String externalID;
 
     public ExpertEditionInterDto(ExpertEditionInter expertEditionInter) {
-        this.editionAcronym = expertEditionInter.getEdition().getAcronym();
+        this.setAcronym(expertEditionInter.getEdition().getAcronym());
         this.sourceType = expertEditionInter.getSourceType().name();
         this.title = expertEditionInter.getTitle();
         this.setHeteronymNull(expertEditionInter.getHeteronym().isNullHeteronym());
-        this.setHeteronymName(expertEditionInter.getHeteronym().getName());
+        this.setHeteronym(expertEditionInter.getHeteronym().getName());
         this.setVolume(expertEditionInter.getVolume());
         this.setCompleteNumber(expertEditionInter.getCompleteNumber());
         this.setStartPage(expertEditionInter.getStartPage());
@@ -47,15 +48,9 @@ public class ExpertEditionInterDto {
         this.setUrlId(expertEditionInter.getUrlId());
         this.setNumber(expertEditionInter.getNumber());
         this.setFragmentXmlId(expertEditionInter.getFragment().getXmlId());
+        this.setExternalID(expertEditionInter.getExternalId());
     }
 
-	public String getEditionAcronym() {
-        return editionAcronym;
-    }
-
-    public void setEditionAcronym(String editionAcronym) {
-        this.editionAcronym = editionAcronym;
-    }
 
     public String getSourceType() {
         return sourceType;
@@ -81,13 +76,6 @@ public class ExpertEditionInterDto {
 		this.heteronymNull = heteronymNull;
 	}
 
-	public String getHeteronymName() {
-		return heteronymName;
-	}
-
-	public void setHeteronymName(String heteronymName) {
-		this.heteronymName = heteronymName;
-	}
 
 	public String getVolume() {
 		return volume;
@@ -175,5 +163,33 @@ public class ExpertEditionInterDto {
 
 	public void setFragmentXmlId(String fragmentXmlId) {
 		this.fragmentXmlId = fragmentXmlId;
+	}
+
+	public String getExternalID() {
+		return externalID;
+	}
+
+	public void setExternalID(String externalID) {
+		this.externalID = externalID;
+	}
+
+
+	public String getHeteronym() {
+		return heteronym;
+	}
+
+
+	public void setHeteronym(String heteronym) {
+		this.heteronym = heteronym;
+	}
+
+
+	public String getAcronym() {
+		return acronym;
+	}
+
+
+	public void setAcronym(String acronym) {
+		this.acronym = acronym;
 	}
 }
