@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Facsimilie from '../virtual/Facsimilie'
+import Facsimilie from './Facsimilie'
 import InterTranscript from './interTranscript'
 
 

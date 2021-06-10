@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import ImageGallery from 'react-image-gallery';
-import InterMetaInfo from '../../../documents/pages/InterMetaInfo'
-// @ts-ignore
+import FragmentInterMetaInfo from './FragmentInterMetaInfo'
 import rightArrow from '../../../../resources/assets/right_arrow.svg'
-// @ts-ignore
 import leftArrow from '../../../../resources/assets/left_arrow.svg'
-// @ts-ignore
 import noImage from '../../../../resources/assets/no_image.png'
+
 const Facsimilie = (props) => {
 
     const [images, setImages] = useState([])
@@ -19,7 +17,7 @@ const Facsimilie = (props) => {
             try{
                 imgsAux.push(
                     {
-                        original: require(`../../../../resources/assets/facsimilies/${props.data.surface.graphic}`),
+                        original: require(`../../../../resources/assets/facsimilies/${props.data.surface.graphic}`).default,
                     }
                 )
             }
@@ -36,6 +34,7 @@ const Facsimilie = (props) => {
         
     }, [props.data])
 
+
     const getSurfaceHandler = (side) => {
         if(side === "left") props.callbackFacsimilieInputSelect(props.data.prevPb)
         if(side === "right") props.callbackFacsimilieInputSelect(props.data.nextPb)
@@ -46,12 +45,12 @@ const Facsimilie = (props) => {
             <div>
                 {
                     props.data.prevSurface?
-                    <img src={leftArrow} style={{width:"50px", height:"50px"}} className="fragment-facsimilie-arrow-left" onClick={() => getSurfaceHandler("left")}></img>
+                    <img src={leftArrow} className="fragment-facsimilie-arrow-left" onClick={() => getSurfaceHandler("left")}></img>
                     :null
                 }
                 {
                     props.data.nextSurface?
-                    <img src={rightArrow} style={{width:"50px", height:"50px"}} className="fragment-facsimilie-arrow-right" onClick={() => getSurfaceHandler("right")}></img>
+                    <img src={rightArrow} className="fragment-facsimilie-arrow-right" onClick={() => getSurfaceHandler("right")}></img>
                     :null
                 }
             </div>
@@ -59,16 +58,17 @@ const Facsimilie = (props) => {
         )
     }
 
+    const props2 = {width: 350, height: 400, zoomWidth: 350, img: require(`./../../../../resources/assets/facsimilies/bn-acpc-e-e3-1-1-89_0001_1_t24-C-R0150.jpg`), zoomPosition:"original"};
     return (
         <div>
             <div className="fragment-facsimilie-div">
                 <div className="fragment-facsimilie-img">
-                    <ImageGallery items={images} showPlayButton={false} renderCustomControls={() => customControls()}/>
+                    <ImageGallery showThumbnails={false} items={images} showPlayButton={false} renderCustomControls={() => customControls()}/>
                 </div>                    
                 <div className="well well-fac" dangerouslySetInnerHTML={{ __html: props.data.transcript }} />
             </div>
             <div className="inter-meta-info">
-                <InterMetaInfo
+                <FragmentInterMetaInfo
                         sourceList={props.data.fragment.sourceInterDtoList[0]}
                         messages={props.messages}
                     />

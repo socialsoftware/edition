@@ -1,5 +1,5 @@
 import React from 'react'
-import InterMetaInfo from '../../../documents/pages/InterMetaInfo'
+import FragmentInterMetaInfo from './FragmentInterMetaInfo'
 
 const InterTranscript = (props) => {
     
@@ -14,11 +14,11 @@ const InterTranscript = (props) => {
             <div className="inter-meta-info">
                 {
                     props.type==="AUTHORIAL"?
-                    <InterMetaInfo
+                    <FragmentInterMetaInfo
                         sourceList={props.data.fragment.sourceInterDtoList[0]}
                         messages={props.messages}
                     />:
-                    <InterMetaInfo
+                    <FragmentInterMetaInfo
                         expertEditionMap={props.inter}
                         messages={props.messages}
                     />

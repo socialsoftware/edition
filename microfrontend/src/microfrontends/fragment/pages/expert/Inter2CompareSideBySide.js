@@ -1,6 +1,5 @@
 import React from 'react'
-import InterMetaInfo from '../../../documents/pages/InterMetaInfo'
-import InterTranscript from './interTranscript'
+import FragmentInterMetaInfo from './FragmentInterMetaInfo'
 
 const Inter2CompareSideBySide = (props) => {
 
@@ -23,11 +22,11 @@ const Inter2CompareSideBySide = (props) => {
                     <div className="inter-meta-info">
                         {
                             inter.type==="AUTHORIAL"?
-                            <InterMetaInfo
+                            <FragmentInterMetaInfo
                                 sourceList={props.data.fragment.sourceInterDtoList[0]}
                                 messages={props.messages}
                             />:
-                            <InterMetaInfo
+                            <FragmentInterMetaInfo
                                 expertEditionMap={inter}
                                 messages={props.messages}
                             />

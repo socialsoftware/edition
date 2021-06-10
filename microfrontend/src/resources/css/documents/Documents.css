@@ -15,6 +15,7 @@
 .linkFac{
     text-transform: uppercase;
     color: #0C4EF6 !important;
+    cursor: pointer;
 }
 .linkFac:hover{
     text-decoration: underline;

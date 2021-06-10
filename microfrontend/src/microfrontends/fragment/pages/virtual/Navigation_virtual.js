@@ -13,7 +13,7 @@ const Navigation_virtual = (props) => {
 
     useEffect(() => {
         let aux = []
-        if(props.data){
+        if(props.data && props.data.inters){
             for(let el of props.data.inters){
                 aux.push(el.acronym)
             }
@@ -111,8 +111,8 @@ const Navigation_virtual = (props) => {
                 <ReactTooltip backgroundColor="#fff" textColor="#333" border={true} borderColor="#000" className="reading-tooltip" place="bottom"/>
             </div>
             <div style={{marginTop:"10px"}}>
-                <Link to={`/edition/acronym/${props.data?props.data.ldoD.archiveEdition.acronym:null}`}>Arquivo LdoD</Link>
-                {props.data?
+                <Link to={`/edition/acronym/${props.data && props.data.ldoD?props.data.ldoD.archiveEdition.acronym:null}`}>Arquivo LdoD</Link>
+                {props.data && props.data.ldoD?
                 <div style={{marginTop:"10px"}}>
                     {mapArchiveToView()}
                 </div>

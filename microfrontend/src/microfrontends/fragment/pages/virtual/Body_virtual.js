@@ -5,7 +5,7 @@ import Virtual2Compare from './Virtual2Compare'
 const Body_virtual = (props) => {
     return (
         <div>
-            {props.data?props.data.inters.length>0?
+            {props.data && props.data.inters? props.data.inters.length>0?
                 props.data.inters[0].type==="VIRTUAL"?
                     props.data.inters.length===1?
                     <InterVirtual data={props.data} messages={props.messages}/>  

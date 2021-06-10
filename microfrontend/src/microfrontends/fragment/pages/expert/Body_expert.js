@@ -6,7 +6,7 @@ import InterEditorial from './InterEditorial'
 const Body_expert = (props) => {
     return (
         <div>
-            {props.data?props.data.inters.length===1?
+            {props.data && props.data.inters?props.data.inters.length===1?
                 props.data.inters[0].type==="EDITORIAL"?
                     <InterEditorial data={props.data} messages={props.messages} callbackDiffHandler={(bool) => props.callbackDiffHandler(bool)}/>  
                 :   props.data.inters[0].type==="AUTHORIAL"?

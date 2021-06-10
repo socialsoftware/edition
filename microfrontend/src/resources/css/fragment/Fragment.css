@@ -180,16 +180,26 @@ abbr[title] {
 .fragment-facsimilie-arrow-left{
     position: absolute;
     left: 5px;
-    top: 45%;
+    top: 48%;
     z-index: 2;
     cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid black;
+    padding: 2px;
 }
 .fragment-facsimilie-arrow-right{
     position: absolute;
     right: 5px;
-    top: 45%;
+    top: 48%;
     z-index: 2;
     cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid black;
+    padding: 2px;
 }
 .fragment-facsimilie-arrow-right:hover{
     -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
@@ -207,6 +217,31 @@ abbr[title] {
     font-family: 'Courier New', Courier, monospace;
     min-width: 48%;
     max-width: 48%;
+}
+
+.fac-display{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.699);
+}
+.fac-display-image{
+    width: 90%;
+    height: 95%;
+    position: absolute;
+    left: 5%;
+    top: 2.5%;
+}
+.fac-display-x{
+    font-size: 44px;
+    cursor: pointer;
+    position: absolute;
+    top: 2%;
+    right: 2%;
+    color: white;
 }
 @media (max-width: 1200px){
     .fragment {

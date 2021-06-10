@@ -12,7 +12,7 @@ const Navigation_expert = (props) => {
 
     useEffect(() => {
         let aux = []
-        if(props.data){
+        if(props.data && props.data.inters){
             for(let el of props.data.inters){
                 aux.push(el.externalId)
             }
@@ -96,7 +96,7 @@ const Navigation_expert = (props) => {
         <div className="navigation-view">
             <div>
                 <p className="navigation-view-title" style={{marginBottom:"10px"}}>{props.messages.authorial_source}</p>
-                {props.data?
+                {props.data && props.data.fragment?
                     mapSourceIntersToView()
                 :null
                 }
@@ -109,7 +109,7 @@ const Navigation_expert = (props) => {
                     <ReactTooltip backgroundColor="#fff" textColor="#333" border={true} borderColor="#000" className="reading-tooltip" place="bottom"/>
                 </div>
                 <div style={{marginTop:"30px"}}>
-                    {props.data?
+                    {props.data && props.data.ldoD?
                         mapExpertToView()
                     :null
                     }

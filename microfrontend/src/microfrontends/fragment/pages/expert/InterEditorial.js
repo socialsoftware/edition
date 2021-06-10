@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import icon from '../../../../resources/assets/eye.svg'
-import InterMetaInfo from '../../../documents/pages/InterMetaInfo'
 import InterTranscript from './interTranscript'
 
 const InterEditorial = (props) => {
