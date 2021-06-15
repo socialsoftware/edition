@@ -1,0 +1,52 @@
+version: '3.3'
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'edition'
+      # So you don't have to use root, but you can if you like
+      MYSQL_USER: 'root'
+      # You can use whatever password you like
+      MYSQL_PASSWORD: ''
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: ''
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '3307:3307'
+    expose:
+      # Opens port 3307 on the container
+      - '3307'
+      # Where our data will be persisted
+    volumes:
+      - my-db:/var/lib/mysql
+
+  docker-monolith:
+    image: docker-monolith
+    restart: on-failure
+    depends_on:
+      - db
+    ports:
+      - 8080:8080
+
+    environment:
+      dbAlias: jdbc:mysql://db:3306/edition?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
+      # Database username and password
+      dbUsername:
+      dbPassword:
+
+    volumes:
+      - /opt/ldod/corpus/:/opt/ldod/corpus
+      - /opt/ldod/corpus/files/:/opt/ldod/corpus/files/
+      - /opt/ldod/corpus/stoplist-pt.txt:/opt/ldod/corpus/stoplist-pt.txt
+      - /opt/ldod/inters/:/opt/ldod/inters/
+      - /opt/ldod/facsimiles/:/opt/ldod/facsimiles/
+      - /opt/ldod/encoding/:/opt/ldod/encoding/
+      - /opt/ldod/export/:/opt/ldod/export/
+      - /opt/ldod/indexer/:/opt/ldod/indexer/
+      - /opt/ldod/tests/:/opt/ldod/tests/
+      - /opt/ldod/social/aware/:/opt/ldod/social/aware/
+
+# Names our volume
+volumes:
+  my-db:
