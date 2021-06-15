@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
 public class FeTextRequiresInterface {
 
     @Autowired
-    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
 
 
@@ -450,8 +450,8 @@ public class FeTextRequiresInterface {
 
 
     // Uses Virtual Edition Module
-    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
-//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
+//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
 
 
     public VirtualEditionDto getVirtualEditionByAcronym(String acronym) {
