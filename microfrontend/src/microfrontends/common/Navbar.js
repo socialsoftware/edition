@@ -102,7 +102,7 @@ const Navbar = (props) => {
             <div className="home-navbar-top">
                 <div className="home-navbar-top-content">
                     <Link className="home-navbar-top-content-title" to='/'>{props.messages.header_title}</Link>
-                    <Link className="home-navbar-top-content-auth" onClick={props.isAuthenticated?props.onLogout:null} to={props.isAuthenticated?'/':'/auth/signin'}>{props.isAuthenticated?props.currentUser.data.username:props.messages.header_login}</Link>
+                    <Link className="home-navbar-top-content-auth" onClick={props.isAuthenticated?props.onLogout:null} to={props.isAuthenticated?'/':'/auth/signin'}>{props.isAuthenticated?props.currentUser.username:props.messages.header_login}</Link>
                 </div>
             </div>
             <div className="home-navbar-container">

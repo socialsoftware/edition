@@ -10,10 +10,13 @@ public class ExpertEditionDto {
 	private String acronym;
 	private String editor;
 	private List<ExpertEditionInterDto> inter;
+	private String externalId;
+	
 
 	public ExpertEditionDto(ExpertEdition expert) {
 		this.setAcronym(expert.getAcronym());
 		this.setEditor(expert.getEditor());
+		this.setExternalId(expert.getExternalId());
 	}
 
 	public ExpertEditionDto(ExpertEdition expert, Fragment fragment) {
@@ -44,5 +47,13 @@ public class ExpertEditionDto {
 
 	public void setInter(List<ExpertEditionInterDto> inter) {
 		this.inter = inter;
+	}
+
+	public String getExternalId() {
+		return externalId;
+	}
+
+	public void setExternalId(String externalId) {
+		this.externalId = externalId;
 	}
 }

@@ -54,9 +54,11 @@ public class LdoDUser extends LdoDUser_Base {
 
 	public static LdoDUser getAuthenticatedUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		System.out.println(authentication);
 		if (authentication != null) {
 			LdoDUserDetails userDetails = null;
 			Object principal = authentication.getPrincipal();
+			System.out.println(authentication.getPrincipal());
 			if (principal instanceof LdoDUserDetails) {
 				userDetails = (LdoDUserDetails) principal;
 				return userDetails.getUser();

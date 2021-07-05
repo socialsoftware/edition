@@ -95,7 +95,6 @@ const Advanced_virtual = (props) => {
                         styles={customStylesVirtual}
                         value={editorVirtualOptions.filter(option => option.value === editorVirtual)}
                         onChange={value => {
-                            console.log(value);
                             setEditorVirtual(value.value)
                             props.onChangeCallback(value.value, "editorVirtual")
                         }}

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import pt.ist.socialsoftware.edition.ldod.domain.Category;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 
 public class CategoryDto {
@@ -15,12 +16,22 @@ public class CategoryDto {
 	private List<FragInterDto> sortedIntersList;
 	private String title;
 	private int size;
+	private String externalId;
+	private String normalName;
+	private VirtualTaxonomyDto taxonomyDto;
 	
 	
 	public CategoryDto(Category category, VirtualEdition virtualEdition) {
 		this.setAcronym(category.getTaxonomy().getEdition().getAcronym());
 		this.setUrlId(category.getUrlId());
 		this.setName(category.getNameInEditionContext(virtualEdition));
+		this.setSortedIntersList(category.getSortedInters(virtualEdition).stream()
+				.map(FragInter -> new FragInterDto(FragInter, category))
+				.collect(Collectors.toList()));
+		this.setExternalId(category.getExternalId());
+		this.setNormalName(category.getName());
+		
+
 	}
 	
 	public CategoryDto(Category category) {
@@ -40,6 +51,22 @@ public class CategoryDto {
 									.collect(Collectors.toList()));
 		
 	}
+	
+	
+	public CategoryDto(Category category, LdoDUser user) {
+		this.setTaxonomyDto(new VirtualTaxonomyDto(category.getTaxonomy().getEdition(), user));
+		this.setTitle(category.getTaxonomy().getEdition().getTitle());
+		this.setAcronym(category.getTaxonomy().getEdition().getAcronym());
+		this.setUrlId(category.getUrlId());
+		this.setName(category.getName());
+		this.setExternalId(category.getExternalId());
+		this.setNormalName(category.getName());
+		this.setSortedIntersList(category.getSortedInters(category.getTaxonomy().getEdition()).stream()
+				.map(FragInter -> new FragInterDto(FragInter, category))
+				.collect(Collectors.toList()));
+
+	}
+	
 
 	public String getAcronym() {
 		return acronym;
@@ -103,5 +130,29 @@ public class CategoryDto {
 
 	public void setSize(int size) {
 		this.size = size;
+	}
+
+	public String getExternalId() {
+		return externalId;
+	}
+
+	public void setExternalId(String externalId) {
+		this.externalId = externalId;
+	}
+
+	public String getNormalName() {
+		return normalName;
+	}
+
+	public void setNormalName(String normalName) {
+		this.normalName = normalName;
+	}
+
+	public VirtualTaxonomyDto getTaxonomyDto() {
+		return taxonomyDto;
+	}
+
+	public void setTaxonomyDto(VirtualTaxonomyDto taxonomyDto) {
+		this.taxonomyDto = taxonomyDto;
 	}
 }

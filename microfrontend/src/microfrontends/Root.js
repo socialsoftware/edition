@@ -7,9 +7,6 @@ import Register from './user/register/Register';
 import { ACCESS_TOKEN } from '../constants/index.js'
 import { getCurrentUser } from '../util/utilsAPI';
 import OAuth2RedirectHandler from './user/authentication/OAuth2/OAuth2RedirectHandler'
-import { createStore } from 'redux';
-import reducer from '../util/redux/reducer';
-import { Provider } from 'react-redux';
 import * as messages_en from '../constants/messages_en'
 import * as messages_pt from '../constants/messages_pt'
 import * as messages_es from '../constants/messages_es'
@@ -20,11 +17,10 @@ import Edition_DISPATCHER from './edition/Edition_DISPATCHER';
 import Search_DISPATCHER from './search/Search_DISPATCHER';
 import Reading_DISPATCHER from './reading/Reading_DISPATCHER';
 import Fragment_DISPATCHER from './fragment/Fragment_DISPATCHER';
+import Virtual_DISPATCHER from './virtual/Virtual_DISPATCHER'
+import { connect } from 'react-redux';
 
-const Root = () => {
-
-    //REDUX STORE
-    const store = createStore(reducer)
+const Root = (props) => {
 
     const [currentUser, setCurrentUser] = useState(null)
     const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -56,8 +52,10 @@ const Root = () => {
     const loadCurrentUser = () => {
         getCurrentUser()
         .then(response => {
-            console.log(response)
-            setCurrentUser(response)
+            console.log(response.data);
+            setCurrentUser(response.data)
+            props.setUser(response.data)
+            //props.resetStore()
             setIsAuthenticated(true)
         }).catch(error => {
             console.log(error)
@@ -68,96 +66,113 @@ const Root = () => {
         localStorage.removeItem(ACCESS_TOKEN);
         setCurrentUser(null)
         setIsAuthenticated(false)
+        props.logoutUser()
     }
 
-    const handleLogin = () => {
-        loadCurrentUser()
-    }
     //////////
     
     return (
         <div className="home">
-            <Provider store={store}>
-                <BrowserRouter>
-                    <Navbar 
-                        isAuthenticated={isAuthenticated}
-                        currentUser={currentUser} 
-                        language={language}
-                        setLanguage={(val) => languageHandler(val)}
-                        messages={messages}
-                        onLogout={() => {
-                            handleLogout()
-                        }}
-                        />
-                    <Switch>
-                        <Route exact path="/" 
-                            component={(props) => <Home 
-                            {...props} 
+            
+                    <BrowserRouter>
+                        <Navbar 
+                            isAuthenticated={isAuthenticated}
+                            currentUser={currentUser} 
                             language={language}
-                            />}>
-                        </Route>
-                        <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>  
-                        <Route path="/auth/signin" 
-                            component={(props) => <Login onLogin={() => {
-                                handleLogin()
-                            }} 
-                            {...props} 
+                            setLanguage={(val) => languageHandler(val)}
                             messages={messages}
-                            />}>
-                        </Route>
-                        <Route path="/auth/signup" 
-                            component={(props) => <Register 
-                            {...props} 
-                            language={language}
-                            messages={messages}
-                            />}>
-                        </Route>
-                        <Route path="/about" 
-                            component={(props) => <About_DISPATCHER 
-                            {...props} 
-                            language={language}
-                            messages={messages}
-                            />}>
-                        </Route>
-                        <Route path="/documents" 
-                            component={(props) => <Documents_DISPATCHER 
-                            {...props} 
-                            language={language}
-                            messages={messages}
-                            />}>
-                        </Route>
-                        <Route path="/edition" 
-                            component={(props) => <Edition_DISPATCHER 
-                            {...props} 
-                            language={language}
-                            messages={messages}
-                            />}>
-                        </Route>
-                        <Route path="/search" 
-                            component={(props) => <Search_DISPATCHER 
-                            {...props} 
-                            language={language}
-                            messages={messages}
-                            />}>
-                        </Route>
-                        <Route path="/reading" 
-                            component={(props) => <Reading_DISPATCHER 
-                            {...props} 
-                            language={language}
-                            messages={messages}
-                            />}>
-                        </Route>
-                        <Route path="/fragments" 
-                            component={(props) => <Fragment_DISPATCHER 
-                            {...props} 
-                            messages={messages}
-                            />}>
-                        </Route>
-                    </Switch>
-                </BrowserRouter>
-            </Provider>
+                            onLogout={() => {
+                                handleLogout()
+                            }}
+                            />
+                        <Switch>
+                            <Route exact path="/" 
+                                component={(props) => <Home 
+                                {...props} 
+                                language={language}
+                                />}>
+                            </Route>
+                            <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>  
+                            <Route path="/auth/signin" 
+                                component={(props) => <Login onLogin={() => {
+                                    loadCurrentUser()
+                                }} 
+                                {...props} 
+                                messages={messages}
+                                />}>
+                            </Route>
+                            <Route path="/auth/signup" 
+                                component={(props) => <Register 
+                                {...props} 
+                                language={language}
+                                messages={messages}
+                                />}>
+                            </Route>
+                            <Route path="/about" 
+                                component={(props) => <About_DISPATCHER 
+                                {...props} 
+                                language={language}
+                                messages={messages}
+                                />}>
+                            </Route>
+                            <Route path="/documents" 
+                                component={(props) => <Documents_DISPATCHER 
+                                {...props} 
+                                language={language}
+                                messages={messages}
+                                />}>
+                            </Route>
+                            <Route path="/edition" 
+                                component={(props) => <Edition_DISPATCHER 
+                                {...props} 
+                                language={language}
+                                messages={messages}
+                                />}>
+                            </Route>
+                            <Route path="/search" 
+                                component={(props) => <Search_DISPATCHER 
+                                {...props} 
+                                language={language}
+                                messages={messages}
+                                />}>
+                            </Route>
+                            <Route path="/reading" 
+                                component={(props) => <Reading_DISPATCHER 
+                                {...props} 
+                                language={language}
+                                messages={messages}
+                                />}>
+                            </Route>
+                            <Route path="/fragments" 
+                                component={(props) => <Fragment_DISPATCHER 
+                                {...props} 
+                                messages={messages}
+                                />}>
+                            </Route>
+                            <Route path="/virtual" 
+                                component={(props) => <Virtual_DISPATCHER 
+                                {...props} 
+                                currentUser={currentUser}
+                                isAuthenticated={isAuthenticated}
+                                messages={messages}
+                                />}>
+
+                            </Route>
+                        </Switch>
+                    </BrowserRouter>
         </div>
     )
 }
 
-export default Root
+
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setUser: (data) => dispatch({ type: 'SET_USER', payload: data }),
+        resetStore : () => dispatch({type : 'RESET'}),
+        logoutUser : () => dispatch({type : "LOGOUT"})
+
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Root)

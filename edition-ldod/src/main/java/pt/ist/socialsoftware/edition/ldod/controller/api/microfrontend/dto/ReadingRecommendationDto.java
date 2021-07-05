@@ -27,6 +27,13 @@ public class ReadingRecommendationDto {
 		this.setRead(readingRecommendation.getRead());
 	}
 
+	public ReadingRecommendationDto(double d, double e, double f, double g) {
+		this.setHeteronymWeight(d);
+		this.setDateWeight(e);
+		this.setTextWeight(f);
+		this.setTaxonomyWeight(g);
+	}
+
 	public List<String> getRead() {
 		return read;
 	}

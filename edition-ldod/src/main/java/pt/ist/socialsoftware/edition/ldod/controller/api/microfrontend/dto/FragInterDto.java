@@ -58,6 +58,7 @@ public class FragInterDto {
 	private String notes;
 	private String usesReference;
 	private ArrayList<CategoryUserDto> categoryUserDtoList;
+	private String virtualExternalId;
 	
 	
 	public FragInterDto(FragInter fragInter) {
@@ -123,7 +124,9 @@ public class FragInterDto {
 				}
 			}
 			this.setCategoryUserDtoList(arr);
+			this.setVirtualExternalId(fragInter.getEdition().getExternalId());
 		}
+		
 		
 		
 	}
@@ -193,6 +196,7 @@ public class FragInterDto {
 		this.setUserDtoList(((VirtualEditionInter) fragInter).getContributorSet(category).stream()
 										.map(UserDto::new)
 										.collect(Collectors.toList()));
+		this.setExternalId(fragInter.getExternalId());
 	}
 
 	public FragInterDto(FragInter fragInter, Fragment frag) {
@@ -212,6 +216,9 @@ public class FragInterDto {
 		this.setFragment_title(frag.getTitle());
 		this.setFragment_externalId(frag.getExternalId());
 		this.setFragment_xmlId(frag.getXmlId());
+		this.setUsedList(fragInter.getListUsed().stream()
+				.map(UsedDto::new)
+				.collect(Collectors.toList()));
 		
 	}
 
@@ -548,6 +555,14 @@ public class FragInterDto {
 
 	public void setCategoryUserDtoList(ArrayList<CategoryUserDto> categoryUserDtoList) {
 		this.categoryUserDtoList = categoryUserDtoList;
+	}
+
+	public String getVirtualExternalId() {
+		return virtualExternalId;
+	}
+
+	public void setVirtualExternalId(String virtualExternalId) {
+		this.virtualExternalId = virtualExternalId;
 	}
 
 }

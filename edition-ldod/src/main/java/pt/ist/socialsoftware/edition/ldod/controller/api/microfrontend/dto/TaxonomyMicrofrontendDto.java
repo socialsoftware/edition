@@ -3,13 +3,18 @@ package pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
+import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 
 public class TaxonomyMicrofrontendDto {
 	private String title;
 	private String acronym;
 	private int categorySetSize;
 	private List<CategoryDto> categorySet;
+	private List<VirtualEditionDto> usedInList;
+	private String externalId;
+	private boolean canManipulate;
 
 	public TaxonomyMicrofrontendDto(Taxonomy taxonomy) {
 		this.setTitle(taxonomy.getEdition().getTitle());
@@ -18,6 +23,15 @@ public class TaxonomyMicrofrontendDto {
 		this.setCategorySet(taxonomy.getCategoriesSet().stream()
 									.map(CategoryDto::new)
 									.collect(Collectors.toList()));
+	}
+
+	public TaxonomyMicrofrontendDto(VirtualEdition vEdition, LdoDUser user) {
+		this.setUsedInList(vEdition.getTaxonomy().getUsedIn().stream().map(VirtualEditionDto::new).collect(Collectors.toList()));
+		this.setCanManipulate(vEdition.getTaxonomy().canManipulateTaxonomy(user));
+		this.setExternalId(vEdition.getTaxonomy().getExternalId());
+		this.setCategorySet(vEdition.getTaxonomy().getSortedCategories().stream()
+				.map(category -> new CategoryDto(category, vEdition))
+				.collect(Collectors.toList()));
 	}
 
 	public String getTitle() {
@@ -50,5 +64,29 @@ public class TaxonomyMicrofrontendDto {
 
 	public void setCategorySet(List<CategoryDto> categorySet) {
 		this.categorySet = categorySet;
+	}
+
+	public List<VirtualEditionDto> getUsedInList() {
+		return usedInList;
+	}
+
+	public void setUsedInList(List<VirtualEditionDto> usedInList) {
+		this.usedInList = usedInList;
+	}
+
+	public String getExternalId() {
+		return externalId;
+	}
+
+	public void setExternalId(String externalId) {
+		this.externalId = externalId;
+	}
+
+	public boolean isCanManipulate() {
+		return canManipulate;
+	}
+
+	public void setCanManipulate(boolean canManipulate) {
+		this.canManipulate = canManipulate;
 	}
 }

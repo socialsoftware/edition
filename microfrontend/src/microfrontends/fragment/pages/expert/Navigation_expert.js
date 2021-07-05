@@ -106,7 +106,7 @@ const Navigation_expert = (props) => {
                     <p className="navigation-view-title">{props.messages.edition_experts}</p>
                     <img src={info} data-tip={props.messages.info_experts}
                         className="reading-info" style={{width:"20px", padding:"0", marginLeft:"5px"}}></img>
-                    <ReactTooltip backgroundColor="#fff" textColor="#333" border={true} borderColor="#000" className="reading-tooltip" place="bottom"/>
+                    <ReactTooltip backgroundColor="#fff" textColor="#333" border={true} borderColor="#000" className="reading-tooltip" place="bottom" effect="solid"/>
                 </div>
                 <div style={{marginTop:"30px"}}>
                     {props.data && props.data.ldoD?

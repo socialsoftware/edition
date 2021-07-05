@@ -65,8 +65,8 @@ const initialState = {
         {
             name: "header_virtual",
             active: true,
-            pages: [{id:"header_virtualeditions", route:"/virtualeditions"},
-                    {id:"general_classificationGame", route:"/classificationGames"}]
+            pages: [{id:"header_virtualeditions", route:"/virtual/virtualeditions"},
+                    {id:"general_classificationGame", route:"/virtual/classificationGames"}]
         },
         {
             name: "header_admin",
@@ -81,11 +81,24 @@ const initialState = {
 export default function(state = initialState, action) {
     switch (action.type) {
         case "SET_USER" : {
+            console.log(action.payload);
+            if(action.payload.enabled){
+                var aux = [...initialState.modules]
+                aux[6].active=true
+            }
             return {
                 ...state,
-                user : action.payload.user
+                modules : aux
             }
             
+        }
+        case "LOGOUT" : {
+            var aux = [...initialState.modules]
+            aux[6].active=false
+            return {
+                ...state,
+                modules : aux
+            }
         }
         case "SET_DATA" : {
             return {
@@ -101,6 +114,25 @@ export default function(state = initialState, action) {
             }
             
         }
+        case "UPDATE_SELECTED" : {
+            let newArray = [...state.selectedVEAcr]
+            if(newArray.includes(action.payload)){
+                newArray.splice(newArray.indexOf(action.payload), 1)
+            }
+            else{
+                newArray.push(action.payload)
+            }
+            return {
+                ...state,
+                selectedVEAcr : newArray
+            }
+            
+        }
+        case "RESET" : {
+            console.log("oioi");
+            return initialState
+        }
+
         default: 
             return state;
     }

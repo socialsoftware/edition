@@ -132,7 +132,7 @@
     padding: 15px 0;
     font-family: 'Space Mono', monospace;
     text-align: left;
-    z-index: 1;
+    z-index: 2;
 }
 .dropdown-item{
     margin: 8px 0;

@@ -4,6 +4,7 @@ import CircleLoader from "react-spinners/RotateLoader";
 import { Link } from 'react-router-dom';
 import eyeIcon from '../../../resources/assets/eye.svg'
 import lupaIcon from '../../../resources/assets/lupa.svg'
+import ReactTooltip from 'react-tooltip';
 
 const ExpertEditionList = (props) => {
 
@@ -89,21 +90,23 @@ const ExpertEditionList = (props) => {
                 <table className={loading?"loading-table":"table"} data-pagination="false">
                     <thead>
                         <tr>
-                            <th style={{textAlign:"center"}}> <span className="tip">{props.messages.tableofcontents_tt_number}</span>{props.messages.tableofcontents_number}</th>
-                            <th > <span className="tip">{props.messages.tableofcontents_tt_title}</span>{props.messages.tableofcontents_title}</th>
-                            <th style={{textAlign:"center"}}> <span className="tip">{props.messages.tableofcontents_tt_reading}</span>{props.messages.general_reading}</th>
+                            <th style={{textAlign:"center"}} data-tip={props.messages.tableofcontents_tt_number}> {props.messages.tableofcontents_number}</th>
+                            <th data-tip={props.messages.tableofcontents_title}> {props.messages.tableofcontents_title}</th>
+                            <th style={{textAlign:"center"}} data-tip={props.messages.tableofcontents_tt_reading}> {props.messages.general_reading}</th>
                             {editor === "Jacinto do Prado Coelho"?
-                            <th style={{textAlign:"center"}}> <span className="tip">{props.messages.tableofcontents_tt_volume}</span>{props.messages.tableofcontents_volume}</th>
+                            <th style={{textAlign:"center"}} data-tip={props.messages.tableofcontents_tt_volume}> {props.messages.tableofcontents_volume}</th>
                             :null
                             }
-                            <th style={{textAlign:"center"}}> <span className="tip">{props.messages.tableofcontents_tt_page}</span>{props.messages.tableofcontents_page}</th>
-                            <th style={{textAlign:"center"}}> <span className="tip">{props.messages.tableofcontents_tt_date}</span>{props.messages.general_date}</th>
-                            <th style={{textAlign:"center"}}> <span className="tip">{props.messages.tableofcontents_tt_heteronym}</span>{props.messages.general_heteronym}</th>
+                            <th style={{textAlign:"center"}} data-tip={props.messages.tableofcontents_tt_page}> {props.messages.tableofcontents_page}</th>
+                            <th style={{textAlign:"center"}} data-tip={props.messages.tableofcontents_tt_date}> {props.messages.general_date}</th>
+                            <th style={{textAlign:"center"}} data-tip={props.messages.tableofcontents_tt_heteronym}> {props.messages.general_heteronym}</th>
                         </tr>
                     </thead>
                     <tbody>
                         {mapEditionToTable()}
                     </tbody>
+                    <ReactTooltip backgroundColor="#000" textColor="#fff" border={true} borderColor="#000" className="virtual-tooltip" place="bottom" effect="solid"/>
+
                 </table>
             </div>
         </div>

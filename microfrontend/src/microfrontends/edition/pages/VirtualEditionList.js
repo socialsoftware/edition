@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import CircleLoader from "react-spinners/RotateLoader";
 import { getVirtualEditionList } from '../../../util/utilsAPI';
 import lupaIcon from '../../../resources/assets/lupa.svg'
+import ReactTooltip from 'react-tooltip';
 
 
 const VirtualEditionList = (props) => {
@@ -124,7 +125,7 @@ const VirtualEditionList = (props) => {
                 {participant?<div><strong>{props.messages.general_editors}:</strong> <span>{getParticipanList()}</span></div>:null}
                 <p style={{marginTop:"15px"}}><strong>{props.messages.virtualedition_synopsis}:</strong> {synopsis}</p>
                 <p style={{marginTop:"15px"}}><strong>{props.messages.general_taxonomy}:</strong> <Link className="table-body-title" style={{color:"#337ab7"}}
-                            to={`/edition/acronym/${acronym}/taxonomy/`}>{title}</Link></p>
+                            to={`/edition/acronym/${props.acronym}/taxonomy/`}>{title}</Link></p>
                 <p style={{marginTop:"15px"}}><strong>{listSize} {props.messages.fragments}</strong></p>
             </div>
             <div className={loading?"loading-table":"search-container"}>
@@ -135,16 +136,17 @@ const VirtualEditionList = (props) => {
             <table className={loading?"loading-table":"table"} data-pagination="false">
                 <thead>
                     <tr>
-                        <th> <span className="tip">{props.messages.tableofcontents_tt_number}</span>{props.messages.tableofcontents_number}</th>
-                        <th> <span className="tip">{props.messages.tableofcontents_tt_title}</span>{props.messages.tableofcontents_title}</th>
-                        <th> <span className="tip">{props.messages.tableofcontents_tt_taxonomy}</span>{props.messages.general_category}</th>
-                        <th> <span className="tip">{props.messages.tableofcontents_tt_usesEditions}</span>{props.messages.tableofcontents_usesEditions}</th>
+                        <th data-tip={props.messages.tableofcontents_tt_number}>{props.messages.tableofcontents_number}</th>
+                        <th data-tip={props.messages.tableofcontents_tt_title}>{props.messages.tableofcontents_title}</th>
+                        <th data-tip={props.messages.tableofcontents_tt_taxonomy}>{props.messages.general_category}</th>
+                        <th data-tip={props.messages.tableofcontents_tt_usesEditions}>{props.messages.tableofcontents_usesEditions}</th>
                     </tr>
                 </thead>
                 <tbody>
                     {mapEditionToTable()}
                 </tbody>
             </table>
+            <ReactTooltip backgroundColor="#000" textColor="#fff" border={true} borderColor="#000" className="virtual-tooltip" place="bottom" effect="solid"/>
         </div>
         </div>
     )
