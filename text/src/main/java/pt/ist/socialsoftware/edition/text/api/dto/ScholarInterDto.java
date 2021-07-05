@@ -23,6 +23,8 @@ public class ScholarInterDto {
 
     private static final Logger logger = LoggerFactory.getLogger(ScholarInterDto.class);
 
+    private final TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
+
     private String acronym;
 
     private String xmlId;
@@ -234,6 +236,29 @@ public class ScholarInterDto {
         return this.xmlId.hashCode();
     }
 
+
+    public LdoDDateDto getLdoDDate() {
+         return this.textProvidesInterface.getScholarInterDate(this.xmlId);
+    }
+
+    public HeteronymDto getHeteronym() {
+        return this.textProvidesInterface.getScholarInterHeteronym(this.xmlId);
+    }
+
+    public ExpertEditionDto getExpertEdition() {
+        return this.textProvidesInterface.getScholarInterExpertEdition(this.xmlId);
+    }
+
+    public SourceDto getSourceDto() {
+        if (isSourceInter) {
+            return new TextProvidesInterface().getSourceOfSourceInter(this.xmlId);
+        }
+        return null;
+    }
+
+    public List<AnnexNoteDto> getSortedAnnexNote() {
+           return this.textProvidesInterface.getScholarInterSortedAnnexNotes(this.xmlId);
+    }
 
 }
 

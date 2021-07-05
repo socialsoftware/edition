@@ -12,10 +12,12 @@ import pt.ist.socialsoftware.edition.text.domain.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
 public class SourceDto {
 
+    private final TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
+
     private String xmlId;
+    private Set<ScholarInterDto> sourceInters = new HashSet<>();
 
     //cached attributes
     private String name;
@@ -215,5 +217,45 @@ public class SourceDto {
                 .map(ManuscriptSource::getForm)
                 .orElse(null);*/
        return this.form;
+    }
+
+
+        @Atomic(mode = Atomic.TxMode.READ)
+    public List<DimensionsDto> getSortedDimensionsDto() {
+            return this.textProvidesInterface.getSortedDimensionsDto(this.xmlId);
+    }
+
+        @Atomic(mode = Atomic.TxMode.READ)
+    public Set<ManuscriptNote> getHandNoteSet() {
+        return this.textProvidesInterface.getHandNoteSet(this.xmlId);
+    }
+
+        @Atomic(mode = Atomic.TxMode.READ)
+    public Set<ManuscriptNote> getTypeNoteSet() {
+          return this.textProvidesInterface.getTypeNoteSet(this.xmlId);
+    }
+
+    @Atomic(mode = Atomic.TxMode.READ)
+    public LdoDDateDto getLdoDDate() {
+           return this.textProvidesInterface.getLdoDDate(this.xmlId);
+    }
+
+    public List<SurfaceDto> getSurfaces() {
+        return this.textProvidesInterface.getSurfaces(this.xmlId);
+    }
+
+//    @Atomic(mode = Atomic.TxMode.READ)
+//    public Set<ScholarInterDto> getSourceIntersSet() {
+//          return this.textProvidesInterface.getSourceIntersSet(this.xmlId);
+//    }
+
+    @Atomic(mode = Atomic.TxMode.READ)
+    public Set<ScholarInterDto> getSourceIntersSet() {
+        return sourceInters;
+        //        return this.textProvidesInterface.getSourceIntersSet(this.xmlId);
+    }
+
+    public void setSourceInters(Set<ScholarInterDto> sourceInters) {
+        this.sourceInters = sourceInters;
     }
 }

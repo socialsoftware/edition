@@ -64,7 +64,7 @@
 								items='${source.getSourceIntersSet()}'>
 								<a
 <%--									href="${contextPath}/fragments/fragment/${inter.getFragmentDto().getXmlId()}/inter/${inter.getUrlId()}">--%>
-										href="http://localhost:8080/fragments/fragment/${inter.getFragmentDto().getXmlId()}/inter/${inter.getUrlId()}">
+										href="http://localhost:8080/fragments/fragment/${inter.getFragmentXmlId()}/inter/${inter.getUrlId()}">
 
 								${inter.title}</a>
 							</c:forEach></td>

@@ -399,7 +399,9 @@ public class TextProvidesInterface {
 
             Set<SourceDto> sources = new HashSet<>();
             for (Source source : fragment.getSourcesSet()) {
-                sources.add(new SourceDto(source));
+                SourceDto sourceDto = new SourceDto(source);
+                sourceDto.setSourceInters(this.getSourceIntersSet(sourceDto.getXmlId()));
+                sources.add(sourceDto);
             }
             fragmentDto.setEmbeddedSourceDtos(sources);
         }

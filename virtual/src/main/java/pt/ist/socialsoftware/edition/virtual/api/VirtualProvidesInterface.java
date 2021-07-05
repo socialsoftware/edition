@@ -315,7 +315,6 @@ public class VirtualProvidesInterface {
     @Atomic(mode = Atomic.TxMode.READ)
     public VirtualEditionDto getVirtualEditionByAcronym(@PathVariable("acronym") String acronym) {
         System.out.println("getVirtualEditionByAcronym: " + acronym);
-        System.out.println(VirtualModule.getInstance().getVirtualEdition(acronym));
         return getVirtualEditionByAcronymUtil(acronym).map(VirtualEditionDto::new).orElse(null);
     }
 
@@ -1062,9 +1061,7 @@ public class VirtualProvidesInterface {
         System.out.println("addMemberByExternalId: " + externalId + ", " + user);
         DomainObject virtualEdition = FenixFramework.getDomainObject(externalId);
         if (virtualEdition instanceof VirtualEdition) {
-            System.out.println(((VirtualEdition) virtualEdition).getMemberSet().size());
             ((VirtualEdition) virtualEdition).addMember(user, Member.MemberRole.MEMBER, b);
-            System.out.println(((VirtualEdition) virtualEdition).getMemberSet().size());
         }
     }
 

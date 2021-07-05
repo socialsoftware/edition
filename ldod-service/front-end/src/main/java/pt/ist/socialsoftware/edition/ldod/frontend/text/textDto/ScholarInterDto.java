@@ -18,6 +18,12 @@ public class ScholarInterDto {
 
     private static final Logger logger = LoggerFactory.getLogger(ScholarInterDto.class);
 
+    private SourceDto source;
+    private HeteronymDto heteronym;
+    private LdoDDateDto ldoDDateDto;
+    private ExpertEditionDto expertEditionDto;
+    private List<AnnexNoteDto> annexNoteDtos;
+
     private String acronym;
 
     private String xmlId;
@@ -85,27 +91,71 @@ public class ScholarInterDto {
     }
 
 
-    @JsonIgnore
+//    @JsonIgnore
+//    public LdoDDateDto getLdoDDate() {
+//        return webClient.build()
+//                .get()
+//                .uri("/scholarInter/" + this.xmlId + "/date")
+//                .retrieve()
+//                .bodyToMono(LdoDDateDto.class)
+//                .block();
+//        //    return this.textProvidesInterface.getScholarInterDate(this.xmlId);
+//    }
+
+
     public LdoDDateDto getLdoDDate() {
-        return webClient.build()
-                .get()
-                .uri("/scholarInter/" + this.xmlId + "/date")
-                .retrieve()
-                .bodyToMono(LdoDDateDto.class)
-                .block();
-        //    return this.textProvidesInterface.getScholarInterDate(this.xmlId);
+        return ldoDDateDto;
     }
 
-    @JsonIgnore
-    public HeteronymDto getHeteronym() {
-        return webClient.build()
-                .get()
-                .uri( "/heteronym/scholarInter/" + this.xmlId)
-                .retrieve()
-                .bodyToMono(HeteronymDto.class)
-                .block();
-        //    return this.textProvidesInterface.getScholarInterHeteronym(this.xmlId);
+    public void setLdoDDate(LdoDDateDto ldoDDateDto) {
+        this.ldoDDateDto = ldoDDateDto;
     }
+
+    public HeteronymDto getHeteronym() {
+        return heteronym;
+    }
+
+    public void setHeteronym(HeteronymDto heteronym) {
+        this.heteronym = heteronym;
+    }
+
+    public ExpertEditionDto getExpertEditionDto() {
+        return expertEditionDto;
+    }
+
+    public void setExpertEditionDto(ExpertEditionDto expertEditionDto) {
+        this.expertEditionDto = expertEditionDto;
+    }
+
+    public SourceDto getSourceDto() {
+        return source;
+    }
+
+    public void setSourceDto(SourceDto source) {
+        this.source = source;
+    }
+
+    public List<AnnexNoteDto> getSortedAnnexNote() {
+        return annexNoteDtos;
+    }
+
+    public void setSortedAnnexNote(List<AnnexNoteDto> annexNoteDtos) {
+        this.annexNoteDtos = annexNoteDtos;
+    }
+
+    //    @JsonIgnore
+//    public HeteronymDto getHeteronym() {
+//        if (heteronym == null) {
+//            heteronym = webClient.build()
+//                    .get()
+//                    .uri( "/heteronym/scholarInter/" + this.xmlId)
+//                    .retrieve()
+//                    .bodyToMono(HeteronymDto.class)
+//                    .block();
+//        }
+//        return heteronym;
+//        //    return this.textProvidesInterface.getScholarInterHeteronym(this.xmlId);
+//    }
 
     //check
 //    public FragInterDto.InterType getType() {
@@ -161,15 +211,18 @@ public class ScholarInterDto {
         return this.isExpertInter;
     }
 
-    @JsonIgnore
-    public SourceDto getSourceDto() {
-        return webClient.build()
-                .get()
-                .uri("/scholarInter/" + this.xmlId + "/source")
-                .retrieve()
-                .bodyToMono(SourceDto.class)
-                .blockOptional().get();
-    }
+//    @JsonIgnore
+//    public SourceDto getSourceDto() {
+//        if (source == null) {
+//            source = webClient.build()
+//                    .get()
+//                    .uri("/scholarInter/" + this.xmlId + "/source")
+//                    .retrieve()
+//                    .bodyToMono(SourceDto.class)
+//                    .blockOptional().get();
+//        }
+//        return source;
+//    }
 
 //    public SourceDto getSourceDto() {
 //        return new SourceDto(new TextProvidesInterface().getSourceOfSourceInter(this.xmlId));
@@ -334,18 +387,18 @@ public class ScholarInterDto {
         return this.notes;
     }
 
-    @JsonIgnore
-    @Atomic(mode = Atomic.TxMode.READ)
-    public List<AnnexNoteDto> getSortedAnnexNote() {
-        return webClient.build()
-                .get()
-                .uri("/scholarInter/" + this.xmlId + "/sortedAnnexNotes")
-                .retrieve()
-                .bodyToFlux(AnnexNoteDto.class)
-                .collectList()
-                .block();
-        //   return this.textProvidesInterface.getScholarInterSortedAnnexNotes(this.xmlId);
-    }
+//    @JsonIgnore
+//    @Atomic(mode = Atomic.TxMode.READ)
+//    public List<AnnexNoteDto> getSortedAnnexNote() {
+//        return webClient.build()
+//                .get()
+//                .uri("/scholarInter/" + this.xmlId + "/sortedAnnexNotes")
+//                .retrieve()
+//                .bodyToFlux(AnnexNoteDto.class)
+//                .collectList()
+//                .block();
+//        //   return this.textProvidesInterface.getScholarInterSortedAnnexNotes(this.xmlId);
+//    }
 
 
     @JsonIgnore
