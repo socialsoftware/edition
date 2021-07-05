@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.virtual.api.dto;
 
 import org.joda.time.LocalDate;
+import org.springframework.core.ParameterizedTypeReference;
 import pt.ist.socialsoftware.edition.virtual.api.userDto.UserDto;
 import pt.ist.socialsoftware.edition.virtual.domain.Member;
 import pt.ist.socialsoftware.edition.virtual.domain.VirtualEdition;
@@ -15,6 +16,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class VirtualEditionDto {
+
+    private final VirtualProvidesInterface virtualProvidesInterface = new VirtualProvidesInterface();
 
     private final String xmlId;
     private final String acronym;
@@ -107,6 +110,10 @@ public class VirtualEditionDto {
 
     public String getSynopsis() {
         return this.synopsis;
+    }
+
+    public Set<String> getParticipantSet() {
+         return this.virtualProvidesInterface.getVirtualEditionParticipantSet(this.acronym);
     }
 
 }

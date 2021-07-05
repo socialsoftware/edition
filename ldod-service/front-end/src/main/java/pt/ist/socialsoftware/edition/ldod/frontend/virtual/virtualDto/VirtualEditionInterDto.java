@@ -38,6 +38,7 @@ public class VirtualEditionInterDto {
     private String reference;
     private int number;
     private ScholarInterDto lastUsed;
+    private VirtualEditionDto virtualEditionDto;
 
 
 
@@ -259,12 +260,14 @@ public class VirtualEditionInterDto {
 
     @JsonIgnore
     public VirtualEditionDto getVirtualEditionDto() {
-        return webClientVirtual.build()
+        if (virtualEditionDto == null)
+             virtualEditionDto =  webClientVirtual.build()
                 .get()
                 .uri("/virtualEditionInter/" + this.xmlId + "/virtualEdition")
                 .retrieve()
                 .bodyToMono(VirtualEditionDto.class)
                 .block();
+        return virtualEditionDto;
         //        return this.virtualProvidesInterface.getVirtualEditionOfVirtualEditionInter(this.xmlId);
     }
 

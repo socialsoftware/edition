@@ -25,7 +25,7 @@ public class FragmentDto {
 
     private Set<SourceBaseDto> embeddedSourceDtos = new HashSet<>(  );
 
-    private Set<ScholarInterBaseDto> embeddedScholarInterDtos = new HashSet<>();
+    private Set<ScholarInterDto> embeddedScholarInterDtos = new HashSet<>();
 
 
     public FragmentDto() { super(); }
@@ -46,11 +46,11 @@ public class FragmentDto {
         this.embeddedSourceDtos = embeddedSourceDtos;
     }
 
-    public Set<ScholarInterBaseDto> getEmbeddedScholarInterDtos() {
+    public Set<ScholarInterDto> getEmbeddedScholarInterDtos() {
         return embeddedScholarInterDtos;
     }
 
-    public void setEmbeddedScholarInterDtos(Set<ScholarInterBaseDto> embeddedScholarInterDtos) {
+    public void setEmbeddedScholarInterDtos(Set<ScholarInterDto> embeddedScholarInterDtos) {
         this.embeddedScholarInterDtos = embeddedScholarInterDtos;
     }
 
@@ -103,7 +103,7 @@ public class FragmentDto {
 
     public Set<ScholarInterDto> getEmbeddedScholarInterDtoSetForExpertEdition(String acronym) {
         return this.embeddedScholarInterDtos.stream()
-                .filter(scholarInterDto -> scholarInterDto.getAcronym().equals(acronym)).map(ScholarInterDto::new).collect(Collectors.toSet());
+                .filter(scholarInterDto -> scholarInterDto.getAcronym().equals(acronym)).collect(Collectors.toSet());
     }
 
 
@@ -122,7 +122,7 @@ public class FragmentDto {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public List<ScholarInterDto> getEmbeddedSourceInter() {
         return this.embeddedScholarInterDtos.stream()
-                .filter(scholarInterDto -> scholarInterDto.isSourceInter()).map(ScholarInterDto::new).collect(Collectors.toList());
+                .filter(scholarInterDto -> scholarInterDto.isSourceInter()).collect(Collectors.toList());
     }
 
 

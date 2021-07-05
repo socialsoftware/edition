@@ -31,6 +31,8 @@ public class VirtualEditionDto {
     private String shortAcronym;
     private int max;
 
+    private Set<String> participants;
+
     public VirtualEditionDto() {}
 
     public String getXmlId() {
@@ -135,16 +137,21 @@ public class VirtualEditionDto {
         //        return this.virtualProvidesInterface.getVirtualEditionAdminSet(this.acronym);
     }
 
-    @JsonIgnore
-    public Set<String> getParticipantSet() {
-        return webClientVirtual.build()
-                .get()
-                .uri("/virtualEdition/" + this.acronym + "/participants")
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<Set<String>>() {})
-                .block();
+//    @JsonIgnore
+//    public Set<String> getParticipantSet() {
+//        return webClientVirtual.build()
+//                .get()
+//                .uri("/virtualEdition/" + this.acronym + "/participants")
+//                .retrieve()
+//                .bodyToMono(new ParameterizedTypeReference<Set<String>>() {})
+//                .block();
+//
+//        //        return this.virtualProvidesInterface.getVirtualEditionParticipantSet(this.acronym);
+//    }
 
-        //        return this.virtualProvidesInterface.getVirtualEditionParticipantSet(this.acronym);
+
+    public Set<String> getParticipantSet() {
+        return participants;
     }
 
     @JsonIgnore
@@ -619,5 +626,9 @@ public class VirtualEditionDto {
 
     public void setExternalId(String externalId) {
         this.externalId = externalId;
+    }
+
+    public void setParticipantSet(Set<String> participants) {
+        this.participants = participants;
     }
 }

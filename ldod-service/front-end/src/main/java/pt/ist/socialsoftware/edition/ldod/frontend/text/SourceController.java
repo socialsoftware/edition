@@ -39,7 +39,7 @@ public class SourceController {
         for (FragmentDto frag : this.feTextRequiresInterface.getFragmentDtosWithSourceDtos()) {
             sources.addAll(frag.getEmbeddedSourceDtos().stream().map(SourceDto::new).collect(Collectors.toSet()));
         }
-
+        System.out.println("test");
         sources.sort(Comparator.comparing(SourceDto::getName));
 
         model.addAttribute("sources", sources);

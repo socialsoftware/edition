@@ -73,4 +73,35 @@ public class BaseUserDto {
             return email;
         }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public void setSocialMedalId(String socialMedalId) {
+        this.socialMedalId = socialMedalId;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

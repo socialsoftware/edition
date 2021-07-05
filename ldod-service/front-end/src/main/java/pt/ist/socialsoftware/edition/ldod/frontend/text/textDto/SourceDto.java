@@ -43,11 +43,14 @@ public class SourceDto {
     private boolean hasHandNoteSet;
     private boolean hasTypeNoteSet;
 
+    private LdoDDateDto ldoDDate;
+    private Set<ManuscriptNote> handNoteSet;
+    private Set<ManuscriptNote> typeNoteSet;
+    private List<SurfaceDto> surfaces;
+    private List<DimensionsDto> sortedDimensionsDto;
+    private Set<ScholarInterDto> sourceInters;
 
-
-    public SourceDto() {
-        super();
-    }
+    public SourceDto() {}
 
     public SourceDto(SourceBaseDto sourceBaseDto) {
         this.name = sourceBaseDto.getName();
@@ -68,7 +71,12 @@ public class SourceDto {
         this.hasHandNoteSet = sourceBaseDto.hasHandNoteSet();
         this.hasTypeNoteSet = sourceBaseDto.hasTypeNoteSet();
         this.xmlId = sourceBaseDto.getXmlId();
-
+        this.ldoDDate = sourceBaseDto.getLdoDDate();
+        this.typeNoteSet = sourceBaseDto.getTypeNoteSet();
+        this.handNoteSet = sourceBaseDto.getHandNoteSet();
+        this.surfaces = sourceBaseDto.getSurfaces();
+        this.sortedDimensionsDto = sourceBaseDto.getSortedDimensionsDto();
+        this.sourceInters = sourceBaseDto.getSourceIntersSet();
     }
 
     public String getXmlId() {
@@ -121,17 +129,17 @@ public class SourceDto {
         //   return this.textProvidesInterface.getFormattedDimensions(this.xmlId);
     }
 
-    @Atomic(mode = Atomic.TxMode.READ)
-    public List<DimensionsDto> getSortedDimensionsDto() {
-       return webClient.build()
-                .get()
-                .uri("/source/" + this.xmlId + "/sortedDimensions")
-                .retrieve()
-                .bodyToFlux(DimensionsDto.class)
-                .collectList()
-               .block();
-        //    return this.textProvidesInterface.getSortedDimensionsDto(this.xmlId);
-    }
+//    @Atomic(mode = Atomic.TxMode.READ)
+//    public List<DimensionsDto> getSortedDimensionsDto() {
+//       return webClient.build()
+//                .get()
+//                .uri("/source/" + this.xmlId + "/sortedDimensions")
+//                .retrieve()
+//                .bodyToFlux(DimensionsDto.class)
+//                .collectList()
+//               .block();
+//        //    return this.textProvidesInterface.getSortedDimensionsDto(this.xmlId);
+//    }
 
 
     @Atomic(mode = Atomic.TxMode.READ)
@@ -147,17 +155,17 @@ public class SourceDto {
     }
 
 
-    @Atomic(mode = Atomic.TxMode.READ)
-    public Set<ManuscriptNote> getHandNoteSet() {
-        return webClient.build()
-                .get()
-                .uri("/source/" + this.xmlId + "/handNotes")
-                .retrieve()
-                .bodyToFlux(ManuscriptNote.class)
-                .toStream()
-                .collect(Collectors.toSet());
-        //  return this.textProvidesInterface.getHandNoteSet(this.xmlId);
-    }
+//    @Atomic(mode = Atomic.TxMode.READ)
+//    public Set<ManuscriptNote> getHandNoteSet() {
+//        return webClient.build()
+//                .get()
+//                .uri("/source/" + this.xmlId + "/handNotes")
+//                .retrieve()
+//                .bodyToFlux(ManuscriptNote.class)
+//                .toStream()
+//                .collect(Collectors.toSet());
+//        //  return this.textProvidesInterface.getHandNoteSet(this.xmlId);
+//    }
 
     @JsonIgnore
     @Atomic(mode = Atomic.TxMode.READ)
@@ -172,17 +180,17 @@ public class SourceDto {
         //  return this.textProvidesInterface.getFormattedTypeNote(this.xmlId);
     }
 
-    @Atomic(mode = Atomic.TxMode.READ)
-    public Set<ManuscriptNote> getTypeNoteSet() {
-        return webClient.build()
-                .get()
-                .uri("/source/" + this.xmlId + "/typeNotes")
-                .retrieve()
-                .bodyToFlux(ManuscriptNote.class)
-                .toStream()
-                .collect(Collectors.toSet());
-        //  return this.textProvidesInterface.getTypeNoteSet(this.xmlId);
-    }
+//    @Atomic(mode = Atomic.TxMode.READ)
+//    public Set<ManuscriptNote> getTypeNoteSet() {
+//        return webClient.build()
+//                .get()
+//                .uri("/source/" + this.xmlId + "/typeNotes")
+//                .retrieve()
+//                .bodyToFlux(ManuscriptNote.class)
+//                .toStream()
+//                .collect(Collectors.toSet());
+//        //  return this.textProvidesInterface.getTypeNoteSet(this.xmlId);
+//    }
 
     public int getColumns() {
        /* return getSourceByXmlId(this.xmlId)
@@ -282,16 +290,16 @@ public class SourceDto {
     }
 
 
-    @Atomic(mode = Atomic.TxMode.READ)
-    public LdoDDateDto getLdoDDate() {
-        return  webClient.build()
-                .get()
-                .uri("/source/" + this.xmlId + "/LdoDDate")
-                .retrieve()
-                .bodyToMono(LdoDDateDto.class)
-                .blockOptional().orElse(null);
-        //   return this.textProvidesInterface.getLdoDDate(this.xmlId);
-    }
+//    @Atomic(mode = Atomic.TxMode.READ)
+//    public LdoDDateDto getLdoDDate() {
+//        return  webClient.build()
+//                .get()
+//                .uri("/source/" + this.xmlId + "/LdoDDate")
+//                .retrieve()
+//                .bodyToMono(LdoDDateDto.class)
+//                .blockOptional().orElse(null);
+//        //   return this.textProvidesInterface.getLdoDDate(this.xmlId);
+//    }
 
 
     public LdoDDateDto getLdoDDateDto() {
@@ -305,16 +313,16 @@ public class SourceDto {
     }
 
 
-    public List<SurfaceDto> getSurfaces() {
-      return   webClient.build()
-                .get()
-                .uri("/source/" + this.xmlId + "/surfaces")
-                .retrieve()
-                .bodyToFlux(SurfaceDto.class)
-                .collectList()
-              .block();
-        //    return this.textProvidesInterface.getSurfaces(this.xmlId);
-    }
+//    public List<SurfaceDto> getSurfaces() {
+//      return   webClient.build()
+//                .get()
+//                .uri("/source/" + this.xmlId + "/surfaces")
+//                .retrieve()
+//                .bodyToFlux(SurfaceDto.class)
+//                .collectList()
+//              .block();
+//        //    return this.textProvidesInterface.getSurfaces(this.xmlId);
+//    }
 
     public Source_Type getType() {
         //return getSourceByXmlId(this.xmlId).map(source -> source.getType()).orElse(null);
@@ -341,17 +349,26 @@ public class SourceDto {
        return this.form;
     }
 
-    @JsonIgnore
-    @Atomic(mode = Atomic.TxMode.READ)
+//    @JsonIgnore
+//    @Atomic(mode = Atomic.TxMode.READ)
+//    public Set<ScholarInterDto> getSourceIntersSet() {
+//        return webClient.build()
+//                .get()
+//                .uri("/source/" + this.xmlId + "/interSet")
+//                .retrieve()
+//                .bodyToFlux(ScholarInterDto.class)
+//                .toStream()
+//                .collect(Collectors.toSet());
+//        //  return this.textProvidesInterface.getSourceIntersSet(this.xmlId);
+//    }
+
+
     public Set<ScholarInterDto> getSourceIntersSet() {
-        return webClient.build()
-                .get()
-                .uri("/source/" + this.xmlId + "/interSet")
-                .retrieve()
-                .bodyToFlux(ScholarInterDto.class)
-                .toStream()
-                .collect(Collectors.toSet());
-        //  return this.textProvidesInterface.getSourceIntersSet(this.xmlId);
+        return sourceInters;
+    }
+
+    public void setSourceIntersSet(Set<ScholarInterDto> sourceInters) {
+        this.sourceInters = sourceInters;
     }
 
     public String getSettlement() {
@@ -372,4 +389,100 @@ public class SourceDto {
                 .blockOptional().get();
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setType(Source_Type type) {
+        this.type = type;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setIdno(String idno) {
+        this.idno = idno;
+    }
+
+    public void setAltIdentifier(String altIdentifier) {
+        this.altIdentifier = altIdentifier;
+    }
+
+    public void setJournal(String journal) {
+        this.journal = journal;
+    }
+
+    public void setIssue(String issue) {
+        this.issue = issue;
+    }
+
+    public void setPubPlace(String pubPlace) {
+        this.pubPlace = pubPlace;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public void setStartPage(int startPage) {
+        this.startPage = startPage;
+    }
+
+    public void setEndPage(int endPage) {
+        this.endPage = endPage;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
+    }
+
+    public void setForm(Form form) {
+        this.form = form;
+    }
+
+    public void setColumns(int columns) {
+        this.columns = columns;
+    }
+
+
+    public LdoDDateDto getLdoDDate() {
+        return ldoDDate;
+    }
+
+    public void setLdoDDate(LdoDDateDto ldoDDate) {
+        this.ldoDDate = ldoDDate;
+    }
+
+    public Set<ManuscriptNote> getHandNoteSet() {
+        return handNoteSet;
+    }
+
+    public void setHandNoteSet(Set<ManuscriptNote> handNoteSet) {
+        this.handNoteSet = handNoteSet;
+    }
+
+    public Set<ManuscriptNote> getTypeNoteSet() {
+        return typeNoteSet;
+    }
+
+    public void setTypeNoteSet(Set<ManuscriptNote> typeNoteSet) {
+        this.typeNoteSet = typeNoteSet;
+    }
+
+    public List<SurfaceDto> getSurfaces() {
+        return surfaces;
+    }
+
+    public void setSurfaces(List<SurfaceDto> surfaces) {
+        this.surfaces = surfaces;
+    }
+
+    public List<DimensionsDto> getSortedDimensionsDto() {
+        return sortedDimensionsDto;
+    }
+
+    public void setSortedDimensionsDto(List<DimensionsDto> sortedDimensionsDto) {
+        this.sortedDimensionsDto = sortedDimensionsDto;
+    }
 }

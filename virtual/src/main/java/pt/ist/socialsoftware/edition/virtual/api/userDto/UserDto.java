@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.virtual.api.userDto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.joda.time.LocalDate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -156,6 +157,7 @@ public class UserDto {
         //        return this.userProvidesInterface.hasRoleTypeUser(this.username);
     }
 
+    @JsonIgnore
     public String[] getRolesSet() {
         return webClientUser.build()
                 .get()
@@ -242,6 +244,7 @@ public class UserDto {
         //        this.userProvidesInterface.removeUser(this.username);
     }
 
+    @JsonIgnore
     public String getListOfRolesAsStrings() {
         return webClientUser.build()
                 .get()

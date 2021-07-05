@@ -56,6 +56,8 @@ public class FragmentController {
         model.addAttribute("jpEdition", this.feTextRequiresInterface.getExpertEditionByAcronym(PIZARRO_EDITION_ACRONYM));
         model.addAttribute("fragments", this.feTextRequiresInterface.getFragmentDtosWithScholarInterDtos());
 
+        System.out.println("test");
+
         return "fragment/list";
     }
 
