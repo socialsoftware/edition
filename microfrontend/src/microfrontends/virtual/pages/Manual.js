@@ -27,7 +27,7 @@ const Manual = (props) => {
     const [input, setInput] = useState(null)
     const [data, setData] = useState(null)
     const [originalList, setOriginalList] = useState(null)
-    const [currentList, setCurrentList] = useState(null)
+    const [currentList, setCurrentList] = useState([])
     const [selected, setSelected] = useState(null)
     const [selectedPosition, setSelectedPosition] = useState(null)
     const [showMove, setShowMove] = useState(false)
@@ -244,7 +244,7 @@ const Manual = (props) => {
                 auxCurrent.unshift(obj)
             }
         }
-        console.log(auxCurrent);
+        console.log(auxCurrent)
         setCurrentList(auxCurrent)
         setSelected(auxCurrent[0])
         setSelectedPosition(1)

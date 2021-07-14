@@ -217,7 +217,7 @@ export function getInterCompare(interID, obj) {
         } 
     )
 }
-
+//////////////////// VIRTUAL ////////////////////////
 export function getPublicAllEditions() {
     return axios.get(API_BASE_URL + `/api/microfrontend/public/getAllEditions`)
 }
@@ -525,4 +525,243 @@ export function getFragInterData(fragInterId) {
             Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
         }
     })
+}
+
+///////////////////// ADMIN /////////////////////
+export function loadCorpus(file) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/load/corpus`, 
+        file, 
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        }
+    )
+}
+
+export function loadFragment(file) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/load/fragmentsAtOnce`, 
+        file, 
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        }
+    )
+}
+
+export function loadSeveralFragment(files) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/load/fragmentsStepByStep`, 
+        files, 
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        }
+    )
+}
+
+export function loadUsers(file) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/load/users`, 
+        file, 
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        }
+    )
+}
+export function loadVirtualCorpus(file) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/load/virtual-corpus`, 
+        file, 
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        }
+    )
+}
+export function loadVirtualFragments(files) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/load/virtual-fragments`, 
+        files, 
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        }
+    )
+}
+
+export function exportRandom() {
+    return axios.get(API_BASE_URL + `/api/microfrontend/exportRandom`, 
+    {
+        responseType:"blob"
+    })
+}
+export function exportUsers() {
+    return axios.get(API_BASE_URL + `/api/microfrontend/export/users`, 
+    {
+        responseType:"blob"
+    })
+}
+export function exportAll() {
+    return axios.get(API_BASE_URL + `/api/microfrontend/exportAll`, 
+    {
+        responseType:"blob"
+    })
+}
+export function exportVirtualEditions() {
+    return axios.get(API_BASE_URL + `/api/microfrontend/export/virtualeditions`, 
+    {
+        responseType:"blob"
+    })
+}
+export function getFragmentsByQuery(query) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/exportSearch`, 
+        `query=${query}`, 
+    )
+}
+export function exportFragmentsByQuery(query) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/exportSearchResult`, 
+        `query=${query}`, 
+    )
+}
+
+export function getFragmentDeleteList() {
+    return axios.get(API_BASE_URL + `/api/microfrontend/fragment/list`, 
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        } 
+    )
+}
+
+export function deleteSingleFragment(externalId) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/fragment/delete`, 
+        `externalId=${externalId}`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        } 
+    )
+}
+export function deleteAllFragment() {
+    return axios.post(API_BASE_URL + `/api/microfrontend/fragment/deleteAll`, 
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        } 
+    )
+}
+
+export function getUserList() {
+    return axios.get(API_BASE_URL + `/api/microfrontend/user/list`, 
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        } 
+    )
+}
+
+export function changeActiveUser(externalId) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/user/active`,
+        `externalId=${externalId}`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        } 
+    )
+}
+
+export function deleteUser(externalId) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/user/delete`,
+        `externalId=${externalId}`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        } 
+    )
+}
+
+export function deleteUserSessions() {
+    return axios.post(API_BASE_URL + `/api/microfrontend/sessions/delete`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        } 
+    )
+}
+
+export function switchAdmin() {
+    return axios.post(API_BASE_URL + `/api/microfrontend/switch`,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        } 
+    )
+}
+
+export function getUserForm(externalId) {
+    return axios.get(API_BASE_URL + `/api/microfrontend/user/edit`,
+        {   
+            params: {
+                externalId: externalId
+            },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        } 
+    )
+}
+
+export function setUserForm(form) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/user/edit`,
+        form,
+        {   
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        } 
+    )
+}
+
+export function getAdminVirtualList() {
+    return axios.get(API_BASE_URL + `/api/microfrontend/virtual/list`, 
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        } 
+    )
+}
+
+export function deleteAdminVirtualEdition(externalId) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/virtual/delete`, 
+        {
+            params : {
+                externalId : externalId
+            },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        } 
+    )
+}
+
+export function getTweets() {
+    return axios.get(API_BASE_URL + `/api/microfrontend/tweets`, 
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        } 
+    )
 }

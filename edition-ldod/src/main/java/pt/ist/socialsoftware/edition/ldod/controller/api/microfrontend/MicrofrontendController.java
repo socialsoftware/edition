@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend;
 
+import org.apache.commons.io.IOUtils;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +10,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.controller.api.APIUserController;
@@ -27,7 +34,9 @@ import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.Readi
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.SimpleSearchDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.SourceInterDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.TaxonomyMicrofrontendDto;
+import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.TweetListDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.UserContributionsDto;
+import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.UserListDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.VirtualEditionListDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.VirtualRecommendationDto;
@@ -44,8 +53,14 @@ import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.Member.MemberRole;
 import pt.ist.socialsoftware.edition.ldod.dto.JWTAuthenticationDto;
+import pt.ist.socialsoftware.edition.ldod.export.ExpertEditionTEIExport;
+import pt.ist.socialsoftware.edition.ldod.export.UsersXMLExport;
+import pt.ist.socialsoftware.edition.ldod.export.WriteVirtualEditonsToFile;
+import pt.ist.socialsoftware.edition.ldod.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.ldod.domain.PbText;
 import pt.ist.socialsoftware.edition.ldod.domain.RecommendationWeights;
+import pt.ist.socialsoftware.edition.ldod.domain.Role;
+import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.domain.Section;
 import pt.ist.socialsoftware.edition.ldod.domain.Source;
 import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
@@ -56,6 +71,11 @@ import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter2CompInters;
 import pt.ist.socialsoftware.edition.ldod.generators.HtmlWriter4Variations;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
+import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEICorpus;
+import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEIFragments;
+import pt.ist.socialsoftware.edition.ldod.loaders.UsersXMLImport;
+import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionFragmentsTEIImport;
+import pt.ist.socialsoftware.edition.ldod.loaders.VirtualEditionsTEICorpusImport;
 import pt.ist.socialsoftware.edition.ldod.recommendation.ReadingRecommendation;
 import pt.ist.socialsoftware.edition.ldod.recommendation.dto.RecommendVirtualEditionParam;
 import pt.ist.socialsoftware.edition.ldod.search.options.AuthoralSearchOption;
@@ -73,14 +93,25 @@ import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateAcronymException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateNameException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 import pt.ist.socialsoftware.edition.ldod.social.aware.AwareAnnotationFactory;
+import pt.ist.socialsoftware.edition.ldod.social.aware.CitationDetecter;
+import pt.ist.socialsoftware.edition.ldod.social.aware.TweetFactory;
 import pt.ist.socialsoftware.edition.ldod.topicmodeling.TopicModeler;
+import pt.ist.socialsoftware.edition.ldod.utils.PropertiesManager;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
+import pt.ist.socialsoftware.edition.ldod.validator.EditUserValidator;
 import pt.ist.socialsoftware.edition.ldod.validator.VirtualEditionValidator;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -89,10 +120,20 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/microfrontend")
 public class MicrofrontendController {
     private static Logger logger = LoggerFactory.getLogger(MicrofrontendController.class);
+    
+    @Inject
+	private SessionRegistry sessionRegistry;
+    
+    @Inject
+	private PasswordEncoder passwordEncoder;
     
 
     @GetMapping("/fragments")
@@ -200,7 +241,6 @@ public class MicrofrontendController {
 	  } else {
 	    split = "%26";
 	  }
-	  System.out.println("/////////");
 	  System.out.println(split);
 	  String search = params.substring(0, params.indexOf(split));
 	  params = params.substring(params.indexOf(split) + 1);
@@ -209,12 +249,9 @@ public class MicrofrontendController {
 	  String searchSource = params;
 	
 	  search = TextSearchOption.purgeSearchText(search);
-	  System.out.println("/////////");
 	  System.out.println(search);
 	  TextSearchOption textSearchOption = new TextSearchOption(search);
 	  List<FragInter> matches = textSearchOption.search();
-	  System.out.println("/////////");
-	  System.out.println(textSearchOption);
 	
 	  Map<Fragment, List<FragInter>> results = new HashMap<>();
 	  int interCount = 0;
@@ -775,7 +812,6 @@ public class MicrofrontendController {
 
 		if (errors.size() > 0) {
 			System.out.println(errors);
-			System.out.println("OLAAAAAAAAAAAAAA");
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
@@ -930,7 +966,12 @@ public class MicrofrontendController {
 		if (virtualEdition == null) {
 			return null;
 		} else {
-
+		
+			
+			//Twitter bug
+		if(externalId == "1407744250740871") {
+			return null;
+		}
 
 			RecommendationWeights recommendationWeights = currentUser.getUser()
 					.getRecommendationWeights(virtualEdition);
@@ -1254,6 +1295,496 @@ public class MicrofrontendController {
 			return extractedCategory.getExternalId();
 		}
 		
+	}
+	
+	@PostMapping(value = "/load/corpus")
+	public ResponseEntity<String> loadTEICorpus(@RequestBody MultipartFile file)
+			throws LdoDLoadException {
+		if (file == null) {
+			return new ResponseEntity<>("Deve escolher um ficheiro", HttpStatus.CONFLICT);
+		}
+
+		LoadTEICorpus loader = new LoadTEICorpus();
+		try {
+			loader.loadTEICorpus(file.getInputStream());
+		} catch (IOException e) {
+			return new ResponseEntity<>("Problemas com o ficheiro, tipo ou formato", HttpStatus.CONFLICT);
+		} catch (LdoDException ldodE) {
+			System.out.println(ldodE.getMessage());
+			return new ResponseEntity<>(ldodE.getMessage(), HttpStatus.CONFLICT);
+		}
+		System.out.println("3");
+		return new ResponseEntity<>("Corpus carregado", HttpStatus.OK);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsAtOnce")
+	public ResponseEntity<String> loadTEIFragmentsAtOnce(@RequestBody MultipartFile file) throws LdoDLoadException {
+		String message = null;
+		if (file == null) {
+			return new ResponseEntity<>("Deve escolher um ficheiro", HttpStatus.CONFLICT);
+		}
+
+		LoadTEIFragments loader = new LoadTEIFragments();
+		try {
+			message = loader.loadFragmentsAtOnce(file.getInputStream());
+		} catch (IOException e) {
+			return new ResponseEntity<>("Problemas com o ficheiro, tipo ou formato", HttpStatus.CONFLICT);
+		} catch (LdoDException ldodE) {
+			return new ResponseEntity<>(ldodE.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+
+		if (message == null) {
+			return new ResponseEntity<>("Fragmento carregado", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("Erro", HttpStatus.CONFLICT);
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsStepByStep")
+	public ResponseEntity<String> loadTEIFragmentsStepByStep(@RequestBody MultipartFile[] files) throws LdoDLoadException {
+
+		if (files == null) {
+			return new ResponseEntity<>("Deve escolher um ficheiro", HttpStatus.CONFLICT);
+		}
+
+		LoadTEIFragments loader = new LoadTEIFragments();
+
+		String list = "";
+		int total = 0;
+		for (MultipartFile file : files) {
+			try {
+				list = list + loader.loadFragmentsStepByStep(file.getInputStream());
+				total++;
+			} catch (IOException e) {
+				return new ResponseEntity<>("Problemas com o ficheiro, tipo ou formato", HttpStatus.CONFLICT);
+			} catch (LdoDException ldodE) {
+				return new ResponseEntity<>(ldodE.getMessage(), HttpStatus.CONFLICT);
+			}
+		}
+		return new ResponseEntity<>("Fragmentos carregados: " + total + "<br>" + list, HttpStatus.OK);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/load/users")
+	public ResponseEntity<String> loadUsersXML(@RequestBody MultipartFile file)
+			throws LdoDLoadException {
+		if (file == null) {
+			return new ResponseEntity<>("Deve escolher um ficheiro", HttpStatus.CONFLICT);
+		}
+
+		UsersXMLImport loader = new UsersXMLImport();
+		try {
+			loader.importUsers(file.getInputStream());
+		} catch (IOException e) {
+			return new ResponseEntity<>("Problemas com o ficheiro, tipo ou formato", HttpStatus.CONFLICT);
+		}
+
+		return new ResponseEntity<>("Utilizadores Carregados", HttpStatus.OK);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/load/virtual-corpus")
+	public ResponseEntity<String> loadVirtualCorpus(@RequestBody MultipartFile file)
+			throws LdoDLoadException {
+		if (file == null) {
+			return new ResponseEntity<>("Deve escolher um ficheiro", HttpStatus.CONFLICT);
+		}
+
+		VirtualEditionsTEICorpusImport loader = new VirtualEditionsTEICorpusImport();
+		try {
+			loader.importVirtualEditionsCorpus(file.getInputStream());
+		} catch (IOException e) {
+			return new ResponseEntity<>("Problemas com o ficheiro, tipo ou formato", HttpStatus.CONFLICT);
+		}
+
+		return new ResponseEntity<>("Corpus das edições virtuais carregado", HttpStatus.OK);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/load/virtual-fragments")
+	public ResponseEntity<String> loadVirtualFragments(@RequestBody MultipartFile[] files) throws LdoDLoadException {
+		if (files == null) {
+			return new ResponseEntity<>("Deve escolher um ficheiro", HttpStatus.CONFLICT);
+		}
+
+		VirtualEditionFragmentsTEIImport loader = new VirtualEditionFragmentsTEIImport();
+
+		String list = "";
+		int total = 0;
+		for (MultipartFile file : files) {
+			try {
+				list = list + "<br/>" + loader.importFragmentFromTEI(file.getInputStream());
+				total++;
+			} catch (IOException e) {
+				return new ResponseEntity<>("Problemas com o ficheiro, tipo ou formato", HttpStatus.CONFLICT);
+			} catch (LdoDException ldodE) {
+				return new ResponseEntity<>(ldodE.getMessage(), HttpStatus.CONFLICT);
+			}
+		}
+
+		return new ResponseEntity<>("Fragmentos das edições virtuais carregados: " + total + "<br>" + list, HttpStatus.OK);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/exportSearch")
+	public List<FragmentDto> exportSearch(@RequestParam("query") String query) {
+
+		LdoD ldoD = LdoD.getInstance();
+
+		List<String> frags = new ArrayList<>();
+		List<FragmentDto> fragmentList = new ArrayList<>();
+		int n = 0;
+
+		if (query.compareTo("") != 0) {
+			for (Fragment frag : ldoD.getFragmentsSet()) {
+				if (frag.getTitle().contains(query)) {
+					String s = "<p href=\"/fragments/fragment/" + frag.getExternalId() + "\">"
+							+ frag.getTitle().replace(query, "<b><u>" + query + "</u></b>") + "</p>";
+					frags.add(s);
+					n++;
+					fragmentList.add(new FragmentDto(frag, s));
+				}
+			}
+		}
+
+		return fragmentList;
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/exportSearchResult")
+	public void exportSearchResult(HttpServletResponse response, @RequestParam("query") String query) {
+
+		LdoD ldoD = LdoD.getInstance();
+
+		Map<Fragment, Set<FragInter>> searchResult = new HashMap<>();
+
+		for (Fragment frag : ldoD.getFragmentsSet()) {
+			if (frag.getTitle().contains(query)) {
+				Set<FragInter> inters = new HashSet<>();
+				for (FragInter inter : frag.getFragmentInterSet()) {
+					if (inter.getSourceType() != Edition.EditionType.VIRTUAL) {
+						inters.add(inter);
+					}
+				}
+				searchResult.put(frag, inters);
+			}
+		}
+
+		ExpertEditionTEIExport teiGenerator = new ExpertEditionTEIExport();
+		teiGenerator.generate(searchResult);
+
+		try {
+			// get your file as InputStream
+			InputStream is = IOUtils.toInputStream(teiGenerator.getXMLResult(), "UTF-8");
+			response.setHeader("Content-Disposition", "attachment; filename=tei.xml");
+			response.setContentType("application/tei+xml");
+			IOUtils.copy(is, response.getOutputStream());
+			response.flushBuffer();
+		} catch (IOException ex) {
+			System.out.println("Error writing file to output stream. Filename was '{}'");
+			throw new RuntimeException("IOError writing file to output stream");
+		}
+	}
+
+
+	@RequestMapping(method = RequestMethod.GET, value = "/exportAll")
+	public void exportAll(HttpServletResponse response) {
+
+		LdoD ldoD = LdoD.getInstance();
+
+		Map<Fragment, Set<FragInter>> searchResult = new HashMap<>();
+
+		for (Fragment frag : ldoD.getFragmentsSet()) {
+			Set<FragInter> inters = new HashSet<>();
+
+			for (FragInter inter : frag.getFragmentInterSet()) {
+				if (inter.getSourceType() != Edition.EditionType.VIRTUAL) {
+
+					inters.add(inter);
+				}
+			}
+			searchResult.put(frag, inters);
+		}
+
+		ExpertEditionTEIExport teiGenerator = new ExpertEditionTEIExport();
+		teiGenerator.generate(searchResult);
+
+		try {
+			// get your file as InputStream
+			InputStream is = IOUtils.toInputStream(teiGenerator.getXMLResult(), "UTF-8");
+			response.setHeader("Content-Disposition", "attachment; filename=tei.xml");
+			response.setContentType("application/tei+xml");
+			IOUtils.copy(is, response.getOutputStream());
+			response.flushBuffer();
+		} catch (IOException ex) {
+			System.out.println("Error writing file to output stream. Filename was '{}'");
+			throw new RuntimeException("IOError writing file to output stream");
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/exportRandom")
+	public void exportRandom(HttpServletResponse response) {
+
+		LdoD ldoD = LdoD.getInstance();
+
+		Map<Fragment, Set<FragInter>> searchResult = new HashMap<>();
+
+		List<Fragment> fragments = new ArrayList<>(LdoD.getInstance().getFragmentsSet());
+
+		List<String> fragsRandom = new ArrayList<>();
+
+		int size = fragments.size();
+
+		int fragPos = 0;
+		Fragment frag = null;
+
+		for (int i = 0; i < 3; i++) {
+			fragPos = (int) (Math.random() * size);
+			frag = fragments.get(fragPos);
+
+			fragsRandom.add("<a href=\"/fragments/fragment/" + frag.getExternalId() + "\">" + frag.getTitle() + "</a>");
+
+			Set<FragInter> inters = new HashSet<>();
+			for (FragInter inter : frag.getFragmentInterSet()) {
+				if (inter.getSourceType() != Edition.EditionType.VIRTUAL) {
+
+					inters.add(inter);
+				}
+			}
+			searchResult.put(frag, inters);
+		}
+
+		ExpertEditionTEIExport teiGenerator = new ExpertEditionTEIExport();
+		teiGenerator.generate(searchResult);
+
+		try {
+			// get your file as InputStream
+			InputStream is = IOUtils.toInputStream(teiGenerator.getXMLResult(), "UTF-8");
+			response.setHeader("Content-Disposition", "attachment; filename=tei.xml");
+			response.setContentType("application/tei+xml");
+			IOUtils.copy(is, response.getOutputStream());
+			response.flushBuffer();
+		} catch (IOException ex) {
+			System.out.println("Error writing file to output stream. Filename was '{}'");
+			throw new RuntimeException("IOError writing file to output stream");
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/export/users")
+	public void exportUsers(HttpServletResponse response) {
+		UsersXMLExport generator = new UsersXMLExport();
+
+		try {
+			String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+			// get your file as InputStream
+			InputStream is = IOUtils.toInputStream(generator.export(), "UTF-8");
+			response.setHeader("Content-Disposition", "attachment; filename=users-" + timeStamp + ".xml");
+			response.setContentType("application/xml");
+			IOUtils.copy(is, response.getOutputStream());
+			response.flushBuffer();
+		} catch (IOException ex) {
+			System.out.println("Error writing file to output stream. Filename was '{}'");
+			throw new RuntimeException("IOError writing file to output stream");
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/export/virtualeditions")
+	public void exportVirtualEditions(HttpServletResponse response) throws IOException {
+		WriteVirtualEditonsToFile write = new WriteVirtualEditonsToFile();
+		String filename = write.export();
+
+		String exportDir = PropertiesManager.getProperties().getProperty("export.dir");
+		File directory = new File(exportDir);
+		File file = new File(directory, filename);
+		response.setHeader("Content-Disposition", "attachment; filename=" + filename);
+		response.setHeader("Content-Type", "application/zip");
+		InputStream is = new FileInputStream(file);
+		FileCopyUtils.copy(IOUtils.toByteArray(is), response.getOutputStream());
+		response.flushBuffer();
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/fragment/list")
+	public List<FragmentDto> deleteFragmentsList() {
+		return LdoD.getInstance().getFragmentsSet().stream().map(FragmentDto::new).collect(Collectors.toList());
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/fragment/delete")
+	public List<FragmentDto> deleteFragment(@RequestParam("externalId") String externalId) {
+		Fragment fragment = FenixFramework.getDomainObject(externalId);
+		if (fragment == null) {
+			return null;
+		} else if (LdoD.getInstance().getFragmentsSet().size() >= 1) {
+			fragment.remove();
+		}
+		return deleteFragmentsList();
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/fragment/deleteAll")
+	public List<FragmentDto> deleteAllFragments() {
+		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
+			fragment.remove();
+		}
+		return deleteFragmentsList();
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/switch")
+	public UserListDto switchAdminMode() {
+		logger.debug("switchAdminMode");
+
+		LdoD ldoD = LdoD.getInstance();
+		ldoD.switchAdmin();
+
+		return this.listUser();
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/sessions/delete")
+	public UserListDto deleteUserSessons() {
+		logger.debug("deleteUserSessons");
+
+		List<SessionInformation> activeSessions = new ArrayList<>();
+		for (Object principal : this.sessionRegistry.getAllPrincipals()) {
+			activeSessions.addAll(this.sessionRegistry.getAllSessions(principal, false));
+		}
+
+		for (SessionInformation session : activeSessions) {
+			if (session.getPrincipal() instanceof LdoDUserDetails) {
+				LdoDUser ldoDUser = ((LdoDUserDetails) session.getPrincipal()).getUser();
+
+				if (ldoDUser != LdoDUser.getAuthenticatedUser()) {
+					session.expireNow();
+				}
+
+			}
+		}
+
+		return this.listUser();
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/user/list")
+	public UserListDto listUser() {
+		List<SessionInformation> activeSessions = new ArrayList<>();
+		for (Object principal : this.sessionRegistry.getAllPrincipals()) {
+			activeSessions.addAll(this.sessionRegistry.getAllSessions(principal, false));
+		}
+		activeSessions.stream().sorted((s1, s2) -> s1.getLastRequest().compareTo(s2.getLastRequest()));
+		
+		
+		return new UserListDto(LdoD.getInstance(), LdoD.getInstance().getUsersSet().stream()
+				.sorted((u1, u2) -> u1.getFirstName().toLowerCase().compareTo(u2.getFirstName().toLowerCase()))
+				.collect(Collectors.toList()), activeSessions.stream()
+				.sorted((s1, s2) -> s2.getLastRequest().compareTo(s1.getLastRequest())).collect(Collectors.toList()));
+
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/user/edit")
+	public EditUserForm editUserForm(@RequestParam("externalId") String externalId) {
+		logger.debug("editUserForm externalId:{}", externalId);
+
+		LdoDUser user = FenixFramework.getDomainObject(externalId);
+
+		EditUserForm form = new EditUserForm();
+		form.setOldUsername(user.getUsername());
+		form.setNewUsername(user.getUsername());
+		form.setFirstName(user.getFirstName());
+		form.setLastName(user.getLastName());
+		form.setEmail(user.getEmail());
+		form.setUser(user.getRolesSet().contains(Role.getRole(RoleType.ROLE_USER)));
+		form.setAdmin(user.getRolesSet().contains(Role.getRole(RoleType.ROLE_ADMIN)));
+		form.setEnabled(user.getEnabled());
+
+		return form;
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/user/edit")
+	public String editUser(@RequestBody EditUserForm form, BindingResult formBinding) {
+		logger.debug("editUser username:{}", form.getOldUsername());
+
+		System.out.println(form.getEmail());
+		EditUserValidator validator = new EditUserValidator();
+		validator.validate(form, formBinding);
+
+		if (formBinding.hasErrors()) {
+			return "not valid";
+		}
+
+		LdoDUser user = LdoD.getInstance().getUser(form.getOldUsername());
+
+		user.update(this.passwordEncoder, form.getOldUsername(), form.getNewUsername(), form.getFirstName(),
+				form.getLastName(), form.getEmail(), form.getNewPassword(), form.isUser(), form.isAdmin(),
+				form.isEnabled());
+
+		return "valid";
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/user/active")
+	public UserListDto activeUser(@RequestParam("externalId") String externalId) {
+		LdoDUser user = FenixFramework.getDomainObject(externalId);
+
+		user.switchActive();
+
+		return this.listUser();
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/user/delete")
+	public UserListDto removeUser(@RequestParam("externalId") String externalId) {
+		LdoDUser user = FenixFramework.getDomainObject(externalId);
+
+		user.remove();
+
+		return this.listUser();
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/virtual/list")
+	public List<VirtualEditionDto> manageVirtualEditions() {
+
+		return LdoD.getInstance().getVirtualEditionsSet().stream()
+				.sorted((v1, v2) -> v1.getAcronym().compareTo(v2.getAcronym())).collect(Collectors.toList()).stream().map(VirtualEditionDto::new).collect(Collectors.toList());
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/virtual/delete")
+	public List<VirtualEditionDto> deleteVirtualEdition(@RequestParam("externalId") String externalId) {
+		VirtualEdition edition = FenixFramework.getDomainObject(externalId);
+		if (edition == null) {
+			return null;
+		} else {
+			edition.remove();
+		}
+		return this.manageVirtualEditions();
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/tweets")
+	public TweetListDto manageTweets() {
+		logger.debug("manageTweets");
+
+		DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
+		
+		return new TweetListDto(LdoD.getInstance().getAllTwitterCitation().stream()
+				.sorted((c1, c2) -> java.time.LocalDateTime.parse(c2.getDate(), formater)
+						.compareTo(java.time.LocalDateTime.parse(c1.getDate(), formater)))
+				.collect(Collectors.toList()), LdoD.getInstance().getTweetSet(),
+						LdoD.getInstance().getNumberOfCitationsWithInfoRanges());
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/tweets/removeTweets")
+	public TweetListDto removeTweets() {
+		logger.debug("removeTweets");
+		LdoD.getInstance().removeTweets();
+		return this.manageTweets();
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/tweets/generateCitations")
+	public TweetListDto generateCitations(Model model) throws IOException {
+		logger.debug("generateCitations");
+		CitationDetecter detecter = new CitationDetecter();
+		detecter.detect();
+
+		TweetFactory tweetFactory = new TweetFactory();
+		tweetFactory.create();
+
+		AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
+		awareFactory.generate();
+
+		LdoD.dailyRegenerateTwitterCitationEdition();
+
+		// Repeat to update edition
+		awareFactory.generate();
+
+		return this.manageTweets();
 	}
 
 }

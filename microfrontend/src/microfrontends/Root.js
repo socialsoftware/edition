@@ -18,6 +18,7 @@ import Search_DISPATCHER from './search/Search_DISPATCHER';
 import Reading_DISPATCHER from './reading/Reading_DISPATCHER';
 import Fragment_DISPATCHER from './fragment/Fragment_DISPATCHER';
 import Virtual_DISPATCHER from './virtual/Virtual_DISPATCHER'
+import Admin_DISPATCHER from './admin/Admin_DISPATCHER'
 import { connect } from 'react-redux';
 
 const Root = (props) => {
@@ -52,13 +53,14 @@ const Root = (props) => {
     const loadCurrentUser = () => {
         getCurrentUser()
         .then(response => {
-            console.log(response.data);
             setCurrentUser(response.data)
             props.setUser(response.data)
-            //props.resetStore()
             setIsAuthenticated(true)
+            //props.resetStore()
         }).catch(error => {
-            console.log(error)
+            setCurrentUser(null)
+            setIsAuthenticated(false)
+            props.logoutUser()
         })
       }
 
@@ -103,6 +105,13 @@ const Root = (props) => {
                             </Route>
                             <Route path="/auth/signup" 
                                 component={(props) => <Register 
+                                {...props} 
+                                language={language}
+                                messages={messages}
+                                />}>
+                            </Route>
+                            <Route path="/admin" 
+                                component={(props) => <Admin_DISPATCHER 
                                 {...props} 
                                 language={language}
                                 messages={messages}

@@ -27,61 +27,71 @@ const Editions = (props) => {
     const inputNo = useRef(null);
 
     useEffect(() => {
-        if(props.isAuthenticated){
+        var mounted = true
+        if(props.isAuthenticated){    
             getAllEditions()
                 .then(res => {
-                    console.log(res.data);
-                    let arrayAux = [...editionOptions]
-                    for(let el of res.data.expertEditions){
+                    if(mounted){
+                        console.log(res.data);
+                        let arrayAux = [...editionOptions]
+                        for(let el of res.data.expertEditions){
+                            let aux = {
+                                "value" : el.externalId,
+                                "label" : el.editor 
+                            }
+                            arrayAux.push(aux)
+                        }
                         let aux = {
-                            "value" : el.externalId,
-                            "label" : el.editor 
+                            "value" : res.data.archiveEditionExternalId,
+                            "label" : "Arquivo do LdoD"
                         }
                         arrayAux.push(aux)
-                    }
-                    let aux = {
-                        "value" : res.data.archiveEditionExternalId,
-                        "label" : "Arquivo do LdoD"
-                    }
-                    arrayAux.push(aux)
-                    for(let el of res.data.virtualEditions){
-                        let aux = {
-                            "value" : el.externalId,
-                            "label" : el.acronym 
+                        for(let el of res.data.virtualEditions){
+                            let aux = {
+                                "value" : el.externalId,
+                                "label" : el.acronym 
+                            }
+                            if(!el.ldoDEdition) arrayAux.push(aux)
                         }
-                        if(!el.ldoDEdition) arrayAux.push(aux)
+                        setEditionOptions(arrayAux)
+                        organizeList(res.data.virtualEditions)
                     }
-                    setEditionOptions(arrayAux)
-                    organizeList(res.data.virtualEditions)
+                    
             })
         }
         else{
             getPublicAllEditions()
                 .then(res => {
-                    console.log(res.data);
-                    let arrayAux = [...editionOptions]
-                    for(let el of res.data.expertEditions){
+                    if(mounted){
+                        console.log(res.data);
+                        let arrayAux = [...editionOptions]
+                        for(let el of res.data.expertEditions){
+                            let aux = {
+                                "value" : el.externalId,
+                                "label" : el.editor 
+                            }
+                            arrayAux.push(aux)
+                        }
                         let aux = {
-                            "value" : el.externalId,
-                            "label" : el.editor 
+                            "value" : res.data.archiveEditionExternalId,
+                            "label" : "Arquivo do LdoD"
                         }
                         arrayAux.push(aux)
-                    }
-                    let aux = {
-                        "value" : res.data.archiveEditionExternalId,
-                        "label" : "Arquivo do LdoD"
-                    }
-                    arrayAux.push(aux)
-                    for(let el of res.data.virtualEditions){
-                        let aux = {
-                            "value" : el.externalId,
-                            "label" : el.acronym 
+                        for(let el of res.data.virtualEditions){
+                            let aux = {
+                                "value" : el.externalId,
+                                "label" : el.acronym 
+                            }
+                            if(!el.ldoDEdition) arrayAux.push(aux)
                         }
-                        if(!el.ldoDEdition) arrayAux.push(aux)
+                        setEditionOptions(arrayAux)
+                        organizeList(res.data.virtualEditions)
                     }
-                    setEditionOptions(arrayAux)
-                    organizeList(res.data.virtualEditions)
+                    
                 })
+            }
+        return function cleanup() {
+            mounted = false
             }
         
     }, [])

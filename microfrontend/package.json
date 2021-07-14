@@ -8,6 +8,8 @@
     "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
     "bootstrap-icons": "^1.5.0",
+    "got": "^11.8.2",
+    "js-file-download": "^0.4.12",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.1",
     "react-collapse": "^5.1.0",
@@ -24,7 +26,8 @@
     "react-table": "^7.7.0",
     "react-tooltip": "^4.2.21",
     "redux": "^4.1.0",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "request-promise": "^4.2.6"
   },
   "scripts": {
     "start": "react-scripts start",

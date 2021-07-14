@@ -154,6 +154,8 @@ public class AdminController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String loadTEIFragmentsStepByStep(RedirectAttributes redirectAttributes,
 			@RequestParam("files") MultipartFile[] files) throws LdoDLoadException {
+		
+		System.out.println(files);
 
 		if (files == null) {
 			redirectAttributes.addFlashAttribute("error", true);

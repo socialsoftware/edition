@@ -74,7 +74,9 @@ const initialState = {
             pages: [{id:"load", route:"/admin/loadForm"},
                     {id:"general_export", route:"/admin/exportForm"},
                     {id:"fragment_delete", route:"/admin/fragment/list"},
-                    {id:"user_manage", route:"/admin/user/list"}]
+                    {id:"user_manage", route:"/admin/user/list"},
+                    {id:"virtual_editions_manage", route:"/admin/virtual/list"},
+                    {id:"twitter_manage", route:"/admin/tweets"}]
         }
     ]
 }
@@ -82,8 +84,8 @@ export default function(state = initialState, action) {
     switch (action.type) {
         case "SET_USER" : {
             console.log(action.payload);
-            if(action.payload.enabled){
-                var aux = [...initialState.modules]
+            if(action.payload.admin.includes("ADMIN")){
+                var aux = [...state.modules]
                 aux[6].active=true
             }
             return {

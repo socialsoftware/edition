@@ -37,6 +37,9 @@ public class VirtualEditionDto {
 	private List<MemberDto> activeMemberSet;
 	private List<MemberDto> pendingMemberSet;
 	private List<FragInterDto> sortedInterps;
+	private List<ParticipantDto> participantSet;
+	private List<CategoryDto> categorySet;
+	private List<String> annotationTextList;
 	
 
 	public VirtualEditionDto(VirtualEdition vEdition, Fragment fragment, LdoDUser user) {
@@ -112,6 +115,9 @@ public class VirtualEditionDto {
 		this.setDate(vEdition.getDate().toString("dd-MM-yyyy"));
 		this.setLdoDEdition(vEdition.isLdoDEdition());
 		this.setSortedInterps(vEdition.getSortedInterps().stream().map(FragInterDto::new).collect(Collectors.toList()));
+		this.setParticipantSet(vEdition.getParticipantSet().stream().map(ParticipantDto::new).collect(Collectors.toList()));
+		this.setCategorySet(vEdition.getTaxonomy().getCategoriesSet().stream().map(CategoryDto::new).collect(Collectors.toList()));
+		this.setAnnotationTextList(vEdition.getAnnotationTextList());
 	}
 	
 	public boolean isParticipantSetContains() {
@@ -312,5 +318,29 @@ public class VirtualEditionDto {
 
 	public void setSortedInterps(List<FragInterDto> sortedInterps) {
 		this.sortedInterps = sortedInterps;
+	}
+
+	public List<ParticipantDto> getParticipantSet() {
+		return participantSet;
+	}
+
+	public void setParticipantSet(List<ParticipantDto> participantSet) {
+		this.participantSet = participantSet;
+	}
+
+	public List<CategoryDto> getCategorySet() {
+		return categorySet;
+	}
+
+	public void setCategorySet(List<CategoryDto> categorySet) {
+		this.categorySet = categorySet;
+	}
+
+	public List<String> getAnnotationTextList() {
+		return annotationTextList;
+	}
+
+	public void setAnnotationTextList(List<String> annotationTextList) {
+		this.annotationTextList = annotationTextList;
 	}
 }

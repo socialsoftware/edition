@@ -13,6 +13,7 @@ public class FragmentDto {
     private Map<String, ExpertEditionInterDto> expertEditionInterDtoMap;
     private List<SourceInterDto> sourceInterDtoList;
 	private String externalId;
+	private String exportString;
 
     public FragmentDto(Fragment fragment) {
         this.setFragmentXmlId(fragment.getXmlId());
@@ -28,6 +29,12 @@ public class FragmentDto {
         this.setExternalId(fragment.getExternalId());
     }
 
+    public FragmentDto(Fragment fragment, String s) {
+        this.setFragmentXmlId(fragment.getXmlId());
+        this.setTitle(fragment.getTitle());
+        this.setExternalId(fragment.getExternalId());
+        this.setExportString(s);
+    }
 	public String getFragmentXmlId() {
 		return fragmentXmlId;
 	}
@@ -66,5 +73,13 @@ public class FragmentDto {
 
 	public void setExternalId(String externalId) {
 		this.externalId = externalId;
+	}
+
+	public String getExportString() {
+		return exportString;
+	}
+
+	public void setExportString(String exportString) {
+		this.exportString = exportString;
 	}
 }
