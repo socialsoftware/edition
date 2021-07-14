@@ -60,15 +60,6 @@ public abstract class AnnotationDto {
         return user;
     }
 
-    public VirtualEditionDto getVirtualEdition() {
-        return webClientVirtual.build()
-                .get()
-                .uri("/virtualEditionInter/" + interXmlId + "/virtualEdition")
-                .retrieve()
-                .bodyToMono(VirtualEditionDto.class)
-                .block();
-    }
-
     public abstract boolean isHumanAnnotation();
 
     public void setExternalId(String externalId) {

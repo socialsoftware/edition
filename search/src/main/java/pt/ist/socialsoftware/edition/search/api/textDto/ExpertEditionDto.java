@@ -8,10 +8,6 @@ import java.util.List;
 
 public class ExpertEditionDto {
 
-//    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
-
-
     private final String acronym;
 
     // cached attributes
@@ -38,33 +34,6 @@ public class ExpertEditionDto {
 
     public String getExternalId() {
         return externalId;
-    }
-
-
-    public List<ScholarInterDto> getExpertEditionInters() {
-        return webClient.build()
-                .get()
-                .uri("/expertEdition/" + this.acronym + "/scholarInterList")
-                .retrieve()
-                .bodyToFlux(ScholarInterDto.class)
-                .collectList()
-                .block();
-        //    return this.textProvidesInterface.getExpertEditionScholarInterDtoList(this.acronym);
-    }
-
-    public List<ScholarInterDto> getSortedInter4Frag(String fragmentXmlId) {
-        return webClient.build()
-                .get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/fragment/" + fragmentXmlId + "/expertEditionSortedInter")
-                        .queryParam("acronym", this.acronym)
-                        .build()
-                )
-                .retrieve()
-                .bodyToFlux(ScholarInterDto.class)
-                .collectList()
-                .block();
-        //  return this.textProvidesInterface.getExpertEditionSortedInter4Frag(this.acronym, fragmentXmlId);
     }
 
     public boolean isExpertEdition() {

@@ -5,10 +5,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 public class UserConnectionDto {
 
-//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
-    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
-
-
     private String userId;
     private String providerId;
     private String providerUserId;
@@ -67,25 +63,6 @@ public class UserConnectionDto {
 
     public int getRank() {
         return rank;
-    }
-
-    public void updateUserConnection(String displayName, String profileUrl, String imageUrl, String accessToken, String secret, String refreshToken, Long expireTime) {
-        webClientUser.build()
-                .post()
-                .uri(uriBuilder -> uriBuilder
-                    .path("/updateUserConnection")
-                    .queryParam("displayName", displayName)
-                    .queryParam("profileUrl", profileUrl)
-                    .queryParam("imageUrl", imageUrl)
-                    .queryParam("accessToken", accessToken)
-                    .queryParam("secret", secret)
-                    .queryParam("refreshToken", refreshToken)
-                    .queryParam("expireTime", expireTime)
-                    .build())
-                .retrieve()
-                .bodyToMono(Void.class)
-                .block();
-        //        this.userProvidesInterface.updateUserConnection(this.userId, this.providerId, this.providerUserId, displayName, profileUrl, imageUrl, accessToken, secret, refreshToken, expireTime);
     }
 
     public void setUserId(String userId) {

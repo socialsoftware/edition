@@ -85,79 +85,8 @@ public class CategoryDto {
         //        return this.virtualProvidesInterface.getVirtualEditionTaxonomy(this.acronym);
     }
 
-    public List<VirtualEditionInterDto> getSortedInters(VirtualEditionDto virtualEditionDto) {
-        return webClientVirtual.build()
-                .get()
-                .uri(uriBuilder -> uriBuilder
-                    .path("/category/" + externalId + "/sortedInters")
-                    .queryParam("acronym", virtualEditionDto.getAcronym())
-                    .build())
-                .retrieve()
-                .bodyToFlux(VirtualEditionInterDto.class)
-                .collectList()
-                .block();
-        //        return this.virtualProvidesInterface.getSortedInterFromCategoriesTag(externalId, virtualEditionDto.getAcronym());
-    }
-
-    public List<VirtualEditionInterDto> getSortedInters() {
-        return webClientVirtual.build()
-                .get()
-                .uri("/category/" + externalId + "/sortedInters")
-                .retrieve()
-                .bodyToFlux(VirtualEditionInterDto.class)
-                .collectList()
-                .block();
-        //        return this.virtualProvidesInterface.getSortedInterFromCategoriesTag(externalId);
-    }
-
-
-    public List<String> getSortedUsers() {
-        return webClientVirtual.build()
-                .get()
-                .uri("/category/" + externalId + "/sortedUsers")
-                .retrieve()
-                .bodyToFlux(String.class)
-                .collectList()
-                .block();
-        //        return this.virtualProvidesInterface.getSortedUsersFromCategoriesTag(externalId);
-    }
-
-    public List<VirtualEditionDto> getSortedEditions() {
-        return webClientVirtual.build()
-                .get()
-                .uri("/category/" + externalId + "/sortedEditions")
-                .retrieve()
-                .bodyToFlux(VirtualEditionDto.class)
-                .collectList()
-                .block();
-        //        return this.virtualProvidesInterface.getSortedEditionsFromCategoriesTag(externalId);
-    }
 
     public boolean isHasTags() { return this.hasTags; }
-
-    public void updateName(String name) {
-        webClientVirtual.build()
-                .post()
-                .uri(uriBuilder -> uriBuilder
-                    .path("/category/" + this.externalId + "/updateName")
-                    .queryParam("name", name)
-                    .build())
-                .retrieve()
-                .bodyToMono(Void.class)
-                .block();
-
-        //        this.virtualProvidesInterface.updateCategoryNameByExternalId(this.externalId, name);
-    }
-
-    public void removeCategory(String externalId) {
-        webClientVirtual.build()
-                .post()
-                .uri("/category/" + this.externalId + "/remove")
-                .retrieve()
-                .bodyToMono(Void.class)
-                .block();
-        //        this.virtualProvidesInterface.removeCategory(externalId);
-    }
 
     public void setHasTags(boolean hasTags) {
         this.hasTags = hasTags;

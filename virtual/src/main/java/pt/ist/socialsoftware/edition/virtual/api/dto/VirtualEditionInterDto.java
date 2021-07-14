@@ -26,7 +26,6 @@ public class VirtualEditionInterDto {
     private String shortName;
     private String reference;
     private int number;
-    private ScholarInterDto lastUsed;
 
     /*public VirtualEditionInterDto(String xmlId) {
         setXmlId(xmlId);

@@ -9,10 +9,6 @@ public class DatePropertyDto extends PropertyDto {
         super(Double.parseDouble(weight), acronym);
     }
 
-//    @Override
-//    public Property getProperty() {
-//        return new DateProperty(this.weight);
-//    }
 
     @Override
     public String getType() {

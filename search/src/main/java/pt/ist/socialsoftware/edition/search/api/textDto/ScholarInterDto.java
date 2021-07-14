@@ -108,11 +108,6 @@ public class ScholarInterDto {
     }
 
 
-//    public SourceDto getSourceDto() {
-//        return new SourceDto(new TextProvidesInterface().getSourceOfSourceInter(this.xmlId));
-//    }
-
-
     public String getTitle() {
         //return this.textProvidesInterface.getScholarInterTitle(this.xmlId);
         return this.title;

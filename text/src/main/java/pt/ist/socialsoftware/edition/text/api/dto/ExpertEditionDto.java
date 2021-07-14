@@ -9,7 +9,6 @@ import pt.ist.socialsoftware.edition.text.api.TextProvidesInterface;
 import java.util.List;
 
 public class ExpertEditionDto {
-    private final TextProvidesInterface textProvidesInterface = new TextProvidesInterface();
 
     private final String acronym;
 

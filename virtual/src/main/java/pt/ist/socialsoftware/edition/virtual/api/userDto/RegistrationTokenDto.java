@@ -45,24 +45,6 @@ public class RegistrationTokenDto {
         this.authorized = authorized;
     }
 
-
-
-    public void setTokenAuthorized(boolean authorized) {
-        webClientUser.build()
-                .post()
-                .uri(uriBuilder -> uriBuilder
-                    .path("/setAuthorized")
-                    .queryParam("token", token)
-                    .queryParam("authorized", authorized)
-                    .build())
-                .retrieve()
-                .bodyToMono(Void.class)
-                .block();
-        //        this.userProvidesInterface.setAuthorized(this.token, authorized);
-    }
-
-
-
     public UserDto getUser() {
         return webClientUser.build()
                 .get()

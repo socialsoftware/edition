@@ -52,21 +52,6 @@ public class ExpertEditionDto {
         //    return this.textProvidesInterface.getExpertEditionScholarInterDtoList(this.acronym);
     }
 
-    public List<ScholarInterDto> getSortedInter4Frag(String fragmentXmlId) {
-        return webClient.build()
-                .get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/fragment/" + fragmentXmlId + "/expertEditionSortedInter")
-                        .queryParam("acronym", this.acronym)
-                        .build()
-                )
-                .retrieve()
-                .bodyToFlux(ScholarInterDto.class)
-                .collectList()
-                .block();
-        //  return this.textProvidesInterface.getExpertEditionSortedInter4Frag(this.acronym, fragmentXmlId);
-    }
-
     public boolean isExpertEdition() {
         return true;
     }

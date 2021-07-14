@@ -54,19 +54,6 @@ public class FragmentDto {
         this.embeddedScholarInterDtos = embeddedScholarInterDtos;
     }
 
-    @JsonIgnore
-    public ScholarInterDto getScholarInterDtoByUrlId(String urlId) {
-        return webClient.build().get()
-                .uri( uriBuilder -> uriBuilder
-                        .path("/fragment/" + getXmlId() + "/scholarInter")
-                        .queryParam("urlId", urlId)
-                        .build())
-                .retrieve()
-                .bodyToMono(ScholarInterDto.class)
-                .block();
-        // return this.textProvidesInterface.getScholarInterDtoByFragmentXmlIdAndUrlId(getXmlId(), urlId);
-    }
-
     public String getTitle() {
         //return this.textProvidesInterface.getFragmentTitle(getXmlId());
         return this.title;
@@ -85,64 +72,15 @@ public class FragmentDto {
 
 
     @JsonIgnore
-    public Set<ScholarInterDto> getScholarInterDtoSetForExpertEdtion(String acronym) {
-        return webClient.build()
-                .get()
-                .uri( uriBuilder -> uriBuilder
-                        .path("/fragment/" + getXmlId() + "/scholarInters4Expert")
-                        .queryParam("acronym", acronym)
-                        .build())
-                .retrieve()
-                .bodyToFlux(ScholarInterDto.class)
-                .toStream()
-                .collect(Collectors.toSet());
-    //    return this.textProvidesInterface.getFragmentScholarInterDtoSetForExpertEdtion(getXmlId(), acronym);
-    }
-
-    @JsonIgnore
     public Set<ScholarInterDto> getEmbeddedScholarInterDtoSetForExpertEdition(String acronym) {
         return this.embeddedScholarInterDtos.stream()
                 .filter(scholarInterDto -> scholarInterDto.getAcronym().equals(acronym)).collect(Collectors.toSet());
-    }
-
-    @JsonIgnore
-    public List<ScholarInterDto> getSortedSourceInter() {
-        return webClient.build()
-                .get()
-                .uri("/fragment/" + getXmlId() + "/sortedSourceInter")
-                .retrieve()
-                .bodyToFlux(ScholarInterDto.class)
-                .collectSortedList()
-                .block();
-        //   return this.textProvidesInterface.getFragmentSortedSourceInter(this.xmlId);
     }
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public List<ScholarInterDto> getEmbeddedSourceInter() {
         return this.embeddedScholarInterDtos.stream()
                 .filter(scholarInterDto -> scholarInterDto.isSourceInter()).collect(Collectors.toList());
-    }
-
-    @JsonIgnore
-    public ScholarInterDto getScholarInterByUrlId(String urlId) {
-        return webClient.build()
-                .get()
-                .uri("/fragment/" + getXmlId() + "/" + urlId + "/scholarInter")
-                .retrieve()
-                .bodyToMono(ScholarInterDto.class)
-                .block();
-        //    return this.textProvidesInterface.getFragmentScholarInterByUrlId(this.xmlId, urlId);
-    }
-
-    @JsonIgnore
-    public ScholarInterDto getScholarInterByXmlId(String xmlId) {
-        return webClient.build()
-                .get()
-                .uri("/scholarInter/" + xmlId)
-                .retrieve()
-                .bodyToMono(ScholarInterDto.class)
-                .block();
-        //    return this.textProvidesInterface.getScholarInter(xmlId);
     }
 
     // Only necessary due to manual ordering of virtual edition javascript code
@@ -184,28 +122,6 @@ public class FragmentDto {
     @Override
     public String toString() {
         return xmlId;
-    }
-
-    @JsonIgnore
-    public Set<CitationDto> getCitationSet() {
-        return webClient.build()
-                .get()
-                .uri( "/fragment/citations/" + this.xmlId)
-                .retrieve()
-                .bodyToFlux(CitationDto.class)
-                .toStream()
-                .collect(Collectors.toSet());
-        //    return this.textProvidesInterface.getFragmentCitationSet(this.xmlId);
-    }
-
-    @JsonIgnore
-    public String getRepresentativeSourceInterExternalId() {
-        return webClient.build()
-                .get()
-                .uri( "/representativeSourceInter/" + this.xmlId + "/externalId")
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
     }
 
 }

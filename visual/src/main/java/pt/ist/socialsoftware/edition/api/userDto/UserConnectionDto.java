@@ -69,25 +69,6 @@ public class UserConnectionDto {
         return rank;
     }
 
-    public void updateUserConnection(String displayName, String profileUrl, String imageUrl, String accessToken, String secret, String refreshToken, Long expireTime) {
-        webClientUser.build()
-                .post()
-                .uri(uriBuilder -> uriBuilder
-                    .path("/updateUserConnection")
-                    .queryParam("displayName", displayName)
-                    .queryParam("profileUrl", profileUrl)
-                    .queryParam("imageUrl", imageUrl)
-                    .queryParam("accessToken", accessToken)
-                    .queryParam("secret", secret)
-                    .queryParam("refreshToken", refreshToken)
-                    .queryParam("expireTime", expireTime)
-                    .build())
-                .retrieve()
-                .bodyToMono(Void.class)
-                .block();
-        //        this.userProvidesInterface.updateUserConnection(this.userId, this.providerId, this.providerUserId, displayName, profileUrl, imageUrl, accessToken, secret, refreshToken, expireTime);
-    }
-
     public void setUserId(String userId) {
         this.userId = userId;
     }

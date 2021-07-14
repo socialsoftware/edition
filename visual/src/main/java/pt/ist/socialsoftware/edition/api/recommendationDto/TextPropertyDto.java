@@ -8,10 +8,6 @@ public class TextPropertyDto extends PropertyDto {
         super(Double.parseDouble(weight), acronym);
     }
 
-//    @Override
-//    public Property getProperty() {
-//        return new TextProperty(this.weight);
-//    }
 
     @Override
     public String getType() {

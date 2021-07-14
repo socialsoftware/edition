@@ -20,33 +20,6 @@ public class WeightsDto {
         this.taxonomyWeight = taxonomyWeight;
     }
 
-//    public List<Property> getProperties() {
-//        List<Property> result = new ArrayList<>();
-//        if (getHeteronymWeight() > 0.0) {
-//            result.add(new HeteronymProperty(getHeteronymWeight()));
-//        }
-//        if (getDateWeight() > 0.0) {
-//            result.add(new DateProperty(getDateWeight()));
-//        }
-//        if (getTextWeight() > 0.0) {
-//            result.add(new TextProperty(getTextWeight()));
-//        }
-//
-//        return result;
-//    }
-//
-//    public List<Property> getProperties(String editionAcronym) {
-//        List<Property> result = getProperties();
-//
-//        if (getTaxonomyWeight() > 0.0) {
-//            result.add(new TaxonomyProperty(getTaxonomyWeight(), editionAcronym,
-//                    Property.PropertyCache.OFF));
-//        }
-//
-//        return result;
-//    }
-
-
     public float getHeteronymWeight() {
         return this.heteronymWeight;
     }

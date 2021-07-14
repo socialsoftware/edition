@@ -9,10 +9,6 @@ public class TaxonomyPropertyDto extends PropertyDto {
         super(Double.parseDouble(weight), acronym);
     }
 
-//    @Override
-//    public Property getProperty() {
-//        return new TaxonomyProperty(this.weight, this.acronym);
-//    }
 
     @Override
     public String getType() {

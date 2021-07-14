@@ -9,10 +9,6 @@ public class HeteronymPropertyDto extends PropertyDto {
         super(Double.parseDouble(weight), acronym);
     }
 
-//    @Override
-//    public Property getProperty() {
-//        return new HeteronymProperty(this.weight);
-//    }
 
     @Override
     public String getType() {

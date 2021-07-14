@@ -220,17 +220,17 @@ public class SourceDto {
     }
 
 
-        @Atomic(mode = Atomic.TxMode.READ)
+    @Atomic(mode = Atomic.TxMode.READ)
     public List<DimensionsDto> getSortedDimensionsDto() {
             return this.textProvidesInterface.getSortedDimensionsDto(this.xmlId);
     }
 
-        @Atomic(mode = Atomic.TxMode.READ)
+    @Atomic(mode = Atomic.TxMode.READ)
     public Set<ManuscriptNote> getHandNoteSet() {
         return this.textProvidesInterface.getHandNoteSet(this.xmlId);
     }
 
-        @Atomic(mode = Atomic.TxMode.READ)
+    @Atomic(mode = Atomic.TxMode.READ)
     public Set<ManuscriptNote> getTypeNoteSet() {
           return this.textProvidesInterface.getTypeNoteSet(this.xmlId);
     }
@@ -243,11 +243,6 @@ public class SourceDto {
     public List<SurfaceDto> getSurfaces() {
         return this.textProvidesInterface.getSurfaces(this.xmlId);
     }
-
-//    @Atomic(mode = Atomic.TxMode.READ)
-//    public Set<ScholarInterDto> getSourceIntersSet() {
-//          return this.textProvidesInterface.getSourceIntersSet(this.xmlId);
-//    }
 
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<ScholarInterDto> getSourceIntersSet() {

@@ -5,10 +5,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 public abstract class AnnotationDto {
 
-//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
-    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
-
-
     private String quote;
     private String username;
     private String text;
@@ -52,21 +48,8 @@ public abstract class AnnotationDto {
         return interExternalId;
     }
 
-//    public Set<Range> getRangeSet() {
-//        return this.virtualProvidesInterface.getRangeSetFromAnnotation(externalId);
-//    }
-
     public String getUser() {
         return user;
-    }
-
-    public VirtualEditionDto getVirtualEdition() {
-        return webClientVirtual.build()
-                .get()
-                .uri("/virtualEditionInter/" + interXmlId + "/virtualEdition")
-                .retrieve()
-                .bodyToMono(VirtualEditionDto.class)
-                .block();
     }
 
     public abstract boolean isHumanAnnotation();

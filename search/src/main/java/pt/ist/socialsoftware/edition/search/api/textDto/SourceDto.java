@@ -87,80 +87,6 @@ public class SourceDto {
         return this.material;
     }
 
-    @Atomic(mode = Atomic.TxMode.READ)
-    public String getFormattedDimensions() {
-        return  webClient.build()
-                .get()
-                .uri("/source/" + this.xmlId + "/formattedDimensions")
-                .retrieve()
-                .bodyToMono(String.class)
-                .blockOptional().get();
-        //   return this.textProvidesInterface.getFormattedDimensions(this.xmlId);
-    }
-
-    @Atomic(mode = Atomic.TxMode.READ)
-    public List<DimensionsDto> getSortedDimensionsDto() {
-       return webClient.build()
-                .get()
-                .uri("/source/" + this.xmlId + "/sortedDimensions")
-                .retrieve()
-                .bodyToFlux(DimensionsDto.class)
-                .collectList()
-               .block();
-        //    return this.textProvidesInterface.getSortedDimensionsDto(this.xmlId);
-    }
-
-
-    @Atomic(mode = Atomic.TxMode.READ)
-    public List<AbstractMap.SimpleEntry<String, String>> getFormattedHandNote() {
-        return webClient.build()
-                .get()
-                .uri("/source/" + this.xmlId + "/formattedHandNotes")
-                .retrieve()
-                .bodyToFlux(new ParameterizedTypeReference<AbstractMap.SimpleEntry<String, String>>() {})
-                .collectSortedList()
-                .block();
-        //    return this.textProvidesInterface.getFormattedHandNote(this.xmlId);
-    }
-
-
-    @Atomic(mode = Atomic.TxMode.READ)
-    public Set<ManuscriptNote> getHandNoteSet() {
-        return webClient.build()
-                .get()
-                .uri("/source/" + this.xmlId + "/handNotes")
-                .retrieve()
-                .bodyToFlux(ManuscriptNote.class)
-                .toStream()
-                .collect(Collectors.toSet());
-        //  return this.textProvidesInterface.getHandNoteSet(this.xmlId);
-    }
-
-    @JsonIgnore
-    @Atomic(mode = Atomic.TxMode.READ)
-    public List<AbstractMap.SimpleEntry<String, String>> getFormattedTypeNote() {
-        return webClient.build()
-                .get()
-                .uri("/source/" + this.xmlId + "/formattedTypeNotes")
-                .retrieve()
-                .bodyToFlux(new ParameterizedTypeReference<AbstractMap.SimpleEntry<String, String>>() {})
-                .collectSortedList()
-                .block();
-        //  return this.textProvidesInterface.getFormattedTypeNote(this.xmlId);
-    }
-
-    @Atomic(mode = Atomic.TxMode.READ)
-    public Set<ManuscriptNote> getTypeNoteSet() {
-        return webClient.build()
-                .get()
-                .uri("/source/" + this.xmlId + "/typeNotes")
-                .retrieve()
-                .bodyToFlux(ManuscriptNote.class)
-                .toStream()
-                .collect(Collectors.toSet());
-        //  return this.textProvidesInterface.getTypeNoteSet(this.xmlId);
-    }
-
     public int getColumns() {
        /* return getSourceByXmlId(this.xmlId)
                 .filter(ManuscriptSource.class::isInstance)
@@ -258,55 +184,9 @@ public class SourceDto {
         return this.hasTypeNoteSet;
     }
 
-
-    @Atomic(mode = Atomic.TxMode.READ)
-    public LdoDDateDto getLdoDDate() {
-        return  webClient.build()
-                .get()
-                .uri("/source/" + this.xmlId + "/LdoDDate")
-                .retrieve()
-                .bodyToMono(LdoDDateDto.class)
-                .blockOptional().orElse(null);
-        //   return this.textProvidesInterface.getLdoDDate(this.xmlId);
-    }
-
-
-    public LdoDDateDto getLdoDDateDto() {
-        return  webClient.build()
-                .get()
-                .uri("/source/" + this.xmlId + "/LdoDDateDto")
-                .retrieve()
-                .bodyToMono(LdoDDateDto.class)
-                .blockOptional().orElse(null);
-        //   return this.textProvidesInterface.getLdoDDateDto(this.xmlId);
-    }
-
-
-    public List<SurfaceDto> getSurfaces() {
-      return   webClient.build()
-                .get()
-                .uri("/source/" + this.xmlId + "/surfaces")
-                .retrieve()
-                .bodyToFlux(SurfaceDto.class)
-                .collectList()
-              .block();
-        //    return this.textProvidesInterface.getSurfaces(this.xmlId);
-    }
-
     public SourceType getType() {
         //return getSourceByXmlId(this.xmlId).map(source -> source.getType()).orElse(null);
         return this.type;
-    }
-
-    @Atomic(mode = Atomic.TxMode.READ)
-    public HeteronymDto getHeteronym() {
-        return webClient.build()
-                .get()
-                .uri("/source/" + this.xmlId + "/heteronym")
-                .retrieve()
-                .bodyToMono(HeteronymDto.class)
-                .blockOptional().get();
-        //   return this.textProvidesInterface.getHeteronym(this.xmlId);
     }
 
     public Form getForm() {
@@ -316,28 +196,6 @@ public class SourceDto {
                 .map(ManuscriptSource::getForm)
                 .orElse(null);*/
        return this.form;
-    }
-
-    @JsonIgnore
-    @Atomic(mode = Atomic.TxMode.READ)
-    public Set<ScholarInterDto> getSourceIntersSet() {
-        return webClient.build()
-                .get()
-                .uri("/source/" + this.xmlId + "/interSet")
-                .retrieve()
-                .bodyToFlux(ScholarInterDto.class)
-                .toStream()
-                .collect(Collectors.toSet());
-        //  return this.textProvidesInterface.getSourceIntersSet(this.xmlId);
-    }
-
-    public String getSettlement() {
-        return  webClient.build()
-                .get()
-                .uri("/source/" + this.xmlId + "/settlement")
-                .retrieve()
-                .bodyToMono(String.class)
-                .blockOptional().get();
     }
 
     public String getRepository() {
