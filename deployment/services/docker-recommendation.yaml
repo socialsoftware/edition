@@ -1,0 +1,46 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: docker-recommendation
+  labels:
+    name: docker-recommendation
+spec:
+  ports:
+    - nodePort: 30166
+      port: 8084
+      targetPort: 8084
+      protocol: TCP
+  selector:
+    app: docker-recommendation
+  type: NodePort
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docker-recommendation
+spec:
+  selector:
+    matchLabels:
+      app: docker-recommendation
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: docker-recommendation
+    spec:
+      containers:
+        - name: docker-recommendation
+          image: docker-recommendation:test1
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8084
+#          env:   # Setting Enviornmental Variables
+#            - name: DB_HOST   # Setting Database host address from configMap
+#              value: "db_recommendation"
+#            - name: DB_NAME  # Setting Database name from configMap
+#              value: "recommendation"
+#            - name: DB_USERNAME  # Setting Database username from Secret
+#              value: "darfo"
+#            - name: DB_PASSWORD # Setting Database password from Secret
+#              value: "darfo"

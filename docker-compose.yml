@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-  db_service:
+  db-service:
     image: mysql:latest
     restart: always
     environment:
@@ -17,7 +17,7 @@ services:
 
     ports:
       # <Port exposed> : < MySQL Port running inside container>
-      - '3307:3307'
+      - '3307:3306'
     expose:
       # Opens port 3307 on the container
       - '3307'
@@ -28,15 +28,15 @@ services:
 
 
   docker-service:
-    image: docker-service
+    image: docker-service:test1
     restart: on-failure
     depends_on:
-      - db_service
-      - db_text
+      - db-service
+      - db-text
       - docker-text
-      - db_user
+      - db-user
       - docker-user
-      - db_virtual
+      - db-virtual
       - docker-virtual
 
     networks:
@@ -46,7 +46,7 @@ services:
       - 8080:8080
 
     environment:
-      dbAlias: jdbc:mysql://db_service:3306/edition?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
+      dbAlias: jdbc:mysql://db-service:3306/edition?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
       # Database username and password
       dbUsername: 'darfo'
       dbPassword: 'darfo'
@@ -63,7 +63,7 @@ services:
       - /opt/ldod/tests/:/opt/ldod/tests/
       - /opt/ldod/social/aware/:/opt/ldod/social/aware/
 
-  db_text:
+  db-text:
     image: mysql:latest
     restart: always
     environment:
@@ -76,7 +76,7 @@ services:
       MYSQL_ROOT_PASSWORD: 'darfo'
     ports:
       # <Port exposed> : < MySQL Port running inside container>
-      - '3308:3308'
+      - '3308:3306'
     networks:
       - backend
 
@@ -89,17 +89,17 @@ services:
 
 
   docker-text:
-    image: docker-text
+    image: docker-text:test1
     restart: on-failure
     depends_on:
-      - db_text
+      - db-text
     networks:
       - backend
     ports:
       - 8081:8081
 
     environment:
-      dbAlias: jdbc:mysql://db_text:3306/text?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
+      dbAlias: jdbc:mysql://db-text:3306/text?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
         # Database username and password
       dbUsername: 'darfo'
       dbPassword: 'darfo'
@@ -116,7 +116,7 @@ services:
         - /opt/ldod/tests/:/opt/ldod/tests/
         - /opt/ldod/social/aware/:/opt/ldod/social/aware/
 
-  db_user:
+  db-user:
     image: mysql:latest
     restart: always
     environment:
@@ -129,7 +129,7 @@ services:
       MYSQL_ROOT_PASSWORD: 'darfo'
     ports:
       # <Port exposed> : < MySQL Port running inside container>
-      - '3309:3309'
+      - '3309:3306'
     networks:
       - backend
 
@@ -141,10 +141,10 @@ services:
         #      - my-db:/var/lib/mysql
 
   docker-user:
-    image: docker-user
+    image: docker-user:test1
     restart: on-failure
     depends_on:
-      - db_user
+      - db-user
     ports:
       - 8082:8082
 
@@ -152,7 +152,7 @@ services:
       - backend
 
     environment:
-      dbAlias: jdbc:mysql://db_user:3306/user?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
+      dbAlias: jdbc:mysql://db-user:3306/user?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
         # Database username and password
       dbUsername: 'darfo'
       dbPassword: 'darfo'
@@ -170,7 +170,7 @@ services:
       - /opt/ldod/social/aware/:/opt/ldod/social/aware/
 
 
-  db_virtual:
+  db-virtual:
     image: mysql:latest
     restart: always
     environment:
@@ -183,7 +183,7 @@ services:
       MYSQL_ROOT_PASSWORD: 'darfo'
     ports:
       # <Port exposed> : < MySQL Port running inside container>
-      - '3310:3310'
+      - '3310:3306'
     networks:
       - backend
 
@@ -199,7 +199,7 @@ services:
     image: docker-virtual
     restart: on-failure
     depends_on:
-      - db_virtual
+      - db-virtual
     ports:
       - 8083:8083
 
@@ -207,7 +207,7 @@ services:
       - backend
 
     environment:
-      dbAlias: jdbc:mysql://db_virtual:3306/virtual1?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
+      dbAlias: jdbc:mysql://db-virtual:3306/virtual1?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
       # Database username and password
       dbUsername: 'darfo'
       dbPassword: 'darfo'
@@ -224,7 +224,7 @@ services:
       - /opt/ldod/tests/:/opt/ldod/tests/
       - /opt/ldod/social/aware/:/opt/ldod/social/aware/
 
-  db_recommendation:
+  db-recommendation:
     image: mysql:latest
     restart: always
     environment:
@@ -237,7 +237,7 @@ services:
       MYSQL_ROOT_PASSWORD: 'darfo'
     ports:
       # <Port exposed> : < MySQL Port running inside container>
-      - '3311:3311'
+      - '3311:3306'
     networks:
       - backend
 
@@ -253,7 +253,7 @@ services:
      image: docker-recommendation
      restart: on-failure
      depends_on:
-        - db_recommendation
+        - db-recommendation
      ports:
         - 8084:8084
 
@@ -261,7 +261,7 @@ services:
         - backend
 
      environment:
-       dbAlias: jdbc:mysql://db_recommendation:3306/recommendation?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
+       dbAlias: jdbc:mysql://db-recommendation:3306/recommendation?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
         # Database username and password
        dbUsername: 'darfo'
        dbPassword: 'darfo'
@@ -278,7 +278,7 @@ services:
         - /opt/ldod/tests/:/opt/ldod/tests/
         - /opt/ldod/social/aware/:/opt/ldod/social/aware/
 
-  db_game:
+  db-game:
     image: mysql:latest
     restart: always
     environment:
@@ -291,7 +291,7 @@ services:
       MYSQL_ROOT_PASSWORD: 'darfo'
     ports:
       # <Port exposed> : < MySQL Port running inside container>
-      - '3312:3312'
+      - '3312:3306'
     networks:
       - backend
 
@@ -307,7 +307,7 @@ services:
     image: docker-game
     restart: on-failure
     depends_on:
-      - db_game
+      - db-game
     ports:
       - 8085:8085
 
@@ -315,7 +315,7 @@ services:
       - backend
 
     environment:
-      dbAlias: jdbc:mysql://db_game:3306/game?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
+      dbAlias: jdbc:mysql://db-game:3306/game?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
       # Database username and password
       dbUsername: 'darfo'
       dbPassword: 'darfo'
@@ -376,7 +376,7 @@ services:
       - /opt/ldod/tests/:/opt/ldod/tests/
       - /opt/ldod/social/aware/:/opt/ldod/social/aware/
 
-  docker-activemq:
+  activemq:
     image: rmohr/activemq
     restart: on-failure
     networks:

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: activemq
+  labels:
+    app: activemq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: activemq
+  template:
+    metadata:
+      labels:
+        app: activemq
+    spec:
+      containers:
+        - image: rmohr/activemq:latest
+          name: activemq
+          ports:
+            - containerPort: 8161
+              name: admin
+            - containerPort: 61616
+              name: broker
+            - containerPort: 5672
+              name: amqp
+            - containerPort: 61613
+              name: stomp
+            - containerPort: 1883
+              name: mqtt
+            - containerPort: 61614
+              name: websocket

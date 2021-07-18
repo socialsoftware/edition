@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-user  # DNS name
+  labels:
+    app: db-user
+    tier: database
+spec:
+  ports:
+    - port: 3306
+      targetPort: 3306
+  selector:       # mysql Pod Should contain same labels
+    app: db-user
+    tier: database
+  clusterIP: None  # We Use DNS, Thus ClusterIP is not relevant
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim-user # name of PVC essential for identifying the storage data
+  labels:
+    app: db-user
+    tier: database
+spec:
+  accessModes:
+    - ReadWriteOnce   #This specifies the mode of the claim that we are trying to create.
+  resources:
+    requests:
+      storage: 1Gi    #This will tell kubernetes about the amount of space we are trying to claim.
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-user
+  labels:
+    app: db-user
+    tier: database
+spec:
+  selector: # mysql Pod Should contain same labels
+    matchLabels:
+      app: db-user
+      tier: database
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels: # Must match 'Service' and 'Deployment' selectors
+        app: db-user
+        tier: database
+    spec:
+      containers:
+        - image: mysql:5.7 # image from docker-hub
+          args:
+            - "--ignore-db-dir=lost+found" # Workaround for https://github.com/docker-library/mysql/issues/186
+          name: db-user
+          env:
+            #Root password is compulsory
+            - name: MYSQL_ROOT_PASSWORD
+              value: "darfo"
+            - name: MYSQL_DATABASE
+              value: "user"
+            - name: MYSQL_USER
+              value: "darfo"
+            - name: MYSQL_PASSWORD
+              value: "darfo"
+          ports:
+            - containerPort: 3306
+              name: db-user
+          volumeMounts:        # Mounting volume obtained from Persistent Volume Claim
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql #This is the path in the container on which the mounting will take place.
+      volumes:
+        - name: mysql-persistent-storage # Obtaining 'volume' from PVC
+          persistentVolumeClaim:
+            claimName: mysql-pv-claim-user

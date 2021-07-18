@@ -1,0 +1,89 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: docker-user
+  labels:
+    name: docker-user
+spec:
+  ports:
+    - nodePort: 30164
+      port: 8082
+      targetPort: 8082
+      protocol: TCP
+  selector:
+    app: docker-user
+  type: NodePort
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docker-user
+spec:
+  selector:
+    matchLabels:
+      app: docker-user
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: docker-user
+    spec:
+      containers:
+        - name: docker-user
+          image: docker-user:test1
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8082
+#          env:   # Setting Enviornmental Variables
+#            - name: DB_HOST   # Setting Database host address from configMap
+#              value: "db_user"
+#            - name: DB_NAME  # Setting Database name from configMap
+#              value: "user"
+#            - name: DB_USERNAME  # Setting Database username from Secret
+#              value: "darfo"
+#            - name: DB_PASSWORD # Setting Database password from Secret
+#              value: "darfo"
+
+          volumeMounts:
+            - name: corpus
+              mountPath: "/opt/ldod/corpus/"
+            - name: corpus-files
+              mountPath: "/opt/ldod/corpus/files/"
+            - name: corpus-stoplist
+              mountPath: "/opt/ldod/corpus/stoplist-pt.txt"
+            - name: inters
+              mountPath: "/opt/ldod/inters/"
+            - name: facsimiles
+              mountPath: "/opt/ldod/facsimiles/"
+            - name: encoding
+              mountPath: "/opt/ldod/encoding/"
+            - name: export
+              mountPath: "/opt/ldod/export/"
+            - name: indexer
+              mountPath: "/opt/ldod/indexer/"
+            - name: tests
+              mountPath: "/opt/ldod/tests/"
+            - name: social-aware
+              mountPath: "/opt/ldod/social/aware/"
+      volumes:
+        - name: corpus
+          emptyDir: {}
+        - name: corpus-files
+          emptyDir: {}
+        - name: corpus-stoplist
+          emptyDir: {}
+        - name: inters
+          emptyDir: {}
+        - name: facsimiles
+          emptyDir: { }
+        - name: encoding
+          emptyDir: { }
+        - name: export
+          emptyDir: { }
+        - name: indexer
+          emptyDir: { }
+        - name: tests
+          emptyDir: { }
+        - name: social-aware
+          emptyDir: { }

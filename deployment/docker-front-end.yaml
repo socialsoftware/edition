@@ -1,0 +1,88 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: docker-service
+  labels:
+    name: docker-service
+spec:
+  ports:
+    - nodePort: 30168
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: docker-service
+  type: NodePort
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docker-service
+spec:
+  selector:
+    matchLabels:
+      app: docker-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: docker-service
+    spec:
+      containers:
+        - name: docker-service
+          image: docker-service:test1
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:   # Setting Enviornmental Variables
+            - name: dbAlias   # Setting Database host address from configMap
+              value: jdbc:mysql://db-service:3307/edition?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
+            - name: DB_NAME  # Setting Database name from configMap
+              value: "edition"
+            - name: dbUsername  # Setting Database username from Secret
+              value: 'darfo'
+            - name: dbPassword # Setting Database password from Secret
+              value: 'darfo'
+          volumeMounts:
+            - name: corpus
+              mountPath: "/opt/ldod/corpus/"
+            - name: corpus-files
+              mountPath: "/opt/ldod/corpus/files/"
+            - name: corpus-stoplist
+              mountPath: "/opt/ldod/corpus/stoplist-pt.txt"
+            - name: inters
+              mountPath: "/opt/ldod/inters/"
+            - name: facsimiles
+              mountPath: "/opt/ldod/facsimiles/"
+            - name: encoding
+              mountPath: "/opt/ldod/encoding/"
+            - name: export
+              mountPath: "/opt/ldod/export/"
+            - name: indexer
+              mountPath: "/opt/ldod/indexer/"
+            - name: tests
+              mountPath: "/opt/ldod/tests/"
+            - name: social-aware
+              mountPath: "/opt/ldod/social/aware/"
+      volumes:
+        - name: corpus
+          emptyDir: { }
+        - name: corpus-files
+          emptyDir: { }
+        - name: corpus-stoplist
+          emptyDir: { }
+        - name: inters
+          emptyDir: { }
+        - name: facsimiles
+          emptyDir: { }
+        - name: encoding
+          emptyDir: { }
+        - name: export
+          emptyDir: { }
+        - name: indexer
+          emptyDir: { }
+        - name: tests
+          emptyDir: { }
+        - name: social-aware
+          emptyDir: { }

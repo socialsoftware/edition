@@ -1,0 +1,46 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: docker-game
+  labels:
+    name: docker-game
+spec:
+  ports:
+    - nodePort: 30167
+      port: 8085
+      targetPort: 8085
+      protocol: TCP
+  selector:
+    app: docker-game
+  type: NodePort
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docker-game
+spec:
+  selector:
+    matchLabels:
+      app: docker-game
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: docker-game
+    spec:
+      containers:
+        - name: docker-game
+          image: docker-game:test1
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8085
+#          env:   # Setting Enviornmental Variables
+#            - name: DB_HOST   # Setting Database host address from configMap
+#              value: "db_game"
+#            - name: DB_NAME  # Setting Database name from configMap
+#              value: "game"
+#            - name: DB_USERNAME  # Setting Database username from Secret
+#              value: "darfo"
+#            - name: DB_PASSWORD # Setting Database password from Secret
+#              value: "darfo"
