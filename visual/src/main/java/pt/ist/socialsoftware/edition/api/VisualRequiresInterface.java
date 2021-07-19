@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 
 public class VisualRequiresInterface {
 
-//    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+//    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
     // Requires the Text Module
 
@@ -99,8 +99,8 @@ public class VisualRequiresInterface {
 
 
     // Requires the Virtual Module
-//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
-    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
+//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
 
 
     public List<VirtualEditionInterListDto> getPublicVirtualEditionInterListDto() {
@@ -144,8 +144,8 @@ public class VisualRequiresInterface {
 
 
     // Requires the Recommendation Module
-//    private final WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl("http://localhost:8084/api");
-        private final WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl("http://docker-recommendation:8084/api");
+    private final WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl("http://localhost:8084/api");
+//        private final WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl("http://docker-recommendation:8084/api");
 
     public List<InterIdDistancePairDto> getIntersByDistance(String externalId, WeightsDto weights) {
 

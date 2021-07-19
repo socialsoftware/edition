@@ -12,8 +12,8 @@ import java.util.List;
 
 public class ScholarInterDto {
 
-//    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
+//    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
 
     private static final Logger logger = LoggerFactory.getLogger(ScholarInterDto.class);
 
@@ -260,11 +260,11 @@ public class ScholarInterDto {
         this.LdoDDate = ldoDDate;
     }
 
-    public void setHeteronymDto(HeteronymDto heteronymDto) {
+    public void setHeteronym(HeteronymDto heteronymDto) {
         this.heteronymDto = heteronymDto;
     }
 
-    public void setExpertEditionDto(ExpertEditionDto expertEditionDto) {
+    public void setExpertEdition(ExpertEditionDto expertEditionDto) {
         this.expertEditionDto = expertEditionDto;
     }
 }

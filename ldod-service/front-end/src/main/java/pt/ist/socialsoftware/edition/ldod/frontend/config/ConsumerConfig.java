@@ -21,8 +21,8 @@ public class ConsumerConfig {
     @Bean
     public ActiveMQConnectionFactory activeMQConnectionFactory() {
         ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
-//        activeMQConnectionFactory.setBrokerURL("tcp://localhost:61616");
-        activeMQConnectionFactory.setBrokerURL("tcp://activemq:61616");
+        activeMQConnectionFactory.setBrokerURL("tcp://localhost:61616");
+//        activeMQConnectionFactory.setBrokerURL("tcp://activemq:61616");
         activeMQConnectionFactory.setTrustAllPackages(true);
         return activeMQConnectionFactory;
     }

@@ -666,6 +666,7 @@ public class VirtualProvidesInterface {
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<String> getVirtualEditionParticipantSet(@PathVariable("acronym") String acronym) {
         System.out.println("getVirtualEditionParticipantSet: " + acronym);
+        cleanVirtualEditionMapCache();
         return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.getParticipantSet()).orElse(new HashSet<>());
     }
 
