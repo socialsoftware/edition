@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useHistory, useLocation } from 'react-router-dom'
-import { getFragInterData } from '../../../util/utilsAPI';
+import { getFragInterData } from '../../../util/API/VirtualAPI';
 import {ReactComponent as LeftArrow} from '../../../resources/assets/caret-left-fill.svg'
 import {ReactComponent as List} from '../../../resources/assets/card-list.svg'
 import {ReactComponent as Nest} from '../../../resources/assets/list-nested.svg'

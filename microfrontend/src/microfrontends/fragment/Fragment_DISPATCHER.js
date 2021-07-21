@@ -4,7 +4,8 @@ import { useHistory, useLocation } from 'react-router-dom'
 import '../../resources/css/fragment/Fragment.css'
 import {getFragmentWithXml, getFragmentWithXmlAndUrl, getNextFragmentWithXmlAndUrl, 
     getPrevFragmentWithXmlAndUrl, getIntersByArrayExternalId, getInterWithDiff, 
-    getAuthorialInterWithDiffs, getInterCompare} from '../../util/utilsAPI'
+    getAuthorialInterWithDiffs, getInterCompare, addToEdition, 
+    getFragmentWithXmlAndUrlNoUser} from '../../util/API/FragmentAPI'
 import Body_expert from './pages/expert/Body_expert'
 import Navigation_expert from './pages/expert/Navigation_expert'
 import InterEmpty from './pages/InterEmpty';
@@ -22,12 +23,21 @@ const Fragment_DISPATCHER = (props) => {
         var path = location.pathname.split('/')
         console.log(path);
         if(path[5])
-            getFragmentWithXmlAndUrl(path[3], path[5], props.selectedVEAcr)
+            if(props.isAuthenticated){
+                getFragmentWithXmlAndUrl(path[3], path[5], props.selectedVEAcr)
+                .then(res => {
+                    console.log(res);
+                    dataHandler(res.data)
+                })
+            }   
+            else{
+                getFragmentWithXmlAndUrlNoUser(path[3], path[5], props.selectedVEAcr)
                 .then(res => {
                     console.log(res);
                     dataHandler(res.data)
                     
                 })
+            }
         else if(path[3])
             getFragmentWithXml(path[3])
                 .then(res => {
@@ -118,6 +128,21 @@ const Fragment_DISPATCHER = (props) => {
             })
     }
 
+    const addToEditionHandler = (externalId) => {
+        addToEdition(externalId, data.inters[0].externalId)
+            .then(res => {
+                console.log(res.data)
+                if(res.data === "success") {
+                    var path = location.pathname.split('/')
+                    getFragmentWithXmlAndUrl(path[3], path[5], props.selectedVEAcr)
+                        .then(res => {
+                            console.log(res);
+                            dataHandler(res.data)
+                        })
+                }
+            })
+    }
+
     return (
         <div className="fragment">
             <div className="fragment-body">
@@ -139,6 +164,7 @@ const Fragment_DISPATCHER = (props) => {
                     data={data} 
                     callbackNavigationHandler={(xmlId, urlId, nextOrPrev) => {navigationSelectionHandler(xmlId, urlId, nextOrPrev)}}
                     callbackCheckboxHandler={(fragmentExternalId, arrayInterId) => {getIntersByExternalId(fragmentExternalId, arrayInterId)}}
+                    callbackAddToEdition={externalId => addToEditionHandler(externalId)}
                     messages={props.messages}/>
             </div>
         </div>

@@ -137,7 +137,20 @@
     .search-page {
         width: 90%;
     }
-    
+    .search-table-search{
+        width: 90%;
+    }
+    .form{
+        flex-direction: column;
+    }
+    .input-search{
+        width: 100%;
+        margin-bottom: 15px;
+    }
+    .select-search{
+        width: 100%;
+        margin-bottom: 15px;
+    }
 }
 
 .search-table{

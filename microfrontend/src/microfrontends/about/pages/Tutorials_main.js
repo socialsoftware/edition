@@ -7,8 +7,8 @@ import Tutorials_pt from './Tutorials_pt'
 const Tutorials_main = (props) => {
     return(
         <div>
-            <div className="container">
-                <p className="conduct-title">{props.messages.header_tutorials}</p>
+            <div className="about-container">
+                <p className="about-conduct-title">{props.messages.header_tutorials}</p>
                 {props.language==="pt"?<Tutorials_pt/>:props.language==="en"?<Tutorials_en/>:<Tutorials_es/>}
             </div>
         </div>

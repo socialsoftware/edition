@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import lupa from '../../../resources/assets/lupa.svg'
-import { getAdvancedSearchList } from '../../../util/utilsAPI';
-import Advanced_expert from './Advanced_expert';
-import Advanced_virtual from './Advanced_virtual';
+import { getAdvancedSearchList } from '../../../util/API/SearchAPI';
+import Advanced_expert from './expert/Advanced_expert';
+import Advanced_virtual from './virtual/Advanced_virtual';
 import ResultTable from './ResultTable';
 import CircleLoader from "react-spinners/RotateLoader";
 

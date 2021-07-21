@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {ReactComponent as Download} from '../../../resources/assets/file-arrow-up.svg'
-import { exportRandom, exportUsers, exportAll, exportVirtualEditions, getFragmentsByQuery, exportFragmentsByQuery} from '../../../util/utilsAPI';
+import { exportRandom, exportUsers, exportAll, exportVirtualEditions, getFragmentsByQuery, exportFragmentsByQuery} from '../../../util/API/AdminAPI';
 import fileDownload from 'js-file-download';
 import { useHistory } from 'react-router-dom';
 

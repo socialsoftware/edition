@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getReadingExperts, getStartReadingFragment,
-            getNextReadingFragment, getPrevReadingFragment, getPrevRecom, resetPrevRecom, getCurrentReadingFragmentJson } from '../../../util/utilsAPI';
+            getNextReadingFragment, getPrevReadingFragment, getPrevRecom, resetPrevRecom, getCurrentReadingFragmentJson } from '../../../util/API/ReadingAPI';
 import rightArrow from '../../../resources/assets/right_arrow.svg'
 import leftArrow from '../../../resources/assets/left_arrow.svg'
 import info from '../../../resources/assets/information.svg'
@@ -8,10 +8,12 @@ import save from '../../../resources/assets/floppy-disk.svg'
 import ReactTooltip from 'react-tooltip';
 import { useHistory, useLocation } from 'react-router';
 import { connect } from 'react-redux';
+import CircleLoader from "react-spinners/RotateLoader";
 
 
 const Reading = (props) => {
 
+    const [loading, setLoading] = useState(true)
     const [experts, setExperts] = useState(null)
     const [fragmentData, setFragmentData] = useState(null)
     const [selectedExpert, setSelectedExpert] = useState(null)
@@ -28,6 +30,7 @@ const Reading = (props) => {
         getReadingExperts()
             .then(res => {
                 setExperts(res.data)
+                setLoading(false)
             })
         var path = location.pathname.split('/')
         if(path[3] && path[5]){
@@ -45,8 +48,11 @@ const Reading = (props) => {
     }, [])
 
     useEffect(() => {
-        console.log(selectedExpert);
-    })
+        if(showModal){
+            document.body.style.overflow = "hidden"
+        }
+        else document.body.style.overflow = "scroll"
+    }, [showModal])
 
     const getFragmentHandler = (xmlId, urlId) => {
         console.log(props.recommendation);
@@ -161,7 +167,7 @@ const Reading = (props) => {
             return (
                 <div className={selectedExpert===author.acronym?"reading-column-fragment-selected":"reading-column-fragment"}>
                     <div className={selectedExpert===author.acronym?"reading-column-selected":"reading-column"}>
-                        <div key={author.acronym}>
+                        <div className="reading-author-div" key={author.acronym}>
                             <p onClick={() => selectExpertHandler(author.acronym)} className={selectedExpert===author.acronym?"reading-column-author-selected":"reading-column-author"}>{author.editor}</p>
                             {
                                 !fragmentData?
@@ -195,62 +201,7 @@ const Reading = (props) => {
     }
 
     return (
-        <div className="reading">
-            {!selectedExpert?
-            <div className="reading-book-title">
-                {props.language==="pt"?
-                    <p className="reading-h1">Livro do Desassossego de Fernando Pessoa</p>
-                :props.language==="en"?
-                    <p className="reading-h1">Book of Disquiet by Fernando Pessoa</p>
-                :
-                    <p className="reading-h1">Libro del Desasosiego de Fernando Pessoa</p>
-                }
-            </div>
-            :null
-        
-            }
-            {experts?
-                mapAuthorsToPage()
-            :null
-            }
-            
-            <div className="reading-column-recomendation">
-                <p className="reading-column-author-rec" onClick={() => {setShowModal(true)}}>{props.messages.general_recommendation}</p>
-                <img src={info} data-tip="Na coluna de recomendação são sugeridos de forma automática os fragmentos mais similares ao 
-                                            fragmento selecionado na coluna da edição. A similaridade entre o fragmento da edição e o fragmento 
-                                            da recomendação é calculada segundo uma combinação de quatro critérios (ajustáveis pelos utilizadores): 
-                                            heterónimo, data, texto e taxonomia." 
-                    className="reading-info"></img>
-                <ReactTooltip backgroundColor="#fff" textColor="#333" border={true} borderColor="#000" className="reading-tooltip" place="bottom"/>
-                {fragmentData?
-                    <div>
-                        <div onClick={() => {
-                            setSelectedExpert(fragmentData.expertEditionInterDto.acronym)
-                            getFragmentHandler(fragmentData.fragment.fragmentXmlId, fragmentData.expertEditionInterDto.urlId)
-                        }} >
-                            <p style={{color:"#FC1B27"}} className="reading-recommendation-acronym">{fragmentData.expertEditionInterDto.acronym}</p>
-                            <p className="reading-number-selected-no-hover">{fragmentData.expertEditionInterDto.number}</p>
-                        </div>
-                        
-                        <div>
-                            {
-                            fragmentData.prevCom?
-                                <div style={{marginTop:"20px"}} onClick={() => getPrevRecommendedFragment()}>
-                                    <p className="reading-recommendation-acronym">{fragmentData.prevCom.acronym}</p>
-                                    <p className="reading-number" >{fragmentData.prevCom.number}</p>
-                                    <img src={leftArrow} className="reading-arrow"></img>
-                                </div>
-                            :null
-                            }
-                        </div>
-
-                        <div >
-                            {mapRecommendationsToColumn()}
-                        </div>
-                    </div>
-                :null
-                }
-            </div>
+        <div>
             {showModal?
                 <div className="reading-backdrop"></div>
             :null}
@@ -266,7 +217,7 @@ const Reading = (props) => {
                         </div>
                         <div className="reading-modal-body">
                             <p className="reading-modal-body-title">{props.messages.recommendation_criteria} :</p>
-                            <div style={{display:"flex", justifyContent:"space-between"}}>
+                            <div className="reading-modal-controls-div">
                                 <div className="reading-modal-body-input">
                                     <p className="reading-modal-body-input-title">{props.messages.general_heteronym}</p>
                                     <input max="1" min="0" step="0.2" type="range" className="reading-range" onChange={e => {
@@ -315,8 +266,71 @@ const Reading = (props) => {
                     </div>
                 :null
             }
+            <div className="reading">
+            <CircleLoader loading={loading}></CircleLoader>
+            {!selectedExpert?
+            <div className="reading-book-title">
+                {props.language==="pt"?
+                    <p className="reading-h1">Livro do Desassossego de Fernando Pessoa</p>
+                :props.language==="en"?
+                    <p className="reading-h1">Book of Disquiet by Fernando Pessoa</p>
+                :
+                    <p className="reading-h1">Libro del Desasosiego de Fernando Pessoa</p>
+                }
+            </div>
+            :null
+        
+            }
+            {experts?
+                mapAuthorsToPage()
+            :null
+            }
+            
+            <div className="reading-column-recomendation">
+                <p className="reading-column-author-rec" onClick={() => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+
+                    setShowModal(true)}}>{props.messages.general_recommendation}</p>
+                <img src={info} data-tip="Na coluna de recomendação são sugeridos de forma automática os fragmentos mais similares ao 
+                                            fragmento selecionado na coluna da edição. A similaridade entre o fragmento da edição e o fragmento 
+                                            da recomendação é calculada segundo uma combinação de quatro critérios (ajustáveis pelos utilizadores): 
+                                            heterónimo, data, texto e taxonomia." 
+                    className="reading-info"></img>
+                <ReactTooltip backgroundColor="#fff" textColor="#333" border={true} borderColor="#000" className="reading-tooltip" place="bottom"/>
+                {fragmentData?
+                    <div>
+                        <div onClick={() => {
+                            setSelectedExpert(fragmentData.expertEditionInterDto.acronym)
+                            getFragmentHandler(fragmentData.fragment.fragmentXmlId, fragmentData.expertEditionInterDto.urlId)
+                        }} >
+                            <p style={{color:"#FC1B27"}} className="reading-recommendation-acronym">{fragmentData.expertEditionInterDto.acronym}</p>
+                            <p className="reading-number-selected-no-hover">{fragmentData.expertEditionInterDto.number}</p>
+                        </div>
+                        
+                        <div>
+                            {
+                            fragmentData.prevCom?
+                                <div style={{marginTop:"20px"}} onClick={() => getPrevRecommendedFragment()}>
+                                    <p className="reading-recommendation-acronym">{fragmentData.prevCom.acronym}</p>
+                                    <p className="reading-number" >{fragmentData.prevCom.number}</p>
+                                    <img src={leftArrow} className="reading-arrow"></img>
+                                </div>
+                            :null
+                            }
+                        </div>
+
+                        <div >
+                            {mapRecommendationsToColumn()}
+                        </div>
+                    </div>
+                :null
+                }
+            </div>
+            
             
         </div>
+        </div>
+        
     )
 }
 

@@ -50,11 +50,7 @@ const initialState = {
                     {id:"general_editor_cunha", route:"/edition/acronym/TSC"},
                     {id:"general_editor_zenith", route:"/edition/acronym/RZ"},
                     {id:"general_editor_pizarro", route:"/edition/acronym/JP"},
-                    {id:"header_title", route:"/edition/acronym/LdoD-Arquivo"},
-                    {id:"virtual_anot", route:"/edition/acronym/LdoD-JPC-anot"},
-                    {id:"virtual_class", route:"/edition/acronym/LdoD-Jogo-Class"},
-                    {id:"virtual_mallet", route:"/edition/acronym/LdoD-Mallet"},
-                    {id:"virtual_twitter", route:"/edition/acronym/LdoD-Twitter"}]
+                    {id:"header_title", route:"/edition/acronym/LdoD-Arquivo"}]
         },
         {           
             name: "header_search",
@@ -84,7 +80,7 @@ export default function(state = initialState, action) {
     switch (action.type) {
         case "SET_USER" : {
             console.log(action.payload);
-            if(action.payload.admin.includes("ADMIN")){
+            if(action.payload.roles.includes("ADMIN")){
                 var aux = [...state.modules]
                 aux[6].active=true
             }
@@ -124,6 +120,8 @@ export default function(state = initialState, action) {
             else{
                 newArray.push(action.payload)
             }
+            console.log(newArray);
+            console.log(state.modules);
             return {
                 ...state,
                 selectedVEAcr : newArray

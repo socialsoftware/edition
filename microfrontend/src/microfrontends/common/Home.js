@@ -1,7 +1,7 @@
 import React from 'react'
-import '../../resources/css/home/Home.css'
+import '../../resources/css/common/Home.css'
 import {useHistory} from 'react-router-dom'
-import Info from '../../util/Info'
+import Info from './Info'
 
 const Home = (props) => {
     const history = useHistory()
@@ -46,14 +46,14 @@ const Home = (props) => {
     return (
         <div className="home">
             <div className="home-container">
-                <div className="frag-excerpt" onClick={() => {history.push(`/reading/fragment/${excerpts[excerptID][3]}`)}}>
-                    <p className="frag-number">{excerpts[excerptID][2]}</p>
-                    <p className="frag-editor">{excerpts[excerptID][0]}</p>
+                <div className="home-frag-excerpt" onClick={() => {history.push(`/reading/fragment/${excerpts[excerptID][3]}`)}}>
+                    <p className="home-frag-number">{excerpts[excerptID][2]}</p>
+                    <p className="home-frag-editor">{excerpts[excerptID][0]}</p>
                 </div>
-                <p className="frag-excerpt-text">{excerpts[excerptID][1]}</p>
-                <hr className="line-points"></hr>
+                <p className="home-frag-excerpt-text">{excerpts[excerptID][1]}</p>
+                <hr className="home-line-points"></hr>
                 {props.language==="pt"?
-                <p className="ldod-text">
+                <p className="home-ldod-text">
                     O Arquivo LdoD é um arquivo digital colaborativo do <span className="s-ws">Livro do Desassossego</span> de <span className="s-ws">Fernando Pessoa</span>.
                     Contém <span className="s-underl">imagens</span> dos documentos autógrafos, <span className="s-underl">novas transcrições</span>
                     desses documentos e ainda transcrições de <span className="s-underl">quatro edições da obra</span>.
@@ -61,65 +61,65 @@ const Home = (props) => {
                     utilizadores colaborem na criação de <span className="s-underl">edições virtuais</span> do Livro do Desassossego.
                 </p>
                 :props.language==="en"?
-                <p className="ldod-text">
+                <p className="home-ldod-text">
                 The LdoD Archive is a collaborative digital archive of the Book of Disquiet by Fernando Pessoa. It contains images of the autograph documents, new transcriptions of those documents and also transcriptions of four editions of the work. In addition to reading and comparing transcriptions, the LdoD Archive enables users to collaborate in creating virtual editions of the Book of Disquiet.
                 </p>
                 :
-                <p className="ldod-text">
+                <p className="home-ldod-text">
                 El Archivo LdoD es un archivo digital colaborativo del Libro del desasosiego de Fernando Pessoa. Contiene imágenes de los documentos originales, nuevas transcripciones de estos documentos y transcripciones de cuatro ediciones de la obra. Además de la lectura y la comparación de las transcripciones, el Archivo LdoD permite a los usuarios colaborar en la creación de ediciones virtuales del Libro del desasosiego.
                 </p>
                 }
-                <hr className="line-x"></hr>
+                <hr className="home-line-x"></hr>
                 <div className="home-boxes-web">
-                    <div onClick={() => {history.push("/reading")}} className="div-link">
-                        <img className="img" src={require(`../../resources/assets/boxes/D-${props.language}-01-${img1}.svg`).default} alt="img1"></img>
-                        <img className="img-hover" src={require(`../../resources/assets/boxes/D-${props.language}-01-${img1}-h.svg`).default} alt="img1"></img>
+                    <div onClick={() => {history.push("/reading")}} className="home-div-link">
+                        <img className="home-img" src={require(`../../resources/assets/boxes/D-${props.language}-01-${img1}.svg`).default} alt="img1"></img>
+                        <img className="home-img-hover" src={require(`../../resources/assets/boxes/D-${props.language}-01-${img1}-h.svg`).default} alt="img1"></img>
                     </div>
                     <hr className="line-points"></hr>
-                    <div onClick={() => {history.push("/documents/source/list")}} className="div-link">
-                        <img className="img" src={require(`../../resources/assets/boxes/D-${props.language}-02-${img2}.svg`).default} alt="img1"></img>
-                        <img className="img-hover" src={require(`../../resources/assets/boxes/D-${props.language}-02-${img2}-h.svg`).default} alt="img1"></img>
+                    <div onClick={() => {history.push("/documents/source/list")}} className="home-div-link">
+                        <img className="home-img" src={require(`../../resources/assets/boxes/D-${props.language}-02-${img2}.svg`).default} alt="img1"></img>
+                        <img className="home-img-hover" src={require(`../../resources/assets/boxes/D-${props.language}-02-${img2}-h.svg`).default} alt="img1"></img>
                     </div>
                     <hr className="line-points"></hr>
-                    <div onClick={() => {history.push("/edition")}} className="div-link">
-                        <img className="img" src={require(`../../resources/assets/boxes/D-${props.language}-03-${img3}.svg`).default} alt="img1"></img>
-                        <img className="img-hover" src={require(`../../resources/assets/boxes/D-${props.language}-03-${img3}-h.svg`).default} alt="img1"></img>
+                    <div onClick={() => {history.push("/edition")}} className="home-div-link">
+                        <img className="home-img" src={require(`../../resources/assets/boxes/D-${props.language}-03-${img3}.svg`).default} alt="img1"></img>
+                        <img className="home-img-hover" src={require(`../../resources/assets/boxes/D-${props.language}-03-${img3}-h.svg`).default} alt="img1"></img>
                     </div>
                     <hr className="line-points"></hr>
-                    <div onClick={() => {history.push("/search/simple")}} className="div-link">
-                        <img className="img" src={require(`../../resources/assets/boxes/D-${props.language}-04-${img4}.svg`).default} alt="img1"></img>
-                        <img className="img-hover" src={require(`../../resources/assets/boxes/D-${props.language}-04-${img4}-h.svg`).default} alt="img1"></img>
+                    <div onClick={() => {history.push("/search/simple")}} className="home-div-link">
+                        <img className="home-img" src={require(`../../resources/assets/boxes/D-${props.language}-04-${img4}.svg`).default} alt="img1"></img>
+                        <img className="home-img-hover" src={require(`../../resources/assets/boxes/D-${props.language}-04-${img4}-h.svg`).default} alt="img1"></img>
                     </div>
                     <hr className="line-points"></hr>
-                    <div onClick={() => {history.push("/virtualeditions")}} className="div-link">
-                        <img className="img" src={require(`../../resources/assets/boxes/D-${props.language}-05-${img5}.svg`).default} alt="img1"></img>
-                        <img className="img-hover" src={require(`../../resources/assets/boxes/D-${props.language}-05-${img5}-h.svg`).default} alt="img1"></img>
+                    <div onClick={() => {history.push("/virtualeditions")}} className="home-div-link">
+                        <img className="home-img" src={require(`../../resources/assets/boxes/D-${props.language}-05-${img5}.svg`).default} alt="img1"></img>
+                        <img className="home-img-hover" src={require(`../../resources/assets/boxes/D-${props.language}-05-${img5}-h.svg`).default} alt="img1"></img>
                     </div>
                 </div>
                 <div className="home-boxes-mobile">
-                    <div onClick={() => {history.push("/reading")}} className="div-link">
-                        <img className="img" src={require(`../../resources/assets/boxes/M-${props.language}-01-${img1}.svg`).default} alt="img1"></img>
-                        <img className="img-hover" src={require(`../../resources/assets/boxes/M-${props.language}-01-${img1}-h.svg`).default} alt="img1"></img>
+                    <div onClick={() => {history.push("/reading")}} className="home-div-link">
+                        <img className="home-img" src={require(`../../resources/assets/boxes/M-${props.language}-01-${img1}.svg`).default} alt="img1"></img>
+                        <img className="home-img-hover" src={require(`../../resources/assets/boxes/M-${props.language}-01-${img1}-h.svg`).default} alt="img1"></img>
                     </div>
-                    <hr className="line-points"></hr>
-                    <div onClick={() => {history.push("/documents/source/list")}} className="div-link">
-                        <img className="img" src={require(`../../resources/assets/boxes/M-${props.language}-02-${img2}.svg`).default} alt="img1"></img>
-                        <img className="img-hover" src={require(`../../resources/assets/boxes/M-${props.language}-02-${img2}-h.svg`).default} alt="img1"></img>
+                    <hr className="home-line-points"></hr>
+                    <div onClick={() => {history.push("/documents/source/list")}} className="home-div-link">
+                        <img className="home-img" src={require(`../../resources/assets/boxes/M-${props.language}-02-${img2}.svg`).default} alt="img1"></img>
+                        <img className="home-img-hover" src={require(`../../resources/assets/boxes/M-${props.language}-02-${img2}-h.svg`).default} alt="img1"></img>
                     </div>
-                    <hr className="line-points"></hr>
-                    <div onClick={() => {history.push("/edition")}} className="div-link">
-                        <img className="img" src={require(`../../resources/assets/boxes/M-${props.language}-03-${img3}.svg`).default} alt="img1"></img>
-                        <img className="img-hover" src={require(`../../resources/assets/boxes/M-${props.language}-03-${img3}-h.svg`).default} alt="img1"></img>
+                    <hr className="home-line-points"></hr>
+                    <div onClick={() => {history.push("/edition")}} className="home-div-link">
+                        <img className="home-img" src={require(`../../resources/assets/boxes/M-${props.language}-03-${img3}.svg`).default} alt="img1"></img>
+                        <img className="home-img-hover" src={require(`../../resources/assets/boxes/M-${props.language}-03-${img3}-h.svg`).default} alt="img1"></img>
                     </div>
-                    <hr className="line-points"></hr>
-                    <div onClick={() => {history.push("/search/simple")}} className="div-link">
-                        <img className="img" src={require(`../../resources/assets/boxes/M-${props.language}-04-${img4}.svg`).default} alt="img1"></img>
-                        <img className="img-hover" src={require(`../../resources/assets/boxes/M-${props.language}-04-${img4}-h.svg`).default} alt="img1"></img>
+                    <hr className="home-line-points"></hr>
+                    <div onClick={() => {history.push("/search/simple")}} className="home-div-link">
+                        <img className="home-img" src={require(`../../resources/assets/boxes/M-${props.language}-04-${img4}.svg`).default} alt="img1"></img>
+                        <img className="home-img-hover" src={require(`../../resources/assets/boxes/M-${props.language}-04-${img4}-h.svg`).default} alt="img1"></img>
                     </div>
-                    <hr className="line-points"></hr>
-                    <div onClick={() => {history.push("/virtualeditions")}} className="div-link">
-                        <img className="img" src={require(`../../resources/assets/boxes/M-${props.language}-05-${img5}.svg`).default} alt="img1"></img>
-                        <img className="img-hover" src={require(`../../resources/assets/boxes/M-${props.language}-05-${img5}-h.svg`).default} alt="img1"></img>
+                    <hr className="home-line-points"></hr>
+                    <div onClick={() => {history.push("/virtualeditions")}} className="home-div-link">
+                        <img className="home-img" src={require(`../../resources/assets/boxes/M-${props.language}-05-${img5}.svg`).default} alt="img1"></img>
+                        <img className="home-img-hover" src={require(`../../resources/assets/boxes/M-${props.language}-05-${img5}-h.svg`).default} alt="img1"></img>
                     </div>
                 </div>
                 

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
 import info from '../../../../resources/assets/information.svg'
 import left from '../../../../resources/assets/left-arrow-blue.png'
 import right from '../../../../resources/assets/right-arrow-blue.png'
+import {ReactComponent as Plus} from '../../../../resources/assets/plus-lg.svg'
 
 const Navigation_virtual = (props) => {
 
@@ -29,13 +30,29 @@ const Navigation_virtual = (props) => {
         props.callbackNavigationHandler(xml, url, nextOrPrev)
     }
 
+    const addToEditionHandler = (externalId) => {
+        props.callbackAddToEdition(externalId)
+    }
+
     const mapVirtualToView = () => {
         return virtualEditionsDto.map((virtual, i) => {
             return (
                 <div key={i} style={{marginBottom:"10px"}}>
                     <Link to={`/edition/acronym/${virtual.acronym}`}>{virtual.acronym}</Link>
                     <div style={{marginTop:"10px"}}>
-                        {mapVirtualInterpsToView(virtual.sortedInter4Frag, virtual.acronym)}
+                        {
+                            virtual.sortedInter4Frag.length > 0?
+                                mapVirtualInterpsToView(virtual.sortedInter4Frag, virtual.acronym)
+                            :
+                            virtual.participantSetContains && props.data.inters.length === 1 && virtual.canAddFragInter?
+                                <div className="navigation-row-add">
+                                    <span className="navigation-add-button" onClick={() => addToEditionHandler(virtual.externalId)}>
+                                        <Plus fill="#fff" style={{width:"10px", height:"10px"}}></Plus>
+                                        <p>{props.messages.general_add}</p>
+                                    </span>
+                                </div>
+                            :null
+                            }
                     </div>
                     
                 </div>

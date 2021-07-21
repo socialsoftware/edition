@@ -7,8 +7,8 @@ import Contact_pt from './Contact_pt'
 const Contact_main = (props) => {
     return(
         <div>
-            <div className="container">
-                <p className="conduct-title">{props.messages.header_contact}</p>
+            <div className="about-container">
+                <p className="about-conduct-title">{props.messages.header_contact}</p>
                 {props.language==="pt"?<Contact_pt/>:props.language==="en"?<Contact_en/>:<Contact_es/>}
             </div>
         </div>

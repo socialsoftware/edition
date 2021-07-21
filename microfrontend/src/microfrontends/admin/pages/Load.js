@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { loadCorpus, loadFragment, loadSeveralFragment,
-        loadUsers, loadVirtualCorpus, loadVirtualFragments } from '../../../util/utilsAPI';
+        loadUsers, loadVirtualCorpus, loadVirtualFragments } from '../../../util/API/AdminAPI';
 
 const Load = (props) => {
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import { getTaxonomyData, createVirtualCategory, mergeOrDeleteVirtualCategory, 
-    generateTopics, addGeneratedTopics, deleteVirtualCategory } from '../../../util/utilsAPI';
+    generateTopics, addGeneratedTopics, deleteVirtualCategory } from '../../../util/API/VirtualAPI';
 import {ReactComponent as LeftArrow} from '../../../resources/assets/caret-left-fill.svg'
 import {ReactComponent as List} from '../../../resources/assets/card-list.svg'
 import {ReactComponent as Wrench} from '../../../resources/assets/wrench.svg'

@@ -1,7 +1,7 @@
 import React, {useState, useRef, useEffect} from 'react'
 import { Link, useLocation } from 'react-router-dom';
 import CircleLoader from "react-spinners/RotateLoader";
-import { getVirtualEditionList } from '../../../util/utilsAPI';
+import { getVirtualEditionList } from '../../../util/API/EditionAPI';
 import lupaIcon from '../../../resources/assets/lupa.svg'
 import ReactTooltip from 'react-tooltip';
 
@@ -35,14 +35,14 @@ const VirtualEditionList = (props) => {
 
     const mapUsed = (val) => {
         return val.map((el, i) => {
-            return <p key={i}>{"->"}<Link className="usedLink" to={`/fragments/fragment/${el.xmlId}/inter/${el.urlId}`}>{el.shortName}</Link></p>
+            return <p key={i}>{"->"}<Link className="edition-usedLink" to={`/fragments/fragment/${el.xmlId}/inter/${el.urlId}`}>{el.shortName}</Link></p>
         })
     }
 
     const mapCategoryList = (categoryList) => {
         return categoryList.map((el, i) => {
             return (
-                <p key={i}><Link className="usedLink" to={`/edition/acronym/${el.acronym}/category/${el.urlId}`}>{el.name}</Link></p>
+                <p key={i}><Link className="edition-usedLink" to={`/edition/acronym/${el.acronym}/category/${el.urlId}`}>{el.name}</Link></p>
             )
         })
     }
@@ -76,12 +76,12 @@ const VirtualEditionList = (props) => {
         return participant.map((val, i) => {
             if(i===participant.length-1){
                 return (
-                    <span><Link key={i} to={`/edition/user/${val.userName}`} className="participant">{val.firstName} {val.lastName}</Link></span>
+                    <span><Link key={i} to={`/edition/user/${val.userName}`} className="edition-participant">{val.firstName} {val.lastName}</Link></span>
                 )
             }
             else{
                 return (
-                    <span><Link key={i} to={`/edition/user/${val.userName}`} className="participant">{val.firstName} {val.lastName}</Link>, </span>
+                    <span><Link key={i} to={`/edition/user/${val.userName}`} className="edition-participant">{val.firstName} {val.lastName}</Link>, </span>
                 )
             }
             
@@ -118,10 +118,10 @@ const VirtualEditionList = (props) => {
 
     return (
         <div>
-            <p className="list-title">{props.messages.virtualedition}: {title}<span> {`(${listSize})`}</span></p>
+            <p className="edition-list-title">{props.messages.virtualedition}: {title}<span> {`(${listSize})`}</span></p>
             <CircleLoader loading={loading}></CircleLoader>
             
-            <div className={loading?"loading-table":"editionTop"} >
+            <div className={loading?"loading-table":"edition-editionTop"} >
                 {participant?<div><strong>{props.messages.general_editors}:</strong> <span>{getParticipanList()}</span></div>:null}
                 <p style={{marginTop:"15px"}}><strong>{props.messages.virtualedition_synopsis}:</strong> {synopsis}</p>
                 <p style={{marginTop:"15px"}}><strong>{props.messages.general_taxonomy}:</strong> <Link className="table-body-title" style={{color:"#337ab7"}}

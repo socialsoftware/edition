@@ -7,8 +7,8 @@ import Privacy_pt from './Privacy_pt'
 const Privacy_main = (props) => {
     return(
         <div>
-            <div className="container">
-                <p className="conduct-title">{props.messages.header_privacy}</p>
+            <div className="about-container">
+                <p className="about-conduct-title">{props.messages.header_privacy}</p>
                 {props.language==="pt"?<Privacy_pt/>:props.language==="en"?<Privacy_en/>:<Privacy_es/>}
             </div>
         </div>

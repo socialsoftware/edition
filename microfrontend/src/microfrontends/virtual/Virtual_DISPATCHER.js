@@ -15,7 +15,7 @@ import '../../resources/css/virtual/Virtual.css'
 
 const Virtual_DISPATCHER = (props) => {
     return (
-        <div>
+        <div style={{marginTop:"150px"}}>
             <Switch>
                 <Route exact path="/virtual/virtualeditions" 
                     component={() => <Editions 

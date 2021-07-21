@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { Route, useLocation} from "react-router-dom";
 import ExpertEditionList from './pages/ExpertEditionList';
-import { getEdition } from '../../util/utilsAPI';
+import { getEdition } from '../../util/API/EditionAPI';
 import VirtualEditionList from './pages/VirtualEditionList';
 import UserContributions from './pages/UserContributions';
 import TaxonomyList from './pages/TaxonomyList';
@@ -40,7 +40,7 @@ const Edition_DISPATCHER = (props) => {
     }, [location])
 
     return (
-        <div>
+        <div style={{marginTop:"150px"}}>
             <Route exact path={`/edition/acronym/${acronym}`} >
                 {page==="EDITORIAL"?
                     <ExpertEditionList

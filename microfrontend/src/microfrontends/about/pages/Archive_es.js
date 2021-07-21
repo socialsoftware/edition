@@ -25,7 +25,7 @@ const Archive_es = (props) => {
 </p>
 <p>&nbsp;</p>
 
-<hr className="archive-line"></hr>
+<hr className="about-archive-line"></hr>
 
 <p>&nbsp;</p>
 <p>

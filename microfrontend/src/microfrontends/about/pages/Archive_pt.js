@@ -26,7 +26,7 @@ const Archive_pt = () => {
             Desassossego</em> como m&aacute;quina liter&aacute;ria.
     </p>
 <p>&nbsp;</p>
-<hr className="archive-line"></hr>
+<hr className="about-archive-line"></hr>
 <p>&nbsp;</p>
 <p>
 	As funcionalidades principais do <em>Arquivo LdoD</em> t&ecirc;m

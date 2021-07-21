@@ -6,7 +6,7 @@ import edit from '../../../resources/assets/edit.svg'
 import eye from '../../../resources/assets/eye-fill.svg'
 import Select from 'react-select'
 import { getAllEditions, submitParticipation, cancelParticipation,
-        createEdition, getPublicAllEditions } from '../../../util/utilsAPI';
+        createEdition, getPublicAllEditions } from '../../../util/API/VirtualAPI';
 import {Collapse} from 'react-collapse';
 import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';

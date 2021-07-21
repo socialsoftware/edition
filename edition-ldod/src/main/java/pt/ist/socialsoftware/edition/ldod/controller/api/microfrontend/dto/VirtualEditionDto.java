@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.joda.time.LocalDate;
 
+import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
@@ -40,13 +41,17 @@ public class VirtualEditionDto {
 	private List<ParticipantDto> participantSet;
 	private List<CategoryDto> categorySet;
 	private List<String> annotationTextList;
+	private Boolean canAddFragInter;
 	
 
-	public VirtualEditionDto(VirtualEdition vEdition, Fragment fragment, LdoDUser user) {
+	public VirtualEditionDto(VirtualEdition vEdition, Fragment fragment, LdoDUser user, FragInter frag) {
 		this.setSortedInter4Frag(vEdition.getSortedInter4Frag(fragment).stream().map(VirtualEditionInterDto::new).collect(Collectors.toList()));
 		this.setAcronym(vEdition.getAcronym());
 		this.setParticipantSetContains(vEdition.getParticipantSet().contains(user));
 		this.setExternalId(vEdition.getExternalId());
+		if(frag != null) {
+			this.setCanAddFragInter(vEdition.canAddFragInter(frag));
+		}
 	}
 	
 	public VirtualEditionDto(VirtualEdition vEdition, LdoDUser user) {
@@ -342,5 +347,13 @@ public class VirtualEditionDto {
 
 	public void setAnnotationTextList(List<String> annotationTextList) {
 		this.annotationTextList = annotationTextList;
+	}
+
+	public Boolean getCanAddFragInter() {
+		return canAddFragInter;
+	}
+
+	public void setCanAddFragInter(Boolean canAddFragInter) {
+		this.canAddFragInter = canAddFragInter;
 	}
 }

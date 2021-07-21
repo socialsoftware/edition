@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom';
-import { getUserForm, setUserForm } from '../../../util/utilsAPI';
+import { getUserForm, setUserForm } from '../../../util/API/AdminAPI';
 
 const UserEdit = (props) => {
 

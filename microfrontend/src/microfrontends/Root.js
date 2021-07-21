@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from 'react'
-import '../resources/css/home/Navbar.css'
-import Navbar from './common/Navbar'
 import { BrowserRouter, Route, Switch} from "react-router-dom";
-import Login from './user/login/Login';
-import Register from './user/register/Register';
 import { ACCESS_TOKEN } from '../constants/index.js'
-import { getCurrentUser } from '../util/utilsAPI';
-import OAuth2RedirectHandler from './user/authentication/OAuth2/OAuth2RedirectHandler'
+import { getCurrentUser } from '../util/API/UserAPI';
 import * as messages_en from '../constants/messages_en'
 import * as messages_pt from '../constants/messages_pt'
 import * as messages_es from '../constants/messages_es'
+import Navbar from './common/Navbar'
+import Home from './common/Home';
+import User_DISPATCHER from './user/User_DISPATCHER'
 import About_DISPATCHER from './about/About_DISPATCHER';
 import Documents_DISPATCHER from './documents/Documents_DISPATCHER';
-import Home from './common/Home';
 import Edition_DISPATCHER from './edition/Edition_DISPATCHER';
 import Search_DISPATCHER from './search/Search_DISPATCHER';
 import Reading_DISPATCHER from './reading/Reading_DISPATCHER';
 import Fragment_DISPATCHER from './fragment/Fragment_DISPATCHER';
 import Virtual_DISPATCHER from './virtual/Virtual_DISPATCHER'
 import Admin_DISPATCHER from './admin/Admin_DISPATCHER'
+
 import { connect } from 'react-redux';
+
+import OAuth2RedirectHandler from './user/authentication/OAuth2/OAuth2RedirectHandler'
 
 const Root = (props) => {
 
@@ -95,21 +95,15 @@ const Root = (props) => {
                                 />}>
                             </Route>
                             <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>  
-                            <Route path="/auth/signin" 
-                                component={(props) => <Login onLogin={() => {
-                                    loadCurrentUser()
-                                }} 
-                                {...props} 
-                                messages={messages}
-                                />}>
-                            </Route>
-                            <Route path="/auth/signup" 
-                                component={(props) => <Register 
+                            <Route path="/auth" 
+                                component={(props) => <User_DISPATCHER 
                                 {...props} 
                                 language={language}
                                 messages={messages}
+                                onLogin={() => loadCurrentUser()}
+                                user={currentUser}
                                 />}>
-                            </Route>
+                            </Route> 
                             <Route path="/admin" 
                                 component={(props) => <Admin_DISPATCHER 
                                 {...props} 
@@ -156,6 +150,7 @@ const Root = (props) => {
                                 component={(props) => <Fragment_DISPATCHER 
                                 {...props} 
                                 messages={messages}
+                                isAuthenticated={isAuthenticated}
                                 />}>
                             </Route>
                             <Route path="/virtual" 

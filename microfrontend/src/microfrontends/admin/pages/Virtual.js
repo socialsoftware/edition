@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getAdminVirtualList, deleteAdminVirtualEdition } from '../../../util/utilsAPI';
+import { getAdminVirtualList, deleteAdminVirtualEdition } from '../../../util/API/AdminAPI';
 import CircleLoader from "react-spinners/RotateLoader";
 
 const Virtual = (props) => {

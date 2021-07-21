@@ -23,7 +23,7 @@ const Archive_en = (props) => {
 	with the <em>Book of Disquiet</em> as a literary machine.
 </p>
 <p>&nbsp;</p>
-<hr className="archive-line"></hr>
+<hr className="about-archive-line"></hr>
 <p>&nbsp;</p>
 <p>
 	The main features of the <em>LdoD Archive</em> are expressed through

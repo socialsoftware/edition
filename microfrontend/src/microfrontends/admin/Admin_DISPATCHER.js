@@ -13,7 +13,7 @@ import '../../resources/css/admin/Admin.css'
 const Admin_DISPATCHER = (props) => {
 
     return (
-        <div>
+        <div style={{marginTop:"150px"}}>
             <Switch>
                 <Route path="/admin/loadForm" 
                     component={() => <Load 

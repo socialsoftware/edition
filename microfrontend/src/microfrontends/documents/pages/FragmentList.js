@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { getFragmentList } from '../../../util/utilsAPI';
+import { getFragmentList } from '../../../util/API/DocumentsAPI';
 import { Link } from 'react-router-dom';
 import InterMetaInfo from './InterMetaInfo';
 import CircleLoader from "react-spinners/RotateLoader";
@@ -18,11 +18,9 @@ const FragmentList = (props) => {
         getFragmentList()
             .then(res => {
                 setFragmentsData(res.data)
-                console.log(res.data);
-                setTimeout(() => setLoading(false), 500)
+                setLoading(false)
             })
             .catch(err => {
-                console.log(err);
             })
     }, [])
 
@@ -31,7 +29,7 @@ const FragmentList = (props) => {
             if(search==="" || handleSearchFiltering(frag)){
                 return(
                     <tr className="table-body-row-row" key={i}>
-                        <td className="table-body-row"><Link className="table-body-title"
+                        <td className="table-body-row"><Link className="documents-table-body-title"
                             to={`/fragments/fragment/${frag.xmlId}`}>{frag.title}</Link>
                         </td>
                         <td className="table-body-row">
@@ -133,13 +131,12 @@ const FragmentList = (props) => {
     }
 
     const handleSearchUpdate = () => {
-        console.log(inputEl.current.value)
         setSearch(inputEl.current.value)
     }
 
     return (
-    <div className="frag-list">
-        <p className="list-title">{props.messages.fragment_codified} <span>{`(${fragmentsData.length})`}</span></p>
+    <div className="documents-frag-list">
+        <p className="documents-list-title">{props.messages.fragment_codified} <span>{`(${fragmentsData.length})`}</span></p>
         <CircleLoader loading={loading}></CircleLoader>
         <div className={loading?"loading-table":"search-container"}>
             <input ref={inputEl} className="search" placeholder="Search"></input>

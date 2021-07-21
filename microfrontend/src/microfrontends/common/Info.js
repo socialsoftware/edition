@@ -1,8 +1,7 @@
 import React from 'react'
-import logotiposm from '../resources/assets/logotiposm.png'
-import logotipos from '../resources/assets/logotipos.png'
-import '../resources/css/about/About.css'
-import '../resources/css/home/Home.css'
+import logotiposm from '../../resources/assets/logotiposm.png'
+import logotipos from '../../resources/assets/logotipos.png'
+import '../../resources/css/about/About.css'
 import {useLocation} from 'react-router-dom'
 
 const Info = (props) => {

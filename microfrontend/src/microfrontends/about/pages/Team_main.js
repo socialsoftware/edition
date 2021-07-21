@@ -8,8 +8,8 @@ import Team_pt from './Team_pt'
 const Team_main = (props) => {
     return(
         <div>
-            <div className="container">
-                <p className="conduct-title">{props.messages.header_faq}</p>
+            <div className="about-container">
+                <p className="about-conduct-title">{props.messages.header_faq}</p>
                 {props.language==="pt"?<Team_pt/>:props.language==="en"?<Team_en/>:<Team_es/>}
             </div>
         </div>

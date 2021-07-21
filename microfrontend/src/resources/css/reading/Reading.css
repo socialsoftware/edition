@@ -12,7 +12,7 @@
     width: 1140px;
     display: flex;
     margin: 0 auto;
-    margin-top: 40px;
+    margin-top: 100px;
     padding-bottom: 80px;
 }
 .reading-book-title{
@@ -28,6 +28,7 @@
     font-size: 2.5em;
     padding-top: 110px;
     min-width: max-content;
+    text-transform: uppercase;
 }
 .reading-column-fragment{
     display: flex;
@@ -197,7 +198,10 @@
 .recommendation-div-hover:hover{
     color: #0C4EF6;
 }
-
+.reading-modal-controls-div{
+    display: flex;
+    justify-content: space-between;
+}
 .reading-backdrop{
     position: absolute;
     left: 0;
@@ -205,18 +209,18 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.452);
-    z-index: 0;
+    z-index: 4;
 }
 .reading-modal{
     position: absolute;
-    top: 50px;
+    top: 150px;
     left: 50%;
-    margin-left: -450px;
+    margin-left: -400px;
     background-color: white;
     border: 1px solid black;
     border-radius: 5px;
-    width: 900px;
-    z-index: 2;
+    width: 800px;
+    z-index: 4;
 }
 .reading-modal-header{
     position: relative;
@@ -402,7 +406,97 @@
     .reading-fragment-title{
         font-size: 1.7em;
     }
+    .reading{
+        flex-direction: column;
+    }
+    .reading-column-fragment{
+        width: 100%;
+    }
+    .reading-author-div{
+        display: flex;
+        justify-content: space-between;
+    }
+    .reading-column{
+        border-left: none;
+        border-bottom: 2px dotted black;
+    }
+    .reading-column-selected{
+        border-left: none;
+        border-bottom: 2px dotted #FC1B27;
+    }
+    .reading-fragment{
+        border-left: none;
+        border-bottom: 2px dotted black;
+    }
+    .reading-column-recomendation{
+        border: none;
+    }
+    .reading-book-title{
+        border-left: none;
+        border-bottom: 2px dotted black;
+        width: 100%;
+    }
+    .reading-h1{
+        padding: 0;
+        margin: 0;
+        font-size: 34px;
+    }
+    .reading-column-author{
+        max-width: none;
+        margin: 10px 0;
+        font-size: 28px;
+    }
+    .reading-column-author-rec{
+        font-size: 34px;
+    }
+    .reading-info{
+        display: none;
+    }
+    .reading-author-div{
+        width: 100%;
+        height: 60px;
+    }
+    .reading-arrows{
+        display: flex;
+        flex-direction: row;
+    }
+    .reading-column-selected{
+        width: 100%;
+    }
+    .reading-column-fragment-selected{
+        display: unset;
+        width: 100%;
+    }
+    .reading-column-author-selected{
+        max-width: unset;
+        margin: 0;
+        font-size: 28px;
+    }
+    .reading-fragment{
+        padding-top: 20px;
+        padding-left: 0;
+    }
+    .reading-arrow-right{
+        margin-left: 5px;
+    }
+    .reading-modal{
+        position: absolute;
+        top: 150px;
+        left: 5%;
+        background-color: white;
+        border: 1px solid black;
+        border-radius: 5px;
+        width: 90%;
+        margin-left: 0;
+    }
+    .reading-modal-controls-div{
+        flex-direction: column;
+    }
+    .reading-modal-body-input{
+        width: 100%;
+    }
 }
+
 
 .citations td{
     font-size: 14px;

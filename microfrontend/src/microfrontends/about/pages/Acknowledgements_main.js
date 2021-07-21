@@ -7,8 +7,8 @@ import Acknowledgements_pt from './Acknowledgements_pt'
 const Acknowledgements_main = (props) => {
     return (
         <div>
-            <div className="container">
-                <p className="conduct-title">{props.messages.header_acknowledgements}</p>
+            <div className="about-container">
+                <p className="about-conduct-title">{props.messages.header_acknowledgements}</p>
                 {props.language==="pt"?<Acknowledgements_pt/>:props.language==="en"?<Acknowledgements_en/>:<Acknowledgements_es/>}
             </div>
         </div>

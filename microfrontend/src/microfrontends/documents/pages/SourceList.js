@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react'
 import CircleLoader from "react-spinners/RotateLoader";
 import informationIcon from '../../../resources/assets/information.svg'
-import { getSourceList } from '../../../util/utilsAPI';
+import { getSourceList } from '../../../util/API/DocumentsAPI';
 import { Link } from 'react-router-dom';
 import lupaIcon from '../../../resources/assets/lupa.svg'
 
@@ -19,7 +19,7 @@ const SourceList = (props) => {
             .then(res => {
                 console.log(res);
                 setSourceList(res.data)
-                setTimeout(() => setLoading(false), 500)
+                setLoading(false)
             })
             .catch(err => {
                 console.log(err);
@@ -30,7 +30,7 @@ const SourceList = (props) => {
         return val.map((el, i) => {
             return (
                 <p key={i}>
-                    <Link className="link" to={`/fragments/fragment/${el.xmlId}/inter/${el.urlId}`}>
+                    <Link className="documents-link" to={`/fragments/fragment/${el.xmlId}/inter/${el.urlId}`}>
                         {el.title}
                     </Link>
                 </p>
@@ -71,7 +71,7 @@ const SourceList = (props) => {
     const getSurfacesMap = (val, title) => {
         if(val!==null){
             return val.map((elem,key) => {
-                return <p><Link key={key} className="linkFac" to={`/facs/${elem.graphic}`}>({key+1}) {title}</Link></p>
+                return <p><Link key={key} className="documents-linkFac" to={`/facs/${elem.graphic}`}>({key+1}) {title}</Link></p>
             })
         }
     }
@@ -88,7 +88,7 @@ const SourceList = (props) => {
                         <td className="table-body-row">
                             {getInterSetMap(frag.sourceInterSet)}
                         </td>
-                        <td  className="table-body-row-source">
+                        <td  className="documents-table-body-row-source">
                            {frag.date}
                         </td>
                         <td className="table-body-row">
@@ -100,13 +100,13 @@ const SourceList = (props) => {
                             }
 
                         </td>
-                        <td className="table-body-row-source" style={{maxWidth: "80px", minWidth:"80px"}}>
+                        <td className="documents-table-body-row-source" style={{maxWidth: "80px", minWidth:"80px"}}>
                             {frag.hadLdoDLabel?<p style={{textAlign:"center", maxWidth: "80px", minWidth:"80px"}}>{props.messages.general_yes}</p>:<p style={{textAlign:"center", maxWidth: "80px", minWidth:"80px"}}>{props.messages.general_no}</p>}
                             </td>
-                        <td className="table-body-row-source-dim">
+                        <td className="documents-table-body-row-source-dim">
                             {frag.dimensionSetSize>0?getDimensionsMap(frag.dimensionDtoList):null}
                             </td> 
-                        <td className="table-body-row-source">
+                        <td className="documents-table-body-row-source">
                             {getSurfacesMap(frag.surfaceDto, frag.title)}
                         </td> 
                         
@@ -132,12 +132,12 @@ const SourceList = (props) => {
     }
 
     return (
-        <div className="sourceList">
-            <p className="source-title">
+        <div className="documents-sourceList">
+            <p className="documents-source-title">
                 {props.messages.authorial_source}
                 <span> {`(${sourceList.length})`}</span>
-                <img src={informationIcon} className="glyphicon" onClick={() => setInfo(!info)}></img>
-                <span className={info?"showInfo":"noInfo"}>
+                <img src={informationIcon} className="documents-glyphicon" onClick={() => setInfo(!info)}></img>
+                <span className={info?"documents-showInfo":"documents-noInfo"}>
                     {props.messages.sourcelist_tt_sources}
                 </span>
             </p>

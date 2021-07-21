@@ -1,6 +1,6 @@
 import React from 'react'
-import { Route, Switch} from "react-router-dom";
-import Info from '../../util/Info';
+import {Route, Switch} from "react-router-dom";
+import Info from '../common/Info';
 import AcknowledgementsMain from './pages/Acknowledgements_main';
 import ArchiveMain from './pages/Archive_main';
 import ArticlesMain from './pages/Articles_main';
@@ -14,9 +14,11 @@ import TeamMain from './pages/Team_main';
 import TutorialsMain from './pages/Tutorials_main';
 import VideosMain from './pages/Videos_main';
 
+import '../../resources/css/about/About.css'
+
 const About_DISPATCHER = (props) => {
     return (
-        <div>
+        <div className="about">
             <Switch>
                 <Route path="/about/conduct" 
                     component={() => <ConductMain 

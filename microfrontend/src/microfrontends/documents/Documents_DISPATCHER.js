@@ -8,7 +8,7 @@ import '../../resources/css/common/SearchInput.css'
 
 const Documents_DISPATCHER = (props) => {
     return (
-        <div>
+        <div style={{marginTop:"150px"}}>
             <Switch>
                 <Route path="/documents/fragments" 
                     component={() => <FragmentList 

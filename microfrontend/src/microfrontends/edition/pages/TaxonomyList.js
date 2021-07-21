@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom';
 import CircleLoader from "react-spinners/RotateLoader";
-import { getTaxonomyList } from '../../../util/utilsAPI';
+import { getTaxonomyList } from '../../../util/API/EditionAPI';
 import lupaIcon from '../../../resources/assets/lupa.svg'
 
 const TaxonomyList = (props) => {
@@ -23,7 +23,7 @@ const TaxonomyList = (props) => {
     const mapSortedInters = (category) => {
         return category.sortedIntersList.map((inter, i) => {
             return (
-                <p className="inter-list-p" key={i}>
+                <p className="edition-inter-list-p" key={i}>
                     <Link className="table-body-title"
                         to={`/fragments/fragment/${inter.xmlId}/inter/${inter.urlId}`}> {inter.title}</Link>
                 </p>
@@ -34,7 +34,7 @@ const TaxonomyList = (props) => {
     const mapSortedUser = (category) => {
         return category.sortedUsersList.map((user, i) => {
             return (
-                <p className="inter-list-p" key={i}>
+                <p className="edition-inter-list-p" key={i}>
                     <Link className="table-body-title"
                         to={`/edition/user/${user.userName}`}>{user.firstName} {user.lastName} ({user.userName})</Link>
                 </p>
@@ -46,7 +46,7 @@ const TaxonomyList = (props) => {
     const mapSortedEditions = (category) => {
         return category.sortedEditionsList.map((edition, i) => {
             return (
-                <p className="inter-list-p" key={i}>
+                <p className="edition-inter-list-p" key={i}>
                     <Link className="table-body-title"
                         to={`/edition/acronym/${taxonomyData.acronym}`}> {edition.title}</Link>
                 </p>
@@ -110,9 +110,9 @@ const TaxonomyList = (props) => {
     
     return (
         <div>
-            <p className="list-title">{props.messages.general_taxonomy}: {taxonomyData?taxonomyData.title:null}</p>
+            <p className="edition-list-title">{props.messages.general_taxonomy}: {taxonomyData?taxonomyData.title:null}</p>
             <CircleLoader loading={loading}></CircleLoader>
-            <div className={loading?"loading-table":"editionTop"} >
+            <div className={loading?"loading-table":"edition-editionTop"} >
                 <p style={{marginTop:"15px"}}><strong>{props.messages.virtualedition}:</strong> <Link className="table-body-title" style={{color:"#337ab7"}}
                             to={`/edition/acronym/${taxonomyData?taxonomyData.acronym:null}`}>{taxonomyData?taxonomyData.title:null}</Link> </p>
 

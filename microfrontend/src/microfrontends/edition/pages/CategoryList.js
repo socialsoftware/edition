@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom';
 import CircleLoader from "react-spinners/RotateLoader";
-import { getCategoryList } from '../../../util/utilsAPI';
+import { getCategoryList } from '../../../util/API/EditionAPI';
 import lupaIcon from '../../../resources/assets/lupa.svg'
 import '../../../resources/css/common/Table.css'
 import '../../../resources/css/common/SearchInput.css'
@@ -25,13 +25,13 @@ const CategoryList = (props) => {
 
     const mapUsed = (val) => {
         return val.map((el, i) => {
-            return <p key={i}>{"->"}<Link className="usedLink" to={`/fragments/fragment/${el.xmlId}/inter/${el.urlId}`}>{el.shortName}</Link></p>
+            return <p key={i}>{"->"}<Link className="edition-usedLink" to={`/fragments/fragment/${el.xmlId}/inter/${el.urlId}`}>{el.shortName}</Link></p>
         })
     }
 
     const mapUsers = (val) => {
         return val.map((el, i) => {
-            return <p className="inter-list-p" key={i}><Link className="usedLink" to={`/edition/user/${el.userName}`}>{el.firstName} {el.lastName} ({el.userName})</Link></p>
+            return <p className="edition-inter-list-p" key={i}><Link className="edition-usedLink" to={`/edition/user/${el.userName}`}>{el.firstName} {el.lastName} ({el.userName})</Link></p>
         })
     }
 
@@ -94,7 +94,7 @@ const CategoryList = (props) => {
     
     return (
         <div>
-            <p className="list-title">{props.messages.general_category}: {categoryData?categoryData.name:null}</p>
+            <p className="edition-list-title">{props.messages.general_category}: {categoryData?categoryData.name:null}</p>
             <CircleLoader loading={loading}></CircleLoader>
             <div className={loading?"loading-table":"editionTop"} >
                 <p style={{marginTop:"15px"}}><strong>{props.messages.general_taxonomy}:</strong> <Link className="table-body-title" style={{color:"#337ab7"}}

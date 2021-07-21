@@ -4,7 +4,7 @@ import {ReactComponent as List} from '../../../resources/assets/card-list.svg'
 import {ReactComponent as Tag} from '../../../resources/assets/tag_fill.svg'
 import {ReactComponent as Edit} from '../../../resources/assets/edit.svg'
 import { Link, useHistory, useLocation } from 'react-router-dom'
-import { getCategoryData, deleteVirtualCategory, updateVirtualCategory, extractCategories } from '../../../util/utilsAPI';
+import { getCategoryData, deleteVirtualCategory, updateVirtualCategory, extractCategories } from '../../../util/API/VirtualAPI';
 import ReactTooltip from 'react-tooltip';
 
 const Category = (props) => {

@@ -48,7 +48,7 @@ const Inter2Compare = (props) => {
 
     return (
         <div>
-            <div style={{display:"flex"}}>
+            <div className="inter-editorial-control-div">
                 {props.data.inters.length === 2?
                     <div className="inter-editorial-flex">
                         <input type="checkbox" checked={selected["line"]} onChange={() => callbackInputSelect("line")}></input>
@@ -56,7 +56,7 @@ const Inter2Compare = (props) => {
                     </div>
                 :null
                 }
-                <div className="inter-editorial-flex" style={{marginLeft:"10px"}}>
+                <div className="inter-editorial-flex">
                     <input type="checkbox" checked={selected["spaces"]} onChange={() => callbackInputSelect("spaces")}></input>
                     <p>{props.messages.fragment_alignspace}</p>
                 </div>

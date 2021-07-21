@@ -7,8 +7,8 @@ import Conduct_pt from './Conduct_pt'
 const Conduct_main = (props) => {
     return(
         <div>
-            <div className="container">
-                <p className="conduct-title">{props.messages.header_conduct}</p>
+            <div className="about-container">
+                <p className="about-conduct-title">{props.messages.header_conduct}</p>
                 {props.language==="pt"?<Conduct_pt/>:props.language==="en"?<Conduct_en/>:<Conduct_es/>}
             </div>
         </div>

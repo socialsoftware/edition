@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { deleteSingleFragment, getFragmentDeleteList, deleteAllFragment } from '../../../util/utilsAPI';
+import { deleteSingleFragment, getFragmentDeleteList, deleteAllFragment } from '../../../util/API/AdminAPI';
 import CircleLoader from "react-spinners/RotateLoader";
 
 const Delete = (props) => {

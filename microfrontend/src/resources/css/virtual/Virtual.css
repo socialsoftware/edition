@@ -5,6 +5,7 @@
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
+
 .virtual-body-title{
     color: #333;
     font-family: Arial, Helvetica, sans-serif;
@@ -680,4 +681,26 @@
 
 .virtual-error{
     color: red;
+}
+
+@media (max-width: 1200px){
+    .virtual-editions {
+        width: 970px;
+    }   
+}
+@media (max-width: 992px){
+    .virtual-editions {
+        width: 750px;
+    }
+    .virtual-editions-table{
+        width: 750px;
+    }
+}
+@media (max-width: 768px){
+    .virtual-editions {
+        width: 100%;
+    }
+    .virtual-editions-table{
+        width: 90%;
+    }
 }

@@ -3,7 +3,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom'
 import {ReactComponent as LeftArrow} from '../../../resources/assets/caret-left-fill.svg'
 import {ReactComponent as Person} from '../../../resources/assets/person-fill.svg'
 import {ReactComponent as Rotate} from '../../../resources/assets/arrow-repeat.svg'
-import { getParticipantsPage, addNewMember, removeMember, changeRole, approveMember } from '../../../util/utilsAPI'
+import { getParticipantsPage, addNewMember, removeMember, changeRole, approveMember } from '../../../util/API/VirtualAPI'
 import plus from '../../../resources/assets/plus_white.png'
 
 const Participants = (props) => {

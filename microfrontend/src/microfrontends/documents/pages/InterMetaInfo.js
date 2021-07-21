@@ -12,7 +12,6 @@ const InterMetaInfo = (props) => {
     useEffect(() => {
         
         if(props.sourceList!==undefined){
-            console.log(props.sourceList);
             setSourceInfo(props.sourceList)
             if(props.sourceList.sourceType === "MANUSCRIPT") {
                 setIsManuscript(true)
@@ -79,7 +78,7 @@ const InterMetaInfo = (props) => {
     const getSurfacesMap = (val) => {
         if(val!==null){
             return val.map((elem,key) => {
-                return <Link key={key} className="linkFac" to={`/facs/${elem.graphic}`}> {elem.graphic},</Link>
+                return <Link key={key} className="documents-linkFac" to={`/facs/${elem.graphic}`}> {elem.graphic},</Link>
             })
         }
     }

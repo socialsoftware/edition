@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { ReactComponent as Edit } from '../../../resources/assets/edit.svg'
-import { getTweets } from '../../../util/utilsAPI';
+import { getTweets } from '../../../util/API/AdminAPI';
 
 const Tweets = (props) => {
 

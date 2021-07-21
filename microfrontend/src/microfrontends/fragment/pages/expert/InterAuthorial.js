@@ -31,7 +31,7 @@ const InterAuthorial = (props) => {
 
     return (
         <div>
-            <div style={{display:"flex", justifyContent:"space-between"}}>
+            <div className="inter-authorial-control-div" >
                 <div className="inter-editorial-flex">
                     <input type="checkbox" checked={selected["diff"]} onChange={() => callbackInputSelect("diff")}></input>
                     <p>{props.messages.fragment_highlightdifferences}</p>

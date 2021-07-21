@@ -9,7 +9,7 @@ import '../../resources/css/common/SearchInput.css'
 
 const Search_DISPATCHER = (props) => {
     return (
-        <div>
+        <div style={{marginTop:"150px"}}>
             <Switch>
                 <Route path="/search/simple" 
                     component={() => <Simple 

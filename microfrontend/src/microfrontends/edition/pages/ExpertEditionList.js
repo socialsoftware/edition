@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react'
-import { getExpertEditionList } from '../../../util/utilsAPI';
+import { getExpertEditionList } from '../../../util/API/EditionAPI';
 import CircleLoader from "react-spinners/RotateLoader";
 import { Link } from 'react-router-dom';
 import eyeIcon from '../../../resources/assets/eye.svg'
@@ -40,7 +40,7 @@ const ExpertEditionList = (props) => {
                             to={`/fragments/fragment/${interp.xmlId}/inter/${interp.urlId}`}>{interp.title}</Link></td>
                         <td className="table-body-row">
                         <Link className="table-body-title"
-                            to={`/reading/fragment/${interp.xmlId}/inter/${interp.urlId}/start`}><img className="icon" src={eyeIcon}></img></Link>
+                            to={`/reading/fragment/${interp.xmlId}/inter/${interp.urlId}/start`}><img className="edition-icon" src={eyeIcon}></img></Link>
                         </td>
                         
                         {editor === "Jacinto do Prado Coelho"?
@@ -80,7 +80,7 @@ const ExpertEditionList = (props) => {
 
     return (
         <div>
-            <p className="list-title">{props.messages.tableofcontents_editionof} {editor}<span> {`(${listSize})`}</span></p>
+            <p className="edition-list-title">{props.messages.tableofcontents_editionof} {editor}<span> {`(${listSize})`}</span></p>
             <CircleLoader loading={loading}></CircleLoader>
             <div className={loading?"loading-table":"search-container"}>
                     <input ref={inputEl} className="search" placeholder="Search"></input>

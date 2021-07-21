@@ -10,13 +10,11 @@ import {ReactComponent as ArrowRight} from '../../../resources/assets/arrow-righ
 import {ReactComponent as Save} from '../../../resources/assets/floppy-disk.svg'
 import {ReactComponent as LeftArrow} from '../../../resources/assets/caret-left-fill.svg'
 import {ReactComponent as LinkImg} from '../../../resources/assets/link-45deg.svg'
-import { getSimpleSearchList, reorderCurrentList } from '../../../util/utilsAPI';
+import { reorderCurrentList, getManualData } from '../../../util/API/VirtualAPI';
 import Select from 'react-select'
 import lupa from '../../../resources/assets/lupa.svg'
-
+import { getSimpleSearchList } from '../../../util/API/SearchAPI';
 import { useHistory, useLocation } from 'react-router-dom'
-
-import { getManualData } from '../../../util/utilsAPI'
 import VirtualSearchTable from './VirtualSearchTable'
 import CircleLoader from "react-spinners/RotateLoader";
 

@@ -6,8 +6,7 @@ import {
     PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
 } from '../../../constants/index.js';
 import { useHistory } from "react-router-dom";
-import '../../../resources/css/user/Register.css'
-import { signup } from '../../../util/utilsAPI';
+import { signup } from '../../../util/API/UserAPI';
 import Conduct_pt from '../../about/pages/Conduct_pt'
 import Conduct_en from '../../about/pages/Conduct_en'
 import Conduct_es from '../../about/pages/Conduct_es'
@@ -21,30 +20,43 @@ const Register = (props) => {
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [conduct, setConduct] = useState(false)
+
+    const [error, setError] = useState("")
 
     const validateDetails = (request) => {
-        if(request.name.length>NAME_MIN_LENGTH && request.name.length< NAME_MAX_LENGTH &&
-            request.username.length>USERNAME_MIN_LENGTH && request.username.length<USERNAME_MAX_LENGTH &&
-                request.email.length<EMAIL_MAX_LENGTH &&
-                    request.username.length>PASSWORD_MIN_LENGTH && request.username.length<PASSWORD_MAX_LENGTH){
-                        return true
-                    }
-                    else return false
+        if(request.firstName.length>NAME_MIN_LENGTH && request.firstName.length< NAME_MAX_LENGTH &&
+            request.lastName.length>NAME_MIN_LENGTH && request.lastName.length< NAME_MAX_LENGTH &&
+                request.username.length>USERNAME_MIN_LENGTH && request.username.length<USERNAME_MAX_LENGTH &&
+                    request.email.length<EMAIL_MAX_LENGTH &&
+                        request.username.length>PASSWORD_MIN_LENGTH && request.username.length<PASSWORD_MAX_LENGTH){
+                            return true
+                        }
+                        else return false
     }
 
     //AUTHENTICATION METHODS
     const handleRegister = () => {
+        setError("")
         const signupRequest = {
-            name: name+' '+surname,
-            email: email,
+            firstName: name,
+            lastName: surname,
             username: username,
-            password: password
+            password: password,
+            email: email,
+            conduct: conduct,
+            socialMediaService: "",
+            socialMediaId: "",
         }
         if(validateDetails(signupRequest)){
             signup(signupRequest) //API COMMUNICATION
             .then(res => {
                 console.log(res.data);
-                history.push("/auth/signin")
+                if(res.data !== "error") history.push("/auth/signin")
+                else{
+                    window.scrollTo(0, 0)
+                    setError("Nome de utilizador repetido")
+                } 
             })
             .catch(error => {
                 console.log(error)
@@ -56,12 +68,21 @@ const Register = (props) => {
                 }
             });
         }
+        else{
+            window.scrollTo(0, 0)
+            setError("Campos vazios/inválidos")
+        }
         
     }
     ///
 
     return(
         <div className="registo">
+            {
+                error?
+                    <p style={{color:"red"}}>{error}</p>
+                :null
+            }
             <p className="registo-title">{props.messages.signup}</p>
             <div className="registo-input-div">
                 <div className="registo-input-div-flex"> 
@@ -78,16 +99,16 @@ const Register = (props) => {
                 </div>
                 <div className="registo-input-div-flex">
                     <p className="registo-input-name">{props.messages.login_password}</p>
-                    <input className="registo-input-input" onChange={e => setEmail(e.target.value)}></input>
+                    <input className="registo-input-input" onChange={e => setPassword(e.target.value)} type="password"></input>
                 </div>
                 <div className="registo-input-div-flex">
                     <p className="registo-input-name">{props.messages.user_email}</p>
-                    <input className="registo-input-input" onChange={e => setPassword(e.target.value)} type="password"></input>
+                    <input className="registo-input-input" onChange={e => setEmail(e.target.value)}></input>
                 </div>
                 <div className="registo-input-div-flex">
                     <p className="registo-input-name">{props.messages.header_conduct}</p>
                     <div className="registo-input-conduta">
-                        <input type="checkbox" className="registo-input-conduta-select"></input>
+                        <input type="checkbox" checked={conduct} onChange={() => setConduct(!conduct)} className="registo-input-conduta-select"></input>
                         <p className="registo-input-conduta-text">{props.messages.header_conduct_accept}</p>
                     </div>
                 </div>

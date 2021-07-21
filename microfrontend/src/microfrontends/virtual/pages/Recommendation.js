@@ -4,7 +4,7 @@ import {ReactComponent as LeftArrow} from '../../../resources/assets/caret-left-
 import {ReactComponent as Check} from '../../../resources/assets/check.svg'
 import {ReactComponent as Save} from '../../../resources/assets/floppy-disk.svg'
 
-import { getRecommendationPage, setCriteriaChange, saveNewInters } from '../../../util/utilsAPI'
+import { getRecommendationPage, setCriteriaChange, saveNewInters } from '../../../util/API/VirtualAPI'
 
 const Recommendation = (props) => {
 

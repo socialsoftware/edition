@@ -65,7 +65,7 @@ public class FragmentBodyDto {
 		List<VirtualEdition> virtualEditions = selectedVEAcr.stream().map(acr -> instance.getEdition(acr)).filter(e -> e != null)
 				.map(VirtualEdition.class::cast).collect(Collectors.toList());
 		
-		this.setVirtualEditionsDto(virtualEditions.stream().map(vEdition -> new VirtualEditionDto(vEdition, fragment, user)).collect(Collectors.toList()));
+		this.setVirtualEditionsDto(virtualEditions.stream().map(vEdition -> new VirtualEditionDto(vEdition, fragment, user, inters.get(0))).collect(Collectors.toList()));
 	}
 
 	public FragmentBodyDto(LdoD instance, LdoDUser user,

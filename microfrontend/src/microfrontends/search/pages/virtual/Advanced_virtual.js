@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select/'
-import { getVirtualEditionMap } from '../../../util/utilsAPI';
+import { getVirtualEditionMap } from '../../../../util/API/SearchAPI';
 
 const Advanced_virtual = (props) => {
 

@@ -8,8 +8,8 @@ import Articles_pt from './Articles_pt'
 const Articles_main = (props) => {
     return(
         <div>
-            <div className="container">
-                <p className="conduct-title">{props.messages.header_bibliography}</p>
+            <div className="about-container">
+                <p className="about-conduct-title">{props.messages.header_bibliography}</p>
                 {props.language==="pt"?<Articles_pt/>:props.language==="en"?<Articles_en/>:<Articles_es/>}
             </div>
         </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getUserList, changeActiveUser, deleteUser, deleteUserSessions, switchAdmin } from '../../../util/utilsAPI';
+import { getUserList, changeActiveUser, deleteUser, deleteUserSessions, switchAdmin } from '../../../util/API/AdminAPI';
 import { ReactComponent as Edit } from '../../../resources/assets/edit.svg'
 import { useHistory } from 'react-router-dom';
 import CircleLoader from "react-spinners/RotateLoader";

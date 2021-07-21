@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import { useTable, useGlobalFilter, useAsyncDebounce } from 'react-table'
-import { getTwitterCitations } from '../../../util/utilsAPI'
+import { getTwitterCitations } from '../../../util/API/ReadingAPI'
 
 const Citations = (props) => {
 

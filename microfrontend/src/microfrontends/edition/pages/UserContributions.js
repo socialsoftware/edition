@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import CircleLoader from "react-spinners/RotateLoader";
-import { getUserContributions } from '../../../util/utilsAPI';
+import { getUserContributions } from '../../../util/API/EditionAPI';
 import lupaIcon from '../../../resources/assets/lupa.svg'
 
 const UserContributions = (props) => {
@@ -24,14 +24,14 @@ const UserContributions = (props) => {
 
     const mapUsed = (val) => {
         return val.map((el, i) => {
-            return <p key={i}>{"->"}<Link className="usedLink" to={`/fragments/fragment/${el.xmlId}/inter/${el.urlId}`}>{el.shortName}</Link></p>
+            return <p key={i}>{"->"}<Link className="edition-usedLink" to={`/fragments/fragment/${el.xmlId}/inter/${el.urlId}`}>{el.shortName}</Link></p>
         })
     }
 
     const mapCategoryList = (categoryList) => {
         return categoryList.map((el, i) => {
             return (
-                <p key={i}><Link className="usedLink" to={`/edition/acronym/${el.acronym}/category/${el.urlId}`}>{el.name}</Link></p>
+                <p key={i}><Link className="edition-usedLink" to={`/edition/acronym/${el.acronym}/category/${el.urlId}`}>{el.name}</Link></p>
             )
         })
     }
@@ -67,12 +67,12 @@ const UserContributions = (props) => {
         return userData.publicEditionList.map((val, i) => {
             if(i===userData.publicEditionList.length-1){
                 return (
-                    <span><Link className="participant" key={i} to={`/edition/acronym/${val.acronym}`}>{val.title}</Link></span>
+                    <span><Link className="edition-participant" key={i} to={`/edition/acronym/${val.acronym}`}>{val.title}</Link></span>
                 )
             }
             else{
                 return (
-                    <span><Link className="participant" key={i} to={`/edition/acronym/${val.acronym}`}>{val.title}</Link>, </span>
+                    <span><Link className="edition-participant" key={i} to={`/edition/acronym/${val.acronym}`}>{val.title}</Link>, </span>
                 )
             }
         })
@@ -82,12 +82,12 @@ const UserContributions = (props) => {
         return userData.games.map((val, i) => {
             if(i===userData.games.length-1){
                 return (
-                    <span><Link key={i} to={`/virtualeditions/${val.virtualExternalId}/classificationGame/${val.externalId}`} className="participant">{val.virtualTitle} - {val.interTitle}</Link></span>
+                    <span><Link key={i} to={`/virtualeditions/${val.virtualExternalId}/classificationGame/${val.externalId}`} className="edition-participant">{val.virtualTitle} - {val.interTitle}</Link></span>
                 )
             }
             else{
                 return (
-                    <span><Link key={i} to={`/virtualeditions/${val.virtualExternalId}/classificationGame/${val.externalId}`} className="participant">{val.virtualTitle} - {val.interTitle}</Link>, </span>
+                    <span><Link key={i} to={`/virtualeditions/${val.virtualExternalId}/classificationGame/${val.externalId}`} className="edition-participant">{val.virtualTitle} - {val.interTitle}</Link>, </span>
                 )
             }
             
@@ -123,10 +123,10 @@ const UserContributions = (props) => {
 
     return(
         <div>
-            <p className="list-title">{userData?userData.userFirst:null} {userData?userData.userLast:null}  ({userData?userData.username:null})</p>
+            <p className="edition-list-title">{userData?userData.userFirst:null} {userData?userData.userLast:null}  ({userData?userData.username:null})</p>
             <CircleLoader loading={loading}></CircleLoader>
             
-            <div className={loading?"loading-table":"editionTop"} >
+            <div className={loading?"loading-table":"edition-editionTop"} >
                 <p style={{marginTop:"15px"}}><strong>{props.messages.header_editions}:</strong> {userData?mapPublicEditionList():null}</p>
                 
                 {userData?userData.games?

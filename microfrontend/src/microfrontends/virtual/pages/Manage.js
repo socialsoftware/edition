@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
-import { getManagePage } from '../../../util/utilsAPI'
 import {ReactComponent as Pencil} from '../../../resources/assets/pencil-fill.svg'
 import {ReactComponent as Play} from '../../../resources/assets/play-circle.svg'
 import {ReactComponent as Tags} from '../../../resources/assets/tags-fill.svg'
@@ -11,7 +10,7 @@ import {ReactComponent as Check} from '../../../resources/assets/check.svg'
 import {ReactComponent as X} from '../../../resources/assets/x.svg'
 import trash from '../../../resources/assets/trash-fill.svg'
 import plus from '../../../resources/assets/plus_white.png'
-import { submitParticipation, cancelParticipation, getEditInfo } from '../../../util/utilsAPI';
+import { submitParticipation, cancelParticipation, getEditInfo, getManagePage } from '../../../util/API/VirtualAPI';
 import Select from 'react-select'
 import ReactTooltip from 'react-tooltip'
 import DatePicker from "react-datepicker";

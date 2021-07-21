@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Select from 'react-select'
 import lupa from '../../../resources/assets/lupa.svg'
-import { getSimpleSearchList } from '../../../util/utilsAPI';
+import { getSimpleSearchList } from '../../../util/API/SearchAPI';
 import SimpleResultTable from './SimpleResultTable';
 
 const Simple = (props) => {
@@ -62,7 +62,7 @@ const Simple = (props) => {
         <div className="search-page">
             <p className="search-title">{props.messages.header_search_simple}</p>
             <div className="form">
-                <input className="form-control input-search" style={{padding:"0 12px"}}
+                <input className="form-control input-search" style={{padding:"0 0 0 12px"}}
                     placeholder={props.messages.general_searching_for}
                     value={query}
                     onChange={e => setQuery(e.target.value)}>
