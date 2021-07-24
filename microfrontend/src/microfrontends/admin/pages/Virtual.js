@@ -9,7 +9,6 @@ const Virtual = (props) => {
     useEffect(() => {
         getAdminVirtualList()
             .then(res => {
-                console.log(res);
                 setList(res.data)
             })
     }, [])
@@ -38,9 +37,6 @@ const Virtual = (props) => {
 
     const deleteVirtualEditionHandler = (externalId) => {
         deleteAdminVirtualEdition(externalId)
-            .then(res => {
-                console.log(res);
-            })
     }
 
     const mapEditionsToTable = () => {

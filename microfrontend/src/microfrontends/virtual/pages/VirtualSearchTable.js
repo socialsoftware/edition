@@ -8,7 +8,6 @@ const VirtualSearchTable = (props) => {
 
     useEffect(() => {
         if(props.tableData){
-            console.log(props.tableData);
             const aux = []
             for(let el of props.tableData.listFragments){
                 let rowObject = {}
@@ -50,7 +49,6 @@ const VirtualSearchTable = (props) => {
       }) {
         // @ts-ignore
         // @ts-ignore
-        const count = preGlobalFilteredRows.length
         const [value, setValue] = React.useState(globalFilter)
         const onChange = useAsyncDebounce(value => {
           setGlobalFilter(value || undefined)
@@ -126,7 +124,7 @@ const VirtualSearchTable = (props) => {
             selectedFlatRows,
             state,
             // @ts-ignore
-            state: { pageIndex, pageSize, selectedRowIds },
+            state: { pageIndex, pageSize },
           } = useTable(
             {
               columns,
@@ -146,7 +144,9 @@ const VirtualSearchTable = (props) => {
                   // to the render a checkbox
                   Cell: ({ row }) => (
                     <div>
-                      <IndeterminateCheckbox {...row.
+                      <IndeterminateCheckbox
+                      // eslint-disable-next-line dot-location
+                      {...row.
 // @ts-ignore
                       getToggleRowSelectedProps()} />
                     </div>
@@ -173,8 +173,8 @@ const VirtualSearchTable = (props) => {
                 <thead>
                   {headerGroups.map(headerGroup => (
                     <tr {...headerGroup.getHeaderGroupProps()} className="table-row">
-                      {headerGroup.headers.map(column => (
-                        <th style={{textAlign:"left"}} {...column.getHeaderProps()}>{column.render('Header')}</th>
+                      {headerGroup.headers.map((column, i) => (
+                        <th key={i} style={{textAlign:"left"}} {...column.getHeaderProps()}>{column.render('Header')}</th>
                       ))}
                     </tr>
                   ))}
@@ -186,9 +186,9 @@ const VirtualSearchTable = (props) => {
                   i) => {
                     prepareRow(row)
                     return (
-                      <tr {...row.getRowProps()} >
-                        {row.cells.map(cell => {
-                          return <td style={{textAlign:"left"}} {...cell.getCellProps()}>
+                      <tr key={i} {...row.getRowProps()} >
+                        {row.cells.map((cell, i) => {
+                          return <td key={i} style={{textAlign:"left"}} {...cell.getCellProps()}>
                             {
                               cell.column.id==="title" || cell.column.id==="interp"?
                               <Link className="virtual-link" style={{color: "#0C4EF6"}}

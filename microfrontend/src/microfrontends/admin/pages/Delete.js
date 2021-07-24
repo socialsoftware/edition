@@ -9,7 +9,6 @@ const Delete = (props) => {
     useEffect(() => {
         getFragmentDeleteList()
             .then(res => {
-                console.log(res);
                 setList(res.data)
             })
     }, [])
@@ -17,7 +16,6 @@ const Delete = (props) => {
     const deleteFragmentHandler = (externalId) => {
         deleteSingleFragment(externalId)
             .then(res => {
-                console.log(res);
                 setList(res.data)
             })
     }
@@ -25,7 +23,6 @@ const Delete = (props) => {
     const deleteAllFragmentHandler = () => {
         deleteAllFragment()
             .then(res => {
-                console.log(res);
                 setList(res.data)
             })
     }

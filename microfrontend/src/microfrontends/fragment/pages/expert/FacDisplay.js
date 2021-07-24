@@ -15,7 +15,6 @@ const FacDisplay = (props) => {
     }
 
     useEffect(() => {
-        console.log("oioi");
         getImage(props.url)
         document.body.style.overflow = "hidden"
     }, [props.url])
@@ -28,7 +27,7 @@ const FacDisplay = (props) => {
     return (
             source?
                 <div className="fac-display">
-                    <img className="fac-display-image" src={source}></img>
+                    <img alt="fac" className="fac-display-image" src={source}></img>
                     <p className="fac-display-x" onClick={() => removeHandler()}>X</p>
                 </div>
             :null

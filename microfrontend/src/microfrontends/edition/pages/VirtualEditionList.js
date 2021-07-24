@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react'
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import CircleLoader from "react-spinners/RotateLoader";
 import { getVirtualEditionList } from '../../../util/API/EditionAPI';
 import lupaIcon from '../../../resources/assets/lupa.svg'
@@ -13,7 +13,6 @@ const VirtualEditionList = (props) => {
     const [listSize, setListSize] = useState(0)
     const [title, setTitle] = useState("")
     const [synopsis, setSynopsis] = useState("")
-    const [acronym, setAcronym] = useState("")
     const [loading, setLoading] = useState(true)
     const [search, setSearch] = useState("")
     const inputEl = useRef(null)
@@ -21,14 +20,12 @@ const VirtualEditionList = (props) => {
     useEffect(() => {
         getVirtualEditionList(props.acronym)
             .then(res => {
-                console.log(res);
                 setEditionData(res.data.sortedInterpsList)
                 if(props.acronym === "LdoD-Arquivo")setTitle("Edição do Arquivo LdoD")
                 else setTitle(res.data.title)
                 setListSize(res.data.interpsSize)
                 setParticipant(res.data.participantList)
                 setSynopsis(res.data.synopsis)
-                setAcronym(res.data.acronym)
                 setLoading(false)
             })
     }, [props.acronym])
@@ -67,6 +64,7 @@ const VirtualEditionList = (props) => {
                     </tr>
                     )
             }
+            else return null
             
         })
     }
@@ -76,12 +74,12 @@ const VirtualEditionList = (props) => {
         return participant.map((val, i) => {
             if(i===participant.length-1){
                 return (
-                    <span><Link key={i} to={`/edition/user/${val.userName}`} className="edition-participant">{val.firstName} {val.lastName}</Link></span>
+                    <span key={i}><Link  to={`/edition/user/${val.userName}`} className="edition-participant">{val.firstName} {val.lastName}</Link></span>
                 )
             }
             else{
                 return (
-                    <span><Link key={i} to={`/edition/user/${val.userName}`} className="edition-participant">{val.firstName} {val.lastName}</Link>, </span>
+                    <span key={i}><Link key={i} to={`/edition/user/${val.userName}`} className="edition-participant">{val.firstName} {val.lastName}</Link>, </span>
                 )
             }
             
@@ -111,7 +109,6 @@ const VirtualEditionList = (props) => {
     }
 
     const handleSearchUpdate = () => {
-        console.log(inputEl.current.value)
         setSearch(inputEl.current.value)
     }
 

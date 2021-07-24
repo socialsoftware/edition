@@ -1,4 +1,4 @@
-import { API_BASE_URL, ACCESS_TOKEN } from '../../constants/index';
+import { API_BASE_URL } from '../../constants/index';
 import axios from 'axios'
 
 export function getUserContributions (val) {

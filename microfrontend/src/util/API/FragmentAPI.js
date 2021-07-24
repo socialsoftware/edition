@@ -33,11 +33,31 @@ export function getNextFragmentWithXmlAndUrl (xmlId, urlId, arraySelected) {
     )
 }
 
+export function getNextFragmentWithXmlAndUrlNoUSER (xmlId, urlId, arraySelected) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/fragment/${xmlId}/inter/${urlId}/nextFrag`, arraySelected, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: null
+            }
+        } 
+    )
+}
+
 export function getPrevFragmentWithXmlAndUrl (xmlId, urlId, arraySelected) {
     return axios.post(API_BASE_URL + `/api/microfrontend/fragment/${xmlId}/inter/${urlId}/prevFrag`, arraySelected, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        } 
+    )
+}
+
+export function getPrevFragmentWithXmlAndUrlNoUSER (xmlId, urlId, arraySelected) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/fragment/${xmlId}/inter/${urlId}/prevFrag`, arraySelected, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: null
             }
         } 
     )

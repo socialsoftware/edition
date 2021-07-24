@@ -2,7 +2,11 @@ import { API_BASE_URL, ACCESS_TOKEN } from '../../constants/index';
 import axios from 'axios'
 
 export function getPublicAllEditions() {
-    return axios.get(API_BASE_URL + `/api/microfrontend/virtual/public/getAllEditions`)
+    return axios.get(API_BASE_URL + `/api/microfrontend/virtual/public/getAllEditions`, {
+        headers: {
+            Authorization: null
+        }
+    })
 }
 
 export function getAllEditions() {

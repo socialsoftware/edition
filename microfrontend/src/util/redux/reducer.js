@@ -76,10 +76,10 @@ const initialState = {
         }
     ]
 }
+// eslint-disable-next-line import/no-anonymous-default-export
 export default function(state = initialState, action) {
     switch (action.type) {
         case "SET_USER" : {
-            console.log(action.payload);
             if(action.payload.roles.includes("ADMIN")){
                 var aux = [...state.modules]
                 aux[6].active=true
@@ -91,7 +91,7 @@ export default function(state = initialState, action) {
             
         }
         case "LOGOUT" : {
-            var aux = [...initialState.modules]
+            let aux = [...initialState.modules]
             aux[6].active=false
             return {
                 ...state,
@@ -110,7 +110,6 @@ export default function(state = initialState, action) {
                 ...state,
                 recommendation : action.payload
             }
-            
         }
         case "UPDATE_SELECTED" : {
             let newArray = [...state.selectedVEAcr]
@@ -120,8 +119,6 @@ export default function(state = initialState, action) {
             else{
                 newArray.push(action.payload)
             }
-            console.log(newArray);
-            console.log(state.modules);
             return {
                 ...state,
                 selectedVEAcr : newArray
@@ -129,7 +126,6 @@ export default function(state = initialState, action) {
             
         }
         case "RESET" : {
-            console.log("oioi");
             return initialState
         }
 

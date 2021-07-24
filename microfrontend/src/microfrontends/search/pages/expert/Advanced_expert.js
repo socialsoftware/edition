@@ -73,7 +73,6 @@ const Advanced_expert = (props) => {
                         styles={customStyles}
                         value={inclusionOptions.filter(option => option.value === inclusion)}
                         onChange={value => {
-                            console.log(value);
                             props.onChangeCallback(value.value, "inclusion")
                             setInclusion(value.value)
                         }}
@@ -83,7 +82,6 @@ const Advanced_expert = (props) => {
                                 styles={customStyles}
                                 value={editorOptions.filter(option => option.value === editor)}
                                 onChange={value => {
-                                    console.log(value);
                                     props.onChangeCallback(value.value, "editor")
                                     setEditor(value.value)
                                 }}
@@ -100,7 +98,6 @@ const Advanced_expert = (props) => {
                                         styles={customStyles}
                                         value={heteronymOptions.filter(option => option.value === editionHeteronym)}
                                         onChange={value => {
-                                            console.log(value);
                                             setEditionHeteronym(value.value)
                                             props.onChangeCallback(value.value, "editionHeteronym")
                                         }}
@@ -112,7 +109,6 @@ const Advanced_expert = (props) => {
                                         styles={customStyles}
                                         value={manuscriptDateOptions.filter(option => option.value === editionDate)}
                                         onChange={value => {
-                                            console.log(value);
                                             setEditionDate(value.value)
                                             props.onChangeCallback(value.value, "editionDate")
                                         }}
@@ -125,7 +121,6 @@ const Advanced_expert = (props) => {
                                                 <input className="form-control input-search" style={{padding:"0 12px"}}
                                                     value={editionBeginDate}
                                                     onChange={e => {
-                                                        console.log(e.target.value);
                                                         setEditionBeginDate(parseInt(e.target.value))
                                                         props.onChangeCallback(parseInt(e.target.value), "editionBeginDate")
                                                     }}>
@@ -136,7 +131,6 @@ const Advanced_expert = (props) => {
                                                 <input className="form-control input-search" style={{padding:"0 12px"}}
                                                     value={editionEndDate}
                                                     onChange={e => {
-                                                        console.log(e.target.value);
                                                         setEditionEndDate(parseInt(e.target.value))
                                                         props.onChangeCallback(parseInt(e.target.value), "editionEndDate")
                                                     }}>
@@ -163,7 +157,6 @@ const Advanced_expert = (props) => {
                             styles={customStyles}
                             value={manuscriptLabelOptions.filter(option => option.value === manuscriptLabel)}
                             onChange={value => {
-                                console.log(value);
                                 setManuscriptLabel(value.value)
                                 props.onChangeCallback(value.value, "manuscriptLabel")
 
@@ -176,7 +169,6 @@ const Advanced_expert = (props) => {
                             styles={customStyles}
                             value={manuscriptDateOptions.filter(option => option.value === manuscriptDate)}
                             onChange={value => {
-                                console.log(value);
                                 setManuscriptDate(value.value)
                                 props.onChangeCallback(value.value, "manuscriptDate")
                             }}
@@ -189,7 +181,6 @@ const Advanced_expert = (props) => {
                                     <input className="form-control input-search" style={{padding:"0 12px"}}
                                         value={beginDate}
                                         onChange={e => {
-                                            console.log(e.target.value);
                                             setBeginDate(parseInt(e.target.value))
                                             props.onChangeCallback(parseInt(e.target.value), "beginDate")
                                         }}>
@@ -200,7 +191,6 @@ const Advanced_expert = (props) => {
                                     <input className="form-control input-search" style={{padding:"0 12px"}}
                                         value={endDate}
                                         onChange={e => {
-                                            console.log(e.target.value);
                                             setEndDate(parseInt(e.target.value))
                                             props.onChangeCallback(parseInt(e.target.value), "endDate")
                                         }}>
@@ -223,7 +213,6 @@ const Advanced_expert = (props) => {
                                     styles={customStyles}
                                     value={manuscriptDateOptions.filter(option => option.value === manuscriptDatePub)}
                                     onChange={value => {
-                                        console.log(value);
                                         props.onChangeCallback(value.value, "manuscriptDatePub")
                                         setManuscriptDatePub(value.value)
                                     }}
@@ -236,7 +225,6 @@ const Advanced_expert = (props) => {
                                             <input className="form-control input-search" style={{padding:"0 12px"}}
                                                 value={beginDatePub}
                                                 onChange={e => {
-                                                    console.log(e.target.value)
                                                     setBeginDatePub(parseInt(e.target.value))
                                                     props.onChangeCallback(parseInt(e.target.value), "beginDatePub")
                                                 }}>
@@ -247,7 +235,6 @@ const Advanced_expert = (props) => {
                                             <input className="form-control input-search" style={{padding:"0 12px"}}
                                                 value={endDatePub}
                                                 onChange={e => {
-                                                    console.log(e.target.value)
                                                     setEndDatePub(parseInt(e.target.value))
                                                     props.onChangeCallback(parseInt(e.target.value), "endDatePub")
                                                 }}>
@@ -267,7 +254,6 @@ const Advanced_expert = (props) => {
                                 styles={customStyles}
                                 value={heteronymOptions.filter(option => option.value === heteronym)}
                                 onChange={value => {
-                                    console.log(value)
                                     props.onChangeCallback(value.value, "heteronym")
                                     setHeteronym(value.value)
                                 }}
@@ -281,7 +267,6 @@ const Advanced_expert = (props) => {
                                 styles={customStyles}
                                 value={manuscriptDateOptions.filter(option => option.value === onlyDate)}
                                 onChange={value => {
-                                    console.log(value);
                                     props.onChangeCallback(value.value, "onlyDate")
                                     setOnlyDate(value.value)
                                 }}
@@ -294,7 +279,6 @@ const Advanced_expert = (props) => {
                                         <input className="form-control input-search" style={{padding:"0 12px"}}
                                             value={onlyBeginDate}
                                             onChange={e => {
-                                                console.log(e.target.value)
                                                 setOnlyBeginDate(parseInt(e.target.value))
                                                 props.onChangeCallback(parseInt(e.target.value), "endDatePub")
                                             }}>
@@ -305,7 +289,6 @@ const Advanced_expert = (props) => {
                                         <input className="form-control input-search" style={{padding:"0 12px"}}
                                             value={onlyEndDate}
                                             onChange={e => {
-                                                console.log(e.target.value);
                                                 setOnlyEndDate(parseInt(e.target.value))
                                                 props.onChangeCallback(parseInt(e.target.value), "onlyEndDate")
                                             }}>
@@ -325,7 +308,6 @@ const Advanced_expert = (props) => {
                         <input className="form-control input-search" style={{padding:"0 12px", width:"300px"}}
                             value={text}
                             onChange={e => {
-                                console.log(e.target.value);
                                 setText(e.target.value)
                                 props.onChangeCallback(e.target.value, "text")
                             }}>

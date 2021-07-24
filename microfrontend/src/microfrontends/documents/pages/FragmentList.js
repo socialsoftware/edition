@@ -81,6 +81,7 @@ const FragmentList = (props) => {
                     </tr>
                     )
             }
+            else return null
             
         })
     }

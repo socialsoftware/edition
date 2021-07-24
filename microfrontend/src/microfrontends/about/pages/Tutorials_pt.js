@@ -58,7 +58,7 @@ const Tutorials_pt = () => {
 <h3 id="V1">Tutorial 1: O que &eacute; o <em>Arquivo LdoD</em>?</h3>
 
 <div className="videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video1" width="560" height="315"
 	src="https://www.youtube.com/embed/hOVqKufmAv8" 
 	></iframe></div>
 <br />
@@ -67,7 +67,7 @@ const Tutorials_pt = () => {
 <h3 id="V2">Tutorial 2: Conhecendo o <em>Arquivo LdoD</em></h3>
 
 <div className="videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video2" width="560" height="315"
 	src="https://www.youtube.com/embed/H78nGI5L25M" 
 	></iframe></div>
 <br />
@@ -76,7 +76,7 @@ const Tutorials_pt = () => {
 <h3 id="V3">Tutorial 3: Leitura</h3>
 
 <div className="videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video3" width="560" height="315"
 	src="https://www.youtube.com/embed/dUUUiC-Bl68" 
 	></iframe></div>
 <br />
@@ -84,7 +84,7 @@ const Tutorials_pt = () => {
 
 <h3 id="V4">Tutorial 4: Documentos</h3>
 <div className="videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video4" width="560" height="315"
 	src="https://www.youtube.com/embed/LPGxZjUUh1w" 
 	></iframe></div>
 <br />
@@ -92,7 +92,7 @@ const Tutorials_pt = () => {
 
 <h3 id="V5">Tutorial 5: Edi&ccedil;&otilde;es</h3>
 <div className="videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video5" width="560" height="315"
 	src="https://www.youtube.com/embed/wFPO-ypEWl8" 
 	></iframe></div>
 <br />
@@ -100,7 +100,7 @@ const Tutorials_pt = () => {
 
 <h3 id="V6">Tutorial 6: Pesquisa</h3>
 <div className="videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video6" width="560" height="315"
 	src="https://www.youtube.com/embed/h1QJDZ77iT0" 
 	></iframe></div>
 <br />
@@ -108,7 +108,7 @@ const Tutorials_pt = () => {
 
 <h3 id="V7">Tutorial 7: O que &eacute; a Edi&ccedil;&atilde;o Virtual?</h3>
 <div className="videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video7" width="560" height="315"
 	src="https://www.youtube.com/embed/6qcBC8OGJLU" 
 	></iframe></div>
 <br />
@@ -116,7 +116,7 @@ const Tutorials_pt = () => {
 
 <h3 id="V8">Tutorial 8: Planejando edi&ccedil;&otilde;es virtuais</h3>
 <div className="videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video8" width="560" height="315"
 	src="https://www.youtube.com/embed/rANp_CP3DwI" 
 	></iframe></div>
 <br />
@@ -124,7 +124,7 @@ const Tutorials_pt = () => {
 
 <h3 id="V9">Tutorial 9: Criando edi&ccedil;&otilde;es virtuais</h3>
 <div className="videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video9" width="560" height="315"
 	src="https://www.youtube.com/embed/BMvAbI_TOy8" 
 	></iframe></div>
 <br />
@@ -132,7 +132,7 @@ const Tutorials_pt = () => {
 
 <h3 id="V10">Tutorial 10: Taxonomia e anota&ccedil;&otilde;es</h3>
 <div className="videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video10" width="560" height="315"
 	src="https://www.youtube.com/embed/3cvvsjvrSzk" 
 	></iframe></div>
 <br />

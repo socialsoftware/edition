@@ -21,7 +21,7 @@ const InterEditorial = (props) => {
                 <input type="checkbox" checked={selectedDiff} onChange={() => callbackDiffHandler()}></input>
                 <p>{props.messages.fragment_highlightdifferences}</p>
             </div>
-            <span><span className="body-title">{props.data.inters[0].title}</span><img onClick={() => history.push(`/reading/fragment/${props.data.fragment.fragmentXmlId}/inter/${props.data.inters[0].urlId}`)} className="fragment-icon" src={icon}></img></span>
+            <span><span className="body-title">{props.data.inters[0].title}</span><img alt="icon" onClick={() => history.push(`/reading/fragment/${props.data.fragment.fragmentXmlId}/inter/${props.data.inters[0].urlId}`)} className="fragment-icon" src={icon}></img></span>
 
             
             <InterTranscript data={props.data} messages={props.messages} inter={props.data.inters[0]} type="EDITORIAL"/>

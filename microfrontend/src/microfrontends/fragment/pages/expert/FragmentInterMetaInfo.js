@@ -13,7 +13,6 @@ const FragmentInterMetaInfo = (props) => {
     useEffect(() => {
         
         if(props.sourceList!==undefined){
-            console.log(props.sourceList);
             setSourceInfo(props.sourceList)
             if(props.sourceList.sourceType === "MANUSCRIPT") {
                 setIsManuscript(true)
@@ -34,10 +33,11 @@ const FragmentInterMetaInfo = (props) => {
                 setExpertEditionInfo(editionInfoAux)
             }
         }
-    }, [])
+    }, [props.author, props.expertEditionMap, props.sourceList])
 
     const getDimensionsMap = (val) => {
         let total = "("
+        // eslint-disable-next-line array-callback-return
         val.map((elem,key) => {
             total += `${elem.height} X ${elem.width}`
             if(key < val.length-1) total += ", "

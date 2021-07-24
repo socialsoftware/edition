@@ -29,7 +29,7 @@ const Navigation_expert = (props) => {
     const checkboxSelectedHandler = (fragmentExternalId, externalId) => {
         var aux = []
         for(let el of props.data.inters){
-            if(el.type!="VIRTUAL")
+            if(el.type!=="VIRTUAL")
                 aux.push(el.externalId)
         }
         if(!aux.includes(externalId)){
@@ -66,9 +66,9 @@ const Navigation_expert = (props) => {
                         onChange={() => {checkboxSelectedHandler(props.data.fragment.externalId, inter.externalID)}} 
                         checked={selectedInters.includes(inter.externalID)}></input>
                     <div className="navigation-row-inter">
-                        <img style={{height:"15px", width:"15px", cursor:"pointer"}} src={left} onClick={() => handleNextClick(inter.fragmentXmlId, inter.urlId, "prev")}></img>
+                        <img alt="arrow" style={{height:"15px", width:"15px", cursor:"pointer"}} src={left} onClick={() => handleNextClick(inter.fragmentXmlId, inter.urlId, "prev")}></img>
                         <Link to={`/fragments/fragment/${inter.fragmentXmlId}/inter/${inter.urlId}`} onClick={() => handleNextClick(inter.fragmentXmlId, inter.urlId, false)}>{inter.number}</Link>
-                        <img style={{height:"15px", width:"15px", cursor:"pointer"}} src={right} onClick={() => handleNextClick(inter.fragmentXmlId, inter.urlId, "next")}></img>
+                        <img alt="arrow" style={{height:"15px", width:"15px", cursor:"pointer"}} src={right} onClick={() => handleNextClick(inter.fragmentXmlId, inter.urlId, "next")}></img>
                     </div>
                 </div>
             )
@@ -89,7 +89,7 @@ const Navigation_expert = (props) => {
                     
                 )
             }
-            
+            else return null
         })
     }
     return (
@@ -104,7 +104,7 @@ const Navigation_expert = (props) => {
             <div style={{marginTop:"40px"}}>
                 <div className="navigation-view-title-div">
                     <p className="navigation-view-title">{props.messages.edition_experts}</p>
-                    <img src={info} data-tip={props.messages.info_experts}
+                    <img alt="info" src={info} data-tip={props.messages.info_experts}
                         className="reading-info" style={{width:"20px", padding:"0", marginLeft:"5px"}}></img>
                     <ReactTooltip backgroundColor="#fff" textColor="#333" border={true} borderColor="#000" className="reading-tooltip" place="bottom" effect="solid"/>
                 </div>

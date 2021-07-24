@@ -6,7 +6,7 @@ const Inter2CompareSideBySide = (props) => {
     const mapIntersToView = () => {
         return props.data.inters.map((inter, i) => {
             return (
-                <div className="fragment-side-interp">
+                <div key={i} className="fragment-side-interp">
                     <p className="body-title" style={{textAlign:"left", fontSize:"17px", margin:"0"}}>{inter.title}</p>
                     <div className="well" style={{fontFamily:props.spaces?"monospace":"georgia", marginTop:"10px"}} dangerouslySetInnerHTML={{ __html: props.data.setTranscriptionSideBySide[i] }} />
                 </div>
@@ -18,7 +18,7 @@ const Inter2CompareSideBySide = (props) => {
     const mapMetaInfoToView = () => {
         return props.data.inters.map((inter, i) => {
             return (
-                <div className="fragment-side-interp">
+                <div key={i} className="fragment-side-interp">
                     <div className="inter-meta-info">
                         {
                             inter.type==="AUTHORIAL"?

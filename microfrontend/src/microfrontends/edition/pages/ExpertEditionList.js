@@ -18,7 +18,6 @@ const ExpertEditionList = (props) => {
     useEffect(() => {
         getExpertEditionList(props.acronym)
             .then(res => {
-                console.log(res.data);
                 setEditor(res.data.editor);
                 setEditionData(res.data.sortedInterpsList)
                 setListSize(res.data.sortedSize)
@@ -40,7 +39,7 @@ const ExpertEditionList = (props) => {
                             to={`/fragments/fragment/${interp.xmlId}/inter/${interp.urlId}`}>{interp.title}</Link></td>
                         <td className="table-body-row">
                         <Link className="table-body-title"
-                            to={`/reading/fragment/${interp.xmlId}/inter/${interp.urlId}/start`}><img className="edition-icon" src={eyeIcon}></img></Link>
+                            to={`/reading/fragment/${interp.xmlId}/inter/${interp.urlId}/start`}><img alt="eye" className="edition-icon" src={eyeIcon}></img></Link>
                         </td>
                         
                         {editor === "Jacinto do Prado Coelho"?
@@ -61,7 +60,7 @@ const ExpertEditionList = (props) => {
                     </tr>
                     )
             }
-            
+            else return null
         })
     }
 
@@ -74,7 +73,6 @@ const ExpertEditionList = (props) => {
     }
 
     const handleSearchUpdate = () => {
-        console.log(inputEl.current.value)
         setSearch(inputEl.current.value)
     }
 
@@ -105,9 +103,9 @@ const ExpertEditionList = (props) => {
                     <tbody>
                         {mapEditionToTable()}
                     </tbody>
-                    <ReactTooltip backgroundColor="#000" textColor="#fff" border={true} borderColor="#000" className="virtual-tooltip" place="bottom" effect="solid"/>
 
                 </table>
+                <ReactTooltip backgroundColor="#000" textColor="#fff" border={true} borderColor="#000" className="virtual-tooltip" place="bottom" effect="solid"/>
             </div>
         </div>
     )

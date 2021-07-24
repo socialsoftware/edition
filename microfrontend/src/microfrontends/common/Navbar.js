@@ -50,7 +50,8 @@ const Navbar = (props) => {
                 setDisplayDropdown(false)
                 setSelected(null)
             });
-         }        
+         }       
+         // eslint-disable-next-line react-hooks/exhaustive-deps 
     }, [])
 
     useEffect(() => {
@@ -108,7 +109,7 @@ const Navbar = (props) => {
             setModulesPosition(arr)
         }
         
-      }, []);
+      }, [modulesPosition]);
       
 
     const handleModuleDisplay = () => {
@@ -119,7 +120,7 @@ const Navbar = (props) => {
                         onClick={() => handleSelect(mod.name)}
                         >
                         {props.messages[mod.name]}
-                        <span><img className="home-navbar-container-arrow" src={downArrow}></img></span>
+                        <span><img alt="arrow" className="home-navbar-container-arrow" src={downArrow}></img></span>
                     </p>
                 </div>
             )
@@ -165,7 +166,7 @@ const Navbar = (props) => {
                         {props.isAuthenticated?
                             <div style={{display:"flex", alignItems:"center"}}>
                                 <p>{props.currentUser.firstName} {props.currentUser.lastName}</p>
-                                <img className="home-navbar-container-arrow" src={downArrowRed}></img>
+                                <img alt="arrow" className="home-navbar-container-arrow" src={downArrowRed}></img>
                             </div>
                         :<p className="home-navbar-login">{props.messages.header_login}</p>
                         }
@@ -210,7 +211,7 @@ const Navbar = (props) => {
                                 {props.isAuthenticated?
                                     <div style={{display:"flex", alignItems:"center"}}>
                                         <p style={{cursor:"pointer"}}>{props.currentUser.firstName} {props.currentUser.lastName}</p>
-                                        <img className="home-navbar-container-arrow" src={downArrowRed}></img>
+                                        <img alt="arrow" className="home-navbar-container-arrow" src={downArrowRed}></img>
                                     </div>
                                 :<p className="home-navbar-login">{props.messages.header_login}</p>
                                 }

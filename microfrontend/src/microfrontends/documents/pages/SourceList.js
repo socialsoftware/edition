@@ -17,7 +17,6 @@ const SourceList = (props) => {
     useEffect(() => {
         getSourceList()
             .then(res => {
-                console.log(res);
                 setSourceList(res.data)
                 setLoading(false)
             })
@@ -71,7 +70,7 @@ const SourceList = (props) => {
     const getSurfacesMap = (val, title) => {
         if(val!==null){
             return val.map((elem,key) => {
-                return <p><Link key={key} className="documents-linkFac" to={`/facs/${elem.graphic}`}>({key+1}) {title}</Link></p>
+                return <p key={key}><Link key={key} className="documents-linkFac" to={`/facs/${elem.graphic}`}>({key+1}) {title}</Link></p>
             })
         }
     }
@@ -113,8 +112,10 @@ const SourceList = (props) => {
                     </tr>
                     )
             }
+            return null
             
         })
+
     }
 
     const handleSearchFiltering = (frag) => {
@@ -127,7 +128,6 @@ const SourceList = (props) => {
     }
 
     const handleSearchUpdate = () => {
-        console.log(inputEl.current.value)
         setSearch(inputEl.current.value)
     }
 
@@ -136,7 +136,7 @@ const SourceList = (props) => {
             <p className="documents-source-title">
                 {props.messages.authorial_source}
                 <span> {`(${sourceList.length})`}</span>
-                <img src={informationIcon} className="documents-glyphicon" onClick={() => setInfo(!info)}></img>
+                <img alt="img" src={informationIcon} className="documents-glyphicon" onClick={() => setInfo(!info)}></img>
                 <span className={info?"documents-showInfo":"documents-noInfo"}>
                     {props.messages.sourcelist_tt_sources}
                 </span>

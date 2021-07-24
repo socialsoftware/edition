@@ -1,7 +1,7 @@
 import React from 'react'
-import Encoding_en from './Encoding_en'
-import Encoding_es from './Encoding_es'
-import Encoding_pt from './Encoding_pt'
+import EncodingEn from './Encoding_en'
+import EncodingEs from './Encoding_es'
+import EncodingPt from './Encoding_pt'
 
 
 
@@ -10,7 +10,7 @@ const Encoding_main = (props) => {
         <div>
             <div className="about-container">
                 <p className="about-conduct-title">{props.messages.header_encoding}</p>
-                {props.language==="pt"?<Encoding_pt/>:props.language==="en"?<Encoding_en/>:<Encoding_es/>}
+                {props.language==="pt"?<EncodingPt/>:props.language==="en"?<EncodingEn/>:<EncodingEs/>}
             </div>
         </div>
         

@@ -22,9 +22,7 @@ const Manual = (props) => {
     
     const history = useHistory()
     const location = useLocation()
-    const [input, setInput] = useState(null)
     const [data, setData] = useState(null)
-    const [originalList, setOriginalList] = useState(null)
     const [currentList, setCurrentList] = useState([])
     const [selected, setSelected] = useState(null)
     const [selectedPosition, setSelectedPosition] = useState(null)
@@ -39,15 +37,12 @@ const Manual = (props) => {
 
     useEffect(() => {
         var path = location.pathname.split('/')
-        console.log(path);
         let mounted = true
         getManualData(path[5])
             .then(res => {
-                console.log(res.data);
                 if(mounted){
                     setExtId(path[5])
                     setData(res.data.virtualEdition)
-                    setOriginalList(res.data.recommendedEditionInter)
                     setCurrentList(res.data.recommendedEditionInter)
                 }
                 
@@ -60,6 +55,7 @@ const Manual = (props) => {
             return function cleanup() {
                 mounted = false
             }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const searchType = [
@@ -90,17 +86,13 @@ const Manual = (props) => {
     }
 
     const searchHandler = () => {
-    console.log(query)
-    console.log(search)
-    console.log(source)
+
     var data = query + "&" + search + "&" + source
     if(query !== "" && query.replace(/\s/g, '').length){
         setSearchLoading(true)
-        console.log(data);
         getSimpleSearchList(data)
             .then(res => {
                 setTableData(res.data)
-                console.log(res.data)
                 setSearchLoading(false)
             })
             .catch(err => {
@@ -218,7 +210,6 @@ const Manual = (props) => {
     }
 
     const addInterpsHandler = (selected) => {
-        console.log(selected);
         setShowSearch(false)
         var flag = true
         var auxCurrent = [...currentList]
@@ -242,7 +233,6 @@ const Manual = (props) => {
                 auxCurrent.unshift(obj)
             }
         }
-        console.log(auxCurrent)
         setCurrentList(auxCurrent)
         setSelected(auxCurrent[0])
         setSelectedPosition(1)

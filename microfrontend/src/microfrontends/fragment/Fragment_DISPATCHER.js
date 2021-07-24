@@ -5,12 +5,14 @@ import '../../resources/css/fragment/Fragment.css'
 import {getFragmentWithXml, getFragmentWithXmlAndUrl, getNextFragmentWithXmlAndUrl, 
     getPrevFragmentWithXmlAndUrl, getIntersByArrayExternalId, getInterWithDiff, 
     getAuthorialInterWithDiffs, getInterCompare, addToEdition, 
-    getFragmentWithXmlAndUrlNoUser} from '../../util/API/FragmentAPI'
-import Body_expert from './pages/expert/Body_expert'
-import Navigation_expert from './pages/expert/Navigation_expert'
+    getFragmentWithXmlAndUrlNoUser,
+    getPrevFragmentWithXmlAndUrlNoUSER,
+    getNextFragmentWithXmlAndUrlNoUSER} from '../../util/API/FragmentAPI'
+import BodyExpert from './pages/expert/Body_expert'
+import NavigationExpert from './pages/expert/Navigation_expert'
 import InterEmpty from './pages/InterEmpty';
-import Body_virtual from './pages/virtual/Body_virtual';
-import Navigation_virtual from './pages/virtual/Navigation_virtual'
+import BodyVirtual from './pages/virtual/Body_virtual';
+import NavigationVirtual from './pages/virtual/Navigation_virtual'
 
 
 const Fragment_DISPATCHER = (props) => {
@@ -21,19 +23,16 @@ const Fragment_DISPATCHER = (props) => {
     
     useEffect(() => {
         var path = location.pathname.split('/')
-        console.log(path);
         if(path[5])
             if(props.isAuthenticated){
                 getFragmentWithXmlAndUrl(path[3], path[5], props.selectedVEAcr)
                 .then(res => {
-                    console.log(res);
                     dataHandler(res.data)
                 })
             }   
             else{
                 getFragmentWithXmlAndUrlNoUser(path[3], path[5], props.selectedVEAcr)
                 .then(res => {
-                    console.log(res);
                     dataHandler(res.data)
                     
                 })
@@ -41,9 +40,9 @@ const Fragment_DISPATCHER = (props) => {
         else if(path[3])
             getFragmentWithXml(path[3])
                 .then(res => {
-                    console.log(res);
                     dataHandler(res.data)
                 })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const dataHandler = (obj) => {
@@ -71,18 +70,38 @@ const Fragment_DISPATCHER = (props) => {
 
     const navigationSelectionHandler = (xmlId, urlId, nextOrPrev) => {
         if(nextOrPrev === "next"){
-            getNextFragmentWithXmlAndUrl(xmlId, urlId, props.selectedVEAcr)
+            if(props.isAuthenticated){
+                getNextFragmentWithXmlAndUrl(xmlId, urlId, props.selectedVEAcr)
+                .then(res => {
+                    history.replace(`/fragments/fragment/${res.data.fragment.fragmentXmlId}/inter/${res.data.inters[0]?res.data.inters[0].urlId:null}`)
+                    dataHandler(res.data)
+                })
+            }
+            else{
+                getNextFragmentWithXmlAndUrlNoUSER(xmlId, urlId, props.selectedVEAcr)
                 .then(res => {
                     history.replace(`/fragments/fragment/${res.data.fragment.fragmentXmlId}/inter/${res.data.inters[0]?res.data.inters[0].urlId:null}`)
                     dataHandler(res.data)
             })
+            }
+            
         }
         else if(nextOrPrev === "prev"){
-            getPrevFragmentWithXmlAndUrl(xmlId, urlId, props.selectedVEAcr)
-            .then(res => {
-                history.replace(`/fragments/fragment/${res.data.fragment.fragmentXmlId}/inter/${res.data.inters[0]?res.data.inters[0].urlId:null}`)
-                dataHandler(res.data)
-            }) 
+            if(props.isAuthenticated){
+                getPrevFragmentWithXmlAndUrl(xmlId, urlId, props.selectedVEAcr)
+                .then(res => {
+                    history.replace(`/fragments/fragment/${res.data.fragment.fragmentXmlId}/inter/${res.data.inters[0]?res.data.inters[0].urlId:null}`)
+                    dataHandler(res.data)
+                }) 
+            }
+            else{
+                getPrevFragmentWithXmlAndUrlNoUSER(xmlId, urlId, props.selectedVEAcr)
+                .then(res => {
+                    history.replace(`/fragments/fragment/${res.data.fragment.fragmentXmlId}/inter/${res.data.inters[0]?res.data.inters[0].urlId:null}`)
+                    dataHandler(res.data)
+                }) 
+            }
+            
         }
         else{
             getFragmentWithXmlAndUrl(xmlId, urlId, props.selectedVEAcr)
@@ -131,12 +150,10 @@ const Fragment_DISPATCHER = (props) => {
     const addToEditionHandler = (externalId) => {
         addToEdition(externalId, data.inters[0].externalId)
             .then(res => {
-                console.log(res.data)
                 if(res.data === "success") {
                     var path = location.pathname.split('/')
                     getFragmentWithXmlAndUrl(path[3], path[5], props.selectedVEAcr)
                         .then(res => {
-                            console.log(res);
                             dataHandler(res.data)
                         })
                 }
@@ -147,20 +164,20 @@ const Fragment_DISPATCHER = (props) => {
         <div className="fragment">
             <div className="fragment-body">
                 <InterEmpty data={data}/>
-                <Body_expert data={data} messages={props.messages} 
+                <BodyExpert data={data} messages={props.messages} 
                     callbackDiffHandler={(bool) => callbackDiffHandler(bool)}
                     callbackSelectedHandler={(obj) => callbackSelectedHandler(obj)}
                     callbackCompareSelectedHandler={(obj) => callbackCompareSelectedHandler(obj)}/>
-                <Body_virtual data={data} messages={props.messages}/>
+                <BodyVirtual data={data} messages={props.messages}/>
             </div>
 
             <div className="fragment-navigation">
-                <Navigation_expert 
+                <NavigationExpert 
                     data={data} 
                     callbackNavigationHandler={(xmlId, urlId, nextOrPrev) => {navigationSelectionHandler(xmlId, urlId, nextOrPrev)}} 
                     callbackCheckboxHandler={(fragmentExternalId, arrayInterId) => {getIntersByExternalId(fragmentExternalId, arrayInterId)}}
                     messages={props.messages}/>
-                <Navigation_virtual 
+                <NavigationVirtual 
                     data={data} 
                     callbackNavigationHandler={(xmlId, urlId, nextOrPrev) => {navigationSelectionHandler(xmlId, urlId, nextOrPrev)}}
                     callbackCheckboxHandler={(fragmentExternalId, arrayInterId) => {getIntersByExternalId(fragmentExternalId, arrayInterId)}}

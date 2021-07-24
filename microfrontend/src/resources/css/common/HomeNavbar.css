@@ -1,6 +1,7 @@
 @font-face {
     font-family: 'WorkSansTitle';
     src: url(../../fonts/WorkSans-ExtraBold.ttf) format('truetype');
+    font-display: swap
 }
 .home{
     font-family: 'Work Sans', sans-serif;

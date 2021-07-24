@@ -2,15 +2,19 @@
   "name": "microfrontend",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/microfrontend",
   "dependencies": {
     "@babel/runtime": "^7.14.5",
     "@types/react-table": "^7.7.1",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
     "bootstrap-icons": "^1.5.0",
+    "customize-cra": "^1.0.0",
     "got": "^11.8.2",
     "js-file-download": "^0.4.12",
+    "less-loader": "^10.0.1",
     "react": "^17.0.2",
+    "react-app-rewired": "^2.1.8",
     "react-bootstrap": "^1.6.1",
     "react-collapse": "^5.1.0",
     "react-datepicker": "^4.1.1",
@@ -30,8 +34,8 @@
     "request-promise": "^4.2.6"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build && rm -rf ../edition-ldod/src/main/webapp/microfrontend/ && mv build/ ../edition-ldod/src/main/webapp/microfrontend/",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -57,13 +61,6 @@
     "@babel/core": "^7.14.5",
     "@babel/plugin-transform-runtime": "^7.14.5",
     "babel-plugin-import": "^1.13.3"
-  },
-  "bit": {
-    "env": {
-      "compiler": "bit.envs/compilers/react@2.0.0"
-    },
-    "componentsDefaultDirectory": "components/{name}",
-    "packageManager": "npm"
   },
   "engines": {
     "node": ">=12.14.0",

@@ -24,9 +24,8 @@ const ResultTable = (props) => {
           id: "interp"
         }
       )
-      let i = 1
       // @ts-ignore
-      for(let el of props.data.search){
+      for(let i = 1; i<props.data.search; i++){
         let h = `C${i}`
         let a = `c${i}`
         aux.push({
@@ -34,7 +33,6 @@ const ResultTable = (props) => {
           accessor: a,
           id: "c"+i
         })
-        i += 1
       }
       if(props.data.showSource){
         aux.push(
@@ -93,11 +91,15 @@ const ResultTable = (props) => {
         )
       }
       setTableColumns(aux)
-    }, [props.data])
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.data, props.messages.authorial_source, 
+      props.messages.fragment, props.messages.general_LdoDLabel, 
+      props.messages.general_date, props.messages.general_heteronym, 
+      props.messages.interpretations, props.messages.navigation_edition, 
+      props.messages.search_source])
 
     useEffect(() => {
         let auxData = []
-        console.log(props);
         for(let el of props.data.listResult){
             let rowObject = {}
             rowObject["title"] = el.fragment_title
@@ -157,6 +159,7 @@ const ResultTable = (props) => {
         }
         setTableData(auxData)
 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.data])
 
     function GlobalFilter({
@@ -165,7 +168,6 @@ const ResultTable = (props) => {
       setGlobalFilter,
     }) {
       // @ts-ignore
-      const count = preGlobalFilteredRows.length
       const [value, setValue] = React.useState(globalFilter)
       const onChange = useAsyncDebounce(value => {
         setGlobalFilter(value || undefined)
@@ -243,10 +245,10 @@ const ResultTable = (props) => {
             <div className="tableWrap">
             <table {...getTableProps()}>
               <thead>
-                {headerGroups.map(headerGroup => (
-                  <tr {...headerGroup.getHeaderGroupProps()} className="table-row">
-                    {headerGroup.headers.map(column => (
-                      <th style={{textAlign:"left"}} {...column.getHeaderProps()}>{column.render('Header')}</th>
+                {headerGroups.map((headerGroup, i) => (
+                  <tr key={i} {...headerGroup.getHeaderGroupProps()} className="table-row">
+                    {headerGroup.headers.map((column, i) => (
+                      <th key={i} style={{textAlign:"left"}} {...column.getHeaderProps()}>{column.render('Header')}</th>
                     ))}
                   </tr>
                 ))}
@@ -257,10 +259,9 @@ const ResultTable = (props) => {
                 i) => {
                   prepareRow(row)
                   return (
-                    <tr {...row.getRowProps()} className="table-row">
-                      {row.cells.map(cell => {
-                        return <td className={cell.column.id==="title" || cell.column.id==="interp"?"table-d-link":"table-d"} {...cell.getCellProps()} onClick={() => {
-                          console.log(cell.column.id)
+                    <tr key={i} {...row.getRowProps()} className="table-row">
+                      {row.cells.map((cell, i) => {
+                        return <td key={i} className={cell.column.id==="title" || cell.column.id==="interp"?"table-d-link":"table-d"} {...cell.getCellProps()} onClick={() => {
                           if(cell.column.id==="title"){
                             history.push(`/fragments/fragment/${row.original.xmlId}`)
                           }
@@ -312,8 +313,8 @@ const ResultTable = (props) => {
                   setPageSize(Number(e.target.value))
                 }}
               >
-                {[10, 20, 30, 40, 50].map(pageSize => (
-                  <option key={pageSize} value={pageSize}>
+                {[10, 20, 30, 40, 50].map((pageSize, i) => (
+                  <option key={i} value={pageSize}>
                     Mostrar {pageSize}
                   </option>
                 ))}

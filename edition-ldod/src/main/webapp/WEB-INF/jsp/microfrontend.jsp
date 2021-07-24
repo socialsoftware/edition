@@ -1,0 +1,1 @@
+<%@include file="/microfrontend/index.html"%>

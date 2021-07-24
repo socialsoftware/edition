@@ -13,10 +13,8 @@ const FragInter = (props) => {
 
     useEffect(() => {
         var path = location.pathname.split('/')
-        console.log(path);
         getFragInterData(path[5])
             .then(res => {
-                console.log(res.data);
                 setData(res.data)
             })
             .catch((err) => {
@@ -24,6 +22,7 @@ const FragInter = (props) => {
                 alert("Acesso Negado")
                 history.push("/")
             })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const mapCategoriesToTable = () => {

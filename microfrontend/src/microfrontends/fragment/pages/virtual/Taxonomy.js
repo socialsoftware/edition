@@ -11,7 +11,7 @@ const Taxonomy = (props) => {
         // @ts-ignore
         return props.data.inters[0].categoryUserDtoList.map((val, i) => {
             return (
-                <tr>
+                <tr key={i}>
                     <td><Link className="fragment-virtual-link" to={`/edition/acronym/${val.category.acronym}/category/${val.category.urlId}`}>{val.category.name}</Link></td>
                     <td><Link className="fragment-virtual-link" to={`/edition/user/${val.user.userName}`}>{val.user.firstName} {val.user.lastName} ({val.user.userName})</Link></td>
                 </tr>
@@ -23,8 +23,8 @@ const Taxonomy = (props) => {
             <table style={{paddingBottom:"30px"}}>
                 <thead>
                     <tr>
-                        <th><img src={tag} style={{height:"20px", width:"20px"}}></img></th>
-                        <th><img src={user} style={{height:"20px", width:"20px"}}></img></th>
+                        <th><img alt="tagImg" src={tag} style={{height:"20px", width:"20px"}}></img></th>
+                        <th><img alt="userImg" src={user} style={{height:"20px", width:"20px"}}></img></th>
                     </tr>
                 </thead>
                 <tbody>

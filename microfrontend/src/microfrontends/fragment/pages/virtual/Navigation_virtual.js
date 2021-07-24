@@ -63,7 +63,7 @@ const Navigation_virtual = (props) => {
     const checkboxSelectedHandler = (fragmentExternalId, externalId) => {
         var aux = []
         for(let el of props.data.inters){
-            if(el.type=="VIRTUAL")
+            if(el.type==="VIRTUAL")
                 aux.push(el.externalId)
         }
         if(!aux.includes(externalId)){
@@ -87,11 +87,11 @@ const Navigation_virtual = (props) => {
                         checked={selectedInters.includes(acronym)}>
                     </input>
                     <div className="navigation-row-inter">
-                        <img style={{height:"15px", width:"15px", cursor:"pointer"}} src={left} onClick={() => {
+                        <img alt="arrow" style={{height:"15px", width:"15px", cursor:"pointer"}} src={left} onClick={() => {
                             handleNextClick(inter.fragmentXmlId, inter.urlId, "prev")
                             }}></img>
                         <Link to={`/fragments/fragment/${inter.fragmentXmlId}/inter/${inter.urlId}`} onClick={() => handleNextClick(inter.fragmentXmlId, inter.urlId, false)}>{inter.number}</Link>
-                        <img style={{height:"15px", width:"15px", cursor:"pointer"}} src={right} onClick={() => {
+                        <img alt="arrow" style={{height:"15px", width:"15px", cursor:"pointer"}} src={right} onClick={() => {
                             handleNextClick(inter.fragmentXmlId, inter.urlId, "next")
                             }}></img>
                     </div>
@@ -107,11 +107,11 @@ const Navigation_virtual = (props) => {
                         onChange={() => {checkboxSelectedHandler(props.data.fragment.externalId, inter.externalId)}}
                         checked={selectedInters.includes(props.data.ldoD.archiveEdition.acronym)}></input>
                     <div className="navigation-row-inter">
-                        <img style={{height:"15px", width:"15px", cursor:"pointer"}} src={left} onClick={() => {
+                        <img alt="arrow" style={{height:"15px", width:"15px", cursor:"pointer"}} src={left} onClick={() => {
                             handleNextClick(inter.fragmentXmlId, inter.urlId, "prev")
                             }}></img>
                         <Link to={`/fragments/fragment/${inter.fragmentXmlId}/inter/${inter.urlId}`} onClick={() => handleNextClick(inter.fragmentXmlId, inter.urlId, false)}>{inter.number}</Link>
-                        <img style={{height:"15px", width:"15px", cursor:"pointer"}} src={right} onClick={() => {
+                        <img alt="arrow" style={{height:"15px", width:"15px", cursor:"pointer"}} src={right} onClick={() => {
                             handleNextClick(inter.fragmentXmlId, inter.urlId, "next")
                             }}></img>
                     </div>
@@ -123,7 +123,7 @@ const Navigation_virtual = (props) => {
         <div className="navigation-view" style={{marginTop:"20px"}}>
             <div className="navigation-view-title-div">
                 <p className="navigation-view-title">{props.messages.virtual_editions}</p>
-                <img src={info} data-tip={props.messages.info_virtualeditions}
+                <img alt="info" src={info} data-tip={props.messages.info_virtualeditions}
                     className="reading-info" style={{width:"20px", padding:"0", marginLeft:"5px"}}></img>
                 <ReactTooltip backgroundColor="#fff" textColor="#333" border={true} borderColor="#000" className="reading-tooltip" place="bottom" effect="solid"/>
             </div>

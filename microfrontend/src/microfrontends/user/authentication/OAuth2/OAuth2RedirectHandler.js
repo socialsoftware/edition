@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom'
 const OAuth2RedirectHandler = (props) => {
 
     const getUrlParameter = (name) => {
+        // eslint-disable-next-line no-useless-escape
         name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]')
         var regex = new RegExp('[\\?&]' + name + '=([^&#]*)')
 
@@ -12,7 +13,7 @@ const OAuth2RedirectHandler = (props) => {
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '))
     }
 
-    const [token, setToken] = useState(getUrlParameter("token"))
+    const [token] = useState(getUrlParameter("token"))
 
     useEffect(() => {
     })

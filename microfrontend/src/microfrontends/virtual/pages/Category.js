@@ -12,19 +12,17 @@ const Category = (props) => {
     const [data, setData] = useState(null)
     const history = useHistory()
     const location = useLocation()
-    const [errorCategory, setErrorCategory] = useState(false)
+    const [errorCategory] = useState(false)
     const [newCategoryName, setNewCategoryName] = useState("")
     const [showExtract, setShowExtract] = useState(false)
     const [selectedInters, setSelectedInters] = useState([])
 
     useEffect(() => {
         var path = location.pathname.split('/')
-        console.log(path);
         let mounted = true
         getCategoryData(path[5])
             .then(res => {
                 if(mounted){
-                    console.log(res.data);
                     setData(res.data)
                     setNewCategoryName(res.data.name)
                 }
@@ -37,6 +35,7 @@ const Category = (props) => {
             return function cleanup() {
                 mounted = false
             }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
@@ -49,7 +48,7 @@ const Category = (props) => {
     }, [showExtract])
 
     const handleUpdate = () => {
-        if(newCategoryName != ""){
+        if(newCategoryName !== ""){
             updateVirtualCategory(data.externalId, newCategoryName)
                 .then(res => {
                     setData(res.data)
@@ -61,7 +60,6 @@ const Category = (props) => {
     const deleteCategory = () => {
         deleteVirtualCategory(data.externalId)
             .then(res => {
-                console.log(res);
                 setData(res.data)
             })
     }
@@ -101,12 +99,9 @@ const Category = (props) => {
     }
 
     const extractHandler = () => {
-        console.log("oioi");
-        if(selectedInters != []){
-            console.log(data.externalId);
+        if(selectedInters !== []){
             extractCategories(data.externalId, selectedInters)
                 .then(res => {
-                    console.log(res.data)
                     history.push(`/virtual/virtualeditions/restricted/category/${res.data}`)
                     setShowExtract(false)
                 })

@@ -220,8 +220,7 @@ const Acknowledgements_pt = () => {
 		Sociedade e da Cultura (CHSC): Col&oacute;quio internacional &ldquo;<a
 		href="http://ahlist.org/conferences/2015-ahlist-coimbra/program/"
 		target="new">Consilience and Inclusion: Scientific and Cultural
-			Encounters</a><a
-		href="http://ahlist.org/conferences/2015-ahlist-coimbra/" target="new"></a>&rdquo;,
+			Encounters</a>&rdquo;,
 		organizado pela Association of History, Literature, Science, and
 		Technology (19-21 de novembro de 2015; coord. Yonsoo Kim)
 	</li>

@@ -55,7 +55,7 @@ a better understanding of the materials and interactions available in each inter
 <h3 id="V1">Tutorial 1: What is the <em>LdoD Archive</em>? [PT]</h3>
 
 <div className="videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video1" width="560" height="315"
 	src="https://www.youtube.com/embed/hOVqKufmAv8" 
 	></iframe></div>
 <br />
@@ -64,7 +64,7 @@ a better understanding of the materials and interactions available in each inter
 <h3 id="V2">Tutorial 2: Getting to know the <em>LdoD Archive</em> [PT]</h3>
 
 <div className="videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video2" width="560" height="315"
 	src="https://www.youtube.com/embed/H78nGI5L25M" 
 	></iframe></div>
 <br />
@@ -73,7 +73,7 @@ a better understanding of the materials and interactions available in each inter
 <h3 id="V3">Tutorial: Reading [PT]</h3>
 
 <div className="videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video3" width="560" height="315"
 	src="https://www.youtube.com/embed/dUUUiC-Bl68" 
 	></iframe></div>
 <br />
@@ -81,7 +81,7 @@ a better understanding of the materials and interactions available in each inter
 
 <h3 id="V4">Tutorial 4: Documents [PT]</h3>
 <div className="videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video4" width="560" height="315"
 	src="https://www.youtube.com/embed/LPGxZjUUh1w" 
 	></iframe></div>
 <br />
@@ -89,7 +89,7 @@ a better understanding of the materials and interactions available in each inter
 
 <h3 id="V5">Tutorial 5: Editions [PT]</h3>
 <div className="videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video5" width="560" height="315"
 	src="https://www.youtube.com/embed/wFPO-ypEWl8" 
 	></iframe></div>
 <br />
@@ -97,7 +97,7 @@ a better understanding of the materials and interactions available in each inter
 
 <h3 id="V6">Tutorial 6: Search [PT]</h3>
 <div className="videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video6" width="560" height="315"
 	src="https://www.youtube.com/embed/h1QJDZ77iT0" 
 	></iframe></div>
 <br />
@@ -105,7 +105,7 @@ a better understanding of the materials and interactions available in each inter
 
 <h3 id="V7">Tutorial 7: What is a Virtual Edition? [PT]</h3>
 <div className="videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video7" width="560" height="315"
 	src="https://www.youtube.com/embed/6qcBC8OGJLU" 
 	></iframe></div>
 <br />
@@ -113,7 +113,7 @@ a better understanding of the materials and interactions available in each inter
 
 <h3 id="V8">Tutorial 8: Planning virtual editions [PT]</h3>
 <div className="videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video8" width="560" height="315"
 	src="https://www.youtube.com/embed/rANp_CP3DwI" 
 	></iframe></div>
 <br />
@@ -121,7 +121,7 @@ a better understanding of the materials and interactions available in each inter
 
 <h3 id="V9">Tutorial 9: Creating virtual editions [PT]</h3>
 <div className="videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video9" width="560" height="315"
 	src="https://www.youtube.com/embed/BMvAbI_TOy8" 
 	></iframe></div>
 <br />
@@ -129,7 +129,7 @@ a better understanding of the materials and interactions available in each inter
 
 <h3 id="V10">Tutorial 10: Taxonomy and annotations [PT]</h3>
 <div className="videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video10" width="560" height="315"
 	src="https://www.youtube.com/embed/3cvvsjvrSzk" 
 	></iframe></div>
 <br />

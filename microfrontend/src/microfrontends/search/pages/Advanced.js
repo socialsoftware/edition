@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Select from 'react-select'
 import lupa from '../../../resources/assets/lupa.svg'
 import { getAdvancedSearchList } from '../../../util/API/SearchAPI';
-import Advanced_expert from './expert/Advanced_expert';
-import Advanced_virtual from './virtual/Advanced_virtual';
+import AdvancedExpert from './expert/Advanced_expert';
+import AdvancedVirtual from './virtual/Advanced_virtual';
 import ResultTable from './ResultTable';
 import CircleLoader from "react-spinners/RotateLoader";
 
@@ -77,21 +77,20 @@ const Advanced = (props) => {
 
     const getSelectForDomain = (val, i) => {
             return (
-                <div>
+                <div key={i}>
                     <div className="form-advanced"> 
                         <Select 
                             styles={customStyles}
                             value={domain.filter(option => option.value === val.domain)}
                             onChange={value => {
-                                console.log(value);
                                 let auxArr = [...selected]
                                 auxArr[i].domain=value.value
                                 setSelected(auxArr)
                                 setData(null)
                             }}
                             options={domain} className="form-control select-search"/>
-                            <Advanced_expert domain={val.domain} messages={props.messages} onChangeCallback={(e, e1) => onChangeCallback(e, e1, i)}/>
-                            <Advanced_virtual domain={val.domain} messages={props.messages} onChangeCallback={(e, e1) => onChangeCallback(e, e1, i)}/>
+                            <AdvancedExpert domain={val.domain} messages={props.messages} onChangeCallback={(e, e1) => onChangeCallback(e, e1, i)}/>
+                            <AdvancedVirtual domain={val.domain} messages={props.messages} onChangeCallback={(e, e1) => onChangeCallback(e, e1, i)}/>
                         <p className="button-criteria-minus" onClick={() => removeCriteriaHandler(i)}>-</p>
                     </div>
                     <div className="divider"></div>
@@ -129,7 +128,6 @@ const Advanced = (props) => {
                 ) 
             }
             else if(el.domain==="Manuscript"){
-                console.log(el.manuscriptLabel);
                 options.push(
                     {
                         type : "manuscript",
@@ -231,7 +229,6 @@ const Advanced = (props) => {
             .then(res => {
                 setData(res.data)
                 setLoading(false)
-                console.log(res.data)
             })
     }
 

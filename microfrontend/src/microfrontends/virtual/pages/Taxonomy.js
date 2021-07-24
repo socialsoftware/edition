@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import { getTaxonomyData, createVirtualCategory, mergeOrDeleteVirtualCategory, 
-    generateTopics, addGeneratedTopics, deleteVirtualCategory } from '../../../util/API/VirtualAPI';
+    generateTopics, addGeneratedTopics } from '../../../util/API/VirtualAPI';
 import {ReactComponent as LeftArrow} from '../../../resources/assets/caret-left-fill.svg'
 import {ReactComponent as List} from '../../../resources/assets/card-list.svg'
 import {ReactComponent as Wrench} from '../../../resources/assets/wrench.svg'
@@ -43,6 +43,7 @@ const Taxonomy = (props) => {
         return function cleanup() {
             mounted = false
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const customStyles = {
@@ -76,17 +77,8 @@ const Taxonomy = (props) => {
             })
     }
 
-
-    const deleteCategory = () => {
-        for(let el of selected){
-            deleteVirtualCategory(el)
-                .then(res => {
-                    setData(res.data)
-                })
-        }
-    }
     const triggerOnChange = (option) => {
-        if(selected != []){
+        if(selected !== []){
             if(option==="apagar"){
                 mergeOrDeleteVirtualCategory(data.taxonomy.externalId, "delete", data.externalId, selected).then(res => {
                     setData(res.data)
@@ -161,28 +153,28 @@ const Taxonomy = (props) => {
     const gerarHandler = () => {
         setErrors(false)
         let flag = true
-        if (topics == null || topics == "") {
+        if (topics === null || topics === "") {
     		setErrors(true)
             flag = false
         } else if (isNaN(topics) || topics < 1 || topics > 100) {
             setErrors(true)
             flag = false
         }
-        if (words == null || words == "") {
+        if (words === null || words === "") {
             setErrors(true)
             flag = false
         } else if (isNaN(words) || words < 1 || words > 10) {
             setErrors(true)
             flag = false
         }
-        if (threshold == null || threshold == "") {
+        if (threshold === null || threshold === "") {
             setErrors(true)
             flag = false
         } else if (isNaN(threshold) || threshold < 0 || threshold > 100) {
             setErrors(true)
             flag = false
         }
-        if (iterations == null || iterations == "") {
+        if (iterations === null || iterations === "") {
             setErrors(true)
             flag = false
         } else if (isNaN(iterations) || iterations < 1) {
@@ -239,7 +231,7 @@ const Taxonomy = (props) => {
         if(flag){
             addGeneratedTopics(data.externalId, newTopicDto)
                 .then(res => {
-                    if(res.data != ""){
+                    if(res.data !== ""){
                         setData(res.data)
                     }
                     else{
@@ -363,7 +355,7 @@ const Taxonomy = (props) => {
                                 onChange={e => setCategoryName(e.target.value)}>
                         </input>
                         <span className="virtual-add-category-button" style={{marginTop:"5px"}} onClick={() => handleAddition()}>
-                            <img src={plus} style={{height:"13px", width:"13px", marginRight:"2px"}}></img>
+                            <img alt="imgPlus" src={plus} style={{height:"13px", width:"13px", marginRight:"2px"}}></img>
                             <p>{props.messages.category_add}</p>
                         </span>
                     </div>
@@ -373,7 +365,7 @@ const Taxonomy = (props) => {
                         setAddRepeated(false)
                         setShowGerar(true)}}
                         >
-                        <img src={plus} style={{height:"13px", width:"13px", marginRight:"2px",}}></img>
+                        <img alt="imgPlus" src={plus} style={{height:"13px", width:"13px", marginRight:"2px",}}></img>
                         <p>{props.messages.topics_generate_short}</p>
                     </span>
                 </div>

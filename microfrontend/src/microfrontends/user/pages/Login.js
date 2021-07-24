@@ -26,12 +26,7 @@ const Login = (props) => {
             })
             .catch(error => {
                 setErrorDisplay(true)
-                if(error.status === 401) {
-                    console.log(error)  
-                    console.log(401)  
-                } else {
-                    console.log(error)                               
-                }
+                console.log(error)                               
             })
     }
     ///

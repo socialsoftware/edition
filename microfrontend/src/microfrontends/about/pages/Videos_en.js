@@ -54,7 +54,7 @@ const Videos_en = () => {
 <h3 id="V1" >Teaser_LdoD: LdoD Archive</h3>
 
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video0" width="560" height="315"
 	src="https://www.youtube.com/embed/dEnavuucyrY" 
 	></iframe></div>
 <br />
@@ -62,7 +62,7 @@ const Videos_en = () => {
 
 <h3 id="V2" >Documentary reality is disorganized</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video1" width="560" height="315"
 	src="https://www.youtube.com/embed/wHMLD23JkIw" 
 	></iframe></div>
 <br />
@@ -70,7 +70,7 @@ const Videos_en = () => {
 
 <h3 id="V3" >Vicente Guedes and Bernardo Soares</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video2" width="560" height="315"
 	src="https://www.youtube.com/embed/AfTDWoOFEMA" 
 	></iframe></div>
 <br />
@@ -78,7 +78,7 @@ const Videos_en = () => {
 
 <h3 id="V4" >Defining discursive units</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video3" width="560" height="315"
 	src="https://www.youtube.com/embed/EZYBzryVWYI" 
 	></iframe></div>
 <br />
@@ -86,7 +86,7 @@ const Videos_en = () => {
 
 <h3 id="V5" >Defining paragraphs</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video4" width="560" height="315"
 	src="https://www.youtube.com/embed/-LGEm7qf6qc" 
 	></iframe></div>
 <br />
@@ -94,7 +94,7 @@ const Videos_en = () => {
 
 <h3 id="V6" >Human speech</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video5" width="560" height="315"
 	src="https://www.youtube.com/embed/ObI5qTT1qhU" 
 	></iframe></div>
 <br />
@@ -102,7 +102,7 @@ const Videos_en = () => {
 
 <h3 id="V7" >Why editing?</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video6" width="560" height="315"
 	src="https://www.youtube.com/embed/qdc3y_pUBII" 
 	></iframe></div>
 <br />
@@ -110,7 +110,7 @@ const Videos_en = () => {
 
 <h3 id="V8" >Chronological organization</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video7" width="560" height="315"
 	src="https://www.youtube.com/embed/0E8-k7ZuCd8" 
 	></iframe></div>
 <br />
@@ -118,7 +118,7 @@ const Videos_en = () => {
 
 <h3 id="V9" >Heteronyms</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video8" width="560" height="315"
 	src="https://www.youtube.com/embed/sXliW-96fLw" 
 	></iframe></div>
 <br />
@@ -126,7 +126,7 @@ const Videos_en = () => {
 
 <h3 id="V10" >Editing possibilities</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video9" width="560" height="315"
 	src="https://www.youtube.com/embed/CODlWW6BqhE" 
 	></iframe></div>
 <br />
@@ -134,7 +134,7 @@ const Videos_en = () => {
 
 <h3 id="V11" >Materiality and criticism</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video10" width="560" height="315"
 	src="https://www.youtube.com/embed/N-6lEbfFB6E" 
 	></iframe></div>
 <br />
@@ -142,7 +142,7 @@ const Videos_en = () => {
 
 <h3 id="V12" >Spontaneous reading</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video11" width="560" height="315"
 	src="https://www.youtube.com/embed/chTLiJDAhCA" 
 	></iframe></div>
 <br />
@@ -150,7 +150,7 @@ const Videos_en = () => {
 
 <h3 id="V13" >Hyperconsciousness</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video12" width="560" height="315"
 	src="https://www.youtube.com/embed/oAFPcx6_rbs" 
 	></iframe></div>
 <br />
@@ -158,7 +158,7 @@ const Videos_en = () => {
 
 <h3 id="V14" >LdoD Archive</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video13" width="560" height="315"
 	src="https://www.youtube.com/embed/6MiYye4rQJk" 
 	></iframe></div>
 <br />
@@ -166,7 +166,7 @@ const Videos_en = () => {
 
 <h3 id="V15" >Dynamic archive</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video14" width="560" height="315"
 	src="https://www.youtube.com/embed/7_6pKD2ktSY" 
 	></iframe></div>
 <br />
@@ -174,7 +174,7 @@ const Videos_en = () => {
 
 <h3 id="V16" >Learning Researching Creating</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video15" width="560" height="315"
 	src="https://www.youtube.com/embed/MxycSwfE8XY" 
 	></iframe></div>
 <br />
@@ -182,7 +182,7 @@ const Videos_en = () => {
 
 <h3 id="V17" >Literary performativity simulator</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video16" width="560" height="315"
 	src="https://www.youtube.com/embed/OF3OD3-i1EY" 
 	></iframe></div>
 <br />

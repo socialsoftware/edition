@@ -29,6 +29,7 @@ const Participants = (props) => {
             return function cleanup() {
                 mounted = false
             }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const mapMembersToTable = () => {
@@ -84,7 +85,7 @@ const Participants = (props) => {
     const mapPedingToTable = () => {
         return data.pendingMemberSet.map((pending, i) => {
             return(
-                <tr>
+                <tr key={i}>
                     <td>
                         <span style={{display:"flex"}}>
                             <Person></Person>
@@ -98,7 +99,7 @@ const Participants = (props) => {
                         {
                             data.admin?
                                 <span className="virtual-submit-button" onClick={() => approveMemberHandler(pending.username)}>
-                                    <img src={plus} style={{width:"15px", height:"15px", marginRight:"5px"}}></img>
+                                    <img alt="imgPlus" src={plus} style={{width:"15px", height:"15px", marginRight:"5px"}}></img>
                                     <p>{props.messages.general_add}</p>
                                 </span>
                             :null
@@ -114,7 +115,6 @@ const Participants = (props) => {
         if(newMember){
             addNewMember(data.externalId, newMember)
                 .then(res => {
-                    console.log(res.data);
                     setData(res.data)
                     setNewMember("")
                 })
@@ -129,9 +129,8 @@ const Participants = (props) => {
     const removeMemberHandler = (memberId) => {
         removeMember(data.externalId, memberId)
             .then(res => {
-                console.log(res);
                 setData(res.data)
-                if(res.data == "" && res.status === 200) history.push("/")
+                if(res.data === "" && res.status === 200) history.push("/")
 
             })
             .catch(res => {
@@ -184,7 +183,7 @@ const Participants = (props) => {
                         value={newMember}
                         onChange={e => setNewMember(e.target.value)}/>
                     <span className="virtual-submit-button" onClick={() => addNewMemberHandler()}>
-                        <img src={plus} style={{width:"15px", height:"15px", marginRight:"5px"}}></img>
+                        <img alt="imgPlus" src={plus} style={{width:"15px", height:"15px", marginRight:"5px"}}></img>
                         <p style={{fontSize:"14px"}}>{props.messages.general_add}</p>
                     </span>
                 </div>

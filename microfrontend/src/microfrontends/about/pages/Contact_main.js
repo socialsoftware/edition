@@ -1,7 +1,7 @@
 import React from 'react'
-import Contact_en from './Contact_en'
-import Contact_es from './Contact_es'
-import Contact_pt from './Contact_pt'
+import ContactEn from './Contact_en'
+import ContactEs from './Contact_es'
+import ContactPt from './Contact_pt'
 
 
 const Contact_main = (props) => {
@@ -9,7 +9,7 @@ const Contact_main = (props) => {
         <div>
             <div className="about-container">
                 <p className="about-conduct-title">{props.messages.header_contact}</p>
-                {props.language==="pt"?<Contact_pt/>:props.language==="en"?<Contact_en/>:<Contact_es/>}
+                {props.language==="pt"?<ContactPt/>:props.language==="en"?<ContactEn/>:<ContactEs/>}
             </div>
         </div>
         

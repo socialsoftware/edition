@@ -12,7 +12,6 @@ const Facsimilie = (props) => {
     useEffect(() => {
         var imgsAux = [...images]
         imgsAux = []
-        console.log(props.data);
         if(props.data.surface!==null){
             try{
                 imgsAux.push(
@@ -22,7 +21,6 @@ const Facsimilie = (props) => {
                 )
             }
             catch (err){
-                console.log("cannot find image");
                 imgsAux.push(
                     {
                         original: noImage,
@@ -32,7 +30,7 @@ const Facsimilie = (props) => {
             setImages(imgsAux)
         }
         
-    }, [props.data])
+    }, [props.data, images])
 
 
     const getSurfaceHandler = (side) => {
@@ -45,12 +43,12 @@ const Facsimilie = (props) => {
             <div>
                 {
                     props.data.prevSurface?
-                    <img src={leftArrow} className="fragment-facsimilie-arrow-left" onClick={() => getSurfaceHandler("left")}></img>
+                    <img alt="arrow" src={leftArrow} className="fragment-facsimilie-arrow-left" onClick={() => getSurfaceHandler("left")}></img>
                     :null
                 }
                 {
                     props.data.nextSurface?
-                    <img src={rightArrow} className="fragment-facsimilie-arrow-right" onClick={() => getSurfaceHandler("right")}></img>
+                    <img alt="arrow" src={rightArrow} className="fragment-facsimilie-arrow-right" onClick={() => getSurfaceHandler("right")}></img>
                     :null
                 }
             </div>
@@ -58,7 +56,6 @@ const Facsimilie = (props) => {
         )
     }
 
-    const props2 = {width: 350, height: 400, zoomWidth: 350, img: require(`./../../../../resources/assets/facsimilies/bn-acpc-e-e3-1-1-89_0001_1_t24-C-R0150.jpg`), zoomPosition:"original"};
     return (
         <div>
             <div className="fragment-facsimilie-div">

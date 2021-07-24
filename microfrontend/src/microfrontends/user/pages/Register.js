@@ -7,9 +7,9 @@ import {
 } from '../../../constants/index.js';
 import { useHistory } from "react-router-dom";
 import { signup } from '../../../util/API/UserAPI';
-import Conduct_pt from '../../about/pages/Conduct_pt'
-import Conduct_en from '../../about/pages/Conduct_en'
-import Conduct_es from '../../about/pages/Conduct_es'
+import ConductPt from '../../about/pages/Conduct_pt'
+import ConductEn from '../../about/pages/Conduct_en'
+import ConductEs from '../../about/pages/Conduct_es'
 
 const Register = (props) => {
 
@@ -51,7 +51,6 @@ const Register = (props) => {
         if(validateDetails(signupRequest)){
             signup(signupRequest) //API COMMUNICATION
             .then(res => {
-                console.log(res.data);
                 if(res.data !== "error") history.push("/auth/signin")
                 else{
                     window.scrollTo(0, 0)
@@ -60,12 +59,6 @@ const Register = (props) => {
             })
             .catch(error => {
                 console.log(error)
-                if(error.status === 401) {
-                    console.log(error)  
-                    console.log(401)      
-                } else {
-                    console.log(error)                                        
-                }
             });
         }
         else{
@@ -114,7 +107,7 @@ const Register = (props) => {
                 </div>
             </div>
             <div className="registo-text">
-                {props.language==="pt"?<Conduct_pt/>:props.language==="en"?<Conduct_en/>:<Conduct_es/>}
+                {props.language==="pt"?<ConductPt/>:props.language==="en"?<ConductEn/>:<ConductEs/>}
             </div>
             <button className="registo-button" onClick={() => handleRegister()}>{props.messages.signup}</button>
             

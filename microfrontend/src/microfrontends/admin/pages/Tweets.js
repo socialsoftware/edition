@@ -12,7 +12,6 @@ const Tweets = (props) => {
         getTweets()
             .then(res => {
                 if(mounted){
-                    console.log(res);
                     setList(res.data.citations)
                 }
             })

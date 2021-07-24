@@ -198,9 +198,7 @@ The <em>LdoD Archive</em> was developed under the research project &ldquo;No Pro
 			(CHSC): International conference &ldquo;<a
 			href="http://ahlist.org/conferences/2015-ahlist-coimbra/program/"
 			target="new">Consilience and Inclusion: Scientific and Cultural
-				Encounters</a><a
-			href="http://ahlist.org/conferences/2015-ahlist-coimbra/"
-			target="new"></a>,&rdquo; organized by the Association of History,
+				Encounters</a>,&rdquo; organized by the Association of History,
 			Literature, Science, and Technology (November 19-21, 2015; coord.
 			Yonsoo Kim)
 		</li>

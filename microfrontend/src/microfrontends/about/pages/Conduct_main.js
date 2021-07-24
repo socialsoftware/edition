@@ -1,7 +1,7 @@
 import React from 'react'
-import Conduct_en from './Conduct_en'
-import Conduct_es from './Conduct_es'
-import Conduct_pt from './Conduct_pt'
+import ConductEn from './Conduct_en'
+import ConductEs from './Conduct_es'
+import ConductPt from './Conduct_pt'
 
 
 const Conduct_main = (props) => {
@@ -9,7 +9,7 @@ const Conduct_main = (props) => {
         <div>
             <div className="about-container">
                 <p className="about-conduct-title">{props.messages.header_conduct}</p>
-                {props.language==="pt"?<Conduct_pt/>:props.language==="en"?<Conduct_en/>:<Conduct_es/>}
+                {props.language==="pt"?<ConductPt/>:props.language==="en"?<ConductEn/>:<ConductEs/>}
             </div>
         </div>
         

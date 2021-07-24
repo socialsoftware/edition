@@ -9,8 +9,8 @@ const Info = (props) => {
     return(
         <div >
             <div className={location.pathname==="/"?"home-info":"info"}>
-                <img className="info-img" src={logotipos}></img>
-                <img className="info-img-mobile" src={logotiposm}></img>
+                <img alt="img" className="info-img" src={logotipos}></img>
+                <img alt="img" className="info-img-mobile" src={logotiposm}></img>
                 {props.language==="pt"?
                 <p className="info-end">O <em>Arquivo LdoD</em> foi desenvolvido no &acirc;mbito do projeto de investiga&ccedil;&atilde;o &ldquo;
                     Nenhum Problema Tem Solu&ccedil;&atilde;o: Um Arquivo Digital do <em>Livro do Desassossego</em>&rdquo; 

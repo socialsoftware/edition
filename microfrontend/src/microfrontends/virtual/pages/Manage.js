@@ -111,7 +111,6 @@ const Manage = (props) => {
 
     useEffect(() => {
         var path = location.pathname.split('/')
-        console.log(path);
         let mounted = true
         getManagePage(path[5])
             .then(res => {
@@ -125,20 +124,15 @@ const Manage = (props) => {
             return function cleanup() {
                 mounted = false
             }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleSubmit = (externalId) => {
         submitParticipation(externalId)
-            .then(res => {
-                console.log(res.data);
-            })
     }
 
     const handleCancel = (externalId) => {
         cancelParticipation(externalId)
-            .then(res => {
-                console.log(res);
-            })
     }
 
     const countrySelectedHandler = (country) => {
@@ -162,12 +156,10 @@ const Manage = (props) => {
     const getEditInfoHandler = () => {
         var aux = ""
         for(let key of Object.keys(countries)){
-            console.log(key);
             if(countries[key]){
                 aux += `,${key}`
             }
         }
-        console.log(aux);
         let obj = {
             acronym: sigla,
             title: title,
@@ -183,7 +175,6 @@ const Manage = (props) => {
             frequency: frequency
         }
         getEditInfo(data.externalId, obj).then(res => {
-            console.log(res.data);
             updateData(res.data)
             setCollapse(false)
         })
@@ -429,7 +420,7 @@ const Manage = (props) => {
                     </div>
                     :props.isAuthenticated && !data.pending?
                         <div className="virtual-submit-button" onClick={() => handleSubmit(data.externalId)}>
-                            <img src={plus} style={{height:"13px", width:"13px", marginRight:"2px"}}></img>
+                            <img alt="imgPlus" src={plus} style={{height:"13px", width:"13px", marginRight:"2px"}}></img>
                             <span>{props.messages.general_submit}</span>
                         </div>
                     :props.isAuthenticated && data.pending?
@@ -442,7 +433,7 @@ const Manage = (props) => {
                 }
                 {data?data.admin && !data.ldoDEdition?
                     <div className="virtual-manage-flex-option">
-                        <img src={trash} className="virtual-manage-flex-svg"></img>
+                        <img alt="imgTrash" src={trash} className="virtual-manage-flex-svg"></img>
                     </div>
                 :null:null
                 }

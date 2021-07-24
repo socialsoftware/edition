@@ -14,10 +14,10 @@ const Virtual2Compare = (props) => {
                     <td>---</td>
                     <td>---</td>
                     <td>
-                        <span style={{display:"flex", alignItems:"center"}}><img src={tag} style={{height:"20px", width:"20px", marginRight:"5px"}}></img> <Link className="fragment-virtual-link" to={`/edition/user/${val.user.userName}`}>{val.user.userName}</Link></span>
+                        <span style={{display:"flex", alignItems:"center"}}><img alt="tagImg" src={tag} style={{height:"20px", width:"20px", marginRight:"5px"}}></img> <Link className="fragment-virtual-link" to={`/edition/user/${val.user.userName}`}>{val.user.userName}</Link></span>
                     </td>
                     <td>
-                        <span style={{display:"flex", alignItems:"center"}}><img src={user} style={{height:"20px", width:"20px", marginRight:"5px"}}></img> <Link className="fragment-virtual-link" to={`/edition/acronym/${val.category.acronym}/category/${val.category.urlId}`}>{val.category.name}</Link></span>
+                        <span style={{display:"flex", alignItems:"center"}}><img alt="userImg" src={user} style={{height:"20px", width:"20px", marginRight:"5px"}}></img> <Link className="fragment-virtual-link" to={`/edition/acronym/${val.category.acronym}/category/${val.category.urlId}`}>{val.category.name}</Link></span>
                     </td>
                 </tr>
             )

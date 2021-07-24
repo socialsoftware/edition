@@ -14,7 +14,6 @@ const User = (props) => {
     useEffect(() => {
         getUserList()
             .then(res => {
-                console.log(res);
                 setList(res.data.userList)
                 setSessionList(res.data.sessionList)
                 setAdmin(res.data.ldoDAdmin)
@@ -56,7 +55,7 @@ const User = (props) => {
     const mapUsersToTable = () => {
         return list.map((user, i) => {
             return (
-                <tr>
+                <tr key={i}>
                     <td>{user.userName}</td>
                     <td>{user.firstName}</td>
                     <td>{user.lastName}</td>
@@ -99,7 +98,7 @@ const User = (props) => {
     const mapSessionsToTable = () => {
         return sessionList.map((session, i) => {
             return (
-                <tr>
+                <tr key={i}>
                     <td style={{padding:"10px 0"}}>username</td>
                     <td>first name</td>
                     <td>last name</td>

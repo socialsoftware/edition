@@ -12,8 +12,8 @@ const Advanced_virtual = (props) => {
     useEffect(() => {
         getVirtualEditionMap()
             .then(snap => {
-                console.log("run");
                 let arrayAux = [...editorVirtualOptions]
+                // eslint-disable-next-line array-callback-return
                 Object.entries(snap.data).map(([key, val]) => {
                     let aux = {
                         "value" : key,
@@ -23,6 +23,7 @@ const Advanced_virtual = (props) => {
                 })
                 setEditorVirtualOptions(arrayAux)
             })
+            // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 
@@ -73,7 +74,6 @@ const Advanced_virtual = (props) => {
                     <input className="form-control input-search" style={{padding:"0 12px"}}
                         value={taxonomy}
                         onChange={e => {
-                            console.log(e.target.value);
                             setTaxonomy(e.target.value)
                             props.onChangeCallback(e.target.value, "taxonomy")
                         }}>
@@ -86,7 +86,6 @@ const Advanced_virtual = (props) => {
                         styles={customStyles}
                         value={inclusionOptions.filter(option => option.value === inclusionVirtual)}
                         onChange={value => {
-                            console.log(value);
                             setInclusionVirtual(value.value)
                             props.onChangeCallback(value.value, "inclusionVirtual")
                         }}

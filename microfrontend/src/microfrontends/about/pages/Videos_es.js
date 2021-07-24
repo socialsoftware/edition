@@ -56,7 +56,7 @@ const Videos_es = () => {
 <br />
 <h3 id="V1" style={{paddingTop:"130px", marginTop:"-130px"}}>Teaser_LdoD: Archivo LdoD</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video" width="560" height="315"
 	src="https://www.youtube.com/embed/dEnavuucyrY" 
 	></iframe></div>
 <br />
@@ -64,7 +64,7 @@ const Videos_es = () => {
 
 <h3 id="V2" style={{paddingTop:"130px", marginTop:"-130px"}}>La realidad documental est&aacute; desorganizada</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video" width="560" height="315"
 	src="https://www.youtube.com/embed/wHMLD23JkIw" 
 	></iframe></div>
 <br />
@@ -72,7 +72,7 @@ const Videos_es = () => {
 
 <h3 id="V3" style={{paddingTop:"130px", marginTop:"-130px"}}>Vicente Guedes y Bernardo Soares</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video" width="560" height="315"
 	src="https://www.youtube.com/embed/AfTDWoOFEMA" 
 	></iframe></div>
 <br />
@@ -80,7 +80,7 @@ const Videos_es = () => {
 
 <h3 id="V4" style={{paddingTop:"130px", marginTop:"-130px"}}>Creaci&oacute;n de unidades discursivas</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video" width="560" height="315"
 	src="https://www.youtube.com/embed/EZYBzryVWYI" 
 	></iframe></div>
 <br />
@@ -88,7 +88,7 @@ const Videos_es = () => {
 
 <h3 id="V5" style={{paddingTop:"130px", marginTop:"-130px"}}>Creaci&oacute;n de p&aacute;rrafos</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video" width="560" height="315"
 	src="https://www.youtube.com/embed/-LGEm7qf6qc" 
 	></iframe></div>
 <br />
@@ -96,7 +96,7 @@ const Videos_es = () => {
 
 <h3 id="V6" style={{paddingTop:"130px", marginTop:"-130px"}}>Habla humana</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video" width="560" height="315"
 	src="https://www.youtube.com/embed/ObI5qTT1qhU" 
 	></iframe></div>
 <br />
@@ -104,7 +104,7 @@ const Videos_es = () => {
 
 <h3 id="V7" style={{paddingTop:"130px", marginTop:"-130px"}}>&iquest;Por qu&eacute; editar?</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video" width="560" height="315"
 	src="https://www.youtube.com/embed/qdc3y_pUBII" 
 	></iframe></div>
 <br />
@@ -112,7 +112,7 @@ const Videos_es = () => {
 
 <h3 id="V8" style={{paddingTop:"130px", marginTop:"-130px"}}>Organizaci&oacute;n cronol&oacute;gica</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video" width="560" height="315"
 	src="https://www.youtube.com/embed/0E8-k7ZuCd8" 
 	></iframe></div>
 <br />
@@ -120,7 +120,7 @@ const Videos_es = () => {
 
 <h3 id="V9" style={{paddingTop:"130px", marginTop:"-130px"}}>Heter&oacute;nimos</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video" width="560" height="315"
 	src="https://www.youtube.com/embed/sXliW-96fLw" 
 	></iframe></div>
 <br />
@@ -128,7 +128,7 @@ const Videos_es = () => {
 
 <h3 id="V10" style={{paddingTop:"130px", marginTop:"-130px"}}>Posibilidades de edici&oacute;n</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video" width="560" height="315"
 	src="https://www.youtube.com/embed/CODlWW6BqhE" 
 	></iframe></div>
 <br />
@@ -136,7 +136,7 @@ const Videos_es = () => {
 
 <h3 id="V11" style={{paddingTop:"130px", marginTop:"-130px"}}>Materialidad y cr&iacute;tica</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video" width="560" height="315"
 	src="https://www.youtube.com/embed/N-6lEbfFB6E" 
 	></iframe></div>
 <br />
@@ -144,7 +144,7 @@ const Videos_es = () => {
 
 <h3 id="V12" style={{paddingTop:"130px", marginTop:"-130px"}}>Lectura espont&aacute;nea</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video" width="560" height="315"
 	src="https://www.youtube.com/embed/chTLiJDAhCA" 
 	></iframe></div>
 <br />
@@ -152,7 +152,7 @@ const Videos_es = () => {
 
 <h3 id="V13" style={{paddingTop:"130px", marginTop:"-130px"}}>Hiperconciencia</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video" width="560" height="315"
 	src="https://www.youtube.com/embed/oAFPcx6_rbs" 
 	></iframe></div>
 <br />
@@ -160,7 +160,7 @@ const Videos_es = () => {
 
 <h3 id="V14" style={{paddingTop:"130px", marginTop:"-130px"}}>Archivo LdoD</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video" width="560" height="315"
 	src="https://www.youtube.com/embed/6MiYye4rQJk" 
 	></iframe></div>
 <br />
@@ -168,7 +168,7 @@ const Videos_es = () => {
 
 <h3 id="V15" style={{paddingTop:"130px", marginTop:"-130px"}}>Archivo din&aacute;mico</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video" width="560" height="315"
 	src="https://www.youtube.com/embed/7_6pKD2ktSY" 
 	></iframe></div>
 <br />
@@ -176,7 +176,7 @@ const Videos_es = () => {
 
 <h3 id="V16" style={{paddingTop:"130px", marginTop:"-130px"}}>Aprender Investigar Crear</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video" width="560" height="315"
 	src="https://www.youtube.com/embed/MxycSwfE8XY" 
 	></iframe></div>
 <br />
@@ -184,7 +184,7 @@ const Videos_es = () => {
 
 <h3 id="V17" style={{paddingTop:"130px", marginTop:"-130px"}}>Simulador de performatividad literaria</h3>
 <div className="about-videoWrapper">
-<iframe width="560" height="315"
+<iframe title="video" width="560" height="315"
 	src="https://www.youtube.com/embed/OF3OD3-i1EY" 
 	></iframe></div>
 <br />

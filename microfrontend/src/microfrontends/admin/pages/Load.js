@@ -17,7 +17,6 @@ const Load = (props) => {
         var data = new FormData();
         if(type === "corpus" && corpus!=null){
             data.append('file', corpus);
-            console.log(data.get('file'))
             loadCorpus(data)
                 .then(res => {
                     setServerResponse(res.data)
@@ -37,7 +36,6 @@ const Load = (props) => {
                 })
         } 
         else if(type === "severalFragment" && severalFragment){
-            let i = 0
             for (let file of severalFragment) {
                 data.append("files", file);                
             }

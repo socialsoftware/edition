@@ -1,5 +1,5 @@
-import React from 'react';
-import { Route, Switch} from "react-router-dom";
+import React, { useEffect } from 'react';
+import { Route, Switch, useHistory} from "react-router-dom";
 import Load from './pages/Load';
 import Export from './pages/Export';
 import Delete from './pages/Delete';
@@ -11,6 +11,16 @@ import UserEdit from './pages/UserEdit';
 import '../../resources/css/admin/Admin.css'
 
 const Admin_DISPATCHER = (props) => {
+
+    const history = useHistory()
+
+    useEffect(() => {
+        if(!props.isAuthenticated){
+            alert("Acesso Negado")
+            history.push("/")
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.isAuthenticated])
 
     return (
         <div style={{marginTop:"150px"}}>

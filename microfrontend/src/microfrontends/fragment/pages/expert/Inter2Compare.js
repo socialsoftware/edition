@@ -20,7 +20,7 @@ const Inter2Compare = (props) => {
     const mapShortNamesToTable = () => {
         return props.data.inters.map((inter, i) => {
             return (
-                <th>
+                <th key={i}>
                     <p>{inter.shortName}</p>
                     <p>{inter.title}</p>
                 </th>
@@ -31,14 +31,14 @@ const Inter2Compare = (props) => {
     const mapInterToRows = (interp) => {
         return interp.map((val, i) => {
             return (
-                <td dangerouslySetInnerHTML={{ __html: val }}></td>
+                <td key={i} dangerouslySetInnerHTML={{ __html: val }}></td>
             )
         })
     }
     const mapVariationsToTable = () => {
         return props.data.variations.map((interp, i) => {
             return (
-                <tr>
+                <tr key={i}>
                     {mapInterToRows(interp)}
                 </tr>
                 

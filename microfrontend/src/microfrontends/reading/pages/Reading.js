@@ -36,7 +36,6 @@ const Reading = (props) => {
         if(path[3] && path[5]){
             getCurrentReadingFragmentJson(path[3], path[5], props.recommendation)
             .then(res => {
-                console.log(res.data.expertEditionInterDto.acronym);
                 setFragmentData(res.data)
                 setSelectedExpert(res.data.expertEditionInterDto.acronym)
                 props.setUpdateRecommendation(res.data.readingRecommendation)
@@ -45,6 +44,7 @@ const Reading = (props) => {
                 console.log(error);
             })
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
@@ -55,21 +55,16 @@ const Reading = (props) => {
     }, [showModal])
 
     const getFragmentHandler = (xmlId, urlId) => {
-        console.log(props.recommendation);
         getCurrentReadingFragmentJson(xmlId, urlId, props.recommendation)
             .then(res => {
-                console.log(res.data);
                 setFragmentData(res.data)
                 props.setUpdateRecommendation(res.data.readingRecommendation)
                 history.replace(`/reading/fragment/${xmlId}/inter/${urlId}`)
             })
     }
     const getFragmentWithAcronymHandler = (xmlId, urlId, acronym) => {
-        console.log(xmlId, urlId, acronym);
-        console.log(props.recommendation);
         getCurrentReadingFragmentJson(xmlId, urlId, props.recommendation)
             .then(res => {
-                console.log(res.data);
                 setFragmentData(res.data)
                 setSelectedExpert(acronym)
                 props.setUpdateRecommendation(res.data.readingRecommendation)
@@ -78,13 +73,10 @@ const Reading = (props) => {
     }
 
     const selectExpertHandler = (acronym) => {
-        console.log(props.recommendation);
         getStartReadingFragment(acronym, props.recommendation)
             .then(res => {
-                console.log(res.data);
                 setFragmentData(res.data)
                 setSelectedExpert(acronym)
-                console.log(acronym);
                 props.setUpdateRecommendation(res.data.readingRecommendation)
                 history.replace(`/reading/fragment/${res.data.fragment.fragmentXmlId}/inter/${res.data.expertEditionInterDto.urlId}`)
             })
@@ -95,7 +87,6 @@ const Reading = (props) => {
             .then(res => {
                 setFragmentData(res.data)
                 setSelectedExpert(acronym)
-                console.log(acronym);
                 props.setUpdateRecommendation(res.data.readingRecommendation)
                 history.replace(`/reading/fragment/${xmlId}/inter/${urlId}`)
             })
@@ -104,10 +95,8 @@ const Reading = (props) => {
     const getNextFragmentHandler = (acronym, xmlId, urlId) => {
         getNextReadingFragment(xmlId, urlId, props.recommendation)
             .then(res => {
-                console.log(res.data);
                 setFragmentData(res.data)
                 setSelectedExpert(acronym)
-                console.log(acronym);
                 props.setUpdateRecommendation(res.data.readingRecommendation)
                 history.replace(`/reading/fragment/${xmlId}/inter/${urlId}`)
             })
@@ -137,11 +126,11 @@ const Reading = (props) => {
     const mapRecommendationsToColumn = () => {
         return fragmentData.recommendations.map((val, i) => {
             return (
-                <div onClick={() => getFragmentWithAcronymHandler(val.fragmentXmlId, val.urlId, val.acronym)} className="recommendation-div-hover">
+                <div key={i} onClick={() => getFragmentWithAcronymHandler(val.fragmentXmlId, val.urlId, val.acronym)} className="recommendation-div-hover">
                     <p className="reading-recommendation-acronym">{val.acronym}</p>
                     <p className="reading-number" >{val.number}</p>
                     <div className="reading-arrows">
-                        <img src={rightArrow} style={{margin:0}} className="reading-arrow-right"></img>
+                        <img alt="arrow" src={rightArrow} style={{margin:0}} className="reading-arrow-right"></img>
                     </div>
                 </div>
             )
@@ -154,8 +143,8 @@ const Reading = (props) => {
                     <p onClick={() => getFragmentWithAcronymHandler(fragmentData.fragment.fragmentXmlId, inter.urlId, inter.acronym)} 
                     className={flag?"reading-number-selected":"reading-number"}>{inter.number}</p>
                     <div className="reading-arrows">
-                        <img onClick={() => getPrevFragmentHandler(inter.acronym, fragmentData.fragment.fragmentXmlId, inter.urlId)} src={leftArrow} className="reading-arrow"></img>
-                        <img onClick={() => getNextFragmentHandler(inter.acronym, fragmentData.fragment.fragmentXmlId, inter.urlId)} src={rightArrow} className="reading-arrow-right"></img>
+                        <img alt="arrow" onClick={() => getPrevFragmentHandler(inter.acronym, fragmentData.fragment.fragmentXmlId, inter.urlId)} src={leftArrow} className="reading-arrow"></img>
+                        <img alt="arrow" onClick={() => getNextFragmentHandler(inter.acronym, fragmentData.fragment.fragmentXmlId, inter.urlId)} src={rightArrow} className="reading-arrow-right"></img>
                     </div>
                 </div>
             )
@@ -165,13 +154,13 @@ const Reading = (props) => {
     const mapAuthorsToPage = () => {
         return experts.map((author, i) => {
             return (
-                <div className={selectedExpert===author.acronym?"reading-column-fragment-selected":"reading-column-fragment"}>
+                <div key={i} className={selectedExpert===author.acronym?"reading-column-fragment-selected":"reading-column-fragment"}>
                     <div className={selectedExpert===author.acronym?"reading-column-selected":"reading-column"}>
                         <div className="reading-author-div" key={author.acronym}>
                             <p onClick={() => selectExpertHandler(author.acronym)} className={selectedExpert===author.acronym?"reading-column-author-selected":"reading-column-author"}>{author.editor}</p>
                             {
                                 !fragmentData?
-                                <img src={rightArrow} className="reading-arrow"></img>
+                                <img alt="arrow" src={rightArrow} className="reading-arrow"></img>
                                 :null
                             }
                             {
@@ -202,133 +191,140 @@ const Reading = (props) => {
 
     return (
         <div>
-            {showModal?
-                <div className="reading-backdrop"></div>
-            :null}
             {
-                showModal?
-                    <div className="reading-modal">
-                        <div className="reading-modal-header">
-                            <p className="reading-modal-header-close" onClick={() => {
-                                getFragmentHandler(fragmentData.fragment.fragmentXmlId, fragmentData.expertEditionInterDto.urlId)
-                                setShowModal(false)}}>
-                                    x</p>
-                            <p className="reading-modal-header-title">{props.messages.general_recommendation_config}</p>
-                        </div>
-                        <div className="reading-modal-body">
-                            <p className="reading-modal-body-title">{props.messages.recommendation_criteria} :</p>
-                            <div className="reading-modal-controls-div">
-                                <div className="reading-modal-body-input">
-                                    <p className="reading-modal-body-input-title">{props.messages.general_heteronym}</p>
-                                    <input max="1" min="0" step="0.2" type="range" className="reading-range" onChange={e => {
-                                        setHeteronymWeight(parseFloat(e.target.value))
-                                        setNewRecommendationsWithWeight("heteronymWeight", e.target.value)
-                                        }} value={heteronymWeight}></input>
-                                </div>
-                                <div className="reading-modal-body-input">
-                                    <p className="reading-modal-body-input-title">{props.messages.general_date}</p>
-                                    <input max="1" min="0" step="0.2" type="range" className="reading-range" onChange={e => {
-                                        setDateWeight(parseFloat(e.target.value))
-                                        setNewRecommendationsWithWeight("dateWeight", e.target.value)
-                                        }} value={dateWeight}></input>
-                                </div>
-                                <div className="reading-modal-body-input">
-                                    <p className="reading-modal-body-input-title">{props.messages.general_text}</p>
-                                    <input max="1" min="0" step="0.2" type="range" className="reading-range" onChange={e => {
-                                        setTextWeight(parseFloat(e.target.value))
-                                        setNewRecommendationsWithWeight("textWeight", e.target.value)
-                                        }} value={textWeight}></input>
-                                </div>
-                                <div className="reading-modal-body-input">
-                                    <p className="reading-modal-body-input-title">{props.messages.general_taxonomy}</p>
-                                    <input max="1" min="0" step="0.2" type="range" className="reading-range" onChange={e => {
-                                        setTaxonomyWeight(parseFloat(e.target.value))
-                                        setNewRecommendationsWithWeight("taxonomyWeight", e.target.value)
-                                        }} value={taxonomyWeight}></input>
-                                </div>
-                            </div>                            
-                        </div>
-                        <div className="reading-modal-footer">
-                            <div className="reading-modal-footer-buttons">
-                                <p className="reading-modal-footer-restart" onClick={() => {
-                                    if(fragmentData){
-                                        resetRecommendations()
-                                        getFragmentHandler(fragmentData.fragment.fragmentXmlId, fragmentData.expertEditionInterDto.urlId)
-                                        setShowModal(false)
-                                    }
-                                    
-                                }}><span><img src={save} style={{height:"15px", width:"15px"}}></img></span> {props.messages.general_reset}</p>
-                                <p className="reading-modal-footer-close" onClick={() => {
-                                    getFragmentHandler(fragmentData.fragment.fragmentXmlId, fragmentData.expertEditionInterDto.urlId)
-                                    setShowModal(false)}}>{props.messages.general_close}</p>
-                            </div>
-                        </div>
-                    </div>
-                :null
-            }
-            <div className="reading">
-            <CircleLoader loading={loading}></CircleLoader>
-            {!selectedExpert?
-            <div className="reading-book-title">
-                {props.language==="pt"?
-                    <p className="reading-h1">Livro do Desassossego de Fernando Pessoa</p>
-                :props.language==="en"?
-                    <p className="reading-h1">Book of Disquiet by Fernando Pessoa</p>
+                loading?
+                <CircleLoader loading={true}></CircleLoader>
                 :
-                    <p className="reading-h1">Libro del Desasosiego de Fernando Pessoa</p>
-                }
-            </div>
-            :null
-        
-            }
-            {experts?
-                mapAuthorsToPage()
-            :null
-            }
-            
-            <div className="reading-column-recomendation">
-                <p className="reading-column-author-rec" onClick={() => {
-                    window.scrollTo({ top: 0, behavior: 'smooth' })
-
-                    setShowModal(true)}}>{props.messages.general_recommendation}</p>
-                <img src={info} data-tip="Na coluna de recomendação são sugeridos de forma automática os fragmentos mais similares ao 
-                                            fragmento selecionado na coluna da edição. A similaridade entre o fragmento da edição e o fragmento 
-                                            da recomendação é calculada segundo uma combinação de quatro critérios (ajustáveis pelos utilizadores): 
-                                            heterónimo, data, texto e taxonomia." 
-                    className="reading-info"></img>
-                <ReactTooltip backgroundColor="#fff" textColor="#333" border={true} borderColor="#000" className="reading-tooltip" place="bottom"/>
-                {fragmentData?
-                    <div>
-                        <div onClick={() => {
-                            setSelectedExpert(fragmentData.expertEditionInterDto.acronym)
-                            getFragmentHandler(fragmentData.fragment.fragmentXmlId, fragmentData.expertEditionInterDto.urlId)
-                        }} >
-                            <p style={{color:"#FC1B27"}} className="reading-recommendation-acronym">{fragmentData.expertEditionInterDto.acronym}</p>
-                            <p className="reading-number-selected-no-hover">{fragmentData.expertEditionInterDto.number}</p>
-                        </div>
-                        
-                        <div>
-                            {
-                            fragmentData.prevCom?
-                                <div style={{marginTop:"20px"}} onClick={() => getPrevRecommendedFragment()}>
-                                    <p className="reading-recommendation-acronym">{fragmentData.prevCom.acronym}</p>
-                                    <p className="reading-number" >{fragmentData.prevCom.number}</p>
-                                    <img src={leftArrow} className="reading-arrow"></img>
+                <div>
+                    {showModal?
+                        <div className="reading-backdrop"></div>
+                    :null}
+                    {
+                        showModal?
+                            <div className="reading-modal">
+                                <div className="reading-modal-header">
+                                    <p className="reading-modal-header-close" onClick={() => {
+                                        getFragmentHandler(fragmentData.fragment.fragmentXmlId, fragmentData.expertEditionInterDto.urlId)
+                                        setShowModal(false)}}>
+                                            x</p>
+                                    <p className="reading-modal-header-title">{props.messages.general_recommendation_config}</p>
                                 </div>
-                            :null
-                            }
-                        </div>
-
-                        <div >
-                            {mapRecommendationsToColumn()}
-                        </div>
+                                <div className="reading-modal-body">
+                                    <p className="reading-modal-body-title">{props.messages.recommendation_criteria} :</p>
+                                    <div className="reading-modal-controls-div">
+                                        <div className="reading-modal-body-input">
+                                            <p className="reading-modal-body-input-title">{props.messages.general_heteronym}</p>
+                                            <input max="1" min="0" step="0.2" type="range" className="reading-range" onChange={e => {
+                                                setHeteronymWeight(parseFloat(e.target.value))
+                                                setNewRecommendationsWithWeight("heteronymWeight", e.target.value)
+                                                }} value={heteronymWeight}></input>
+                                        </div>
+                                        <div className="reading-modal-body-input">
+                                            <p className="reading-modal-body-input-title">{props.messages.general_date}</p>
+                                            <input max="1" min="0" step="0.2" type="range" className="reading-range" onChange={e => {
+                                                setDateWeight(parseFloat(e.target.value))
+                                                setNewRecommendationsWithWeight("dateWeight", e.target.value)
+                                                }} value={dateWeight}></input>
+                                        </div>
+                                        <div className="reading-modal-body-input">
+                                            <p className="reading-modal-body-input-title">{props.messages.general_text}</p>
+                                            <input max="1" min="0" step="0.2" type="range" className="reading-range" onChange={e => {
+                                                setTextWeight(parseFloat(e.target.value))
+                                                setNewRecommendationsWithWeight("textWeight", e.target.value)
+                                                }} value={textWeight}></input>
+                                        </div>
+                                        <div className="reading-modal-body-input">
+                                            <p className="reading-modal-body-input-title">{props.messages.general_taxonomy}</p>
+                                            <input max="1" min="0" step="0.2" type="range" className="reading-range" onChange={e => {
+                                                setTaxonomyWeight(parseFloat(e.target.value))
+                                                setNewRecommendationsWithWeight("taxonomyWeight", e.target.value)
+                                                }} value={taxonomyWeight}></input>
+                                        </div>
+                                    </div>                            
+                                </div>
+                                <div className="reading-modal-footer">
+                                    <div className="reading-modal-footer-buttons">
+                                        <p className="reading-modal-footer-restart" onClick={() => {
+                                            if(fragmentData){
+                                                resetRecommendations()
+                                                getFragmentHandler(fragmentData.fragment.fragmentXmlId, fragmentData.expertEditionInterDto.urlId)
+                                                setShowModal(false)
+                                            }
+                                            
+                                        }}><span><img alt="arrow" src={save} style={{height:"15px", width:"15px"}}></img></span> {props.messages.general_reset}</p>
+                                        <p className="reading-modal-footer-close" onClick={() => {
+                                            getFragmentHandler(fragmentData.fragment.fragmentXmlId, fragmentData.expertEditionInterDto.urlId)
+                                            setShowModal(false)}}>{props.messages.general_close}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        :null
+                    }
+                    <div className="reading">
+                    {!selectedExpert?
+                    <div className="reading-book-title">
+                        {props.language==="pt"?
+                            <p className="reading-h1">Livro do Desassossego de Fernando Pessoa</p>
+                        :props.language==="en"?
+                            <p className="reading-h1">Book of Disquiet by Fernando Pessoa</p>
+                        :
+                            <p className="reading-h1">Libro del Desasosiego de Fernando Pessoa</p>
+                        }
                     </div>
-                :null
-                }
+                    :null
+                
+                    }
+                    {experts?
+                        mapAuthorsToPage()
+                    :null
+                    }
+                    
+                    <div className="reading-column-recomendation">
+                        <p className="reading-column-author-rec" onClick={() => {
+                            window.scrollTo({ top: 0, behavior: 'smooth' })
+
+                            setShowModal(true)}}>{props.messages.general_recommendation}</p>
+                        <img alt="info" src={info} data-tip="Na coluna de recomendação são sugeridos de forma automática os fragmentos mais similares ao 
+                                                    fragmento selecionado na coluna da edição. A similaridade entre o fragmento da edição e o fragmento 
+                                                    da recomendação é calculada segundo uma combinação de quatro critérios (ajustáveis pelos utilizadores): 
+                                                    heterónimo, data, texto e taxonomia." 
+                            className="reading-info"></img>
+                        <ReactTooltip backgroundColor="#fff" textColor="#333" border={true} borderColor="#000" className="reading-tooltip" place="bottom"/>
+                        {fragmentData?
+                            <div>
+                                <div onClick={() => {
+                                    setSelectedExpert(fragmentData.expertEditionInterDto.acronym)
+                                    getFragmentHandler(fragmentData.fragment.fragmentXmlId, fragmentData.expertEditionInterDto.urlId)
+                                }} >
+                                    <p style={{color:"#FC1B27"}} className="reading-recommendation-acronym">{fragmentData.expertEditionInterDto.acronym}</p>
+                                    <p className="reading-number-selected-no-hover">{fragmentData.expertEditionInterDto.number}</p>
+                                </div>
+                                
+                                <div>
+                                    {
+                                    fragmentData.prevCom?
+                                        <div style={{marginTop:"20px"}} onClick={() => getPrevRecommendedFragment()}>
+                                            <p className="reading-recommendation-acronym">{fragmentData.prevCom.acronym}</p>
+                                            <p className="reading-number" >{fragmentData.prevCom.number}</p>
+                                            <img alt="arrow" src={leftArrow} className="reading-arrow"></img>
+                                        </div>
+                                    :null
+                                    }
+                                </div>
+
+                                <div >
+                                    {mapRecommendationsToColumn()}
+                                </div>
+                            </div>
+                        :null
+                        }
+                    </div>
+                    
+                    
+                </div>
             </div>
+            }
             
-            
-        </div>
         </div>
         
     )

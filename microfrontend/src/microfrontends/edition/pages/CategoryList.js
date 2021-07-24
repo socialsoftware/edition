@@ -16,11 +16,10 @@ const CategoryList = (props) => {
     useEffect(() => {
         getCategoryList(props.acronym, props.category)
             .then(res => {
-                console.log(res);
                 setCategoryData(res.data)
                 setLoading(false)
             })
-    }, [props.acronym])
+    }, [props.acronym, props.category])
 
 
     const mapUsed = (val) => {
@@ -60,7 +59,7 @@ const CategoryList = (props) => {
                     </tr>
                     )
             }
-            
+            else return null
         })
     }
 
@@ -88,7 +87,6 @@ const CategoryList = (props) => {
     }
 
     const handleSearchUpdate = () => {
-        console.log(inputEl.current.value)
         setSearch(inputEl.current.value)
     }
     

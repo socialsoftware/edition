@@ -8,11 +8,10 @@ const SimpleResultTable = (props) => {
     
     const mapFragmentsToTable = () => {
         if(props.data){
-            console.log(props.data);
-            return props.data.listFragments.map((val, key) => {
+            return props.data.listFragments.map((val, i) => {
                 if(search==="" || handleSearchFiltering(val)){
                     return (
-                        <tr>
+                        <tr key={i}>
                             <td className="table-body-row">
                             <Link className="table-body-title" to={`/fragments/fragment/${val.fragment_xmlId}`}> {val.fragment_title}
                             </Link></td>
@@ -27,6 +26,7 @@ const SimpleResultTable = (props) => {
                         </tr>
                     )
                 }    
+                else return null
             })
         }
         
@@ -46,7 +46,6 @@ const SimpleResultTable = (props) => {
     }
 
     const handleSearchUpdate = () => {
-        console.log(inputEl.current.value)
         setSearch(inputEl.current.value)
     }
 

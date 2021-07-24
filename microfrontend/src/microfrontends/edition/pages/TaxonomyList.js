@@ -14,7 +14,6 @@ const TaxonomyList = (props) => {
     useEffect(() => {
         getTaxonomyList(props.acronym)
             .then(res => {
-                console.log(res);
                 setTaxonomyData(res.data)
                 setLoading(false)
             })
@@ -75,6 +74,7 @@ const TaxonomyList = (props) => {
                     </tr>
                     )
             }
+            else return null
             
         })
     }
@@ -104,7 +104,6 @@ const TaxonomyList = (props) => {
     }
 
     const handleSearchUpdate = () => {
-        console.log(inputEl.current.value)
         setSearch(inputEl.current.value)
     }
     

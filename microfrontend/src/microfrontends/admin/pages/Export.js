@@ -10,7 +10,6 @@ const Export = (props) => {
     const [erro, setErro] = useState("")
     const [query, setQuery] = useState("")
     const [queryResult, setQueryResult] = useState([])
-    const [queryError, setQueryError] = useState(false)
     const [lastQuery, setLastQuery] = useState("")
 
     const exportRandomHandler = () => {
@@ -58,7 +57,6 @@ const Export = (props) => {
         if(query.length>0){
             getFragmentsByQuery(query)
             .then(response => {
-                console.log(response);
                 if(response.data.length>0){
                     setQueryResult(response.data)
                     setLastQuery(query)
@@ -84,7 +82,6 @@ const Export = (props) => {
     const exportFragmentsByQueryHandler = () => {
         exportFragmentsByQuery(lastQuery)
             .then(response => {
-                console.log(response);
                 if(response.headers["content-type"] === "application/tei+xml")
                     fileDownload(response.data, "tei.xml")
                 else setErro("Erro a exportar os fragmentos (fragmentos em falta)")
@@ -154,7 +151,7 @@ const Export = (props) => {
                             </table>
                         </div>
                         
-                    :queryError?
+                    :erro?
                         <div className="admin-exp-subtitle-div" style={{marginTop:"20px"}}>
                             <p>Erro a encontrar fragmentos com base no critério de pesquisa</p>
                         </div>

@@ -1,7 +1,7 @@
 import React from 'react'
-import Team_en from './Team_en'
-import Team_es from './Team_es'
-import Team_pt from './Team_pt'
+import TeamEn from './Team_en'
+import TeamEs from './Team_es'
+import TeamPt from './Team_pt'
 
 
 
@@ -10,7 +10,7 @@ const Team_main = (props) => {
         <div>
             <div className="about-container">
                 <p className="about-conduct-title">{props.messages.header_faq}</p>
-                {props.language==="pt"?<Team_pt/>:props.language==="en"?<Team_en/>:<Team_es/>}
+                {props.language==="pt"?<TeamPt/>:props.language==="en"?<TeamEn/>:<TeamEs/>}
             </div>
         </div>
         

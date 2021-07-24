@@ -51,84 +51,84 @@ const Tutorials_es = () => {
 <br />
 <h3 id="V1">Tutorial 1: &iquest;Qu&eacute; es el <em>Archivo LdoD</em>? [PT]</h3>
 
-<div class="videoWrapper">
-<iframe width="560" height="315"
-	src="https://www.youtube.com/embed/hOVqKufmAv8" frameborder="0"
-	allowfullscreen></iframe></div>
+<div className="videoWrapper">
+<iframe title="video10" width="560" height="315"
+	src="https://www.youtube.com/embed/hOVqKufmAv8" 
+	></iframe></div>
 <br />
 <br />
 
 <h3 id="V2">Tutorial 2: Conociendo el <em>Archivo LdoD</em> [PT]</h3>
 
-<div class="videoWrapper">
-<iframe width="560" height="315"
-	src="https://www.youtube.com/embed/H78nGI5L25M" frameborder="0"
-	allowfullscreen></iframe></div>
+<div className="videoWrapper">
+<iframe title="video1" width="560" height="315"
+	src="https://www.youtube.com/embed/H78nGI5L25M" 
+	></iframe></div>
 <br />
 <br />
 
 <h3 id="V3">Tutorial 3: Lectura [PT]</h3>
 
-<div class="videoWrapper">
-<iframe width="560" height="315"
-	src="https://www.youtube.com/embed/dUUUiC-Bl68" frameborder="0"
-	allowfullscreen></iframe></div>
+<div className="videoWrapper">
+<iframe title="video2" width="560" height="315"
+	src="https://www.youtube.com/embed/dUUUiC-Bl68" 
+	></iframe></div>
 <br />
 <br />
 
 <h3 id="V4" >Tutorial 4: Documentos [PT]</h3>
-<div class="videoWrapper">
-<iframe width="560" height="315"
-	src="https://www.youtube.com/embed/LPGxZjUUh1w" frameborder="0"
-	allowfullscreen></iframe></div>
+<div className="videoWrapper">
+<iframe title="video3" width="560" height="315"
+	src="https://www.youtube.com/embed/LPGxZjUUh1w" 
+	></iframe></div>
 <br />
 <br />
 
 <h3 id="V5">Tutorial 5: Ediciones [PT]</h3>
-<div class="videoWrapper">
-<iframe width="560" height="315"
-	src="https://www.youtube.com/embed/wFPO-ypEWl8" frameborder="0"
-	allowfullscreen></iframe></div>
+<div className="videoWrapper">
+<iframe title="video4" width="560" height="315"
+	src="https://www.youtube.com/embed/wFPO-ypEWl8" 
+	></iframe></div>
 <br />
 <br />
 
 <h3 id="V6">Tutorial 6: B&uacute;squeda [PT]</h3>
-<div class="videoWrapper">
-<iframe width="560" height="315"
-	src="https://www.youtube.com/embed/h1QJDZ77iT0" frameborder="0"
-	allowfullscreen></iframe></div>
+<div className="videoWrapper">
+<iframe title="video5" width="560" height="315"
+	src="https://www.youtube.com/embed/h1QJDZ77iT0" 
+	></iframe></div>
 <br />
 <br />
 
 <h3 id="V7">Tutorial 7: &iquest;Qu&eacute; es la Edici&oacute;n Virtual? [PT]</h3>
-<div class="videoWrapper">
-<iframe width="560" height="315"
-	src="https://www.youtube.com/embed/6qcBC8OGJLU" frameborder="0"
-	allowfullscreen></iframe></div>
+<div className="videoWrapper">
+<iframe title="video6" width="560" height="315"
+	src="https://www.youtube.com/embed/6qcBC8OGJLU" 
+	></iframe></div>
 <br />
 <br />
 
 <h3 id="V8">Tutorial 8: Planificaci&oacute;n de ediciones virtuales [PT]</h3>
-<div class="videoWrapper">
-<iframe width="560" height="315"
-	src="https://www.youtube.com/embed/rANp_CP3DwI" frameborder="0"
-	allowfullscreen></iframe></div>
+<div className="videoWrapper">
+<iframe title="video7" width="560" height="315"
+	src="https://www.youtube.com/embed/rANp_CP3DwI" 
+	></iframe></div>
 <br />
 <br />
 
 <h3 id="V9">Tutorial 9: Creando ediciones virtuales [PT]</h3>
-<div class="videoWrapper">
-<iframe width="560" height="315"
-	src="https://www.youtube.com/embed/BMvAbI_TOy8" frameborder="0"
-	allowfullscreen></iframe></div>
+<div className="videoWrapper">
+<iframe title="video8" width="560" height="315"
+	src="https://www.youtube.com/embed/BMvAbI_TOy8" 
+	></iframe></div>
 <br />
 <br />
 
 <h3 id="V10">Tutorial 10: Taxonom&iacute;a y anotaciones [PT]</h3>
-<div class="videoWrapper">
-<iframe width="560" height="315"
-	src="https://www.youtube.com/embed/3cvvsjvrSzk" frameborder="0"
-	allowfullscreen></iframe></div>
+<div className="videoWrapper">
+<iframe title="video9" width="560" height="315"
+	src="https://www.youtube.com/embed/3cvvsjvrSzk" 
+	></iframe></div>
 <br />
 <br />
 <p>&nbsp;</p>

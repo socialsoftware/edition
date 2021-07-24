@@ -9,7 +9,7 @@ import Manual from './pages/Manual'
 import Taxonomy from './pages/Taxonomy'
 import Category from './pages/Category'
 import FragInter from './pages/FragInter'
-
+import JogoClassificacao from './pages/JogoClassificacao';
 
 import '../../resources/css/virtual/Virtual.css'
 
@@ -66,6 +66,9 @@ const Virtual_DISPATCHER = (props) => {
                     language={props.language}
                     messages={props.messages}
                     />}>
+                </Route>
+                <Route path="/virtual/classificationGames" 
+                    component={() => <JogoClassificacao/>}>
                 </Route>
             </Switch>
         </div>

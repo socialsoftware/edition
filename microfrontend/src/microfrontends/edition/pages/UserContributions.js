@@ -12,10 +12,8 @@ const UserContributions = (props) => {
     const inputEl = useRef(null)
 
     useEffect(() => {
-        console.log(props.user);
         getUserContributions(props.user)
             .then(res => {
-                console.log(res);
                 setUserData(res.data)
                 setLoading(false)
             })
@@ -59,6 +57,7 @@ const UserContributions = (props) => {
                     </tr>
                     )
             }
+            else return null
             
         })
     }
@@ -117,7 +116,6 @@ const UserContributions = (props) => {
     }
 
     const handleSearchUpdate = () => {
-        console.log(inputEl.current.value)
         setSearch(inputEl.current.value)
     }
 

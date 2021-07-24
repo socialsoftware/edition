@@ -21,12 +21,10 @@ const Recommendation = (props) => {
     
     useEffect(() => {
         var path = location.pathname.split('/')
-        console.log(path);
         let mounted = true
         getRecommendationPage(path[5])
             .then(res => {
                 if (mounted) {
-                    console.log(res.data);
                     setData(res.data.virtualEdition)
                     if(res.data.recommendedEditionInter){
                         setEdition(res.data.recommendedEditionInter)
@@ -44,6 +42,7 @@ const Recommendation = (props) => {
             return function cleanup() {
                 mounted = false
             }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 
@@ -98,11 +97,11 @@ const Recommendation = (props) => {
         return currentEdition.map((inter, i) => {
             return(
                 <tr key={i}>
-                    <td>{inter.number!=0?inter.number:null}</td>
+                    <td>{inter.number!==0?inter.number:null}</td>
                     <td><Link className="virtual-link" to={`/fragments/fragment/${inter.fragmentXmlId}/inter/${inter.urlId}`}>{inter.title}</Link></td>
                     <td>
                         {
-                            inter.externalId == interId?
+                            inter.externalId === interId?
                                 null
                             :
                                 <span className="virtual-submit-button" style={{maxHeight:"20px"}} onClick={() => setNewInitialHandler(inter.externalId)}>

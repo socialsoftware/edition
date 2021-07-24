@@ -1,5 +1,9 @@
-import { API_BASE_URL, ACCESS_TOKEN } from '../../constants/index';
+import { API_BASE_URL } from '../../constants/index';
 import axios from 'axios'
+
+export function getLdoDVisual () {
+    return axios.get(API_BASE_URL + `/ldod-visual`)
+}
 
 export function getReadingExperts () {
     return axios.get(API_BASE_URL + `/api/microfrontend/reading`)

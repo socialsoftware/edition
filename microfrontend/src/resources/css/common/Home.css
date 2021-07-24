@@ -2,6 +2,7 @@
 @font-face {
     font-family: 'League-Gothic';
     src: url(../../fonts/LeagueGothic-Regular.otf) format('opentype');
+    font-display: swap
 }
 .home{
     width: 100%
@@ -71,13 +72,14 @@ hr{
 .home-div-link:hover .home-img-hover{
     visibility: visible;
 }
-img{
+.home-img{
     width: 100%;
 }
 .home-img-hover{
     position: absolute;
     top: 0;
     left: 0;
+    width: 100%;
 }
 .home-info{
     width:1140px;

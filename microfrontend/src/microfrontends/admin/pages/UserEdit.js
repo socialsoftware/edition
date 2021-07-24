@@ -12,16 +12,14 @@ const UserEdit = (props) => {
 
     useEffect(() => {
         var path = location.pathname.split('/')
-        console.log(path);
         if(path[4]){
             getUserForm(path[4])
                 .then(res => {
-                    console.log(res.data)
                     setUser(res.data)
                     setOriginalUser(res.data)
                 })
         }
-    }, [])
+    }, [location.pathname])
 
     const changeFieldHandler = (type, value) => {
         let aux = {...user}
@@ -34,7 +32,6 @@ const UserEdit = (props) => {
         if(verifyValues()){
             setUserForm(user)
             .then(res => {
-                console.log(res);
                 if(res.data==="valid") history.goBack()
                 else{
                     setErro("Nome de utilizador inválido/repetido")
@@ -74,7 +71,7 @@ const UserEdit = (props) => {
         <div className="admin">
             <p className="admin-title">{props.messages.user_edit}</p>
             {
-                erro!=""?
+                erro!==""?
                     <p style={{color:"red", textAlign:"center"}}>{erro}</p>
                 :null
             }

@@ -11,7 +11,6 @@ const Citations = (props) => {
     useEffect(() => {
         getTwitterCitations()
             .then(res => {
-                console.log(res.data)
                 let auxArray = []
                 for(let aux of res.data){
                   let rowObject = {}
@@ -62,7 +61,7 @@ const Citations = (props) => {
             accessor: 'username',
           },
         ],
-        []
+        [props.messages.criteria_geolocation, props.messages.fragment, props.messages.general_country, props.messages.general_date, props.messages.general_text, props.messages.user_role_user]
     )
     
     function GlobalFilter({
@@ -71,7 +70,6 @@ const Citations = (props) => {
         setGlobalFilter,
       }) {
         // @ts-ignore
-        const count = preGlobalFilteredRows.length
         const [value, setValue] = React.useState(globalFilter)
         const onChange = useAsyncDebounce(value => {
           setGlobalFilter(value || undefined)
@@ -86,7 +84,7 @@ const Citations = (props) => {
                 onChange(e.target.value);
               }}
               placeholder={`Search`}
-              className="input-filter"
+              className="reading-search"
             />
           </span>
         )
@@ -113,7 +111,7 @@ const Citations = (props) => {
         )
       
         return (
-          <div className="search-table-search">
+          <div className="reading-table-div">
           <GlobalFilter
                   preGlobalFilteredRows={preGlobalFilteredRows}
                   // @ts-ignore
@@ -124,10 +122,10 @@ const Citations = (props) => {
             <div className="tableWrap">
             <table {...getTableProps()} >
                 <thead>
-                    {headerGroups.map(headerGroup => (
-                    <tr {...headerGroup.getHeaderGroupProps()} className="table-row">
-                        {headerGroup.headers.map(column => (
-                        <th
+                    {headerGroups.map((headerGroup, i) => (
+                    <tr key={i} {...headerGroup.getHeaderGroupProps()} className="table-row">
+                        {headerGroup.headers.map((column, i) => (
+                        <th key={i}
                             {...column.getHeaderProps()}                        >
                             {column.render('Header')}
                         </th>
@@ -136,16 +134,15 @@ const Citations = (props) => {
                     ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                    {rows.map(row => {
+                    {rows.map((row, i) => {
                     prepareRow(row)
                     return (
-                        <tr {...row.getRowProps()} className="table-row">
-                        {row.cells.map(cell => {
+                        <tr key={i} {...row.getRowProps()} className="table-row">
+                        {row.cells.map((cell, i) => {
                             return (
-                            <td className={cell.column.id==="title"?"table-d-link":"table-d"}
+                            <td key={i} className={cell.column.id==="title"?"table-d-link":"table-d"}
                                 {...cell.getCellProps()}
                                 onClick={() => {
-                                  console.log(cell.column.id)
                                   if(cell.column.id==="title"){
                                     // @ts-ignore
                                     history.push(`/fragments/fragment/${row.original.xmlId}`)

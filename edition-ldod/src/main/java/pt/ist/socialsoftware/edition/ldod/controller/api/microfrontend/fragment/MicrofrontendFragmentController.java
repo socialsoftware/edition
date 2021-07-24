@@ -139,6 +139,7 @@ public class MicrofrontendFragmentController {
 		inter = edition.getNextNumberInter(inter, inter.getNumber());
 		
 		if(currentUser == null) {
+			System.out.println("null");
 			return this.getFragmentWithInterForUrlIdNoUser(inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
 		}
 
@@ -148,6 +149,9 @@ public class MicrofrontendFragmentController {
 	@RequestMapping(method = RequestMethod.POST, value = "/{xmlId}/inter/{urlId}/prevFrag")
 	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
 	public FragmentBodyDto getPrevFragmentWithInter(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
+		
+		System.out.println(currentUser);
+		
 		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return null;
@@ -162,6 +166,7 @@ public class MicrofrontendFragmentController {
 		inter = edition.getPrevNumberInter(inter, inter.getNumber());
 		
 		if(currentUser == null) {
+			System.out.println("null");
 			return this.getFragmentWithInterForUrlIdNoUser(inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
 		}
 

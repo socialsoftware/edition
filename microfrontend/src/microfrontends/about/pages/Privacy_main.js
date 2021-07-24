@@ -1,7 +1,7 @@
 import React from 'react'
-import Privacy_en from './Privacy_en'
-import Privacy_es from './Privacy_es'
-import Privacy_pt from './Privacy_pt'
+import PrivacyEn from './Privacy_en'
+import PrivacyEs from './Privacy_es'
+import PrivacyPt from './Privacy_pt'
 
 
 const Privacy_main = (props) => {
@@ -9,7 +9,7 @@ const Privacy_main = (props) => {
         <div>
             <div className="about-container">
                 <p className="about-conduct-title">{props.messages.header_privacy}</p>
-                {props.language==="pt"?<Privacy_pt/>:props.language==="en"?<Privacy_en/>:<Privacy_es/>}
+                {props.language==="pt"?<PrivacyPt/>:props.language==="en"?<PrivacyEn/>:<PrivacyEs/>}
             </div>
         </div>
         
