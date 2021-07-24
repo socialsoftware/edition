@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import downArrow from '../../resources/assets/down-arrow.png'
 import downArrowRed from '../../resources/assets/down-arrow-red.png'
 import {ReactComponent as List} from '../../resources/assets/list.svg'
-
+import temporaryLogo from '../../resources/assets/ReactUI.png'
 
 const Navbar = (props) => {
     const history = useHistory()
@@ -159,7 +159,10 @@ const Navbar = (props) => {
         <div className="home-navbar" ref={wrapperRef}>
             <div className="home-navbar-top">
                 <div className="home-navbar-top-content">
-                    <Link className="home-navbar-top-content-title" to='/'>{props.messages.header_title}</Link>
+                    <div style={{display:"flex"}}>
+                        <Link className="home-navbar-top-content-title" to='/'>{props.messages.header_title}</Link>
+                        <img className="react-logo" src={temporaryLogo}></img>
+                    </div>
                     <div className="home-navbar-top-content-auth" 
                         style={{color:props.isAuthenticated?"#FC1B27":"#000"}}
                         onClick={() => handleAuthButtonClick()}>

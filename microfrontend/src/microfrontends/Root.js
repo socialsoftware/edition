@@ -1,5 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense  } from 'react'
-import { BrowserRouter, Route, Switch} from "react-router-dom";
+import { BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import { ACCESS_TOKEN } from '../constants/index.js'
 import { getCurrentUser } from '../util/API/UserAPI';
 import * as messages_en from '../constants/messages_en'
@@ -84,7 +84,6 @@ const Root = (props) => {
     return (
         <div className="home">
             <Suspense fallback={renderLoader()}>
-
             <BrowserRouter>
                 <Navbar 
                     isAuthenticated={isAuthenticated}
@@ -97,7 +96,10 @@ const Root = (props) => {
                     }}
                     />
                 <Switch>
-                    <Route exact path="/" 
+                    <Route exact path="/">
+                        <Redirect to="/microfrontend"/>
+                    </Route>
+                    <Route exact path="/microfrontend" 
                         component={(props) => <Home 
                         {...props} 
                         language={language}

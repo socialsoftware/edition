@@ -3,6 +3,12 @@
     src: url(../../fonts/WorkSans-ExtraBold.ttf) format('truetype');
     font-display: swap
 }
+.react-logo{
+    width: 120px;
+    height: auto;
+    margin-left: 20px;
+}
+ 
 .home{
     font-family: 'Work Sans', sans-serif;
 }
@@ -201,6 +207,9 @@
     }
     .home-navbar-top-content-auth{
         display: none;
+    }
+    .react-logo{
+        width: 50px;
     }
 }
 
