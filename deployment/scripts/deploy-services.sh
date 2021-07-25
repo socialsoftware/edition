@@ -1,2 +1,2 @@
 #!/bin/bash
-kubectl apply -f  deployment/services/
+kubectl apply -f  deployment/backend/
