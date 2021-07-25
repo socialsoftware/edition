@@ -2,31 +2,40 @@ import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router'
 import { useTable, useGlobalFilter, useAsyncDebounce } from 'react-table'
 import { getTwitterCitations } from '../../../util/API/ReadingAPI'
+import CircleLoader from "react-spinners/RotateLoader";
 
 const Citations = (props) => {
 
+    const [loading, setLoading] = useState(true)
     const [data, setData] = useState([])
     const history = useHistory()
 
     useEffect(() => {
+        var mounted = true
         getTwitterCitations()
             .then(res => {
-                let auxArray = []
-                for(let aux of res.data){
-                  let rowObject = {}
-                  rowObject["date"] = aux["formatedDate"][2] + "-" + aux["formatedDate"][1] + "-" + aux["formatedDate"][0] + " " + aux["formatedDate"][3] + ":" + aux["formatedDate"][4]
-                  rowObject["title"] = aux["title"]
-                  rowObject["location"] = aux["location"]
-                  rowObject["sourceLink"] = aux["sourceLink"]
-                  rowObject["country"] = aux["country"]
-                  rowObject["tweetText"] = aux["tweetText"]
-                  rowObject["username"] = aux["username"]
-                  rowObject["xmlId"] = aux["xmlId"]
-                  rowObject["tweet"] = "Tweet"
-                  auxArray.push(rowObject)
+                if(mounted){
+                  let auxArray = []
+                  for(let aux of res.data){
+                    let rowObject = {}
+                    rowObject["date"] = aux["formatedDate"][2] + "-" + aux["formatedDate"][1] + "-" + aux["formatedDate"][0] + " " + aux["formatedDate"][3] + ":" + aux["formatedDate"][4]
+                    rowObject["title"] = aux["title"]
+                    rowObject["location"] = aux["location"]
+                    rowObject["sourceLink"] = aux["sourceLink"]
+                    rowObject["country"] = aux["country"]
+                    rowObject["tweetText"] = aux["tweetText"]
+                    rowObject["username"] = aux["username"]
+                    rowObject["xmlId"] = aux["xmlId"]
+                    rowObject["tweet"] = "Tweet"
+                    auxArray.push(rowObject)
+                  }
+                  setData(auxArray)
+                  setLoading(false)
                 }
-                setData(auxArray)
             })
+        return function cleanup() {
+          mounted = false
+          }
     }, [])
 
 
@@ -118,7 +127,7 @@ const Citations = (props) => {
                   globalFilter={state.globalFilter}
                   setGlobalFilter={setGlobalFilter}
                 />
-           <div className="table-div" style={{marginTop:"80px"}}>
+           <div className="table-div" style={{marginTop:"80px", borderLeft:"1px solid #ddd"}}>
             <div className="tableWrap">
             <table {...getTableProps()} >
                 <thead>
@@ -174,9 +183,15 @@ const Citations = (props) => {
     return (
         <div className="citations">
             <p className="citations-title">{props.messages.general_citations_twitter} ({data.length})</p>
-            <div className="result-adv">
-                <Table columns={tableColumns} data={data} />
-            </div>
+            {
+              loading?
+              <CircleLoader loading={true}></CircleLoader>
+              :
+              <div className="result-adv">
+                  <Table columns={tableColumns} data={data} />
+              </div>
+            }
+            
         </div>
     )
 }

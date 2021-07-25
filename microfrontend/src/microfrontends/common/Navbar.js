@@ -55,6 +55,7 @@ const Navbar = (props) => {
     }, [])
 
     useEffect(() => {
+        console.log(props.modules);
         if(props.modules){
             var aux = props.modules
             var pages = [{id:"general_editor_prado", route:"/edition/acronym/JPC"},
@@ -161,7 +162,7 @@ const Navbar = (props) => {
                 <div className="home-navbar-top-content">
                     <div style={{display:"flex"}}>
                         <Link className="home-navbar-top-content-title" to='/'>{props.messages.header_title}</Link>
-                        <img className="react-logo" src={temporaryLogo}></img>
+                        <img alt="react-logo" className="react-logo" src={temporaryLogo}></img>
                     </div>
                     <div className="home-navbar-top-content-auth" 
                         style={{color:props.isAuthenticated?"#FC1B27":"#000"}}

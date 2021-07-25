@@ -1,4 +1,4 @@
-import { API_BASE_URL } from '../../constants/index';
+import { API_BASE_URL } from '../../constants/index.production';
 import axios from 'axios'
 
 export function getFragmentList () {

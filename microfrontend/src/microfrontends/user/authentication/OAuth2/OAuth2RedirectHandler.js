@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ACCESS_TOKEN } from '../../../../constants/index';
+import { ACCESS_TOKEN } from '../../../../constants/index.production';
 import { Redirect } from 'react-router-dom'
 
 const OAuth2RedirectHandler = (props) => {

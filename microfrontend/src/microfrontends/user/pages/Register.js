@@ -4,7 +4,7 @@ import {
     USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH,
     EMAIL_MAX_LENGTH,
     PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
-} from '../../../constants/index.js';
+} from '../../../constants/index.production';
 import { useHistory } from "react-router-dom";
 import { signup } from '../../../util/API/UserAPI';
 import ConductPt from '../../about/pages/Conduct_pt'

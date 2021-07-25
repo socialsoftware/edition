@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 
 const JogoClassificacao = () => {
@@ -8,7 +8,7 @@ const JogoClassificacao = () => {
 
     return (
         <div>
-            <p>temporariamente indisponível</p>
+            <p>Temporariamente indisponível na versão ReactUI</p>
         </div>
     )
 }

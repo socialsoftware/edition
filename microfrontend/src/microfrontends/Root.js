@@ -1,6 +1,6 @@
 import React, { useState, useEffect, lazy, Suspense  } from 'react'
 import { BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
-import { ACCESS_TOKEN } from '../constants/index.js'
+import { ACCESS_TOKEN } from '../constants/index.production'
 import { getCurrentUser } from '../util/API/UserAPI';
 import * as messages_en from '../constants/messages_en'
 import * as messages_pt from '../constants/messages_pt'

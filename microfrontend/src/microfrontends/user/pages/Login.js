@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from "react-router-dom";
-import { ACCESS_TOKEN, GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL, GITHUB_AUTH_URL } from '../../../constants/index.js'
+import { ACCESS_TOKEN, GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL, GITHUB_AUTH_URL } from '../../../constants/index.production'
 import { login } from '../../../util/API/UserAPI';
 
 const Login = (props) => {
