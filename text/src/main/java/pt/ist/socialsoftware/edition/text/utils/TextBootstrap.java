@@ -24,7 +24,7 @@ public class TextBootstrap {
         File directory = new File(corpusFilesPath);
         if (directory.exists()) {
             try {
-                FileUtils.deleteDirectory(directory);
+                FileUtils.cleanDirectory(directory);
             } catch (IOException e) {
                 throw new LdoDException(
                         "Bootstrap.populateDatabaseUsersAndRoles cannot delete directory for corpus.files.dir");
@@ -38,7 +38,7 @@ public class TextBootstrap {
         File directory = new File(intersFilesPath);
         if (directory.exists()) {
             try {
-                FileUtils.deleteDirectory(directory);
+                FileUtils.cleanDirectory(directory);
             } catch (IOException e) {
                 throw new LdoDException(
                         "Bootstrap.populateDatabaseUsersAndRoles cannot delete directory for inters.dir");

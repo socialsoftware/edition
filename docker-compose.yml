@@ -6,14 +6,14 @@ services:
     environment:
       MYSQL_DATABASE: 'edition'
       # So you don't have to use root, but you can if you like
-      MYSQL_USER: 'root'
+      MYSQL_USER: 'darfo'
       # You can use whatever password you like
-      MYSQL_PASSWORD: ''
+      MYSQL_PASSWORD: 'darfo'
       # Password for root access
-      MYSQL_ROOT_PASSWORD: ''
+      MYSQL_ROOT_PASSWORD: 'darfo'
     ports:
       # <Port exposed> : < MySQL Port running inside container>
-      - '3307:3307'
+      - '3307:3306'
     expose:
       # Opens port 3307 on the container
       - '3307'
@@ -32,8 +32,8 @@ services:
     environment:
       dbAlias: jdbc:mysql://db:3306/edition?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
       # Database username and password
-      dbUsername:
-      dbPassword:
+      dbUsername: darfo
+      dbPassword: darfo
 
     volumes:
       - /opt/ldod/corpus/:/opt/ldod/corpus
