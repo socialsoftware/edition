@@ -7,7 +7,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 
-public class TaxonomyMicrofrontendDto {
+public class TaxoDto {
 	private String title;
 	private String acronym;
 	private int categorySetSize;
@@ -16,7 +16,7 @@ public class TaxonomyMicrofrontendDto {
 	private String externalId;
 	private boolean canManipulate;
 
-	public TaxonomyMicrofrontendDto(Taxonomy taxonomy) {
+	public TaxoDto(Taxonomy taxonomy) {
 		this.setTitle(taxonomy.getEdition().getTitle());
 		this.setAcronym(taxonomy.getEdition().getAcronym());
 		this.setCategorySetSize(taxonomy.getCategoriesSet().size());
@@ -25,7 +25,7 @@ public class TaxonomyMicrofrontendDto {
 									.collect(Collectors.toList()));
 	}
 
-	public TaxonomyMicrofrontendDto(VirtualEdition vEdition, LdoDUser user) {
+	public TaxoDto(VirtualEdition vEdition, LdoDUser user) {
 		this.setUsedInList(vEdition.getTaxonomy().getUsedIn().stream().map(VirtualEditionDto::new).collect(Collectors.toList()));
 		this.setCanManipulate(vEdition.getTaxonomy().canManipulateTaxonomy(user));
 		this.setExternalId(vEdition.getTaxonomy().getExternalId());

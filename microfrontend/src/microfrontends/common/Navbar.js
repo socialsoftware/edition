@@ -55,7 +55,6 @@ const Navbar = (props) => {
     }, [])
 
     useEffect(() => {
-        console.log(props.modules);
         if(props.modules){
             var aux = props.modules
             var pages = [{id:"general_editor_prado", route:"/edition/acronym/JPC"},

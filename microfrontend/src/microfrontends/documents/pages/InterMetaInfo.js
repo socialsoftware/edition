@@ -10,7 +10,6 @@ const InterMetaInfo = (props) => {
     const [isPublication, setIsPublication] = useState(false)
 
     useEffect(() => {
-        
         if(props.sourceList!==undefined){
             setSourceInfo(props.sourceList)
             if(props.sourceList.sourceType === "MANUSCRIPT") {
@@ -32,7 +31,7 @@ const InterMetaInfo = (props) => {
                 setExpertEditionInfo(editionInfoAux)
             }
         }
-    }, [props.author, props.expertEditionMap, props.sourceList])
+    }, [props.author, props.expertEditionMap, props.sourceList, props.value])
 
     const getDimensionsMap = (val) => {
         let total = "("
@@ -85,8 +84,7 @@ const InterMetaInfo = (props) => {
     }
 
     return(
-        <div>
-
+        <div onClick={() => console.log(props.expertEditionMap)}>
             {/* titulo ident */}
             {isEditiorial?
                 <p>

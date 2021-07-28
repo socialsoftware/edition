@@ -36,19 +36,31 @@ import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 @RestController
 @RequestMapping("/api/microfrontend/fragment")
 public class MicrofrontendFragmentController {
-	@RequestMapping(method = RequestMethod.GET, value = "/{xmlId}")
+	@RequestMapping(method = RequestMethod.GET, value = "/{xmlId}/NoUser")
 	public FragmentBodyDto getFragment(@PathVariable String xmlId) {
 		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
 
 		if (fragment == null) {
 			return null;
 		} else {
-			return new FragmentBodyDto(LdoD.getInstance(), LdoDUser.getAuthenticatedUser(), fragment, new ArrayList<FragInter>());
+			return new FragmentBodyDto(LdoD.getInstance(), null, fragment, new ArrayList<FragInter>());
+		}
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/{xmlId}")
+	public FragmentBodyDto getFragment(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId) {
+		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+
+		if (fragment == null) {
+			return null;
+		} else {
+			if(currentUser!=null)
+				return new FragmentBodyDto(LdoD.getInstance(), currentUser.getUser(), fragment, new ArrayList<FragInter>());
+			else return new FragmentBodyDto(LdoD.getInstance(), null, fragment, new ArrayList<FragInter>());
 		}
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/{xmlId}/inter/{urlId}")
-	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
 	public FragmentBodyDto getFragmentWithInterForUrlId(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
 
 		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
@@ -86,7 +98,6 @@ public class MicrofrontendFragmentController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/{xmlId}/inter/{urlId}/noUser")
-	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
 	public FragmentBodyDto getFragmentWithInterForUrlIdNoUser(@PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
 
 		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
@@ -123,7 +134,6 @@ public class MicrofrontendFragmentController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/{xmlId}/inter/{urlId}/nextFrag")
-	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
 	public FragmentBodyDto getNextFragmentWithInter(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
 		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
@@ -147,7 +157,6 @@ public class MicrofrontendFragmentController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/{xmlId}/inter/{urlId}/prevFrag")
-	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
 	public FragmentBodyDto getPrevFragmentWithInter(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
 		
 		System.out.println(currentUser);

@@ -32,7 +32,6 @@ const Editions = (props) => {
         var mounted = true
 
         if(props.isAuthenticated){
-            console.log("oioi");
             getAllEditions()
                 .then(res => {
                     if(mounted){
@@ -64,7 +63,6 @@ const Editions = (props) => {
             })
         }
         else{
-            console.log("oioi");
             getPublicAllEditions()
                 .then(res => {
                     if(mounted){
@@ -90,6 +88,8 @@ const Editions = (props) => {
                         }
                         setLoading(false)
                         setEditionOptions(arrayAux)
+                        console.log(res.data.virtualEditions);
+
                         organizeList(res.data.virtualEditions)
                     }
                     

@@ -1,112 +1,201 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { getExpertEditionList } from '../../../util/API/EditionAPI';
 import CircleLoader from "react-spinners/RotateLoader";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import eyeIcon from '../../../resources/assets/eye.svg'
-import lupaIcon from '../../../resources/assets/lupa.svg'
-import ReactTooltip from 'react-tooltip';
+import { useTable, useGlobalFilter, useAsyncDebounce } from 'react-table'
 
 const ExpertEditionList = (props) => {
-
+    
+    const history = useHistory()
     const [editionData, setEditionData] = useState([])
     const [editor, setEditor] = useState(null)
     const [listSize, setListSize] = useState(0)
     const [loading, setLoading] = useState(true)
-    const [search, setSearch] = useState("")
-    const inputEl = useRef(null)
 
     useEffect(() => {
-        getExpertEditionList(props.acronym)
-            .then(res => {
-                setEditor(res.data.editor);
-                setEditionData(res.data.sortedInterpsList)
-                setListSize(res.data.sortedSize)
-                setTimeout(() => setLoading(false), 500)
-            })
-    }, [props.acronym])
+        if(props.acronym === "JPC" || props.acronym === "JP" || props.acronym === "RZ" || props.acronym === "TSC"){
+            getExpertEditionList(props.acronym)
+                .then(res => {
+                    setEditor(res.data.editor);
+                    setEditionData(res.data.sortedInterpsList)
+                    setListSize(res.data.sortedSize)
+                    setTimeout(() => setLoading(false), 500)
+                })
+        }
+    }, [props.page, props.acronym])
 
 
-    const mapEditionToTable = () => {
-        return editionData.map((interp,i) => {
-            if(search==="" || handleSearchFiltering(interp)){
-                return(
-                    <tr className="table-body-row-row" key={i}>
-                        <td style={{textAlign:"center"}} className="table-body-row">
-                            {interp.number!==0?interp.number:null}
-                        </td>
-                        <td className="table-body-row">
-                            <Link className="table-body-title"
-                            to={`/fragments/fragment/${interp.xmlId}/inter/${interp.urlId}`}>{interp.title}</Link></td>
-                        <td className="table-body-row">
-                        <Link className="table-body-title"
-                            to={`/reading/fragment/${interp.xmlId}/inter/${interp.urlId}/start`}><img alt="eye" className="edition-icon" src={eyeIcon}></img></Link>
-                        </td>
-                        
-                        {editor === "Jacinto do Prado Coelho"?
-                        <td style={{textAlign:"center"}} className="table-body-row">
-                            {interp.volume}
-                            </td>:null
-                        }   
-                        
-                        <td style={{textAlign:"center"}} className="table-body-row">
-                            {interp.startPage}
-                        </td>
-                        <td style={{textAlign:"center"}} className="table-body-row">
-                            {interp.date}
-                        </td>
-                        <td className="table-body-row">
-                            {interp.heteronym}
-                        </td>
+    function GlobalFilter({
+        preGlobalFilteredRows,
+        globalFilter,
+        setGlobalFilter,
+      }) {
+        // @ts-ignore
+        const [value, setValue] = React.useState(globalFilter)
+        const onChange = useAsyncDebounce(value => {
+          setGlobalFilter(value || undefined)
+        }, 200)
+
+    
+      
+        return (
+          <span>
+            <input
+              value={value || ""}
+              onChange={e => {
+                setValue(e.target.value);
+                onChange(e.target.value);
+              }}
+              placeholder={`Search`}
+              className="edition-input-filter"
+            />
+          </span>
+        )
+      }
+
+      function Table({ columns, data }) {
+        const {
+          getTableProps,
+          getTableBodyProps,
+          headerGroups,
+          prepareRow,
+          rows,
+          // @ts-ignore
+          preGlobalFilteredRows,
+          // @ts-ignore
+          setGlobalFilter,
+          state,
+        } = useTable(
+          {
+            columns,
+            data,
+          },
+          useGlobalFilter,
+        )
+      
+        return (
+          <div className="edition-table-div">
+          <GlobalFilter
+                  preGlobalFilteredRows={preGlobalFilteredRows}
+                  // @ts-ignore
+                  globalFilter={state.globalFilter}
+                  setGlobalFilter={setGlobalFilter}
+                />
+           <div className="table-div" style={{marginTop:"80px", borderLeft:"1px solid #ddd"}}>
+            <div className="tableWrap">
+            <table className="table" {...getTableProps()} >
+                <thead >
+                    {headerGroups.map((headerGroup, i) => (
+                    <tr key={i} {...headerGroup.getHeaderGroupProps()} className="table-row">
+                        {headerGroup.headers.map((column, i) => (
+                        <th key={i}
+                            {...column.getHeaderProps()}                        >
+                            {column.render('Header')}
+                        </th>
+                        ))}
                     </tr>
+                    ))}
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                    {rows.map((row, i) => {
+                    prepareRow(row)
+                    return (
+                        <tr key={i} {...row.getRowProps()} className="table-row">
+                        {row.cells.map((cell, i) => {
+                            return (
+                            <td key={i} className={"table-body-row"}
+                                {...cell.getCellProps()}
+                                onClick={() => {
+                                  if(cell.column.id==="title"){
+                                    // @ts-ignore
+                                    history.push(`/fragments/fragment/${row.original.xmlId}/inter/${row.original.urlId}`)
+                                  }
+                                }}
+                              >
+                                {cell.render('Cell')}
+                            </td>
+                            )
+                        })}
+                        </tr>
                     )
+                    })}
+                </tbody>
+            </table>
+          </div>
+          </div>
+          </div>
+        )
+      }
+
+    const tableColumns = [
+        {
+            Header: `${props.messages.tableofcontents_number}`,
+            accessor: "number",
+            id: "number",
+            Cell: cellInfo => {
+                if(cellInfo.row.original.number!==0) return cellInfo.row.original.number
+                else return null
             }
-            else return null
-        })
-    }
-
-    const handleSearchFiltering = (interp) => {
-        if(interp.title?interp.title.toLowerCase().includes(search.toLowerCase()):false) return true
-        else if(interp.date?interp.date.toLowerCase().includes(search.toLowerCase()):false) return true
-        else if(interp.heteronym?interp.heteronym.toLowerCase().includes(search.toLowerCase()):false) return true
-        else if(interp.startPage?interp.startPage.toString().includes(search.toLowerCase()):false) return true
-        else return false
-    }
-
-    const handleSearchUpdate = () => {
-        setSearch(inputEl.current.value)
-    }
+        },
+        {
+            Header: `${props.messages.tableofcontents_title}`,
+            id: "title",
+            accessor: "title",
+            Cell: cellInfo => {
+                return <Link className="table-body-title"
+                to={`/fragments/fragment/${cellInfo.row.original.xmlId}/inter/${cellInfo.row.original.urlId}`}>{cellInfo.row.original.title}</Link>
+            }
+        },
+        {
+            Header: `${props.messages.general_reading}`,
+            id: "eye",
+            Cell: cellInfo => {
+                return <Link className="table-body-title"
+                            to={`/reading/fragment/${cellInfo.row.original.xmlId}/inter/${cellInfo.row.original.urlId}/start`}><img alt="eye" className="edition-icon" src={eyeIcon}></img></Link>
+            }
+        },
+        {
+            Header: `${props.messages.tableofcontents_volume}`,
+            id: "volume",
+            accessor: "volume",
+            Cell: cellInfo => {
+                return <p style={{textAlign:"center", minWidth:"unset", margin:"0 auto"}}>{cellInfo.row.original.volume}</p>
+            }
+        },
+        {
+            Header: `${props.messages.tableofcontents_page}`,
+            accessor: "startPage",
+            id: "startPage",
+            Cell: cellInfo => {
+                return <p style={{textAlign:"center", minWidth:"unset", margin:"0 auto"}}>{cellInfo.row.original.startPage}</p>
+            }
+        },
+        {
+            Header: `${props.messages.general_date}`,
+            accessor: "date",
+            id: "date",
+        },
+        {
+            Header: `${props.messages.general_heteronym}`,
+            accessor: "heteronym",
+            id: "heteronym",
+        },        
+    ] 
 
     return (
         <div>
             <p className="edition-list-title">{props.messages.tableofcontents_editionof} {editor}<span> {`(${listSize})`}</span></p>
-            <CircleLoader loading={loading}></CircleLoader>
-            <div className={loading?"loading-table":"search-container"}>
-                    <input ref={inputEl} className="search" placeholder="Search"></input>
-                    <img src={lupaIcon} alt="lupa" className="search-icon" onClick={() => handleSearchUpdate()}></img>
-            </div>
-            <div className={loading?"loading-table":"table-div"}>
-                <table className={loading?"loading-table":"table"} data-pagination="false">
-                    <thead>
-                        <tr>
-                            <th style={{textAlign:"center"}} data-tip={props.messages.tableofcontents_tt_number}> {props.messages.tableofcontents_number}</th>
-                            <th data-tip={props.messages.tableofcontents_title}> {props.messages.tableofcontents_title}</th>
-                            <th style={{textAlign:"center"}} data-tip={props.messages.tableofcontents_tt_reading}> {props.messages.general_reading}</th>
-                            {editor === "Jacinto do Prado Coelho"?
-                            <th style={{textAlign:"center"}} data-tip={props.messages.tableofcontents_tt_volume}> {props.messages.tableofcontents_volume}</th>
-                            :null
-                            }
-                            <th style={{textAlign:"center"}} data-tip={props.messages.tableofcontents_tt_page}> {props.messages.tableofcontents_page}</th>
-                            <th style={{textAlign:"center"}} data-tip={props.messages.tableofcontents_tt_date}> {props.messages.general_date}</th>
-                            <th style={{textAlign:"center"}} data-tip={props.messages.tableofcontents_tt_heteronym}> {props.messages.general_heteronym}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {mapEditionToTable()}
-                    </tbody>
 
-                </table>
-                <ReactTooltip backgroundColor="#000" textColor="#fff" border={true} borderColor="#000" className="virtual-tooltip" place="bottom" effect="solid"/>
-            </div>
+            {
+                loading?
+                <CircleLoader loading={loading}></CircleLoader>
+                :
+                editionData?
+                <Table columns={tableColumns} data={editionData} />
+                :null
+                
+            }   
         </div>
     )
 }

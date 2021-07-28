@@ -16,9 +16,7 @@ public class VirtualEditionListDto {
 	private List<FragInterDto> sortedInterpsList;
 	
 
-	public VirtualEditionListDto(VirtualEdition edition) {
-		System.out.println(LdoDSession.getLdoDSession().getSelectedVEAcr());
-		
+	public VirtualEditionListDto(VirtualEdition edition) {		
 		if(edition.getTitle()!=null) {
 			this.setTitle(edition.getTitle());
 		}

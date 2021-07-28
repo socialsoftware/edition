@@ -27,23 +27,31 @@ const Reading = (props) => {
     const location = useLocation()
 
     useEffect(() => {
+        var mounted = true
         getReadingExperts()
             .then(res => {
-                setExperts(res.data)
-                setLoading(false)
+                if(mounted){
+                    setExperts(res.data)
+                    setLoading(false)
+                }
             })
         var path = location.pathname.split('/')
         if(path[3] && path[5]){
             getCurrentReadingFragmentJson(path[3], path[5], props.recommendation)
             .then(res => {
+                if(mounted){
                 setFragmentData(res.data)
                 setSelectedExpert(res.data.expertEditionInterDto.acronym)
                 props.setUpdateRecommendation(res.data.readingRecommendation)
+                }
             })
             .catch(error => {
                 console.log(error);
             })
         }
+        return function cleanup() {
+            mounted = false
+            }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

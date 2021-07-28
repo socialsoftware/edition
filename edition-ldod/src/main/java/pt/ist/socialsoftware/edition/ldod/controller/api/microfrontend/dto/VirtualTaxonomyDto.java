@@ -8,14 +8,14 @@ public class VirtualTaxonomyDto {
 	private String title;
 	private String externalId;
 	private String acronym;
-	private TaxonomyMicrofrontendDto taxonomy;
+	private TaxoDto taxonomy;
 	private TopicListDTO topicList;
 
 	public VirtualTaxonomyDto(VirtualEdition vEdition, LdoDUser user) {
 		this.setTitle(vEdition.getTitle());
 		this.setExternalId(vEdition.getExternalId());
 		this.setAcronym(vEdition.getAcronym());
-		this.setTaxonomy(new TaxonomyMicrofrontendDto(vEdition, user));
+		this.setTaxonomy(new TaxoDto(vEdition, user));
 	}
 
 
@@ -43,11 +43,11 @@ public class VirtualTaxonomyDto {
 		this.acronym = acronym;
 	}
 
-	public TaxonomyMicrofrontendDto getTaxonomy() {
+	public TaxoDto getTaxonomy() {
 		return taxonomy;
 	}
 
-	public void setTaxonomy(TaxonomyMicrofrontendDto taxonomy) {
+	public void setTaxonomy(TaxoDto taxonomy) {
 		this.taxonomy = taxonomy;
 	}
 

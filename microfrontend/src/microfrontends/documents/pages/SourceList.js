@@ -1,28 +1,34 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import CircleLoader from "react-spinners/RotateLoader";
 import informationIcon from '../../../resources/assets/information.svg'
 import { getSourceList } from '../../../util/API/DocumentsAPI';
-import { Link } from 'react-router-dom';
-import lupaIcon from '../../../resources/assets/lupa.svg'
+import { Link, useHistory } from 'react-router-dom';
+import { useTable, useGlobalFilter, useAsyncDebounce } from 'react-table'
 
 
 const SourceList = (props) => {
 
+    const history = useHistory()
     const [sourceList, setSourceList] = useState([])
     const [loading, setLoading] = useState(true)
     const [info, setInfo] = useState(false)
-    const [search, setSearch] = useState("");
-    const inputEl = useRef(null)
     
     useEffect(() => {
+        var mounted = true 
         getSourceList()
-            .then(res => {
-                setSourceList(res.data)
-                setLoading(false)
+            .then(res => { 
+                if(mounted){
+                    setSourceList(res.data)
+                    setLoading(false)
+                }
+                
             })
             .catch(err => {
                 console.log(err);
             })
+        return function cleanup() {
+            mounted = false
+            }
     }, [])
 
     const getInterSetMap = (val) => {
@@ -76,60 +82,165 @@ const SourceList = (props) => {
     }
 
 
-    const masSourceToTable = () => {
-        return sourceList.map((frag,i) => {
-            if(search==="" || handleSearchFiltering(frag)){
-                return(
-                    <tr className="table-body-row-row" key={i}>
-                        <td className="table-body-row">
-                            {frag.title}
-                        </td>
-                        <td className="table-body-row">
-                            {getInterSetMap(frag.sourceInterSet)}
-                        </td>
-                        <td  className="documents-table-body-row-source">
-                           {frag.date}
-                        </td>
-                        <td className="table-body-row">
-                            {frag.sourceType==="MANUSCRIPT"?
-                                getHandNoteMap(frag.handNoteDtoSet):null
-                            }
-                            {frag.sourceType==="MANUSCRIPT"?
-                                getTypeNoteMap(frag.typeNoteSet):null
-                            }
+    function GlobalFilter({
+        preGlobalFilteredRows,
+        globalFilter,
+        setGlobalFilter,
+      }) {
+        // @ts-ignore
+        const [value, setValue] = React.useState(globalFilter)
+        const onChange = useAsyncDebounce(value => {
+          setGlobalFilter(value || undefined)
+        }, 200)
 
-                        </td>
-                        <td className="documents-table-body-row-source" style={{maxWidth: "80px", minWidth:"80px"}}>
-                            {frag.hadLdoDLabel?<p style={{textAlign:"center", maxWidth: "80px", minWidth:"80px"}}>{props.messages.general_yes}</p>:<p style={{textAlign:"center", maxWidth: "80px", minWidth:"80px"}}>{props.messages.general_no}</p>}
-                            </td>
-                        <td className="documents-table-body-row-source-dim">
-                            {frag.dimensionSetSize>0?getDimensionsMap(frag.dimensionDtoList):null}
-                            </td> 
-                        <td className="documents-table-body-row-source">
-                            {getSurfacesMap(frag.surfaceDto, frag.title)}
-                        </td> 
-                        
+    
+      
+        return (
+          <span>
+            <input
+              value={value || ""}
+              onChange={e => {
+                setValue(e.target.value);
+                onChange(e.target.value);
+              }}
+              placeholder={`Search`}
+              className="documents-input-filter"
+            />
+          </span>
+        )
+      }
+
+      function Table({ columns, data }) {
+        const {
+          getTableProps,
+          getTableBodyProps,
+          headerGroups,
+          prepareRow,
+          rows,
+          // @ts-ignore
+          preGlobalFilteredRows,
+          // @ts-ignore
+          setGlobalFilter,
+          state,
+        } = useTable(
+          {
+            columns,
+            data,
+          },
+          useGlobalFilter,
+        )
+      
+        return (
+          <div className="documents-table-div">
+          <GlobalFilter
+                  preGlobalFilteredRows={preGlobalFilteredRows}
+                  // @ts-ignore
+                  globalFilter={state.globalFilter}
+                  setGlobalFilter={setGlobalFilter}
+                />
+           <div className="table-div" style={{marginTop:"80px", borderLeft:"1px solid #ddd"}}>
+            <div className="tableWrap">
+            <table className="table" {...getTableProps()} >
+                <thead >
+                    {headerGroups.map((headerGroup, i) => (
+                    <tr key={i} {...headerGroup.getHeaderGroupProps()} className="table-row">
+                        {headerGroup.headers.map((column, i) => (
+                        <th key={i}
+                            {...column.getHeaderProps()}                        >
+                            {column.render('Header')}
+                        </th>
+                        ))}
                     </tr>
+                    ))}
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                    {rows.map((row, i) => {
+                    prepareRow(row)
+                    return (
+                        <tr key={i} {...row.getRowProps()} className="table-row">
+                        {row.cells.map((cell, i) => {
+                            return (
+                            <td key={i} className={"table-body-row"}
+                                {...cell.getCellProps()}
+                                onClick={() => {
+                                  if(cell.column.id==="title"){
+                                    // @ts-ignore
+                                    history.push(`/fragments/fragment/${row.original.fragmentXmlId}`)
+                                  }
+                                }}
+                              >
+                                {cell.render('Cell')}
+                            </td>
+                            )
+                        })}
+                        </tr>
                     )
+                    })}
+                </tbody>
+            </table>
+          </div>
+          </div>
+          </div>
+        )
+      }
+
+    const tableColumns = [
+        {
+            Header: `${props.messages.header_documents}`,
+            accessor: "title",
+            id: "title"
+        },
+        {
+            Header: `${props.messages.general_transcription}`,
+            id: "sourceInterSet",
+            accessor: "sourceInterSet",
+            Cell: cellInfo => {
+                return getInterSetMap(cellInfo.row.original.sourceInterSet)
             }
-            return null
-            
-        })
-
-    }
-
-    const handleSearchFiltering = (frag) => {
-        
-            if(frag.title?frag.title.toLowerCase().includes(search.toLowerCase()):false) return true
-            else if(frag.sourceInterSet[0].title?frag.sourceInterSet[0].title.toLowerCase().includes(search.toLowerCase()):false) return true
-            else if(frag.date?frag.date.toLowerCase().includes(search.toLowerCase()):false) return true
-            else if(frag.sourceType?frag.sourceType.toLowerCase().includes(search.toLowerCase()):false) return true
-            else return false        
-    }
-
-    const handleSearchUpdate = () => {
-        setSearch(inputEl.current.value)
-    }
+        },
+        {
+            Header: `${props.messages.general_date}`,
+            accessor: "date",
+            id: "date"
+        },
+        {
+            Header: `${props.messages.general_type}`,
+            id: "noteMap",
+            accessor: "noteMap",
+            Cell: cellInfo => {
+                if(cellInfo.row.original.sourceType==="MANUSCRIPT")
+                    return getHandNoteMap(cellInfo.row.original.handNoteDtoSet)
+                else if(cellInfo.row.original.sourceType==="MANUSCRIPT")
+                    return getTypeNoteMap(cellInfo.row.original.typeNoteSet)
+                else return null
+            }
+        },
+        {
+            Header: `${props.messages.general_LdoDLabel}`,
+            id: "label",
+            Cell: cellInfo => {
+                if(cellInfo.row.original.hadLdoDLabel) return <p>{props.messages.general_yes}</p>
+                else return <p >{props.messages.general_no}</p>
+            }
+        },
+        {
+            Header: `${props.messages.general_dimensions}`,
+            id: "dimensions",
+            Cell: cellInfo => {
+                if(cellInfo.row.original.dimensionSetSize>0) return getDimensionsMap(cellInfo.row.original.dimensionDtoList)
+                else return null
+            }
+        },
+        {
+            Header: `${props.messages.general_facsimiles}`,
+            id: "facsimilies",
+            Cell: cellInfo => {
+                if(getSurfacesMap(cellInfo.row.original.surfaceDto, cellInfo.row.original.title))
+                    return getSurfacesMap(cellInfo.row.original.surfaceDto, cellInfo.row.original.title)
+                else return null
+            }
+        },        
+    ] 
 
     return (
         <div className="documents-sourceList">
@@ -141,31 +252,15 @@ const SourceList = (props) => {
                     {props.messages.sourcelist_tt_sources}
                 </span>
             </p>
-
-            <CircleLoader loading={loading}></CircleLoader>
-            <div className={loading?"loading-table":"search-container"}>
-                <input ref={inputEl} className="search" placeholder="Search"></input>
-                <img src={lupaIcon} alt="lupa" className="search-icon" onClick={() => handleSearchUpdate()}></img>
-            </div>
-
-            <div className={loading?"loading-table":"table-div"}>
-            <table className={loading?"loading-table":"table"}>
-                <thead>
-                    <tr>
-                        <th >{props.messages.header_documents}</th>
-                        <th >{props.messages.general_transcription}</th>
-                        <th >{props.messages.general_date}</th>
-                        <th >{props.messages.general_type}</th>
-                        <th >{props.messages.general_LdoDLabel}</th>
-                        <th >{props.messages.general_dimensions}</th>
-                        <th >{props.messages.general_facsimiles}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                   {masSourceToTable()}
-                </tbody>
-            </table>
-        </div>
+            {
+                loading?
+                <CircleLoader loading={loading}></CircleLoader>
+                :
+                sourceList?
+                <Table columns={tableColumns} data={sourceList} />
+                :null
+                
+            }   
         </div>
     )
 }

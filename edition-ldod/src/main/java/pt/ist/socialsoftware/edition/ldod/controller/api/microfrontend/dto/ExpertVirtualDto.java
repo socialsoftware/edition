@@ -28,7 +28,7 @@ public class ExpertVirtualDto {
 			VirtualEdition archiveEdition) {
 		this.setExpertEditions(expertEditionsSet.stream().map(ExpertEditionDto::new).collect(Collectors.toList()));
 		this.setArchiveEditionExternalId(archiveEdition.getExternalId());
-		this.setVirtualEditions(virtualEditionsSet.stream().map(VirtualEditionDto::new).collect(Collectors.toList()));
+		this.setVirtualEditions(virtualEditionsSet.stream().map(vEdition -> new VirtualEditionDto(vEdition, true)).collect(Collectors.toList()));
 	}
 
 	public List<ExpertEditionDto> getExpertEditions() {

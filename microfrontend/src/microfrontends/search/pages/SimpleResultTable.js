@@ -1,73 +1,136 @@
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom';
-import lupaIcon from '../../../resources/assets/lupa.svg'
+import { useTable, useGlobalFilter, useAsyncDebounce } from 'react-table'
 
 const SimpleResultTable = (props) => {
-    const [search, setSearch] = useState("");
-    const inputEl = useRef(null)
     
-    const mapFragmentsToTable = () => {
-        if(props.data){
-            return props.data.listFragments.map((val, i) => {
-                if(search==="" || handleSearchFiltering(val)){
+    function GlobalFilter({
+        preGlobalFilteredRows,
+        globalFilter,
+        setGlobalFilter,
+      }) {
+        // @ts-ignore
+        const [value, setValue] = React.useState(globalFilter)
+        const onChange = useAsyncDebounce(value => {
+          setGlobalFilter(value || undefined)
+        }, 200)
+      
+        return (
+          <span>
+            <input
+              value={value || ""}
+              onChange={e => {
+                setValue(e.target.value);
+                onChange(e.target.value);
+              }}
+              placeholder={`Search`}
+              className="input-filter"
+            />
+          </span>
+        )
+      }
+
+      function Table({ columns, data }) {
+        const {
+          getTableProps,
+          getTableBodyProps,
+          headerGroups,
+          prepareRow,
+          rows,
+          // @ts-ignore
+          preGlobalFilteredRows,
+          // @ts-ignore
+          setGlobalFilter,
+          state,
+        } = useTable(
+          {
+            columns,
+            data,
+          },
+          useGlobalFilter,
+        )
+      
+        return (
+          <div className="search-table-search">
+          <GlobalFilter
+                  preGlobalFilteredRows={preGlobalFilteredRows}
+                  // @ts-ignore
+                  globalFilter={state.globalFilter}
+                  setGlobalFilter={setGlobalFilter}
+                />
+           <div className="table-div" style={{marginTop:"80px", borderLeft:"1px solid #ddd"}}>
+            <div className="tableWrap">
+            <table className="table" {...getTableProps()} >
+                <thead >
+                    {headerGroups.map((headerGroup, i) => (
+                    <tr key={i} {...headerGroup.getHeaderGroupProps()} className="table-row">
+                        {headerGroup.headers.map((column, i) => (
+                        <th key={i}
+                            {...column.getHeaderProps()}                        >
+                            {column.render('Header')}
+                        </th>
+                        ))}
+                    </tr>
+                    ))}
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                    {rows.map((row, i) => {
+                    prepareRow(row)
                     return (
-                        <tr key={i}>
-                            <td className="table-body-row">
-                            <Link className="table-body-title" to={`/fragments/fragment/${val.fragment_xmlId}`}> {val.fragment_title}
-                            </Link></td>
-                            {val.simpleName==="ExpertEditionInter"&&val.type==="MANUSCRIPT"?
-                                <td className="table-body-row"><Link className="table-body-title" to={`/fragments/fragment/${val.xmlId}/inter/${val.urlId}`}>{val.shortName}</Link></td>
-                            :val.simpleName==="ExpertEditionInter"?
-                                <td className="table-body-row"><Link className="table-body-title" to={`/fragments/fragment/${val.xmlId}/inter/${val.urlId}`}>{val.title} ({val.editor})</Link></td>
-                            :
-                                <td className="table-body-row"><Link className="table-body-title" to={`/fragments/fragment/${val.xmlId}/inter/${val.urlId}`}>{val.title}</Link></td>
-                            }
-                            
+                        <tr key={i} {...row.getRowProps()} className="table-row">
+                        {row.cells.map((cell, i) => {
+                            return (
+                            <td key={i} className={"table-body-row"}
+                                {...cell.getCellProps()}
+                              >
+                                {cell.render('Cell')}
+                            </td>
+                            )
+                        })}
                         </tr>
                     )
-                }    
-                else return null
-            })
-        }
-        
-    }
+                    })}
+                </tbody>
+            </table>
+          </div>
+          </div>
+          </div>
+        )
+      }
 
-    const handleSearchFiltering = (val) => {
-        if(val.fragment_title?val.fragment_title.toLowerCase().includes(search.toLowerCase()):false) return true
-        else if(val.simpleName==="ExpertEditionInter"&&val.type==="MANUSCRIPT") {
-            if(val.shortName?val.shortName.toLowerCase().includes(search.toLowerCase()):false) return true
-        }
-        else if(val.simpleName==="ExpertEditionInter") {
-            if(val.title?val.title.toLowerCase().includes(search.toLowerCase()):false) return true
-            else if(val.editor?val.editor.toLowerCase().includes(search.toLowerCase()):false) return true
-        }
-        else if(val.title?val.title.toLowerCase().includes(search.toLowerCase()):false) return true
-        else return false
-    }
-
-    const handleSearchUpdate = () => {
-        setSearch(inputEl.current.value)
-    }
+    const tableColumns = [
+        {
+            Header: `${props.messages.fragment} (${props.data?props.data.fragCount:0})`,
+            accessor: "fragment_title",
+            id: "fragment_title",
+            Cell: cellInfo => {
+                return <Link className="table-body-title" to={`/fragments/fragment/${cellInfo.row.original.fragment_xmlId}`}> {cellInfo.row.original.fragment_title}
+                            </Link>
+            }
+        },
+        {
+            Header: `${props.messages.interpretations} (${props.data?props.data.interCount:0})`,
+            id: "title",
+            accessor: "editor",
+            Cell: cellInfo => {
+                if(cellInfo.row.original.simpleName==="ExpertEditionInter"&&cellInfo.row.original.type==="MANUSCRIPT")
+                    return <Link className="table-body-title" to={`/fragments/fragment/${cellInfo.row.original.xmlId}/inter/${cellInfo.row.original.urlId}`}>{cellInfo.row.original.shortName}</Link>
+                else if(cellInfo.row.original.simpleName==="ExpertEditionInter")
+                    return <Link className="table-body-title" to={`/fragments/fragment/${cellInfo.row.original.xmlId}/inter/${cellInfo.row.original.urlId}`}>{cellInfo.row.original.title} ({cellInfo.row.original.editor})</Link>
+                else
+                    return <Link className="table-body-title" to={`/fragments/fragment/${cellInfo.row.original.xmlId}/inter/${cellInfo.row.original.urlId}`}>{cellInfo.row.original.title}</Link>
+                
+            }
+        },
+    ]
 
     return(
         <div className="result">
-            <div className={"search-container"}>
-                <input ref={inputEl} className="search" placeholder="Search"></input>
-                <img src={lupaIcon} alt="lupa" className="search-icon" onClick={() => handleSearchUpdate()}></img>
-            </div>
-            <div className="table-div">
-                <table className="table" data-pagination="false">
-                    <thead>
-                        <tr>
-                            <th>{props.messages.fragment} ({props.data?props.data.fragCount:0})</th>
-                            <th>{props.messages.interpretations} ({props.data?props.data.interCount:0})</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {mapFragmentsToTable()}
-                    </tbody>
-                </table>
-            </div>
+            {
+                props.data?
+                <Table columns={tableColumns} data={props.data.listFragments} />
+                :null
+            }  
         </div>
         
     )

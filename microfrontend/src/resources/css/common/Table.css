@@ -11,8 +11,8 @@
 }
 
 .table-div{
-    width: 1170px;
-    max-width: 1170px;
+    width: 1140px;
+    max-width: 1140px;
     margin: 0 auto;
     overflow-x: auto;
     border-radius: 10px;
@@ -135,6 +135,6 @@ td p{
 }
 @media (max-width: 768px){
     .table-div {
-        width: 90%;
+        width: 100%;
     }
 }

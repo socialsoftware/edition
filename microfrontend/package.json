@@ -29,6 +29,7 @@
     "react-spinners": "^0.11.0",
     "react-table": "^7.7.0",
     "react-tooltip": "^4.2.21",
+    "react-window": "^1.8.6",
     "redux": "^4.1.0",
     "redux-persist": "^6.0.0",
     "request-promise": "^4.2.6"

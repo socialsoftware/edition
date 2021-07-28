@@ -1,9 +1,8 @@
-import React, {useState, useRef, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom';
 import CircleLoader from "react-spinners/RotateLoader";
 import { getVirtualEditionList } from '../../../util/API/EditionAPI';
-import lupaIcon from '../../../resources/assets/lupa.svg'
-import ReactTooltip from 'react-tooltip';
+import { useTable, useGlobalFilter, useAsyncDebounce } from 'react-table'
 
 
 const VirtualEditionList = (props) => {
@@ -14,21 +13,23 @@ const VirtualEditionList = (props) => {
     const [title, setTitle] = useState("")
     const [synopsis, setSynopsis] = useState("")
     const [loading, setLoading] = useState(true)
-    const [search, setSearch] = useState("")
-    const inputEl = useRef(null)
 
     useEffect(() => {
-        getVirtualEditionList(props.acronym)
-            .then(res => {
-                setEditionData(res.data.sortedInterpsList)
-                if(props.acronym === "LdoD-Arquivo")setTitle("Edição do Arquivo LdoD")
-                else setTitle(res.data.title)
-                setListSize(res.data.interpsSize)
-                setParticipant(res.data.participantList)
-                setSynopsis(res.data.synopsis)
-                setLoading(false)
-            })
-    }, [props.acronym])
+        if(props.acronym !== "JPC" && props.acronym !== "JP" && props.acronym !== "RZ" && props.acronym !== "TSC"){
+            getVirtualEditionList(props.acronym)
+                .then(res => {
+                    console.log(res.data);
+                    setEditionData(res.data.sortedInterpsList)
+                    if(props.acronym === "LdoD-Arquivo")setTitle("Edição do Arquivo LdoD")
+                    else setTitle(res.data.title)
+                    setListSize(res.data.interpsSize)
+                    setParticipant(res.data.participantList)
+                    setSynopsis(res.data.synopsis)
+                    setLoading(false)
+                })
+        }
+        
+    }, [props.page, props.acronym])
 
     const mapUsed = (val) => {
         return val.map((el, i) => {
@@ -41,31 +42,6 @@ const VirtualEditionList = (props) => {
             return (
                 <p key={i}><Link className="edition-usedLink" to={`/edition/acronym/${el.acronym}/category/${el.urlId}`}>{el.name}</Link></p>
             )
-        })
-    }
-    const mapEditionToTable = () => {
-        return editionData.map((interp,i) => {
-            if(search==="" || handleSearchFiltering(interp)){
-                return(
-                    <tr className="table-body-row-row" key={i}>
-                        <td className="table-body-row">
-                            {interp.number>0?interp.number:null}
-                        </td>
-                        <td className="table-body-row">
-                            <Link className="table-body-title"
-                            to={`/fragments/fragment/${interp.xmlId}/inter/${interp.urlId}`}>{interp.title}</Link></td>                      
-                        
-                        <td className="table-body-row">
-                            {mapCategoryList(interp.categoryList)}
-                        </td>
-                        <td className="table-body-row">
-                            {mapUsed(interp.usedList)}
-                        </td>
-                    </tr>
-                    )
-            }
-            else return null
-            
         })
     }
 
@@ -86,37 +62,145 @@ const VirtualEditionList = (props) => {
         })
     }
 
-    const getSearchInList = (arr, type) => {
-        if(type === 1){
-            for(let el of arr){
-                if(el["name"].toLowerCase().includes(search.toLowerCase())) return true
-            }
-        }
-        if(type === 2){
-            for(let el of arr){
-                if(el["shortName"].toLowerCase().includes(search.toLowerCase())) return true
-            }
-        }
-        return false
-    }
 
-    const handleSearchFiltering = (interp) => {
-        if(interp.title?interp.title.toLowerCase().includes(search.toLowerCase()):false) return true
-        else if(interp.number?interp.number.toString().toLowerCase().includes(search.toLowerCase()):false) return true
-        else if(interp.categoryList?getSearchInList(interp.categoryList, 1):false) return true
-        else if(interp.usedList?getSearchInList(interp.usedList, 2):false) return true
-        else return false
-    }
+    function GlobalFilter({
+        preGlobalFilteredRows,
+        globalFilter,
+        setGlobalFilter,
+      }) {
+        // @ts-ignore
+        const [value, setValue] = React.useState(globalFilter)
+        const onChange = useAsyncDebounce(value => {
+          setGlobalFilter(value || undefined)
+        }, 200)
 
-    const handleSearchUpdate = () => {
-        setSearch(inputEl.current.value)
-    }
+    
+      
+        return (
+          <span>
+            <input
+              value={value || ""}
+              onChange={e => {
+                setValue(e.target.value);
+                onChange(e.target.value);
+              }}
+              placeholder={`Search`}
+              className="edition-input-filter"
+            />
+          </span>
+        )
+      }
+
+      function Table({ columns, data }) {
+        const {
+          getTableProps,
+          getTableBodyProps,
+          headerGroups,
+          prepareRow,
+          rows,
+          // @ts-ignore
+          preGlobalFilteredRows,
+          // @ts-ignore
+          setGlobalFilter,
+          state,
+        } = useTable(
+          {
+            columns,
+            data,
+          },
+          useGlobalFilter,
+        )
+      
+        return (
+          <div className="edition-table-div">
+          <GlobalFilter
+                  preGlobalFilteredRows={preGlobalFilteredRows}
+                  // @ts-ignore
+                  globalFilter={state.globalFilter}
+                  setGlobalFilter={setGlobalFilter}
+                />
+           <div className="table-div" style={{marginTop:"80px", borderLeft:"1px solid #ddd"}}>
+            <div className="tableWrap">
+            <table className="table" {...getTableProps()} >
+                <thead >
+                    {headerGroups.map((headerGroup, i) => (
+                    <tr key={i} {...headerGroup.getHeaderGroupProps()} className="table-row">
+                        {headerGroup.headers.map((column, i) => (
+                        <th key={i}
+                            {...column.getHeaderProps()}                        >
+                            {column.render('Header')}
+                        </th>
+                        ))}
+                    </tr>
+                    ))}
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                    {rows.map((row, i) => {
+                    prepareRow(row)
+                    return (
+                        <tr key={i} {...row.getRowProps()} className="table-row">
+                        {row.cells.map((cell, i) => {
+                            return (
+                            <td key={i} className={"table-body-row"}
+                                {...cell.getCellProps()}
+                              >
+                                {cell.render('Cell')}
+                            </td>
+                            )
+                        })}
+                        </tr>
+                    )
+                    })}
+                </tbody>
+            </table>
+          </div>
+          </div>
+          </div>
+        )
+      }
+
+    const tableColumns = [
+        {
+            Header: `${props.messages.tableofcontents_number}`,
+            accessor: "number",
+            id: "number",
+            Cell: cellInfo => {
+                if(cellInfo.row.original.number!==0) return cellInfo.row.original.number
+                else return null
+            }
+        },
+        {
+            Header: `${props.messages.tableofcontents_title}`,
+            id: "title",
+            accessor: "title",
+            Cell: cellInfo => {
+                return <Link className="table-body-title"
+                to={`/fragments/fragment/${cellInfo.row.original.xmlId}/inter/${cellInfo.row.original.urlId}`}>{cellInfo.row.original.title}</Link>
+            }
+        },
+        {
+            Header: `${props.messages.general_category}`,
+            id: "categoryList",
+            accessor: "categoryList",
+            Cell: cellInfo => {
+                return mapCategoryList(cellInfo.row.original.categoryList)}
+            },
+        {
+            Header: `${props.messages.tableofcontents_usesEditions}`,
+            id: "usedList",
+            accessor: "usedList",
+            Cell: cellInfo => {
+                return mapUsed(cellInfo.row.original.usedList)
+            }
+        },
+    ]
 
 
     return (
         <div>
             <p className="edition-list-title">{props.messages.virtualedition}: {title}<span> {`(${listSize})`}</span></p>
-            <CircleLoader loading={loading}></CircleLoader>
+
+             
             
             <div className={loading?"loading-table":"edition-editionTop"} >
                 {participant?<div><strong>{props.messages.general_editors}:</strong> <span>{getParticipanList()}</span></div>:null}
@@ -125,26 +209,16 @@ const VirtualEditionList = (props) => {
                             to={`/edition/acronym/${props.acronym}/taxonomy/`}>{title}</Link></p>
                 <p style={{marginTop:"15px"}}><strong>{listSize} {props.messages.fragments}</strong></p>
             </div>
-            <div className={loading?"loading-table":"search-container"}>
-                    <input ref={inputEl} className="search" placeholder="Search"></input>
-                    <img src={lupaIcon} alt="lupa" className="search-icon" onClick={() => handleSearchUpdate()}></img>
-            </div>
-            <div style={{marginTop:"50px"}} className={loading?"loading-table":"table-div"}>
-            <table className={loading?"loading-table":"table"} data-pagination="false">
-                <thead>
-                    <tr>
-                        <th data-tip={props.messages.tableofcontents_tt_number}>{props.messages.tableofcontents_number}</th>
-                        <th data-tip={props.messages.tableofcontents_tt_title}>{props.messages.tableofcontents_title}</th>
-                        <th data-tip={props.messages.tableofcontents_tt_taxonomy}>{props.messages.general_category}</th>
-                        <th data-tip={props.messages.tableofcontents_tt_usesEditions}>{props.messages.tableofcontents_usesEditions}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {mapEditionToTable()}
-                </tbody>
-            </table>
-            <ReactTooltip backgroundColor="#000" textColor="#fff" border={true} borderColor="#000" className="virtual-tooltip" place="bottom" effect="solid"/>
-        </div>
+
+            {
+                loading?
+                <CircleLoader loading={loading}></CircleLoader>
+                :
+                editionData?
+                <Table columns={tableColumns} data={editionData} />
+                :null
+                
+            }  
         </div>
     )
 }

@@ -2,7 +2,17 @@ import { API_BASE_URL, ACCESS_TOKEN } from '../../constants/index.production';
 import axios from 'axios'
 
 export function getFragmentWithXml (xmlId) {
-    return axios.get(API_BASE_URL + `/api/microfrontend/fragment/${xmlId}`)
+    return axios.get(API_BASE_URL + `/api/microfrontend/fragment/${xmlId}`, 
+    {
+        headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+        }
+    }
+    )
+}
+export function getFragmentWithXmlNoUser (xmlId) {
+    return axios.get(API_BASE_URL + `/api/microfrontend/fragment/${xmlId}/NoUser`)
 }
 
 export function getFragmentWithXmlAndUrl (xmlId, urlId, arraySelected) {

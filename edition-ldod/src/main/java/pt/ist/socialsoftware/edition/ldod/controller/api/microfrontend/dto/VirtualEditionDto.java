@@ -47,7 +47,9 @@ public class VirtualEditionDto {
 	public VirtualEditionDto(VirtualEdition vEdition, Fragment fragment, LdoDUser user, FragInter frag) {
 		this.setSortedInter4Frag(vEdition.getSortedInter4Frag(fragment).stream().map(VirtualEditionInterDto::new).collect(Collectors.toList()));
 		this.setAcronym(vEdition.getAcronym());
-		this.setParticipantSetContains(vEdition.getParticipantSet().contains(user));
+		if(user != null) {
+			this.setParticipantSetContains(vEdition.getParticipantSet().contains(user));
+		}
 		this.setExternalId(vEdition.getExternalId());
 		if(frag != null) {
 			this.setCanAddFragInter(vEdition.canAddFragInter(frag));
@@ -123,6 +125,18 @@ public class VirtualEditionDto {
 		this.setParticipantSet(vEdition.getParticipantSet().stream().map(ParticipantDto::new).collect(Collectors.toList()));
 		this.setCategorySet(vEdition.getTaxonomy().getCategoriesSet().stream().map(CategoryDto::new).collect(Collectors.toList()));
 		this.setAnnotationTextList(vEdition.getAnnotationTextList());
+	}
+	
+	public VirtualEditionDto(VirtualEdition vEdition, boolean noUser) {
+		this.setExternalId(vEdition.getExternalId());
+		this.setAcronym(vEdition.getAcronym());
+		this.setLdoDEdition(vEdition.isLdoDEdition());
+		this.setAdmin(false);
+		this.setMember(false);
+		this.setPending(false);
+		this.setPublic(vEdition.getPub());
+		this.setTitle(vEdition.getTitle());
+		this.setDate(vEdition.getDate().toString("dd-MM-yyyy"));
 	}
 	
 	public boolean isParticipantSetContains() {

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.CategoryDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.ExpertEditionListDto;
-import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.TaxonomyMicrofrontendDto;
+import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.TaxoDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.UserContributionsDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.VirtualEditionListDto;
 import pt.ist.socialsoftware.edition.ldod.domain.Category;
@@ -55,7 +55,6 @@ public class MicrofrontendEditionController {
     
     
     @GetMapping(value = "/virtual/acronym/{acronym}")
-	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
 	public VirtualEditionListDto getVirtualEditionTableOfContentsbyAcronym(@PathVariable String acronym) {
 		for (VirtualEdition edition : LdoD.getInstance().getVirtualEditionsSet()) {
 			if (acronym.toUpperCase().equals(edition.getAcronym().toUpperCase())) {
@@ -67,20 +66,18 @@ public class MicrofrontendEditionController {
 	}
     
     @GetMapping(value = "/acronym/{acronym}/taxonomy")
-    @PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
-    public TaxonomyMicrofrontendDto getTaxonomyTableOfContents(@PathVariable String acronym) {
+    public TaxoDto getTaxonomyTableOfContents(@PathVariable String acronym) {
     	
     	Taxonomy taxonomy = LdoD.getInstance().getVirtualEdition(acronym).getTaxonomy();
     	
     	if(taxonomy != null) {
-    		return new TaxonomyMicrofrontendDto(taxonomy);
+    		return new TaxoDto(taxonomy);
     	}
 		return null;
     	
     }
     
     @GetMapping(value = "/acronym/{acronym}/category/{urlId}")
-    @PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
     public CategoryDto getCategoryTableOfContents(@PathVariable String acronym, @PathVariable String urlId) {
     	
     	VirtualEdition virtualEdition = (VirtualEdition) LdoD.getInstance().getEdition(acronym);

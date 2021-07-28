@@ -20,6 +20,13 @@ public class CategoryDto {
 	private String normalName;
 	private VirtualTaxonomyDto taxonomyDto;
 	
+	public CategoryDto(Category category, VirtualEdition virtualEdition, boolean bool) {
+		this.setAcronym(category.getTaxonomy().getEdition().getAcronym());
+		this.setUrlId(category.getUrlId());
+		this.setName(category.getNameInEditionContext(virtualEdition));
+		this.setExternalId(category.getExternalId());
+		this.setNormalName(category.getName());
+	}
 	
 	public CategoryDto(Category category, VirtualEdition virtualEdition) {
 		this.setAcronym(category.getTaxonomy().getEdition().getAcronym());
@@ -30,8 +37,6 @@ public class CategoryDto {
 				.collect(Collectors.toList()));
 		this.setExternalId(category.getExternalId());
 		this.setNormalName(category.getName());
-		
-
 	}
 	
 	public CategoryDto(Category category) {

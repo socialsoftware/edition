@@ -44,6 +44,7 @@ const Edition_DISPATCHER = (props) => {
             <Route exact path={`/edition/acronym/${acronym}`} >
                 {page==="EDITORIAL"?
                     <ExpertEditionList
+                        page={page}
                         acronym={acronym}
                         language={props.language}
                         messages={props.messages}
@@ -51,6 +52,7 @@ const Edition_DISPATCHER = (props) => {
                 }
                 {page==="VIRTUAL"?
                     <VirtualEditionList
+                        page={page}
                         acronym={acronym}
                         language={props.language}
                         messages={props.messages}

@@ -128,10 +128,14 @@ const Navigation_virtual = (props) => {
                 <ReactTooltip backgroundColor="#fff" textColor="#333" border={true} borderColor="#000" className="reading-tooltip" place="bottom" effect="solid"/>
             </div>
             <div style={{marginTop:"10px"}}>
-                <Link to={`/edition/acronym/${props.data && props.data.ldoD?props.data.ldoD.archiveEdition.acronym:null}`}>Arquivo LdoD</Link>
+                <Link to={`/edition/acronym/${props.data && props.data.ldoD?props.data.ldoD.archiveEdition?props.data.ldoD.archiveEdition.acronym:null:null}`}>Arquivo LdoD</Link>
                 {props.data && props.data.ldoD?
                 <div style={{marginTop:"10px"}}>
-                    {mapArchiveToView()}
+                    {props.data?props.data.ldoD.archiveEdition?
+                    mapArchiveToView()
+                    :null:null
+                
+                }
                 </div>
                     
                 :null

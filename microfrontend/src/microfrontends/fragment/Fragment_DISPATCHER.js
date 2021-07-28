@@ -7,7 +7,7 @@ import {getFragmentWithXml, getFragmentWithXmlAndUrl, getNextFragmentWithXmlAndU
     getAuthorialInterWithDiffs, getInterCompare, addToEdition, 
     getFragmentWithXmlAndUrlNoUser,
     getPrevFragmentWithXmlAndUrlNoUSER,
-    getNextFragmentWithXmlAndUrlNoUSER} from '../../util/API/FragmentAPI'
+    getNextFragmentWithXmlAndUrlNoUSER, getFragmentWithXmlNoUser} from '../../util/API/FragmentAPI'
 import BodyExpert from './pages/expert/Body_expert'
 import NavigationExpert from './pages/expert/Navigation_expert'
 import InterEmpty from './pages/InterEmpty';
@@ -23,25 +23,33 @@ const Fragment_DISPATCHER = (props) => {
     
     useEffect(() => {
         var path = location.pathname.split('/')
-        if(path[5])
-            if(props.isAuthenticated){
+        if(props.isAuthenticated){
+            if(path[5])
                 getFragmentWithXmlAndUrl(path[3], path[5], props.selectedVEAcr)
                 .then(res => {
                     dataHandler(res.data)
                 })
-            }   
-            else{
+            else if(path[3])
+                getFragmentWithXml(path[3])
+                    .then(res => {
+                        console.log(res.data)
+                        dataHandler(res.data)
+                    })
+        }
+        else{
+            if(path[5])
                 getFragmentWithXmlAndUrlNoUser(path[3], path[5], props.selectedVEAcr)
                 .then(res => {
                     dataHandler(res.data)
-                    
                 })
-            }
-        else if(path[3])
-            getFragmentWithXml(path[3])
-                .then(res => {
-                    dataHandler(res.data)
-                })
+            else if(path[3])
+            getFragmentWithXmlNoUser(path[3])
+                    .then(res => {
+                        console.log(res.data)
+                        dataHandler(res.data)
+                    })
+        }
+     
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -115,6 +123,7 @@ const Fragment_DISPATCHER = (props) => {
         getIntersByArrayExternalId(fragmentExternalId, arrayInterId)
             .then(res => {
                 dataHandler(res.data)
+                if(!res.data.inters) history.push(`/fragments/fragment/${data.fragment.fragmentXmlId}`)
             })
     }
 

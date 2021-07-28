@@ -155,7 +155,7 @@ public class FragInterDto {
 		
 
 		this.setCategoryList(((VirtualEditionInter) fragInter).getAssignedCategories().stream()
-					.map(category -> new CategoryDto(category, edition))
+					.map(category -> new CategoryDto(category, edition, true))
 					.collect(Collectors.toList()));
 		
 	}
