@@ -265,22 +265,22 @@ const Taxonomy = (props) => {
                     :null
                     }
                 <div className="virtual-search" style={{width:"80%", marginLeft:"10%"}}>
-                    <input className="form-control input-search" style={{padding:"0 12px", width:"100px"}}
+                    <input className="virtual-input-input" style={{padding:"0 12px", width:"100px"}}
                         placeholder={props.messages.general_taxonomies_number_topics}
                         value={topics}
                         onChange={e => setTopics(e.target.value)}>
                     </input>
-                    <input className="form-control input-search" style={{padding:"0 12px", width:"100px"}}
+                    <input className="virtual-input-input" style={{padding:"0 12px", width:"100px"}}
                         placeholder={props.messages.general_taxonomies_number_words}
                         value={words}
                         onChange={e => setWords(e.target.value)}>
                     </input>
-                    <input className="form-control input-search" style={{padding:"0 12px", width:"100px"}}
+                    <input className="virtual-input-input" style={{padding:"0 12px", width:"100px"}}
                         placeholder={props.messages.general_taxonomies_threshold_categories}
                         value={threshold}
                         onChange={e => setThreshold(e.target.value)}>
                     </input>
-                    <input className="form-control input-search" style={{padding:"0 12px", width:"100px"}}
+                    <input className="virtual-input-input" style={{padding:"0 12px", width:"100px"}}
                         placeholder={props.messages.general_taxonomies_number_iterations}
                         value={iterations}
                         onChange={e => setIterations(e.target.value)}>
@@ -349,7 +349,7 @@ const Taxonomy = (props) => {
                                 <p style={{color:"red"}}>Erro a adicionar categoria (Repetido)</p>
                             :null
                         }
-                        <input className="form-control input-search" style={{padding:"0 12px", width:"145px"}}
+                        <input className="virtual-input-input" style={{padding:"0 12px", width:"145px"}}
                                 placeholder={props.messages.general_name}
                                 value={categoryName}
                                 onChange={e => setCategoryName(e.target.value)}>

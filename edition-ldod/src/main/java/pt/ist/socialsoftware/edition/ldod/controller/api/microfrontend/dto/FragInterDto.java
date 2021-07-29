@@ -127,8 +127,6 @@ public class FragInterDto {
 			this.setVirtualExternalId(fragInter.getEdition().getExternalId());
 		}
 		
-		
-		
 	}
 	
 	public FragInterDto(FragInter fragInter, VirtualEdition edition) {
@@ -177,8 +175,6 @@ public class FragInterDto {
 		this.setUsedList(fragInter.getListUsed().stream()
 							.map(UsedDto::new)
 							.collect(Collectors.toList()));
-		
-		
 	}
 	
 	public FragInterDto(FragInter fragInter, Category category) {
@@ -263,7 +259,16 @@ public class FragInterDto {
 			}
 		}
 
-		
+	}
+	
+	public FragInterDto(FragInter fragInter, String type) {
+		if(type=="shallow") {
+			this.setXmlId(fragInter.getFragment().getXmlId());
+			this.setUrlId(fragInter.getUrlId());
+			if(fragInter.getTitle() != null) {
+				this.setTitle(fragInter.getTitle());
+			}
+		}
 		
 	}
 

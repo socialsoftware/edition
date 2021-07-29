@@ -262,7 +262,7 @@ const Manual = (props) => {
                         <p className="virtual-search-title-x" onClick={() => setShowSearch(false)}>x</p>
                     </div>
                     <div className="virtual-search">
-                        <input className="form-control input-search" style={{padding:"0 12px"}}
+                        <input className="virtual-input-input" style={{padding:"0 12px"}}
                             placeholder={props.messages.general_searching_for}
                             value={query}
                             onChange={e => setQuery(e.target.value)}>
@@ -271,13 +271,13 @@ const Manual = (props) => {
                             styles={customStyles}
                             value={searchType.filter(option => option.value === search)}
                             onChange={value => setSearch(value.value)}
-                            options={searchType} className="form-control select-search"/>
+                            options={searchType} className="virtual-select-search"/>
                         <Select 
                             styles={customStyles}
                             value={sourceType.filter(option => option.value === source)}
                             onChange={value => setSource(value.value)}
-                            options={sourceType} className="form-control select-search"/>
-                        <div onClick={() => searchHandler()} className="form-control search-button">
+                            options={sourceType} className="virtual-select-search"/>
+                        <div onClick={() => searchHandler()} className="form-control virtual-search-button">
                             <img src={lupa} alt="img" style={{height:"15px", width:"15px", marginRight:"5px"}}></img>
                             <p>{props.messages.search}</p>
                         </div>

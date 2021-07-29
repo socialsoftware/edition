@@ -63,7 +63,7 @@ const VirtualSearchTable = (props) => {
                 onChange(e.target.value);
               }}
               placeholder={`Search`}
-              className="virtual-input-filter"
+              className="virtual-input-input-table"
             />
           </span>
         )

@@ -20,6 +20,40 @@ public class CategoryDto {
 	private String normalName;
 	private VirtualTaxonomyDto taxonomyDto;
 	
+	public CategoryDto(Category category, String type) {
+		if(type == "taxonomyPage" || type == "categoryPage") {
+			this.setTitle(category.getTaxonomy().getEdition().getTitle());
+			this.setAcronym(category.getTaxonomy().getEdition().getAcronym());
+			this.setUrlId(category.getUrlId());
+			this.setName(category.getName());
+			this.setSize(category.getTagSet().size());
+		}
+		if(type == "taxonomyPage") {
+			this.setSortedUsersList(category.getSortedUsers().stream()
+					.map(UserDto::new)
+					.collect(Collectors.toList()));
+			this.setSortedEditionsList(category.getSortedEditions().stream()
+								.map(vEdition -> new VirtualEditionListDto(vEdition, "shallow"))
+								.collect(Collectors.toList()));
+			this.setSortedIntersList(category.getSortedInters().stream()
+								.map(FragInter -> new FragInterDto(FragInter, "shallow"))
+								.collect(Collectors.toList()));
+		}
+		if(type == "categoryPage") {
+			this.setSortedIntersList(category.getSortedInters().stream()
+					.map(FragInter -> new FragInterDto(FragInter, category))
+					.collect(Collectors.toList()));
+		}
+	}
+	
+	public CategoryDto(Category category) {
+			this.setTitle(category.getTaxonomy().getEdition().getTitle());
+			this.setAcronym(category.getTaxonomy().getEdition().getAcronym());
+			this.setUrlId(category.getUrlId());
+			this.setName(category.getName());
+			this.setSize(category.getTagSet().size());
+	}
+	
 	public CategoryDto(Category category, VirtualEdition virtualEdition, boolean bool) {
 		this.setAcronym(category.getTaxonomy().getEdition().getAcronym());
 		this.setUrlId(category.getUrlId());
@@ -37,24 +71,6 @@ public class CategoryDto {
 				.collect(Collectors.toList()));
 		this.setExternalId(category.getExternalId());
 		this.setNormalName(category.getName());
-	}
-	
-	public CategoryDto(Category category) {
-		this.setTitle(category.getTaxonomy().getEdition().getTitle());
-		this.setAcronym(category.getTaxonomy().getEdition().getAcronym());
-		this.setUrlId(category.getUrlId());
-		this.setName(category.getName());
-		this.setSize(category.getTagSet().size());
-		this.setSortedUsersList(category.getSortedUsers().stream()
-									.map(UserDto::new)
-									.collect(Collectors.toList()));
-		this.setSortedEditionsList(category.getSortedEditions().stream()
-									.map(VirtualEditionListDto::new)
-									.collect(Collectors.toList()));
-		this.setSortedIntersList(category.getSortedInters().stream()
-									.map(FragInter -> new FragInterDto(FragInter, category))
-									.collect(Collectors.toList()));
-		
 	}
 	
 	

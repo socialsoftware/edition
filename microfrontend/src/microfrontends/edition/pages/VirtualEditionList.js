@@ -18,7 +18,6 @@ const VirtualEditionList = (props) => {
         if(props.acronym !== "JPC" && props.acronym !== "JP" && props.acronym !== "RZ" && props.acronym !== "TSC"){
             getVirtualEditionList(props.acronym)
                 .then(res => {
-                    console.log(res.data);
                     setEditionData(res.data.sortedInterpsList)
                     if(props.acronym === "LdoD-Arquivo")setTitle("Edição do Arquivo LdoD")
                     else setTitle(res.data.title)

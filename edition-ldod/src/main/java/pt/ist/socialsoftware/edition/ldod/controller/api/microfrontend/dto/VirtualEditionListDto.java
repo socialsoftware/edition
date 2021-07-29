@@ -16,21 +16,29 @@ public class VirtualEditionListDto {
 	private List<FragInterDto> sortedInterpsList;
 	
 
-	public VirtualEditionListDto(VirtualEdition edition) {		
-		if(edition.getTitle()!=null) {
-			this.setTitle(edition.getTitle());
+	public VirtualEditionListDto(VirtualEdition edition, String type) {	
+		if(type == "shallow") {
+			if(edition.getTitle()!=null) {
+				this.setTitle(edition.getTitle());
+			}
 		}
-		this.setParticipantList(edition.getParticipantList().stream()
-									.map(ParticipantDto::new)
-									.collect(Collectors.toList()));
-		this.setSynopsis(edition.getSynopsis());
-		if(edition.getTaxonomy().getCategoriesSet().size() > 0) {
-			this.setAcronym(edition.getAcronym());
+		else {
+			if(edition.getTitle()!=null) {
+				this.setTitle(edition.getTitle());
+			}
+			this.setParticipantList(edition.getParticipantList().stream()
+					.map(ParticipantDto::new)
+					.collect(Collectors.toList()));
+			this.setSynopsis(edition.getSynopsis());
+			if(edition.getTaxonomy().getCategoriesSet().size() > 0) {
+				this.setAcronym(edition.getAcronym());
+				}
+			this.setInterpsSize(edition.getSortedInterps().size());
+			this.setSortedInterpsList(edition.getSortedInterps().stream()
+					.map(FragInter -> new FragInterDto(FragInter, edition))
+					.collect(Collectors.toList()));
 		}
-		this.setInterpsSize(edition.getSortedInterps().size());
-		this.setSortedInterpsList(edition.getSortedInterps().stream()
-				.map(FragInter -> new FragInterDto(FragInter, edition))
-				.collect(Collectors.toList()));
+		
 	}
 
 	private void setSortedInterpsList(List<FragInterDto> sortedInterpsList) {

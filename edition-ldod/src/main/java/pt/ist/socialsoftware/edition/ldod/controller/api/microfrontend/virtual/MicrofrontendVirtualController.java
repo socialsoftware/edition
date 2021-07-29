@@ -402,21 +402,9 @@ public class MicrofrontendVirtualController {
 		return new VirtualRecommendationDto(virtualEdition);
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/restricted/manual/{externalId}")
-	public VirtualEditionDto showEditVirtualEdition(@PathVariable String externalId) {
-		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
-		if (virtualEdition == null) {
-			return null;
-		}
-		logger.debug("showEditVirtualEditionn externalId:{}, acronym:{}, title:{}, pub:{}, fraginters.size:{}",
-				externalId, virtualEdition.getAcronym(), virtualEdition.getTitle(), virtualEdition.getPub(),
-				virtualEdition.getIntersSet().size());
 
-		return new VirtualEditionDto(virtualEdition);
-	}
-	
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/reorder/{externalId}")
-	public VirtualEditionDto reorderVirtualEdition(@AuthenticationPrincipal LdoDUserDetails currentUser,
+	public VirtualRecommendationDto reorderVirtualEdition(@AuthenticationPrincipal LdoDUserDetails currentUser,
 			@PathVariable String externalId, @RequestParam("fraginters") String fraginters) {
 		logger.debug("reorderVirtualEdition externalId:{}, fraginters:{}", externalId, fraginters);
 
@@ -427,7 +415,7 @@ public class MicrofrontendVirtualController {
 
 		virtualEdition.updateVirtualEditionInters(fraginters);
 
-		return new VirtualEditionDto(virtualEdition);
+		return new VirtualRecommendationDto(virtualEdition);
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/taxonomy")

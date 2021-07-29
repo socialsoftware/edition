@@ -58,7 +58,7 @@ public class MicrofrontendEditionController {
 	public VirtualEditionListDto getVirtualEditionTableOfContentsbyAcronym(@PathVariable String acronym) {
 		for (VirtualEdition edition : LdoD.getInstance().getVirtualEditionsSet()) {
 			if (acronym.toUpperCase().equals(edition.getAcronym().toUpperCase())) {
-				return new VirtualEditionListDto(edition);
+				return new VirtualEditionListDto(edition, "deep");
 			}
 		}
 		return null;
@@ -74,7 +74,6 @@ public class MicrofrontendEditionController {
     		return new TaxoDto(taxonomy);
     	}
 		return null;
-    	
     }
     
     @GetMapping(value = "/acronym/{acronym}/category/{urlId}")
@@ -84,7 +83,7 @@ public class MicrofrontendEditionController {
     	Category category = virtualEdition.getTaxonomy().getCategoryByUrlId(urlId);
     	
     	if(category != null) {
-    		return new CategoryDto(category);
+    		return new CategoryDto(category, "categoryPage");
     	}
     	
 		return null;

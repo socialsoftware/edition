@@ -1,15 +1,13 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import CircleLoader from "react-spinners/RotateLoader";
 import { getTaxonomyList } from '../../../util/API/EditionAPI';
-import lupaIcon from '../../../resources/assets/lupa.svg'
+import { useTable, useGlobalFilter, useAsyncDebounce } from 'react-table'
 
 const TaxonomyList = (props) => {
 
     const [taxonomyData, setTaxonomyData] = useState(null)
     const [loading, setLoading] = useState(true)
-    const [search, setSearch] = useState("")
-    const inputEl = useRef(null)
 
     useEffect(() => {
         getTaxonomyList(props.acronym)
@@ -53,89 +51,153 @@ const TaxonomyList = (props) => {
             )
         })
     }
-    const mapEditionToTable = () => {
-        return taxonomyData.categorySet.map((category,i) => {
-            if(search==="" || handleSearchFiltering(category)){
-                return(
-                    <tr className="table-body-row-row" key={i}>
-                        <td className="table-body-row">
-                            <Link className="table-body-title"
-                            to={`/edition/acronym/${taxonomyData.acronym}/category/${category.urlId}`}>{category.name}</Link></td>
 
-                        <td className="table-body-row">
-                            {mapSortedUser(category)}
-                        </td>   
-                        <td className="table-body-row">
-                            {mapSortedEditions(category)}
-                        </td>   
-                        <td className="table-body-row">
-                            {mapSortedInters(category)}
-                        </td> 
+    function GlobalFilter({
+        preGlobalFilteredRows,
+        globalFilter,
+        setGlobalFilter,
+      }) {
+        // @ts-ignore
+        const [value, setValue] = React.useState(globalFilter)
+        const onChange = useAsyncDebounce(value => {
+          setGlobalFilter(value || undefined)
+        }, 200)
+      
+        return (
+          <span>
+            <input
+              value={value || ""}
+              onChange={e => {
+                setValue(e.target.value);
+                onChange(e.target.value);
+              }}
+              placeholder={`Search`}
+              className="edition-input-filter"
+            />
+          </span>
+        )
+      }
+
+      function Table({ columns, data }) {
+        const {
+          getTableProps,
+          getTableBodyProps,
+          headerGroups,
+          prepareRow,
+          rows,
+          // @ts-ignore
+          preGlobalFilteredRows,
+          // @ts-ignore
+          setGlobalFilter,
+          state,
+        } = useTable(
+          {
+            columns,
+            data,
+          },
+          useGlobalFilter,
+        )
+      
+        return (
+          <div className="edition-table-div">
+          <GlobalFilter
+                  preGlobalFilteredRows={preGlobalFilteredRows}
+                  // @ts-ignore
+                  globalFilter={state.globalFilter}
+                  setGlobalFilter={setGlobalFilter}
+                />
+           <div className="table-div" style={{marginTop:"80px", borderLeft:"1px solid #ddd"}}>
+            <div className="tableWrap">
+            <table className="table" {...getTableProps()} >
+                <thead >
+                    {headerGroups.map((headerGroup, i) => (
+                    <tr key={i} {...headerGroup.getHeaderGroupProps()} className="table-row">
+                        {headerGroup.headers.map((column, i) => (
+                        <th key={i}
+                            {...column.getHeaderProps()}                        >
+                            {column.render('Header')}
+                        </th>
+                        ))}
                     </tr>
+                    ))}
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                    {rows.map((row, i) => {
+                    prepareRow(row)
+                    return (
+                        <tr key={i} {...row.getRowProps()} className="table-row">
+                        {row.cells.map((cell, i) => {
+                            return (
+                            <td key={i} className={"table-body-row"}
+                                {...cell.getCellProps()}
+                              >
+                                {cell.render('Cell')}
+                            </td>
+                            )
+                        })}
+                        </tr>
                     )
+                    })}
+                </tbody>
+            </table>
+          </div>
+          </div>
+          </div>
+        )
+      }
+
+    const tableColumns = [
+        {
+            Header: `${props.messages.general_category}`,
+            accessor: "name",
+            id: "name",
+            Cell: cellInfo => {
+                return <Link className="table-body-title"
+                to={`/edition/acronym/${taxonomyData.acronym}/category/${cellInfo.row.original.urlId}`}>{cellInfo.row.original.name}</Link>
             }
-            else return null
-            
-        })
-    }
-
-    const getSearchInList = (arr, type) => {
-        if(type === 1){
-            for(let el of arr){
-                if(el["firstName"].toLowerCase().includes(search.toLowerCase()) || el["lastName"].toLowerCase().includes(search.toLowerCase())
-                || el["userName"].toLowerCase().includes(search.toLowerCase())) return true
+        },
+        {
+            Header: `Users`,
+            id: "sortedUser",
+            accessor: "sortedUser",
+            Cell: cellInfo => {
+                return mapSortedUser(cellInfo.row.original)                
             }
-        }
-        else if(type === 2){
-            for(let el of arr){
-                if(el["title"].toLowerCase().includes(search.toLowerCase())) return true
+        },
+        {
+            Header: `Editions`,
+            id: "sortedEditions",
+            accessor: "sortedEditions",
+            Cell: cellInfo => {
+                return mapSortedEditions(cellInfo.row.original)                
             }
-        }
-
-        return false
-    }
-
-    const handleSearchFiltering = (interp) => {
-        if(interp.name?interp.name.toLowerCase().includes(search.toLowerCase()):false) return true
-        else if(interp.sortedUsersList?getSearchInList(interp.sortedUsersList, 1):false) return true
-        else if(interp.sortedIntersList?getSearchInList(interp.sortedIntersList, 2):false) return true
-        else if(interp.sortedEditionsList?getSearchInList(interp.sortedEditionsList, 2):false) return true
-        else return false
-    }
-
-    const handleSearchUpdate = () => {
-        setSearch(inputEl.current.value)
-    }
+        },
+        {
+            Header: `${props.messages.interpretations}`,
+            id: "sortedInters",
+            accessor: "sortedInters",
+            Cell: cellInfo => {
+                return mapSortedInters(cellInfo.row.original)                
+            }
+        },
+    ]
     
     return (
         <div>
             <p className="edition-list-title">{props.messages.general_taxonomy}: {taxonomyData?taxonomyData.title:null}</p>
-            <CircleLoader loading={loading}></CircleLoader>
             <div className={loading?"loading-table":"edition-editionTop"} >
                 <p style={{marginTop:"15px"}}><strong>{props.messages.virtualedition}:</strong> <Link className="table-body-title" style={{color:"#337ab7"}}
                             to={`/edition/acronym/${taxonomyData?taxonomyData.acronym:null}`}>{taxonomyData?taxonomyData.title:null}</Link> </p>
 
                 <p style={{marginTop:"10px"}}><strong>{taxonomyData?taxonomyData.categorySetSize:null} {props.messages.general_categories}:</strong></p>
             </div>
-            <div style={{marginTop:"40px"}} className={loading?"loading-table":"search-container"}>
-                    <input ref={inputEl} className="search" placeholder="Search"></input>
-                    <img src={lupaIcon} alt="lupa" className="search-icon" onClick={() => handleSearchUpdate()}></img>
-            </div>
-            <div style={{marginTop:"10px"}} className={loading?"loading-table":"table-div"}>
-            <table className={loading?"loading-table":"table"} data-pagination="false">
-                <thead>
-                    <tr>
-                        <th>{props.messages.general_category}</th>
-                        <th>Users</th>
-                        <th>Editions</th>
-                        <th>{props.messages.interpretations}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {taxonomyData?mapEditionToTable():null}
-                </tbody>
-            </table>
-        </div>
+            {
+                loading?
+                <CircleLoader loading={true}></CircleLoader>
+                :
+                <Table columns={tableColumns} data={taxonomyData.categorySet} />
+
+            }
         </div>
     )
 }
