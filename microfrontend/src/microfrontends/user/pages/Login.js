@@ -11,36 +11,46 @@ const Login = (props) => {
     const [password, setPassword] = useState('')
 
     //AUTHENTICATION METHODS
-    const handleLogin = (event) => {
-        event.preventDefault()
+    const handleLogin = () => {
+        setErrorDisplay(false)
         const loginRequest = {
             username:emailOrUsername,
             password:password
         }
-        login(loginRequest) //API COMMUNICATION
-            .then(res => {
-                localStorage.setItem(ACCESS_TOKEN, res.data.accessToken)
-                props.onLogin()
-                setErrorDisplay(false)
-                history.push("/")
-            })
-            .catch(error => {
-                setErrorDisplay(true)
-                console.log(error)                               
-            })
+        if(emailOrUsername.length===0 || password.length===0) setErrorDisplay(true)
+        else{
+            login(loginRequest) //API COMMUNICATION
+                .then(res => {
+                    localStorage.setItem(ACCESS_TOKEN, res.data.accessToken)
+                    props.onLogin()
+                    setErrorDisplay(false)
+                    history.push("/")
+                })
+                .catch(error => {
+                    setErrorDisplay(true)
+                    console.log(error)                               
+                })
+        }
+        
     }
     ///
+
+    const handleKeyPress = (event) => {
+        if(event.key === 'Enter'){
+            handleLogin()
+        }
+    }
 
     return (
         <div className="authentication">
             <p hidden={!errorDisplay} className="authentication-error">{props.messages.login_error}</p>
             <p className="authentication-title">{props.messages.header_title}</p>
             <div className="authentication-input-div">
-                <input className="authentication-input-input" onChange={e => setEmailOrUsername(e.target.value)} placeholder={props.messages.login_username}></input>
-                <input className="authentication-input-input" onChange={e => setPassword(e.target.value)} placeholder={props.messages.login_password} type="password"></input>
+                <input className="authentication-input-input" onChange={e => setEmailOrUsername(e.target.value)} placeholder={props.messages.login_username} onKeyPress={e => handleKeyPress(e)}></input>
+                <input className="authentication-input-input" onChange={e => setPassword(e.target.value)} placeholder={props.messages.login_password} onKeyPress={e => handleKeyPress(e)} type="password"></input>
             </div>
             <div className="authentication-O2">
-                <button className="authentication-button" onClick={handleLogin}>{props.messages.general_signin}</button>
+                <button className="authentication-button" onClick={() => handleLogin()}>{props.messages.general_signin}</button>
                 <div className="authentication-button-O2-div">
                     <a href={GOOGLE_AUTH_URL} className="authentication-button-O2-google" >Google</a>
                 </div>

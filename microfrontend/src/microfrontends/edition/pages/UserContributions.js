@@ -4,7 +4,6 @@ import CircleLoader from "react-spinners/RotateLoader";
 import { getUserContributions } from '../../../util/API/EditionAPI';
 import { useTable, useGlobalFilter, useAsyncDebounce } from 'react-table'
 import he from 'he'
-import iconv from 'iconv-lite'
 
 const UserContributions = (props) => {
 
@@ -39,12 +38,12 @@ const UserContributions = (props) => {
         return userData.publicEditionList.map((val, i) => {
             if(i===userData.publicEditionList.length-1){
                 return (
-                    <span key={i}><Link className="edition-participant" to={`/edition/acronym/${val.acronym}`}>{iconv.encode(he.decode(val.title), 'win1252').toString()}</Link></span>
+                    <span key={i}><Link className="edition-participant" to={`/edition/acronym/${val.acronym}`}>{he.decode(val.title)}</Link></span>
                 )
             }
             else{
                 return (
-                    <span key={i}><Link className="edition-participant" to={`/edition/acronym/${val.acronym}`}>{iconv.encode(he.decode(val.title), 'win1252').toString()}</Link>, </span>
+                    <span key={i}><Link className="edition-participant" to={`/edition/acronym/${val.acronym}`}>{he.decode(val.title)}</Link>, </span>
                 )
             }
         })

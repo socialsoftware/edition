@@ -6,7 +6,6 @@ import '../../../resources/css/common/Table.css'
 import '../../../resources/css/common/SearchInput.css'
 import { useTable, useGlobalFilter, useAsyncDebounce } from 'react-table'
 import he from 'he'
-import iconv from 'iconv-lite'
 
 const CategoryList = (props) => {
 
@@ -146,7 +145,7 @@ const CategoryList = (props) => {
             accessor: "editionTitle",
             Cell: cellInfo => {
                 return <Link className="table-body-title"
-                to={`/edition/acronym/${cellInfo.row.original.acronym}`}>{iconv.encode(he.decode(cellInfo.row.original.editionTitle), 'win1252').toString()}</Link>           
+                to={`/edition/acronym/${cellInfo.row.original.acronym}`}>{he.decode(cellInfo.row.original.editionTitle)}</Link>           
             }
         },
         {
@@ -173,7 +172,7 @@ const CategoryList = (props) => {
             <p className="edition-list-title">{props.messages.general_category}: {categoryData?categoryData.name:null}</p>
             <div className={loading?"loading-table":"editionTop"} >
                 <p style={{marginTop:"15px"}}><strong>{props.messages.general_taxonomy}:</strong> <Link className="table-body-title" style={{color:"#337ab7"}}
-                            to={`/edition/acronym/${categoryData?categoryData.acronym:null}/taxonomy`}>{categoryData?iconv.encode(he.decode(categoryData.title), 'win1252').toString():null}</Link> </p>
+                            to={`/edition/acronym/${categoryData?categoryData.acronym:null}/taxonomy`}>{categoryData?he.decode(categoryData.title):null}</Link> </p>
 
                 <p style={{marginTop:"10px"}}><strong>{categoryData?categoryData.size:null} {props.messages.fragments}:</strong></p>
             </div>

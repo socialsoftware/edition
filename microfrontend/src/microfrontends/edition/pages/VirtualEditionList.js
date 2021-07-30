@@ -4,7 +4,6 @@ import CircleLoader from "react-spinners/RotateLoader";
 import { getVirtualEditionList } from '../../../util/API/EditionAPI';
 import { useTable, useGlobalFilter, useAsyncDebounce } from 'react-table'
 import he from 'he'
-import iconv from 'iconv-lite'
 
 const VirtualEditionList = (props) => {
 
@@ -22,8 +21,8 @@ const VirtualEditionList = (props) => {
                     setEditionData(res.data.sortedInterpsList)
                     setListSize(res.data.interpsSize)
                     setParticipant(res.data.participantList)
-                    setSynopsis(iconv.encode(he.decode(res.data.synopsis), 'win1252').toString())
-                    setTitle(iconv.encode(he.decode(res.data.title), 'win1252').toString())
+                    setSynopsis(he.decode(res.data.synopsis))
+                    setTitle(he.decode(res.data.title))
                     
                     setLoading(false)
                 })
