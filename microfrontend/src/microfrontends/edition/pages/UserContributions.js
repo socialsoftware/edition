@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import CircleLoader from "react-spinners/RotateLoader";
 import { getUserContributions } from '../../../util/API/EditionAPI';
-import lupaIcon from '../../../resources/assets/lupa.svg'
+import { useTable, useGlobalFilter, useAsyncDebounce } from 'react-table'
+import he from 'he'
+import iconv from 'iconv-lite'
 
 const UserContributions = (props) => {
 
     const [userData, setUserData] = useState(null)
     const [loading, setLoading] = useState(true)
-    const [search, setSearch] = useState("")
-    const inputEl = useRef(null)
 
     useEffect(() => {
         getUserContributions(props.user)
@@ -34,44 +34,17 @@ const UserContributions = (props) => {
         })
     }
 
-    const mapEditionToTable = () => {
-        return userData.fragInterSet.map((interp,i) => {
-            if(search==="" || handleSearchFiltering(interp)){
-                return(
-                    <tr className="table-body-row-row" key={i}>
-                        <td className="table-body-row">
-                            <Link className="table-body-title"
-                            to={`/fragments/fragment/${interp.xmlId}/inter/${interp.urlId}`}>{interp.title}</Link>
-                        </td>      
-                        <td className="table-body-row">
-                            <Link className="table-body-title"
-                            to={`/edition/acronym/${interp.acronym}`}>{interp.reference}</Link>
-                        </td>                  
-                        
-                        <td className="table-body-row">
-                            {mapCategoryList(interp.categoryList)}
-                        </td>
-                        <td className="table-body-row">
-                            {mapUsed(interp.usedList)}
-                        </td>
-                    </tr>
-                    )
-            }
-            else return null
-            
-        })
-    }
 
     const mapPublicEditionList = () => {
         return userData.publicEditionList.map((val, i) => {
             if(i===userData.publicEditionList.length-1){
                 return (
-                    <span><Link className="edition-participant" key={i} to={`/edition/acronym/${val.acronym}`}>{val.title}</Link></span>
+                    <span key={i}><Link className="edition-participant" to={`/edition/acronym/${val.acronym}`}>{iconv.encode(he.decode(val.title), 'win1252').toString()}</Link></span>
                 )
             }
             else{
                 return (
-                    <span><Link className="edition-participant" key={i} to={`/edition/acronym/${val.acronym}`}>{val.title}</Link>, </span>
+                    <span key={i}><Link className="edition-participant" to={`/edition/acronym/${val.acronym}`}>{iconv.encode(he.decode(val.title), 'win1252').toString()}</Link>, </span>
                 )
             }
         })
@@ -81,49 +54,154 @@ const UserContributions = (props) => {
         return userData.games.map((val, i) => {
             if(i===userData.games.length-1){
                 return (
-                    <span><Link key={i} to={`/virtualeditions/${val.virtualExternalId}/classificationGame/${val.externalId}`} className="edition-participant">{val.virtualTitle} - {val.interTitle}</Link></span>
+                    <span key={i}><Link  to={`/virtualeditions/${val.virtualExternalId}/classificationGame/${val.externalId}`} className="edition-participant">{val.virtualTitle} - {val.interTitle}</Link></span>
                 )
             }
             else{
                 return (
-                    <span><Link key={i} to={`/virtualeditions/${val.virtualExternalId}/classificationGame/${val.externalId}`} className="edition-participant">{val.virtualTitle} - {val.interTitle}</Link>, </span>
+                    <span key={i}><Link  to={`/virtualeditions/${val.virtualExternalId}/classificationGame/${val.externalId}`} className="edition-participant">{val.virtualTitle} - {val.interTitle}</Link>, </span>
                 )
             }
             
         })
     }
 
-    const getSearchInList = (arr, type) => {
-        if(type === 1){
-            for(let el of arr){
-                if(el["name"].toLowerCase().includes(search.toLowerCase())) return true
-            }
-        }
-        if(type === 2){
-            for(let el of arr){
-                if(el["shortName"].toLowerCase().includes(search.toLowerCase())) return true
-            }
-        }
-        return false
-    }
 
-    const handleSearchFiltering = (interp) => {
-        if(interp.title?interp.title.toLowerCase().includes(search.toLowerCase()):false) return true
-        else if(interp.acronym?interp.acronym.toString().toLowerCase().includes(search.toLowerCase()):false) return true
-        else if(interp.categoryList?getSearchInList(interp.categoryList, 1):false) return true
-        else if(interp.usedList?getSearchInList(interp.usedList, 2):false) return true
-        else return false
-    }
+    function GlobalFilter({
+        preGlobalFilteredRows,
+        globalFilter,
+        setGlobalFilter,
+      }) {
+        // @ts-ignore
+        const [value, setValue] = React.useState(globalFilter)
+        const onChange = useAsyncDebounce(value => {
+          setGlobalFilter(value || undefined)
+        }, 200)
+      
+        return (
+          <span>
+            <input
+              value={value || ""}
+              onChange={e => {
+                setValue(e.target.value);
+                onChange(e.target.value);
+              }}
+              placeholder={`Search`}
+              className="edition-input-filter"
+            />
+          </span>
+        )
+      }
 
-    const handleSearchUpdate = () => {
-        setSearch(inputEl.current.value)
-    }
+      function Table({ columns, data }) {
+        const {
+          getTableProps,
+          getTableBodyProps,
+          headerGroups,
+          prepareRow,
+          rows,
+          // @ts-ignore
+          preGlobalFilteredRows,
+          // @ts-ignore
+          setGlobalFilter,
+          state,
+        } = useTable(
+          {
+            columns,
+            data,
+          },
+          useGlobalFilter,
+        )
+      
+        return (
+          <div className="edition-table-div">
+          <GlobalFilter
+                  preGlobalFilteredRows={preGlobalFilteredRows}
+                  // @ts-ignore
+                  globalFilter={state.globalFilter}
+                  setGlobalFilter={setGlobalFilter}
+                />
+           <div className="table-div" style={{marginTop:"80px", borderLeft:"1px solid #ddd"}}>
+            <div className="tableWrap">
+            <table className="table" {...getTableProps()} >
+                <thead >
+                    {headerGroups.map((headerGroup, i) => (
+                    <tr key={i} {...headerGroup.getHeaderGroupProps()} className="table-row">
+                        {headerGroup.headers.map((column, i) => (
+                        <th key={i}
+                            {...column.getHeaderProps()}                        >
+                            {column.render('Header')}
+                        </th>
+                        ))}
+                    </tr>
+                    ))}
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                    {rows.map((row, i) => {
+                    prepareRow(row)
+                    return (
+                        <tr key={i} {...row.getRowProps()} className="table-row">
+                        {row.cells.map((cell, i) => {
+                            return (
+                            <td key={i} className={"table-body-row"}
+                                {...cell.getCellProps()}
+                              >
+                                {cell.render('Cell')}
+                            </td>
+                            )
+                        })}
+                        </tr>
+                    )
+                    })}
+                </tbody>
+            </table>
+          </div>
+          </div>
+          </div>
+        )
+      }
+
+    const tableColumns = [
+        {
+            Header: `${props.messages.tableofcontents_title}`,
+            accessor: "title",
+            id: "title",
+            Cell: cellInfo => {
+                return <Link className="table-body-title"
+                to={`/fragments/fragment/${cellInfo.row.original.xmlId}/inter/${cellInfo.row.original.urlId}`}>{cellInfo.row.original.title}</Link>
+            }
+        },
+        {
+            Header: `${props.messages.general_edition}`,
+            id: "reference",
+            accessor: "reference",
+            Cell: cellInfo => {
+                return <Link className="table-body-title"
+                to={`/edition/acronym/${cellInfo.row.original.acronym}`}>{cellInfo.row.original.reference}</Link>
+            }
+        },
+        {
+            Header: `${props.messages.general_category}`,
+            id: "acronym",
+            accessor: "acronym",
+            Cell: cellInfo => {
+                return mapCategoryList(cellInfo.row.original.categoryList)             
+            }
+        },
+        {
+            Header: `${props.messages.tableofcontents_usesEditions}`,
+            id: "usedList",
+            accessor: "usedList",
+            Cell: cellInfo => {
+                return mapUsed(cellInfo.row.original.usedList)                
+            }
+        },
+    ]
 
     return(
         <div>
             <p className="edition-list-title">{userData?userData.userFirst:null} {userData?userData.userLast:null}  ({userData?userData.username:null})</p>
-            <CircleLoader loading={loading}></CircleLoader>
-            
+                   
             <div className={loading?"loading-table":"edition-editionTop"} >
                 <p style={{marginTop:"15px"}}><strong>{props.messages.header_editions}:</strong> {userData?mapPublicEditionList():null}</p>
                 
@@ -139,26 +217,14 @@ const UserContributions = (props) => {
 
                 <p style={{marginTop:"10px"}}><strong>{userData?userData.fragInterSize:null} {props.messages.fragments}</strong></p>
             </div>
-            <div style={{marginTop:"40px"}} className={loading?"loading-table":"search-container"}>
-                    <input ref={inputEl} className="search" placeholder="Search"></input>
-                    <img src={lupaIcon} alt="lupa" className="search-icon" onClick={() => handleSearchUpdate()}></img>
-            </div>
-            <div style={{marginTop:"10px"}} className={loading?"loading-table":"table-div"}>
-                
-            <table className={loading?"loading-table":"table"} data-pagination="false">
-                <thead>
-                    <tr>
-                        <th>{props.messages.tableofcontents_title}</th>
-                        <th>{props.messages.general_edition}</th>
-                        <th>{props.messages.general_category}</th>
-                        <th>{props.messages.tableofcontents_usesEditions}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {userData?mapEditionToTable():null}
-                </tbody>
-            </table>
-        </div>
+
+            {
+                loading?
+                <CircleLoader loading={true}></CircleLoader>
+                :
+                <Table columns={tableColumns} data={userData.fragInterSet} />
+
+            }
         </div>
     )
 }

@@ -34,6 +34,7 @@ const Manual = (props) => {
     const [tableData, setTableData] = useState(null)
     const [showSearch, setShowSearch] = useState(false)
     const [extId, setExtId] = useState(null)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         var path = location.pathname.split('/')
@@ -44,6 +45,7 @@ const Manual = (props) => {
                     setExtId(path[5])
                     setData(res.data.virtualEdition)
                     setCurrentList(res.data.recommendedEditionInter)
+                    setLoading(false)
                 }
                 
             })
@@ -57,6 +59,14 @@ const Manual = (props) => {
             }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    useEffect(() => {
+        if(showSearch){
+            window.scrollTo(0, 0);
+            document.body.style.overflow = 'hidden';
+        } 
+        else document.body.style.overflow = 'scroll';
+    }, [showSearch])
 
     const searchType = [
         { value: '', label: props.messages.search_complete },
@@ -350,7 +360,13 @@ const Manual = (props) => {
                 </div>
             </div>
             <ReactTooltip backgroundColor="#000" textColor="#fff" border={true} borderColor="#000" className="virtual-tooltip" place="bottom" effect="solid"/>
-            <div className="virtual-editions" style={{marginTop:"120px"}}>
+            {
+                loading?
+                <div style={{marginTop:"250px"}}>
+                    <CircleLoader loading={true}></CircleLoader>
+                </div>
+                :
+                <div className="virtual-editions" style={{marginTop:"120px"}}>
                     <button className="virtual-back-button" onClick={() => history.goBack()}>
                         <LeftArrow></LeftArrow>
                         <p>{props.messages.general_back}</p>
@@ -377,6 +393,8 @@ const Manual = (props) => {
                     </table>
 
                 </div>
+            }
+            
             
         </div>
     )   

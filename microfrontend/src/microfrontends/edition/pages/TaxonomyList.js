@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import CircleLoader from "react-spinners/RotateLoader";
 import { getTaxonomyList } from '../../../util/API/EditionAPI';
 import { useTable, useGlobalFilter, useAsyncDebounce } from 'react-table'
+import he from 'he'
+import iconv from 'iconv-lite'
 
 const TaxonomyList = (props) => {
 
@@ -18,7 +20,7 @@ const TaxonomyList = (props) => {
     }, [props.acronym])
 
     const mapSortedInters = (category) => {
-        return category.sortedIntersList.map((inter, i) => {
+        return category.sortedIntersShortList.map((inter, i) => {
             return (
                 <p className="edition-inter-list-p" key={i}>
                     <Link className="table-body-title"
@@ -29,7 +31,7 @@ const TaxonomyList = (props) => {
     }
 
     const mapSortedUser = (category) => {
-        return category.sortedUsersList.map((user, i) => {
+        return category.sortedUserShortList.map((user, i) => {
             return (
                 <p className="edition-inter-list-p" key={i}>
                     <Link className="table-body-title"
@@ -41,11 +43,11 @@ const TaxonomyList = (props) => {
     }
 
     const mapSortedEditions = (category) => {
-        return category.sortedEditionsList.map((edition, i) => {
+        return category.sortedTitleList.map((title, i) => {
             return (
                 <p className="edition-inter-list-p" key={i}>
                     <Link className="table-body-title"
-                        to={`/edition/acronym/${taxonomyData.acronym}`}> {edition.title}</Link>
+                        to={`/edition/acronym/${taxonomyData.acronym}`}> {iconv.encode(he.decode(title), 'win1252').toString()}</Link>
                 </p>
                  
             )
@@ -184,10 +186,10 @@ const TaxonomyList = (props) => {
     
     return (
         <div>
-            <p className="edition-list-title">{props.messages.general_taxonomy}: {taxonomyData?taxonomyData.title:null}</p>
+            <p className="edition-list-title">{props.messages.general_taxonomy}: {taxonomyData?iconv.encode(he.decode(taxonomyData.title), 'win1252').toString():null}</p>
             <div className={loading?"loading-table":"edition-editionTop"} >
                 <p style={{marginTop:"15px"}}><strong>{props.messages.virtualedition}:</strong> <Link className="table-body-title" style={{color:"#337ab7"}}
-                            to={`/edition/acronym/${taxonomyData?taxonomyData.acronym:null}`}>{taxonomyData?taxonomyData.title:null}</Link> </p>
+                            to={`/edition/acronym/${taxonomyData?taxonomyData.acronym:null}`}>{taxonomyData?iconv.encode(he.decode(taxonomyData.title), 'win1252').toString():null}</Link> </p>
 
                 <p style={{marginTop:"10px"}}><strong>{taxonomyData?taxonomyData.categorySetSize:null} {props.messages.general_categories}:</strong></p>
             </div>

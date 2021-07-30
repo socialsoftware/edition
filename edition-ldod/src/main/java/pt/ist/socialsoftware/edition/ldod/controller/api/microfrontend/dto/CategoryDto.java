@@ -19,6 +19,9 @@ public class CategoryDto {
 	private String externalId;
 	private String normalName;
 	private VirtualTaxonomyDto taxonomyDto;
+	private List<UserShortDto> sortedUserShortList;
+	private List<String> sortedTitleList;
+	private List<FragInterShortDto> sortedIntersShortList;
 	
 	public CategoryDto(Category category, String type) {
 		if(type == "taxonomyPage" || type == "categoryPage") {
@@ -29,14 +32,15 @@ public class CategoryDto {
 			this.setSize(category.getTagSet().size());
 		}
 		if(type == "taxonomyPage") {
-			this.setSortedUsersList(category.getSortedUsers().stream()
-					.map(UserDto::new)
+			this.setSortedUserShortList(category.getSortedUsers().stream()
+					.map(UserShortDto::new)
 					.collect(Collectors.toList()));
-			this.setSortedEditionsList(category.getSortedEditions().stream()
-								.map(vEdition -> new VirtualEditionListDto(vEdition, "shallow"))
+			this.setSortedTitleList(category.getSortedEditions().stream()
+								.map(vEdition -> new String(vEdition.getTitle()))
 								.collect(Collectors.toList()));
-			this.setSortedIntersList(category.getSortedInters().stream()
-								.map(FragInter -> new FragInterDto(FragInter, "shallow"))
+			
+			this.setSortedIntersShortList(category.getSortedInters().stream()
+								.map(FragInter -> new FragInterShortDto(FragInter))
 								.collect(Collectors.toList()));
 		}
 		if(type == "categoryPage") {
@@ -62,15 +66,23 @@ public class CategoryDto {
 		this.setNormalName(category.getName());
 	}
 	
-	public CategoryDto(Category category, VirtualEdition virtualEdition) {
-		this.setAcronym(category.getTaxonomy().getEdition().getAcronym());
-		this.setUrlId(category.getUrlId());
-		this.setName(category.getNameInEditionContext(virtualEdition));
-		this.setSortedIntersList(category.getSortedInters(virtualEdition).stream()
-				.map(FragInter -> new FragInterDto(FragInter, category))
-				.collect(Collectors.toList()));
-		this.setExternalId(category.getExternalId());
-		this.setNormalName(category.getName());
+	public CategoryDto(Category category, VirtualEdition virtualEdition, String type) {
+		if(type == "shallow") {
+			this.setAcronym(category.getTaxonomy().getEdition().getAcronym());
+			this.setUrlId(category.getUrlId());
+			this.setName(category.getNameInEditionContext(virtualEdition));
+		}
+		else {
+			this.setAcronym(category.getTaxonomy().getEdition().getAcronym());
+			this.setUrlId(category.getUrlId());
+			this.setName(category.getNameInEditionContext(virtualEdition));
+			this.setSortedIntersShortList(category.getSortedInters().stream()
+					.map(FragInter -> new FragInterShortDto(FragInter))
+					.collect(Collectors.toList()));
+			this.setExternalId(category.getExternalId());
+			this.setNormalName(category.getName());
+		}
+		
 	}
 	
 	
@@ -82,8 +94,8 @@ public class CategoryDto {
 		this.setName(category.getName());
 		this.setExternalId(category.getExternalId());
 		this.setNormalName(category.getName());
-		this.setSortedIntersList(category.getSortedInters(category.getTaxonomy().getEdition()).stream()
-				.map(FragInter -> new FragInterDto(FragInter, category))
+		this.setSortedIntersShortList(category.getSortedInters().stream()
+				.map(FragInter -> new FragInterShortDto(FragInter))
 				.collect(Collectors.toList()));
 
 	}
@@ -175,5 +187,29 @@ public class CategoryDto {
 
 	public void setTaxonomyDto(VirtualTaxonomyDto taxonomyDto) {
 		this.taxonomyDto = taxonomyDto;
+	}
+
+	public List<UserShortDto> getSortedUserShortList() {
+		return sortedUserShortList;
+	}
+
+	public void setSortedUserShortList(List<UserShortDto> sortedUserShortList) {
+		this.sortedUserShortList = sortedUserShortList;
+	}
+
+	public List<String> getSortedTitleList() {
+		return sortedTitleList;
+	}
+
+	public void setSortedTitleList(List<String> sortedTitleList) {
+		this.sortedTitleList = sortedTitleList;
+	}
+
+	public List<FragInterShortDto> getSortedIntersShortList() {
+		return sortedIntersShortList;
+	}
+
+	public void setSortedIntersShortList(List<FragInterShortDto> sortedIntersShortList) {
+		this.sortedIntersShortList = sortedIntersShortList;
 	}
 }

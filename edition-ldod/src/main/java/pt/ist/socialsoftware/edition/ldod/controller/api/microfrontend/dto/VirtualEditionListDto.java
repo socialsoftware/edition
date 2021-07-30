@@ -1,7 +1,11 @@
 package pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.apache.commons.lang.StringEscapeUtils;
 
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
@@ -29,6 +33,7 @@ public class VirtualEditionListDto {
 			this.setParticipantList(edition.getParticipantList().stream()
 					.map(ParticipantDto::new)
 					.collect(Collectors.toList()));
+			//System.out.println(StringEscapeUtils.unescapeXml(edition.getSynopsis()));
 			this.setSynopsis(edition.getSynopsis());
 			if(edition.getTaxonomy().getCategoriesSet().size() > 0) {
 				this.setAcronym(edition.getAcronym());

@@ -23,14 +23,15 @@ const Category = (props) => {
         getCategoryData(path[5])
             .then(res => {
                 if(mounted){
+                    console.log(res.data);
                     setData(res.data)
                     setNewCategoryName(res.data.name)
                 }
             })
             .catch((err) => {
                 console.log(err);
-                alert("Acesso Negado")
-                history.push("/")
+                //alert("Acesso Negado")
+                //history.push("/")
             })
             return function cleanup() {
                 mounted = false
@@ -65,7 +66,7 @@ const Category = (props) => {
     }
 
     const mapIntersToTable = () => {
-        return data.sortedIntersList.map((inter, i) => {
+        return data.sortedIntersShortList.map((inter, i) => {
             return <tr key={i}>
                 <td>
                     <Link className="virtual-link" to={`/virtual/virtualeditions/restricted/fraginter/${inter.externalId}`}>{inter.title}</Link>
@@ -86,7 +87,7 @@ const Category = (props) => {
     }
 
     const mapIntersToExtract = () => {
-        return data.sortedIntersList.map((inter, i) => {
+        return data.sortedIntersShortList.map((inter, i) => {
             return (
                 <tr key={i}>
                     <td>{inter.title}</td>
@@ -183,7 +184,7 @@ const Category = (props) => {
                                     <p style={{color:"red"}}>Erro a alterar nome de categoria (Repetido)</p>
                                 :null
                             }
-                            <input className="form-control input-search" style={{padding:"0 12px", width:"145px"}}
+                            <input className="virtual-input-input" style={{padding:"0 12px", width:"145px"}}
                                     placeholder={props.messages.general_name}
                                     value={newCategoryName}
                                     onChange={e => setNewCategoryName(e.target.value)}>

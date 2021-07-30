@@ -112,10 +112,19 @@ const Fragment_DISPATCHER = (props) => {
             
         }
         else{
-            getFragmentWithXmlAndUrl(xmlId, urlId, props.selectedVEAcr)
+            if(props.isAuthenticated){
+                getFragmentWithXmlAndUrl(xmlId, urlId, props.selectedVEAcr)
                 .then(res => {
                     dataHandler(res.data)
                 })
+            }
+            else{
+                getFragmentWithXmlAndUrlNoUser(xmlId, urlId, props.selectedVEAcr)
+                    .then(res => {
+                        dataHandler(res.data)
+                    })
+            }
+            
         }      
     }
 

@@ -5,6 +5,7 @@ import {ReactComponent as Person} from '../../../resources/assets/person-fill.sv
 import {ReactComponent as Rotate} from '../../../resources/assets/arrow-repeat.svg'
 import { getParticipantsPage, addNewMember, removeMember, changeRole, approveMember } from '../../../util/API/VirtualAPI'
 import plus from '../../../resources/assets/plus_white.png'
+import he from 'he'
 
 const Participants = (props) => {
 
@@ -166,7 +167,7 @@ const Participants = (props) => {
             </button>
 
             <span className="virtual-body-title">
-                <p>{data?data.title:null}</p>
+                <p>{data?he.decode(data.title):null}</p>
             </span>
             {
                 addError?

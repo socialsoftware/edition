@@ -11,6 +11,8 @@ import {Collapse} from 'react-collapse';
 import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import CircleLoader from "react-spinners/RotateLoader";
+import he from 'he'
+import iconv from 'iconv-lite'
 
 
 const Editions = (props) => {
@@ -88,8 +90,6 @@ const Editions = (props) => {
                         }
                         setLoading(false)
                         setEditionOptions(arrayAux)
-                        console.log(res.data.virtualEditions);
-
                         organizeList(res.data.virtualEditions)
                     }
                     
@@ -211,7 +211,7 @@ const Editions = (props) => {
                             <p>{edition.acronym}</p>
                         </td>
                         <td style={{textAlign:"left"}} >
-                            <Link className="virtual-link" to={`/edition/acronym/${edition.acronym}`}>{edition.title}</Link>
+                            <Link className="virtual-link" to={`/edition/acronym/${edition.acronym}`}>{iconv.encode(he.decode(edition.title), 'win1252').toString()}</Link>
                         </td>
                         <td style={{textAlign:"center"}}>
                             <p>{edition.date}</p>

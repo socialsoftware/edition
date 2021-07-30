@@ -8,6 +8,7 @@ import {ReactComponent as Wrench} from '../../../resources/assets/wrench.svg'
 import plus from '../../../resources/assets/plus_white.png'
 import Select from 'react-select'
 import CircleLoader from "react-spinners/RotateLoader";
+import he from 'he'
 
 const Taxonomy = (props) => {
 
@@ -92,7 +93,6 @@ const Taxonomy = (props) => {
                 })
             }
         }
-        
     }
 
     const addSelected = (val) => {
@@ -106,7 +106,7 @@ const Taxonomy = (props) => {
     }
 
     const mapIntersToTable = (category) => {
-        return category.sortedIntersList.map((inter, i) => {
+        return category.sortedIntersShortList.map((inter, i) => {
             return (
                 <p key={i} style={{minWidth:"250px"}}>
                     <Link className="virtual-link" to={`/virtual/virtualeditions/restricted/fraginter/${inter.externalId}`}>{inter.title}</Link>
@@ -329,7 +329,7 @@ const Taxonomy = (props) => {
                 <p>{props.messages.general_back}</p>
             </button>
             <span className="virtual-body-title">
-                <p>{data?data.title:null} - {props.messages.general_taxonomy}</p>
+                <p>{data?he.decode(data.title):null} - {props.messages.general_taxonomy}</p>
             </span>
             <div style={{display:"flex", width:"100%", justifyContent:"flex-end"}}>
                 <div className="virtual-taxonomy-public">

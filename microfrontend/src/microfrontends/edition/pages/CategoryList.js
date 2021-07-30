@@ -1,21 +1,22 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import CircleLoader from "react-spinners/RotateLoader";
 import { getCategoryList } from '../../../util/API/EditionAPI';
-import lupaIcon from '../../../resources/assets/lupa.svg'
 import '../../../resources/css/common/Table.css'
 import '../../../resources/css/common/SearchInput.css'
+import { useTable, useGlobalFilter, useAsyncDebounce } from 'react-table'
+import he from 'he'
+import iconv from 'iconv-lite'
 
 const CategoryList = (props) => {
 
     const [categoryData, setCategoryData] = useState(null)
-    const [loading, setLoading] = useState(false)
-    const [search, setSearch] = useState("")
-    const inputEl = useRef(null)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         getCategoryList(props.acronym, props.category)
             .then(res => {
+                console.log(res.data);
                 setCategoryData(res.data)
                 setLoading(false)
             })
@@ -34,91 +35,156 @@ const CategoryList = (props) => {
         })
     }
 
-    const mapEditionToTable = () => {
-        return categoryData.sortedIntersList.map((interp,i) => {
-            if(search==="" || handleSearchFiltering(interp)){
-                return(
-                    <tr className="table-body-row-row" key={i}>
-                        <td className="table-body-row">
-                            {<Link className="table-body-title"
-                            to={`/fragments/fragment/${interp.xmlId}/category/${interp.urlId}`}>{interp.title}</Link>}
-                        </td>
 
-                        <td className="table-body-row">
-                            {<Link className="table-body-title"
-                            to={`/edition/acronym/${interp.acronym}`}>{interp.editionTitle}</Link>}
-                        </td>
+    function GlobalFilter({
+        preGlobalFilteredRows,
+        globalFilter,
+        setGlobalFilter,
+      }) {
+        // @ts-ignore
+        const [value, setValue] = React.useState(globalFilter)
+        const onChange = useAsyncDebounce(value => {
+          setGlobalFilter(value || undefined)
+        }, 200)
+      
+        return (
+          <span>
+            <input
+              value={value || ""}
+              onChange={e => {
+                setValue(e.target.value);
+                onChange(e.target.value);
+              }}
+              placeholder={`Search`}
+              className="edition-input-filter"
+            />
+          </span>
+        )
+      }
 
-                        <td className="table-body-row">
-                            {mapUsers(interp.userDtoList)}
-                        </td>
-
-                        <td className="table-body-row">
-                            {mapUsed(interp.usedList)}
-                        </td> 
+      function Table({ columns, data }) {
+        const {
+          getTableProps,
+          getTableBodyProps,
+          headerGroups,
+          prepareRow,
+          rows,
+          // @ts-ignore
+          preGlobalFilteredRows,
+          // @ts-ignore
+          setGlobalFilter,
+          state,
+        } = useTable(
+          {
+            columns,
+            data,
+          },
+          useGlobalFilter,
+        )
+      
+        return (
+          <div className="edition-table-div">
+          <GlobalFilter
+                  preGlobalFilteredRows={preGlobalFilteredRows}
+                  // @ts-ignore
+                  globalFilter={state.globalFilter}
+                  setGlobalFilter={setGlobalFilter}
+                />
+           <div className="table-div" style={{marginTop:"80px", borderLeft:"1px solid #ddd"}}>
+            <div className="tableWrap">
+            <table className="table" {...getTableProps()} >
+                <thead >
+                    {headerGroups.map((headerGroup, i) => (
+                    <tr key={i} {...headerGroup.getHeaderGroupProps()} className="table-row">
+                        {headerGroup.headers.map((column, i) => (
+                        <th key={i}
+                            {...column.getHeaderProps()}                        >
+                            {column.render('Header')}
+                        </th>
+                        ))}
                     </tr>
+                    ))}
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                    {rows.map((row, i) => {
+                    prepareRow(row)
+                    return (
+                        <tr key={i} {...row.getRowProps()} className="table-row">
+                        {row.cells.map((cell, i) => {
+                            return (
+                            <td key={i} className={"table-body-row"}
+                                {...cell.getCellProps()}
+                              >
+                                {cell.render('Cell')}
+                            </td>
+                            )
+                        })}
+                        </tr>
                     )
-            }
-            else return null
-        })
-    }
+                    })}
+                </tbody>
+            </table>
+          </div>
+          </div>
+          </div>
+        )
+      }
 
-    const getSearchInList = (arr, type) => {
-        if(type === 1){
-            for(let el of arr){
-                if(el["firstName"].toLowerCase().includes(search.toLowerCase()) || el["lastName"].toLowerCase().includes(search.toLowerCase())
-                || el["userName"].toLowerCase().includes(search.toLowerCase())) return true
+    const tableColumns = [
+        {
+            Header: `${props.messages.tableofcontents_title}`,
+            accessor: "title",
+            id: "title",
+            Cell: cellInfo => {
+                return <Link className="table-body-title"
+                to={`/fragments/fragment/${cellInfo.row.original.xmlId}/category/${cellInfo.row.original.urlId}`}>{cellInfo.row.original.title}</Link>
             }
-        }
-        else if(type === 2){
-            for(let el of arr){
-                if(el["shortName"].toLowerCase().includes(search.toLowerCase())) return true
+        },
+        {
+            Header: `${props.messages.virtualedition}`,
+            id: "editionTitle",
+            accessor: "editionTitle",
+            Cell: cellInfo => {
+                return <Link className="table-body-title"
+                to={`/edition/acronym/${cellInfo.row.original.acronym}`}>{iconv.encode(he.decode(cellInfo.row.original.editionTitle), 'win1252').toString()}</Link>           
             }
-        }
-        return false
-    }
-
-    const handleSearchFiltering = (interp) => {
-        if(interp.title?interp.title.toLowerCase().includes(search.toLowerCase()):false) return true
-        else if(interp.editionTitle?interp.editionTitle.toString().toLowerCase().includes(search.toLowerCase()):false) return true
-        else if(interp.userDtoList?getSearchInList(interp.userDtoList, 1):false) return true
-        else if(interp.usedList?getSearchInList(interp.usedList, 2):false) return true
-        else return false
-    }
-
-    const handleSearchUpdate = () => {
-        setSearch(inputEl.current.value)
-    }
+        },
+        {
+            Header: `${props.messages.user_user}`,
+            id: "acronym",
+            accessor: "acronym",
+            Cell: cellInfo => {
+                return mapUsers(cellInfo.row.original.userDtoList)                
+            }
+        },
+        {
+            Header: `${props.messages.tableofcontents_usesEditions}`,
+            id: "usedList",
+            accessor: "usedList",
+            Cell: cellInfo => {
+                return mapUsed(cellInfo.row.original.usedList)                
+            }
+        },
+    ]
+    
     
     return (
         <div>
             <p className="edition-list-title">{props.messages.general_category}: {categoryData?categoryData.name:null}</p>
-            <CircleLoader loading={loading}></CircleLoader>
             <div className={loading?"loading-table":"editionTop"} >
                 <p style={{marginTop:"15px"}}><strong>{props.messages.general_taxonomy}:</strong> <Link className="table-body-title" style={{color:"#337ab7"}}
-                            to={`/edition/acronym/${categoryData?categoryData.acronym:null}/taxonomy`}>{categoryData?categoryData.title:null}</Link> </p>
+                            to={`/edition/acronym/${categoryData?categoryData.acronym:null}/taxonomy`}>{categoryData?iconv.encode(he.decode(categoryData.title), 'win1252').toString():null}</Link> </p>
 
                 <p style={{marginTop:"10px"}}><strong>{categoryData?categoryData.size:null} {props.messages.fragments}:</strong></p>
             </div>
-            <div style={{marginTop:"40px"}} className={loading?"loading-table":"search-container"}>
-                    <input ref={inputEl} className="search" placeholder="Search"></input>
-                    <img src={lupaIcon} alt="lupa" className="search-icon" onClick={() => handleSearchUpdate()}></img>
-            </div>
-            <div style={{marginTop:"10px"}} className={loading?"loading-table":"table-div"}>
-            <table className={loading?"loading-table":"table"} data-pagination="false">
-                <thead>
-                    <tr>
-                        <th>{props.messages.tableofcontents_title}</th>
-                        <th>{props.messages.virtualedition}</th>
-                        <th>{props.messages.user_user}</th>
-                        <th>{props.messages.tableofcontents_usesEditions}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {categoryData?mapEditionToTable():null}
-                </tbody>
-            </table>
-        </div>
+
+            {
+                loading?
+                <CircleLoader loading={true}></CircleLoader>
+                :
+                <Table columns={tableColumns} data={categoryData.sortedIntersList} />
+
+            }
         </div>
     )
 }

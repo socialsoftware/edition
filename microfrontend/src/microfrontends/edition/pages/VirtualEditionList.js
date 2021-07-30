@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import CircleLoader from "react-spinners/RotateLoader";
 import { getVirtualEditionList } from '../../../util/API/EditionAPI';
 import { useTable, useGlobalFilter, useAsyncDebounce } from 'react-table'
-
+import he from 'he'
+import iconv from 'iconv-lite'
 
 const VirtualEditionList = (props) => {
 
@@ -19,11 +20,11 @@ const VirtualEditionList = (props) => {
             getVirtualEditionList(props.acronym)
                 .then(res => {
                     setEditionData(res.data.sortedInterpsList)
-                    if(props.acronym === "LdoD-Arquivo")setTitle("Edição do Arquivo LdoD")
-                    else setTitle(res.data.title)
                     setListSize(res.data.interpsSize)
                     setParticipant(res.data.participantList)
-                    setSynopsis(res.data.synopsis)
+                    setSynopsis(iconv.encode(he.decode(res.data.synopsis), 'win1252').toString())
+                    setTitle(iconv.encode(he.decode(res.data.title), 'win1252').toString())
+                    
                     setLoading(false)
                 })
         }
@@ -194,7 +195,6 @@ const VirtualEditionList = (props) => {
         },
     ]
 
-
     return (
         <div>
             <p className="edition-list-title">{props.messages.virtualedition}: {title}<span> {`(${listSize})`}</span></p>
@@ -203,7 +203,7 @@ const VirtualEditionList = (props) => {
             
             <div className={loading?"loading-table":"edition-editionTop"} >
                 {participant?<div><strong>{props.messages.general_editors}:</strong> <span>{getParticipanList()}</span></div>:null}
-                <p style={{marginTop:"15px"}}><strong>{props.messages.virtualedition_synopsis}:</strong> {synopsis}</p>
+                <span style={{marginTop:"15px"}}><strong>{props.messages.virtualedition_synopsis}:</strong> <span style={{lineHeight:"1.42857143"}}>{synopsis}</span></span>
                 <p style={{marginTop:"15px"}}><strong>{props.messages.general_taxonomy}:</strong> <Link className="table-body-title" style={{color:"#337ab7"}}
                             to={`/edition/acronym/${props.acronym}/taxonomy/`}>{title}</Link></p>
                 <p style={{marginTop:"15px"}}><strong>{listSize} {props.messages.fragments}</strong></p>

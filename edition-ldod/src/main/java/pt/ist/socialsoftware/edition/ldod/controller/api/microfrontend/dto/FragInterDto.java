@@ -112,7 +112,7 @@ public class FragInterDto {
 		
 		if(fragInter instanceof VirtualEditionInter) {
 			this.setCategoryList(((VirtualEditionInter) fragInter).getAssignedCategories().stream()
-					.map(category -> new CategoryDto(category, (VirtualEdition) fragInter.getEdition()))
+					.map(category -> new CategoryDto(category, (VirtualEdition) fragInter.getEdition(), "deep"))
 					.collect(Collectors.toList()));
 			
 			
@@ -169,7 +169,7 @@ public class FragInterDto {
 		
 		
 		this.setCategoryList(((VirtualEditionInter) fragInter).getAssignedCategories(user).stream()
-				.map(category -> new CategoryDto(category, (VirtualEdition) fragInter.getEdition()))
+				.map(category -> new CategoryDto(category, (VirtualEdition) fragInter.getEdition(), "shallow"))
 				.collect(Collectors.toList()));
 		
 		this.setUsedList(fragInter.getListUsed().stream()
@@ -268,6 +268,7 @@ public class FragInterDto {
 			if(fragInter.getTitle() != null) {
 				this.setTitle(fragInter.getTitle());
 			}
+			this.setExternalId(fragInter.getExternalId());
 		}
 		
 	}

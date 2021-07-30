@@ -30,7 +30,7 @@ public class TaxoDto {
 		this.setCanManipulate(vEdition.getTaxonomy().canManipulateTaxonomy(user));
 		this.setExternalId(vEdition.getTaxonomy().getExternalId());
 		this.setCategorySet(vEdition.getTaxonomy().getSortedCategories().stream()
-				.map(category -> new CategoryDto(category, vEdition))
+				.map(category -> new CategoryDto(category, vEdition, "deep"))
 				.collect(Collectors.toList()));
 	}
 

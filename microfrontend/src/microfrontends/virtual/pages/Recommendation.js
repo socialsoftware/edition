@@ -3,6 +3,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom'
 import {ReactComponent as LeftArrow} from '../../../resources/assets/caret-left-fill.svg'
 import {ReactComponent as Check} from '../../../resources/assets/check.svg'
 import {ReactComponent as Save} from '../../../resources/assets/floppy-disk.svg'
+import CircleLoader from "react-spinners/RotateLoader";
 
 import { getRecommendationPage, setCriteriaChange, saveNewInters } from '../../../util/API/VirtualAPI'
 
@@ -18,7 +19,8 @@ const Recommendation = (props) => {
     const [edition, setEdition] = useState(null)
     const [currentEdition, setCurrentEdition] = useState(null)
     const [interId, setInterId] = useState(null)
-    
+    const [loading, setLoading] = useState(true)
+
     useEffect(() => {
         var path = location.pathname.split('/')
         let mounted = true
@@ -31,6 +33,7 @@ const Recommendation = (props) => {
                         setCurrentEdition(res.data.recommendedEditionInter)
                     } 
                     if(res.data.interId) setInterId(res.data.interId)
+                    setLoading(false)
                 }
                 
             })
@@ -182,24 +185,30 @@ const Recommendation = (props) => {
                     <span style={{fontSize:"13px"}}>{props.messages.general_save}</span>
                 </span>
             </div>
-
-            <table className="virtual-participation-table">
-                <thead>
-                    <tr>
-                        <th>{props.messages.tableofcontents_number}</th>
-                        <th>{props.messages.tableofcontents_title}</th>
-                        <th></th>
-                        <th>{props.messages.tableofcontents_usesEditions}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        currentEdition?
-                            mapEditionToTable()
-                        :null
-                    }
-                </tbody>
-            </table>
+            {
+                loading?
+                <div style={{marginTop:"100px"}}>
+                    <CircleLoader loading={true}></CircleLoader>
+                </div>:
+                <table className="virtual-participation-table">
+                    <thead>
+                        <tr>
+                            <th>{props.messages.tableofcontents_number}</th>
+                            <th>{props.messages.tableofcontents_title}</th>
+                            <th></th>
+                            <th>{props.messages.tableofcontents_usesEditions}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            currentEdition?
+                                mapEditionToTable()
+                            :null
+                        }
+                    </tbody>
+                </table>
+            }
+            
 
         </div>
     )

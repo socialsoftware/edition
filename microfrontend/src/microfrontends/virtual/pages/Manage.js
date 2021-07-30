@@ -16,6 +16,7 @@ import ReactTooltip from 'react-tooltip'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {Collapse} from 'react-collapse';
+import he from 'he'
 
 const Manage = (props) => {
 
@@ -249,7 +250,7 @@ const Manage = (props) => {
         <div className="virtual-editions">
             
             <span className="virtual-body-title" style={{display:"flex"}}>
-                <p >{data?data.title:null}</p>
+                <p >{data?he.decode(data.title):null}</p>
                 {
                     data?data.admin?
                     <Pencil onClick={() => setCollapse(!collapse)} className="virtual-pencil"></Pencil>
