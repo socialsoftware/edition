@@ -81,7 +81,7 @@ public class FragmentDto {
                 .uri("/fragment/" + getXmlId() + "/sortedSourceInter")
                 .retrieve()
                 .bodyToFlux(ScholarInterDto.class)
-                .collectSortedList()
+                .collectList()
                 .block();
         //   return this.textProvidesInterface.getFragmentSortedSourceInter(this.xmlId);
     }
