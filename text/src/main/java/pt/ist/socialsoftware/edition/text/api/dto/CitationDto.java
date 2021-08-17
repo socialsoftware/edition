@@ -29,10 +29,6 @@ public class CitationDto {
        this.hasNoInfoRange = citation.getInfoRangeSet().isEmpty();
     }
 
-    public CitationDto() {
-        super();
-    }
-
     public long getId() {
         return id;
     }

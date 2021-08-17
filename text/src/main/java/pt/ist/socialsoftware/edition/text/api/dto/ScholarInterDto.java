@@ -107,10 +107,6 @@ public class ScholarInterDto {
 
     }
 
-    public ScholarInterDto() {
-        super();
-    }
-
     public String getAcronym() {
         return acronym;
     }

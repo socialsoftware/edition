@@ -32,10 +32,6 @@ public class FragScholarInterDto {
         setExternalId(uses.getExternalId());
     }
 
-    public FragScholarInterDto() {
-        super();
-    }
-
     public InterType getType() {
         return this.type;
     }

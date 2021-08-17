@@ -29,8 +29,6 @@ public class FragmentDto {
         this.externalId = fragment.getExternalId();
     }
 
-    public FragmentDto() { super(); }
-
     public String getXmlId() {
         return this.xmlId;
     }
@@ -61,17 +59,6 @@ public class FragmentDto {
     }
 
 
-//    public Set<ScholarInterDto> getEmbeddedScholarInterDtoSetForExpertEdition(String acronym) {
-//        return this.embeddedScholarInterDtos.stream()
-//                .filter(scholarInterDto -> scholarInterDto.getAcronym().equals(acronym)).collect(Collectors.toSet());
-//    }
-//
-//
-//    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-//    public List<ScholarInterDto> getEmbeddedSourceInter() {
-//        return this.embeddedScholarInterDtos.stream()
-//                .filter(scholarInterDto -> scholarInterDto.isSourceInter()).collect(Collectors.toList());
-//    }
 
 
     // Only necessary due to manual ordering of virtual edition javascript code

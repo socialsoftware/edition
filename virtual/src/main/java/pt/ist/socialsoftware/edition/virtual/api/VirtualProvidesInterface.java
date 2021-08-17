@@ -615,6 +615,7 @@ public class VirtualProvidesInterface {
                     Arrays.stream(inters).map(externalId -> (VirtualEditionInter) FenixFramework.getDomainObject(externalId)).collect(Collectors.toList());
 
             virtualEdition.save(virtualEditionInters);
+            virtualEditionMap.replace(acronym, virtualEdition.getExternalId());
         }
     }
 
@@ -666,7 +667,7 @@ public class VirtualProvidesInterface {
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<String> getVirtualEditionParticipantSet(@PathVariable("acronym") String acronym) {
         System.out.println("getVirtualEditionParticipantSet: " + acronym);
-        cleanVirtualEditionMapCache();
+//        cleanVirtualEditionMapCache();
         return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.getParticipantSet()).orElse(new HashSet<>());
     }
 
@@ -1042,6 +1043,9 @@ public class VirtualProvidesInterface {
         System.out.println("removeVirtualEditionByExternalId: " + externalId);
         DomainObject virtualEdition = FenixFramework.getDomainObject(externalId);
         if (virtualEdition instanceof VirtualEdition) {
+            virtualEditionMap.clear();
+            virtualEditionInterMapByXmlId.clear();
+            virtualEditionInterMapByUrlId.clear();
             ((VirtualEdition) virtualEdition).remove();
         }
     }
@@ -1663,6 +1667,9 @@ public class VirtualProvidesInterface {
     public void removeVirtualEditionInter(@PathVariable("externalId") String externalId) {
         DomainObject inter = FenixFramework.getDomainObject(externalId);
         if (inter instanceof VirtualEditionInter) {
+            cleanVirtualEditionMapCache();
+            virtualEditionInterMapByXmlId.clear();
+            virtualEditionInterMapByUrlId.clear();
             ((VirtualEditionInter) inter).remove();
         }
     }

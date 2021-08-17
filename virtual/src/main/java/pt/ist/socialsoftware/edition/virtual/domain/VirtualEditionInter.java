@@ -467,7 +467,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base implements Com
 
     @Override
     public String getFragmentXmlId() {
-        return super.getFragmentXmlId() != null ? super.getFragmentXmlId() : getUses().getFragmentXmlId();
+        return super.getFragmentXmlId() != null ? super.getFragmentXmlId() : getUses() != null ? getUses().getFragmentXmlId() : getScholarInterXmlId();
     }
 
 

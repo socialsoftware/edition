@@ -23,10 +23,6 @@ public class ExpertEditionInterListDto {
         this.numberOfInters = expertEdition.getIntersSet().size();
     }
 
-    public ExpertEditionInterListDto() {
-        super();
-    }
-
     public String getTitle() {
         return this.title;
     }

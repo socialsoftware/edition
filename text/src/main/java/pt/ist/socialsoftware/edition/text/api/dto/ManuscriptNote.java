@@ -22,12 +22,6 @@ public class ManuscriptNote {
         this.note = typeNote.getNote();
     }
 
-    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public ManuscriptNote(@JsonProperty("medium") ManuscriptSource.Medium medium, @JsonProperty("note") String note) {
-        this.medium = medium;
-        this.note = note;
-    }
-
     public ManuscriptSource.Medium getMedium() {
         return this.medium;
     }

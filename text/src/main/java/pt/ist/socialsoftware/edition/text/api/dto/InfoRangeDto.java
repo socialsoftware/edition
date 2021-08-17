@@ -24,10 +24,6 @@ public class InfoRangeDto {
         this.endOffset = infoRange.getEndOffset();
     }
 
-    public InfoRangeDto() {
-        super();
-    }
-
     public String getExternalId() {
         return externalId;
     }

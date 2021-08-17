@@ -26,11 +26,6 @@ public class ExpertEditionDto {
         this.title = expertEdition.getTitle();
     }
 
-    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public ExpertEditionDto(@JsonProperty("acronym") String acronym) {
-        this.acronym = acronym;
-    }
-
     public String getAcronym() {
         return this.acronym;
     }
