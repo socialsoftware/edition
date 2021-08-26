@@ -18,6 +18,9 @@
 		</encoder>
 	</appender>
  -->
+	<logger name="reactor" level="INFO">
+		<appender-ref ref="STDOUT" />
+	</logger>
 	<logger name='org.springframework'>
 		<level value='INFO' />
 	</logger>
