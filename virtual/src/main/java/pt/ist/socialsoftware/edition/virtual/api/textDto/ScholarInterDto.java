@@ -106,7 +106,7 @@ public class ScholarInterDto {
                 .uri( "/heteronym/scholarInter/" + this.xmlId)
                 .retrieve()
                 .bodyToMono(HeteronymDto.class)
-                .block();
+                .blockOptional().orElse(null);
         //    return this.textProvidesInterface.getScholarInterHeteronym(this.xmlId);
     }
 
@@ -155,7 +155,7 @@ public class ScholarInterDto {
                 .uri("/expertEdition/" + this.xmlId + "/acronym")
                 .retrieve()
                 .bodyToMono(String.class)
-                .blockOptional().get();
+                .blockOptional().orElse("");
         //  return this.textProvidesInterface.getExpertEditionAcronym(this.xmlId);
     }
 
@@ -167,7 +167,7 @@ public class ScholarInterDto {
                 .uri("/scholarEdition/" + this.xmlId + "/citednumber")
                 .retrieve()
                 .bodyToMono(Integer.class)
-                .blockOptional().get();
+                .blockOptional().orElse(0);
         //return this.textProvidesInterface.getNumberOfTimesCited(this.xmlId);
     }
 
@@ -179,7 +179,7 @@ public class ScholarInterDto {
                 .uri("/scholarEdition/" + this.xmlId + "/citednumberPlusretweets")
                 .retrieve()
                 .bodyToMono(Integer.class)
-                .blockOptional().get();
+                .blockOptional().orElse(0);
         //    return this.textProvidesInterface.getNumberOfTimesCitedIncludingRetweets(this.xmlId);
     }
 

@@ -40,15 +40,14 @@ public class GameRequiresInterface implements SubscribeInterface {
     @JmsListener(id = "1", containerFactory = "jmsListenerContainerFactory", destination = "test-topic")
     public void listener(Event message){
         this.notify(message);
-        //        EventInterface.getInstance().publish(message);
     }
 
     protected GameRequiresInterface() {
-//        EventInterface.getInstance().subscribe(this);
     }
 
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void notify(Event event) {
+
         if (event.getType().equals(Event.EventType.USER_REMOVE)) {
             String username = event.getIdentifier();
 

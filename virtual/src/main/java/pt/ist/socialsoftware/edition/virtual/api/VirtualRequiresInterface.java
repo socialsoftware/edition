@@ -44,14 +44,12 @@ public class VirtualRequiresInterface implements SubscribeInterface {
     }
 
     protected VirtualRequiresInterface() {
-//        EventInterface.getInstance().subscribe(this);
     }
 
 
     @JmsListener(id = "2", containerFactory = "jmsListenerContainerFactory", destination = "test-topic")
     public void listener(Event message){
         this.notify(message);
-        //        EventInterface.getInstance().publish(message);
     }
 
 
@@ -71,7 +69,6 @@ public class VirtualRequiresInterface implements SubscribeInterface {
         } else if (event.getType().equals(Event.EventType.USER_REMOVE)) {
             String username = event.getIdentifier();
             VirtualModule virtualModule = VirtualModule.getInstance();
-
             virtualModule.getVirtualEditionsSet().stream().flatMap(virtualEdition -> virtualEdition.getMemberSet().stream())
                     .filter(member -> member.getUser().equals(username))
                     .forEach(member -> member.remove());
