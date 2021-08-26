@@ -42,7 +42,7 @@ public class UserProvidesInterface {
     @GetMapping("/user")
     @Atomic(mode = Atomic.TxMode.READ)
     public UserDto getUser(@RequestParam(name = "username") String username) {
-        System.out.println("getUser: " + username);
+        logger.debug("getUser: " + username);
         //new UserModule();
         User user = UserModule.getInstance().getUser(username);
 
@@ -52,7 +52,7 @@ public class UserProvidesInterface {
     @GetMapping("/registrationToken/{token}")
     @Atomic(mode = Atomic.TxMode.READ)
     public RegistrationTokenDto getRegistrationToken(@PathVariable("token") String token) {
-        System.out.println("getRegistrationToken: " + token);
+        logger.debug("getRegistrationToken: " + token);
         RegistrationToken registrationToken = UserModule.getInstance().getTokenSet(token);
         return registrationToken != null ? new RegistrationTokenDto(registrationToken) : null;
     }
@@ -60,77 +60,77 @@ public class UserProvidesInterface {
     @GetMapping("/user/{username}/first")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getFirstName(@PathVariable("username") String username) {
-        System.out.println("getFirstName:" + username);
+        logger.debug("getFirstName:" + username);
         return getUserByUsername(username).orElse(null).getFirstName();
     }
 
     @GetMapping("/user/{username}/last")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getLastName(@PathVariable("username") String username) {
-        System.out.println("getLastName: " + username);
+        logger.debug("getLastName: " + username);
         return getUserByUsername(username).orElse(null).getLastName();
     }
 
     @GetMapping("/user/{username}/isEnabled")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean isEnabled(@PathVariable("username") String username) {
-        System.out.println("isEnabled: " + username);
+        logger.debug("isEnabled: " + username);
         return getUserByUsername(username).orElse(null).getEnabled();
     }
 
     @GetMapping("/user/{username}/isActive")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean isActive(@PathVariable("username") String username) {
-        System.out.println("isActive: " + username);
+        logger.debug("isActive: " + username);
         return getUserByUsername(username).orElse(null).getActive();
     }
 
     @PostMapping("/user/{username}/enabled")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void setUserEnabled(@PathVariable("username") String username, @RequestParam(name = "enabled") boolean enabled) {
-        System.out.println("setUserEnabled: " + username + ", " + enabled);
+        logger.debug("setUserEnabled: " + username + ", " + enabled);
         getUserByUsername(username).orElse(null).setEnabled(enabled);
     }
 
     @PostMapping("/user/{username}/addRoles")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void addRolesToUser(@PathVariable("username") String username, @RequestParam(name = "roleUser") Role.RoleType roleUser) {
-        System.out.println("addRolesToUser:" + username + ", " + roleUser);
+        logger.debug("addRolesToUser:" + username + ", " + roleUser);
         getUserByUsername(username).orElse(null).addRoles(Role.getRole(roleUser));
     }
 
     @GetMapping("/user/{username}/email")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getEmail(@PathVariable("username") String username) {
-        System.out.println("getEmail: " + username);
+        logger.debug("getEmail: " + username);
         return getUserByUsername(username).orElse(null).getEmail();
     }
 
     @GetMapping("/user/{username}/socialMediaId")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getSocialMediaId(@PathVariable("username") String username) {
-        System.out.println("getSocialMediaId: " +  username);
+        logger.debug("getSocialMediaId: " +  username);
         return getUserByUsername(username).orElse(null).getSocialMediaId();
     }
 
     @GetMapping("/users")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<UserDto> getUsersSet() {
-        System.out.println("getUsersSet");
+        logger.debug("getUsersSet");
         return UserModule.getInstance().getUsersSet().stream().map(UserDto::new).collect(Collectors.toSet());
     }
 
     @GetMapping("/isAdmin")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean getAdmin() {
-        System.out.println("getAdmin");
+        logger.debug("getAdmin");
         return UserModule.getInstance().getAdmin();
     }
 
     @PostMapping("/updatePassword")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void updatePassword(@RequestParam(name = "username") String username, @RequestParam("currentPassword") String currentPassword, @RequestParam("newPassword") String newPassword) {
-        System.out.println("updatePassword: " + username);
+        logger.debug("updatePassword: " + username);
         getUserByUsername(username).orElseThrow(LdoDException::new)
                 .updatePassword(null, currentPassword, newPassword);
     }
@@ -138,21 +138,21 @@ public class UserProvidesInterface {
     @PostMapping("/setLastLogin")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void setUserLastLogin(@RequestParam(name = "username") String username, @RequestParam(name = "now") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate now) {
-        System.out.println("setUserLastLogin: " + username);
+        logger.debug("setUserLastLogin: " + username);
         getUserByUsername(username).orElseThrow(() -> new LdoDException("User not found")).setLastLogin(now);
     }
 
     @GetMapping("/userConnections")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<UserConnectionDto> getUserConnections(@RequestParam(name = "userId") String userId) {
-        System.out.println("getUserConnections: " + userId);
+        logger.debug("getUserConnections: " + userId);
         return UserModule.getInstance().getUserConnectionSet().stream().filter(uc -> uc.getUserId().equals(userId)).sorted((uc1, uc2) -> compareByProviderIdAndRank(uc1, uc2)).map(UserConnectionDto::new).collect(Collectors.toList());
     }
 
     @GetMapping("/userConnectionsByProviderId")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<UserConnectionDto> getUserConnectionsByProviderId(@RequestParam(name = "userId") String userId, @RequestParam(name = "providerId") String providerId) {
-        System.out.println("getUserConnectionsByProviderId: " + userId + ", " + providerId);
+        logger.debug("getUserConnectionsByProviderId: " + userId + ", " + providerId);
         return UserModule.getInstance().getUserConnectionSet().stream()
                 .filter(uc -> uc.getUserId().equals(userId) && uc.getProviderId().equals(providerId))
                 .sorted((uc1, uc2) -> Integer.compare(uc1.getRank(), uc2.getRank()))
@@ -164,7 +164,7 @@ public class UserProvidesInterface {
     @Atomic(mode = Atomic.TxMode.READ)
     public UserConnectionDto getUserConnectionsByUserProviderId(@RequestParam(name = "userId") String userId, @RequestParam(name = "key") String key, @RequestParam(name = "u") String u) {
        // return new UserConnectionDto(UserModule.getInstance().getUserConnection(userId, key, u));
-        System.out.println("getUserConnectionsByUserProviderId: " + userId + ", " + key + ", " + u);
+        logger.debug("getUserConnectionsByUserProviderId: " + userId + ", " + key + ", " + u);
         UserConnection uc = UserModule.getInstance().getUserConnection(userId, key, u);
         return  uc != null ? new UserConnectionDto(uc) : null;
     }
@@ -172,14 +172,14 @@ public class UserProvidesInterface {
     @PostMapping("/createUserConnection")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void createUserConnection(@RequestParam(name = "userId") String userId, @RequestParam(name = "providerId") String providerId, @RequestParam(name = "providerUserId") String providerUserId, @RequestParam(name = "nextRank") int nextRank, @RequestParam(name = "displayName") String displayName, @RequestParam(name = "profileUrl") String profileUrl, @RequestParam(name = "imageUrl") String imageUrl, @RequestParam(name = "encrypt") String encrypt, @RequestParam(name = "encrypt1") String encrypt1, @RequestParam(name = "encrypt2") String encrypt2, @RequestParam(name = "expireTime") Long expireTime) {
-        System.out.println("createUserConnection: " + userId);
+        logger.debug("createUserConnection: " + userId);
         UserModule.getInstance().createUserConnection(userId, providerId, providerUserId, nextRank, displayName, profileUrl, imageUrl, encrypt, encrypt1, encrypt2, expireTime);
     }
 
     @PostMapping("/updateUserConnection")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void updateUserConnection(@RequestParam(name = "userId") String userId, @RequestParam(name = "providerId") String providerId, @RequestParam(name = "providerUserId") String providerUserId, @RequestParam(name = "displayName") String displayName, @RequestParam(name = "profileUrl") String profileUrl, @RequestParam(name = "imageUrl") String imageUrl, @RequestParam(name = "accessToken") String accessToken, @RequestParam(name = "secret") String secret, @RequestParam(name = "refreshToken") String refreshToken, @RequestParam(name = "expireTime") Long expireTime) {
-        System.out.println("updateUserConnection: " + userId);
+        logger.debug("updateUserConnection: " + userId);
         UserConnection userConnection = UserModule.getInstance().getUserConnection(userId, providerId, providerUserId);
         if (userConnection != null) {
             userConnection.setDisplayName(displayName);
@@ -195,21 +195,21 @@ public class UserProvidesInterface {
     @GetMapping("/hasRoleAdmin")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean hasRoleTypeAdmin(@RequestParam(name = "username") String username) {
-        System.out.println("hasRoleTypeAdmin: " + username);
+        logger.debug("hasRoleTypeAdmin: " + username);
         return UserModule.getInstance().getUser(username).getRolesSet().contains(Role.getRole(Role.RoleType.ROLE_ADMIN));
     }
 
     @GetMapping("/user/{username}/roles")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<String> getRolesFromUser(@PathVariable("username") String username) {
-        System.out.println("getRolesFromUser: " + username);
+        logger.debug("getRolesFromUser: " + username);
         return UserModule.getInstance().getUser(username).getRolesSet().stream().map(role -> role.getType().name()).collect(Collectors.toList());
     }
 
     @GetMapping("/userIdsWithConnections")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<String> getUserIdsWithConnections(@RequestParam(name = "providerId") String providerId, @RequestParam(name = "providerUserId") String providerUserId) {
-        System.out.println("getUserIdsWithConnections: " + providerId);
+        logger.debug("getUserIdsWithConnections: " + providerId);
         return UserModule.getInstance().getUserConnectionSet().stream().filter(uc -> uc.getProviderId().equals(providerId)
                 && uc.getProviderUserId().equals(providerUserId))
                 .map(uc -> uc.getUserId()).collect(Collectors.toList());
@@ -218,7 +218,7 @@ public class UserProvidesInterface {
     @GetMapping("/userIdsConnectedTo")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<String> getUserIdsConnectedTo(@RequestParam(name = "providerId") String providerId, @RequestParam(name = "providerUserIds") Set<String> providerUserIds) {
-        System.out.println("getUserIdsConnectedTo: " + providerId);
+        logger.debug("getUserIdsConnectedTo: " + providerId);
         return UserModule.getInstance().getUserConnectionSet().stream()
                 .filter(uc -> uc.getProviderId().equals(providerId) && providerUserIds.contains(uc.getProviderUserId()))
                 .map(uc -> uc.getUserId()).collect(Collectors.toSet());
@@ -236,7 +236,7 @@ public class UserProvidesInterface {
     @PostMapping("/createUser")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public UserDto createUser(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password, @RequestParam(name = "firstName") String firstName, @RequestParam(name = "lastName") String lastName, @RequestParam(name = "email") String email, @RequestParam(name = "socialMediaServiceForm", required = false) String socialMediaServiceForm, @RequestParam(name = "socialMediaId", required = false) String socialMediaId) {
-        System.out.println("createUser: " + username);
+        logger.debug("createUser: " + username);
         User.SocialMediaService socialMediaService = socialMediaServiceForm != null ? socialMediaServiceForm.equals("") ? null
                 : User.SocialMediaService.valueOf(socialMediaServiceForm.toUpperCase()) : null;
         User user = UserModule.getInstance().createUser(username, password, firstName, lastName, email, socialMediaService, socialMediaId);
@@ -246,7 +246,7 @@ public class UserProvidesInterface {
     @PostMapping("/createRegistrationToken")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public RegistrationTokenDto createRegistrationToken(@RequestParam(name = "username") String username, @RequestParam(name = "toString") String toString) {
-        System.out.println("createRegistrationToken: " + username + ", " + toString);
+        logger.debug("createRegistrationToken: " + username + ", " + toString);
         RegistrationToken token = UserModule.getInstance().getUser(username).createRegistrationToken(toString);
         return new RegistrationTokenDto(token);
     }
@@ -271,49 +271,49 @@ public class UserProvidesInterface {
     @PostMapping("/requestAuthorization")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public HashMap<String, String> requestAuthorization(@RequestParam(name = "token") String token, HttpServletRequest httpServletRequest) throws MessagingException {
-        System.out.println("requestAuthorization: " + token);
+        logger.debug("requestAuthorization: " + token);
         return UserModule.getInstance().getTokenSet(token).requestAuthorization(httpServletRequest, this.emailer);
     }
 
     @PostMapping("/setAuthorized")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void setAuthorized(@RequestParam(name = "token") String token, @RequestParam(name = "authorized") boolean authorized) {
-        System.out.println("setAuthorized: " + token + ", " + authorized);
+        logger.debug("setAuthorized: " + token + ", " + authorized);
         UserModule.getInstance().getTokenSet(token).setAuthorized(authorized);
     }
 
     @PostMapping("/requestConfirmation")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public HashMap<String, String> requestConfirmation(@RequestParam(name = "token") String token, HttpServletRequest httpServletRequest) throws MessagingException {
-        System.out.println("requestConfirmation: " + token);
+        logger.debug("requestConfirmation: " + token);
         return UserModule.getInstance().getTokenSet(token).requestConfirmation(httpServletRequest, this.emailer);
     }
 
     @GetMapping("/registrationToken/{token}/user")
     @Atomic(mode = Atomic.TxMode.READ)
     public UserDto getUserFromRegistrationToken(@PathVariable("token") String token) {
-        System.out.println("getUserFromRegistrationToken: " + token);
+        logger.debug("getUserFromRegistrationToken: " + token);
         return new UserDto(UserModule.getInstance().getTokenSet(token).getUser());
     }
 
     @PostMapping("/user/{username}/enableUnconfirmed")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void enableUnconfirmedUser(@PathVariable("username") String username) {
-        System.out.println("enableUnconfirmedUser: " + username);
+        logger.debug("enableUnconfirmedUser: " + username);
         UserModule.getInstance().getUser(username).enableUnconfirmedUser();
     }
 
     @PostMapping("/switchAdmin")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void switchAdmin() {
-        System.out.println("switchAdmin");
+        logger.debug("switchAdmin");
         UserModule.getInstance().switchAdmin();
     }
 
     @GetMapping("/user/ext/{externalId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public UserDto getUserFromExternalId(@PathVariable("externalId") String externalId) {
-        System.out.println("getUserFromExternalId: " + externalId);
+        logger.debug("getUserFromExternalId: " + externalId);
         DomainObject domainObject = FenixFramework.getDomainObject(externalId);
 
         if (domainObject instanceof User) {
@@ -326,35 +326,35 @@ public class UserProvidesInterface {
     @GetMapping("/hasRoleUser")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean hasRoleTypeUser(@RequestParam(name = "username") String username) {
-        System.out.println("hasRoleTypeUser: " + username);
+        logger.debug("hasRoleTypeUser: " + username);
         return UserModule.getInstance().getUser(username).getRolesSet().contains(Role.getRole(Role.RoleType.ROLE_USER));
     }
 
     @PostMapping("/updateUserInfo")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void updateUserInfo(@RequestParam(name = "username") String username, @RequestParam(name = "oldUsername") String oldUsername, @RequestParam(name = "newUsername") String newUsername, @RequestParam(name = "firstName") String firstName, @RequestParam(name = "lastName") String lastName, @RequestParam(name = "email") String email, @RequestParam(name = "newPassword") String newPassword, @RequestParam(name = "user") boolean user, @RequestParam(name = "admin") boolean admin, @RequestParam(name = "enabled") boolean enabled) {
-        System.out.println("updateUserInfo: " + username);
+        logger.debug("updateUserInfo: " + username);
         UserModule.getInstance().getUser(username).update(null, oldUsername, newUsername, firstName, lastName, email, newPassword, user, admin, enabled);
     }
 
     @PostMapping("/switchUserActive")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void switchUserActive(@RequestParam(name = "username") String username) {
-        System.out.println("switchUserActive: " + username);
+        logger.debug("switchUserActive: " + username);
         UserModule.getInstance().getUser(username).switchActive();
     }
 
     @DeleteMapping("/removeUser")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void removeUser(@RequestParam(name = "username") String username) {
-        System.out.println("removeUser: " + username);
+        logger.debug("removeUser: " + username);
         UserModule.getInstance().getUser(username).remove();
     }
 
     @GetMapping("/exportXMLUsers")
     @Atomic(mode = Atomic.TxMode.READ)
     public String exportXMLUsers() {
-        System.out.println("exportXMLUsers");
+        logger.debug("exportXMLUsers");
         UsersXMLExport generator = new UsersXMLExport();
         return generator.export();
     }
@@ -362,7 +362,7 @@ public class UserProvidesInterface {
     @PostMapping("/importUsersFromXML")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void importUsersFromXML(@RequestBody byte[] inputStream) {
-        System.out.println("importUsersFromXML");
+        logger.debug("importUsersFromXML");
         UsersXMLImport loader = new UsersXMLImport();
         loader.importUsers(new ByteArrayInputStream(inputStream));
     }
@@ -370,27 +370,28 @@ public class UserProvidesInterface {
     @PostMapping("/createTestUsers")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void createTestUsers() {
-        System.out.println("createTestUsers");
+        logger.debug("createTestUsers");
         UserModule.getInstance().createTestUsers(null);
     }
 
     @GetMapping("/user/{username}/listOfRoles")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getUserListofRoleAsStrings(@PathVariable("username") String username) {
-       System.out.println("getUserListofRoleAsStrings: " + username);
+       logger.debug("getUserListofRoleAsStrings: " + username);
         return UserModule.getInstance().getUser(username).getListOfRolesAsStrings();
     }
 
     @GetMapping("/user/{username}/lastLogin")
     @Atomic(mode = Atomic.TxMode.READ)
     public LocalDate getUserLastLogin(@PathVariable("username") String username) {
+        logger.debug("getUserLastLogin: " + username);
         return UserModule.getInstance().getUser(username).getLastLogin();
     }
 
     @DeleteMapping("/removeAllUserConnectionsByProviderId")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void removeAllUserConnectionsByProviderId(@RequestParam(name = "userId") String userId, @RequestParam(name = "providerId") String providerId) {
-        System.out.println("removeAllUserConnectionsByProviderId: " + userId);
+        logger.debug("removeAllUserConnectionsByProviderId: " + userId);
         Set<UserConnection> userConnections = UserModule.getInstance().getUserConnectionSet();
         Set<UserConnection> toRemoveUserConnections = userConnections.stream()
                 .filter(uc -> uc.getUserId().equals(userId) && uc.getProviderId().equals(providerId))
@@ -401,7 +402,7 @@ public class UserProvidesInterface {
     @DeleteMapping("/removeAllUserConnectionsByConnectionKey")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void removeAllUserConnectionsByConnectionKey(@RequestParam(name = "userId") String userId, @RequestParam(name = "providerId") String providerId, @RequestParam(name = "providerUserId") String providerUserId) {
-        System.out.println("removeAllUserConnectionsByConnectionKey: " + userId);
+        logger.debug("removeAllUserConnectionsByConnectionKey: " + userId);
         Set<UserConnection> userConnections = UserModule.getInstance().getUserConnectionSet();
         Set<UserConnection> toRemoveUserConnections = userConnections.stream()
                 .filter(uc -> uc.getUserId().equals(userId) && uc.getProviderId().equals(providerId)
@@ -413,7 +414,7 @@ public class UserProvidesInterface {
     @GetMapping("/role/{role}")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getRoleName(@PathVariable("role") String role) {
-        System.out.println("getRoleName: " + role);
+        logger.debug("getRoleName: " + role);
         if (role.equals("Admin")) {
            return Role.RoleType.ROLE_ADMIN.name();
         } else {
@@ -424,7 +425,7 @@ public class UserProvidesInterface {
     @PostMapping("/initializeUserModule")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public boolean initializeUserModule() {
-        System.out.println("initializeUserModule");
+        logger.debug("initializeUserModule");
        return UserBootstrap.initializeUserModule();
     }
 
@@ -432,42 +433,42 @@ public class UserProvidesInterface {
     @PostMapping("/createTestUser")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public UserDto createTestUser(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password, @RequestParam(name = "firstName") String firstName, @RequestParam(name = "lastName") String lastName, @RequestParam(name = "email") String email) {
-        System.out.println("createTestUser: " + username);
+        logger.debug("createTestUser: " + username);
         return new UserDto(new User(UserModule.getInstance(), username, password, firstName, lastName, email));
     }
 
     @GetMapping("/getTokensSet")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<RegistrationTokenDto> getTokensSet() {
-        System.out.println("getTokensSet");
+        logger.debug("getTokensSet");
         return UserModule.getInstance().getTokenSet().stream().map(RegistrationTokenDto::new).collect(Collectors.toSet());
     }
 
     @PostMapping("/removeOutdatedUnconfirmedUsers")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void removeOutdatedUnconfirmedUsers() {
-        System.out.println("removeOutdatedUnconfirmedUsers");
+        logger.debug("removeOutdatedUnconfirmedUsers");
         UserModule.getInstance().removeOutdatedUnconfirmedUsers();
     }
 
     @GetMapping("/user/{username}/token")
     @Atomic(mode = Atomic.TxMode.READ)
     public RegistrationTokenDto getTokenFromUsername(@PathVariable("username") String username) {
-        System.out.println("getTokenFromUsername: " + username);
+        logger.debug("getTokenFromUsername: " + username);
         return new RegistrationTokenDto(getUserByUsername(username).orElse(null).getToken());
     }
 
     @GetMapping("/getUserConnectionSet")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<UserConnectionDto> getUserConnectionSet() {
-        System.out.println("getUserConnectionSet");
+        logger.debug("getUserConnectionSet");
         return UserModule.getInstance().getUserConnectionSet().stream().map(UserConnectionDto::new).collect(Collectors.toSet());
     }
 
     @PostMapping("/removeUserConnection")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void removeUserConnection(@RequestParam(name = "userId") String userId, @RequestParam(name = "providerId") String providerId, @RequestParam(name = "providerUserId") String providerUserId) {
-        System.out.println("removeUserConnection: " + userId);
+        logger.debug("removeUserConnection: " + userId);
         UserConnection userConnection = UserModule.getInstance().getUserConnection(userId, providerId, providerUserId);
         userConnection.remove();
     }
@@ -475,14 +476,14 @@ public class UserProvidesInterface {
     @PostMapping("/removeToken")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void removeToken(@RequestParam(name = "token") String token) {
-       System.out.println("removeToken: " + token);
+       logger.debug("removeToken: " + token);
         UserModule.getInstance().getTokenSet(token);
     }
 
     @PostMapping("/removeUserModule")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void removeUserModule() {
-        System.out.println("removeUserModule");
+        logger.debug("removeUserModule");
         UserModule userModule = UserModule.getInstance();
         if (userModule != null) {
             userModule.remove();

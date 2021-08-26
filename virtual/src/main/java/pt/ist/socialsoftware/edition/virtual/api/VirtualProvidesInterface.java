@@ -64,7 +64,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/isInterInVirtualEdition")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean isInterInVirtualEdition(@RequestParam(name = "xmlId") String xmlId, @RequestParam(name = "acronym") String acronym) {
-        System.out.println("isInterInVirtualEdition: " + xmlId + ", " + acronym);
+       logger.debug("isInterInVirtualEdition: " + xmlId + ", " + acronym);
         return VirtualModule.getInstance().getVirtualEdition(acronym).getAllDepthVirtualEditionInters().stream()
                 .anyMatch(virtualEditionInter -> virtualEditionInter.getXmlId().equals(xmlId));
     }
@@ -72,7 +72,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}")
     @Atomic(mode = Atomic.TxMode.READ)
     public VirtualEditionDto getVirtualEdition(@PathVariable("acronym") String acronym) {
-        System.out.println("getVirtualEdition: " + acronym);
+       logger.debug("getVirtualEdition: " + acronym);
         VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
         if (virtualEdition != null) {
             return new VirtualEditionDto(virtualEdition);
@@ -84,28 +84,28 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditions")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<VirtualEditionDto> getVirtualEditions() {
-        System.out.println("getVirtualEditions");
+       logger.debug("getVirtualEditions");
         return VirtualModule.getInstance().getVirtualEditionsSet().stream().map(VirtualEditionDto::new).collect(Collectors.toSet());
     }
 
     @GetMapping("/virtualEdition/{acronym}/reference")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getVirtualEditionReference(@PathVariable("acronym") String acronym) {
-        System.out.println("getVirtualEditionReference: " + acronym);
+       logger.debug("getVirtualEditionReference: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym).map(VirtualEdition::getReference).orElse(null);
     }
 
     @GetMapping("/virtualEdition/{acronym}/isPublicOrIsUserParticipant")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean isVirtualEditionPublicOrIsUserParticipant(@PathVariable("acronym") String acronym, @RequestParam(name = "username") String username) {
-        System.out.println("isVirtualEditionPublicOrIsUserParticipant: " + acronym + ", " + username);
+       logger.debug("isVirtualEditionPublicOrIsUserParticipant: " + acronym + ", " + username);
         return getVirtualEditionByAcronymUtil(acronym).orElseThrow(LdoDException::new).isPublicOrIsParticipant(username);
     }
 
     @GetMapping("/virtualEdition/{acronym}/isUserParticipant")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean isUserParticipant(@PathVariable("acronym") String acronym, @RequestParam(name = "username") String username) {
-        System.out.println("isUserParticipant: " + acronym + ", " + username);
+       logger.debug("isUserParticipant: " + acronym + ", " + username);
         return getVirtualEditionByAcronymUtil(acronym).orElseThrow(LdoDException::new).getActiveMemberSet()
                 .stream().anyMatch(m -> m.getUser().equals(username));
     }
@@ -113,7 +113,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/virtualEditionInterOfFragment")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<VirtualEditionInterDto> getVirtualEditionInterOfFragmentForVirtualEdition(@PathVariable("acronym") String acronym, @RequestParam(name = "xmlId") String xmlId) {
-        System.out.println("getVirtualEditionInterOfFragmentForVirtualEdition: " + acronym + ", " + xmlId);
+       logger.debug("getVirtualEditionInterOfFragmentForVirtualEdition: " + acronym + ", " + xmlId);
         return getVirtualEditionByAcronymUtil(acronym)
                 .map(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters().stream()
                         .filter(virtualEditionInter -> virtualEditionInter
@@ -127,28 +127,28 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditions/getPublicVirtualEditionsOrUserIsParticipant")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<VirtualEditionDto> getPublicVirtualEditionsOrUserIsParticipant(@RequestParam(name = "username") String username) {
-        System.out.println("getPublicVirtualEditionsOrUserIsParticipant: " + username);
+       logger.debug("getPublicVirtualEditionsOrUserIsParticipant: " + username);
         return VirtualModule.getInstance().getPublicVirtualEditionsOrUserIsParticipant(username).stream().map(VirtualEditionDto::new).collect(Collectors.toSet());
     }
 
     @GetMapping("/virtualEditionsInters/getVirtualEditionIntersUserIsContributor")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<VirtualEditionInterDto> getVirtualEditionIntersUserIsContributor(@RequestParam(name = "username") String username) {
-        System.out.println("getVirtualEditionIntersUserIsContributor: " + username);
+       logger.debug("getVirtualEditionIntersUserIsContributor: " + username);
         return VirtualModule.getInstance().getVirtualEditionIntersUserIsContributor(username).stream().map(VirtualEditionInterDto::new).collect(Collectors.toSet());
     }
 
     @GetMapping("/virtualEditionsInters/getVirtualEditionIntersUserIsParticipant")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<VirtualEditionDto> getVirtualEditionsUserIsParticipant(@RequestParam(name = "username") String username) {
-        System.out.println("getVirtualEditionsUserIsParticipant: " + username);
+       logger.debug("getVirtualEditionsUserIsParticipant: " + username);
         return VirtualModule.getInstance().getVirtualEditionsUserIsParticipant(username).stream().map(VirtualEditionDto::new).collect(Collectors.toSet());
     }
 
     @GetMapping("/virtualEditionsInter/{interXmlId}/virtualEditionAcronym")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getVirtualEditionAcronymByVirtualEditionInterXmlId(@PathVariable("interXmlId") String interXmlId) {
-        System.out.println("getVirtualEditionAcronymByVirtualEditionInterXmlId: " + interXmlId);
+       logger.debug("getVirtualEditionAcronymByVirtualEditionInterXmlId: " + interXmlId);
         return getVirtualEditionInterByXmlId(interXmlId)
                 .map(virtualEditionInter -> virtualEditionInter.getVirtualEdition().getAcronym())
                 .orElse(null);
@@ -157,21 +157,21 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInterSet")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<VirtualEditionInterDto> getVirtualEditionInterSet() {
-        System.out.println("getVirtualEditionInterSet");
+       logger.debug("getVirtualEditionInterSet");
         return VirtualModule.getInstance().getVirtualEditionInterSet().stream().map(VirtualEditionInterDto::new).collect(Collectors.toSet());
     }
 
     @GetMapping("/virtualEditionInterSet/{acronym}")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<VirtualEditionInterDto> getVirtualEditionInterSet(@PathVariable("acronym") String acronym) {
-        System.out.println("getVirtualEditionInterSet: " + acronym);
+       logger.debug("getVirtualEditionInterSet: " + acronym);
         return VirtualModule.getInstance().getVirtualEdition(acronym).getAllDepthVirtualEditionInters().stream().map(VirtualEditionInterDto::new).collect(Collectors.toSet());
     }
 
     @GetMapping("/scholarInter/ext/{interId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public ScholarInterDto getScholarInterbyExternalId(String interId) {
-        System.out.println("getScholarInterbyExternalId: " + interId);
+       logger.debug("getScholarInterbyExternalId: " + interId);
         DomainObject domainObject = FenixFramework.getDomainObject(interId);
 
         if (domainObject instanceof VirtualEditionInter) {
@@ -184,77 +184,77 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInter/{xmlId}/title")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getVirtualEditionInterTitle(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getVirtualEditionInterTitle: " + xmlId);
+       logger.debug("getVirtualEditionInterTitle: " + xmlId);
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getTitle).orElse(null);
     }
 
     @GetMapping("/virtualEditionInter/{xmlId}/externalId")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getVirtualEditionInterExternalId(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getVirtualEditionInterExternalId: " + xmlId);
+       logger.debug("getVirtualEditionInterExternalId: " + xmlId);
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getExternalId).orElse(null);
     }
 
     @GetMapping("/virtualEditionInter/{xmlId}/fragmentXmlId")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getFragmentXmlIdVirtualEditionInter(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getFragmentXmlIdVirtualEditionInter: " + xmlId);
+       logger.debug("getFragmentXmlIdVirtualEditionInter: " + xmlId);
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getFragmentXmlId).orElse(null);
     }
 
     @GetMapping("/virtualEditionInter/{xmlId}/urlId")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getVirtualEditionInterUrlId(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getVirtualEditionInterUrlId: " + xmlId);
+       logger.debug("getVirtualEditionInterUrlId: " + xmlId);
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getUrlId).orElse(null);
     }
 
     @GetMapping("/virtualEditionInter/urlId/{urlId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public VirtualEditionInterDto getVirtualEditionInterByUrlId(@PathVariable("urlId") String urlId) {
-        System.out.println("getVirtualEditionInterByUrlId: " + urlId);
+       logger.debug("getVirtualEditionInterByUrlId: " + urlId);
         return getVirtualEditionInterByUrlIdUtil(urlId).map(VirtualEditionInterDto::new).orElse(null);
     }
 
     @GetMapping("/virtualEditionInter/{xmlId}/reference")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getVirtualEditionInterReference(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getVirtualEditionInterReference: " + xmlId);
+       logger.debug("getVirtualEditionInterReference: " + xmlId);
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getReference).orElse(null);
     }
 
     @GetMapping("/virtualEditionInter/{xmlId}/shortName")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getVirtualEditionInterShortName(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getVirtualEditionInterShortName: " + xmlId);
+       logger.debug("getVirtualEditionInterShortName: " + xmlId);
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getShortName).orElse(null);
     }
 
     @GetMapping("/virtualEditionInter/{xmlId}/lastUsed")
     @Atomic(mode = Atomic.TxMode.READ)
     public ScholarInterDto getVirtualEditionLastUsedScholarInter(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getVirtualEditionLastUsedScholarInter: " + xmlId);
+       logger.debug("getVirtualEditionLastUsedScholarInter: " + xmlId);
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getLastUsed).orElse(null);
     }
 
     @GetMapping("/virtualEditionInter/{xmlId}/uses")
     @Atomic(mode = Atomic.TxMode.READ)
     public VirtualEditionInterDto getVirtualEditionInterUses(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getVirtualEditionInterUses: " + xmlId);
+       logger.debug("getVirtualEditionInterUses: " + xmlId);
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getUses).map(VirtualEditionInterDto::new).orElse(null);
     }
 
     @GetMapping("/virtualEdition/{acronym}/title")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getVirtualEditionTitleByAcronym(@PathVariable("acronym") String acronym) {
-        System.out.println("getVirtualEditionTitleByAcronym: " + acronym);
+       logger.debug("getVirtualEditionTitleByAcronym: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.getTitle()).orElse(null);
     }
 
     @GetMapping("/publicVirtualEditionInterList")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<VirtualEditionInterListDto> getPublicVirtualEditionInterListDto() {
-        System.out.println("getPublicVirtualEditionInterListDto");
+       logger.debug("getPublicVirtualEditionInterListDto");
         return VirtualModule.getInstance().getVirtualEditionsSet().stream()
                 .filter(virtualEdition -> virtualEdition.getPub())
                 .map(virtualEdition -> new VirtualEditionInterListDto(virtualEdition, false))
@@ -264,7 +264,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/sortedCategory")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<String> getVirtualEditionSortedCategoryList(@PathVariable("acronym") String acronym) {
-        System.out.println("getVirtualEditionSortedCategoryList: " + acronym);
+       logger.debug("getVirtualEditionSortedCategoryList: " + acronym);
         return VirtualModule.getInstance()
                 .getVirtualEdition(acronym)
                 .getTaxonomy()
@@ -277,7 +277,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/fragmentCategories")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<String> getFragmentCategoriesInVirtualEditon(@PathVariable("acronym") String acronym, @RequestParam(name = "xmlId") String xmlId) {
-        System.out.println("getFragmentCategoriesInVirtualEditon: " + acronym + ", " + xmlId);
+       logger.debug("getFragmentCategoriesInVirtualEditon: " + acronym + ", " + xmlId);
         return getVirtualEditionByAcronymUtil(acronym).orElse(null).getVirtualEditionInterSetForFragment(xmlId).stream()
                 .flatMap(virtualEditionInter -> virtualEditionInter.getCategories().stream())
                 .map(category -> category.getName())
@@ -287,7 +287,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInter/{xmlId}/sortedCategoriesName")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<String> getSortedVirtualEditionInterCategoriesName(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getSortedVirtualEditionInterCategoriesName: " + xmlId);
+       logger.debug("getSortedVirtualEditionInterCategoriesName: " + xmlId);
         return getVirtualEditionInterByXmlId(xmlId).orElse(null).getCategories().stream()
                 .map(category -> category.getName()).sorted()
                 .collect(Collectors.toList());
@@ -296,7 +296,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/sortedVirtualEditionInterCategories")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<CategoryDto> getSortedVirtualEditionInterCategoriesFromVirtualEdition(@RequestParam(name = "xmlId") String xmlId, @PathVariable("acronym") String acronym) {
-        System.out.println("getSortedVirtualEditionInterCategoriesFromVirtualEdition: " + xmlId + ", " + acronym);
+       logger.debug("getSortedVirtualEditionInterCategoriesFromVirtualEdition: " + xmlId + ", " + acronym);
         return getVirtualEditionInterByXmlId(xmlId).orElse(null).getCategories().stream()
                 .filter(c -> c.getTaxonomy().getEdition().getAcronym() == acronym)
                 .map(CategoryDto::new).sorted()
@@ -306,7 +306,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/sortedVirtualEditionInterList")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<VirtualEditionInterDto> getSortedVirtualEditionInterDtoList(@PathVariable("acronym") String acronym) {
-        System.out.println("getSortedVirtualEditionInterDtoList: " + acronym);
+       logger.debug("getSortedVirtualEditionInterDtoList: " + acronym);
         return VirtualModule.getInstance().getVirtualEdition(acronym).getAllDepthVirtualEditionInters().stream()
                 .map(VirtualEditionInterDto::new).collect(Collectors.toList());
     }
@@ -314,21 +314,21 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/acronym/{acronym}")
     @Atomic(mode = Atomic.TxMode.READ)
     public VirtualEditionDto getVirtualEditionByAcronym(@PathVariable("acronym") String acronym) {
-        System.out.println("getVirtualEditionByAcronym: " + acronym);
+       logger.debug("getVirtualEditionByAcronym: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym).map(VirtualEditionDto::new).orElse(null);
     }
 
     @GetMapping("/virtualEditionInter/{xmlId}/number")
     @Atomic(mode = Atomic.TxMode.READ)
     public int getVirtualEditionInterNumber(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getVirtualEditionInterNumber: " + xmlId);
+       logger.debug("getVirtualEditionInterNumber: " + xmlId);
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter::getNumber).orElse(null);
     }
 
     @GetMapping("/categoriesUsedInTags")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<CategoryDto> getCategoriesUsedInTags(@RequestParam(name = "xmlId") String xmlId, @RequestParam(name = "username") String username) {
-        System.out.println("getCategoriesUsedInTags: " + xmlId + ", " + username);
+       logger.debug("getCategoriesUsedInTags: " + xmlId + ", " + username);
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         List<Category> categories = getVirtualEditionInterByXmlId(xmlId)
                 .map(virtualEditionInter -> virtualEditionInter.getAllDepthCategoriesUsedInTags(username)).orElse(new ArrayList<>());
@@ -338,7 +338,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInter/{xmlId}/allDepthCategoriesUsedInTags")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<CategoryDto> getVirtualEditionInterAllDepthCategoriesUsedInTags(@PathVariable("xmlId") String xmlId, @RequestParam(name = "username") String username) {
-        System.out.println("getVirtualEditionInterAllDepthCategoriesUsedInTags: " + xmlId + ", " + username);
+       logger.debug("getVirtualEditionInterAllDepthCategoriesUsedInTags: " + xmlId + ", " + username);
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         return getVirtualEditionInterByXmlId(xmlId)
                 .map(virtualEditionInter -> virtualEditionInter.getAllDepthCategoriesUsedInTags(username).stream()
@@ -350,7 +350,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInter/{xmlId}/allDepthCategoriesUsedByUserInTags")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<CategoryDto> getVirtualEditionInterAllDepthCategoriesUsedByUserInTags(@PathVariable("xmlId") String xmlId, @RequestParam(name = "username") String username) {
-        System.out.println("getVirtualEditionInterAllDepthCategoriesUsedByUserInTags:" + xmlId + ", " + username );
+       logger.debug("getVirtualEditionInterAllDepthCategoriesUsedByUserInTags:" + xmlId + ", " + username );
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         List<Category> categories = getVirtualEditionInterByXmlId(xmlId).map(virtualEditionInter -> virtualEditionInter.getAllDepthCategoriesUsedByUserInTags(username)).orElse(new ArrayList<>());
         return categories.stream().map(category -> new CategoryDto(category, inter, username)).collect(Collectors.toList());
@@ -359,7 +359,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInter/{xmlId}/allDepthCategoriesNotUsedInTags")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<CategoryDto> getVirtualEditionInterAllDepthCategoriesNotUsedInTags(@PathVariable("xmlId") String xmlId, @RequestParam(name = "username") String username) {
-        System.out.println("getVirtualEditionInterAllDepthCategoriesNotUsedInTags: " + xmlId + ", " + username);
+       logger.debug("getVirtualEditionInterAllDepthCategoriesNotUsedInTags: " + xmlId + ", " + username);
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         List<Category> categories = getVirtualEditionInterByXmlId(xmlId)
                 .map(virtualEditionInter -> virtualEditionInter.getAllDepthCategoriesNotUsedInTags(username)).orElse(new ArrayList<>());
@@ -369,7 +369,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/taxonomyVocabularyStatus")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean getVirtualEditionTaxonomyVocabularyStatus(@PathVariable("acronym") String acronym) {
-        System.out.println("getVirtualEditionTaxonomyVocabularyStatus: " + acronym);
+       logger.debug("getVirtualEditionTaxonomyVocabularyStatus: " + acronym);
         VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
         if (virtualEdition != null) {
             return virtualEdition.getTaxonomy().getOpenVocabulary();
@@ -380,7 +380,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/taxonomyAnnotationStatus")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean getVirtualEditionTaxonomyAnnotationStatus(@PathVariable("acronym") String acronym) {
-        System.out.println("getVirtualEditionTaxonomyAnnotationStatus: " + acronym);
+       logger.debug("getVirtualEditionTaxonomyAnnotationStatus: " + acronym);
         VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
         if (virtualEdition != null) {
             return virtualEdition.getTaxonomy().getOpenAnnotation();
@@ -391,7 +391,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInter/{xmlId}/nextInter")
     @Atomic(mode = Atomic.TxMode.READ)
     public VirtualEditionInterDto getNextVirtualInter(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getNextVirtualInter: " + xmlId);
+       logger.debug("getNextVirtualInter: " + xmlId);
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter.class::cast)
                 .map(VirtualEditionInter::getNextNumberInter).map(VirtualEditionInterDto::new).orElse(null);
     }
@@ -399,7 +399,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInter/{xmlId}/prevInter")
     @Atomic(mode = Atomic.TxMode.READ)
     public VirtualEditionInterDto getPrevVirtualInter(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getPrevVirtualInter: " + xmlId);
+       logger.debug("getPrevVirtualInter: " + xmlId);
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInter.class::cast)
                 .map(VirtualEditionInter::getPrevNumberInter).map(VirtualEditionInterDto::new).orElse(null);
     }
@@ -407,14 +407,14 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInter/xmlId/{xmlId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public VirtualEditionInterDto getVirtualEditionInter(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getVirtualEditionInter: " + xmlId);
+       logger.debug("getVirtualEditionInter: " + xmlId);
         return getVirtualEditionInterByXmlId(xmlId).map(VirtualEditionInterDto::new).orElseThrow(LdoDException::new);
     }
 
     @GetMapping("/virtualEditionInter/{xmlId}/interFromModule")
     @Atomic(mode = Atomic.TxMode.READ)
     public VirtualEditionInterDto getVirtualEditionInterFromModule(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getVirtualEditionInterFromModule: " + xmlId);
+       logger.debug("getVirtualEditionInterFromModule: " + xmlId);
         VirtualEditionInter inter = VirtualModule.getInstance().getVirtualEditionInterByXmlId(xmlId);
 
         if (inter != null) {
@@ -426,7 +426,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInter/ext/{externalId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public VirtualEditionInterDto getVirtualEditionInterByExternalId(@PathVariable("externalId") String externalId) {
-        System.out.println("getVirtualEditionInterByExternalId: " + externalId);
+       logger.debug("getVirtualEditionInterByExternalId: " + externalId);
         DomainObject domainObject = FenixFramework.getDomainObject(externalId);
 
         if (domainObject instanceof VirtualEditionInter) {
@@ -439,7 +439,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/ext/{externalId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public VirtualEditionDto getVirtualEditionByExternalId(@PathVariable("externalId") String externalId) {
-        System.out.println("getVirtualEditionByExternalId: " + externalId);
+       logger.debug("getVirtualEditionByExternalId: " + externalId);
         DomainObject domainObject = FenixFramework.getDomainObject(externalId);
 
         if (domainObject instanceof VirtualEdition) {
@@ -452,7 +452,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInter/{xmlId}/virtualEdition")
     @Atomic(mode = Atomic.TxMode.READ)
     public VirtualEditionDto getVirtualEditionOfVirtualEditionInter(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getVirtualEditionOfVirtualEditionInter: " + xmlId);
+       logger.debug("getVirtualEditionOfVirtualEditionInter: " + xmlId);
         return getVirtualEditionInterByXmlId(xmlId)
                 .map(virtualEditionInter -> virtualEditionInter.getVirtualEdition())
                 .map(VirtualEditionDto::new)
@@ -462,14 +462,14 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/externalId")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getVirtualEditionExternalIdByAcronym(@PathVariable("acronym") String acronym) {
-        System.out.println("getVirtualEditionExternalIdByAcronym: " + acronym);
+       logger.debug("getVirtualEditionExternalIdByAcronym: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym).map(VirtualEdition::getExternalId).orElse(null);
     }
 
     @GetMapping("/virtualEditionInter/{xmlId}/allDepthTagsNotHumanAnnotationAccessibleByUser")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<TagDto> getAllDepthTagsNotHumanAnnotationAccessibleByUser(@PathVariable("xmlId") String xmlId, @RequestParam(name = "username") String username) {
-        System.out.println("getAllDepthTagsNotHumanAnnotationAccessibleByUser: " + xmlId + ", " + username);
+       logger.debug("getAllDepthTagsNotHumanAnnotationAccessibleByUser: " + xmlId + ", " + username);
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         return inter.getAllDepthTagsNotHumanAnnotationAccessibleByUser(username).stream().map(tag -> new TagDto(tag, inter)).collect(Collectors.toList());
     }
@@ -478,7 +478,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/createTagInInter")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public TagDto createTagInInter(@RequestParam(name = "editionId") String editionId, @RequestParam(name = "interId") String interId, @RequestParam(name = "tagName") String tagName, @RequestParam(name = "user") String user) {
-        System.out.println("createTagInInter: " + editionId);
+       logger.debug("createTagInInter: " + editionId);
         VirtualEditionInter virtualEditionInter = getVirtualEditionInterByXmlId(interId).orElseThrow(LdoDException::new);
         VirtualEdition edition = VirtualModule.getInstance().getVirtualEdition(editionId);
 
@@ -492,7 +492,7 @@ public class VirtualProvidesInterface {
     public TagDto getTagInInter(@PathVariable("xmlId") String xmlId, @RequestParam(name = "urlId") String urlId) {
         logger.debug(xmlId);
         logger.debug(urlId);
-        System.out.println("getTagInInter: " + xmlId);
+       logger.debug("getTagInInter: " + xmlId);
 
         VirtualEditionInter virtualEditionInter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         Tag tag = virtualEditionInter.getTagSet()
@@ -508,7 +508,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInter/{xmlId}/tagCategory")
     @Atomic(mode = Atomic.TxMode.READ)
     public CategoryDto getTagCategory(@PathVariable("xmlId") String xmlId, @RequestParam(name = "urlId") String urlId) {
-        System.out.println("getTagCategory: " + xmlId);
+       logger.debug("getTagCategory: " + xmlId);
         VirtualEditionInter virtualEditionInter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         Tag tag = virtualEditionInter.getTagSet()
                 .stream().filter(t -> t.getCategory().getUrlId().equals(urlId)).findAny().orElse(null);
@@ -523,7 +523,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/removeTagFromInter")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void removeTagFromInter(@RequestParam(name = "externalId") String externalId) {
-        System.out.println("removeTagFromInter: " + externalId);
+       logger.debug("removeTagFromInter: " + externalId);
         DomainObject domainObject = FenixFramework.getDomainObject(externalId);
 
         if (domainObject instanceof Tag) {
@@ -534,7 +534,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInter/{xmlId}/allDepthAnnotationsAccessibleByUser")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<AnnotationDto> getAllDepthAnnotationsAccessibleByUser(@PathVariable("xmlId") String xmlId, @RequestParam(name = "username") String username) {
-        System.out.println("getAllDepthAnnotationsAccessibleByUser: " + xmlId);
+       logger.debug("getAllDepthAnnotationsAccessibleByUser: " + xmlId);
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         return inter.getAllDepthAnnotationsAccessibleByUser(username).stream()
                 .map(annotation -> {
@@ -550,7 +550,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInter/{xmlId}/humanAnnotationsAccessibleByUser")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<HumanAnnotationDto> getVirtualEditionInterHumanAnnotationsAccessibleByUser(@PathVariable("xmlId") String xmlId, @RequestParam(name = "username") String username) {
-        System.out.println("getVirtualEditionInterHumanAnnotationsAccessibleByUser: " + xmlId);
+       logger.debug("getVirtualEditionInterHumanAnnotationsAccessibleByUser: " + xmlId);
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         return inter.getAllDepthAnnotationsAccessibleByUser(username).stream().filter(HumanAnnotation.class::isInstance)
                 .map(HumanAnnotation.class::cast)
@@ -561,7 +561,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInter/{xmlId}/awareAnnotationsAccessibleByUser")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<AwareAnnotationDto> getVirtualEditionInterAwareAnnotationsAccessibleByUser(@PathVariable("xmlId") String xmlId, @RequestParam(name = "username") String username) {
-        System.out.println("getVirtualEditionInterAwareAnnotationsAccessibleByUser: " + xmlId + ", " + username);
+       logger.debug("getVirtualEditionInterAwareAnnotationsAccessibleByUser: " + xmlId + ", " + username);
         return getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new).getAllDepthAnnotationsAccessibleByUser(username)
                 .stream().filter(AwareAnnotation.class::isInstance)
                 .map(AwareAnnotation.class::cast)
@@ -572,7 +572,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/associateVirtualEditionInterCategories")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void associateVirtualEditionInterCategories(@RequestParam(name = "xmlId") String xmlId, @RequestParam(name = "username") String username, @RequestParam(name = "categories") Set<String> categories) {
-        System.out.println("associateVirtualEditionInterCategories: " + xmlId + ", " + username + ", " + categories);
+       logger.debug("associateVirtualEditionInterCategories: " + xmlId + ", " + username + ", " + categories);
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
 
         if (username == null || !inter.getVirtualEdition().isPublicOrIsParticipant(username)) {
@@ -585,7 +585,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/associateVirtualEditionInterCategoriesByExternalId")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void associateVirtualEditionInterCategoriesbyExternalId(@RequestParam(name = "externalId") String externalId, @RequestParam(name = "username") String username, @RequestParam(name = "categories") Set<String> categories) {
-        System.out.println("associateVirtualEditionInterCategoriesByExternalId: " + externalId + ", " + username + ", " + categories);
+       logger.debug("associateVirtualEditionInterCategoriesByExternalId: " + externalId + ", " + username + ", " + categories);
         VirtualEditionInter inter = FenixFramework.getDomainObject(externalId);
 
         inter.associate(username, categories);
@@ -594,7 +594,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/dissociateVirtualEditionInterCategory")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void dissociateVirtualEditionInterCategory(@RequestParam(name = "xmlId") String xmlId, @RequestParam(name = "username") String username, @RequestParam(name = "categoryExternalId") String categoryExternalId) {
-       System.out.println("dissociateVirtualEditionInterCategory: " + xmlId + ", " + username + ", " + categoryExternalId);
+      logger.debug("dissociateVirtualEditionInterCategory: " + xmlId + ", " + username + ", " + categoryExternalId);
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         Category category = FenixFramework.getDomainObject(categoryExternalId);
         if (category == null) {
@@ -607,7 +607,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/saveVirtualEdition")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void saveVirtualEdition(@RequestParam(name = "acronym") String acronym, @RequestParam(name = "inters") String[] inters) {
-        System.out.println("saveVirtualEdition: " + acronym + ", " + inters);
+       logger.debug("saveVirtualEdition: " + acronym + ", " + inters);
         if (inters != null) {
             VirtualEdition virtualEdition = getVirtualEditionByAcronymUtil(acronym).get();
 
@@ -625,7 +625,7 @@ public class VirtualProvidesInterface {
     public void createVirtualEdition(@RequestParam(name = "username") String username, @RequestParam(name = "acronym") String acronym,
                                      @RequestParam(name = "title") String title, @RequestParam(name = "pub") boolean pub,
                                      @RequestParam(name = "acronymOfUsed", required = false) String acronymOfUsed, @RequestParam(name = "inters", required = false) String[] inters) {
-        System.out.println("createVirtualEdition: " + username + ", " + acronym);
+       logger.debug("createVirtualEdition: " + username + ", " + acronym);
 
         VirtualEdition virtualEdition = VirtualModule.getInstance().createVirtualEdition(username,
                 VirtualEdition.ACRONYM_PREFIX + acronym, title, new LocalDate(), pub, acronymOfUsed);
@@ -642,14 +642,14 @@ public class VirtualProvidesInterface {
     @GetMapping("/isLdoDEdition")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean isLdoDEdition(@RequestParam(name = "acronym") String acronym) {
-        System.out.println("isLdoDEdition: " + acronym);
+       logger.debug("isLdoDEdition: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.isLdoDEdition()).orElse(null);
     }
 
     @GetMapping("/virtualEdition/{acronym}/adminSet")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<String> getVirtualEditionAdminSet(@PathVariable(name = "acronym") String acronym) {
-        System.out.println("getVirtualEditionAdminSet: " + acronym);
+       logger.debug("getVirtualEditionAdminSet: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.getAdminSet()).orElse(new HashSet<>());
     }
 
@@ -666,7 +666,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/participants")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<String> getVirtualEditionParticipantSet(@PathVariable("acronym") String acronym) {
-        System.out.println("getVirtualEditionParticipantSet: " + acronym);
+       logger.debug("getVirtualEditionParticipantSet: " + acronym);
 //        cleanVirtualEditionMapCache();
         return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.getParticipantSet()).orElse(new HashSet<>());
     }
@@ -675,7 +675,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/pending")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<String> getVirtualEditionPendingSet(@PathVariable("acronym") String acronym) {
-        System.out.println("getVirtualEditionPendingSet: " + acronym);
+       logger.debug("getVirtualEditionPendingSet: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym)
                 .map(virtualEdition -> virtualEdition.getPendingSet().stream()
                         .map(userDto -> userDto.getUsername()).collect(Collectors.toSet()))
@@ -685,56 +685,56 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/pub")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean getVirtualEditionPub(@PathVariable("acronym") String acronym) {
-        System.out.println("getVirtualEditionPub: " + acronym);
+       logger.debug("getVirtualEditionPub: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.getPub()).orElse(false);
     }
 
     @GetMapping("/virtualEdition/{acronym}/date")
     @Atomic(mode = Atomic.TxMode.READ)
     public LocalDate getVirtualEditionDate(@PathVariable("acronym") String acronym) {
-        System.out.println("getVirtualEditionDate: " + acronym);
+       logger.debug("getVirtualEditionDate: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.getDate()).orElse(null);
     }
 
     @GetMapping("/userSelectedVirtualEditions")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<String> getSelectedVirtualEditionsByUser(@RequestParam(name = "username") String username) {
-        System.out.println("userSelectedVirtualEditions: " + username);
+       logger.debug("userSelectedVirtualEditions: " + username);
         return VirtualModule.getInstance().getUserSelectedVirtualEditions(username);
     }
 
     @PostMapping("/addToUserSelectedVirtualEditions")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void addToUserSelectedVirtualEditions(@RequestParam(name = "username") String username, @RequestParam(name = "selectedAcronyms") List<String> selectedAcronyms) {
-        System.out.println("addToUserSelectedVirtualEditions: " + username);
+       logger.debug("addToUserSelectedVirtualEditions: " + username);
         VirtualModule.getInstance().addToUserSelectedVirtualEditions(username, selectedAcronyms);
     }
 
     @PostMapping("/removeVirtualEditionSelectedByUser")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void removeVirtualEditionSelectedByUser(@RequestParam(name = "user") String user, @RequestParam(name = "virtualEditionAcronym") String virtualEditionAcronym) {
-        System.out.println("removeVirtualEditionSelectedByUser: " + user);
+       logger.debug("removeVirtualEditionSelectedByUser: " + user);
         getVirtualEditionByAcronymUtil(virtualEditionAcronym).get().removeSelectedByUser(user);
     }
 
     @PostMapping("/addVirtualEditionSelectedByUser")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void addVirtualEditionSelectedByUser(@RequestParam(name = "user") String user, @RequestParam(name = "virtualEditionAcronym") String virtualEditionAcronym) {
-        System.out.println("addVirtualEditionSelectedByUser: " + user);
+       logger.debug("addVirtualEditionSelectedByUser: " + user);
         getVirtualEditionByAcronymUtil(virtualEditionAcronym).get().addSelectedByUser(user);
     }
 
     @GetMapping("/virtualEdition/{acronym}/canAddFragInter")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean canAddFragInter(@PathVariable("acronym") String acronym, @RequestParam(name = "interXmlId") String interXmlId) {
-        System.out.println("canAddFragInter: " + acronym);
+       logger.debug("canAddFragInter: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.canAddFragInter(interXmlId)).orElse(false);
     }
 
     @GetMapping("/virtualEdition/{acronym}/canManipulateAnnotation")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean canManipulateAnnotation(@PathVariable("acronym") String acronym, @RequestParam(name = "username") String username) {
-        System.out.println("canManipulateAnnotation: " + acronym);
+       logger.debug("canManipulateAnnotation: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym)
                 .map(virtualEdition -> virtualEdition.getTaxonomy().canManipulateAnnotation(username))
                 .orElse(false);
@@ -743,7 +743,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/openVocabulary")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean getOpenVocabulary(@PathVariable("acronym") String acronym) {
-        System.out.println("getOpenVocabulary: " + acronym);
+       logger.debug("getOpenVocabulary: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym)
                 .map(virtualEdition -> virtualEdition.getTaxonomy().getOpenVocabulary())
                 .orElse(false);
@@ -753,7 +753,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInter/{xmlId}/allDepthCategoriesJSON")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getAllDepthCategoriesJSON(@PathVariable("xmlId") String xmlId, @RequestParam(name = "username") String username) {
-        System.out.println("getAllDepthCategoriesJSON: " + xmlId);
+       logger.debug("getAllDepthCategoriesJSON: " + xmlId);
         return getVirtualEditionInterByXmlId(xmlId)
                 .map(virtualEditionInter -> virtualEditionInter.getAllDepthCategoriesJSON(username))
                 .orElse(null);
@@ -762,7 +762,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInter/{xmlId}/allDepthTagsAcessibleByUser")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<TagDto> getVirtualEditionInterAllDepthTagsAccessibleByUser(@PathVariable("xmlId") String xmlId, @RequestParam(name = "username") String username) {
-        System.out.println("getVirtualEditionInterAllDepthTagsAccessibleByUser: " + xmlId);
+       logger.debug("getVirtualEditionInterAllDepthTagsAccessibleByUser: " + xmlId);
         VirtualEditionInter virtualEditionInter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(() -> new LdoDException());
         return getVirtualEditionInterByXmlId(xmlId)
                 .map(vei -> vei.getAllDepthTagsAccessibleByUser(username).stream()
@@ -774,7 +774,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInter/{xmlId}/allTags")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<TagDto> getAllTags(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getAllTags: " + xmlId);
+       logger.debug("getAllTags: " + xmlId);
         VirtualEditionInter virtualEditionInter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(() -> new LdoDException());
         return getVirtualEditionInterByXmlId(xmlId)
                 .map(vei -> vei.getTagSet().stream()
@@ -786,7 +786,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/taxonomy/{externalId}/virtualEdition")
     @Atomic(mode = Atomic.TxMode.READ)
     public VirtualEditionDto getVirtualEditionOfTaxonomyByExternalId(@PathVariable("externalId") String externalId) {
-        System.out.println("getVirtualEditionOfTaxonomyByExternalId: " + externalId);
+       logger.debug("getVirtualEditionOfTaxonomyByExternalId: " + externalId);
         Taxonomy taxonomy = FenixFramework.getDomainObject(externalId);
         if (taxonomy != null) {
             return new VirtualEditionDto(taxonomy.getEdition());
@@ -797,7 +797,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/category/{externalId}/virtualEdition")
     @Atomic(mode = Atomic.TxMode.READ)
     public VirtualEditionDto getVirtualEditionOfCategoryByExternalId(@PathVariable("externalId") String externalId) {
-        System.out.println("getVirtualEditionOfCategoryByExternalId: " + externalId);
+       logger.debug("getVirtualEditionOfCategoryByExternalId: " + externalId);
         Category category = FenixFramework.getDomainObject(externalId);
         if (category != null) {
             return new VirtualEditionDto(category.getTaxonomy().getEdition());
@@ -808,7 +808,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/tag/{externalId}/virtualEdition")
     @Atomic(mode = Atomic.TxMode.READ)
     public VirtualEditionDto getVirtualEditionOfTagByExternalId(@PathVariable("externalId") String externalId) {
-        System.out.println("getVirtualEditionOfTagByExternalId: " + externalId);
+       logger.debug("getVirtualEditionOfTagByExternalId: " + externalId);
         Tag tag = FenixFramework.getDomainObject(externalId);
         if (tag != null) {
             return new VirtualEditionDto(tag.getInter().getEdition());
@@ -819,7 +819,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/canManipulateTaxonomy")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean canManipulateTaxonomy(@PathVariable("acronym") String acronym, @RequestParam(name = "username") String username) {
-        System.out.println("canManipulateTaxonomy: " + acronym);
+       logger.debug("canManipulateTaxonomy: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym)
                 .map(virtualEdition -> virtualEdition.getTaxonomy()
                         .canManipulateTaxonomy(username)).orElse(false);
@@ -828,28 +828,28 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/taxonomy")
     @Atomic(mode = Atomic.TxMode.READ)
     public TaxonomyDto getVirtualEditionTaxonomy(@PathVariable("acronym") String acronym) {
-        System.out.println("getVirtualEditionTaxonomy: " + acronym);
+       logger.debug("getVirtualEditionTaxonomy: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym).map(VirtualEdition::getTaxonomy).map(TaxonomyDto::new).orElse(null);
     }
 
     @PostMapping("/loadTEICorpusVirtual")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void loadTEICorpusVirtual(@RequestBody byte[] inputStream) {
-        System.out.println("loadTEICorpusVirtual");
+       logger.debug("loadTEICorpusVirtual");
         new VirtualEditionsTEICorpusImport().loadTEICorpusVirtual(new ByteArrayInputStream(inputStream));
     }
 
     @PostMapping("/loadTEIFragmentCorpus")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void loadTEIFragmentCorpus(@RequestBody Set<FragmentDto> fragments) {
-        System.out.println("loadTEIFragmentCorpus");
+       logger.debug("loadTEIFragmentCorpus");
         new GenerateTEIFragmentsCorpus().LoadFragmentCorpus(fragments);
     }
 
     @GetMapping("/virtualEdition/{acronym}/categoriesFromTaxonomy")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<CategoryDto> getCategoriesFromTaxonomy(@PathVariable("acronym") String acronym) {
-        System.out.println("getCategoriesFromTaxonomy: " + acronym);
+       logger.debug("getCategoriesFromTaxonomy: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.getTaxonomy().getCategoriesSet().stream()
                 .map(CategoryDto::new)
                 .collect(Collectors.toSet()))
@@ -860,7 +860,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/category/{externalId}/sortedInters")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<VirtualEditionInterDto> getSortedInterFromCategoriesTag(@PathVariable("externalId") String externalId) {
-        System.out.println("getSortedInterFromCategoriesTag: " + externalId);
+       logger.debug("getSortedInterFromCategoriesTag: " + externalId);
         Category category = FenixFramework.getDomainObject(externalId);
         if (category != null) {
             return category.getSortedInters().stream().map(VirtualEditionInterDto::new).collect(Collectors.toList());
@@ -871,7 +871,7 @@ public class VirtualProvidesInterface {
     @GetMapping(value = "/category/{externalId}/sortedInters", params = "acronym")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<VirtualEditionInterDto> getSortedInterFromCategoriesTag(@PathVariable("externalId") String externalId, @RequestParam(name = "acronym", required = false) String acronym) {
-        System.out.println("getSortedInterFromCategoriesTag: " + acronym);
+       logger.debug("getSortedInterFromCategoriesTag: " + acronym);
         Category category = FenixFramework.getDomainObject(externalId);
         VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
         if (category != null && virtualEdition != null) {
@@ -883,7 +883,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/category/{externalId}/sortedUsers")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<String> getSortedUsersFromCategoriesTag(@PathVariable("externalId") String externalId) {
-        System.out.println("getSortedUsersFromCategoriesTag: " + externalId );
+       logger.debug("getSortedUsersFromCategoriesTag: " + externalId );
         Category category = FenixFramework.getDomainObject(externalId);
         if (category != null) {
             return category.getSortedUsers();
@@ -894,7 +894,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/category/{externalId}/sortedEditions")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<VirtualEditionDto> getSortedEditionsFromCategoriesTag(@PathVariable("externalId") String externalId) {
-        System.out.println("getSortedEditionsFromCategoriesTag: " + externalId);
+       logger.debug("getSortedEditionsFromCategoriesTag: " + externalId);
         Category category = FenixFramework.getDomainObject(externalId);
         if (category != null) {
             return category.getSortedEditions().stream().map(VirtualEditionDto::new).collect(Collectors.toList());
@@ -905,7 +905,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInter/{xmlId}/contributorSet")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<String> getContributorSetFromVirtualEditionInter(@RequestParam(name = "externalId") String externalId, @PathVariable("xmlId") String xmlId, @RequestParam(name = "username") String username) {
-        System.out.println("getContributorSetFromVirtualEditionInter: " + xmlId);
+       logger.debug("getContributorSetFromVirtualEditionInter: " + xmlId);
         Category category = FenixFramework.getDomainObject(externalId);
         VirtualEditionInter inter = VirtualModule.getInstance().getVirtualEditionInterByXmlId(xmlId);
 
@@ -922,7 +922,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/annotation/{externalId}/ranges")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<RangeJson> getRangeSetFromAnnotation(@PathVariable("externalId") String externalId) {
-        System.out.println("getRangeSetFromAnnotation: " + externalId);
+       logger.debug("getRangeSetFromAnnotation: " + externalId);
         Annotation annotation = FenixFramework.getDomainObject(externalId);
         if (annotation != null) {
             return annotation.getRangeSet().stream().map(RangeJson::new).collect(Collectors.toSet());
@@ -933,7 +933,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/createHumanAnnotation")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public HumanAnnotationDto createHumanAnnotation(@RequestParam(name = "xmlId") String xmlId, @RequestParam(name = "quote") String quote, @RequestParam(name = "text") String text, @RequestParam(name = "user") String user, @RequestBody List<RangeJson> ranges, @RequestParam(name = "tags") List<String> tags) {
-       System.out.println("createHumanAnnotation: " + xmlId);
+      logger.debug("createHumanAnnotation: " + xmlId);
         VirtualEditionInter inter = VirtualModule.getInstance().getVirtualEditionInterByXmlId(xmlId);
         if (inter != null) {
             return new HumanAnnotationDto(inter.createHumanAnnotation(quote, text, user, ranges, tags), inter);
@@ -944,7 +944,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/humanAnnotation/ext/{Id}")
     @Atomic(mode = Atomic.TxMode.READ)
     public HumanAnnotationDto getHumanAnnotationfromId(@PathVariable("Id") String Id) {
-        System.out.println("getHumanAnnotationfromId: " + Id);
+       logger.debug("getHumanAnnotationfromId: " + Id);
         HumanAnnotation annotation = FenixFramework.getDomainObject(Id);
         if (annotation != null) {
             return new HumanAnnotationDto(annotation, annotation.getVirtualEditionInter());
@@ -955,7 +955,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/humanAnnotation/{Id}/canUserUpdate")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean canUserUpdateHumanAnnotation(@PathVariable("Id") String Id, @RequestParam(name = "user") String user) {
-        System.out.println("canUserUpdateHumanAnnotation: " + user);
+       logger.debug("canUserUpdateHumanAnnotation: " + user);
         HumanAnnotation annotation = FenixFramework.getDomainObject(Id);
         if (annotation != null) {
             return annotation.canUpdate(user);
@@ -966,7 +966,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/humanAnnotation/{id}/update")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public HumanAnnotationDto updateHumanAnnotation(@PathVariable("id") String id, @RequestParam(name = "text") String text, @RequestParam(name = "tags") List<String> tags) {
-        System.out.println("updateHumanAnnotation: " + id);
+       logger.debug("updateHumanAnnotation: " + id);
         HumanAnnotation annotation = FenixFramework.getDomainObject(id);
         if (annotation != null) {
             annotation.update(text, tags);
@@ -978,7 +978,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/humanAnnotation/{id}/canUserDelete")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean canUserDeleteHumanAnnotation(@PathVariable("id") String id, @RequestParam(name = "user") String user) {
-        System.out.println("canUserDeleteHumanAnnotation: " + id);
+       logger.debug("canUserDeleteHumanAnnotation: " + id);
         HumanAnnotation annotation = FenixFramework.getDomainObject(id);
         if (annotation != null) {
             return annotation.canDelete(user);
@@ -989,7 +989,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/removeHumanAnnotation")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void removeHumanAnnotation(@RequestParam(name = "id") String id) {
-        System.out.println("removeHumanAnnotation: " + id);
+       logger.debug("removeHumanAnnotation: " + id);
         HumanAnnotation annotation = FenixFramework.getDomainObject(id);
         if (annotation != null) {
             annotation.remove();
@@ -999,7 +999,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/archiveVirtualEdition")
     @Atomic(mode = Atomic.TxMode.READ)
     public VirtualEditionDto getArchiveVirtualEdition() {
-        System.out.println("getArchiveVirtualEdition");
+       logger.debug("getArchiveVirtualEdition");
         VirtualEdition archive = VirtualModule.getInstance().getArchiveEdition();
         if (archive != null) {
             return new VirtualEditionDto(VirtualModule.getInstance().getArchiveEdition());
@@ -1010,7 +1010,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/virtualEdition/{xmlId}/edit")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void editVirtualEdition(@PathVariable("xmlId") String xmlId, @RequestParam(name = "acronym") String acronym, @RequestParam(name = "title") String title, @RequestParam(name = "synopsis") String synopsis, @RequestParam(name = "pub") boolean pub, @RequestParam(name = "management") boolean management, @RequestParam(name = "vocabulary") boolean vocabulary, @RequestParam(name = "annotation") boolean annotation, @RequestParam(name = "mediaSource") String mediaSource, @RequestParam(name = "beginDate") String beginDate, @RequestParam(name = "endDate") String endDate, @RequestParam(name = "geoLocation") String geoLocation, @RequestParam(name = "frequency") String frequency) {
-       System.out.println("editVirtualEdition: " + xmlId);
+      logger.debug("editVirtualEdition: " + xmlId);
         VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEditionByXmlId(xmlId);
         if (virtualEdition != null) {
             virtualEdition.edit(VirtualEdition.ACRONYM_PREFIX + acronym, title, synopsis, pub, management, vocabulary, annotation, mediaSource, beginDate, endDate, geoLocation, frequency);
@@ -1020,7 +1020,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/searchForAwareAnnotations")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void searchForAwareAnnotations(@RequestParam(name = "externalId") String externalId) {
-        System.out.println("searchForAwareAnnotations: " + externalId);
+       logger.debug("searchForAwareAnnotations: " + externalId);
         VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
         if (virtualEdition != null) {
             AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
@@ -1040,7 +1040,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/removeVirtualEdition")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void removeVirtualEditionByExternalId(@RequestParam(name = "externalId") String externalId) {
-        System.out.println("removeVirtualEditionByExternalId: " + externalId);
+       logger.debug("removeVirtualEditionByExternalId: " + externalId);
         DomainObject virtualEdition = FenixFramework.getDomainObject(externalId);
         if (virtualEdition instanceof VirtualEdition) {
             virtualEditionMap.clear();
@@ -1053,7 +1053,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/virtualEdition/{externalId}/updateVirtualEditionInters")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void updateVirtualEditionInters(@PathVariable("externalId") String externalId, @RequestParam(name = "fragIntersXmlIds") List<String> fragIntersXmlIds) {
-        System.out.println("updateVirtualEditionInters: " + externalId );
+       logger.debug("updateVirtualEditionInters: " + externalId );
         DomainObject virtualEdition = FenixFramework.getDomainObject(externalId);
         if (virtualEdition instanceof VirtualEdition) {
             ((VirtualEdition) virtualEdition).updateVirtualEditionInters(fragIntersXmlIds);
@@ -1063,7 +1063,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/virtualEdition/{externalId}/addMember")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void addMemberByExternalId(@PathVariable("externalId") String externalId, @RequestParam(name = "user") String user, @RequestParam(name = "b") boolean b) {
-        System.out.println("addMemberByExternalId: " + externalId + ", " + user);
+       logger.debug("addMemberByExternalId: " + externalId + ", " + user);
         DomainObject virtualEdition = FenixFramework.getDomainObject(externalId);
         if (virtualEdition instanceof VirtualEdition) {
             ((VirtualEdition) virtualEdition).addMember(user, Member.MemberRole.MEMBER, b);
@@ -1073,7 +1073,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/virtualEdition/{externalId}/cancelParticipationSubmission")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void cancelParticipationSubmissionByExternalId(@PathVariable("externalId") String externalId, @RequestParam(name = "user") String user) {
-        System.out.println("cancelParticipationSubmissionByExternalId: " + externalId);
+       logger.debug("cancelParticipationSubmissionByExternalId: " + externalId);
         DomainObject virtualEdition = FenixFramework.getDomainObject(externalId);
         if (virtualEdition instanceof VirtualEdition) {
             ((VirtualEdition) virtualEdition).cancelParticipationSubmission(user);
@@ -1083,7 +1083,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/virtualEdition/{externalId}/addApprove")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void addApproveByExternalId(@PathVariable("externalId") String externalId, @RequestParam(name = "username") String username) {
-        System.out.println("addApproveByExternalId: " + externalId);
+       logger.debug("addApproveByExternalId: " + externalId);
         DomainObject virtualEdition = FenixFramework.getDomainObject(externalId);
         if (virtualEdition instanceof VirtualEdition) {
             ((VirtualEdition) virtualEdition).addApprove(username);
@@ -1093,7 +1093,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/virtualEdition/{externalId}/canSwitchRole")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public boolean canSwitchRole(@PathVariable("externalId") String externalId, @RequestParam(name = "authenticatedUser") String authenticatedUser, @RequestParam(name = "username") String username) {
-        System.out.println("canSwitchRole: " + externalId);
+       logger.debug("canSwitchRole: " + externalId);
         DomainObject virtualEdition = FenixFramework.getDomainObject(externalId);
         if (virtualEdition instanceof VirtualEdition) {
             return ((VirtualEdition) virtualEdition).canSwitchRole(authenticatedUser, username);
@@ -1104,7 +1104,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/virtualEdition/{externalId}/switchRole")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void switchRole(@PathVariable("externalId") String externalId, @RequestParam(name = "username") String username) {
-        System.out.println("switchRole: " + externalId);
+       logger.debug("switchRole: " + externalId);
         DomainObject virtualEdition = FenixFramework.getDomainObject(externalId);
         if (virtualEdition instanceof VirtualEdition) {
             ((VirtualEdition) virtualEdition).switchRole(username);
@@ -1114,7 +1114,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{externalId}/canRemoveMember")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean canRemoveMember(@PathVariable("externalId") String externalId, @RequestParam(name = "authenticatedUser") String authenticatedUser, @RequestParam(name = "user") String user) {
-        System.out.println("canRemoveMember: " + externalId);
+       logger.debug("canRemoveMember: " + externalId);
         DomainObject virtualEdition = FenixFramework.getDomainObject(externalId);
         if (virtualEdition instanceof VirtualEdition) {
             return ((VirtualEdition) virtualEdition).canRemoveMember(authenticatedUser, user);
@@ -1126,7 +1126,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/virtualEdition/{externalId}/removeMember")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void removeMember(@PathVariable("externalId") String externalId, @RequestParam(name = "user") String user) {
-        System.out.println("removeMember: " +externalId);
+       logger.debug("removeMember: " +externalId);
         DomainObject virtualEdition = FenixFramework.getDomainObject(externalId);
         if (virtualEdition instanceof VirtualEdition) {
             ((VirtualEdition) virtualEdition).removeMember(user);
@@ -1136,7 +1136,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/createVirtualEditionInterFromScholarInter")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public VirtualEditionInterDto createVirtualEditionInterFromScholarInter(@RequestParam(name = "externalId") String externalId, @RequestParam(name = "xmlId") String xmlId, @RequestParam(name = "max") int max) {
-        System.out.println("createVirtualEditionInterFromScholarInter: " + externalId);
+       logger.debug("createVirtualEditionInterFromScholarInter: " + externalId);
         DomainObject virtualEdition = FenixFramework.getDomainObject(externalId);
         ScholarInterDto scholarInterDto = VirtualRequiresInterface.getInstance().getScholarInterByXmlId(xmlId);
         if (virtualEdition instanceof VirtualEdition && scholarInterDto != null) {
@@ -1148,7 +1148,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/createVirtualEditionInterFromVirtualEditionInter")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public VirtualEditionInterDto createVirtualEditionInterFromVirtualEditionInter(@RequestParam(name = "externalId") String externalId, @RequestParam(name = "interExternalId") String interExternalId, @RequestParam(name = "max") int max) {
-        System.out.println("createVirtualEditionInterFromVirtualEditionInter: " + externalId);
+       logger.debug("createVirtualEditionInterFromVirtualEditionInter: " + externalId);
         DomainObject virtualEdition = FenixFramework.getDomainObject(externalId);
         DomainObject inter = FenixFramework.getDomainObject(interExternalId);
         if (virtualEdition instanceof VirtualEdition && inter instanceof VirtualEditionInter) {
@@ -1160,14 +1160,14 @@ public class VirtualProvidesInterface {
     @PostMapping("/taxonomy/{editionAcronym}/edit")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void editTaxonomy(@PathVariable("editionAcronym") String editionAcronym, @RequestParam(name = "management") boolean management, @RequestParam(name = "vocabulary") boolean vocabulary, @RequestParam(name = "annotation") boolean annotation) {
-        System.out.println("editTaxonomy: " + editionAcronym);
+       logger.debug("editTaxonomy: " + editionAcronym);
         getVirtualEditionByAcronymUtil(editionAcronym).map(VirtualEdition_Base::getTaxonomy).ifPresent(taxonomy -> taxonomy.edit(management, vocabulary, annotation));
     }
 
     @PostMapping("/generateTopicModeler")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public TopicListDTO generateTopicModeler(@RequestParam(name = "username") String username, @RequestParam(name = "externalId") String externalId, @RequestParam(name = "numTopics") int numTopics, @RequestParam(name = "numWords") int numWords, @RequestParam(name = "thresholdCategories") int thresholdCategories, @RequestParam("numIterations") int numIterations) throws IOException {
-        System.out.println("generateTopicModeler: " + username);
+       logger.debug("generateTopicModeler: " + username);
         DomainObject virtualEdition = FenixFramework.getDomainObject(externalId);
         if (virtualEdition instanceof VirtualEdition) {
             TopicModeler topicModeler = new TopicModeler();
@@ -1180,14 +1180,14 @@ public class VirtualProvidesInterface {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void createGeneratedCategories(@RequestParam(name = "editionAcronym") String editionAcronym, @RequestBody TopicListDTO topicList) {
 //        VirtualModule.getInstance().getVirtualEdition(editionAcronym).getTaxonomy().createGeneratedCategories(topicList);
-       System.out.println("createGeneratedCategories: " + editionAcronym);
+      logger.debug("createGeneratedCategories: " + editionAcronym);
         getVirtualEditionByAcronymUtil(editionAcronym).map(VirtualEdition_Base::getTaxonomy).ifPresent(taxonomy -> taxonomy.createGeneratedCategories(topicList));
     }
 
     @GetMapping("/taxonomy/ext/{externalId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public TaxonomyDto getTaxonomyByExternalId(@PathVariable("externalId") String externalId) {
-        System.out.println("getTaxonomyByExternalId: " + externalId);
+       logger.debug("getTaxonomyByExternalId: " + externalId);
         DomainObject domainObject = FenixFramework.getDomainObject(externalId);
         if (domainObject instanceof Taxonomy) {
             return new TaxonomyDto((Taxonomy) domainObject);
@@ -1198,7 +1198,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/removeTaxonomy")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void removeTaxonomy(@RequestParam(name = "editionAcronym") String editionAcronym) {
-        System.out.println("removeTaxonomy: " + editionAcronym);
+       logger.debug("removeTaxonomy: " + editionAcronym);
         VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(editionAcronym);
         if (virtualEdition != null) {
             virtualEdition.getTaxonomy().remove();
@@ -1209,14 +1209,14 @@ public class VirtualProvidesInterface {
     @PostMapping("/createCategory")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void createCategory(@RequestParam(name = "editionAcronym") String editionAcronym, @RequestParam(name = "name") String name) {
-        System.out.println("createCategory: " + editionAcronym);
+       logger.debug("createCategory: " + editionAcronym);
         getVirtualEditionByAcronymUtil(editionAcronym).map(VirtualEdition_Base::getTaxonomy).ifPresent(taxonomy -> taxonomy.createCategory(name));
     }
 
     @GetMapping("/category/ext/{externalId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public CategoryDto getCategoryByExternalId(@PathVariable("externalId") String externalId) {
-        System.out.println("getCategoryByExternalId: " + externalId);
+       logger.debug("getCategoryByExternalId: " + externalId);
         DomainObject domainObject = FenixFramework.getDomainObject(externalId);
 
         if (domainObject instanceof Category) {
@@ -1229,7 +1229,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/category/{externalId}/updateName")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void updateCategoryNameByExternalId(@PathVariable("externalId") String externalId, @RequestParam(name = "name") String name) {
-        System.out.println("updateCategoryNameByExternalId: " + externalId);
+       logger.debug("updateCategoryNameByExternalId: " + externalId);
         DomainObject domainObject = FenixFramework.getDomainObject(externalId);
         if (domainObject instanceof Category) {
             ((Category) domainObject).setName(name);
@@ -1239,7 +1239,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/category/{externalId}/remove")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void removeCategory(@PathVariable("externalId") String externalId) {
-        System.out.println("removeCategory: " + externalId);
+       logger.debug("removeCategory: " + externalId);
         DomainObject domainObject = FenixFramework.getDomainObject(externalId);
 
         if (domainObject instanceof Category) {
@@ -1251,7 +1251,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/mergeCategories")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public CategoryDto mergeCategories(@RequestParam(name = "editionAcronym") String editionAcronym, @RequestBody List<CategoryDto> categories) {
-        System.out.println("mergeCategories: " + editionAcronym);
+       logger.debug("mergeCategories: " + editionAcronym);
         List<Category> categoryList = categories.stream().map(categoryDto -> (Category) FenixFramework.getDomainObject(categoryDto.getExternalId())).collect(Collectors.toList());
         return new CategoryDto(VirtualModule.getInstance().getVirtualEdition(editionAcronym).getTaxonomy().merge(categoryList));
     }
@@ -1259,7 +1259,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/deleteCategories")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void deleteCategories(@RequestParam(name = "editionAcronym") String editionAcronym, @RequestBody List<CategoryDto> categories) {
-        System.out.println("deleteCategories: " + editionAcronym);
+       logger.debug("deleteCategories: " + editionAcronym);
         List<Category> categoryList = categories.stream().map(categoryDto -> (Category) FenixFramework.getDomainObject(categoryDto.getExternalId())).collect(Collectors.toList());
         VirtualModule.getInstance().getVirtualEdition(editionAcronym).getTaxonomy().delete(categoryList);
     }
@@ -1267,7 +1267,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/extractCategories")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public CategoryDto extractCategories(@RequestParam(name = "editionAcronym") String editionAcronym, @RequestParam(name = "externalId") String externalId, @RequestBody String[] interIds) {
-        System.out.println("extractCategories: " + editionAcronym);
+       logger.debug("extractCategories: " + editionAcronym);
         DomainObject domainObject = FenixFramework.getDomainObject(externalId);
 
         if (domainObject instanceof Category) {
@@ -1282,7 +1282,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/mediaSource")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getMediaSourceName(@PathVariable("acronym") String acronym) {
-        System.out.println("getMediaSourceName: " + acronym);
+       logger.debug("getMediaSourceName: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym).map(VirtualEdition:: getMediaSource).map(MediaSource::getName).orElse(null);
 
     }
@@ -1290,28 +1290,28 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/timeWindowBeginDate")
     @Atomic(mode = Atomic.TxMode.READ)
     public LocalDate getTimeWindowBeginDate(@PathVariable("acronym") String acronym) {
-        System.out.println("getTimeWindowBeginDate: " + acronym);
+       logger.debug("getTimeWindowBeginDate: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym).map(VirtualEdition::getTimeWindow).map(TimeWindow::getBeginDate).orElse(null);
     }
 
     @GetMapping("/virtualEdition/{acronym}/timeWindowEndDate")
     @Atomic(mode = Atomic.TxMode.READ)
     public LocalDate getTimeWindowEndDate(@PathVariable("acronym") String acronym) {
-        System.out.println("getTimeWindowEndDate: " + acronym);
+       logger.debug("getTimeWindowEndDate: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym).map(VirtualEdition::getTimeWindow).map(TimeWindow::getEndDate).orElse(null);
     }
 
     @GetMapping("/virtualEdition/{acronym}/containsEveryCountryinGeographicLocation")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean containsEveryCountryinGeographicLocation(@PathVariable("acronym") String acronym) {
-        System.out.println("containsEveryCountryinGeographicLocation: " + acronym);
+       logger.debug("containsEveryCountryinGeographicLocation: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym).map(VirtualEdition::getGeographicLocation).map(GeographicLocation::containsEveryCountry).orElse(false);
     }
 
     @GetMapping("/virtualEdition/{acronym}/containsCountryinGeographicLocation")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean containsCountryinGeographicLocation(@PathVariable("acronym") String acronym, @RequestParam(name = "country") String country) {
-        System.out.println("containsCountryinGeographicLocation: " + acronym);
+       logger.debug("containsCountryinGeographicLocation: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym).map(VirtualEdition::getGeographicLocation)
                 .map(geographicLocation -> geographicLocation.containsCountry(country)).orElse(false);
     }
@@ -1319,14 +1319,14 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/integerFrequency")
     @Atomic(mode = Atomic.TxMode.READ)
     public int getIntegerFrequency(@PathVariable("acronym") String acronym) {
-        System.out.println("getIntegerFrequency: " + acronym);
+       logger.debug("getIntegerFrequency: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym).map(VirtualEdition::getFrequency).map(Frequency_Base::getFrequency).orElse(0);
     }
 
     @GetMapping("/virtualEdition/{acronym}/activeMembers")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<MemberDto> getActiveMembersFromVirtualEdition(@PathVariable("acronym") String acronym) {
-        System.out.println("getActiveMembersFromVirtualEdition: " + acronym);
+       logger.debug("getActiveMembersFromVirtualEdition: " + acronym);
         VirtualEdition edition = VirtualModule.getInstance().getVirtualEdition(acronym);
         if (edition != null) {
             return edition.getActiveMemberSet().stream().map(MemberDto::new).collect(Collectors.toSet());
@@ -1338,7 +1338,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/pendingMember")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<MemberDto> getPendingMemberFromVirtualEdition(@PathVariable("acronym") String acronym) {
-        System.out.println("getPendingMemberFromVirtualEdition: " + acronym);
+       logger.debug("getPendingMemberFromVirtualEdition: " + acronym);
         VirtualEdition edition = VirtualModule.getInstance().getVirtualEdition(acronym);
         if (edition != null ) {
             return edition.getPendingMemberSet().stream().map(MemberDto::new).collect(Collectors.toSet());
@@ -1350,7 +1350,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/taxonomy/{editionAcronym}/taxonomyUsedIn")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<VirtualEditionDto> getTaxonomyUsedIn(@PathVariable("editionAcronym") String editionAcronym) {
-        System.out.println("getTaxonomyUsedIn: " + editionAcronym);
+       logger.debug("getTaxonomyUsedIn: " + editionAcronym);
         VirtualEdition edition = VirtualModule.getInstance().getVirtualEdition(editionAcronym);
         if (edition != null) {
             return edition.getTaxonomy().getUsedIn().stream().map(VirtualEditionDto::new).collect(Collectors.toList());
@@ -1361,7 +1361,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/writeVirtualEditionToFileExport")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getWriteVirtualEditionToFileExport() throws IOException {
-        System.out.println("getWriteVirtualEditionToFileExport");
+       logger.debug("getWriteVirtualEditionToFileExport");
         WriteVirtualEditonsToFile write = new WriteVirtualEditonsToFile();
         return write.export();
     }
@@ -1369,7 +1369,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/importVirtualEditionCorpus")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void importVirtualEditionCorpus(@RequestBody byte[] inputStream) {
-        System.out.println("importVirtualEditionCorpus");
+       logger.debug("importVirtualEditionCorpus");
         VirtualEditionsTEICorpusImport loader = new VirtualEditionsTEICorpusImport();
         loader.importVirtualEditionsCorpus(new ByteArrayInputStream(inputStream));
     }
@@ -1377,7 +1377,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/importVirtualEditionCorpusString")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void importVirtualEditionCorpus(@RequestBody String inputStream) {
-        System.out.println("importVirtualEditionCorpus");
+       logger.debug("importVirtualEditionCorpus");
         VirtualEditionsTEICorpusImport loader = new VirtualEditionsTEICorpusImport();
         loader.importVirtualEditionsCorpus((inputStream));
     }
@@ -1385,7 +1385,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/importVirtualEditionFragmentFromTEI")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public String importVirtualEditionFragmentFromTEI(@RequestBody byte[] inputStream) {
-        System.out.println("importVirtualEditionFragmentFromTEI");
+       logger.debug("importVirtualEditionFragmentFromTEI");
         VirtualEditionFragmentsTEIImport loader = new VirtualEditionFragmentsTEIImport();
         return loader.importFragmentFromTEI(new ByteArrayInputStream(inputStream));
     }
@@ -1393,7 +1393,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/importVirtualEditionFragmentFromTEIString")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void importVirtualEditionFragmentFromTEI(@RequestBody String inputStream) {
-        System.out.println("importVirtualEditionFragmentFromTEI");
+       logger.debug("importVirtualEditionFragmentFromTEI");
         VirtualEditionFragmentsTEIImport loader = new VirtualEditionFragmentsTEIImport();
         loader.importFragmentFromTEI((inputStream));
     }
@@ -1401,7 +1401,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/allTwitterCitations")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public List<TwitterCitationDto> getAllTwitterCitations() {
-        System.out.println("getAllTwitterCitations");
+       logger.debug("getAllTwitterCitations");
         DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
         return  VirtualModule.getInstance().getAllTwitterCitation().stream()
                 .sorted((c1, c2) -> java.time.LocalDateTime.parse(c2.getDate(), formater)
@@ -1412,21 +1412,21 @@ public class VirtualProvidesInterface {
     @GetMapping("/allTweets")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<TweetDto> getAllTweets() {
-        System.out.println("getAllTweets");
+       logger.debug("getAllTweets");
         return VirtualModule.getInstance().getTweetSet().stream().map(TweetDto::new).collect(Collectors.toSet());
     }
 
     @PostMapping("/removeTweets")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void removeTweets() {
-        System.out.println("removeTweets");
+       logger.debug("removeTweets");
         VirtualModule.getInstance().removeTweets();
     }
 
     @PostMapping("/detectCitation")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void detectCitation() throws IOException {
-        System.out.println("detectCitation");
+       logger.debug("detectCitation");
         CitationDetecter detecter = new CitationDetecter();
         detecter.detect();
     }
@@ -1434,7 +1434,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/createTweetFactory")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void createTweetFactory() throws IOException {
-        System.out.println("createTweetFactory");
+       logger.debug("createTweetFactory");
         TweetFactory tweetFactory = new TweetFactory();
         tweetFactory.create();
     }
@@ -1442,7 +1442,7 @@ public class VirtualProvidesInterface {
     @PostMapping("/generateAwareAnnotations")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void generateAwareAnnotations() throws IOException {
-        System.out.println("generateAwareAnnotations");
+       logger.debug("generateAwareAnnotations");
         AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
         awareFactory.generate();
     }
@@ -1450,14 +1450,14 @@ public class VirtualProvidesInterface {
     @PostMapping("/dailyRegenerateTwitterCitationEdition")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void dailyRegenerateTwitterCitationEdition() {
-        System.out.println("dailyRegenerateTwitterCitationEdition");
+       logger.debug("dailyRegenerateTwitterCitationEdition");
         VirtualModule.dailyRegenerateTwitterCitationEdition();
     }
 
     @GetMapping("/virtualEdition/{acronym}/annotationTextList")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<String> getAnnotationTextListFromVirtualEdition(@PathVariable("acronym") String acronym) {
-        System.out.println("getAnnotationTextListFromVirtualEdition: " + acronym);
+       logger.debug("getAnnotationTextListFromVirtualEdition: " + acronym);
         VirtualEdition edition = VirtualModule.getInstance().getVirtualEdition(acronym);
         if (edition != null && !edition.getAnnotationTextList().isEmpty()) {
             return edition.getAnnotationTextList();
@@ -1468,7 +1468,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInter/{xmlId}/allDepthCategoriesAccessibleByUser")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<CategoryDTO> getVirtualEditionInterAllDepthCategoriesAccessibleByUser(@PathVariable("xmlId") String xmlId, @RequestParam(name = "username") String username) {
-        System.out.println("getVirtualEditionInterAllDepthCategoriesAccessibleByUser: " + xmlId);
+       logger.debug("getVirtualEditionInterAllDepthCategoriesAccessibleByUser: " + xmlId);
         VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).orElseThrow(LdoDException::new);
         return inter.getAllDepthCategoriesAccessibleByUser(username).stream()
                 .sorted((c1, c2) -> c1.compareInEditionContext(inter.getVirtualEdition(), c2))
@@ -1478,7 +1478,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/canCreateHumanAnnotation")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean canCreateHumanAnnotationOnVirtualEdition(@PathVariable("acronym") String acronym, @RequestParam(name = "username") String username) {
-        System.out.println("canCreateHumanAnnotationOnVirtualEdition: " + acronym);
+       logger.debug("canCreateHumanAnnotationOnVirtualEdition: " + acronym);
         VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
         if (virtualEdition != null) {
             return HumanAnnotation.canCreate(virtualEdition, username);
@@ -1489,7 +1489,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/fragInter")
     @Atomic(mode = Atomic.TxMode.READ)
     public VirtualEditionInterDto getVirtualEditionFragInterByUrlId(@PathVariable("acronym") String acronym, @RequestParam(name = "urlId") String urlId) {
-        System.out.println("getVirtualEditionFragInterByUrlId: " + acronym);
+       logger.debug("getVirtualEditionFragInterByUrlId: " + acronym);
         VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
         if (virtualEdition != null) {
             return virtualEdition.getIntersSet().stream().filter(i -> i.getUrlId().equals(urlId)).findFirst().map(VirtualEditionInterDto::new).orElse(null);
@@ -1500,7 +1500,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/interList")
     @Atomic(mode = Atomic.TxMode.READ)
     public VirtualEditionInterListDto getVirtualEditionInterList(@PathVariable("acronym") String acronym, @RequestParam(name = "deep") boolean deep) {
-        System.out.println("getVirtualEditionInterList: " + acronym);
+       logger.debug("getVirtualEditionInterList: " + acronym);
         VirtualEdition virtualEdition = VirtualModule.getInstance().getVirtualEdition(acronym);
         if (virtualEdition != null) {
             return new VirtualEditionInterListDto(virtualEdition, deep);
@@ -1511,7 +1511,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionsUserIsParticipantSelectedOrPublic")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<VirtualEditionDto> getVirtualEditionsUserIsParticipantSelectedOrPublic(@RequestParam(name = "username") String username) {
-        System.out.println("getVirtualEditionsUserIsParticipantSelectedOrPublic: " + username);
+       logger.debug("getVirtualEditionsUserIsParticipantSelectedOrPublic: " + username);
         return VirtualModule.getInstance().getVirtualEditionsUserIsParticipantSelectedOrPublic(username).stream().map(VirtualEditionDto::new).collect(Collectors.toList());
     }
 
@@ -1587,14 +1587,14 @@ public class VirtualProvidesInterface {
     @PostMapping("/initializeVirtualModule")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public boolean initializeVirtualModule() {
-        System.out.println("initializeVirtualModule");
+       logger.debug("initializeVirtualModule");
         return VirtualBootstrap.initializeVirtualModule();
     }
 
     @PostMapping("/fetchCitationsFromTwitter")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void fetchCitationsFromTwitter() throws IOException {
-        System.out.println("fetchCitationsFromTwitter");
+       logger.debug("fetchCitationsFromTwitter");
         FetchCitationsFromTwitter fetch = new FetchCitationsFromTwitter();
         fetch.fetch();
     }
@@ -1643,7 +1643,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEdition/{acronym}/members")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<MemberDto> getMemberSet(@PathVariable("acronym") String acronym) {
-        System.out.println("getMemberSet: " + acronym);
+       logger.debug("getMemberSet: " + acronym);
         return getVirtualEditionByAcronymUtil(acronym).get().getMemberSet().stream().map(MemberDto::new).collect(Collectors.toSet());
     }
 
@@ -1700,14 +1700,14 @@ public class VirtualProvidesInterface {
     @PostMapping("/createTwitterCitationFromCitation")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public TwitterCitationDto createTwitterCitationFromCitation(@RequestBody CitationDto citationDto) {
-        System.out.println("createTwitterCitationFromCitation: " + citationDto.getId());
+       logger.debug("createTwitterCitationFromCitation: " + citationDto.getId());
         return new TwitterCitationDto(new TwitterCitation(citationDto));
     }
 
     @GetMapping("/twitterCitation/{id}/awareAnnotations")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public Set<AwareAnnotationDto> getAwareAnnotations(@PathVariable("id") long id) {
-        System.out.println(VirtualModule.getInstance().getAllTwitterCitation());
+       logger.debug("getAwareAnnotations: " + id);
         return VirtualModule.getInstance().getTwitterCitationByTweetID(id).getAwareAnnotationSet().stream().map(AwareAnnotationDto::new).collect(Collectors.toSet());
     }
 

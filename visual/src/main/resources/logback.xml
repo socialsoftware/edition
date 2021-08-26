@@ -18,7 +18,6 @@
 		</encoder>
 	</appender>
  -->
-	<logger name="org.apache.activemq.transport" level="WARN"/>
 	<logger name='org.springframework'>
 		<level value='INFO' />
 	</logger>

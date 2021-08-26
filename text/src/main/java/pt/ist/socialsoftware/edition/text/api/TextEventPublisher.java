@@ -1,6 +1,8 @@
 package pt.ist.socialsoftware.edition.text.api;
 
 import org.apache.activemq.command.ActiveMQTopic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import javax.jms.Topic;
 
 @Component
 public class TextEventPublisher {
+    private static final Logger logger = LoggerFactory.getLogger(TextEventPublisher.class);
 
     @Autowired
     private final Topic queue = new ActiveMQTopic("test-topic");
@@ -25,7 +28,7 @@ public class TextEventPublisher {
     @GetMapping("/publishEvent")
     public ResponseEntity<Event> publishEvent(Event event){
         jmsTemplate.convertAndSend(queue, event);
-        System.out.println("published Event!");
+        logger.debug("published Event!");
         return new ResponseEntity(event, HttpStatus.OK);
     }
 }

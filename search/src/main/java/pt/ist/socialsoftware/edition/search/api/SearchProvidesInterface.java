@@ -6,6 +6,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.socialsoftware.edition.search.api.dto.AdvancedSearchResultDto;
@@ -22,17 +24,17 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class SearchProvidesInterface {
-    private final SearchRequiresInterface searchRequiresInterface = new SearchRequiresInterface();
+    private static final Logger logger = LoggerFactory.getLogger(SearchProvidesInterface.class);
 
     @GetMapping("/simpleSearch")
     public Map<String, List<ScholarInterDto>> simpleSearch(@RequestParam(name = "params") String params) {
-        System.out.println("simpleSearch: " + params);
+        logger.debug("simpleSearch: " + params);
         return new SearchProcessor().simpleSearch(params);
     }
 
     @PostMapping("/advancedSearch")
     public AdvancedSearchResultDto advancedSearch(@RequestBody SearchDto search, @RequestParam(name = "username") String username) {
-        System.out.println("advancedSearch: " + username);
+        logger.debug("advancedSearch: " + username);
 
         if (username != null) {
             Arrays.stream(search.getSearchOptions())

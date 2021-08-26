@@ -40,7 +40,7 @@ public class RecommendationProvidesInterface {
     @PostMapping("/scholarIntersByDistance")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<InterIdDistancePairDto> getScholarIntersByDistance(@RequestBody IntersByDistance wrapper) {
-        System.out.println("getScholarIntersByDistance");
+        logger.debug("getScholarIntersByDistance");
         ScholarInterDto scholarInterDto = wrapper.getScholarInterDto();
         WeightsDto weights = wrapper.getWeightsDto();
 
@@ -67,7 +67,7 @@ public class RecommendationProvidesInterface {
     @PostMapping("/virtualEditionIntersByDistance")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<InterIdDistancePairDto> geVirtualEditiontIntersByDistance(@RequestBody IntersByDistance wrapper) {
-        System.out.println("virtualEditionIntersByDistance");
+        logger.debug("virtualEditionIntersByDistance");
         VirtualEditionInterDto virtualEditionInterDto = wrapper.getVirtualEditionInterDto();
         WeightsDto weights = wrapper.getWeightsDto();
 
@@ -97,7 +97,7 @@ public class RecommendationProvidesInterface {
     @PostMapping("/generateRecommendationFromVirtualEditionInter")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public List<VirtualEditionInterDto> generateRecommendationFromVirtualEditionInter(@RequestBody RecommendationVirtualEditionInter wrapper) {
-        System.out.println("generateRecommendationFromVirtualEditionInter");
+        logger.debug("generateRecommendationFromVirtualEditionInter");
         VirtualEditionInterDto inter = wrapper.getInter();
         String username = wrapper.getUsername();
         VirtualEditionDto virtualEdition = wrapper.getVirtualEditionDto();
@@ -137,7 +137,7 @@ public class RecommendationProvidesInterface {
     @PostMapping("/mostSimilarFragmentsOfGivenFragment")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<Map.Entry<FragmentDto, Double>> getMostSimilarFragmentsOfGivenFragment(@RequestBody MostSimilarFragments wrapper) {
-        System.out.println("getMostSimilarFragmentsOfGivenFragment");
+        logger.debug("getMostSimilarFragmentsOfGivenFragment");
         FragmentDto toReadFragment = wrapper.getToReadFragment();
         Set<FragmentDto> toBeRecommended = wrapper.getToBeRecommended();
         WeightsDto weightsDto = wrapper.getWeightsDto();
@@ -155,7 +155,7 @@ public class RecommendationProvidesInterface {
         try {
             String json = ow.writeValueAsString(recommender.getMostSimilarItems(toReadFragment, toBeRecommended,
                     properties));
-            System.out.println(json);
+            logger.debug(json);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -166,14 +166,14 @@ public class RecommendationProvidesInterface {
     @PostMapping("/initializeRecommendationModule")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void initializeRecommendationModule() {
-        System.out.println("initializeRecommendationModule");
+        logger.debug("initializeRecommendationModule");
         RecommendationBootstrap.initializeRecommendationModule();
     }
 
     @PostMapping("/loadRecommendationCache")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void loadRecommendationCache() {
-        System.out.println("loadRecommendationCache");
+        logger.debug("loadRecommendationCache");
         RecommendationBootstrap.loadRecommendationCache();
     }
 

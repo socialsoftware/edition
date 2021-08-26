@@ -3,6 +3,8 @@ package pt.ist.socialsoftware.edition.game.api;
 
 
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
@@ -32,14 +34,16 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 @Component
 public class GameProvidesInterface {
+    private static final Logger logger = LoggerFactory.getLogger(GameProvidesInterface.class);
 
+    
     @Autowired
     GameRunner gameRunner;
 
     @GetMapping("/classificationGames")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<ClassificationGameDto> getClassificationGames() {
-        System.out.println("getClassificationGames");
+        logger.debug("getClassificationGames");
         return ClassificationModule.getInstance().getClassificationGameSet().stream()
                 .map(ClassificationGameDto::new).collect(Collectors.toSet());
     }
@@ -47,14 +51,14 @@ public class GameProvidesInterface {
     @GetMapping("/overallUserPosition")
     @Atomic(mode = Atomic.TxMode.READ)
     public int getOverallUserPosition(@RequestParam(name = "username") String username) {
-        System.out.println("getOverallUserPosition: " + username);
+        logger.debug("getOverallUserPosition: " + username);
         return ClassificationModule.getInstance().getOverallUserPosition(username);
     }
 
     @GetMapping("/player/{username}")
     @Atomic(mode = Atomic.TxMode.READ)
     public PlayerDto getPlayerByUsername(@PathVariable("username") String username) {
-        System.out.println("getPlayerByUsername: " + username);
+        logger.debug("getPlayerByUsername: " + username);
         Player player = ClassificationModule.getInstance().getPlayerByUsername(username);
         if (player != null){
             return new PlayerDto(player);
@@ -66,7 +70,7 @@ public class GameProvidesInterface {
     @GetMapping("/player/{username}/classificationGames")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<ClassificationGameDto> getClassificationGamesForPlayer(@PathVariable("username") String username) {
-        System.out.println("getClassificationGamesForPlayer: " + username);
+        logger.debug("getClassificationGamesForPlayer: " + username);
         Player player = ClassificationModule.getInstance().getPlayerByUsername(username);
         if (player != null){
             return player.getClassificationGameParticipantSet().stream().map(ClassificationGameParticipant::getClassificationGame)
@@ -79,7 +83,7 @@ public class GameProvidesInterface {
     @GetMapping("/classificationGamesForEdition")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<ClassificationGameDto> getClassificationGamesForEdition(@RequestParam(name = "acronym") String acronym) {
-        System.out.println("getClassificationGamesForEdition: " + acronym);
+        logger.debug("getClassificationGamesForEdition: " + acronym);
         return  ClassificationModule.getInstance().getClassificationGamesForEdition(acronym)
                 .stream().sorted(Comparator.comparing(ClassificationGame::getDateTime))
                 .map(ClassificationGameDto::new).collect(Collectors.toSet());
@@ -88,14 +92,14 @@ public class GameProvidesInterface {
     @PostMapping("/createClassificationGame")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void createClassificationGame(@RequestBody CreateGameWrapper createGameWrapper) {
-        System.out.println("createClassificationGame");
+        logger.debug("createClassificationGame");
         ClassificationModule.createClassificationGame(createGameWrapper.getVirtualEditionBaseDto(), createGameWrapper.getDescription(), createGameWrapper.getParse(), createGameWrapper.getInter(), createGameWrapper.getAuthenticatedUser());
     }
 
     @PostMapping("/importGamesFromTEI")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void importGamesFromTEI(@RequestBody byte[] inputStream) {
-        System.out.println("importGamesFromTEI");
+        logger.debug("importGamesFromTEI");
         GameXMLImport game = new GameXMLImport();
         game.importGamesFromTEI(new ByteArrayInputStream(inputStream));
     }
@@ -103,7 +107,7 @@ public class GameProvidesInterface {
     @GetMapping("/classificationGame/ext/{externalId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public ClassificationGameDto getClassificationGameByExternalId(@PathVariable("externalId") String externalId) {
-        System.out.println("getClassificationGameByExternalId: " + externalId);
+        logger.debug("getClassificationGameByExternalId: " + externalId);
         DomainObject object = FenixFramework.getDomainObject(externalId);
 
         if (object instanceof ClassificationGame) {
@@ -115,7 +119,7 @@ public class GameProvidesInterface {
     @PostMapping("/removeClassificationGame")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void removeClassificationGame(@RequestParam(name = "externalId") String externalId) {
-        System.out.println("removeClassificationGame: " + externalId);
+        logger.debug("removeClassificationGame: " + externalId);
         DomainObject object = FenixFramework.getDomainObject(externalId);
         if (object instanceof ClassificationGame) {
             ((ClassificationGame) object).remove();
@@ -125,7 +129,7 @@ public class GameProvidesInterface {
     @GetMapping("/classificationGameParticipant/ext/{externalId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<ClassificationGameParticipantDto> getClassificationGameParticipantByExternalId(@PathVariable("externalId") String externalId) {
-        System.out.println("getClassificationGameParticipantByExternalId: " + externalId);
+        logger.debug("getClassificationGameParticipantByExternalId: " + externalId);
         DomainObject object = FenixFramework.getDomainObject(externalId);
         if (object instanceof ClassificationGame) {
            return  ((ClassificationGame) object).getClassificationGameParticipantSet().stream()
@@ -138,7 +142,7 @@ public class GameProvidesInterface {
     @PostMapping("/initializeGameModule")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void initializeGameModule() {
-        System.out.println("initializeGameModule");
+        logger.debug("initializeGameModule");
         GameBootstrap.initializeGameModule();
     }
 
@@ -146,7 +150,7 @@ public class GameProvidesInterface {
     @PostMapping("/startGameRunner")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void startGameRunner(@RequestParam(name = "id") String id) {
-        System.out.println("startGameRunner: " + id);
+        logger.debug("startGameRunner: " + id);
         this.gameRunner.setGameId(id);
         new Thread(this.gameRunner).start();
     }
@@ -155,7 +159,7 @@ public class GameProvidesInterface {
     @Atomic(mode = Atomic.TxMode.READ)
     public List<String> getGamesForScheduledTasks() {
         DateTime now = DateTime.now();
-        System.out.println("getGamesForScheduledTasks: " + now);
+        logger.debug("getGamesForScheduledTasks: " + now);
         return ClassificationModule.getInstance().getClassificationGameSet().stream()
                 .filter(g -> g.getState().equals(ClassificationGame.ClassificationGameState.CREATED)
                         && g.getDateTime().isAfter(now) && g.getDateTime().isBefore(now.plusMinutes(2)))
@@ -166,7 +170,7 @@ public class GameProvidesInterface {
     @PostMapping("/manageDailyClassificationGames")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void manageDailyClassificationGames() {
-        System.out.println("manageDailyClassificationGames");
+        logger.debug("manageDailyClassificationGames");
         ClassificationModule.manageDailyClassificationGames(DateTime.now());
     }
 
@@ -175,7 +179,7 @@ public class GameProvidesInterface {
     @PostMapping("/classificationGame/{externalId}/addParticipant")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void addParticipantToGame(@PathVariable("externalId") String externalId, @RequestParam(name = "username") String username) {
-        System.out.println("addParticipantToGame: " + username);
+        logger.debug("addParticipantToGame: " + username);
         DomainObject object = FenixFramework.getDomainObject(externalId);
         if (object instanceof ClassificationGame) {
           ((ClassificationGame) object).addParticipant(username);
@@ -185,7 +189,7 @@ public class GameProvidesInterface {
     @PostMapping("/setTestGameRound")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void setTestGameRound(@RequestParam(name = "acronym") String acronym, @RequestParam(name = "username") String username) {
-        System.out.println("setTestGameRound: " + username);
+        logger.debug("setTestGameRound: " + username);
 
         ClassificationGameParticipant participant = ClassificationModule.getInstance().getClassificationGamesForEdition(acronym).stream().findFirst().get().getParticipant(username);
 
@@ -202,7 +206,7 @@ public class GameProvidesInterface {
     @PostMapping("/removeGameModule")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void removeGameModule() {
-        System.out.println("removeGameModule");
+        logger.debug("removeGameModule");
         ClassificationModule classificationModule = ClassificationModule.getInstance();
         if (classificationModule != null) {
             classificationModule.remove();

@@ -59,28 +59,28 @@ public class TextProvidesInterface {
     @GetMapping("/heteronym/scholarInter/{scholarInterId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public HeteronymDto getScholarInterHeteronym(@PathVariable("scholarInterId") String scholarInterId) {
-        System.out.println("getScholarInterHeteronym: " + scholarInterId);
+        logger.debug("getScholarInterHeteronym: " + scholarInterId);
         return getScholarInterByXmlId(scholarInterId).map(scholarInter -> scholarInter.getHeteronym()).map(HeteronymDto::new).orElse(null);
     }
 
     @GetMapping("/heteronym/xmlId/{scholarInterId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getHeteronymXmlId(@PathVariable("scholarInterId") String scholarInterId) {
-        System.out.println("getHeteronymXmlId: " + scholarInterId);
+        logger.debug("getHeteronymXmlId: " + scholarInterId);
         return getScholarInterByXmlId(scholarInterId).map(scholarInter -> scholarInter.getHeteronym().getXmlId()).orElse(null);
     }
 
     @GetMapping("/heteronyms")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<HeteronymDto> getHeteronymDtoSet() {
-        System.out.println("getHeteronymDtoSet");
+        logger.debug("getHeteronymDtoSet");
         return TextModule.getInstance().getHeteronymsSet().stream().map(HeteronymDto::new).collect(Collectors.toSet());
     }
 
     @GetMapping("/sortedHeteronyms")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<HeteronymDto> getSortedHeteronymList() {
-        System.out.println("getSortedHeteronymList");
+        logger.debug("getSortedHeteronymList");
         return TextModule.getInstance().getSortedHeteronyms().stream()
                 .map(HeteronymDto::new).collect(Collectors.toList());
     }
@@ -93,14 +93,14 @@ public class TextProvidesInterface {
     @GetMapping("/scholarInter/{scholarInterId}/title")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getScholarInterTitle(@PathVariable(name = "scholarInterId") String scholarInterId) {
-        System.out.println("getScholarInterTitle: " + scholarInterId);
+        logger.debug("getScholarInterTitle: " + scholarInterId);
         return getScholarInterByXmlId(scholarInterId).map(scholarInter -> scholarInter.getTitle()).orElse(null);
     }
 
     @GetMapping("/scholarInter/{scholarInterId}/date")
     @Atomic(mode = Atomic.TxMode.READ)
     public LdoDDateDto getScholarInterDate(@PathVariable(name = "scholarInterId") String scholarInterId) {
-        System.out.println("getScholarInterDate: " + scholarInterId);
+        logger.debug("getScholarInterDate: " + scholarInterId);
         return getScholarInterByXmlId(scholarInterId).map(scholarInter -> scholarInter.getLdoDDate()).map(LdoDDateDto::new).orElse(null);
     }
 
@@ -131,56 +131,56 @@ public class TextProvidesInterface {
     @GetMapping("/scholarInter/{xmlId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public ScholarInterDto getScholarInter(@PathVariable("xmlId") String scholarInterId) {
-        System.out.println("getScholarInter: " + scholarInterId);
+        logger.debug("getScholarInter: " + scholarInterId);
         return getScholarInterByXmlId(scholarInterId).map(ScholarInterDto::new).orElse(null);
     }
 
     @GetMapping("/scholarInter/{xmlId}/expertEdition")
     @Atomic(mode = Atomic.TxMode.READ)
     public ExpertEditionDto getScholarInterExpertEdition(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getScholarInterExpertEdition: " + xmlId);
+        logger.debug("getScholarInterExpertEdition: " + xmlId);
         return getExpertEditionByExpertEditionInterId(xmlId).map(ExpertEditionDto::new).orElse(null);
     }
 
     @GetMapping("/scholarInter/{xmlId}/isExpert")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean isExpertInter(@PathVariable("xmlId") String scholarInterId) {
-        System.out.println("isExpertInter: " + scholarInterId);
+        logger.debug("isExpertInter: " + scholarInterId);
         return getScholarInterByXmlId(scholarInterId).orElseThrow(LdoDException::new).isExpertInter();
     }
 
     @GetMapping("/scholarInter/{xmlId}/source")
     @Atomic(mode = Atomic.TxMode.READ)
     public SourceDto getSourceOfSourceInter(@PathVariable("xmlId") String scholarInterId) {
-        System.out.println("getSourceOfSourceInter: " + scholarInterId);
+        logger.debug("getSourceOfSourceInter: " + scholarInterId);
         return getScholarInterByXmlId(scholarInterId).map(SourceInter.class::cast).map(SourceInter::getSource).map(SourceDto::new).orElseThrow(LdoDException::new);
     }
 
     @GetMapping("/scholarInter/{xmlId}/sourceInterType")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getSourceInterType(@PathVariable("xmlId") String scholarInterId) {
-        System.out.println("getSourceInterType: " + scholarInterId);
+        logger.debug("getSourceInterType: " + scholarInterId);
         return getScholarInterByXmlId(scholarInterId).map(SourceInter.class::cast).map(sourceInter -> sourceInter.getSource().getType().toString()).orElseThrow(LdoDException::new);
     }
 
     @GetMapping("/representativeSourceInter/{xmlId}/externalId")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getRepresentativeSourceInterExternalId(@PathVariable("xmlId") String fragmentXmlId) {
-        System.out.println("getRepresentativeSourceInterExternalId: " + fragmentXmlId);
+        logger.debug("getRepresentativeSourceInterExternalId: " + fragmentXmlId);
         return getFragmentByFragmentXmlId(fragmentXmlId).orElse(null).getRepresentativeSourceInter().getExternalId();
     }
 
     @GetMapping("/scholarInter/{xmlId}/editionAcronym")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getEditionAcronymOfInter(@PathVariable("xmlId") String scholarInterId) {
-        System.out.println("getEditionAcronymOfInter: " + scholarInterId);
+        logger.debug("getEditionAcronymOfInter: " + scholarInterId);
         return getScholarInterByXmlId(scholarInterId).map(scholarInter -> scholarInter.getEdition().getAcronym()).orElse(null);
     }
 
     @GetMapping("/expertEdition/{xmlId}/acronym")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getExpertEditionAcronym(@PathVariable("xmlId") String scholarInterId) {
-        System.out.println("getExpertEditionAcronym: " + scholarInterId);
+        logger.debug("getExpertEditionAcronym: " + scholarInterId);
 
         return getExpertEditionByExpertEditionInterId(scholarInterId).map(expertEdition -> expertEdition.getAcronym()).orElse(null);
     }
@@ -189,7 +189,7 @@ public class TextProvidesInterface {
     @GetMapping("/expertEdition/{xmlId}/editor")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getExpertEditionEditorByScholarInter(@PathVariable("xmlId") String scholarInterId) {
-        System.out.println("getExpertEditionEditorByScholarInter: " + scholarInterId);
+        logger.debug("getExpertEditionEditorByScholarInter: " + scholarInterId);
         return getExpertEditionByExpertEditionInterId(scholarInterId).map(expertEdition -> expertEdition.getEditor()).orElse(null);
     }
 
@@ -220,35 +220,35 @@ public class TextProvidesInterface {
     @GetMapping("/expertEdition/{acronym}/scholarInterList")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<ScholarInterDto> getExpertEditionScholarInterDtoList(@PathVariable(name = "acronym") String acronym) {
-        System.out.println("getExpertEditionScholarInterDtoList: " + acronym);
+        logger.debug("getExpertEditionScholarInterDtoList: " + acronym);
         return getExpertEditionByAcronym(acronym).orElseThrow(LdoDException::new).getSortedInterps().stream().map(ScholarInterDto::new).collect(Collectors.toList());
     }
 
     @GetMapping("/expertEdition/{acronym}/exists")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean acronymExists(@PathVariable(name = "acronym") String acronym) {
-        System.out.println("acronymExists: " + acronym);
+        logger.debug("acronymExists: " + acronym);
         return getExpertEditionByAcronym(acronym).orElse(null) != null;
     }
 
     @GetMapping("/expertEdition/{acronym}/isExpert")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean isExpertEdition(@PathVariable(name = "acronym") String acronym) {
-        System.out.println("isExpertEdition: " + acronym);
+        logger.debug("isExpertEdition: " + acronym);
         return getExpertEditionByAcronym(acronym).isPresent() ? getExpertEditionByAcronym(acronym).get().isExpertEdition() : false;
     }
 
     @GetMapping("/scholarEdition/{xmlId}/citednumber")
     @Atomic(mode = Atomic.TxMode.READ)
     public int getNumberOfTimesCited(@PathVariable(name = "xmlId") String scholarInterId) {
-        System.out.println("getNumberOfTimesCited: " + scholarInterId);
+        logger.debug("getNumberOfTimesCited: " + scholarInterId);
         return getScholarInterByXmlId(scholarInterId).map(scholarInter -> new Integer(scholarInter.getInfoRangeSet().size())).orElseThrow(LdoDException::new);
     }
 
     @GetMapping("/scholarEdition/{xmlId}/citednumberPlusretweets")
     @Atomic(mode = Atomic.TxMode.READ)
     public int getNumberOfTimesCitedIncludingRetweets(@PathVariable(name = "xmlId") String scholarInterId) {
-        System.out.println("getNumberOfTimesCitedIncludingRetweets: " + scholarInterId);
+        logger.debug("getNumberOfTimesCitedIncludingRetweets: " + scholarInterId);
         return getScholarInterByXmlId(scholarInterId)
                 .map(scholarInter -> scholarInter.getInfoRangeSet().stream().map(infoRange -> infoRange.getCitation().getNumberOfRetweets()).count() + 1).orElse(0L).intValue();
     }
@@ -256,7 +256,7 @@ public class TextProvidesInterface {
     @GetMapping("/twitterScholarInterList")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<ScholarInterDto> getScholarInterDtoListTwitterEdition(@RequestParam("beginTime") LocalDateTime editionBeginDateTime) {
-        System.out.println("getScholarInterDtoListTwitterEdition: " + editionBeginDateTime);
+        logger.debug("getScholarInterDtoListTwitterEdition: " + editionBeginDateTime);
         return TextModule.getInstance().getRZEdition().getExpertEditionIntersSet().stream()
                 .filter(inter -> inter.getNumberOfTwitterCitationsSince(editionBeginDateTime) > 0)
                 .sorted((inter1,
@@ -268,14 +268,14 @@ public class TextProvidesInterface {
     @GetMapping("/fragment/xmlId/{xmlId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public FragmentDto getFragmentByXmlId(@PathVariable(name = "xmlId") String xmlId) {
-        System.out.println("getFragmentByXmlId: " + xmlId);
+        logger.debug("getFragmentByXmlId: " + xmlId);
         return getFragmentByFragmentXmlId(xmlId).map(FragmentDto::new).orElse(null);
     }
 
     @GetMapping("/fragment/ext/{externalId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public FragmentDto getFragmentByExternalId(@PathVariable(name = "externalId") String externalId) {
-        System.out.println("getFragmentByExternalId: " + externalId);
+        logger.debug("getFragmentByExternalId: " + externalId);
 
         DomainObject domainObject = FenixFramework.getDomainObject(externalId);
 
@@ -289,14 +289,14 @@ public class TextProvidesInterface {
     @GetMapping("/scholarInter/fragment/{xmlId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public FragmentDto getFragmentOfScholarInterDto(@PathVariable(name = "xmlId") String xmlId) {
-        System.out.println("getFragmentOfScholarInterDto: " + xmlId);
+        logger.debug("getFragmentOfScholarInterDto: " + xmlId);
         return getFragmentByInterXmlId(xmlId).map(FragmentDto::new).orElse(null);
     }
 
     @GetMapping("/fragment/{xmlId}/sources")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<SourceDto> getFragmentSourceSet(@PathVariable(name = "xmlId") String xmlId) {
-        System.out.println("getFragmentSourceSet: " + xmlId);
+        logger.debug("getFragmentSourceSet: " + xmlId);
 
         Fragment fragment = getFragmentByFragmentXmlId(xmlId).orElse(null);
 
@@ -316,7 +316,7 @@ public class TextProvidesInterface {
     @GetMapping("/fragment/{xmlId}/scholarInter")
     @Atomic(mode = Atomic.TxMode.READ)
     public ScholarInterDto getScholarInterDtoByFragmentXmlIdAndUrlId(@PathVariable(name = "xmlId") String fragmentXmlId, @RequestParam("urlId") String scholarInterUrlId) {
-        System.out.println("getScholarInterDtoByFragmentXmlIdAndUrlId: " + fragmentXmlId + "  " + scholarInterUrlId);
+        logger.debug("getScholarInterDtoByFragmentXmlIdAndUrlId: " + fragmentXmlId + "  " + scholarInterUrlId);
 
         ScholarInter scholarInter = getFragmentByFragmentXmlId(fragmentXmlId).orElse(null).getScholarInterByUrlId(scholarInterUrlId);
         return scholarInter != null ? new ScholarInterDto(scholarInter) : null;
@@ -325,7 +325,7 @@ public class TextProvidesInterface {
     @GetMapping("/fragment/{xmlId}/title")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getFragmentTitle(@PathVariable(name = "xmlId") String xmlId) {
-        System.out.println("getFragmentTitle: " + xmlId );
+        logger.debug("getFragmentTitle: " + xmlId );
         return getFragmentByFragmentXmlId(xmlId).map(fragment -> fragment.getTitle()).orElse(null);
     }
 
@@ -337,7 +337,7 @@ public class TextProvidesInterface {
     @GetMapping(value = "/fragment/{xmlId}/TFIDF", params = {"terms"})
     @Atomic(mode = Atomic.TxMode.READ)
     public Map<String, Double> getFragmentTFIDF(@PathVariable(name = "xmlId") String xmlId, @RequestParam(name = "terms") List<String> commonTerms) {
-        System.out.println("getFragmentTFIDF: " + xmlId + ", " + commonTerms);
+        logger.debug("getFragmentTFIDF: " + xmlId + ", " + commonTerms);
         try {
             return Indexer.getIndexer().getTFIDF(getFragmentByFragmentXmlId(xmlId).get(), commonTerms);
         } catch (IOException | ParseException e) {
@@ -348,7 +348,7 @@ public class TextProvidesInterface {
     @GetMapping(value = "/fragment/{xmlId}/TFIDF", params = {"numberOfTerms"})
     @Atomic(mode = Atomic.TxMode.READ)
     public List<String> getFragmentTFIDF(@PathVariable("xmlId") String xmlId, @RequestParam(name = "numberOfTerms") int numberOfTerms) {
-        System.out.println("getFragmentTFIDF: " + xmlId + ", " + numberOfTerms);
+        logger.debug("getFragmentTFIDF: " + xmlId + ", " + numberOfTerms);
         try {
             return Indexer.getIndexer().getTFIDFTerms(getFragmentByFragmentXmlId(xmlId).get(), numberOfTerms);
         } catch (IOException | ParseException e) {
@@ -359,7 +359,7 @@ public class TextProvidesInterface {
     @GetMapping("/scholarInter/{xmlId}/next")
     @Atomic(mode = Atomic.TxMode.READ)
     public ScholarInterDto getScholarInterNextNumberInter(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getScholarInterNextNumberInter: " + xmlId );
+        logger.debug("getScholarInterNextNumberInter: " + xmlId );
         return getScholarInterByXmlId(xmlId).filter(ScholarInter::isExpertInter).map(ExpertEditionInter.class::cast)
                 .map(ExpertEditionInter::getNextNumberInter).map(ScholarInterDto::new).orElse(null);
     }
@@ -367,7 +367,7 @@ public class TextProvidesInterface {
     @GetMapping("/scholarInter/{xmlId}/prev")
     @Atomic(mode = Atomic.TxMode.READ)
     public ScholarInterDto getScholarInterPrevNumberInter(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getScholarInterPrevNumberInter: " + xmlId );
+        logger.debug("getScholarInterPrevNumberInter: " + xmlId );
         return getScholarInterByXmlId(xmlId).filter(ScholarInter::isExpertInter).map(ExpertEditionInter.class::cast)
                 .map(ExpertEditionInter::getNextNumberInter).map(ScholarInterDto::new).orElse(null);
     }
@@ -375,7 +375,7 @@ public class TextProvidesInterface {
     @Atomic(mode = Atomic.TxMode.READ)
     @GetMapping("/fragments")
     public Set<FragmentDto> getFragmentDtoSet() {
-        System.out.println("getFragmentDtoSet: ");
+        logger.debug("getFragmentDtoSet: ");
         Set<FragmentDto> result = new HashSet<>();
         for (Fragment fragment : TextModule.getInstance().getFragmentsSet()) {
             result.add(new FragmentDto(fragment));
@@ -390,7 +390,7 @@ public class TextProvidesInterface {
     @Atomic(mode = Atomic.TxMode.READ)
     @GetMapping("/fragmentDtosWithSourceDtos")
     public List<FragmentDto> getFragmentDtosWithSourceDtos() {
-        System.out.println("getFragmentDtosWithSourceDtos: ");
+        logger.debug("getFragmentDtosWithSourceDtos: ");
 
         List<FragmentDto> result = new ArrayList<>();
         for (Fragment fragment : TextModule.getInstance().getFragmentsSet()) {
@@ -429,7 +429,7 @@ public class TextProvidesInterface {
     @GetMapping("/fragmentDtosWithScholarInterDtos")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<FragmentDto> getFragmentDtosWithScholarInterDtos() {
-        System.out.println("getFragmentDtosWithScholarInterDtos: ");
+        logger.debug("getFragmentDtosWithScholarInterDtos: ");
 
         Set<FragmentDto> result = new HashSet<>();
         for (Fragment fragment : TextModule.getInstance().getFragmentsSet()) {
@@ -450,14 +450,14 @@ public class TextProvidesInterface {
     @GetMapping("/fragment/{xmlId}/scholarInters")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<ScholarInterDto> getScholarInterDto4FragmentXmlId(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getScholarInterDto4FragmentXmlId: "+ xmlId);
+        logger.debug("getScholarInterDto4FragmentXmlId: "+ xmlId);
         return getFragmentByFragmentXmlId(xmlId).map(fragment -> fragment.getScholarInterSet()).orElse(new HashSet<>()).stream().map(ScholarInterDto::new).collect(Collectors.toSet());
     }
 
     @GetMapping("/scholarInter/search")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<ScholarInterDto> searchScholarInterForWords(@RequestParam("words") String words) {
-        System.out.println("searchScholarInterForWords: "+ words);
+        logger.debug("searchScholarInterForWords: "+ words);
 
         Indexer indexer = Indexer.getIndexer();
         return indexer.search(words).stream().map(ScholarInterDto::new).collect(Collectors.toList());
@@ -466,14 +466,14 @@ public class TextProvidesInterface {
     @GetMapping("/expertEdition/acronym/{acronym}")
     @Atomic(mode = Atomic.TxMode.READ)
     public ExpertEditionDto getExpertEditionDto(@PathVariable(name = "acronym") String acronym) {
-        System.out.println("getExpertEditionDto: " + acronym);
+        logger.debug("getExpertEditionDto: " + acronym);
         return getExpertEditionByAcronym(acronym).map(ExpertEditionDto::new).orElse(null);
     }
 
     @Atomic(mode = Atomic.TxMode.READ)
     @GetMapping("/sortedExpertEditions")
     public List<ExpertEditionDto> getSortedExpertEditionsDto() {
-        System.out.println("getSortedExpertEditionsDto: ");
+        logger.debug("getSortedExpertEditionsDto: ");
         return TextModule.getInstance().getSortedExpertEdition().stream().map(ExpertEditionDto::new).collect(Collectors.toList());
     }
 
@@ -485,7 +485,7 @@ public class TextProvidesInterface {
     @GetMapping("/expertEditionInters")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<ExpertEditionInterListDto> getEditionInterListDto() {
-        System.out.println("getEditionInterListDto: ");
+        logger.debug("getEditionInterListDto: ");
         return TextModule.getInstance().getExpertEditionsSet().stream()
                 .map(expertEdition -> new ExpertEditionInterListDto(expertEdition)).collect(Collectors.toList());
     }
@@ -493,7 +493,7 @@ public class TextProvidesInterface {
     @GetMapping("/scholarInter/{xmlId}/transcription")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getScholarInterTranscription(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getScholarInterTranscription: " + xmlId);
+        logger.debug("getScholarInterTranscription: " + xmlId);
         ScholarInter inter = getScholarInterByXmlId(xmlId).orElse(null);
         PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
         writer.write(false);
@@ -505,7 +505,7 @@ public class TextProvidesInterface {
     public String getSourceInterTranscription(@PathVariable("xmlId") String xmlId, @RequestParam("diff") boolean diff, @RequestParam("del") boolean del, @RequestParam("ins") boolean ins,
                                               @RequestParam("subst") boolean subst, @RequestParam("notes") boolean notes) {
 
-        System.out.println("getSourceInterTranscription: " + xmlId);
+        logger.debug("getSourceInterTranscription: " + xmlId);
         ScholarInter inter = getScholarInterByXmlId(xmlId).orElse(null);
         PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
         writer.write(diff, del, ins, subst, notes, false, null);
@@ -516,7 +516,7 @@ public class TextProvidesInterface {
     @Atomic(mode = Atomic.TxMode.READ)
     public String getExpertInterTranscription(@PathVariable("xmlId") String xmlId, @RequestParam("diff") boolean diff) {
 
-        System.out.println("getExpertInterTranscription: " + xmlId);
+        logger.debug("getExpertInterTranscription: " + xmlId);
         ScholarInter inter = getScholarInterByXmlId(xmlId).orElse(null);
         PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter);
         writer.write(diff);
@@ -527,7 +527,7 @@ public class TextProvidesInterface {
     @Atomic(mode = Atomic.TxMode.READ)
     public Map<String, String> getMultipleInterTranscription(@RequestParam("externalIds") List<String> externalIds, @RequestParam("lineByLine") boolean lineByLine, @RequestParam("showSpaces") boolean showSpaces) {
 
-        System.out.println("getMultipleInterTranscription: " + externalIds);
+        logger.debug("getMultipleInterTranscription: " + externalIds);
         List<ScholarInter> inters = new ArrayList<>();
 
         for (String id : externalIds) {
@@ -557,7 +557,7 @@ public class TextProvidesInterface {
     @GetMapping("/multipleInterVariations")
     @Atomic(mode = Atomic.TxMode.READ)
     public Map<String, List<String>> getMultipleInterVariations(@RequestParam("externalIds") List<String> externalIds) {
-        System.out.println("getMultipleInterVariations: " + externalIds);
+        logger.debug("getMultipleInterVariations: " + externalIds);
         List<ScholarInter> inters = new ArrayList<>();
 
         for (String id : externalIds) {
@@ -589,7 +589,7 @@ public class TextProvidesInterface {
     @GetMapping("/sourceInter/{xmlId}/facUrls")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<String> getSourceInterFacUrls(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getSourceInterFacUrls: " + xmlId);
+        logger.debug("getSourceInterFacUrls: " + xmlId);
         List<Surface> surfaces = getScholarInterByXmlId(xmlId).map(SourceInter.class::cast).map(SourceInter::getSource)
                 .map(Source::getFacsimile).map(Facsimile::getSurfaces).orElse(null);
         return surfaces != null ? surfaces.stream().map(Surface::getGraphic).collect(Collectors.toList()) : new ArrayList<>();
@@ -598,7 +598,7 @@ public class TextProvidesInterface {
     @GetMapping("/scholarInter/{xmlId}/sortedAnnexNotes")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<AnnexNoteDto> getScholarInterSortedAnnexNotes(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getScholarInterSortedAnnexNotes: " + xmlId);
+        logger.debug("getScholarInterSortedAnnexNotes: " + xmlId);
         List<AnnexNote> notes = getScholarInterByXmlId(xmlId).map(ScholarInter::getSortedAnnexNote).orElse(new ArrayList<>());
         return notes.stream().map(AnnexNoteDto::new).collect(Collectors.toList());
     }
@@ -607,7 +607,7 @@ public class TextProvidesInterface {
     @GetMapping("/scholarInter/{xmlId}/termFrequency")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<Map.Entry<String, Double>> getScholarInterTermFrequency(String xmlId) {
-        System.out.println("getScholarInterTermFrequency: " + xmlId);
+        logger.debug("getScholarInterTermFrequency: " + xmlId);
 
         ScholarInter scholarInter = getScholarInterByXmlId(xmlId).orElseThrow(LdoDException::new);
 
@@ -624,7 +624,7 @@ public class TextProvidesInterface {
     @GetMapping("/scholarinter/ext/{externalId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public ScholarInterDto getScholarInterbyExternalId(@PathVariable(name = "externalId") String interId) {
-        System.out.println("getScholarInterbyExternalId: " + interId);
+        logger.debug("getScholarInterbyExternalId: " + interId);
 
         DomainObject domainObject = FenixFramework.getDomainObject(interId);
 
@@ -639,7 +639,7 @@ public class TextProvidesInterface {
     @GetMapping("/fragment/{xmlId}/scholarInters4Expert")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<ScholarInterDto> getFragmentScholarInterDtoSetForExpertEdtion(@PathVariable("xmlId") String fragmentXmlId, @RequestParam("acronym") String acronym) {
-        System.out.println("getFragmentScholarInterDtoSetForExpertEdtion: " + fragmentXmlId);
+        logger.debug("getFragmentScholarInterDtoSetForExpertEdtion: " + fragmentXmlId);
 
         return getFragmentByFragmentXmlId(fragmentXmlId).map(fragment -> fragment.getScholarInterSet()).orElse(new HashSet<>()).stream()
                 .filter(scholarInter -> scholarInter.getEdition().getAcronym().equals(acronym)).map(ScholarInterDto::new).collect(Collectors.toSet());
@@ -648,21 +648,21 @@ public class TextProvidesInterface {
     @GetMapping("/expertEdition/{acronym}/firstInterpretation")
     @Atomic(mode = Atomic.TxMode.READ)
     public ScholarInterDto getExpertEditionFirstInterpretation(@PathVariable("acronym") String acronym) {
-        System.out.println("getExpertEditionFirstInterpretation: " + acronym);
+        logger.debug("getExpertEditionFirstInterpretation: " + acronym);
         return getExpertEditionByAcronym(acronym).map(ExpertEdition::getFirstInterpretation).map(ScholarInterDto::new).orElse(null);
     }
 
     @GetMapping("/fragment/{xmlId}/{urlId}/scholarInter")
     @Atomic(mode = Atomic.TxMode.READ)
     public ScholarInterDto getFragmentScholarInterByUrlId(@PathVariable("xmlId") String fragmentXmlId, @PathVariable("urlId") String urlId) {
-        System.out.println("getFragmentScholarInterByUrlId: " + fragmentXmlId);
+        logger.debug("getFragmentScholarInterByUrlId: " + fragmentXmlId);
         return getFragmentByFragmentXmlId(fragmentXmlId).map(fragment -> fragment.getScholarInterByUrlId(urlId)).map(ScholarInterDto::new).orElse(null);
     }
 
     @GetMapping("/fragment/{xmlId}/expertEditionSortedInter")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<ScholarInterDto> getExpertEditionSortedInter4Frag(@RequestParam("acronym") String acronym, @PathVariable("xmlId") String fragmentXmlId) {
-        System.out.println("getExpertEditionSortedInter4Frag: " + fragmentXmlId + ", " + acronym);
+        logger.debug("getExpertEditionSortedInter4Frag: " + fragmentXmlId + ", " + acronym);
         Fragment fragment = getFragmentByFragmentXmlId(fragmentXmlId).orElse(null);
         return getExpertEditionByAcronym(acronym)
                 .map(expertEdition -> expertEdition.getSortedInter4Frag(fragment).stream()
@@ -674,7 +674,7 @@ public class TextProvidesInterface {
     @GetMapping("/fragment/{xmlId}/sortedSourceInter")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<ScholarInterDto> getFragmentSortedSourceInter(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getFragmentSortedSourceInter: " + xmlId);
+        logger.debug("getFragmentSortedSourceInter: " + xmlId);
         return getFragmentByFragmentXmlId(xmlId)
                 .map(fragment -> fragment.getSortedSourceInter().stream()
                         .map(ScholarInterDto::new)
@@ -686,16 +686,16 @@ public class TextProvidesInterface {
     @PostMapping("/loadTEICorpus")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void LoadTEICorpus(@RequestBody byte[] bytes) {
-        System.out.println("LoadTEICorpus: ");
+        logger.debug("LoadTEICorpus: ");
         InputStream file = new ByteArrayInputStream(bytes);
         new LoadTEICorpus().loadTEICorpus(file);
-        System.out.println("yo");
+        logger.debug("yo");
     }
 
     @PostMapping("/loadFragmentsAtOnce")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public String LoadFragmentsAtOnce(@RequestBody byte[] bytes) {
-        System.out.println("LoadFragmentsAtOnce: ");
+        logger.debug("LoadFragmentsAtOnce: ");
 
         InputStream file = new ByteArrayInputStream(bytes);
         return new LoadTEIFragments().loadFragmentsAtOnce(file);
@@ -704,7 +704,7 @@ public class TextProvidesInterface {
     @PostMapping("/loadFragmentsStepByStep")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public String LoadTEIFragmentsStepByStep(@RequestBody byte[] bytes) {
-        System.out.println("LoadTEIFragmentsStepByStep: ");
+        logger.debug("LoadTEIFragmentsStepByStep: ");
         InputStream file = new ByteArrayInputStream(bytes);
         return new LoadTEIFragments().loadFragmentsStepByStep(file);
     }
@@ -712,7 +712,7 @@ public class TextProvidesInterface {
     @GetMapping(value = "/writeFromPlainHtmlWriter4OneInter/", params = {"xmlId", "highlightDiff"})
     @Atomic(mode = Atomic.TxMode.READ)
     public String getWriteFromPlainHtmlWriter4OneInter(@RequestParam(name = "xmlId") String xmlId, @RequestParam(name = "highlightDiff") boolean highlightDiff) {
-        System.out.println("getWriteFromPlainHtmlWriter4OneInter: " + xmlId);
+        logger.debug("getWriteFromPlainHtmlWriter4OneInter: " + xmlId);
         PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(xmlId);
         writer.write(highlightDiff);
         return writer.getTranscription();
@@ -721,7 +721,7 @@ public class TextProvidesInterface {
     @GetMapping("/appTextWithVariations")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<String> putAppTextWithVariations(@RequestParam(name = "externalId") String externalId, @RequestParam(name = "scholarInters") List<String> scholarInters) {
-        System.out.println("putAppTextWithVariations: " + externalId + ", " + scholarInters);
+        logger.debug("putAppTextWithVariations: " + externalId + ", " + scholarInters);
         List<AppText> apps = new ArrayList<>();
         Fragment fragment = FenixFramework.getDomainObject(externalId);
         fragment.getTextPortion().putAppTextWithVariations(apps, scholarInters.stream()
@@ -735,7 +735,7 @@ public class TextProvidesInterface {
     @GetMapping(value = "/writeFromPlainHtmlWriter4OneInter/", params = {"xmlId", "displayDiff", "displayDel", "highlightIns", "highlightSubst", "showNotes", "showFacs", "pbTextId"})
     @Atomic(mode = Atomic.TxMode.READ)
     public String getWriteFromPlainHtmlWriter4OneInter(@RequestParam(name = "xmlId") String xmlId, @RequestParam(name = "displayDiff") boolean displayDiff, @RequestParam(name = "displayDel") boolean displayDel, @RequestParam(name = "highlightIns") boolean highlightIns, @RequestParam(name = "highlightSubst") boolean highlightSubst, @RequestParam(name = "showNotes") boolean showNotes, @RequestParam(name = "showFacs") boolean showFacs, @RequestParam(name = "pbTextId") String pbTextId) {
-        System.out.println("getWriteFromPlainHtmlWriter4OneInter: " + xmlId);
+        logger.debug("getWriteFromPlainHtmlWriter4OneInter: " + xmlId);
         PbText pbText = null;
         if (pbTextId != null && !pbTextId.equals("")) {
             pbText = FenixFramework.getDomainObject(pbTextId);
@@ -749,7 +749,7 @@ public class TextProvidesInterface {
     @DeleteMapping("/fragment/ext/{externalId}")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void removeFragmentByExternalId(@PathVariable(name = "externalId") String externalId) {
-        System.out.println("removeFragmentByExternalId: " + externalId);
+        logger.debug("removeFragmentByExternalId: " + externalId);
         DomainObject domainObject = FenixFramework.getDomainObject(externalId);
         if (domainObject instanceof Fragment) {
             fragmentMap.remove(((Fragment) domainObject).getXmlId());
@@ -760,7 +760,7 @@ public class TextProvidesInterface {
     @GetMapping("/exportExpertEdition")
     @Atomic(mode = Atomic.TxMode.READ)
     public String exportExpertEditionTEI(@RequestParam(name = "query") String query) {
-        System.out.println("exportExpertEditionTEI: " + query);
+        logger.debug("exportExpertEditionTEI: " + query);
 
         Map<Fragment, Set<ScholarInter>> searchResult = new HashMap<>();
 
@@ -782,7 +782,7 @@ public class TextProvidesInterface {
     @GetMapping("/exportAllExpertEdition")
     @Atomic(mode = Atomic.TxMode.READ)
     public String exportAllExpertEditionTEI() {
-        System.out.println("exportAllExpertEditionTEI: ");
+        logger.debug("exportAllExpertEditionTEI: ");
 
         Map<Fragment, Set<ScholarInter>> searchResult = new HashMap<>();
         for (Fragment frag : TextModule.getInstance().getFragmentsSet()) {
@@ -802,7 +802,7 @@ public class TextProvidesInterface {
     @GetMapping("/exportRandomExpertEdition")
     @Atomic(mode = Atomic.TxMode.READ)
     public String exportRandomExpertEditionTEI() {
-        System.out.println("exportRandomExpertEditionTEI: ");
+        logger.debug("exportRandomExpertEditionTEI: ");
 
         Map<Fragment, Set<ScholarInter>> searchResult = new HashMap<>();
         List<Fragment> fragments = new ArrayList<>(TextModule.getInstance().getFragmentsSet());
@@ -836,7 +836,7 @@ public class TextProvidesInterface {
     @GetMapping("/citations")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<CitationDto> getCitationSet() {
-        System.out.println("getCitationSet: ");
+        logger.debug("getCitationSet: ");
         if (TextModule.getInstance() == null) {
             return new HashSet<>();
         }
@@ -849,7 +849,7 @@ public class TextProvidesInterface {
     @GetMapping("/citations/{id}")
     @Atomic(mode = Atomic.TxMode.READ)
     public CitationDto getCitationById(@PathVariable(name = "id") long id) {
-        System.out.println("getCitationById: " + id);
+        logger.debug("getCitationById: " + id);
 
         return getCitationSet().stream().filter(citation -> citation.getId() == id).findFirst().orElse(null);
     }
@@ -857,7 +857,7 @@ public class TextProvidesInterface {
     @GetMapping("/citationsInfoRanges")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<CitationDto> getCitationsWithInfoRanges() {
-        System.out.println("getCitationsWithInfoRanges: ");
+        logger.debug("getCitationsWithInfoRanges: ");
 
         DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
 
@@ -873,7 +873,7 @@ public class TextProvidesInterface {
     @DeleteMapping("/removeAllCitations")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void removeAllCitations() {
-        System.out.println("removeAllCitations: ");
+        logger.debug("removeAllCitations: ");
         if (TextModule.getInstance() != null) {
             TextModule.getInstance().getFragmentsSet().stream().flatMap(f -> f.getCitationSet().stream()).filter(citation -> citation != null).forEach(citation -> citation.remove());
         }
@@ -882,7 +882,7 @@ public class TextProvidesInterface {
     @PostMapping("/createInfoRange")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void createInfoRange(@RequestParam(name = "id") long id, @RequestParam(name = "xmlId") String xmlId, @RequestParam(name = "s") String s, @RequestParam(name = "htmlStart") int htmlStart, @RequestParam(name = "s1") String s1, @RequestParam(name = "htmlEnd") int htmlEnd, @RequestParam(name = "infoQuote") String infoQuote, @RequestParam(name = "infoText") String infoText) {
-        System.out.println("createInfoRange: " + id);
+        logger.debug("createInfoRange: " + id);
         Citation citation = TextModule.getInstance()
                 .getFragmentsSet().stream()
                 .flatMap(f -> f.getCitationSet().stream()).filter(c -> c.getId() == id).findFirst().orElse(null);
@@ -904,7 +904,7 @@ public class TextProvidesInterface {
     @GetMapping("/isScholarInter")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean isDomainObjectScholarInter(@RequestParam("interId") String interId) {
-        System.out.println("isDomainObjectScholarInter: " + interId);
+        logger.debug("isDomainObjectScholarInter: " + interId);
         DomainObject domainObject = FenixFramework.getDomainObject(interId);
         if (domainObject instanceof ScholarInter) {
             return true;
@@ -915,7 +915,7 @@ public class TextProvidesInterface {
     @GetMapping("/isScholarEdition")
     @Atomic(mode = Atomic.TxMode.READ)
     public boolean isDomainObjectScholarEdition(@RequestParam("externalId") String externalId) {
-        System.out.println("isDomainObjectScholarEdition: " + externalId);
+        logger.debug("isDomainObjectScholarEdition: " + externalId);
         DomainObject domainObject = FenixFramework.getDomainObject(externalId);
         if (domainObject instanceof ScholarEdition) {
             return true;
@@ -926,7 +926,7 @@ public class TextProvidesInterface {
     @GetMapping("/scholarEdition/acronym/ext/{externalId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getScholarEditionAcronymbyExternal(@PathVariable(name = "externalId") String externalId) {
-        System.out.println("getScholarEditionAcronymbyExternal: " + externalId);
+        logger.debug("getScholarEditionAcronymbyExternal: " + externalId);
         DomainObject domainObject = FenixFramework.getDomainObject(externalId);
         if (domainObject instanceof ScholarEdition) {
             return ((ScholarEdition) domainObject).getAcronym();
@@ -937,7 +937,7 @@ public class TextProvidesInterface {
     @GetMapping("/expertEdition/ext/{externalId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public ExpertEditionDto getExpertEditionByExternalId(@PathVariable(name = "externalId") String id1) {
-        System.out.println("getExpertEditionByExternalId: " + id1);
+        logger.debug("getExpertEditionByExternalId: " + id1);
         DomainObject domainObject = FenixFramework.getDomainObject(id1);
         if (domainObject instanceof ExpertEdition) {
             return new ExpertEditionDto((ExpertEdition) domainObject);
@@ -948,7 +948,7 @@ public class TextProvidesInterface {
     @GetMapping("/heteronym/ext/{externalId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public HeteronymDto getHeteronymByExternalId(@PathVariable(name = "externalId") String id2) {
-        System.out.println("getHeteronymByExternalId: " + id2);
+        logger.debug("getHeteronymByExternalId: " + id2);
         DomainObject domainObject = FenixFramework.getDomainObject(id2);
         if (domainObject instanceof Heteronym) {
             return new HeteronymDto((Heteronym) domainObject);
@@ -959,7 +959,7 @@ public class TextProvidesInterface {
     @GetMapping("/appTranscriptionFromHtmlWriter4Variations")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getAppTranscriptionFromHtmlWriter4Variations(@RequestParam(name = "xmlId") String xmlId, @RequestParam(name = "externalAppId") String externalAppId) {
-        System.out.println("getAppTranscriptionFromHtmlWriter4Variations: " + xmlId);
+        logger.debug("getAppTranscriptionFromHtmlWriter4Variations: " + xmlId);
         HtmlWriter4Variations variations = new HtmlWriter4Variations(xmlId);
         return variations.getAppTranscription(externalAppId);
     }
@@ -967,7 +967,7 @@ public class TextProvidesInterface {
     @GetMapping("/writeFromHtmlWriter2CompIntersLineByLine")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getWriteFromHtmlWriter2CompIntersLineByLine(@RequestParam(name = "scholarInters") List<String> scholarInters, @RequestParam("lineByLine") boolean lineByLine, @RequestParam("showSpaces") boolean showSpaces) {
-        System.out.println("getWriteFromHtmlWriter2CompIntersLineByLine: " + scholarInters);
+        logger.debug("getWriteFromHtmlWriter2CompIntersLineByLine: " + scholarInters);
         HtmlWriter2CompInters writer = new HtmlWriter2CompInters(scholarInters, false);
         writer.write(lineByLine, showSpaces);
         return writer.getTranscriptionLineByLine();
@@ -976,7 +976,7 @@ public class TextProvidesInterface {
     @GetMapping("/transcriptionFromHtmlWriter2CompInters")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getTranscriptionFromHtmlWriter2CompInters(@RequestParam(name = "scholarInters") List<String> scholarInters, @RequestParam("inter") String inter, @RequestParam("lineByLine") boolean lineByLine, @RequestParam("showSpaces") boolean showSpaces) {
-        System.out.println("getTranscriptionFromHtmlWriter2CompInters" + scholarInters);
+        logger.debug("getTranscriptionFromHtmlWriter2CompInters" + scholarInters);
         HtmlWriter2CompInters writer = new HtmlWriter2CompInters(scholarInters, false);
         writer.write(lineByLine, showSpaces);
         return writer.getTranscription(inter);
@@ -985,7 +985,7 @@ public class TextProvidesInterface {
     @GetMapping("/surface")
     @Atomic(mode = Atomic.TxMode.READ)
     public SurfaceDto getSurfaceFromPbTextId(@RequestParam(name = "pbTextId") String pbTextId, @RequestParam(name = "interID") String interID) {
-        System.out.println("getSurfaceFromPbTextId" + pbTextId);
+        logger.debug("getSurfaceFromPbTextId" + pbTextId);
         SourceInter inter = FenixFramework.getDomainObject(interID);
         SurfaceDto surface = null;
         PbText pbText = null;
@@ -1004,7 +1004,7 @@ public class TextProvidesInterface {
     @GetMapping("/surface/prev")
     @Atomic(mode = Atomic.TxMode.READ)
     public SurfaceDto getPrevSurfaceFromPbTextId(@RequestParam(name = "pbTextId") String pbTextId, @RequestParam(name = "interID") String interID) {
-        System.out.println("getPrevSurfaceFromPbTextId" + pbTextId);
+        logger.debug("getPrevSurfaceFromPbTextId" + pbTextId);
         SourceInter inter = FenixFramework.getDomainObject(interID);
 
         PbText pbText = null;
@@ -1019,7 +1019,7 @@ public class TextProvidesInterface {
     @GetMapping("/surface/next")
     @Atomic(mode = Atomic.TxMode.READ)
     public SurfaceDto getNextSurfaceFromPbTextId(@RequestParam(name = "pbTextId") String pbTextId, @RequestParam(name = "interID") String interID) {
-        System.out.println("getNextSurfaceFromPbTextId" + pbTextId);
+        logger.debug("getNextSurfaceFromPbTextId" + pbTextId);
         SourceInter inter = FenixFramework.getDomainObject(interID);
 
         PbText pbText = null;
@@ -1034,7 +1034,7 @@ public class TextProvidesInterface {
     @GetMapping("/prevPb/prev/externalId")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getPrevPbTextExternalId(@RequestParam(name = "pbTextId") String pbTextId, @RequestParam(name = "interID") String interID) {
-        System.out.println("getPrevPbTextExternalId" + pbTextId);
+        logger.debug("getPrevPbTextExternalId" + pbTextId);
         SourceInter inter = FenixFramework.getDomainObject(interID);
 
         PbText pbText = null;
@@ -1051,7 +1051,7 @@ public class TextProvidesInterface {
     @GetMapping("/prevPb/next/externalId")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getNextPbTextExternalId(@RequestParam(name = "pbTextId") String pbTextId, @RequestParam(name = "interID") String interID) {
-        System.out.println("getNextPbTextExternalId" + pbTextId);
+        logger.debug("getNextPbTextExternalId" + pbTextId);
         SourceInter inter = FenixFramework.getDomainObject(interID);
 
         PbText pbText = null;
@@ -1068,21 +1068,21 @@ public class TextProvidesInterface {
     @GetMapping("/initializeTextModule")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public boolean initializeTextModule() {
-        System.out.println("initializeTextModule");
+        logger.debug("initializeTextModule");
         return TextBootstrap.initializeTextModule();
     }
 
     @GetMapping("/clearTermsTFIDFCache")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void clearTermsTFIDFCache() {
-        System.out.println("clearTermsTFIDFCache");
+        logger.debug("clearTermsTFIDFCache");
         Indexer.clearTermsTFIDFCache();
     }
 
     @GetMapping("/cleanLucene")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void cleanLucene() {
-        System.out.println("cleanLucene");
+        logger.debug("cleanLucene");
         Indexer indexer = Indexer.getIndexer();
         indexer.cleanLucene();
     }
@@ -1090,7 +1090,7 @@ public class TextProvidesInterface {
     @GetMapping("/writeFromPlainTextFragmentWriter")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getWriteFromPlainTextFragmentWriter(@RequestParam(name = "xmlId") String xmlId) {
-        System.out.println("getWriteFromPlainTextFragmentWriter " + xmlId);
+        logger.debug("getWriteFromPlainTextFragmentWriter " + xmlId);
         PlainTextFragmentWriter writer = new PlainTextFragmentWriter(TextModule.getInstance().getScholarInterByXmlId(xmlId));
         writer.write();
         return writer.getTranscription();
@@ -1099,19 +1099,18 @@ public class TextProvidesInterface {
     @GetMapping("/fragment/citations/{xmlId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<CitationDto> getFragmentCitationSet(@PathVariable(name = "xmlId") String xmlId) {
-        System.out.println("getFragmentCitationSet: " + xmlId);
+        logger.debug("getFragmentCitationSet: " + xmlId);
         return TextModule.getInstance().getFragmentByXmlId(xmlId).getCitationSet().stream().map(CitationDto::new).collect(Collectors.toSet());
     }
 
     @GetMapping("/citation/{id}/infoRange")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<InfoRangeDto> getInfoRangeDtoSetFromCitation(@PathVariable(name = "id") long id) {
-        System.out.println("getInfoRangeDtoSetFromCitation " + id);
+        logger.debug("getInfoRangeDtoSetFromCitation " + id);
         Citation citation = TextModule.getInstance()
                 .getFragmentsSet().stream()
                 .flatMap(f -> f.getCitationSet().stream()).filter(c -> c.getId() == id).findFirst().orElse(null);
 
-        System.out.println(citation.getInfoRangeSet().size());
         if (citation != null) {
             return citation.getInfoRangeSet().stream().map(InfoRangeDto::new).collect(Collectors.toSet());
         }
@@ -1123,7 +1122,7 @@ public class TextProvidesInterface {
     @GetMapping("/addDocument")
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void addDocumentToIndexer(@RequestParam("xmlId") String xmlId) throws IOException {
-        System.out.println("addDocumentToIndexer " + xmlId);
+        logger.debug("addDocumentToIndexer " + xmlId);
         ScholarInterDto interDto = getScholarInter(xmlId);
         Indexer indexer = Indexer.getIndexer();
         indexer.addDocument(interDto);
@@ -1132,7 +1131,7 @@ public class TextProvidesInterface {
     @GetMapping("/simpleText/{externalId}")
     @Atomic(mode = Atomic.TxMode.READ)
     public SimpleTextDto getSimpleTextFromExternalId(@PathVariable("externalId") String startTextId) {
-        System.out.println("getSimpleTextFromExternalId " + startTextId);
+        logger.debug("getSimpleTextFromExternalId " + startTextId);
         DomainObject domainObject = FenixFramework.getDomainObject(startTextId);
 
         if (domainObject instanceof SimpleText) {
@@ -1145,7 +1144,7 @@ public class TextProvidesInterface {
     @GetMapping("/source/{xmlId}/interSet")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<ScholarInterDto> getSourceIntersSet(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getSourceIntersSet " + xmlId);
+        logger.debug("getSourceIntersSet " + xmlId);
         Set<SourceInter> sourceInters = getSourceByXmlId(xmlId).map(Source::getSourceIntersSet).orElse(new HashSet<>());
         return sourceInters.stream().map(ScholarInterDto::new).collect(Collectors.toSet());
     }
@@ -1153,7 +1152,7 @@ public class TextProvidesInterface {
     @GetMapping("/source/{xmlId}/heteronym")
     @Atomic(mode = Atomic.TxMode.READ)
     public HeteronymDto getHeteronym(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getHeteronym " + xmlId);
+        logger.debug("getHeteronym " + xmlId);
         return getSourceByXmlId(xmlId)
                 .map(Source::getHeteronym)
                 .map(HeteronymDto::new)
@@ -1163,7 +1162,7 @@ public class TextProvidesInterface {
     @GetMapping("/source/{xmlId}/surfaces")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<SurfaceDto> getSurfaces(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getSurfaces " + xmlId);
+        logger.debug("getSurfaces " + xmlId);
         List<Surface> surfaces = getSourceByXmlId(xmlId)
                 .map(Source_Base::getFacsimile)
                 .map(Facsimile::getSurfaces).orElse(new ArrayList<>());
@@ -1173,7 +1172,7 @@ public class TextProvidesInterface {
     @GetMapping("/source/{xmlId}/LdoDDateDto")
     @Atomic(mode = Atomic.TxMode.READ)
     public LdoDDateDto getLdoDDateDto(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getLdoDDateDto " + xmlId);
+        logger.debug("getLdoDDateDto " + xmlId);
         return getSourceByXmlId(xmlId)
                 .map(Source_Base::getLdoDDate)
                 .map(LdoDDateDto::new)
@@ -1183,7 +1182,7 @@ public class TextProvidesInterface {
     @GetMapping("/source/{xmlId}/LdoDDate")
     @Atomic(mode = Atomic.TxMode.READ)
     public LdoDDateDto getLdoDDate(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getLdoDDate " + xmlId);
+        logger.debug("getLdoDDate " + xmlId);
         return getSourceByXmlId(xmlId)
                 .map(source -> source.getLdoDDate() != null ? new LdoDDateDto(source.getLdoDDate()) : null)
                 .orElse(null);
@@ -1192,7 +1191,7 @@ public class TextProvidesInterface {
     @GetMapping("/source/{xmlId}/typeNotes")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<ManuscriptNote> getTypeNoteSet(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getTypeNoteSet " + xmlId);
+        logger.debug("getTypeNoteSet " + xmlId);
         return getSourceByXmlId(xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
@@ -1206,7 +1205,7 @@ public class TextProvidesInterface {
     @GetMapping("/source/{xmlId}/formattedTypeNotes")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<AbstractMap.SimpleEntry<String, String>> getFormattedTypeNote(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getFormattedTypeNote " + xmlId);
+        logger.debug("getFormattedTypeNote " + xmlId);
         return getSourceByXmlId(xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
@@ -1220,7 +1219,7 @@ public class TextProvidesInterface {
     @GetMapping("/source/{xmlId}/handNotes")
     @Atomic(mode = Atomic.TxMode.READ)
     public Set<ManuscriptNote> getHandNoteSet(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getHandNoteSet " + xmlId);
+        logger.debug("getHandNoteSet " + xmlId);
         return getSourceByXmlId(xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
@@ -1233,7 +1232,7 @@ public class TextProvidesInterface {
     @GetMapping("/source/{xmlId}/formattedHandNotes")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<AbstractMap.SimpleEntry<String, String>> getFormattedHandNote(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getFormattedHandNote " + xmlId);
+        logger.debug("getFormattedHandNote " + xmlId);
         return getSourceByXmlId(xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
@@ -1248,7 +1247,7 @@ public class TextProvidesInterface {
     @GetMapping("/source/{xmlId}/sortedDimensions")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<DimensionsDto> getSortedDimensionsDto(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getSortedDimensionsDto " + xmlId);
+        logger.debug("getSortedDimensionsDto " + xmlId);
         return getSourceByXmlId(xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
@@ -1261,7 +1260,7 @@ public class TextProvidesInterface {
     @GetMapping("/source/{xmlId}/formattedDimensions")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getFormattedDimensions(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getFormattedDimensions " + xmlId);
+        logger.debug("getFormattedDimensions " + xmlId);
         return getSourceByXmlId(xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
@@ -1274,7 +1273,7 @@ public class TextProvidesInterface {
     @GetMapping("/source/{xmlId}/settlement")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getSettlement(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getSettlement " + xmlId);
+        logger.debug("getSettlement " + xmlId);
         return getSourceByXmlId(xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
@@ -1285,7 +1284,7 @@ public class TextProvidesInterface {
     @GetMapping("/source/{xmlId}/repository")
     @Atomic(mode = Atomic.TxMode.READ)
     public String getRepository(@PathVariable("xmlId") String xmlId) {
-        System.out.println("getRepository " + xmlId);
+        logger.debug("getRepository " + xmlId);
         return getSourceByXmlId(xmlId)
                 .filter(ManuscriptSource.class::isInstance)
                 .map(ManuscriptSource.class::cast)
@@ -1351,7 +1350,7 @@ public class TextProvidesInterface {
         String scholarInterId = scholarInterMap.get(xmlId);
         if (scholarInterId == null) {
             scholarInterId = TextModule.getInstance().getFragmentsSet().stream()
-                    //   .peek(fragment -> System.out.println("estou ca dentro"))
+                    //   .peek(fragment -> logger.debug("estou ca dentro"))
                     .flatMap(fragment -> fragment.getScholarInterSet().stream())
                     .filter(sci -> sci.getXmlId().equals(xmlId))
                     .map(sci -> sci.getExternalId())
