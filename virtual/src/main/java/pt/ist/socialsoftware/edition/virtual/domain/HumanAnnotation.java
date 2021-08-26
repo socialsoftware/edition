@@ -12,9 +12,6 @@ import java.util.stream.Collectors;
 
 public class HumanAnnotation extends HumanAnnotation_Base {
 
-    private String startTextId;
-    private String endTextId;
-
     @Override
     public void setText(String text) {
         String escapedText = null;
@@ -29,38 +26,25 @@ public class HumanAnnotation extends HumanAnnotation_Base {
     public HumanAnnotation(VirtualEditionInter inter, SimpleTextDto startText, SimpleTextDto endText, String quote,
                            String text, String user) {
         super.init(inter, quote, text);
-        // setVirtualEditionInter(inter);
-
-//        setStartText(startText);
-//        setEndText(endText);
-
+        setStartTextId("");
+        setEndTextId("");
         if (startText != null && endText != null) {
-            this.startTextId = startText.getExternalId();
-            this.endTextId = endText.getExternalId();
+            setStartTextId(startText.getExternalId());
+            setEndTextId(endText.getExternalId());
         }
 
-        // setQuote(quote);
-        // setTextModule(text);
         setUser(user);
     }
 
     @Override
     @Atomic(mode = TxMode.WRITE)
     public void remove() {
-        setStartText(null);
-        setEndText(null);
+        setStartTextId(null);
+        setEndTextId(null);
         for (Tag tag : getTagSet()) {
             tag.remove();
         }
         super.remove();
-    }
-
-    public void setStartText(String externalId) {
-        this.startTextId = externalId;
-    }
-
-    public void setEndText(String externalId) {
-        this.endTextId = externalId;
     }
 
     @Atomic(mode = TxMode.WRITE)
@@ -91,15 +75,6 @@ public class HumanAnnotation extends HumanAnnotation_Base {
         return getTagSet().stream().anyMatch(t -> t.getCategory().getName().equals(tag)
                 && t.getCategory().getTaxonomy().getEdition() == virtualEdition);
     }
-
-    public SimpleTextDto getStartText() {
-        return VirtualRequiresInterface.getInstance().getSimpleTextFromExternalId(this.startTextId);
-    }
-
-    public SimpleTextDto getEndText() {
-        return VirtualRequiresInterface.getInstance().getSimpleTextFromExternalId(this.endTextId);
-    }
-
 
     @Override
     public boolean isAwareAnnotation() {

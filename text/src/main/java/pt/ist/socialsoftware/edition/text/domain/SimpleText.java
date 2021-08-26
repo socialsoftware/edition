@@ -25,15 +25,7 @@ public class SimpleText extends SimpleText_Base {
 
 //        EventInterface.getInstance().publish(new Event(Event.EventType.SIMPLE_TEXT_REMOVE, this.getXmlId()));
         TextEventPublisher eventPublisher = BeanUtil.getBean(TextEventPublisher.class);
-        eventPublisher.publishEvent(new Event(Event.EventType.SIMPLE_TEXT_REMOVE, this.getXmlId()));
-
-//        for (HumanAnnotation annotation : getStartAnnotationsSet()) {
-//            annotation.remove();
-//        }
-//
-//        for (HumanAnnotation annotation : getEndAnnotationsSet()) {
-//            annotation.remove();
-//        }
+        eventPublisher.publishEvent(new Event(Event.EventType.SIMPLE_TEXT_REMOVE, this.getExternalId()));
 
         super.remove();
     }

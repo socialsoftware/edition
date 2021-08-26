@@ -134,19 +134,12 @@ class Annotation {
 	String user;
 }
 
-class HumanAnnotation extends Annotation;
-
-class AwareAnnotation extends Annotation;
-
-/*relation HumanAnnotationHasBeginSimpleText {
-	HumanAnnotation playsRole startAnnotations {multiplicity 0..*;}
-	.pt.ist.socialsoftware.edition.text.api.dto.SimpleTextDto playsRole startText {multiplicity 0..1;}
+class HumanAnnotation extends Annotation {
+    String startTextId;
+    String endTextId;
 }
 
-relation HumanAnnotationHasEndSimpleText {
-	HumanAnnotation playsRole endAnnotations {multiplicity 0..*;}
-	.pt.ist.socialsoftware.edition.text.api.dto.SimpleTextDto playsRole endText {multiplicity 0..1;}
-}*/
+class AwareAnnotation extends Annotation;
 
 relation VirtualEditionInterHasAnnotations {
   VirtualEditionInter playsRole virtualEditionInter {multiplicity 1..1;}

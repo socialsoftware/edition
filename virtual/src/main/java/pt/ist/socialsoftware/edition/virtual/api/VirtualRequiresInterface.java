@@ -85,12 +85,11 @@ public class VirtualRequiresInterface implements SubscribeInterface {
                     .forEach(annotation -> annotation.remove());
         } else if (event.getType().equals(Event.EventType.SIMPLE_TEXT_REMOVE)){
 
-//            VirtualModule.getInstance().getVirtualEditionsSet().stream()
-//                    .flatMap(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters().stream())
-//                    .flatMap(virtualEditionInter -> virtualEditionInter.getAnnotationSet().stream())
-//                    .filter(annotation -> annotation.isHumanAnnotation() && (((HumanAnnotation) annotation).getStartText() != null || ((HumanAnnotation) annotation).getEndText() != null ))
-//                    .filter(annotation -> (((HumanAnnotation) annotation).getStartText().getXmlId().equals(event.getIdentifier())) || ((HumanAnnotation) annotation).getEndText().getXmlId().equals(event.getIdentifier()))
-//                    .forEach(annotation -> annotation.remove());
+            VirtualModule.getInstance().getVirtualEditionsSet().stream()
+                    .flatMap(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters().stream())
+                    .flatMap(virtualEditionInter -> virtualEditionInter.getAnnotationSet().stream())
+                    .filter(annotation -> annotation.isHumanAnnotation() && (((HumanAnnotation) annotation).getStartTextId().equals(event.getIdentifier())) || ((HumanAnnotation) annotation).getEndTextId().equals(event.getIdentifier()))
+                    .forEach(annotation -> annotation.remove());
         }
     }
 
