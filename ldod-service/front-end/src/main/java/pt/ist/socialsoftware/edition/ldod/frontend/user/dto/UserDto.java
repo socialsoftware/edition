@@ -309,7 +309,8 @@ public class UserDto {
                 .uri("/user/" + username + "/first")
                 .retrieve()
                 .bodyToMono(String.class)
-                .block();
+                .blockOptional()
+                .orElse("");
     }
 
     public String getLastNameFromService() {
@@ -318,6 +319,7 @@ public class UserDto {
                 .uri("/user/" + username + "/last")
                 .retrieve()
                 .bodyToMono(String.class)
-                .block();
+                .blockOptional()
+                .orElse("");
     }
 }

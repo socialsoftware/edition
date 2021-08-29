@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.frontend.virtual.virtualDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.joda.time.LocalDate;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.socialsoftware.edition.ldod.frontend.user.dto.UserDto;
 
@@ -558,7 +559,12 @@ public class VirtualEditionDto {
 
     @JsonIgnore
     public List<String> getAnnotationTextList() {
-        return webClientVirtual.build()
+        return webClientVirtual.exchangeStrategies(ExchangeStrategies.builder()
+                .codecs(configurer -> configurer
+                        .defaultCodecs()
+                        .maxInMemorySize(16 * 1024 * 1024))
+                .build())
+                .build()
                 .get()
                 .uri("/virtualEdition/" + this.acronym + "/annotationTextList")
                 .retrieve()
