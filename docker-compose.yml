@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-  db-service:
+  db-frontend:
     image: mysql:latest
     restart: always
     environment:
@@ -27,11 +27,11 @@ services:
 
 
 
-  docker-service:
-    image: docker-service:test1
+  docker-frontend:
+    image: docker-frontend:test1
     restart: on-failure
     depends_on:
-      - db-service
+      - db-edition
       - db-text
       - docker-text
       - db-user
@@ -46,7 +46,7 @@ services:
       - 8080:8080
 
     environment:
-      dbAlias: jdbc:mysql://db-service:3306/edition?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
+      dbAlias: jdbc:mysql://db-edition:3306/edition?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
       # Database username and password
       dbUsername: 'darfo'
       dbPassword: 'darfo'

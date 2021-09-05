@@ -615,8 +615,7 @@
     </pluginRepositories>
 
     <modules>
-        <module>ldod-service</module>
-<!--        <module>text</module>-->
-        <module>notification</module>
+       <module>classification-game</module>
+        <module>ldod-visual</module>
     </modules>
 </project>
