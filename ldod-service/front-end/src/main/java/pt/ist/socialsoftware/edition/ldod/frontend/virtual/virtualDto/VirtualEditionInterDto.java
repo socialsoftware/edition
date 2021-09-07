@@ -206,7 +206,7 @@ public class VirtualEditionInterDto {
         return webClientVirtual.build()
                 .get()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/virtualEditionInter/" + this.xmlId + "/allDepthCategoriesAccessibleByUser")
+                        .path("/virtualEditionInter/" + this.xmlId + "/allDepthTagsAcessibleByUser")
                         .queryParam("username", username)
                         .build())
                 .retrieve()

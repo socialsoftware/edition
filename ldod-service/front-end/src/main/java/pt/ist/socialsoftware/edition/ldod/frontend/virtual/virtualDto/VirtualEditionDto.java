@@ -637,4 +637,40 @@ public class VirtualEditionDto {
     public void setParticipantSet(Set<String> participants) {
         this.participants = participants;
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public void setSynopsis(String synopsis) {
+        this.synopsis = synopsis;
+    }
+
+    public void setisLdoDEdition(boolean ldoDEdition) {
+        isLdoDEdition = ldoDEdition;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public void setPub(boolean pub) {
+        this.pub = pub;
+    }
+
+    public void setOpenVocabulary(boolean openVocabulary) {
+        this.openVocabulary = openVocabulary;
+    }
+
+    public void setShortAcronym(String shortAcronym) {
+        this.shortAcronym = shortAcronym;
+    }
+
+    public void setMax(int max) {
+        this.max = max;
+    }
 }

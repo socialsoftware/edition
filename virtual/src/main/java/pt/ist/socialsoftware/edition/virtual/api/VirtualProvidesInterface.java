@@ -668,7 +668,8 @@ public class VirtualProvidesInterface {
     public Set<String> getVirtualEditionParticipantSet(@PathVariable("acronym") String acronym) {
        logger.debug("getVirtualEditionParticipantSet: " + acronym);
 //        cleanVirtualEditionMapCache();
-        return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.getParticipantSet()).orElse(new HashSet<>());
+        return VirtualModule.getInstance().getVirtualEdition(acronym).getParticipantSet();
+//        return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.getParticipantSet()).orElse(new HashSet<>());
     }
 
 
