@@ -81,6 +81,9 @@ public class FragmentTest {
     public void setUp() throws FileNotFoundException {
         this.mockMvc = MockMvcBuilders.standaloneSetup(this.fragmentController)
                 .setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
+        feVirtualRequiresInterface.cleanVirtualEditionInterMapByXmlIdCache();
+        feVirtualRequiresInterface.cleanVirtualEditionInterMapByUrlIdCache();
+        feVirtualRequiresInterface.cleanVirtualEditionMapCache();
     }
 
     @AfterEach

@@ -324,7 +324,7 @@ public class ScholarInterDto {
         return heteronym;
     }
 
-    public ExpertEditionDto getExpertEditionDto() {
+    public ExpertEditionDto getExpertEdition() {
         return expertEditionDto;
     }
 
@@ -344,7 +344,7 @@ public class ScholarInterDto {
         this.heteronym = heteronymDto;
     }
 
-    public void setExpertEditionDto(ExpertEditionDto expertEditionDto) {
+    public void setExpertEdition(ExpertEditionDto expertEditionDto) {
         this.expertEditionDto = expertEditionDto;
     }
 

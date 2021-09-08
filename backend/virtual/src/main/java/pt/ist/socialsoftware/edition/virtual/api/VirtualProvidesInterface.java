@@ -671,7 +671,8 @@ public class VirtualProvidesInterface {
     public Set<String> getVirtualEditionParticipantSet(@PathVariable("acronym") String acronym) {
        logger.debug("getVirtualEditionParticipantSet: " + acronym);
 //        cleanVirtualEditionMapCache();
-        return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.getParticipantSet()).orElse(new HashSet<>());
+        return VirtualModule.getInstance().getVirtualEdition(acronym).getParticipantSet();
+//        return getVirtualEditionByAcronymUtil(acronym).map(virtualEdition -> virtualEdition.getParticipantSet()).orElse(new HashSet<>());
     }
 
 
@@ -1608,6 +1609,7 @@ public class VirtualProvidesInterface {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public TwitterCitationDto createTwitterCitation(@RequestParam(name = "fragmentXmlId") String fragmentXmlId, @RequestParam(name = "sourceLink") String sourceLink, @RequestParam(name = "date") String date, @RequestParam(name = "fragText") String fragText, @RequestParam(name = "tweetText") String tweetText,
                                       @RequestParam(name = "tweetID") long tweetID, @RequestParam(name = "location") String location, @RequestParam(name = "country") String country, @RequestParam(name = "username") String username, @RequestParam(name = "profURL") String profURL, @RequestParam(name = "profImgURL") String profImgURL) {
+        logger.debug("createTwitterCitation");
         return new TwitterCitationDto(new TwitterCitation(VirtualRequiresInterface.getInstance().getFragmentByXmlId(fragmentXmlId), sourceLink, date, fragText,
                 tweetText, tweetID, location, country, username, profURL, profImgURL));
     }
@@ -1616,6 +1618,7 @@ public class VirtualProvidesInterface {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void createTweet(@RequestParam(name = "sourceLink") String sourceLink, @RequestParam(name = "date") String date, @RequestParam(name = "tweetText") String tweetText, @RequestParam(name = "tweetID") long tweetID, @RequestParam(name = "location") String location,
                            @RequestParam(name = "country") String country, @RequestParam(name = "username") String username, @RequestParam(name = "profURL") String profURL, @RequestParam(name = "profImgURL") String profImgURL, @RequestParam(name = "originalTweetID") long originalTweetID, @RequestParam(name = "isRetweet") boolean isRetweet) {
+       logger.debug("createTweet");
         TwitterCitation twitterCitation = VirtualModule.getInstance().getTwitterCitationByTweetID(23);
         new Tweet(VirtualModule.getInstance(), sourceLink, date, tweetText, tweetID, location, country, username, profURL, profImgURL, originalTweetID, isRetweet, twitterCitation);
     }
@@ -1623,7 +1626,7 @@ public class VirtualProvidesInterface {
     @GetMapping("/virtualEditionInter/{xmlId}/allDepthHumanAnnotationsAccessibleByUser")
     @Atomic(mode = Atomic.TxMode.READ)
     public List<HumanAnnotationDto> getAllDepthHumanAnnotationsAccessibleByUser(@PathVariable("xmlId") String xmlId, @RequestParam(name = "username") String username) {
-        VirtualEditionInter inter = getVirtualEditionInterByXmlId(xmlId).get();
+        VirtualEditionInter inter = VirtualModule.getInstance().getVirtualEditionInterByXmlId(xmlId);
         return inter.getAllDepthHumanAnnotationsAccessibleByUser(username).stream().map(humanAnnotation -> new HumanAnnotationDto(humanAnnotation, inter)).collect(Collectors.toList());
     }
 

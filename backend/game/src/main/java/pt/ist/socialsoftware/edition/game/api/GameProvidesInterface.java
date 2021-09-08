@@ -91,7 +91,7 @@ public class GameProvidesInterface {
     @Atomic(mode = Atomic.TxMode.WRITE)
     public void createClassificationGame(@RequestBody CreateGameWrapper createGameWrapper) {
         logger.debug("createClassificationGame");
-        ClassificationModule.createClassificationGame(createGameWrapper.getVirtualEditionBaseDto(), createGameWrapper.getDescription(), createGameWrapper.getParse(), createGameWrapper.getInter(), createGameWrapper.getAuthenticatedUser());
+        ClassificationModule.createClassificationGame(createGameWrapper.getVirtualEditionDto(), createGameWrapper.getDescription(), createGameWrapper.getParse(), createGameWrapper.getInter(), createGameWrapper.getAuthenticatedUser());
     }
 
     @PostMapping("/importGamesFromTEI")

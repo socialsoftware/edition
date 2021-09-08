@@ -11,7 +11,7 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.io.IOException;
 
-public class CustomDateTimeDeserializer extends StdDeserializer<LocalDate> {
+public class CustomDateTimeDeserializer extends StdDeserializer<DateTime> {
 
     private static final long serialVersionUID = 1L;
     private static DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd");
@@ -25,11 +25,11 @@ public class CustomDateTimeDeserializer extends StdDeserializer<LocalDate> {
     }
 
     @Override
-    public LocalDate deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
+    public DateTime deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException {
 
         String date = parser.getText();
 
-        return format.parseLocalDate(date);
+        return format.parseDateTime(date);
 
     }
 

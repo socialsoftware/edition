@@ -46,7 +46,7 @@ public class RecommendationProvidesInterface {
         ScholarInterDto scholarInterDto = wrapper.getScholarInterDto();
         WeightsDto weights = wrapper.getWeightsDto();
 
-        List<ScholarInterDto> inters = scholarInterDto.getExpertEditionDto().getExpertEditionInters();
+        List<ScholarInterDto> inters = scholarInterDto.getExpertEdition().getExpertEditionInters();
 
         VSMScholarInterRecommender recommender = new VSMScholarInterRecommender();
 

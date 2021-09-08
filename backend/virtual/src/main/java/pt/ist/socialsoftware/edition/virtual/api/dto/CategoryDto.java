@@ -38,6 +38,7 @@ public class CategoryDto {
         this.hasTags = category.getTagSet().isEmpty();
     }
 
+    public CategoryDto() {}
 
     public String getExternalId() {
         return this.externalId;

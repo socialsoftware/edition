@@ -135,6 +135,7 @@ public class AdminTest {
     public void loadFragmentTest() throws Exception {
         //Make sure corpus is present in db before loading fragments
         TestLoadUtils.loadCorpus();
+        feTextRequiresInterface.cleanFragmentMapCache();
 
         File directory = new File(PropertiesManager.getProperties().getProperty("test.files.dir"));
 

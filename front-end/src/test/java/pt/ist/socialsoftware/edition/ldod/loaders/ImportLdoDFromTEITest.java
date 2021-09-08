@@ -64,7 +64,7 @@ public class ImportLdoDFromTEITest {
         assertEquals(5, this.fragmentTest.getScholarInterDtoSet().size());
         for (ScholarInterDto fragmentInter : this.fragmentTest.getScholarInterDtoSet()) {
             if (fragmentInter.isExpertInter()) {
-                assertTrue((fragmentInter).getExpertEditionDto() != null);
+                assertTrue((fragmentInter).getExpertEdition() != null);
             } else if (fragmentInter.isSourceInter()) {
                 assertTrue((fragmentInter).getSourceDto() != null);
             }

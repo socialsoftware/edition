@@ -57,12 +57,15 @@ public class TestLoadUtils {
 
 //        LoadTEIFragments fragmentLoader = new LoadTEIFragments();
         FeTextRequiresInterface feTextRequiresInterface = new FeTextRequiresInterface();
+        feTextRequiresInterface.cleanFragmentMapCache();
+        feTextRequiresInterface.cleanScholarInterMapCache();
 
         File file;
         for (int i = 0; i < fragmentFiles.length; i++) {
             file = new File(directory, fragmentFiles[i]);
             feTextRequiresInterface.getLoadTEIFragmentsAtOnce(new FileInputStream(file));
         }
+
         if (fragmentFiles.length > 0){  new FeTextRequiresInterface().getFragmentCorpusGenerator(); }
     }
 
@@ -71,6 +74,11 @@ public class TestLoadUtils {
 		File directory = new File(testFilesDirectory);
 
 		String[] fragmentFiles = fragmentsToLoad;
+
+		FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
+        feVirtualRequiresInterface.cleanVirtualEditionInterMapByUrlIdCache();
+        feVirtualRequiresInterface.cleanVirtualEditionInterMapByXmlIdCache();
+        feVirtualRequiresInterface.cleanVirtualEditionMapCache();
 
 		File file;
 		for (int i = 0; i < fragmentFiles.length; i++) {
@@ -91,12 +99,6 @@ public class TestLoadUtils {
         FeUserRequiresInterface feUserRequiresInterface = new FeUserRequiresInterface();
         FeVirtualRequiresInterface feVirtualRequiresInterface = new FeVirtualRequiresInterface();
 
-        feTextRequiresInterface.cleanFragmentMapCache();
-        feTextRequiresInterface.cleanScholarInterMapCache();
-        feVirtualRequiresInterface.cleanVirtualEditionInterMapByUrlIdCache();
-        feVirtualRequiresInterface.cleanVirtualEditionInterMapByXmlIdCache();
-        feVirtualRequiresInterface.cleanVirtualEditionMapCache();
-        
 
         EventInterface.getInstance();
         SessionRequiresInterface.getInstance();
@@ -110,6 +112,12 @@ public class TestLoadUtils {
         new FeReadingRequiresInterface().removeRecommendationModule();
 
         new FeGameRequiresInterface().removeGameModule();
+
+        feTextRequiresInterface.cleanFragmentMapCache();
+        feTextRequiresInterface.cleanScholarInterMapCache();
+        feVirtualRequiresInterface.cleanVirtualEditionInterMapByUrlIdCache();
+        feVirtualRequiresInterface.cleanVirtualEditionInterMapByXmlIdCache();
+        feVirtualRequiresInterface.cleanVirtualEditionMapCache();
     }
 
     public static byte[] jsonBytes(Object object) throws IOException {
@@ -131,7 +139,9 @@ public class TestLoadUtils {
         File frag1 = new File(directory, "virtual-Fr001.xml");
         FileInputStream fisfrag = new FileInputStream(frag1);
 
-
+        feVirtualRequiresInterface.cleanVirtualEditionInterMapByUrlIdCache();
+        feVirtualRequiresInterface.cleanVirtualEditionInterMapByXmlIdCache();
+        feVirtualRequiresInterface.cleanVirtualEditionMapCache();
 
         feVirtualRequiresInterface.importFragmentFromTEI(fisfrag);
 

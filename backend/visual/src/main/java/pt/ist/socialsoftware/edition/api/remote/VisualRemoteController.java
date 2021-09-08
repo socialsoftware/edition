@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import pt.ist.socialsoftware.edition.api.VisualRequiresInterface;
-import pt.ist.socialsoftware.edition.api.dto.EditionFragmentsDto;
-import pt.ist.socialsoftware.edition.api.dto.EditionInterListDto;
-import pt.ist.socialsoftware.edition.api.dto.Fragment4VisualDto;
+
 import pt.ist.socialsoftware.edition.notification.dtos.recommendation.InterIdDistancePairDto;
 import pt.ist.socialsoftware.edition.notification.dtos.recommendation.WeightsDto;
 import pt.ist.socialsoftware.edition.notification.dtos.text.ExpertEditionDto;
@@ -21,6 +19,9 @@ import pt.ist.socialsoftware.edition.notification.dtos.text.ExpertEditionInterLi
 import pt.ist.socialsoftware.edition.notification.dtos.text.ScholarInterDto;
 import pt.ist.socialsoftware.edition.notification.dtos.virtual.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.notification.dtos.virtual.VirtualEditionInterDto;
+import pt.ist.socialsoftware.edition.notification.dtos.visual.EditionFragmentsDto;
+import pt.ist.socialsoftware.edition.notification.dtos.visual.EditionInterListDto;
+import pt.ist.socialsoftware.edition.notification.dtos.visual.Fragment4VisualDto;
 
 
 import java.util.ArrayList;

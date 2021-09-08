@@ -76,7 +76,8 @@ public class ReadingRecommendation implements Serializable {
         List<Entry<String, Double>> mostSimilars = this.FEReadingRequiresInterface.
                 getMostSimilarFragmentsOfGivenFragment(toReadFragment, toBeRecommended,
                         new WeightsDto(getHeteronymWeight(), getDateWeight(), getTextWeight(), getTaxonomyWeight()));
-
+        System.out.println("EEWWWWWWWWWWWWWWW");
+        System.out.println(mostSimilars);
         Set<ScholarInterDto> result = new HashSet<>();
         Double value = mostSimilars.get(0).getValue();
         for (Entry<String, Double> entry : mostSimilars) {
@@ -84,7 +85,9 @@ public class ReadingRecommendation implements Serializable {
             // entry.getValue());
             // add all interpretations that are similar
             if (Math.abs(value - entry.getValue()) < 0.001 && result.size() < 5) {
-                result.addAll(FEReadingRequiresInterface.getFragmentByXmlId(entry.getKey()).getScholarInterDtoSetForExpertEdtion(toReadInter.getExpertEditionAcronym()));
+                result.addAll(FEReadingRequiresInterface.getFragmentByXmlId(entry.getKey())
+                        .getScholarInterDtoSetForExpertEdtion(toReadInter
+                                .getExpertEditionAcronym()));
                 // if the most similar fragment does not have an interpretation
                 // in this edition, use the next most similar fragment
             } else if (result.size() == 0) {

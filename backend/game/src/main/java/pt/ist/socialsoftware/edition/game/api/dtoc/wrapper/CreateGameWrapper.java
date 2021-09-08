@@ -11,14 +11,14 @@ import pt.ist.socialsoftware.edition.notification.dtos.virtual.VirtualEditionInt
 
 public class CreateGameWrapper {
 
-    private VirtualEditionDto virtualEditionBaseDto;
+    private VirtualEditionDto VirtualEditionDto;
     private String description;
     private DateTime parse;
     private VirtualEditionInterDto inter;
     private String authenticatedUser;
 
-    public CreateGameWrapper(VirtualEditionDto virtualEditionBaseDto, String description, DateTime parse, VirtualEditionInterDto inter, String authenticatedUser) {
-        this.virtualEditionBaseDto = virtualEditionBaseDto;
+    public CreateGameWrapper(VirtualEditionDto VirtualEditionDto, String description, DateTime parse, VirtualEditionInterDto inter, String authenticatedUser) {
+        this.VirtualEditionDto = VirtualEditionDto;
         this.description = description;
         this.parse = parse;
         this.inter = inter;
@@ -27,12 +27,12 @@ public class CreateGameWrapper {
 
     public CreateGameWrapper() {}
 
-    public VirtualEditionDto getVirtualEditionBaseDto() {
-        return virtualEditionBaseDto;
+    public VirtualEditionDto getVirtualEditionDto() {
+        return VirtualEditionDto;
     }
 
-    public void setVirtualEditionBaseDto(VirtualEditionDto virtualEditionBaseDto) {
-        this.virtualEditionBaseDto = virtualEditionBaseDto;
+    public void setVirtualEditionDto(VirtualEditionDto virtualEditionBaseDto) {
+        this.VirtualEditionDto = virtualEditionBaseDto;
     }
 
     public String getDescription() {

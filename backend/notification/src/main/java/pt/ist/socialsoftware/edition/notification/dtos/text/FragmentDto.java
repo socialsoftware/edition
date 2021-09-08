@@ -212,6 +212,9 @@ public class FragmentDto {
                 .block();
     }
 
-
+    @Override
+    public String toString() {
+        return xmlId;
+    }
 
 }

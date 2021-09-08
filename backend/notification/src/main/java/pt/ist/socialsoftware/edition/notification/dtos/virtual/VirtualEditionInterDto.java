@@ -201,7 +201,7 @@ public class VirtualEditionInterDto {
         return webClientVirtual.build()
                 .get()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/virtualEditionInter/" + this.xmlId + "/allDepthCategoriesAccessibleByUser")
+                        .path("/virtualEditionInter/" + this.xmlId + "/allDepthTagsAcessibleByUser")
                         .queryParam("username", username)
                         .build())
                 .retrieve()
@@ -506,5 +506,9 @@ public class VirtualEditionInterDto {
 
     public void setLastUsed(ScholarInterDto lastUsed) {
         this.lastUsed = lastUsed;
+    }
+
+    public void setFragmentXmlId(String fragmentXmlId) {
+        this.fragmentXmlId = fragmentXmlId;
     }
 }
