@@ -1,8 +1,13 @@
 package pt.ist.socialsoftware.edition.game.api.dtoc;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.joda.time.DateTime;
 import pt.ist.socialsoftware.edition.game.api.GameProvidesInterface;
+import pt.ist.socialsoftware.edition.game.config.CustomDateTimeDeserializer;
 import pt.ist.socialsoftware.edition.game.domain.ClassificationGame;
 import pt.ist.socialsoftware.edition.game.domain.ClassificationGameParticipant;
+import pt.ist.socialsoftware.edition.notification.config.CustomDateTimeSerializer;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,6 +23,9 @@ public class ClassificationGameDto {
     private String description;
     private String responsible;
     private boolean canBeRemoved;
+    private boolean isActive;
+    private DateTime dateTime;
+    private boolean openAnnotation;
 
     public ClassificationGameDto(ClassificationGame game){
         setEditionId(game.getEditionId());
@@ -27,6 +35,9 @@ public class ClassificationGameDto {
         setDescription(game.getDescription());
         setResponsible(game.getResponsible());
         this.canBeRemoved = game.canBeRemoved();
+        this.isActive = game.isActive();
+        this.dateTime = game.getDateTime();
+        this.openAnnotation = game.getOpenAnnotation();
     }
 
     public String getEditionId() {
@@ -82,6 +93,31 @@ public class ClassificationGameDto {
     }
 
     public boolean getCanBeRemoved() { return canBeRemoved; }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setisActive(boolean active) {
+        isActive = active;
+    }
+
+    public boolean getOpenAnnotation() {
+        return openAnnotation;
+    }
+
+    public void setOpenAnnotation(boolean openAnnotation) {
+        this.openAnnotation = openAnnotation;
+    }
+
+    @JsonSerialize(using = CustomDateTimeSerializer.class)
+    public DateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(DateTime dateTime) {
+        this.dateTime = dateTime;
+    }
 
     public void remove() {
         this.gameProvidesInterface.removeClassificationGame(this.externalId);

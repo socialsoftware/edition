@@ -2,7 +2,12 @@ package pt.ist.socialsoftware.edition.notification.dtos.game;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.joda.time.DateTime;
 import org.springframework.web.reactive.function.client.WebClient;
+import pt.ist.socialsoftware.edition.notification.config.CustomDateTimeDeserializer;
+import pt.ist.socialsoftware.edition.notification.config.CustomDateTimeSerializer;
 import pt.ist.socialsoftware.edition.notification.endpoint.ServiceEndpoints;
 
 import java.util.List;
@@ -18,6 +23,9 @@ public class ClassificationGameDto {
     private String description;
     private String responsible;
     private boolean canBeRemoved;
+    private boolean isActive;
+    private DateTime dateTime;
+    private boolean openAnnotation;
 
     public ClassificationGameDto() {}
 
@@ -75,6 +83,31 @@ public class ClassificationGameDto {
 
     public void setCanBeRemoved(boolean removed) {
         this.canBeRemoved = removed;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setisActive(boolean active) {
+        isActive = active;
+    }
+
+    @JsonDeserialize(using = CustomDateTimeDeserializer.class)
+    public DateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(DateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public boolean getOpenAnnotation() {
+        return openAnnotation;
+    }
+
+    public void setOpenAnnotation(boolean openAnnotation) {
+        this.openAnnotation = openAnnotation;
     }
 
     @JsonIgnore
