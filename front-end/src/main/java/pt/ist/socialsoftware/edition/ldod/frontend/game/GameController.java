@@ -35,7 +35,7 @@ public class GameController {
         } else {
             model.addAttribute("virtualEdition", virtualEdition);
             model.addAttribute("games", this.FEGameRequiresInterface.getClassificationGamesForEdition(virtualEdition.getAcronym()));
-            model.addAttribute("userInterface", this.FEGameRequiresInterface);
+            model.addAttribute("userProvidesInterface", this.FEGameRequiresInterface);
             model.addAttribute("virtualInterface", this.FEGameRequiresInterface);
             return "virtual/classificationGame";
         }
@@ -49,7 +49,7 @@ public class GameController {
             return "redirect:/error";
         } else {
             model.addAttribute("virtualEdition", virtualEdition);
-            model.addAttribute("userInterface", this.FEGameRequiresInterface);
+            model.addAttribute("userProvidesInterface", this.FEGameRequiresInterface);
             model.addAttribute("virtualInterface", this.FEGameRequiresInterface);
             return "virtual/createClassificationGame";
         }

@@ -95,8 +95,8 @@
                         <c:forEach var="participant" items='${game.getClassificationGameParticipantSet()}'
                                    varStatus="loop">
                         <a
-                                href="${contextPath}/edition/user/${participant.getPlayer().getUser()}">${userProvidesInterface.getFirstName(participant.getPlayer().getUser())}
-                                ${userProvidesInterface.getLastName(participant.getPlayer().getUser())}</a>
+                                href="${contextPath}/edition/user/${participant.getPlayerUsername()}">${userProvidesInterface.getFirstName(participant.getPlayerUsername())}
+                                ${userProvidesInterface.getLastName(participant.getPlayerUsername())}</a>
                         <c:if test="${!loop.last}">, </c:if>
                         </c:forEach>
                     <td><c:if

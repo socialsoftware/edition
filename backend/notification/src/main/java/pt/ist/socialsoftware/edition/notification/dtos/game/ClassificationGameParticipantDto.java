@@ -14,4 +14,13 @@ public class ClassificationGameParticipantDto {
     public String getPlayerUsername() {
         return playerUsername;
     }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    public void setPlayerUsername(String playerUsername) {
+        this.playerUsername = playerUsername;
+    }
+
 }
