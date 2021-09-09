@@ -38,7 +38,6 @@ public class Application extends SpringBootServletInitializer implements Initial
 
     @Override
     public void afterPropertiesSet() {
-        webClientBuilder();
         Bootstrap.initializeSystem();
     }
 
@@ -80,12 +79,6 @@ public class Application extends SpringBootServletInitializer implements Initial
     @Bean
     public Emailer emailer() {
         return new Emailer();
-    }
-
-    @Primary
-    @Bean
-    public WebClient.Builder webClientBuilder() {
-        return WebClient.builder().baseUrl("http://localhost:8081/api");
     }
 
 

@@ -8,10 +8,11 @@ import pt.ist.socialsoftware.edition.notification.dtos.user.UserDto;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static pt.ist.socialsoftware.edition.notification.endpoint.ServiceEndpoints.VIRTUAL_SERVICE_URL;
+
 public class CategoryDto {
 
-    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
-//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl(VIRTUAL_SERVICE_URL);
 
 
     private String externalId;

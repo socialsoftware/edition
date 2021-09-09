@@ -10,6 +10,7 @@ import pt.ist.socialsoftware.edition.notification.dtos.virtual.VirtualEditionInt
 
 import java.util.ArrayList;
 import java.util.List;
+import static pt.ist.socialsoftware.edition.notification.endpoint.ServiceEndpoints.*;
 
 public class FEAssistedOrderingRequiresInterface {
     // Uses User Module
@@ -21,8 +22,7 @@ public class FEAssistedOrderingRequiresInterface {
 
 
     // Uses Virtual Module
-    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
-//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl(VIRTUAL_SERVICE_URL);
 
 
     public VirtualEditionDto getVirtualEditionByAcronym(String acronym) {
@@ -78,9 +78,7 @@ public class FEAssistedOrderingRequiresInterface {
     }
 
     // Uses Recommendation Module
-//    private final RecommendationProvidesInterface recommendationProvidesInterface = new RecommendationProvidesInterface();
-    public WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl("http://localhost:8084/api");
-//        private final WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl("http://docker-recommendation:8084/api");
+    public WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl(RECOMMENDATION_SERVICE_URL);
 
 
     public List<VirtualEditionInterDto> generateRecommendationFromVirtualEditionInter(VirtualEditionInterDto virtualEditionInterDto, String username, VirtualEditionDto virtualEdition, List<PropertyDto> properties) {

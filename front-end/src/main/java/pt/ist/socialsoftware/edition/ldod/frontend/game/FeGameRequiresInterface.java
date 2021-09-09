@@ -14,6 +14,7 @@ import pt.ist.socialsoftware.edition.notification.dtos.virtual.CategoryDto;
 import pt.ist.socialsoftware.edition.notification.dtos.virtual.TagDto;
 import pt.ist.socialsoftware.edition.notification.dtos.virtual.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.notification.dtos.virtual.VirtualEditionInterDto;
+import static pt.ist.socialsoftware.edition.notification.endpoint.ServiceEndpoints.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,8 +35,7 @@ public class FeGameRequiresInterface {
 
 
     // Uses User Module
-    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
-//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
+    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl(USER_SERVICE_URL);
 
 
 //    private final UserProvidesInterface userProvidesInterface = new UserProvidesInterface();
@@ -64,8 +64,7 @@ public class FeGameRequiresInterface {
 
 
     // Uses Virtual Module
-    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
-//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl(VIRTUAL_SERVICE_URL);
 
     public VirtualEditionDto getVirtualEditionByExternalId(String externalId) {
         return webClientVirtual.build()
@@ -144,8 +143,7 @@ public class FeGameRequiresInterface {
     }
 
     //Uses Game Module
-    private final WebClient.Builder webClientGame = WebClient.builder().baseUrl("http://localhost:8085/api");
-//    private final WebClient.Builder webClientGame = WebClient.builder().baseUrl("http://docker-game:8085/api");
+    private final WebClient.Builder webClientGame = WebClient.builder().baseUrl(GAME_SERVICE_URL);
 
     public Set<ClassificationGameDto> getClassificationGamesForEdition(String acronym) {
         return webClientGame.build()

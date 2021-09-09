@@ -28,52 +28,6 @@ public class AnnotationDTO implements Serializable {
     public AnnotationDTO() {
     }
 
-//    public AnnotationDTO(Annotation annotation) {
-//        if (annotation instanceof AwareAnnotation) {
-//            // String text = "<a href=\"https://www.w3schools.com/html/\">Visit our HTML
-//            // tutorial!</a>";
-//
-//            // String text = "&lta href=\"https://www.w3schools.com/html/\"&gtVisit our HTML
-//            // tutorial!&lt/a&gt";
-//
-//            // String text = "<html><body><p>" + "<a
-//            // href=\"https://www.w3schools.com/html/\">Visit our HTML tutorial</a>"
-//            // + "</p></body></html>";
-//
-//            // String text = "&lthtml&gt&ltbody&gt&ltp&gt"
-//            // + "&lta href=&quothttps://www.w3schools.com/html/&quot&gtVisit our HTML
-//            // tutorial&lt/a&gt"
-//            // + "&lt/p&gt&lt/body&gt&lt/html&gt";
-//
-//            setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
-//        } else if (annotation instanceof HumanAnnotation) {
-//            setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
-//        }
-//
-//        setId(annotation.getExternalId());
-//        setQuote(StringEscapeUtils.unescapeHtml(annotation.getQuote()));
-//        setUri(annotation.getVirtualEditionInter().getExternalId());
-//
-//        this.ranges = new ArrayList<>();
-//        for (Range range : annotation.getRangeSet()) {
-//            this.ranges.add(new RangeJson(range));
-//        }
-//
-//        setUser(annotation.getUser());
-//
-//        // code that supports treatment for Human Annotation
-//        if (annotation instanceof HumanAnnotation) {
-//            this.tags = new ArrayList<>();
-//            for (Tag tag : ((HumanAnnotation) annotation).getTagSet()) {
-//                this.tags.add(tag.getCategory().getNameInEditionContext(
-//                        annotation.getVirtualEditionInter().getVirtualEdition()));
-//            }
-//
-//            setPermissions(
-//                    new PermissionDTO(annotation.getVirtualEditionInter().getVirtualEdition(),
-//                            annotation.getUser()));
-//        }
-//    }
 
     public AnnotationDTO(AnnotationDto annotation) {
         if (!annotation.isHumanAnnotation()) {

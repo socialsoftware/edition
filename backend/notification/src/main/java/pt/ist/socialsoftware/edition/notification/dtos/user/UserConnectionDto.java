@@ -4,10 +4,11 @@ package pt.ist.socialsoftware.edition.notification.dtos.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import static pt.ist.socialsoftware.edition.notification.endpoint.ServiceEndpoints.USER_SERVICE_URL;
+
 public class UserConnectionDto {
 
-    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
-//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
+    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl(USER_SERVICE_URL);
 
     private String userId;
     private String providerId;

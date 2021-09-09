@@ -12,13 +12,12 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
+import static pt.ist.socialsoftware.edition.notification.endpoint.ServiceEndpoints.USER_SERVICE_URL;
+
 public class RegistrationTokenDto {
 
 
-    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
-//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
-
-
+    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl(USER_SERVICE_URL);
 
     private String token;
 

@@ -7,10 +7,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static pt.ist.socialsoftware.edition.notification.endpoint.ServiceEndpoints.VIRTUAL_SERVICE_URL;
+
 public class TwitterCitationDto  {
 
-    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
-//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl(VIRTUAL_SERVICE_URL);
 
 
     private String tweetText;

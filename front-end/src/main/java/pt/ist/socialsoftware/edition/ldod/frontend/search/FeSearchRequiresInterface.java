@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import static pt.ist.socialsoftware.edition.notification.endpoint.ServiceEndpoints.*;
 
 public class FeSearchRequiresInterface {
 
-    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+    public WebClient.Builder webClient = WebClient.builder().baseUrl(TEXT_SERVICE_URL);
 
     // Requires from User Module
     private final FeUserProvidesInterface feUserProvidesInterface = new FeUserProvidesInterface();
@@ -28,8 +28,7 @@ public class FeSearchRequiresInterface {
 
 
     // Requires from Search Module
-    public WebClient.Builder webClientSearch = WebClient.builder().baseUrl("http://localhost:8086/api");
-//    public WebClient.Builder webClientSearch = WebClient.builder().baseUrl("http://docker-search:8086/api");
+    public WebClient.Builder webClientSearch = WebClient.builder().baseUrl(SEARCH_SERVICE_URL);
 
     public Map<String, List<ScholarInterDto>> getSimpleSearch(String params) {
         return webClientSearch.build()
@@ -214,8 +213,7 @@ public class FeSearchRequiresInterface {
 
 
     // Requires from Virtual Module
-    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
-//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl(VIRTUAL_SERVICE_URL);
 
 
     public Set<VirtualEditionDto> getPublicVirtualEditionsOrUserIsParticipant(String username) {

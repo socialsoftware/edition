@@ -22,6 +22,9 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static pt.ist.socialsoftware.edition.notification.endpoint.ServiceEndpoints.TEXT_SERVICE_URL;
+import static pt.ist.socialsoftware.edition.notification.endpoint.ServiceEndpoints.USER_SERVICE_URL;
+
 @Component
 public class VirtualRequiresInterface implements SubscribeInterface {
 
@@ -31,8 +34,7 @@ public class VirtualRequiresInterface implements SubscribeInterface {
         scholarInterMap = new HashMap<>();
     }
 
-    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-//    private final WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+    private final WebClient.Builder webClient = WebClient.builder().baseUrl(TEXT_SERVICE_URL);
 
     private static VirtualRequiresInterface instance;
 
@@ -376,8 +378,7 @@ public class VirtualRequiresInterface implements SubscribeInterface {
 
     // Uses User Service
 
-    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
-//    public WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
+    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl(USER_SERVICE_URL);
 
 
     public UserDto getUser(String username) {

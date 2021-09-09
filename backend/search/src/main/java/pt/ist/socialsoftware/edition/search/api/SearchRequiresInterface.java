@@ -13,12 +13,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static pt.ist.socialsoftware.edition.notification.endpoint.ServiceEndpoints.TEXT_SERVICE_URL;
+import static pt.ist.socialsoftware.edition.notification.endpoint.ServiceEndpoints.VIRTUAL_SERVICE_URL;
+
 public class SearchRequiresInterface {
 
 
-    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-//    private WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
-
+    private final WebClient.Builder webClient = WebClient.builder().baseUrl(TEXT_SERVICE_URL);
 
     // Requires from Text Module
 
@@ -120,8 +121,7 @@ public class SearchRequiresInterface {
 
 
     // Requires from Virtual Module
-    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
-//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl(VIRTUAL_SERVICE_URL);
 
 
     public Set<VirtualEditionInterDto> getVirtualEditionInterSet() {

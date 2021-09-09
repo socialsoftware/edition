@@ -24,6 +24,8 @@ import pt.ist.socialsoftware.edition.notification.event.SubscribeInterface;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static pt.ist.socialsoftware.edition.notification.endpoint.ServiceEndpoints.VIRTUAL_SERVICE_URL;
+
 @Component
 public class GameRequiresInterface implements SubscribeInterface {
     private static final Logger logger = LoggerFactory.getLogger(GameRequiresInterface.class);
@@ -90,9 +92,7 @@ public class GameRequiresInterface implements SubscribeInterface {
         }
     }
 
-    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
-//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
-
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl(VIRTUAL_SERVICE_URL);
 
     public void removeTag(String externalId){
         webClientVirtual.build()

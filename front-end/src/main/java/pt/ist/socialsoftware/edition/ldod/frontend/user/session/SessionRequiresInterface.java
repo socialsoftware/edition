@@ -10,6 +10,7 @@ import pt.ist.socialsoftware.edition.notification.event.EventVirtualEditionUpdat
 import pt.ist.socialsoftware.edition.notification.event.SubscribeInterface;
 
 import java.util.List;
+import static pt.ist.socialsoftware.edition.notification.endpoint.ServiceEndpoints.*;
 
 @Component
 public class SessionRequiresInterface implements SubscribeInterface {
@@ -58,8 +59,7 @@ public class SessionRequiresInterface implements SubscribeInterface {
     }
 
     // Uses Virtual Module
-    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
-//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl(VIRTUAL_SERVICE_URL);
 
 
     public VirtualEditionDto getVirtualEditionByAcronym(String acronym) {
@@ -115,8 +115,7 @@ public class SessionRequiresInterface implements SubscribeInterface {
     }
 
     // Uses User Module
-    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://localhost:8082/api");
-//    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl("http://docker-user:8082/api");
+    private final WebClient.Builder webClientUser = WebClient.builder().baseUrl(USER_SERVICE_URL);
 
 
     public UserDto getUser(String user) {

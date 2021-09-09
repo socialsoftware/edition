@@ -31,22 +31,6 @@ public class PermissionDTO implements Serializable {
         this.delete.add(user);
     }
 
-//    public PermissionDTO(VirtualEdition virtualEdition, String user) {
-//        if (!virtualEdition.getPub()) {
-//            for (String participant : virtualEdition.getParticipantSet()) {
-//                this.read.add(participant);
-//            }
-//        }
-//
-//        // admin.add(user.getUsername());
-//
-//        if (virtualEdition.getParticipantSet().contains(user)) {
-//            this.update.add(user);
-//        }
-//
-//        this.delete.add(user);
-//
-//    }
 
     public List<String> getRead() {
         return this.read;

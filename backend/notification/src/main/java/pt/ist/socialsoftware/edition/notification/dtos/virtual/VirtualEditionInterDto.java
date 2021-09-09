@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import pt.ist.socialsoftware.edition.notification.dtos.text.FragScholarInterDto;
 import pt.ist.socialsoftware.edition.notification.dtos.text.FragmentDto;
 import pt.ist.socialsoftware.edition.notification.dtos.text.ScholarInterDto;
-
+import static pt.ist.socialsoftware.edition.notification.endpoint.ServiceEndpoints.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +18,7 @@ import java.util.stream.Collectors;
 
 public class VirtualEditionInterDto {
 
-    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
-//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl(VIRTUAL_SERVICE_URL);
 
 
     private String xmlId;

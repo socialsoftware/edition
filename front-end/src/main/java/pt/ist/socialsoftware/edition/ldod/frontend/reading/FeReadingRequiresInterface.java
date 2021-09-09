@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import static pt.ist.socialsoftware.edition.notification.endpoint.ServiceEndpoints.*;
 
 public class FeReadingRequiresInterface {
 
-    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://localhost:8081/api");
-//    public WebClient.Builder webClient = WebClient.builder().baseUrl("http://docker-text:8081/api");
+    public WebClient.Builder webClient = WebClient.builder().baseUrl(TEXT_SERVICE_URL);
 
     // Uses Text Module
 
@@ -70,9 +70,7 @@ public class FeReadingRequiresInterface {
     }
 
     // Uses Recommendation Module
-//    private final RecommendationProvidesInterface recommendationProvidesInterface = new RecommendationProvidesInterface();
-    public WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl("http://localhost:8084/api");
-//        private final WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl("http://docker-recommendation:8084/api");
+    public WebClient.Builder webClientRecommendation = WebClient.builder().baseUrl(RECOMMENDATION_SERVICE_URL);
 
 
     public List<Map.Entry<String, Double>> getMostSimilarFragmentsOfGivenFragment(FragmentDto toReadFragment, Set<FragmentDto> toBeRecommended, WeightsDto weightsDto) {

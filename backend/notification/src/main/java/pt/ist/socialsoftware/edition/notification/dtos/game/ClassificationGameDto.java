@@ -3,13 +3,13 @@ package pt.ist.socialsoftware.edition.notification.dtos.game;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.web.reactive.function.client.WebClient;
+import pt.ist.socialsoftware.edition.notification.endpoint.ServiceEndpoints;
 
 import java.util.List;
 
 public class ClassificationGameDto {
 
-    private final WebClient.Builder webClientGame = WebClient.builder().baseUrl("http://localhost:8085/api");
-//    private final WebClient.Builder webClientGame = WebClient.builder().baseUrl("http://docker-game:8085/api");
+    private final WebClient.Builder webClientGame = WebClient.builder().baseUrl(ServiceEndpoints.GAME_SERVICE_URL);
 
     private String editionId;
     private String interId;

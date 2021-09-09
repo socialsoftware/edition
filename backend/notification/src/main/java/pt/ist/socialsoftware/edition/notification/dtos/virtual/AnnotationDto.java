@@ -9,6 +9,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static pt.ist.socialsoftware.edition.notification.endpoint.ServiceEndpoints.VIRTUAL_SERVICE_URL;
+
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
 @JsonSubTypes({@JsonSubTypes.Type(value = AwareAnnotationDto.class, name = AnnotationDto.AWARE),
         @JsonSubTypes.Type(value = HumanAnnotationDto.class, name = AnnotationDto.HUMAN)})
@@ -17,8 +19,7 @@ public abstract class AnnotationDto {
     public static final String AWARE = "aware";
     public static final String HUMAN = "human";
 
-    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://localhost:8083/api");
-//    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl("http://docker-virtual:8083/api");
+    private final WebClient.Builder webClientVirtual = WebClient.builder().baseUrl(VIRTUAL_SERVICE_URL);
 
 
     private String quote;
