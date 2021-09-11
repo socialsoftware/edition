@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-  db-frontend:
+  db-edition:
     image: mysql:latest
     restart: always
     environment:
@@ -22,13 +22,16 @@ services:
       # Opens port 3307 on the container
       - '3307'
       # Where our data will be persisted
-#    volumes:
-#      - my-db:/var/lib/mysql
+    volumes:
+      - edition-db:/var/lib/mysql
 
 
 
   docker-frontend:
-    image: docker-frontend:test1
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    image: docker-frontend:v1
     restart: on-failure
     depends_on:
       - db-edition
@@ -84,12 +87,15 @@ services:
       # Opens port 3307 on the container
       - '3308'
       # Where our data will be persisted
-#    volumes:
-#      - my-db:/var/lib/mysql
+    volumes:
+      - text-db:/var/lib/mysql
 
 
   docker-text:
-    image: docker-text:test1
+    build:
+      context: ./backend/text
+      dockerfile: Dockerfile
+    image: docker-text:v1
     restart: on-failure
     depends_on:
       - db-text
@@ -137,11 +143,14 @@ services:
       # Opens port 3309 on the container
       - '3309'
         # Where our data will be persisted
-        #    volumes:
-        #      - my-db:/var/lib/mysql
+    volumes:
+      - user-db:/var/lib/mysql
 
   docker-user:
-    image: docker-user:test1
+    build:
+      context: ./backend/user
+      dockerfile: Dockerfile
+    image: docker-user:v1
     restart: on-failure
     depends_on:
       - db-user
@@ -191,12 +200,15 @@ services:
       # Opens port 3309 on the container
       - '3310'
         # Where our data will be persisted
-      #    volumes:
-      #      - my-db:/var/lib/mysql
+    volumes:
+      - virtual-db:/var/lib/mysql
 
 
   docker-virtual:
-    image: docker-virtual
+    build:
+      context: ./backend/virtual
+      dockerfile: Dockerfile
+    image: docker-virtual:v1
     restart: on-failure
     depends_on:
       - db-virtual
@@ -245,12 +257,15 @@ services:
       # Opens port 3309 on the container
       - '3311'
       # Where our data will be persisted
-      #    volumes:
-      #      - my-db:/var/lib/mysql
+    volumes:
+      - recommendation-db:/var/lib/mysql
 
 
   docker-recommendation:
-     image: docker-recommendation
+     build:
+       context: ./backend/recommendation
+       dockerfile: Dockerfile
+     image: docker-recommendation:v1
      restart: on-failure
      depends_on:
         - db-recommendation
@@ -299,12 +314,15 @@ services:
       # Opens port 3309 on the container
       - '3312'
       # Where our data will be persisted
-      #    volumes:
-      #      - my-db:/var/lib/mysql
+    volumes:
+      - game-db:/var/lib/mysql
 
 
   docker-game:
-    image: docker-game
+    build:
+      context: ./backend/game
+      dockerfile: Dockerfile
+    image: docker-game:v1
     restart: on-failure
     depends_on:
       - db-game
@@ -333,7 +351,10 @@ services:
       - /opt/ldod/social/aware/:/opt/ldod/social/aware/
 
   docker-search:
-    image: docker-search
+    build:
+      context: ./backend/search
+      dockerfile: Dockerfile
+    image: docker-search:v1
     restart: on-failure
 
     ports:
@@ -355,7 +376,10 @@ services:
       - /opt/ldod/social/aware/:/opt/ldod/social/aware/
 
   docker-visual:
-    image: docker-visual
+    build:
+      context: ./backend/visual
+      dockerfile: Dockerfile
+    image: docker-visual:v1
     restart: on-failure
 
     ports:
@@ -391,4 +415,15 @@ networks:
 
 # Names our volume
 volumes:
-  my-db:
+  edition-db:
+    driver: local
+  text-db:
+    driver: local
+  user-db:
+    driver: local
+  virtual-db:
+    driver: local
+  game-db:
+    driver: local
+  recommendation-db:
+    driver: local
