@@ -1,0 +1,21 @@
+// replace path for your environment, in linux is being used /opt
+corpus.dir=PATH/ldod/corpus/
+corpus.files.dir=PATH/ldod/corpus/files/
+corpus.stoplist=PATH/ldod/corpus/stoplist-pt.txt
+
+inters.dir=PATH/ldod/inters/
+
+facsimiles.dir=PATH/ldod/facsimiles/
+
+encoding.dir=PATH/ldod/encoding/
+
+export.dir=PATH/ldod/export/
+
+indexer.dir=PATH/ldod/indexer/
+
+tests.dir=PATH/ldod/tests/
+
+social.aware.dir=PATH/ldod/social/aware/
+
+load.files.dir=PATH/ldod/load/
+

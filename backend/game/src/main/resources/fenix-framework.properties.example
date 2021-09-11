@@ -1,0 +1,8 @@
+# Uncomment db Alias and comment localhost Alias to build docker image
+#dbAlias = //db-game:3306/game?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
+
+dbAlias= //localhost:3306/game?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;useSSL=false
+dbUsername=root
+dbPassword=YOUR_MYSQL_PASSWORD
+updateRepositoryStructureIfNeeded=true
+canCreateDomainMetaObjects=false
