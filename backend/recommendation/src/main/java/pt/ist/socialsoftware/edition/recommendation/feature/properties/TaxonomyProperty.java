@@ -42,7 +42,9 @@ public class TaxonomyProperty extends Property {
     protected double[] extractVector(VirtualEditionInterDto inter) {
         double[] vector = getDefaultVector();
         for (String category : getCategoriesFromCache(inter)) {
-            vector[this.sortedCategories.indexOf(category)] = 1.0;
+            if (this.sortedCategories.contains(category)) {
+                vector[this.sortedCategories.indexOf(category)] = 1.0;
+            }
         }
         return vector;
     }
