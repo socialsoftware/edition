@@ -1,0 +1,1668 @@
+<users-management>
+  <users>
+    <user username="augustoniemar" enabled="true" active="true" password="$2a$11$ItffC8uQn4AJ2yvIKzIH3.7LaIKJs3JNczQ5cO/pab6Cv5i7i4KvS" firstName="Augusto" lastName="Rodrigues" email="augustorodriguesdr@gmail.com" lastLogin="2020-10-28" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="rvm1000" enabled="true" active="true" password="$2a$11$4viF7kWTY1Lsap1gf3oB1.VTbxYJSacXCHSZoWBJ4CPYSilcGukpW" firstName="RODRIGO" lastName="MACHADO" email="rvmachado@yahoo.com" lastLogin="2020-10-06" socialMediaService="GOOGLE" socialMediaId="109323170862152181462">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="dreamer56" enabled="true" active="true" password="$2a$11$gfvdGjkpN3lf.dk9TvDLAu2jhTH9RJCS4dRSMOwTetHGlqFWmObXu" firstName="Rosa Helena" lastName="Baldicoski" email="rosahelenab@gmail.com" lastLogin="2020-10-02" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="lucas026" enabled="true" active="true" password="$2a$11$gSUyZkGdoeMXUbFU3QV3K.D6eQkwdvRswZ2DBQh8lFDfG0QTHnIUK" firstName="Lucas" lastName="Perry" email="Lucasperry@tecnico.ulisboa.pt" lastLogin="2020-09-29" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Julia-Medrado" enabled="true" active="true" password="$2a$11$1jNLwQLrRqEliduYj6QuiewB1w87MAABAjZtA0BIrjL9dJeom80Je" firstName="Julia" lastName="Medrado" email="juliamedrado@gmail.com" lastLogin="2020-08-23" socialMediaService="GOOGLE" socialMediaId="109787715577752293761">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="ccuellar" enabled="true" active="true" password="$2a$11$h.ddqEgFWiElF6I2NQ2a8OVRk0ph0A0mbi1nVmBAFlawCLcRHDZzG" firstName="Clara" lastName="Cuéllar dos Santos" email="clara.cuellar@gmail.com" lastLogin="2020-08-07" socialMediaService="GOOGLE" socialMediaId="108699900291411823778">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="CatrionaDuff" enabled="true" active="true" password="$2a$11$4Rk.68txV9AehY9rW761quc0WdIZjlGmWm/C1jNkB5l9IFskI/zk." firstName="Catriona" lastName="Duff" email="catrionaduff1@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="umbelina" enabled="true" active="true" password="$2a$11$lEggX4oePaZfXMsLlDCm0ekCnGG4apy3sqqLgolSKRStrz8Crq7lq" firstName="Umbelina" lastName="Ribeiro" email="umbelina.ribeiro@hotmail.com" lastLogin="2019-10-02" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="enslenja" enabled="true" active="true" password="$2a$11$wr/2aG.38RFDqwCaRXlUh.u8w7LiK6c8JaB.yGmH5Fs5W2sxXw0ea" firstName="Joshua" lastName="Enslen" email="enslenja@hotmail.com" lastLogin="2019-10-02" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="iohannesinacius" enabled="true" active="true" password="$2a$11$h7LZf2Adpv.nsxnEqgQD6uJui83bgLr7Xb0OSzSB3ZSjgWmS8u4Rm" firstName="João" lastName="Inácio" email="jinpaiva@gmail.com" lastLogin="2020-03-09" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Ppinto" enabled="true" active="true" password="$2a$11$TsCWhk1tvfZWDaRg1ydFd.3hPhKhgUd2bY6iUl0vXgat6XaHRGxXq" firstName="Paula" lastName="Pinto" email="paulasousapinto@sapo.pt" lastLogin="2018-10-29" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="paulabalreira" enabled="true" active="true" password="$2a$11$XxTn7Qck72/70Ss90KWR3ewTIzxde3/E0obZbDQbRnychmY3tD09a" firstName="Paula" lastName="Balreira" email="pbalreira@icloud.com" lastLogin="2018-11-16" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="beloamigo" enabled="true" active="true" password="$2a$11$NQawYQnc.dNLV53nV.6GJu3cT28D2tTyvFwiC3GMTBpj/Hs6qGWDi" firstName="Raymond" lastName="Roy" email="belami@videotron.ca" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="MarioP" enabled="true" active="true" password="$2a$11$4VTfO.XgmarIWB/uAqwGzeB/57Kr2OucEqMsRdu1wJDtHrDzUnXlW" firstName="Mario" lastName="Pereira" email="salumbongo82@hotmail.com" lastLogin="2018-11-14" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Livongue" enabled="true" active="true" password="$2a$11$1JgKBfEpUJQYcqr7JhNESednRlX0nz9KjMxnfVs3hkRJaquNNZCl2" firstName="Edson" lastName="Livongue" email="edsonlivongue@gmail.com" lastLogin="2018-11-14" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Solla" enabled="true" active="true" password="$2a$11$.xA7Ac.MiCZiw26GpiNPSOXjU1PFObtLU4OOsjbEm/p0aM6UpVt2." firstName="SOLANGE" lastName="SANTOS" email="solladeoliveira@gmail.com" lastLogin="2018-11-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="106680708260409034471" enabled="true" active="true" password="$2a$11$aihM8dd085P8b5HLEjypeOTvDzsMDVho3J7ciq7I0ClEwXlKwzY7q" firstName="Edina" lastName="Lima" email="edinalima21@gmail.com" lastLogin="2018-11-14" socialMediaService="GOOGLE" socialMediaId="106680708260409034471">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="AnaMaranhao" enabled="true" active="true" password="$2a$11$B91nHymG8www0gilJB3yMu0PWCP0fSArhPfaIO4ieQnBUhRrYEXji" firstName="Ana" lastName="Maranhao" email="anamaranhao01@gmail.com" lastLogin="2018-10-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Edson" enabled="true" active="true" password="$2a$11$vY4RuYFgpg2Z8QrD7qEpm.POiErBcGCRItzC/FQAw9hIOidR7Tgwu" firstName="Edson" lastName="Livongue" email="edsonlivongue@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="wclwendell" enabled="true" active="true" password="$2a$11$5uC9ggjU1pAYA.cghRMc0.mEcfHNcPwlh9GlatLaAdx0Wh3K6gl4." firstName="Wendell" lastName="Lima" email="wclwendell@hotmail.com" lastLogin="2018-11-07" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="sofiavasques" enabled="true" active="true" password="$2a$11$7QJ0NOU1yWmcqw97qbXkC.KktDXaXWK2HFb274VmxwVDHzby5RzW2" firstName="Sofia" lastName="Vasques" email="sofiacvasques@gmail.com" lastLogin="2018-10-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="cpittella" enabled="true" active="true" password="$2a$11$3IUVKh0qtSXBNwV71GI1Le7ToiA.2tNbLRyDGf/0Bxs/Xpk0BJRnO" firstName="Carlos" lastName="Pittella" email="cpittella@gmail.com" lastLogin="2018-11-20" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Dulli" enabled="true" active="true" password="$2a$11$I4osn.VRVNQfKghVELR.3e/vfVnZfwAB/MKoJM5gpoUSA1AGKMeXS" firstName="Ana" lastName="Comandulli da Cunha" email="ana.comandulli@gmail.com" lastLogin="2020-04-12" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Comandulli" enabled="true" active="true" password="$2a$11$dR.p8L7spA2JdOHkCAYQjuqUMapYImFZ6J/PoJNQ5XOf2NZHqhnka" firstName="Ana" lastName="Comandulli da Cunha" email="ana.comandulli@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="MLA" enabled="true" active="true" password="$2a$11$qBSBVXrCAUeQJYCnkqU3NO1UdlNOLyAuf4kCz3irGbC20F5g7h6.q" firstName="Madalena" lastName="Lobo Antunes" email="mlobo.antunes@gmail.com" lastLogin="2020-07-28" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Jcamoes" enabled="true" active="true" password="$2a$11$vjvJQ/Au8OH2GqbHLXfYuOmzBpOQet74naPuQQ7cuTImudVca4aH." firstName="José" lastName="Camões" email="jose_camoes@sapo.pt" lastLogin="2018-02-21" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="analuisavilela" enabled="true" active="true" password="$2a$11$K00iAuzAJ6KOf6uLwRkoT.OrO3HUWY1xElaVcnIDCMKAxcWhhqDeO" firstName="Ana " lastName="Vilela" email="analuisavilela@gmail.com" lastLogin="2020-02-27" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="viviane" enabled="true" active="true" password="$2a$11$tWBUVxaZSZ1REE295XtQCOyyQOibklR3LRw1B6YPWg.KX/yxD1hVK" firstName="Viviane" lastName="Martins" email="vivianefmartins79@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="joseraposo" enabled="true" active="true" password="$2a$11$SdGoAAwnhU/hjrkmr016wO3IEvIJ3530Eg.vaN/K63sKowzIJzOva" firstName="José" lastName="Raposo" email="jeb.raposo@gmail.com" lastLogin="2018-10-17" socialMediaService="TWITTER" socialMediaId="sparkz_org">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="deldjoul2018" enabled="true" active="true" password="$2a$11$5gp8diQ8PzPV60ByJHwiA.kzuipusZUllbvYNE95qcBISwg6WVVnS" firstName="Joel" lastName="KATZ" email="deldjoul@gmail.com" lastLogin="2018-01-25" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Cibele2018" enabled="true" active="true" password="$2a$11$M.wi.6JLaj.KEKi8jJ/iou5d0j3axDv1XuunEqhhzETa61DMH672q" firstName="Cibele Lopresti" lastName="Costa" email="cibelelopresti@gmail.com" lastLogin="2018-01-22" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="JReis" enabled="true" active="true" password="$2a$11$YdGdt/5snGEfXQlruVKS2ui/7C6yOlqkrbniKaTmlQWwWyw8kGZJu" firstName="João" lastName="Reis" email="jpedroreis@netcabo.pt" lastLogin="2018-01-22" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="gribeiro" enabled="true" active="true" password="$2a$11$3osGxbPWdTfqVrFWVs6kuebf4ZB7SkXchy/aSiOv7uNuAG2kI/dHS" firstName="Glória" lastName="Ribeiro" email="Margarita.gloria@gmail.com" lastLogin="2018-01-21" socialMediaService="LINKEDIN" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Luiz" enabled="true" active="true" password="$2a$11$fAVfFKlOeKsurvto1ugAzeBrm6CMhMPlYONX.TveO.rPQtAUdkKSS" firstName="Luiz" lastName="Storni" email="luiz.storni@yahoo.com.br" lastLogin="2018-01-21" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="macdias" enabled="true" active="true" password="$2a$11$C5pcynkX.x3XAGmXjasmYOSLvqBqQspyYVLQW77YVCNO0APJTDu6S" firstName="manuel" lastName="dias" email="macdias64@hotmail.com" lastLogin="2018-01-21" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="isabelramos" enabled="true" active="true" password="$2a$11$QxAY8oUzlnGbzW2G5pzcfefWP5Celr3uAn/lBgv335MHz8EiftmfS" firstName="Isabel" lastName="Castilho" email="isabelmmramos@gmail.com" lastLogin="2018-01-16" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="NM3" enabled="true" active="true" password="$2a$11$ato.Yr2KwDKClnrgldI/ke5oUIUtl.Hw8MoxYrcL9CNjo9mt9lJWW" firstName="Nuno" lastName="Meireles" email="nunomeudeusmeireles@yahoo.com" lastLogin="2019-06-13" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="mafaldafalcao" enabled="true" active="true" password="$2a$11$YJSXyjf0i.r91UuX0TfdD.ZZb7.EOnbm6Hw9zinlImb6DPDYAomTy" firstName="Mafalda" lastName="Falcão" email="mafaldasouzafalcao@gmail.com" lastLogin="2018-01-15" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="tereza" enabled="true" active="true" password="$2a$11$GSgSzBQZ1Cttkv8F1Dwn5uweQ3WKZJtGCMw7aYCDI/v.Me78zGOAu" firstName="Tereza" lastName="Galindo" email="terezagalindo13@gmail.com" lastLogin="2018-01-15" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="ABILIO1942" enabled="true" active="true" password="$2a$11$XXPiHvVW/ogBQziwFvt6j.ZoEBlXJDrSRM0yLMKlFZgol4cU7WBGG" firstName="ABILIO" lastName="DINIZ SILVA" email="adinizsilva@live.com.pt" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="FelipeRome1951" enabled="true" active="true" password="$2a$11$kDq5bZ8lua0RxJN06QdqG.6L48sGgzliesQPdFht5wt53XO7QYPEe" firstName="Felipe" lastName="Romero" email="feliperome2014@gmail.com" lastLogin="2018-01-14" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="BibliotecasAEMealhada" enabled="true" active="true" password="$2a$11$3XCFZyi6JG8rWYBRKAgmvuyouubOIDsAjt/fI0OYDZ2bMVGf6kGWq" firstName="Bibliotecas" lastName="AE Mealhada" email="biblioteca.esm@aemealhada.pt" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="cyf" enabled="true" active="true" password="$2a$11$NGhk.R0vZfmyz3oGhYUf3OiUzaJnmRHkonvr1r6.vr7ev.vwoBk3K" firstName="Christian" lastName="Frostholm" email="cyf@cyf.dk" lastLogin="2018-01-07" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="susanapaiva" enabled="true" active="true" password="$2a$11$Ho1c1I4QAdD.efv8WYDuaeNfPYNF4ZNEmLdfn8xlCO/gJnyBwU.Qq" firstName="Susana" lastName="Paiva" email="susana@susanapaiva.com" lastLogin="2017-12-20" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="machado50alvaro" enabled="true" active="true" password="$2a$11$F1Y2QPefNOQSTQW6yGXVO.qFwbu5InXU7/KK8FObGAtwWeDMj/U3G" firstName="Álvaro" lastName="Simões" email="macalvaro@gmail.com" lastLogin="2018-01-24" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Marg" enabled="true" active="true" password="$2a$11$Lj4TjcXaB57M794wgePEmuPKwGqQW6f7rFpmRD4I0fNo2ziw2j4zS" firstName="Margarida" lastName="Leão" email="margaridaleaogondar@sapo.pt" lastLogin="2017-12-28" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="fcmartins8" enabled="true" active="true" password="$2a$11$cNVTkPTN4DqRlzL03RBH3eeHdxSdVNK2UOzs9Kp7/3.cjwNsBMsg." firstName="Fernando" lastName="Cabral Martins" email="cabralmartins@mail.telepac.pt" lastLogin="2017-12-27" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="mabofama" enabled="true" active="true" password="$2a$11$GO2EpUea0QNRpFuTxc3HOOx7a2K/ZKXZyOZ9QGKzxTunL45szrZC." firstName="Manuel" lastName="Faria" email="manuel.espiral@netcabo.pt" lastLogin="2017-12-22" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Mabofama" enabled="true" active="true" password="$2a$11$MuI0nb.exdFUPqpBkIQmTOF/EBzu.Rem7lxTAQHkJEhMAeRQNnrxm" firstName="Manuel" lastName="Faria" email="manuel.espiral@netcabo.pt" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="brunomachado" enabled="true" active="true" password="$2a$11$8zlaD4nJZnP1Xg6CTPSUeu.l8MRG25mvZfgtAMc207/xh/2f007ha" firstName="Bruno" lastName="Machado" email="brunopermach@gmail.com" lastLogin="2017-12-21" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Marcita" enabled="true" active="true" password="$2a$11$XIi.hsufaSD7FoI2gJHRme5hpWt0haSIJPeMpxWu8JR/IMpjzY9Ya" firstName="Marcia" lastName="Franco" email="mmaf@usp.br" lastLogin="2017-12-22" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="jamcouto" enabled="true" active="true" password="$2a$11$.6hHVjwXqRB40ywPXYSw3uFA/.S0uoNNggNWe4DnqQQNChkH7YcTK" firstName="José" lastName="Couto" email="jamcouto1@me.com" lastLogin="2017-12-18" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="mrosadias8" enabled="true" active="true" password="$2a$11$u9GLiaU6TEytAkhMbPLax.p6IDz5dc/kfwHudsmm7M9upJnc5zNCe" firstName="Margarida" lastName="Rosa Dias" email="mrosadias8@gmail.com" lastLogin="2017-12-21" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Vasco" enabled="true" active="true" password="$2a$11$aoyue0EzqjiIE2RxlsyCx.s8OGRoH8QHkwH0dpq9INNYfu2hX/lHC" firstName="Vasco" lastName="Malaquias de Lemos" email="malaquiasdelemos@gmail.com" lastLogin="2017-12-18" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="carlosciro" enabled="true" active="true" password="$2a$11$pfVjUOhtkWlfn9XP7P1iJ.CB9LRUc3gWK0jrfhqPp2f97ZeFeY6n6" firstName="Carlos" lastName="Ciro" email="carlos.ciro@gmail.com" lastLogin="2018-10-16" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="lmq1962" enabled="true" active="true" password="$2a$11$tJ2dI7BoSsb2da81rC0C9eQ/WRuqbQyFcCItdN6vU4N6aQb6cZaOG" firstName="Luís" lastName="Queirós" email="lmq1962@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="brunobeu" enabled="true" active="true" password="$2a$11$DDUez5sZHzsNREvUap2ybuhEZm7Zju.6734ZD33NxF8fxSjJCjHj." firstName="Bruno" lastName="Béu" email="brunobeu@gmail.com" lastLogin="2018-01-31" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="asantos" enabled="true" active="true" password="$2a$11$tBLjzNN6qQ56BvanDMrxc.7SoLMC7iDM3PLOiuS/uvPdDFL4aa0Ki" firstName="André Filipe" lastName="Santos" email="andrefilipebrazsantos@gmail.com" lastLogin="2017-12-13" socialMediaService="GOOGLE" socialMediaId="106707053705842008675">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="jfariaferreira" enabled="true" active="true" password="$2a$11$ch3XkwKddcGnTXAxngH63es9MkIZb6gU65JhU6F0INX.QBvUCM1qW" firstName="João" lastName="Faria Ferreira" email="joaofariaferreira@gmail.com" lastLogin="2017-12-14" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="108320746372632976106" enabled="true" active="true" password="$2a$11$hRimxMsy0lEvfx7UqIM5JeF7UCo6eIo9II6Phf4UkgrLA3S.4i8G6" firstName="José" lastName="Barreto" email="josevbarreto@gmail.com" socialMediaService="GOOGLE" socialMediaId="108320746372632976106">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="JoaoBelchior" enabled="true" active="true" password="$2a$11$MSRtapwk/tgtVcGFKFfvGuyStYE2h6/7vslAOzvBrMqp6nTrGeBEa" firstName="João" lastName="Belchior" email="joao.belchior@gmail.com" socialMediaService="GOOGLE" socialMediaId="101732757188962660164">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="drpinho49" enabled="true" active="true" password="$2a$11$4ae8Tf7KLLVSqRZZuyRSReYInY7HXMZaOIxiC0fjvyZtsCz/KPi5e" firstName="Antonio" lastName="Pinho Pereira" email="drpinho@me.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="PauloRico67" enabled="true" active="true" password="$2a$11$nWvPGUSq8zq94gC6ZUGzO.GHUO2qp/cpQVSEUfzGLTM04IzI.yJcy" firstName="Paulo" lastName="Rico" email="profpaulorico@hotmail.com" lastLogin="2017-12-14" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="joaorebuge" enabled="true" active="true" password="$2a$11$uegbjUtMIiZgJb4EBUOZh.blA6S/ieNNKysTbvAFpekkqKQ72SM6." firstName="João" lastName="Rebuge" email="joaorebuge@icloud.com" lastLogin="2017-12-14" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="lauraprovi" enabled="true" active="true" password="$2a$11$HVJomwrwN53CMj22quahEODJFAvzN18WSv/L30OQPyGW8iJ444iFG" firstName="Laura" lastName="Providência" email="lauraprovid@hotmail.com" lastLogin="2017-12-15" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="luiscampanela" enabled="true" active="true" password="$2a$11$m5AkyljVLZEQlTFAApj0Q.08qxrq1Gw79ogWFwiI7RPlgKfPOmMdK" firstName="Luís " lastName="Campanela " email="luiscampanela@yahoo.com" lastLogin="2017-12-17" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="DuarteSD" enabled="true" active="true" password="$2a$11$FopTXA1iqu88C7AFeWo0zuA.WpQ.xuEGSJQSsRZumI.ooxJ1eeXLm" firstName="João" lastName="Sousadias" email="duartesd@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="105524056704751587021" enabled="true" active="true" password="$2a$11$5i6l1s7Q4u8RRpKJfU3fE.oNjLDootYoHAxt0QzrZLhsdj2f04tKC" firstName="Gazi" lastName="Berlajolli" email="gberlajolli@gmail.com" lastLogin="2020-08-17" socialMediaService="GOOGLE" socialMediaId="105524056704751587021">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="nibarbolo" enabled="true" active="true" password="$2a$11$81VdY5pucB/LJfFtb3ZeKO6Z60sMupsDsZrYWaZx5bAg9mBRiDx5q" firstName="Nicolas" lastName="Barbosa Lopez" email="nicolasbarbosa11@gmail.com" lastLogin="2017-11-30" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Merije" enabled="true" active="true" password="$2a$11$8fqyPvdwL1r2MsxQj0cvbeVqWemkZ5LP6B4N6R2IP5NhmUD/4VaIG" firstName="Wagner Merije" lastName="Merije" email="wmerije@gmail.com" lastLogin="2017-11-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Joseven" enabled="true" active="true" password="$2a$11$ehLrMDT5gPiFPlN2or2Ulecq0T.wdh.Gd0LcpFJWCL3lA.jlcu2Ue" firstName="José" lastName="Neves" email="jose.pereiraneves@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Fati" enabled="true" active="true" password="$2a$11$lhFFRSQJ74etlXqR2gnOCO7e5Q4pdEFoyu2IutFdUMAYv3qPSM/se" firstName="Maria de Fátima" lastName="Neves" email="fatimavendeirinho@gmail.com" lastLogin="2017-11-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="eliaramalho17" enabled="true" active="true" password="$2a$11$FWYxVwwJqg0582BDLINdRuKLmXIqm5szT8CnfBjhQqjIAU4p.K/uS" firstName="elia" lastName="ramalho" email="eliaramalho@gmail.com" lastLogin="2017-11-28" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="aguinaga" enabled="true" active="true" password="$2a$11$z2NglX3wDrLbbgCbiA/QMej00nCYvjvkR6h/VxwaTh7axksf1JhBm" firstName="Andrea" lastName="Ferreira Aguinaga" email="aguinaga.pessoal@gmail.com" lastLogin="2017-11-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="114872360169244432012" enabled="true" active="true" password="$2a$11$pClWCI8F72ioE8vVrASZeuHvN9GQi6Z7H7BSGnZdO2zj/ffBZ2Wy6" firstName="Nuno" lastName="Santos" email="nuno.as.santos@gmail.com" lastLogin="2017-11-26" socialMediaService="GOOGLE" socialMediaId="114872360169244432012">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="gabriellamendes" enabled="true" active="true" password="$2a$11$lQMPGIyHG18Ehma0Svxc8u/CQFWX0yiAa.YS4Vff3pU1LCZEo550a" firstName="Gabriella" lastName="Mendes" email="gabriellamendes@yahoo.com.br" lastLogin="2019-05-31" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="JoaoSilva95" enabled="true" active="true" password="$2a$11$3Y4RSaW7eC3enyVT8Qls2uDBGX3zsv0MA05XsC67t0PMVW3Vitpoe" firstName="João" lastName="Silva" email="joaosilva95@sapo.pt" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="ssilva" enabled="true" active="true" password="$2a$11$qlKy8xugMGWj7Z5vou7MT.HxKTFf/vpUFdT8sngbjJeUZVs8uTz/e" firstName="Sara Jorge Da" lastName="Vidal" email="saradasilva93@gmail.com" lastLogin="2017-11-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Alperce" enabled="true" active="true" password="$2a$11$EBtzJaR1v2qU.RXMW/8f4uCwkmYadmyxtHQioM0uxwafgFfL/hWN6" firstName="Robert" lastName="Junqueira" email="primoluisdesousaii@gmail.com" lastLogin="2018-10-14" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="VFLdoLD" enabled="true" active="true" password="$2a$11$G.GNbxaEBlh6dfiAOeyJduHJxw7PLBFN5xRGMJKyBWaa2HL7qL0au" firstName="Verónica" lastName="Ferreira" email="vipferreir@gmail.com" lastLogin="2018-11-03" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="mrgrdnvs" enabled="true" active="true" password="$2a$11$r3Z6JLX9mHOVEM5Nim3JrOMM//8UAPzEAlS7XCaGxnHqJRmQ8uzuW" firstName="Margarida" lastName="Neves" email="nevesmargarida87@gmail.com" lastLogin="2018-10-14" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Nuno" enabled="true" active="true" password="$2a$11$4hpJJNCZ61QtXE8uxkCQsejN.y/SdFG5d6FDhK0jwd5OhjoQNr4/2" firstName="Nuno" lastName="Oliveira" email="nscoliveira@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="tiagovieira53" enabled="true" active="true" password="$2a$11$yRwQaBoOlO2NiO744B1xnuepIlFyd2REKvxRsnvvPDiGhxGkFg5yW" firstName="Tiago" lastName="de Oliveira Vieira" email="tiago_vieira53@yahoo.com" lastLogin="2018-07-14" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="mairawiese" enabled="true" active="true" password="$2a$11$Mz6GVxAsOwxJOYwsnQ/R.u/2VY5afuPbo3wiLm9d00KnVqYMkK5Ja" firstName="Maíra" lastName="Borges Wiese" email="mairaborgeswiese@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="JulioCC" enabled="true" active="true" password="$2a$11$7gP.u498H9/W5uSFgYRjLOwXon0pHjrF.kPE8HvUJdDRx/T2Ff1Xm" firstName="Julio" lastName="Conejero" email="julio.conejero@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="carfeu" enabled="true" active="true" password="$2a$11$oC5Xnm703/SoDlpgoHQla.oFnKX.gLIJbhMQMBn7HLs1oyIEr8RUu" firstName="Nuno" lastName="Hipólito" email="nunohipolito@netcabo.pt" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="simonenieddu1" enabled="true" active="true" password="$2a$11$xPxUFI32htifu0DC2h2cdOUWqnBzCupd0d4DEnB0.Od0jgBLUOGJO" firstName="Simone" lastName="Nieddu" email="nieddu.sim@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Patricia Silva" enabled="true" active="true" password="$2a$11$sX5lYBA4Zy8oB1W4z6n6WOTQ4G8V2OqEIXBy/yYJU0wB1Sw44xI0S" firstName="Patricia" lastName="Silva" email="p.taborda.silva@gmail.com" lastLogin="2018-11-19" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Samuel" enabled="true" active="true" password="$2a$11$tl2M9AhGwTMFLXzuAsu/Teoqi/fOViYAYT9rW5skojqt6aIvpPy4e" firstName="Samuel" lastName="Teixeira" email="samfilmt@gmail.com" socialMediaService="GOOGLE" socialMediaId="111560185731838720219">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="SofiaEscourido" enabled="true" active="true" password="$2a$11$.099mjZUj.AJY/lXSf9FoO5dttxZWGsvMCNUdIaxUKK5gCLrs90qa" firstName="Sofia" lastName="Escourido" email="sofiaescourido@hotmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Valeria" enabled="true" active="true" password="$2a$11$fyRFVx2PGe.c3luH2XL.B.deUJ.uSbfxkLoNOc8mqe6fbVwPn.S1y" firstName="Valeria" lastName="Tocco" email="valeria.tocco@unipi.it" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Valeria Tocco" enabled="true" active="true" password="$2a$11$pPEqyjM5wrn.A5sp5KFyeucvZbPD4nOKQUaF6JiqDdB1uSmQ.mpaO" firstName="Valeria" lastName="Tocco" email="valeria.tocco@unipi.it" lastLogin="2020-02-08" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="jzandona" enabled="true" active="true" password="$2a$11$zjcJnKAdG/oXApcP/Z5aY.nMZzZveIo9BbBbviAY9RXK98P6xXNDW" firstName="Jair" lastName="Zandoná" email="jzandona@gmail.com" lastLogin="2019-05-04" socialMediaService="GOOGLE" socialMediaId="102338773698591623131">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="rodrigogrota" enabled="true" active="true" password="$2a$11$dpcZTgsR0of98AX9e02SIelNqcorMsWWfTXoo81DQesjnDqTinmW6" firstName="Rodrigo" lastName="Grota" email="rodrigogrota@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="vbrigatti" enabled="true" active="true" password="$2a$11$4U9TMzOSoOEuqMKzeRw5lOXdw.5JHTR.ygPbCvYfLWc.9gIo2lmAO" firstName="Virna" lastName="Brigatti" email="virna.brigatti@unimi.it" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="pmpsepulveda" enabled="true" active="true" password="$2a$11$Nt66mrKy1AjtZWNZa.zzousd5V1PrVMCI1FoHyFveNHNdwI9bqEmG" firstName="Pedro" lastName="Sepúlveda" email="estranharpessoa@gmail.com" lastLogin="2017-11-06" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="ruialfaiataria" enabled="true" active="true" password="$2a$11$VZ73awe1THQed3JRMnrTK.nNVme3/gXD8kq7aQQR3iBKJa2Ed0Eb2" firstName="Rui" lastName="Silva" email="rui.alfaiataria@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="carlosp" enabled="true" active="true" password="$2a$11$ycXyJhI2v7H0RCYjs0QRy.Wvk7X4O05nP8uvzbkkCzDN8Z8BmezNq" firstName="Carlos" lastName="Portela" email="carlosportela@esjcff.pt" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Paulo" enabled="true" active="true" password="$2a$11$Cp10srFKV6Cuucs8lmTZmei92W.kz.B3qxF.TRkytdFkH1XE28nIK" firstName="Paulo" lastName="Costa" email="provid@dec.uc.pt" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Fam" enabled="true" active="true" password="$2a$11$w4AHWDnWYeK83xV7AQGehOCtisu3ykUm0FJmbF3b6Xof2ef/REU.i" firstName="Fernando" lastName="Mendes" email="faomendes@sapo.pt" lastLogin="2017-11-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Eduarda" enabled="true" active="true" password="$2a$11$9gWafjnK.X8xDpd.GrQXt.cMrAkfiK4acdhtaIPPyxRNQeOXFqjqW" firstName="Eduarda" lastName="Mota" email="eduarda.ribeiromota@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="francescapasciolla" enabled="true" active="true" password="$2a$11$sVILcTRdRz5c/.Ac4VOCzeO7vQ0NyM165KNq/5AwukEXEiGr4n8z2" firstName="Francesca" lastName="Pasciolla" email="956217@stud.unive.it" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="race" enabled="true" active="true" password="$2a$11$lJzmGCm9onAccSCSqbF1nu4Br.E3pmRkZl5UmTc/teQjVmdABM.ga" firstName="Rui" lastName="Encarnação" email="race@dei.uc.pt" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Elsa" enabled="true" active="true" password="$2a$11$YRW9hYHxtSX5hTZaLcN7tONy9EFFIh8iCUB4LlSnpU8qoXSN0Z0Cm" firstName="Elsa" lastName="Pereira" email="epereira@net.sapo.pt" lastLogin="2020-06-21" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="valhalla_wulfheart" enabled="true" active="true" password="$2a$11$v8Rey6k37rb9Kp0h.iHaLu66nTZeBWLwKdED5NBT/.RKZ0xehu7v." firstName="Raul" lastName="Valadares" email="aarao.m.valadares@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="joaomacdonald" enabled="true" active="true" password="$2a$11$Dr1SCJ6e2NvRKX1UBWlFi.dcTEp36d5SeULYJKk9KFCvJ146I8lJC" firstName="João" lastName="Macdonald" email="joaomacdonald@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="mariainfinita" enabled="true" active="true" password="$2a$11$pLtDCOJox6chV5isIHiu3.ypDaSriWs3ICUXn.dX5W6xvST5uXY6K" firstName="Raquel" lastName="Gonçalves" email="raquelkiva@gmail.com" lastLogin="2019-03-22" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="marichinellato" enabled="true" active="true" password="$2a$11$bOJYu89swhInMSOAQfy7V.eJOmiOUlpEk0yQmNJ5vunmQuvqvbs2e" firstName="Mariana" lastName="Ferreira" email="marichinellato@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="mcpmagalhaes" enabled="true" active="true" password="$2a$11$54RhKWAWtMT5dSaJZ.SL3.zWEtwkjvykb1ib4Y2YLhYtQ/6KM4MjG" firstName="Cecília" lastName="Magalhães" email="mcpmagalhaes@gmail.com" lastLogin="2020-11-17" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="brunofontes" enabled="true" active="true" password="$2a$11$PPBn.F2HhW9moB/KCvbciuy8RhIvkNL6HKI7VL4GZzSRxp.Z1dteO" firstName="Bruno" lastName="Fontes" email="brunofontes78@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="brunoministro" enabled="true" active="true" password="$2a$11$i/1O2M6I16cDZI5MqpfOHOBmEqZzHjWHbpZcYy1eoI57ufWVkfPGG" firstName="Bruno" lastName="Ministro" email="brunosantos4@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="jose" enabled="true" active="true" password="$2a$12$gqbtKFUkIS8hqALVuc/h3eETWIWeQgxmPiWK9fm3joROsZRYHDkiW" firstName="José Maria" lastName="Cunha" email="z@josemariacunha.com">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="osvaldo" enabled="true" active="true" password="$2a$12$5WFTqOwTFfhPEeJ.L2Dbk.qvbCArQCSkcp7DdeUkrxj3dX2XT827e" firstName="Osvaldo" lastName="Silvestre" email="omsilvestre@gmail.com" lastLogin="2017-09-12">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="rita" enabled="true" active="true" password="$2a$12$6UbQBZNy0s2LQnQjaPe2au645FF.gEC7/RF5Xv9P8bdAhJo.fugoa" firstName="Rita" lastName="Marrone" email="bernardosoares@pessoa.pt" lastLogin="2019-04-17">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="joana" enabled="true" active="true" password="$2a$12$tdXO4XfyDP0BdrvGyScv9uRHjDPitbwKzpU1eepeJxgzZFnXZczLq" firstName="Joana" lastName="Malta" email="joanavmalta@gmail.com">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="daniela" enabled="true" active="true" password="$2a$04$QiGbDnmoyrvyFnJdfsHhSeJoWJkjVkegrIpIADcIBVziVYWPHnPpC" firstName="Daniela" lastName="Maduro" email="cortesmaduro@hotmail.com" lastLogin="2019-08-01">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="afs" enabled="true" active="true" password="$2a$11$na24dttCBjjT5uVT0mBCb.MlDdCGHwu3w6tRTqf5OD9QAsIPYJzfu" firstName="André" lastName="Santos" email="andrefilipebrazsantos@gmail.com">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="luis" enabled="true" active="true" password="$2a$11$c0Xrwz/gw0tBoMo3o1AG3.boCszoGOXyDWZ5z2vSY259/RDLK4ZDi" firstName="Luís" lastName="Lucas Pereira" email="lmlbpereira@gmail.com" lastLogin="2017-12-14">
+      <roles>
+        <role type="ROLE_ADMIN" />
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="nuno" enabled="true" active="true" password="$2a$11$ICywhcOlcgbkWmi2zxYRi./AjLrz4Vieb25TBUeK3FsMwYmSPTcMu" firstName="Nuno" lastName="Pinto" email="nuno.mribeiro.pinto@gmail.com">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="tiago" enabled="true" active="true" password="$2a$11$GEa2gLrEweOV5b.fzTi5ueg.s9h2wP/SmRUt2mCvU.Ra7BxgkPVci" firstName="Tiago" lastName="Santos" email="tiago@tiagosantos.me" lastLogin="2019-06-13">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="mp" enabled="true" active="true" password="$2a$11$If7Rf8OBrdb1fpR4/y68TuqM2Qt/ZwCfflrCuwfV0zYm0jd46YjR." firstName="Manuel" lastName="Portela" email="mportela@fl.uc.pt" lastLogin="2020-11-06">
+      <roles>
+        <role type="ROLE_ADMIN" />
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="diego" enabled="true" active="true" password="$2a$11$b3rI6cl/GOzVqOKUOWSQQ.nTJFn.s8a/oALV.YOWoUZu6HZGvyCXu" firstName="Diego" lastName="Giménez" email="dgimenezdm@gmail.com" lastLogin="2020-02-26">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="ars-face" enabled="true" active="true" password="$2a$11$.0HvHkx7go9Z/fm8m.FgIObbKLgWI5yYUDpFGNYPWF7PlrumDCz0y" firstName="António" lastName="Rito Silva" email="antonio.rito.silva@gmail.com" lastLogin="2019-05-28" socialMediaService="FACEBOOK" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Angellinna3" enabled="true" active="true" password="$2a$11$L45YJAGM9Mr70i9b94a5gOf6Wt07IX1tooSDLS7ZmJul19vxcCICq" firstName="Ângela" lastName="Ramos" email="angela.azevedo.ramos@gmail.com" lastLogin="2017-09-13" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="CamyllaHerculano" enabled="true" active="true" password="$2a$11$qwTdmQT2f8l3w7sVkJiKHupttIh8yuY3.xmjDkd1QSDUvGXJgBbc." firstName="Camylla" lastName="Herculano" email="camylla.herculano@gmail.com" lastLogin="2020-02-07" socialMediaService="GOOGLE" socialMediaId="116295331092545106361">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="girao" enabled="true" active="true" password="$2a$11$hPNZ9plmLOouBq14PzWypOxrHwyzBsoGExoEvV4keM.eb.aTLDOuG" firstName="Marcos" lastName="Girão" email="marcosgirao@gmail.com" lastLogin="2019-12-23" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="ebberclaz" enabled="true" active="true" password="$2a$11$Q48xhJE8Es.1TAo8xzT5W.4gQtAxCx/Y33pR4v6U1ZbvocWbaCW8W" firstName="Erika" lastName="Brantschen Berclaz" email="ebberclaz@netscape.net" lastLogin="2018-02-24" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="tcravidao" enabled="true" active="true" password="$2a$11$lM9iac19cMbzW/C43bXPferVoBEFtVj.0a9G7.VmasMxz8yEXLxyy" firstName="Tiago " lastName="Cravidão" email="tcravidao@hotmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="duarte95" enabled="true" active="true" password="$2a$11$ANpdAjXveTTXw5Fx2kV5XOVhyjCSRJamEQ7tqXCtkU0VaSgdcGHN." firstName="Duarte" lastName="Oliveira" email="dnfoliveira@gmail.com" lastLogin="2018-11-02" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="epriani" enabled="true" active="true" password="$2a$11$bkdSeuBIz1OJO7SW5nC7Z.QwSwhrg8txDye2yA1wqapjesb20FfbW" firstName="Ernesto" lastName="Priani" email="epriani@gmail.com" socialMediaService="TWITTER" socialMediaId="epriani">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="cbsluiz" enabled="true" active="true" password="$2a$11$QT5/5lc1.7Cy1TbBW52vfeDv876NKmeT6TqbK8CJgbRlyrSL64TmG" firstName="Carolina" lastName="Borges da Silva Luiz" email="cbsluiz@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="txd458" enabled="true" active="true" password="$2a$11$70at0NQNE1RWi/KUdRfwPupAbaxrVLOmbgTRvXioMDVVDL6Ih45bW" firstName="Tiago" lastName="Vieira" email="tiago_vieira53@yahoo.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="alvaroseica" enabled="true" active="true" password="$2a$11$VHIp5u7iUCiCC1J8nkQtXOPy3nv4jJoIOATqfPoXGPwiHB6HKTHz6" firstName="álvaro" lastName="Seiça" email="alvaro.seica@gmail.com" lastLogin="2017-09-10" socialMediaService="GOOGLE" socialMediaId="111827657967218782727">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="ars-google" enabled="true" active="true" password="$2a$11$/qP/fhY3VP4gHatwPrWPN.5l9rIfCoJSLGTlI7GA1aln328XlU.Pm" firstName="António" lastName="Rito Silva" email="antonio.rito.silva@gmail.com" lastLogin="2020-11-17" socialMediaService="GOOGLE" socialMediaId="112093865245759031983">
+      <roles>
+        <role type="ROLE_ADMIN" />
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="ars-tweet" enabled="true" active="true" password="$2a$11$zeMi1NTUGKOExNzCTMW6wuGYSWoTUV1pFVZ5pizLNCxVNkPgdjRti" firstName="António" lastName="Rito Silva" email="antonio.rito.silva@gmail.com" lastLogin="2018-05-25" socialMediaService="TWITTER" socialMediaId="RitoSilva">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="ars-linkedin" enabled="true" active="true" password="$2a$11$Vwk6Sq/7KT0vAcPBAXYKWOY1TdzPoP12qqDmQt4e.h6E75HUYl2b2" firstName="António" lastName="Rito Silva" email="antonio.rito.silva@gmail.com" lastLogin="2019-04-05" socialMediaService="LINKEDIN" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="MiguelSCruz" enabled="true" active="true" password="$2a$11$A.Wfy9RIzoia4ge2rOuW0enm7It5sMP/ff8qQ9hapwI55TKPAgPie" firstName="Miguel" lastName="Cruz" email="miguelsantoscruz95@gmail.com" lastLogin="2018-10-12" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="101515237190808570995" enabled="true" active="true" password="$2a$11$9YcQQ7xnSYbCKvo67Ve1X.lFX9GICESgVXZiGYPlwsM/PYlBymiFi" firstName="Abílio" lastName="Junior" email="jr__026@hotmail.com" socialMediaService="GOOGLE" socialMediaId="101515237190808570995">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="rodrigoxavier" enabled="true" active="true" password="$2a$11$Hiti8SseLvRT2Crm8R.tC.JDUbssBVLifJYJ8h2LEULj9AM/vN5RS" firstName="Rodrigo" lastName="Xavier" email="rodrigoaxavier@msn.com" lastLogin="2018-03-04" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="portia705" enabled="true" active="true" password="$2a$11$sjaE7dd.N4x9i0RHej64DuMB5BAFaVeQH2sx/lqhLljSp1MYaIBRG" firstName="Carmen" lastName="Silva" email="apadeba77@yahoo.es" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="gm" enabled="true" active="true" password="$2a$11$nwT1uOQgJo1f1kcXtkV.1uboWT4RLRyBX/PxCjZwFUP3Ljq.bJoKC" firstName="Gonçalo" lastName="Marques" email="goncalo.m.marques@tecnico.ulisboa.pt" lastLogin="2020-11-15" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="ccralbuquerque77" enabled="true" active="true" password="$2a$11$/o6jOlMn8SYIjCnbr61hJOD46nn4HjvdSDVRa48d1suPuNkoBMDLi" firstName="JOAO" lastName="ALBUQUERQUE" email="ccralbuquerque@hotmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="jfrias" enabled="true" active="true" password="$2a$11$bYh2APQz7e0oX8IQjvfuPuQPCNJXkw5IBnxEbtiBf2ahWIZtqxNFC" firstName="Joana" lastName="Matos Frias" email="jfrias@letras.up.pt" lastLogin="2017-12-28" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="nando123" enabled="true" active="true" password="$2a$11$Gck0qPOIAftLEfgX48sFceLcDlSNqvJw.kD6fCsCFWMatm1RsBW9O" firstName="Goncalo" lastName="Familiar" email="familiargonalo579@gmail.com" lastLogin="2017-12-11" socialMediaService="GOOGLE" socialMediaId="118023405507421782693">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="JUribe" enabled="true" active="true" password="$2a$11$yGQbo.XMUVfzJ2Psnpq6R.WbwSTptH2d/Vm7B2NC3wGVpeiO.m/sO" firstName="Jorge " lastName="Uribe" email="jorgeuribe19@gmail.com" lastLogin="2017-12-11" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="110500712274038660211" enabled="true" active="true" password="$2a$11$gUeNPa7dcPjtZJDTkGgJYeOFudg8fvQRxNEVGg.P2EXHfgMhcGrwO" firstName="maria" lastName="portela" email="mportela1234@gmail.com" lastLogin="2017-12-14" socialMediaService="GOOGLE" socialMediaId="110500712274038660211">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="104919447730288239677" enabled="true" active="true" password="$2a$11$cJsZkX4EQT.0aHvF7mYUI.Bt4k28Bdqxr.S7R95x03nB1300gcl3G" firstName="Javier" lastName="Palomino" email="javierpalomino@gmail.com" socialMediaService="GOOGLE" socialMediaId="104919447730288239677">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="alehubner" enabled="true" active="true" password="$2a$11$C/NH1Gj7IoWFLFf5lnEkyO3.uizK8YBcERJQyveB3/eIO8y7luzFy" firstName="Alexandre" lastName="Hubner" email="lxndr.hbnr@gmail.com" lastLogin="2017-12-14" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Miguel" enabled="true" active="true" password="$2a$11$MS2A0bNeO739dgwD3jzsGeSLPF/rK8GojSmwpdU/nxUPZP5Z87rDK" firstName="Miguel" lastName="Araújo" email="miguelaraujomusica@gmail.com" lastLogin="2017-12-15" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Rio" enabled="true" active="true" password="$2a$11$J22SpttALcDmIboF.aV1XOMUYLnC/W9fcqR.V4KJAgkc6V66tVfUS" firstName="Miguel" lastName="Rio" email="rio.miguelrio@gmail.com" lastLogin="2017-12-14" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Nilsonmp" enabled="true" active="true" password="$2a$11$e99EKvHKPH0Q16o6Nn/DgejdQGMMYgbLxv1MZm2RlPhA/DOHk8kJi" firstName="Nilson" lastName="Nilson" email="nilsonmp@uol.com.br" lastLogin="2020-09-06" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="111797492710690361809" enabled="true" active="true" password="$2a$11$.PDrBzWWlyF/ib9dSBrSWeGSuBOAuQjc/5kSJlI3DZa6uH35fuUEy" firstName="Manuel" lastName="Ferreira" email="manuel.ferreira65@gmail.com" socialMediaService="GOOGLE" socialMediaId="111797492710690361809">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="anaagua" enabled="true" active="true" password="$2a$11$qKIPdje1YzvInXaHDn5Upu7FEmF8QmklK/o09q2BZ2oU97JeXLjn." firstName="Ana" lastName="Água" email="analuciaf.agua@gmail.com" lastLogin="2017-12-15" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="anaisabelsoares" enabled="true" active="true" password="$2a$11$NgGC78flMJwglmoSYFLhjuUO34JxBBZP/AxfjWBFgMZlvPHEzKy5W" firstName="Ana Isabel" lastName="Soares" email="ana.soares@gmail.com" lastLogin="2017-12-15" socialMediaService="GOOGLE" socialMediaId="115800294472833502990">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="gabize" enabled="true" active="true" password="$2a$11$ybCDU7pS5B91pE6AoAnVUOJeWuvElGGGIPK0bG0STEZAGeBemvszK" firstName="Gabriel" lastName="Innocentini" email="eduardomarciano@gmail.com" lastLogin="2017-12-15" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="caria" enabled="true" active="true" password="$2a$11$nJM/Z.nFZbk2vxvrEh0.Ju4bFqSZSIExXxB9vCLrbS0y4lTNjj8R." firstName="federico" lastName="caria" email="federico.caria@uniroma1.it" lastLogin="2017-12-16" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="PedroACarvalho" enabled="true" active="true" password="$2a$11$aFczbW9/j8z1rbj9F5VEPey.ARcY2mbiXDd/WCqqny5JI5kRrI9Iy" firstName="Pedro" lastName="Álvares de Carvalho" email="pedroalvarescarvalho@gmail.com" lastLogin="2017-12-16" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Jacinto" enabled="true" active="true" password="$2a$11$LvYkTdMMEe8wX6MAgeBKkuNmp3uqUNYiqYg8yLpVabsguByZWYALK" firstName="Jacinto " lastName="Rodrigues " email="Jacinto.rodrigues@icloud.com" lastLogin="2017-12-16" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="josecarreiro" enabled="true" active="true" password="$2a$11$fav9MUvQmUvsxq6njPQ7WeZNgC/ZsrpKFfblPpbEh8kT/gM93nI9S" firstName="José" lastName="Carreiro" email="aguiarcarreiro@gmail.com" lastLogin="2017-12-17" socialMediaService="GOOGLE" socialMediaId="106576097402193816919">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="ArmindaFaria" enabled="true" active="true" password="$2a$11$k05CIHvG9qBoVPuvHwSf0.v1okNv2w.XlrUgZD0d7HrkQ7kKCvgxS" firstName="Arminda " lastName="Faria" email="armindafaria58@gmail.com" lastLogin="2018-03-05" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="POCASFERREIRA939" enabled="true" active="true" password="$2a$11$X.rT/HR/4WEj32sJVNrsB.bBuBeVxDkToJGzayqJ.U57PncL5Ved6" firstName="JOSÉ" lastName="FERREIRA" email="jpocasferreira@sapo.pt" lastLogin="2017-12-17" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="108921824915203136133" enabled="true" active="true" password="$2a$11$wTyYCHsUzwh4B6PF99EJ8OHTXidbXbARy0utlAgNNc8JBCyyQYTA6" firstName="paulo" lastName="carvalhal" email="carvalhal.paulo@gmail.com" lastLogin="2018-02-06" socialMediaService="GOOGLE" socialMediaId="108921824915203136133">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="jmfouse" enabled="true" active="true" password="$2a$11$u0Pkrg0EtQ7AWlXwaO/RkOYBPOIRULlBl7f3sjZyAqbUY5o2umkVO" firstName="Joseph" lastName="Fouse" email="jmfouse@gmail.com" lastLogin="2018-10-05" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="111879034012045505391" enabled="true" active="true" password="$2a$11$1PcKCmJtEgYyXoX/u4.ucuU.Fp5QkGAZayNTYZQalD2fv4iH3vhle" firstName="Antonio Luis" lastName="Moutinho" email="Antonioluis.moutinho@gmail.com" lastLogin="2018-03-02" socialMediaService="GOOGLE" socialMediaId="111879034012045505391">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Marta" enabled="true" active="true" password="$2a$11$nyFugOfeNWJyrdpocbmgmOgVFLd9LEl.GckCiknyCTQoTXRpi39hq" firstName="Marta" lastName="Paiva" email="martapaiv@hotmail.com" lastLogin="2018-05-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="editepimentel" enabled="true" active="true" password="$2a$11$msS5oGE/Bt5cwaCVRWZQrO0kHPt8Rbe.SA6yHGt1XQ2Uxb9L1wZEu" firstName="Edite" lastName="Pimentel" email="editepimentel@sapo.pt" lastLogin="2018-05-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="paulino" enabled="true" active="true" password="$2a$11$jOjY/ZPDaT4iFLQX/IZEKuVtpVZPIhAwelkYVHAj78J4rTL89JrWS" firstName="Mário" lastName="Oliveira" email="midilio@sapo.pt" lastLogin="2018-05-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="anabelaveloso" enabled="true" active="true" password="$2a$11$AFDTw7lWHr95v0.RIyEtjO.aHPqBEO9JtUTU4fmsvm9z0fxiPiNzm" firstName="Anabela" lastName="Veloso" email="anabelaveloso@aelimadefaria.pt" lastLogin="2018-05-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="maria" enabled="true" active="true" password="$2a$11$H8Cdg0rbrL5U4fVIzXdO5uGhdrq1PtOWWLIeXtRp2NSbmu89oa8AS" firstName="Maria" lastName="Marques" email="mfjmarques@gmail.com" lastLogin="2018-05-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="jose1964" enabled="true" active="true" password="$2a$11$ct1zRDwxlKXWF/HLCfrBzeif0YfmbNzQiErolG2hDvYvgGr8zGVIO" firstName="José" lastName="Jesus" email="josejesus@escolasdemira.pt" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="licinia" enabled="true" active="true" password="$2a$11$GYdX6Yb2wR42iEmObeW3yecY2yS1GI.h/7ER2SXqGQxsrjefo2tTK" firstName="Licínia" lastName="Torres" email="liciniamgltorres@gmail.com" lastLogin="2018-05-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Silveria" enabled="true" active="true" password="$2a$11$VSylbkG4aVl2W4HkV0nJy.LFVAC5gQHhy1hqORd9XwbOl.MwbsE1i" firstName="Silvéria " lastName="Palrilha" email="silveriapalrilha@aefigueiranorte.pt" lastLogin="2018-05-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="MartinsdeJesus" enabled="true" active="true" password="$2a$11$6P06eWF2iJTGJ/S5qg.FNeDxZh.tKhdOZ.przNAHvmNM.mD8y60qm" firstName="José" lastName="Jesus" email="josejesus@escolasdemira.pt" lastLogin="2019-07-05" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Henrique00216971" enabled="true" active="true" password="$2a$11$plV83MAbpxRPvcvMYG2.IOtiF7.019U4jKIOeKzLG.H0zSa/Jx3K6" firstName="Henrique" lastName="Araujo" email="hlahenriquearaujo@gmail.com" lastLogin="2018-05-27" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Esmeralda" enabled="true" active="true" password="$2a$11$7.PZq0dwNSrEMl5sN6OQ8u2FBc9m4tASp3CC26gHrny9omMKUs5Ea" firstName="Esmeralda" lastName="Alves" email="esmeraldalopesalves@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="sashafrerejones" enabled="true" active="true" password="$2a$11$kjmY9H0lRGrC9IHjiTvs.eiFf3/WqbNb8sb5INoWB9Vvxj.qYmvCe" firstName="Sasha" lastName="Frere Jones" email="frerejones@gmail.com" lastLogin="2018-08-30" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="estermateus" enabled="true" active="true" password="$2a$11$YUrQptJ.0Iz.5q5aMTgxOubJxS0fKAl5pt2PDUUEkJKddJKj2KgbC" firstName="Maria" lastName="Figueiredo" email="estermateus@gmail.com" lastLogin="2018-09-07" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Pessoinha" enabled="true" active="true" password="$2a$11$FpXnriu/TeiRm4QLCMPsXu0n3j024IiICQJrwBFTJlyLE1wUOjETC" firstName="Pessoinha" lastName="R" email="ameliarribeira@gmail.com" lastLogin="2018-09-07" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="paulamatos" enabled="true" active="true" password="$2a$11$KqYG/4fB4fHsul4wpdotiu30Fof3slwrbhNj8YY1mDlejlNF47Dce" firstName="Paula" lastName="Matos" email="paulamatos@aefigueiranorte.pt" lastLogin="2018-09-07" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="silveria" enabled="true" active="true" password="$2a$11$NRq.KplivtFBsJvvUm1uUOBepw9JYtzx/PFhik9uigu3SkUrxo61." firstName="Silvéria" lastName="Palrilha" email="ramos.silveria@gmail.com" lastLogin="2018-09-20" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="gracarocha" enabled="true" active="true" password="$2a$11$/FE5cz57kZbM4EkWRkfSDeNUPQWr5SHSP3BOqvdUEYsewWu40ghb." firstName="maria" lastName="rocha" email="gracarocha@aezuff.org" lastLogin="2018-09-07" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="ligidom" enabled="true" active="true" password="$2a$11$XwPOasc8hLvTeULgPBZ2RO9owmmH7AKiGmenCkX3DV/mBGhMCH6ZG" firstName="Lígia" lastName="Domingues" email="ligidom@gmail.com" lastLogin="2018-09-07" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="mariaalmeida" enabled="true" active="true" password="$2a$11$eAM77MOSlYkDc4y9ITVUFuSDhqsXtt9Ovb8ykbIGKNixhzWby3NZy" firstName="Maria" lastName="Almeida" email="alcina@aefigueiranorte.pt" lastLogin="2018-09-07" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="ines123" enabled="true" active="true" password="$2a$11$Y71MMMnYFK0SiPb8hkinFubBttPQvOskRY9lQjEIi.qeKPBSVxY/i" firstName=" Maria Inês" lastName="Mendes" email="inesmendes@aefigueiranorte.pt" lastLogin="2018-09-07" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="teresaseco1960" enabled="true" active="true" password="$2a$11$O0NsyaI9ZOl0R39ZvSYZ6eWSttcV2HdO4XMk.UOW8z.mKiJ2RlYcG" firstName="Teresa" lastName="Seco" email="mariaseco@aefigueiranorte.pt" lastLogin="2018-09-07" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="ninebi4848" enabled="true" active="true" password="$2a$11$yobQAbXjfa0jd50IQ/EQYe5wxHypNQvPNIS8REAHL13lylBxthWyi" firstName="Graça" lastName="Nunes" email="nunesclar@gmail.com" lastLogin="2018-09-07" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="mariamonteiro123" enabled="true" active="true" password="$2a$11$AO59S7LcP8YnJ0UHD/Ef4eFAqMuKp5cu4jM5GPllWygL/lJSe6Rpe" firstName="Maria" lastName="Monteiro" email="mariamonteiro@aefigueiranorte.pt" lastLogin="2018-09-07" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="margarida" enabled="true" active="true" password="$2a$11$QQ10Z/D5576Qj0isXftB7evsm05dYq7uiITNxLmDZABXJVdRP65BS" firstName="margarida" lastName="cabete" email="susana.cabete@agrupaiao.pt" lastLogin="2018-09-07" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="gaspar" enabled="true" active="true" password="$2a$11$xRZgygUTpBCivLjeXUel4.igRUK9UHiyw08auOlQBNRCTQ3zOb6o." firstName="isilda" lastName="gaspar" email="isildamarques@aefigueiranorte.pt" lastLogin="2018-09-07" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="marsobarvisi" enabled="true" active="true" password="$2a$11$o4BIVw4yNgk/3.UrXOCef.2GAEOWlmcdLlirCps8mOavHVtqfvcaO" firstName="Marta" lastName="Silva" email="marsobarvisi@hotmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="celani75" enabled="true" active="true" password="$2a$11$/77W3KijbL5sqw2xhjMfce7Pa.roEMD4M.Q7aWFmdLs43vyQnLzqG" firstName="Simone" lastName="Celani" email="celani.s@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="fran-182" enabled="true" active="true" password="$2a$11$gYX6hJ0ZhqrFu2sYHdyl5uwi1QNSFCMqCzRLAfBmJn6qKdGL5Ot4e" firstName="Francisco" lastName="Silveira" email="frahciscosilveira_@hotmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="drebaby" enabled="true" active="true" password="$2a$11$C5jKJJsZzNdxQCuVPUqbnOLQ93yPX.V1ywJKjTzBGnnjp3gItdv3O" firstName="André" lastName="Silvestre" email="andre.silvestre95@hotmail.com" lastLogin="2018-10-12" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Dentuca" enabled="true" active="true" password="$2a$11$jQlpQohVfqNAytHXE3Fcf.hzQe32hW/ytIJ4EJGdrj91xnp9PoBxO" firstName="Ricardo" lastName="Costa" email="ricardo.gomes.costa@tecnico.ulisboa.pt" lastLogin="2018-10-10" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="ruif95" enabled="true" active="true" password="$2a$11$id/cXcSN7Qk.HNvUH2YCBudC/e3dzDewcAVSnNPma/OrrS/gYWk8C" firstName="Rui" lastName="Ferreira" email="ruif95jp@gmail.com" lastLogin="2018-10-10" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="joschefe" enabled="true" active="true" password="$2a$11$hHfxH4RqBAtR6YAX8RDrFevKV1I2Dcq9q0XJGdjA5N8cH7aEhmxYO" firstName="José" lastName="Marques" email="joschefemar@hotmail.com" lastLogin="2018-10-11" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Mferibeiro" enabled="true" active="true" password="$2a$11$j7YXdbh0R79i3XY7ttAp7O4U.PxYG2Zny8uB69dYy9eUeZ1LVwG.S" firstName="Maria" lastName="Ribeiro" email="fatimaeloi@hotmail.com" lastLogin="2018-10-10" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="langel" enabled="true" active="true" password="$2a$11$WTxxjFp5Yfeky/D0ooO90eIvDuulcqwWs.wLpFYf6vOenQ7dtw5jq" firstName="Guilherme" lastName="Ramos" email="ramosguilhermefilipe@gmail.com" lastLogin="2018-10-11" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="maria12345" enabled="true" active="true" password="$2a$11$tnQqnNxrXz8rFunqlOf4OuwpFnIoOYML7xDTODDjFBHVKtDfzH0ve" firstName="maria" lastName="serapicos" email="maria.serapicos@hotmail.com" lastLogin="2018-10-15" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="106627152062978818947" enabled="true" active="true" password="$2a$11$80Jkf84rTPlY7T41u/IcMe9IyhheV8PZo16n8nR/zjLf7YCgWDJTG" firstName="CARLOS" lastName="LÁZARO" email="calbertolazaro@gmail.com" lastLogin="2018-10-14" socialMediaService="GOOGLE" socialMediaId="106627152062978818947">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="calbertolazaro" enabled="true" active="true" password="$2a$11$hyB4rWIVrsvd3FOYpeylUeXdJVWNb1zuUusT.In0vk4/UU2w8PZ4K" firstName="Carlos" lastName="Lázaro" email="calbertolazaro@gmail.com" lastLogin="2018-10-25" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="fmlucas" enabled="true" active="true" password="$2a$11$DpCltywrFL3aRaf2mGuYp.RaG4otKOU4HvdT4.Pk3lh0mkkzWW4mm" firstName="Fernanda" lastName="Lucas" email="fernanda.msb.lucas@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Alda" enabled="true" active="true" password="$2a$11$ZljcHV1f12Iw02bamCiGZOM5jjg59JRR459l.uYn7/gMhHoOURsQS" firstName="Alda" lastName="Serapicos" email="aldaserapicos@gmail.com" lastLogin="2018-10-14" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="palucas" enabled="true" active="true" password="$2a$11$RTobQCvb1BgyzB8mBBEXoe48U0nwnkDqKX/B8HIoNJ.neIWTc4mjy" firstName="Pedro" lastName="Lucas" email="pedro.af.lucas@gmail.com" lastLogin="2018-10-14" socialMediaService="GOOGLE" socialMediaId="110354024373442207683">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="pumato" enabled="true" active="true" password="$2a$11$lwaNTcmP85HCDlPq11dBx.2aG2aqf8fsslbZ52kAXFfXz5v46Kj6O" firstName="Eva" lastName="Rito" email="evarsrito@gmail.com" lastLogin="2018-10-14" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="jfboris" enabled="true" active="true" password="$2a$11$ArPp7R10HvuK0O9vKDvafO.op5OcWQ4yCTTRG3fF974hBIEbNi1G6" firstName="João" lastName="Vargas" email="joao.francisco.vargas@gmail.com" lastLogin="2018-10-14" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="CS" enabled="true" active="true" password="$2a$11$9gZ7aWwHfW3zkLGVovRF6OqWn5bVdV8lK4rRQ7mQN5p0xW.Xvg7VG" firstName="Celia" lastName="Silva" email="Celiamarinasantossilva@gmail.com" lastLogin="2018-10-14" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="JNogueira" enabled="true" active="true" password="$2a$11$p3xSacHxAlHPYUbQ5WdlGOFS.N5L2zLGDcq7s6YYVur99u2TutccC" firstName="João" lastName="Nogueira" email="mrgalinacio@gmail.com" lastLogin="2018-10-12" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="110042912543863446947" enabled="true" active="true" password="$2a$11$oygl5lFrCJfyT3NGXH5p2ukD7qDkytEx0atBFsZtZ0LHl7pWTfZN2" firstName="Gustavo" lastName="Castro" email="gustavocastroesilva@gmail.com" lastLogin="2020-08-28" socialMediaService="GOOGLE" socialMediaId="110042912543863446947">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="matildebranco" enabled="true" active="true" password="$2a$11$CTWd16y.z1l.ubg9M7MLru2UHggmJB3lDpY.dab65l0Bjb06zwVAe" firstName="Matilde" lastName="Branco" email="matilde.branco96@gmail.com" lastLogin="2019-01-19" socialMediaService="GOOGLE" socialMediaId="100576039856941755210">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="sandraboto2" enabled="true" active="true" password="$2a$11$qWt/Lot8k55IneOEtIdT0evrOAvf/tQ.buTrDddYl32PaB2T1u8Mi" firstName="Sandra" lastName="Boto" email="sandra.boto@gmail.com" lastLogin="2019-06-13" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="joaobaffa" enabled="true" active="true" password="$2a$11$VS7pcVaoziqiENE/k6Bd6uWf9L1iunEp/JYktXuAhA3wjs65hjgau" firstName="Joao" lastName="Baffa" email="joaobaffa@gmail.com" socialMediaService="GOOGLE" socialMediaId="116325333751894990732">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="PPEREIRA" enabled="true" active="true" password="$2a$11$oS741uVhuLDmS9Jz3nhALu8AC41HPfKJW6S2Kpk1Vpoz4xSeHNIcy" firstName="Paulo" lastName="Pereira" email="psilvapereira@sapo.pt" lastLogin="2019-06-05" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="patriciareina" enabled="true" active="true" password="$2a$11$EFtwD2KG37zlQ8EXUrcFEeXqDTXXOd5wnbvzBeIWO.jepqh0cQPra" firstName="Patrícia" lastName="Reina" email="patriciaresteves@gmail.com" lastLogin="2020-04-08" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="RodrigoSantos" enabled="true" active="true" password="$2a$11$KcaA2gI90x82y1ndbPORFeL2s/6i3NKMpBM0p0QUmDL9r19MLW2rO" firstName="Rodrigo" lastName="Santos" email="rodrigosantos9000@gmail.com" lastLogin="2019-06-13" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="thalesestefani" enabled="true" active="true" password="$2a$11$0dnWhwI7.I1F8nvBaPMaRu.Oz1wyKGj/EEJrK7vPemRXcU8qLNyPG" firstName="Thales" lastName="Estefani" email="thales.chaun@gmail.com" lastLogin="2019-06-13" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="clarakeating" enabled="true" active="true" password="$2a$11$2SHYFIBXxTEhPxIlEf1BuOeVEwz21zk4GNwh8Rkvepch/QHkSMghG" firstName="Clara" lastName="Keating" email="kleatingfluc@gmail.com" lastLogin="2019-06-13" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="fred" enabled="true" active="true" password="$2a$11$WaUaE5BrBLHA5BV7ifzxGOyZgjB5D1U18tY3y.PmBeAsqCzmrfbSG" firstName="Frederico" lastName="Barbosa" email="fredebiscaia@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="frede" enabled="true" active="true" password="$2a$11$gEK7ZoIGANZhDa0.dZft2OSa0emVgmrrTa7Bez7XTPKgjstrdiHLa" firstName="Frederico" lastName="Barbosa" email="fredebiscaia@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Elia2019" enabled="true" active="true" password="$2a$11$4kOEjV4Ghs/IClMWTgUaAeqlz0pkkO97wQNYSRkoT4NuI5isswdzO" firstName="Elia" lastName="Ramalho" email="eliaramalho@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="joaomarques" enabled="true" active="true" password="$2a$11$.HHluuN8yCJIRm9MlbDIS.5KA9gvnoxrCrF7aC0/1aSKy9G7rB1Pi" firstName="João" lastName="Minhoto Marques" email="minhotomarques@gmail.com" lastLogin="2019-06-14" socialMediaService="GOOGLE" socialMediaId="111483829899510359629">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="amsilva" enabled="true" active="true" password="$2a$11$l/wcWpj1UgjwFMx.fjEoOuytNUn5Jr7/ukR6HM9dxWbFBS4gQ/RYq" firstName="Ana " lastName=" Silva" email="amrmsilva@gmail.com" lastLogin="2019-06-13" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="dmcferreira" enabled="true" active="true" password="$2a$11$MGyDdvPQr0gh6QKKSIH23eY9UJ49WUf.QWo4J/oBYrjMWKEHzRbNO" firstName="Dina" lastName="Ferreira" email="cabritaferreira@gmail.com" lastLogin="2019-06-13" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="vrs" enabled="true" active="true" password="$2a$11$a/iu2jJd8yyx5Dv3jMnZAOT/pwv6/cPyavdVB2wae.juQG2.staMS" firstName="Vanda " lastName="Reis" email="vanda_cristinareis@hotmail.com" lastLogin="2019-10-10" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="epardal" enabled="true" active="true" password="$2a$11$Z3SY5SRf/Mp9frOg6N/8..oMmqyWC2XaoB.rgNbkaijRLscspQO9m" firstName="Eugénia" lastName="Pardal" email="eugenia.pardal@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="snilt2000" enabled="true" active="true" password="$2a$11$KNpcEyLZuv25lfimlDt4Zue9bBPQ1i9ck5q7HlXpoBtFvgno.wtC2" firstName="Nelson" lastName="Cadete" email="snilt2000@gmail.com" lastLogin="2019-07-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Beatriz22" enabled="true" active="true" password="$2a$11$IAiGI9XCnPe2I3kwJl1Zzuixn7sdaEWXJMMi02P5bLZykUOKIOVoi" firstName="Beatriz" lastName="Catrola" email="beatrizcatrola@outlook.com" lastLogin="2019-07-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Rita18" enabled="true" active="true" password="$2a$11$n/oseJuTW/XPEkjYdvvFfO/p2kN5rf.3Ajnv9I1cU/khaFLkEXTfu" firstName="Ana" lastName="Martinho" email="ritajorgemartinho@gmail.com" lastLogin="2019-07-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Barbara10" enabled="true" active="true" password="$2a$11$awXrxSEgeMArO6Tkr7PBXeIov4fFLLpRgFI67UHB8jTI5f90EbOXm" firstName="Bárbara" lastName="Ferreira" email="baferreira@outlook.pt" lastLogin="2019-07-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="mariadocarmosousa" enabled="true" active="true" password="$2a$11$IOHDZiGBDK/W86lApxgPw.clbv4RJCMotCDfdgtvh7PGdQt8iKBpe" firstName="maria" lastName="sousa" email="mariadocarmo.sousa@esab.pt" lastLogin="2019-07-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="criscarvalho" enabled="true" active="true" password="$2a$11$da7lrmNKLMBDNMTR.uHTk.s1vmrYFSUkFu6QkO1aethCLhS8JFgGa" firstName="Carvalho" lastName="Cristina" email="cristina.vinhais@gmail.com" lastLogin="2019-07-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="lugatt" enabled="true" active="true" password="$2a$11$yeZ6342..oMIi2meIg73l.qr318oxEGwBY6aycc73VKiUYHp1ilPK" firstName="Luciana" lastName="Gattass" email="lugatt@gmail.com" lastLogin="2019-07-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="aluis" enabled="true" active="true" password="$2a$11$.GtU4oBany.SL2spBnRIjOh.jZ1JJ4tiBqPWlwQ3HTurL7tD0S4hO" firstName="Ana " lastName="Luís" email="aluis@fl.uc.pt" lastLogin="2019-07-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Manaires" enabled="true" active="true" password="$2a$11$qhRm2ycOy8GgiQ5lMZ0tTefES/WaAXEbwE5oozshHC4Gyos7QrzOC" firstName="Manaíra" lastName="Athayde" email="mana_aires@hotmail.com" lastLogin="2019-07-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="jaquelineconte" enabled="true" active="true" password="$2a$11$Fi6o2vpSVgMcq/N.dVcyiurnBHOwB1eirp2bONS43R3tjMSdK47qe" firstName="Jaqueline" lastName="Conte" email="jqconte@gmail.com" lastLogin="2019-07-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="aliceamatsuda" enabled="true" active="true" password="$2a$11$N868QkcRP0SvsBiXv6P7N.URy0G5SeezP0HlhzfpxQc.jzre45z4C" firstName="Alice Atsuko" lastName="Matsuda" email="profa.aamatsuda@gmail.com" lastLogin="2019-07-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="licinia2019" enabled="true" active="true" password="$2a$11$LTFzmL13qxGddYm0C0TodOueo3sOGlBfLLe78Usc8QGhasRRn9QQy" firstName="Licinia" lastName="Regateiro" email="licinia.regateiro@ebsqf.pt" lastLogin="2019-07-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Ana1995" enabled="true" active="true" password="$2a$11$Cvh1dOgH.Rj0Zny4qCkMsu7X6yBjwf87GBwVY4aDTcMG2f8R/kN3W" firstName="Ana" lastName="Ferreira" email="anasilvaferreira3@gmail.com" lastLogin="2019-07-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="anaisabelmourasilva" enabled="true" active="true" password="$2a$11$bDh0AvEtuMDXGZN4K7kBQuAh6dajW/T4jToA8ORkeGdQqfCdBzEbO" firstName="Ana Isabel" lastName="Silva" email="anaisabelmourasilva@gmail.com" lastLogin="2019-07-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="anasebastiao" enabled="true" active="true" password="$2a$11$tQlAxw6mV/rhJKue2ZaiTuKAyjjIshlzow./cs1S17hE6S1.HECp." firstName="Ana " lastName="Sebastião" email="anamaria.sebastiao@esab.pt" lastLogin="2019-07-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="aivitorino" enabled="true" active="true" password="$2a$11$SOM.VzAI/fyHP65TqRoRJeifB4uLtld./aMn51Z3hx65bmp7CHdiO" firstName="Ana" lastName="Vitorino" email="aisabelvitorino@gmail.com" lastLogin="2019-07-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="JuliaGomes1" enabled="true" active="true" password="$2a$11$/6/ZOsNv8ndOj7L.UvzNxe8t3ZU822Zx7vazgQfNZN1Tz6d9LvaDS" firstName="Julia" lastName="Gomes" email="julia.gomes@aemealhada.pt" lastLogin="2019-07-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="eugeniapardal" enabled="true" active="true" password="$2a$11$5gMV/EDCmEIoQV3T5ogzGeXMhvIoX7nRf/ml8b6MkDZK1ivP3bL8S" firstName="Eugénia" lastName="Pardal" email="eugenia.pardal@gmail.com" lastLogin="2019-07-26" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Thais" enabled="true" active="true" password="$2a$11$kWIcrnovRAfa73XtCbke6.PfTNi2tZORZxMD9aig2oKtCmO.h9p7K" firstName="Thais" lastName="Thais" email="thaispilotoo@gmail.com" lastLogin="2019-09-19" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="106223641383371985562" enabled="true" active="true" password="$2a$11$3KAHTjyvX2qN1wSh7SVv4ekfGmu2894r3KRCfagCD2wK6s06gWsny" firstName="lucas" lastName="fchicon" email="lucaschicon2@gmail.com" lastLogin="2019-09-19" socialMediaService="GOOGLE" socialMediaId="106223641383371985562">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="100655924625806341508" enabled="true" active="true" password="$2a$11$ULuamVM7yZmz9574n.Bj0.yOLiMIJB5Gf8hOOsgnGxOQHTFB.7t2C" firstName="Gabriel" lastName="Esteves" email="gabrielesteues@gmail.com" lastLogin="2019-09-19" socialMediaService="GOOGLE" socialMediaId="100655924625806341508">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="evertonvs1" enabled="true" active="true" password="$2a$11$dMz2t6XvR1EVTP9uGqTcUe/M/AxMTH8qPKvTZBQbYCxsR45DkI1/y" firstName="Everton " lastName="de Santa" email="evertonvs9@gmail.com" lastLogin="2019-09-19" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Danjo" enabled="true" active="true" password="$2a$11$jZwSK9ZgSH8faEX.m0SsZuHsvIId1LpQaf7NqSvfiZbvqtRHx6k0a" firstName="Daniel" lastName="Johnstone" email="dgoidanich@gmail.com" lastLogin="2019-09-20" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Patriciaweber0" enabled="true" active="true" password="$2a$11$ZXAJhrfG2wnsEwsqRFCaluBXjWGAnhWBlGjXqGf7E/BfdC2fOlzuu" firstName="Patricia" lastName="Weber" email="p.graweber@gmail.com" lastLogin="2019-09-19" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="AmandaMassaro11" enabled="true" active="true" password="$2a$11$NjkPFP194qebPb3osg.X9eSkCP4MoNDeO3CNdcvt1o6IpmlZqMsdS" firstName="Amanda" lastName="Massaro" email="amandamassaro@hotmail.com" lastLogin="2019-09-20" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="thaispiloto" enabled="true" active="true" password="$2a$11$3JMHLjRX1nbu.6bo87bedujzN4dh1deM.HK3g68xra989qNaGN25G" firstName="Thais" lastName="Piloto" email="thaispilotoo@gmail.com" lastLogin="2019-09-19" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="DayDREAMer" enabled="true" active="true" password="$2a$11$A5KTq3PCsltDxGYxf/7KIuGXcM7rM2nCCbrCl.kOh0P2wZwoLQcui" firstName="Day " lastName="Dreamer" email="daydreamerpessoa@gmail.com" lastLogin="2019-02-12" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="folgado" enabled="true" active="true" password="$2a$11$lV0YIlt.4YhLloBy1AcRoeRu2/eldMpFXvv0mGeMwUm2QII9pPG/K" firstName="Hélder" lastName="Folgado" email="helderfolgado@gmail.com" lastLogin="2019-02-15" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="anabanza" enabled="true" active="true" password="$2a$11$Bkv/Uw/gtaLQa1MdD8bvUOc8ydCBKczELr/dr5HloAo2pQbC0fTcS" firstName="Ana Paula" lastName="Banza" email="anabanza@uevora.pt" lastLogin="2019-05-15" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="anamarques" enabled="true" active="true" password="$2a$11$vOW.N/CkOhtVwSkk456JDeNgUYiuLSbCL6hAyCPwPWkkGDzL.je0a" firstName="Ana " lastName="Marques" email="ana.marques.silva@gmail.com" lastLogin="2020-11-12" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="thenmaster" enabled="true" active="true" password="$2a$11$9O2iY3deNAGgcwuct5yI9.aaRXtwOcXgWt668x2AsIEthTWWNSGvW" firstName="Nuno" lastName="Gonçalves" email="nunombg@gmail.com" lastLogin="2019-07-22" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="jebraposo94" enabled="true" active="true" password="$2a$11$UWjtUfjsKDdQH35dJF394.t5NTX3GZOwzYET29GudG8iOC8ChUNY." firstName="José" lastName="Raposo" email="jeb.raposo@gmail.com" lastLogin="2019-03-13" socialMediaService="LINKEDIN" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="juliazuza" enabled="true" active="true" password="$2a$11$4gs4.X3VQZ36z/7AMYDqv.ixXBva5py9c0dyfFKuZ8i5H7No1Yz8K" firstName="Júlia" lastName="Zuza" email="juliadunga@yahoo.com.br" lastLogin="2019-11-16" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="pcouronn" enabled="true" active="true" password="$2a$11$u8XLdxCSd/zLsLAJIapMtefajzlCaxU3SeHrksqg05W6RsWTNhg9S" firstName="Paul" lastName="Couronne" email="paul.couronne@etu.univ-tours.fr" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="lvasques" enabled="true" active="true" password="$2a$11$PIr40sziuoRjtFc/YsG7EOHxd41TTQZ0Z/AzKePw/UyPnIQ0ibUse" firstName="Liliana" lastName="Vasques" email="vasqueslf@gmail.com" lastLogin="2020-10-28" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="nWon" enabled="true" active="true" password="$2a$11$eUkQWSz4dO/T2cbjuQlrgOlHVCXq/2fovCkgIygz5twY81dFOvgWa" firstName="Nuno" lastName="Santana" email="nunodusa@gmail.com" lastLogin="2019-12-14" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="dptuck" enabled="true" active="true" password="$2a$11$mRI/YNNSiv885eGxqZGCAu1BsUby5djIGtQjzq8XQXQHfOmx7sNye" firstName="David" lastName="Tuck" email="dptuck@gmail.com" lastLogin="2020-01-06" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="philvic" enabled="true" active="true" password="$2a$11$v3e/3/08FGQzMC5e3vhT6eT8fsyBv/K.GA.wJ.cDkcl4vldIgbGzi" firstName="Philippe" lastName="Vicente" email="phi.vic.lo@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="sergio" enabled="true" active="true" password="$2a$11$X/SRGzDrg2yBOocXihsaE.JG.9SirEbgo7fkq23LRR8jzHpJjlxLK" firstName="Sérgio" lastName="Leite" email="alaoleite@gmail.com" lastLogin="2020-02-01" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="FRomeiro" enabled="true" active="true" password="$2a$11$NGmxHIULN1v/vnzwZRugu.KbCDP.AIK2v0EbLZIGRO0c4zJIbQWW6" firstName="Fernando" lastName="Romeiro" email="fernandoj.rom@gmail.com" lastLogin="2020-02-01" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="CatarinaLR" enabled="true" active="true" password="$2a$11$TxSEwCrpN59po1BrUv19eOZVTCuW7CbiftBP6k6lzsM6nh8qo/Rie" firstName="Catarina " lastName="Lebre Ribeiro" email="ribeirojcp@gmail.com" lastLogin="2020-02-01" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="mineirodias" enabled="true" active="true" password="$2a$11$ecokQ6Yj7V09YxRYviUDYuJAEDhA4H9w3XzEwUAURFqWV1/AN78Te" firstName="Ana Maria" lastName="Mineiro Dias" email="ana.mineiro@sapo.pt" lastLogin="2020-02-01" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Ana" enabled="true" active="true" password="$2a$11$BodG2d59uHJt/R4E7wDiieqHW5pP9.x/0nSgaW0/WCxJXowUnjD6K" firstName="Ana" lastName="Almeida" email="caldas.almeida@sapo.pt" lastLogin="2020-02-01" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="silveriapalrilha" enabled="true" active="true" password="$2a$11$pMnJvqL6Wqf5prHKIqEMROU8Vvh3Xhgoa2m5QF571Tek/alQDp8S2" firstName="Silvéria" lastName="Palrilha" email="silveriapalrilha@aefigueiranorte.pt" lastLogin="2020-02-01" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="tm" enabled="true" active="true" password="$2a$11$ZaijMNIfPiXIT6gc9Mcs9eCuHYPc9Hei9qbjo8gIVBLw0M/qHoYbK" firstName="Teresa" lastName="Marques" email="teresafranciscomarques@gmail.com" lastLogin="2020-02-01" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="isilda" enabled="true" active="true" password="$2a$11$NC75YpuSMzK7v7x2.q/dV.qj.uJyeIuFDPQTqedUVIZ.zFkATOvty" firstName="isilda" lastName="marques" email="isildamarques@aefigueiranorte.pt" lastLogin="2020-02-01" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="amgdj" enabled="true" active="true" password="$2a$11$FmtbQZLEZdM8xeHZz/iN1ueF.JUQLzwws4hKxrG.E3.hXjgEJE42G" firstName="Alda" lastName="Jesus" email="aldagj@hotmail.com" lastLogin="2020-02-01" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="cmvmo" enabled="true" active="true" password="$2a$11$GWFyciI3D3tFgdTIAUEC5em1b1j3mOsdgbGPRz7CwcpZMKe6IF2pK" firstName="Carla" lastName="Oliveira" email="carlaoliveira@escolasdemira.pt" lastLogin="2020-02-01" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="rakelita" enabled="true" active="true" password="$2a$11$HigZqbxEatMleXfvq3LKee0jcESazlHkqMZdzAgjDq3ve3g1Al3vu" firstName="Raquel" lastName="Costa" email="rakelkosta@hotmail.com" lastLogin="2020-02-01" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="mangapoco" enabled="true" active="true" password="$2a$11$u/ps3vC7297HfdmXxq/wyOumvzNcwdcS.6IcICvCWEDzBeyJ6mh.6" firstName="giulia" lastName="manganelli" email="giuliamanganelli@me.com" lastLogin="2020-03-14" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="madjory" enabled="true" active="true" password="$2a$11$qz1C.5pqF/xfrauUdHYC4.5z5bIBMsrs/MCwrIzwkPGyyuwWPBXKi" firstName="Madjory " lastName="Almeida" email="madjory@live.com" lastLogin="2020-04-21" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="118305860348119526027" enabled="true" active="true" password="$2a$11$0wWrhJPBKCKO78mFcgkWXeq28rdMWL8yEVfms7uAbXwKhquUP9MTm" firstName="José Maria" lastName="Morais" email="josemambh@gmail.com" lastLogin="2020-06-15" socialMediaService="GOOGLE" socialMediaId="118305860348119526027">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="114877419012297825857" enabled="true" active="true" password="$2a$11$Z95KbQMOgAE77YAbruAlcOtNn07ziIF7WsJzLRzgSd8MwgmfdHd2m" firstName="Icaro" lastName="Nico" email="nicomaco@gmail.com" lastLogin="2020-07-01" socialMediaService="GOOGLE" socialMediaId="114877419012297825857">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="mir" enabled="true" active="true" password="$2a$11$DHkW/w1qfcMFS0BWziyk1.LKTU9MdAByo0CFdRhwYIGo8saSTJJyq" firstName="maria irene" lastName="ramalho" email="mir@ces.uc.pt" lastLogin="2020-08-13" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="ceuestibeira" enabled="true" active="true" password="$2a$11$xCPi63Ql0CBtZkafVWX0ne9iUzExny/pjyZ/C2D5VZ7Vq20qlVtyi" firstName="Maria do Céu" lastName="Estibeira" email="ceuestibeira@hotmail.com" lastLogin="2020-07-28" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="CHerculano" enabled="true" active="true" password="$2a$11$YOSbOX.3KhddDOeV7NbtPeCgeWjnKz1Sm.r1pU.gIWgTkpj/8fCH." firstName="Camylla" lastName="Herculano" email="psicologacamyllaherculano@gmail.com" lastLogin="2020-02-08" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="APortela" enabled="true" active="true" password="$2a$11$ZJaSwr1RFNZaDloCUMtomuE4Y/6wuc/zK7Msbt1CFEM7ZteaQ6Wq6" firstName="Adriano" lastName="Portela" email="reporterportela@gmail.com" lastLogin="2020-02-08" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Patrick" enabled="true" active="true" password="$2a$11$BpPZXX4AoDSzlk8VLRjlnO.aPB4JlNTFiEr412mScIKQVyGFj0SP2" firstName="Patrick" lastName="Cid" email="cidpatrick@yahoo.fr" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Rita" enabled="true" active="true" password="$2a$11$f5zEde/AEqUE0u61cThOeO6doydJoEH.oAutCDmgrvYgq2CaaxWaa" firstName="Ana Rita" lastName="Semide" email="ritasemide@gmail.com" lastLogin="2020-02-17" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="anaferreira" enabled="true" active="true" password="$2a$11$XIN2IeSZpQox8aiMQpFOceijVpwFIB/NQg9NdH6zs7gy/3lyEX.9." firstName="Ana" lastName="Ferreira" email="ana.silvaferreira@hotmail.com" lastLogin="2020-02-17" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="BarbaraFerreira10" enabled="true" active="true" password="$2a$11$ITyLljdVfA44R7h0YizYXujbO6kLGOviTq//p2NFFGylr8nOohLa." firstName="Bárbara" lastName="Ferreira" email="baferreira@outlook.pt" lastLogin="2020-02-17" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="mariofaria" enabled="true" active="true" password="$2a$11$lnRUjmkLUQfcU2o9sefW9eX/6/LBmcyS663NzSepBIo81B0A1GQbO" firstName="Mário" lastName="Faria" email="mario_faria@outlook.pt" lastLogin="2020-02-17" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="anamacha590" enabled="true" active="true" password="$2a$11$hhPxGW7GmbUp4zJdVb12..J2BrHJfRg1YVEV.c.4SG0lXC.735a7y" firstName="Ana" lastName="Machado" email="anamariamachado59@gmail.com" lastLogin="2020-02-18" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Beatriz18" enabled="true" active="true" password="$2a$11$aZ4NMur0t00CezwO9gihyeG2XpR3DAYxwKmro7L3YsGZNj.vJ6zRW" firstName="Beatriz" lastName="Catrola" email="beatrizcatrola@outlook.com" lastLogin="2020-02-17" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="107062561748800130758" enabled="true" active="true" password="$2a$11$ONETIgsePmB2u2lNeHbEqOG9uZHb/97DqOWI/8indN.uxsmwbNeDm" firstName="n" lastName="c" email="snilt2000@gmail.com" lastLogin="2020-02-17" socialMediaService="GOOGLE" socialMediaId="107062561748800130758">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="ritafe93" enabled="true" active="true" password="$2a$11$FlVWJcOJ6T9Jp3E63iGUK.7pfZuofeWL45azhgnxWRw1gurqIG5nu" firstName="Rita" lastName="Fé" email="rita_fe.oliveira@hotmail.com" lastLogin="2020-02-17" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="RitaMartinho2020" enabled="true" active="true" password="$2a$11$6sQitjo9DrjikOrxG98ZkOviNbcRD9gXFQkEaGfndMNx8M1e.RG4W" firstName="Rita" lastName="Martinho" email="ritajorgemartinho@gmail.com" lastLogin="2020-02-17" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="LuisZC" enabled="true" active="true" password="$2a$11$BWPJm1h.9PgZTnJQ98xLieLg7/LReINMIBkiROsCtyjPazcLpDL.C" firstName="Luis" lastName="Zambrano Cuesta" email="luiszc@usal.es" lastLogin="2020-03-10" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="mm" enabled="true" active="true" password="$2a$11$Zhiy0R1G74gWkBnVXIybk.b4kYeE7p8D9MOXISD27Iw2cNbkSsQTi" firstName="Miguela" lastName="Moreira" email="mcamoreira@outlook.com" lastLogin="2020-10-10" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="trescientos" enabled="true" active="true" password="$2a$11$GI.G/XWmzUjcyZDKZLMxz.64BD2qXenqWU4QFQoeWJqi6MaxRaJ5i" firstName="José Miguel" lastName="Barajas" email="alentejo6@hotmail.com" lastLogin="2020-05-10" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="raquelcaldas77" enabled="true" active="true" password="$2a$11$/gUcTMkCcTgBVwdsQZXLrefeMA37TypwkvOAbSb0Y5R6H36sbH8LS" firstName="Raquel" lastName="Caldas" email="raquelcaldas77@gmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="IolandaBritoZorro" enabled="true" active="true" password="$2a$11$I9SuV2NAyrU6kP1ixFp39.S7jXR8oDmzc2F8xMG.v98i8a3zBQGle" firstName="Iolanda" lastName="Zôrro" email="iolandazorro@gmail.com" lastLogin="2020-05-27" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="viniciuscarpe" enabled="true" active="true" password="$2a$11$o.G7TLY9GxZz2vHq46iKNOnvlnpo8u21/DvbOXP2yU3cU6kXn0gBC" firstName="Vinícius" lastName="Pereira" email="viniciuscarpe@gmail.com" lastLogin="2020-05-27" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="alicem" enabled="true" active="true" password="$2a$11$Fg6Azo.OE7WAxzL/0GYHR.xUQ.IWLEN4E6qXWKfAKhSEmHG/lPybG" firstName="Alice Atsuko Matsuda" lastName="Alice" email="alicem@utfpr.edu.br" lastLogin="2020-05-20" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="raquel" enabled="true" active="true" password="$2a$11$29bRQBhF8TYW9/H9hqX5LOSS4xWuRUHJrkXNNiGCeekB4TlU6lhdu" firstName="Raquel" lastName="Caldas" email="raquelcaldas1977@gmail.com" lastLogin="2020-05-27" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="andressabarichello" enabled="true" active="true" password="$2a$11$wMgW1BFcCNAJpDIVA2ojfO8/246NcbEgnIKC914fkEDkElHES7hBG" firstName="Andressa" lastName="Barichello" email="andressabrch@gmail.com" lastLogin="2020-05-27" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="arisbe" enabled="true" active="true" password="$2a$11$qy.jxurDzcT1he/lhyO0feN4fgey5xbulQamh4dWQ7nnhMjYZNPwC" firstName="David" lastName="Tuck" email="dptuck@gmail.com" lastLogin="2020-05-20" socialMediaService="GOOGLE" socialMediaId="109564215798170234498">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="mfrestrepo" enabled="true" active="true" password="$2a$11$svbtOquiFSpGByfDRVTMCe/147yuvVPA.lcRIcR2E0tEjUOYdlT7q" firstName="María Fernanda" lastName="Restrepo" email="mf.restrepo47@gmail.com" lastLogin="2020-06-03" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Brunadomingss" enabled="true" active="true" password="$2a$11$FKmdTVkiuBMkpuoA/tX3L.RGadU.7vic.SXRyxwxCknOMXoTxsr1." firstName="Bruna Géorgia Domingues" lastName="Santos" email="bruna.domingues@unesp.br" lastLogin="2020-11-04" socialMediaService="GOOGLE" socialMediaId="112439316765706844047">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="larissatenorio" enabled="true" active="true" password="$2a$11$K27G.0FqsodOfafTCZHFueRid2LUATXFAmSTGWiEapBoRPgwxKqI2" firstName="Larissa" lastName="Tenório" email="tenoriolarissa@gmail.com" lastLogin="2020-11-04" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Marcoseustaquio94" enabled="true" active="true" password="$2a$11$tRm/7ULCjnwgeoKTe1vC2.hV43LCrrKPo1j./oxpEJoskqBaNZhGq" firstName="Marcos" lastName="Eustáquio" email="marcoseustaquio94@gmail.com" lastLogin="2020-11-04" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Karen1177" enabled="true" active="true" password="$2a$11$kokHJZSy7Tvg3aaILRZOWuuBs/bAVIF3epqVDtNfz1NqjnW.Qg4jC" firstName="Karen" lastName="Tenório " email="Karentenorio@yahoo.com.br" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Karen020958" enabled="true" active="true" password="$2a$11$gHmO.p/.dxd2gWOmlAFp9.1Yse6kgNXYqGWnMPQcIgriSTt3USJcq" firstName="Karen" lastName="Tenório" email="Karentenorio@yahoo.com.br" lastLogin="2020-11-14" socialMediaService="GOOGLE" socialMediaId="111877206579795264187">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="rodrigo" enabled="true" active="true" password="$2a$11$2zU0tjyK.ZjEPcwRA27Dz.wd61SJA4Abz6eFtYKx1NDoH5WdHavfq" firstName="Rodrigo Lima" lastName="Rapuano" email="rodrigorapuano@hotmail.com" lastLogin="2020-11-04" socialMediaService="GOOGLE" socialMediaId="100382304788344163865">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="andredomingos" enabled="true" active="true" password="$2a$11$fCWcafcL7Yktr.t.QvHHW.o9HZDz4LCiSByTjNRjj7IIy9a./UOaC" firstName="André" lastName="Domingos" email="domingosandre.academico@gmail.com" lastLogin="2020-11-06" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="acmmedeiros" enabled="true" active="true" password="$2a$11$AComG4X3Ge1hufVomR7qMOqc6c2z1tDpC7JBQf.Sr9zEGHiPGLl6m" firstName="Ana" lastName="Medeiros" email="a.claramagalhaes@gmail.com" lastLogin="2020-11-04" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Lemuel84" enabled="true" active="true" password="$2a$11$i/eA1cqSaV94mLm4awiNOutw0YaoT.hOemQcHSN35gx0Hm30R0FCC" firstName="Lemuel" lastName="Gandara" email="gandara21@hotmail.com" lastLogin="2020-11-04" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="lgarcia" enabled="true" active="true" password="$2a$11$Gu47tOWI5/L4ifKiJDR6ae8q//kxXNKFltpuPchvZmgt4SdTR3ewq" firstName="Luís" lastName="Garcia" email="luismcgarcia@gmail.com" lastLogin="2020-10-24" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="ines1404" enabled="true" active="true" password="$2a$11$hzBZcUMHPBUuIMa6luj5OOk2A4cf9rc3bw1q7o1re4dKm0F9xlX2m" firstName="Inés" lastName="Velázquez Puerto" email="InesVelazquez@usal.es" lastLogin="2020-11-16" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="19990710" enabled="true" active="true" password="$2a$11$0WfNYUOqk9iUYQhsCuLozOztK7DOEsokBYYHUeWLQV/kx06HmRuya" firstName="Mercedesz" lastName="Lajos" email="lajos.mercedesz@gmail.com" lastLogin="2020-10-30" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Eduardausal" enabled="true" active="true" password="$2a$11$zcAZkKuERxEa3nfOaejAdeykn3xBh0wht7DiTSvi1jsdZk0be5IKC" firstName="Eduarda" lastName="Do Nascimento Pereira" email="eduardadnp1999@usal.es" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="100263139035497434939" enabled="true" active="true" password="$2a$11$a7rhrcQ/ZgSRyRw8ApH6Lugmtsp2QKD2aJYOFb1zZx6lTVZDRqjPy" firstName="CELIA DEL" lastName="POZO GARRIDO" email="celiagarrido99@usal.es" lastLogin="2020-11-14" socialMediaService="GOOGLE" socialMediaId="100263139035497434939">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="eduardad" enabled="true" active="true" password="$2a$11$Nk.YZ.x4ClPxCf/p88pfj.3YcbQQutLoIagqSS3tI1eB1yil62HxW" firstName="EDUARDA" lastName="DO NASCIMENTO PEREIRA" email="eduardadnp1999@usal.es" lastLogin="2020-11-13" socialMediaService="GOOGLE" socialMediaId="109052809587550955973">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="CristinaSg" enabled="true" active="true" password="$2a$11$d2Jm39b1TLE5gJz.9z6RE.TwNCsvWxDf3Cus85fodRfF2WNuwgmXa" firstName="Cristina " lastName="Sg" email="cristinasg26@usal.es" lastLogin="2020-11-15" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="SM" enabled="false" active="true" password="$2a$11$OTnS4qrHLt3oEFCQF8D1f.a8pYwRgzSmIiXVbc4KuEbVFzRWlCHCC" firstName="S" lastName="M" email="lontrinha8@hotmail.com" socialMediaId="">
+      <roles>
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+    <user username="Twitter" enabled="true" active="false" firstName="Twitter" lastName="Social Media" email="">
+      <roles />
+    </user>
+    <user username="ars" enabled="true" active="true" password="$2a$11$SkJ0QXF8xHG/iT5xl2Dknu2kz/7ub4pKEomXuYzeuYsIdVnPBO/oG" firstName="António" lastName="Rito Silva" email="rito.silva@tecnico.ulisboa.pt" lastLogin="2020-08-12">
+      <roles>
+        <role type="ROLE_ADMIN" />
+        <role type="ROLE_USER" />
+      </roles>
+    </user>
+  </users>
+  <user-connections>
+    <user-connection userId="rvm1000" providerId="google" providerUserId="109323170862152181462" rank="1" displayName="Rodrigo Machado" imageUrl="https://lh3.googleusercontent.com/a-/AOh14Gic0uoOzp_3rfW4sohPIOh82Y-_XrYC7GTjgPk9nw=s50" accessToken="ya29.a0AfH6SMDAiFjPyi6qhy09J5Y0XsQvAg8p0rdBWDnRKC8x3_HLfYWhjW_gycjNO7imDTE9hbH70FBs86ymw935AdZFa1DYMlyg9e0hfZVQXXZ1N418tqGNV6PEJW58mnATzil5SVrBt-wUKdIMe6seEr9BYtVcZFRaytQ" expireTime="1602001414386" />
+    <user-connection userId="Julia-Medrado" providerId="google" providerUserId="109787715577752293761" rank="1" displayName="Julia Medrado" imageUrl="https://lh3.googleusercontent.com/a-/AOh14GjYL8e9AuYLWDQgMM6nnB4omdH8_EQRgviDb9bZnQ=s50" accessToken="ya29.a0AfH6SMBwGe3HCLFv2qW8-KgP49QKjkRd-VZg6sLLndmn_IU2sYT6KFsgiiVmTKFMK-xsT7Rr4IIjzQOQKYcwUys22qskszsjcHiJlPIU2gg-iM13GhwQOse1InHP4IdQAHmR69OlIZbP5Sb90OFUoX8DZG7mUA0BfVY" expireTime="1598200584273" />
+    <user-connection userId="ccuellar" providerId="google" providerUserId="108699900291411823778" rank="1" displayName="Clara Cuéllar" imageUrl="https://lh3.googleusercontent.com/a-/AOh14GhSM5sOwKyIoYv8zitT38c1g82VTuS21lzGuBAKxg=s50" accessToken="ya29.a0AfH6SMBuHLQEzqOoVwe0Hthat_AmtPS6H-SDYlpe3wFQWSlRs-QDjVIvD_zXmbYJlOsnRRFaQX233DIf47YZ3t9hQeg1f_58ZNeisK-2Vn9xk3nhxC1Nc-c44FXG7Tc5dkBORANIYrnzP1ZatxcXbkeFze4Enou4zzmV" expireTime="1596782809871" />
+    <user-connection userId="106680708260409034471" providerId="google" providerUserId="106680708260409034471" rank="1" displayName="Edina Lima" imageUrl="https://lh3.googleusercontent.com/-edcGYCwMm24/AAAAAAAAAAI/AAAAAAAAAHI/eWYIF1c0w18/photo.jpg?sz=50" accessToken="ya29.GlxUBgXCyv2yrcmXDyQriRlGadxixkgGDjzDHc1TyxsEz1HbOmfnOKY8TfEBrVUdKYaBG_ZnKiQKFFbzmPaV8NHOGGQ6MpkRR9Q_DrFcppUqxgCViqWSVoStSEoJDA" expireTime="1542225455072" />
+    <user-connection userId="joseraposo" providerId="twitter" providerUserId="1234766726" rank="1" displayName="@sparkz_org" profileUrl="http://twitter.com/sparkz_org" imageUrl="http://pbs.twimg.com/profile_images/813984778026450944/mJFvd8t7_normal.jpg" accessToken="1234766726-N9ZCSzbz3ZkE1yvYle4zCTZz3uSs1CRKFZ9zAQu" secret="MatKcnyi39pMdCSSGzqWLsqcXMeImRKLpLAk2JckV5Yq4" />
+    <user-connection userId="gribeiro" providerId="linkedin" providerUserId="XWC-EnALpO" rank="1" displayName="Glória Ribeiro" profileUrl="https://www.linkedin.com/in/gl%C3%B3ria-ribeiro-9884b348" imageUrl="https://media.licdn.com/mpr/mprx/0_13GHTYjrIcrZ6hQg3POIL6r1HQhOBaQYCjOfq8lnezKj6Gwg1r0EFXuvoFyqPGeZ1w0fQ7DvJG2YX0R1QEPbn5S9mG2OX0stQEPbLk29mG8YX05zqxYuBK8pZJr-vWIv8l7FixpxmvgcbUEt6GpLsM" accessToken="AQVNX0tTPqQO6FRyrxMNLipQWWP63V3lBzLQDGDM3c7Xjma9ZQikK9cuCHI0BYhcDEgorkW2AXEhe39gPllU79R6AsaT32s2LJLmJGDX2UEYks-h8yjussbbIp5GYmXzFzRb3pQtiwq3TDRb0pOGzEPj9cOn1EX_pfLMgaydNEp_Eilp2AtBkdcfx98qKF-Z7ZsuPBPHE_jbgSVI2_B2A8ZBjBEhCWmBpIibBSlPT3fO78e642t-AGsZ0z1XIgvpiMcnfJ9lXRmMB49FIPcHEuUrsD6wbCXAvUDNaK_5PkfHSXEfXtsJnKi3lDl1mH9evcmdGl6WImwXo7iDo86jVOasJGC06A" expireTime="1521715792138" />
+    <user-connection userId="asantos" providerId="google" providerUserId="106707053705842008675" rank="1" displayName="André Filipe Santos" profileUrl="https://plus.google.com/+andrefilipesantos" imageUrl="https://lh5.googleusercontent.com/-TCoArlgDmpA/AAAAAAAAAAI/AAAAAAAAAXk/A7o_ksAzgjM/photo.jpg?sz=50" accessToken="ya29.GlshBYvtVtfbaCoogkNd1L8nnHLvOvz-FIeq76yHH7EkuviTuRia0GcR1poQFwHqyNGnLoSlIISqM9cBtdCFrFnTeRFaBm8HWazq_bVifbCf2jPmr4uRH1uPFKci" expireTime="1513202641230" />
+    <user-connection userId="108320746372632976106" providerId="google" providerUserId="108320746372632976106" rank="1" displayName="José Barreto" profileUrl="https://plus.google.com/+JoséBarretoimpressões" imageUrl="https://lh4.googleusercontent.com/-_rS2NId34e4/AAAAAAAAAAI/AAAAAAAAQUE/fqq6FkHFq6U/photo.jpg?sz=50" accessToken="ya29.GlwiBVG_hQTHehY8H0Ji48UvcKVrlNroy49Vf55cyrip4L0Jxx4lvKB0bTuAz_mTXpF5lzt9xjCO9s-NccM1LWoNaRaPZ0BMHHH-gNWHNCQ_6gaQ_E2gAI7Fw4-emw" expireTime="1513275104227" />
+    <user-connection userId="JoaoBelchior" providerId="google" providerUserId="101732757188962660164" rank="1" displayName="João Belchior" profileUrl="https://plus.google.com/101732757188962660164" imageUrl="https://lh3.googleusercontent.com/-I2vyNO6ZcuM/AAAAAAAAAAI/AAAAAAAAFSo/cUV27UgJiB0/photo.jpg?sz=50" accessToken="ya29.GlwiBQEXX5O3E6sfD12Bq5Pxh_rAykh3XbxLJmmy-2aPRBp6GXVk3aqNxdgucgeQEiHqvhpVDSRqlkONvgbRQKIwI5iZtCEiXTSpd7w2E8qCEfrbi2EDUFjxN7S0CQ" expireTime="1513270987688" />
+    <user-connection userId="105524056704751587021" providerId="google" providerUserId="105524056704751587021" rank="1" displayName="Gazi Berlajolli" imageUrl="https://lh3.googleusercontent.com/a-/AOh14GiXZdVpIwcg2-x7umZIAPmCXQYiJjlJ3nokdMblVg=s50" accessToken="ya29.a0AfH6SMCHyYhj-_FVevft3LrcYQ5qcqdak0bnzBV7mumttxle8pe6Z-eW_lMDhIqZF-NI-zzOtt78Zh-XGJwg-p5wYITBYNYqoeD_vw73f8m-E6K7hoQ8FLu6QDjAeIuUK1o3_hdclT-P_xrhqBcSLZSXJCgXWJ0zsBZ8KA" expireTime="1597701848004" />
+    <user-connection userId="114872360169244432012" providerId="google" providerUserId="114872360169244432012" rank="1" displayName="Nuno Santos" profileUrl="https://plus.google.com/114872360169244432012" imageUrl="https://lh5.googleusercontent.com/-Fq38UatKI58/AAAAAAAAAAI/AAAAAAAAARE/CcKFspbNuUk/photo.jpg?sz=50" accessToken="ya29.GlsQBWCLjki-WcIrHIT6S1hBpB1rlbYNpNJbrMf3Hbe8vFA63jv-qVPKpows3lAsx8c1D_Hl7SEReReRNAZ_CG9CojCiqFU_HqwFMkjl2JZ00UKLisjrQRhJRdz5" expireTime="1511727982681" />
+    <user-connection userId="Samuel" providerId="google" providerUserId="111560185731838720219" rank="1" displayName="Samuel Teixeira" profileUrl="https://plus.google.com/111560185731838720219" imageUrl="https://lh3.googleusercontent.com/-PMuocBNZ3AI/AAAAAAAAAAI/AAAAAAAAAa8/Wxivc6xEXPw/photo.jpg?sz=50" accessToken="ya29.GlxLBAt3CUFg3LiAqNh8Z7xirXtude1-l_n2EF00Jy331sUGqEymFcMkEM7youDRHcvqLQBHNVQfhIJFi6sH3hL0Ysh72na3IH-ZwZisy4WTQ-_18InQr0ohlUBiOQ" expireTime="1494855529911" />
+    <user-connection userId="jzandona" providerId="google" providerUserId="102338773698591623131" rank="1" displayName="Jair Zandoná" profileUrl="https://plus.google.com/+JairZandoná" imageUrl="https://lh5.googleusercontent.com/-hEW67XNubKw/AAAAAAAAAAI/AAAAAAAAW0s/U-0uMqCWzog/photo.jpg?sz=50" accessToken="ya29.Glt1BHMfauHhEsW4njviseH2VWwIGxlwN1mktE5w6VuPUTJBPzXGNRm6R_TF1NbcDukN1yCCjNlC4D-4TInNA-Z0XQ6sJsD5fFn9OwFGV-oBagH7ez6sZelib9J2" expireTime="1498490229459" />
+    <user-connection userId="ars-face" providerId="facebook" providerUserId="10206984608805465" rank="1" displayName="António Rito Silva" imageUrl="https://graph.facebook.com/v2.5/10206984608805465/picture" accessToken="EAAF5V8CxwwUBAD3cTwst4usxuNjXteLIuIMkkx2qZAXMJ7SZCIYtvfT7hqZAZCrKfYyiLN7IumRNX5lboF2ZAGbdHMq2LsEvZAB52ZBkaqMV6fCRLD01FKZAicBrc6a5jeSIdr1UPe8FInlZBsWunnjaZCwqCGmc2Po5iQo8i93sVt8AZDZD" expireTime="1564233657662" />
+    <user-connection userId="CamyllaHerculano" providerId="google" providerUserId="116295331092545106361" rank="1" displayName="Camylla Herculano" imageUrl="https://lh3.googleusercontent.com/a-/AAuE7mCX1UeFsMlYqby3VP7mBwMAXYQ_PlnyRqo4ddfVfQ=s50" accessToken="ya29.ImG9By4esbew7Qn-ehhXGUUJG3UY-682nhAgIaw_1XPT5nBW-ZgqLx_1Dx4iwFYu6upgebLrIfyvLZFYwHV201Mm8ubVfF_xbJP0aoD1T6DFftr3MopGed0Rg94AonJ_xxoW" expireTime="1581093091896" />
+    <user-connection userId="epriani" providerId="twitter" providerUserId="16571064" rank="1" displayName="@epriani" profileUrl="http://twitter.com/epriani" imageUrl="http://pbs.twimg.com/profile_images/827000891467259908/n6K96E5T_normal.jpg" accessToken="16571064-0jYaXR4Qn4PBbs60O54FNpVd6ZVCC33H4kZMH9OLP" secret="sZtGR1WpIcyEJmR7S9K417NnRhhVac0aSwWNlcSPf7339" />
+    <user-connection userId="alvaroseica" providerId="google" providerUserId="111827657967218782727" rank="1" displayName="Álvaro Seiça" profileUrl="https://plus.google.com/+ÁlvaroSeiça" imageUrl="https://lh6.googleusercontent.com/-FHVoBX-hpbE/AAAAAAAAAAI/AAAAAAAAB_s/Ud7RvuJqoPI/photo.jpg?sz=50" accessToken="ya29.Gl3CBFWBzkNBoDcnrSCsiNingXAzY2cbPK2jc50In-LCXjqJ1arwIH6aFVHTq7JpJ3oX2yKTQIMvUxkg4RJ6mw8KhLoOOuI1DVVxSBvm5kGrvpAfazsi_WoYL7ZNsdQ" expireTime="1505036688259" />
+    <user-connection userId="ars-google" providerId="google" providerUserId="112093865245759031983" rank="1" displayName="António Rito Silva" imageUrl="https://lh3.googleusercontent.com/a-/AOh14GiSXYM8Rlv3NseQM5GBAHhkNS9XUsHyAKeugZPX6vM=s50" accessToken="ya29.A0AfH6SMChB-sjTECdld81WNL1LMa9yVwdj-Lz1yCc450jMhAlYwtHD85L9Egvb5Sh4Cq8do6AfV0wPJ5Agv4mwpy-Pga6DWtY42UqEHAdcqoiUrgyDpcJ57JZ6n3ATc5iiWIjAEDPqqoPiWPIvbgmW5gH9yGH0T8aKph_-f-MZUSwfA" expireTime="1605635759762" />
+    <user-connection userId="ars-tweet" providerId="twitter" providerUserId="22266786" rank="1" displayName="@RitoSilva" profileUrl="http://twitter.com/RitoSilva" imageUrl="http://pbs.twimg.com/profile_images/378800000529417635/9824fc0eb040640e7e799ad6b4b3acfb_normal.jpeg" accessToken="22266786-fR5TuVdeI8bmS9WqxyoH3rRM7Thz8e3SjoFRpz59a" secret="cZ9XrgvgGUfMbB1D9faXBNK5eu9uzTvMZUk1I6ArdLckT" />
+    <user-connection userId="ars-linkedin" providerId="linkedin" providerUserId="ONNjnE7HVS" rank="1" displayName="António Rito Silva" profileUrl="http://www.linkedin.com/in/ant%C3%B3nio-rito-silva-1454a41" imageUrl="https://media.licdn.com/dms/image/C5103AQGX3Dpg_fw9YA/profile-displayphoto-shrink_100_100/0?e=1559779200&amp;v=beta&amp;t=u-WiorvZl5XPd05JH3oz6KhAd2ZkZgt9BcwUR4cLzp0" accessToken="AQXc47SqDdIRqv6R6TyPiM_NBuab2N502gMFaNmvWz_gyN9AJNNnRGIU3u5JvTs9Dej-9Ugksj-3se_IsFep8OsxmNRn_8l2-qYp7c_8pmZbMQ477_0mZdCwbGuHMEtKWuw6sZNDxrMXy8qFlGV26FDbqM3hlsG8UtijdrqXRXgzBoKnp0v_IzOmgAqp9wVfuHhDURqmRQlQWTrSGh6IVWb6YJtZTeJlRWUE8MVTx1V0qmEE-EQ04jfzsEblbRSMqa9Lc9bLPc-OaVuXaQ7vx8Z_454GXehduePTG4v7xdEyrqQYjB3Kv5uq3I-ZEPXGfZs6wEyZnP0JoXDe_fe6r_qSlOBpjw" expireTime="1559669752547" />
+    <user-connection userId="101515237190808570995" providerId="google" providerUserId="101515237190808570995" rank="1" displayName="Abílio Junior" profileUrl="https://plus.google.com/101515237190808570995" imageUrl="https://lh6.googleusercontent.com/-AUPyBzpRjPQ/AAAAAAAAAAI/AAAAAAAABTM/wGMFX9nhJW0/photo.jpg?sz=50" accessToken="ya29.GlvcBLwpmhZqULsJEzwLsJr2kMVbXjmw8BUuw2vjP6ZtVgXKdoz5Cq1J4IMe3FNiiEKVX1cxhsBJLbLcrWb0-i_v_sMVu41YscUwemjyFjnOFw-ABGSePGx10Jww" expireTime="1507335394085" />
+    <user-connection userId="nando123" providerId="google" providerUserId="118023405507421782693" rank="1" displayName="Goncalo Familiar" profileUrl="https://plus.google.com/118023405507421782693" imageUrl="https://lh3.googleusercontent.com/-e4flonTBo6o/AAAAAAAAAAI/AAAAAAAAApM/UmIzb-AhsIk/photo.jpg?sz=50" accessToken="ya29.GlsfBSq05mvSabymY9Oj6SpHVG97pb3Al3Tq4nABKXHiBTeRBMQYDuIyVHHPbEKFa7QOPX-kE8uMRUdjYPbt9AIOgjC7Wc_RwaVP9zsB1pD1GBFdcCZL_MULEBv-" expireTime="1513013087141" />
+    <user-connection userId="110500712274038660211" providerId="google" providerUserId="110500712274038660211" rank="1" displayName="maria portela" profileUrl="https://plus.google.com/110500712274038660211" imageUrl="https://lh5.googleusercontent.com/-jvCqKY9vxF8/AAAAAAAAAAI/AAAAAAAAAFw/QcVeVKSyVdM/photo.jpg?sz=50" accessToken="ya29.GlsiBSE6BQ42mjtRmysMZCaLs8EC38K1TpZ0Z9ZgUlngPGqXQbhL3ppJrvz6ucCHuazUySezLCGY2I-lLKsdPrQtTiqbdBaETLkm6NoZpinpa3uwg5-kB-ahIcYw" expireTime="1513275685068" />
+    <user-connection userId="104919447730288239677" providerId="google" providerUserId="104919447730288239677" rank="1" displayName="Javier Palomino" profileUrl="https://plus.google.com/104919447730288239677" imageUrl="https://lh5.googleusercontent.com/-mbwahbVWQJA/AAAAAAAAAAI/AAAAAAAAEdg/FZdy9sscn_A/photo.jpg?sz=50" accessToken="ya29.GlsiBVduo-aqGpneolkS586QaftuScc7cExWv5tv7zmGivOBXayoGY79jEEm-IRL1lXNpgODJ_d-iA_TBMCYJRklaJVLe8_2BHDkHif4uMs2UihYgZXHbVBHazEM" expireTime="1513282776378" />
+    <user-connection userId="111797492710690361809" providerId="google" providerUserId="111797492710690361809" rank="1" displayName="Manuel Ferreira" profileUrl="https://plus.google.com/+ManuelFerreira65" imageUrl="https://lh4.googleusercontent.com/-P3jOo1wixDE/AAAAAAAAAAI/AAAAAAAAm9Y/6RX6iWwA-sg/photo.jpg?sz=50" accessToken="ya29.GlwjBfBiNUgTstOix9dcmcBk1jyCwtXb3eQA4shVdOobQQCYXulgdyMLD6MO4YW5wHREmtwDuMUdWWqDqaA8u7JXTAgSqFAJsxO8_2bePMR-TT3rZQEsrI_k2bN1gg" expireTime="1513351509826" />
+    <user-connection userId="anaisabelsoares" providerId="google" providerUserId="115800294472833502990" rank="1" displayName="Ana Soares" profileUrl="https://plus.google.com/115800294472833502990" imageUrl="https://lh6.googleusercontent.com/-mKKLvx3hmXY/AAAAAAAAAAI/AAAAAAAAb2Y/spmVcv_llS0/photo.jpg?sz=50" accessToken="ya29.GlsjBZgEZUbBBoRRWp6MRY1JjkCtZ7U68fhWZDvAIwIZlr3y0dYQBj7JzZfa-T05yUeA8bDj3T2HvZqBPOkGkKo3WIpqX1zKeUY7eINDQz0Qa1cExROzalaJ6koE" expireTime="1513344158467" />
+    <user-connection userId="josecarreiro" providerId="google" providerUserId="106576097402193816919" rank="1" displayName="José Maria de Aguiar Carreiro" profileUrl="https://plus.google.com/106576097402193816919" imageUrl="https://lh3.googleusercontent.com/-tJpfshyjhGI/AAAAAAAAAAI/AAAAAAAAAKk/8RwYaHRoqgw/photo.jpg?sz=50" accessToken="ya29.GlskBQLgwXnJnB6Cwklv0RZ6npLyE1vCBSXN3VeKDSFXKj3myXog-S99I9viri-mKVABS4iEGFoxa6uv4kGFDSHiR_Km9vBLBrOx4gGXrYjmRawW2H9QwScg4ZQI" expireTime="1513470026362" />
+    <user-connection userId="108921824915203136133" providerId="google" providerUserId="108921824915203136133" rank="1" displayName="Paulo Carvalhal" profileUrl="https://plus.google.com/108921824915203136133" imageUrl="https://lh5.googleusercontent.com/-zc2fVoXqxiU/AAAAAAAAAAI/AAAAAAAACZ0/Y4TM_FqGTCw/photo.jpg?sz=50" accessToken="ya29.GlslBQXq7Dn6ghiwvsam6RX71hd0KoTJNPvRoutT3Xvyp5LsIjFVkM1LGS-RvJqZSLxBZnIB5pMgI26U-YFjqVTar6gCEmhdG4Q_YMi5CiFAylhWxh7mZp5JLemR" expireTime="1513537706000" />
+    <user-connection userId="111879034012045505391" providerId="google" providerUserId="111879034012045505391" rank="1" displayName="Antonio Luis Moutinho" profileUrl="https://plus.google.com/111879034012045505391" imageUrl="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50" accessToken="ya29.GltyBTOG_R7QF9IaOzBrKZcsLrR9dnghbjyKWP0BEhATp6jZx16ZQtJxZq8Xr7mzVTgP4l60EsNc26QYmt8OSQ7wRIrUvA6w_G3J98eqGO2botR1Zd1U45l_PIRB" expireTime="1519978090637" />
+    <user-connection userId="106627152062978818947" providerId="google" providerUserId="106627152062978818947" rank="1" displayName="Carlos Lázaro" profileUrl="https://plus.google.com/+CarlosLázaro" imageUrl="https://lh3.googleusercontent.com/-p22MlvR_4Jo/AAAAAAAAAAI/AAAAAAAABtg/REMFOF41o6I/photo.jpg?sz=50" accessToken="ya29.Gls2BoDl4IQ-pARdCCpREUdAjrVqnyJGx-9Ni45hY08XXg6h6IbaXLtSnmUxZdEOHudGgHJFNjVJHnjAy6QxZVkh32qc6jNLiUU4Zb89B2Wtvj-8D6RSDr46oHm5" expireTime="1539557280038" />
+    <user-connection userId="palucas" providerId="google" providerUserId="110354024373442207683" rank="1" displayName="Pedro Lucas" profileUrl="https://plus.google.com/110354024373442207683" imageUrl="https://lh6.googleusercontent.com/-36hpiveEPq0/AAAAAAAAAAI/AAAAAAAAACw/74F5ed3voig/photo.jpg?sz=50" accessToken="ya29.Gls2BtTkoMPDDYgmoE9_RflgrgFcWo-E7gP372VPs-L7ZsKDXW2h--rEXBaCGJ1HgX4-cuxE9wAiOFPEY08jTcHRTOukmibDPhB7PPDuUipjg7HvVAeEqEIVO3Tg" expireTime="1539549292480" />
+    <user-connection userId="110042912543863446947" providerId="google" providerUserId="110042912543863446947" rank="1" displayName="Gustavo Castro" imageUrl="https://lh3.googleusercontent.com/a-/AOh14GizVcRNpW-IWWz6bIVrv1g_9PG9TFUBPAFIuP2J=s50" accessToken="ya29.a0AfH6SMDbW2IpilIpogOuTRNQB-shG46gwN0xLk3BPVIYW1yZAu7-fR-fm5uib2ugFjlWNf1hChd6fJQBQ-gBf13X-WPq4LQVoDEEYPLATg3MQjSiNLPQ7HwXOwVD8PJNptcrejhBWgB_6Y9zHzXS5Z7CFLRUZILVKiE" expireTime="1598654876949" />
+    <user-connection userId="matildebranco" providerId="google" providerUserId="100576039856941755210" rank="1" displayName="Matilde Branco" profileUrl="https://plus.google.com/100576039856941755210" imageUrl="https://lh5.googleusercontent.com/-QSCD6tUx2ic/AAAAAAAAAAI/AAAAAAAABkc/ICs9MLYUqkA/photo.jpg?sz=50" accessToken="ya29.GlyXBgC6HqmoSukIjPIC2gmCQx3LG3WgXSMwG1OsDo7bKUS8u71cE7LxE2fDwpEU33nAWAPTSU0fhvrTxB4tpv_f_OHutiiuLb8XEDSwrzJcIODKZz8j8AR2LOrFFA" expireTime="1547943303964" />
+    <user-connection userId="joaobaffa" providerId="google" providerUserId="116325333751894990732" rank="1" displayName="Joao Baffa" imageUrl="https://lh5.googleusercontent.com/-FFxZYGpbjx0/AAAAAAAAAAI/AAAAAAAAAAA/EmIG8p6VCOU/s50/photo.jpg" accessToken="ya29.Glv0BhuIk0FU4cvpm0yE1c2cwaaiyHCfDvVe50TOoFBsvMSnu36kLu7qUd29steI2p7v26UCthBC56yuYthj_nsW_Tj9ZI66VA93w7Cp_tjMiREUYO6Rp3njn7QI" expireTime="1556037067628" />
+    <user-connection userId="joaomarques" providerId="google" providerUserId="111483829899510359629" rank="1" displayName="João Minhoto Marques" imageUrl="https://lh4.googleusercontent.com/-Gc7aj3OkeeE/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rff3vTt1jASBwcsth60AyypoJwwTw/s50-mo/photo.jpg" accessToken="ya29.GlsnBxQEw6-etujrG01di5QLAYjSMuJmA3GvM4Dka5u0K4ouDbVCo11agCz1IrMY0DHFlHcEiO7u2SMOIYQ-m2AEvYQRXdzt0ZoghNby4_JI7O2lQtgEhvh_EA4l" expireTime="1560441760048" />
+    <user-connection userId="106223641383371985562" providerId="google" providerUserId="106223641383371985562" rank="1" displayName="lucas fchicon" imageUrl="https://lh6.googleusercontent.com/-KosdKgjFE_I/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdi73Haf59E9d1vBOav-nzZk82iuA/s50/photo.jpg" accessToken="ya29.Il-IB8BBr-HfxO44DgMthEKxFZM4o6ZlyoRVGxje2tu3yc4APUqIpnNGWhx-CxVixh9BH6YiMDHE6wEtsgylNiB6aEvOmwm1Gw5rCFtHufhMvXinDqvts0TNRZaKrEypNw" expireTime="1568916007527" />
+    <user-connection userId="100655924625806341508" providerId="google" providerUserId="100655924625806341508" rank="1" displayName="Gabriel Esteves" imageUrl="https://lh3.googleusercontent.com/a-/AAuE7mC7n2smzYt4on0YkBRvNrAfvYi-esQei1DMYygLGw=s50" accessToken="ya29.GluIB8basNGzCssXJkJgC8fg_O_mdoNZgmalk0Uoh6YlrtX1knqxSp-S2i-OcE1XzpRxRKGEmFlEY-Nu_7HBRtjtsEpQ0hOmHwDxg72fsLLy5Sf-kTdHxLgBZE9u" expireTime="1568915959640" />
+    <user-connection userId="jebraposo94" providerId="linkedin" providerUserId="DZr_OKKTGr" rank="1" displayName="José Raposo" profileUrl="http://www.linkedin.com/in/raposojose" imageUrl="https://media.licdn.com/dms/image/C4D03AQF-6KmCZFYyjA/profile-displayphoto-shrink_100_100/0?e=1556150400&amp;v=beta&amp;t=rF0Y3K3F4bBKk0rGa6WMyAzbjCpeEP8K11CgDnGHnN8" accessToken="AQUb2rxeVQeayPLACYZUva4lK8xbEStw99irCJSyJLr7xCMy4IF_72_EYB8PX3tKMFOZvWspLTC0h_UYTkD1-HIEPagE7FLlyV2IBGMa36STFXTdPMN0Vz5z-oIRiHeqD0NEcKTEiHUxKjDxgMplYbmpRwiAf5SQ-7AU6bQSJgLEtOXbLX1aQuZqnc2MQfmvqw5g9mdk7K-FadB7ZNlA-yGK1pqqURP282wMehSjYtNHFJ8eoK9OMsW0Za_jfA6IKiztxhSqx0YwzntDfp5TEog-ST5pD3Lm2w1pzm-igvE5exWHb0GBZjzSmYPxW6jYPMgli8wgL8RvkQyfao1VVFdrebx7Zg" expireTime="1555955364252" />
+    <user-connection userId="118305860348119526027" providerId="google" providerUserId="118305860348119526027" rank="1" displayName="José Maria Morais" imageUrl="https://lh6.googleusercontent.com/-NIWdXvFZ4GI/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclv7e9jI5yu5ixNjCD9XATCYgRqdw/s50/photo.jpg" accessToken="ya29.a0AfH6SMDp2sxFsBMHnTUZKnAMsGSArNMGR-SzhTuxpxUVC-9apUs9VgH4Jl6cS73XgWLStldMuZvSJ-Tm28ITjjPyswXj754E3lgOGDjHr_O4WqpOU3Yz2fKAyN6QD22EpyrlqhGrZmYK7uA4b_6PpV2Nc_Q7QnQFkBFX" expireTime="1592180218249" />
+    <user-connection userId="114877419012297825857" providerId="google" providerUserId="114877419012297825857" rank="1" displayName="Icaro AB" imageUrl="https://lh3.googleusercontent.com/a-/AOh14GiE3qQX6IGYZuQCufjoM_14yszpPcApEj_G2lRthw=s50" accessToken="ya29.a0AfH6SMDdzjym_7Ift_xaCc38fKCCkl14P88bAsWh3OI6AscftqU5Px3ejyIEzT8zxJtdc9n786w4WICVPXQIx5nywK4EM7rzzqY-A_6VGRF0cviEfCFSZRFP73DPj_lVm3UH3lY9JPwIjHYmffiw6bAV_p_NVLqvLew" expireTime="1592095883085" />
+    <user-connection userId="107062561748800130758" providerId="google" providerUserId="107062561748800130758" rank="1" displayName="n c" imageUrl="https://lh6.googleusercontent.com/-TxNdPZzjyJ4/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rfvw9Wns555PVDfjJ7aMjaOMr6u3A/s50/photo.jpg" accessToken="ya29.ImC9BwGTTZz6zQZEVF29HQMPyXO-HDqqzse5CwzfaP18VghxRBRJYoTO8AH5ZN5XyVTrzzF_GtJ6HYz5T3V8FGTHHaClIhADLtaz9D7St7aGWsVaEo3yLegAmY773RhqQto" expireTime="1581960700855" />
+    <user-connection userId="arisbe" providerId="google" providerUserId="109564215798170234498" rank="1" displayName="David Tuck" imageUrl="https://www.google.com/s2/photos/private/AIbEiAIAAABECILd9qiF87rdhAEiC3ZjYXJkX3Bob3RvKig2ODRmOTVlNjE2NjA4ZDIzNzdjODRjMTdkMzU5OGUxZTdjNDA4NjZmMAF2VJhzxHpY31n5Vf3mJ2gqk1B2lQ?sz=50" accessToken="ya29.a0AfH6SMAmFCEPrFoW-JQBeZKgewShVPPJt5a1EBSGZALQUiNXgVxNPH2GKfePYGWA6EJzDcryRfU5xgH5GoIw1lN66SUl3eBDqbjuNkrE7hccGryiYMnkthTmh0Z4o1bIRTn0oh_NCyh33VDQxTui0tRwWRWdGx9Y1TU" expireTime="1589930526037" />
+    <user-connection userId="Brunadomingss" providerId="google" providerUserId="112439316765706844047" rank="1" displayName="Bruna Georgia Domingues dos Santos" imageUrl="https://lh3.googleusercontent.com/a-/AOh14GgDi76M06uRpbqqiSPZ0aV9yjjnrrCad7Ov0CWj=s50" accessToken="ya29.a0AfH6SMAE3T3ynKgBWVIzsLWkahtaol-PHNgR5SnLv6-1VbJCw0jTRVV3CIaGdxdzIwlqmefyt8ViYyWyR-_HnkXL3JEYvzs1VMtt3QLXXOBTi-y8CfLLo4eV79wx7wk1VSP9-z_niTwJhE_cu5bOQPEAudhODmSmdx0" expireTime="1603032610023" />
+    <user-connection userId="Karen020958" providerId="google" providerUserId="111877206579795264187" rank="1" displayName="Karen “Karencita” Tenório" imageUrl="https://lh3.googleusercontent.com/a-/AOh14GgpXFr-5ebBCFj0U69RfdG1VlKlUIgPeH_xj_Qt=s50" accessToken="ya29.A0AfH6SMC9U0L5OKtKNRRLCcAvbbVpWG9HE44gy1owpEuWJ02ES4LV4LIvsFMJggOHaoj4_TKcXbK898KbdICg4dK5l_B1zLzgG7o0i2gBa3VHCRlz94gh59-_pu6twtmbS4KuvCzRS20_4OKe4XgXwN4eP-GBh_c8GhJRA1bwVxs9fA" expireTime="1605378723558" />
+    <user-connection userId="rodrigo" providerId="google" providerUserId="100382304788344163865" rank="1" displayName="Rodrigo Lima Rapuano" imageUrl="https://lh3.googleusercontent.com/a-/AOh14GjpBi6mJM4YrnciCTEcVR06_agNhHEBhZTBPWfK=s50" accessToken="ya29.a0AfH6SMBexsckAc9W7ip2mHdRRXByipCbdzkWeQDv5D0tyWAnmY8wIq8rOQkMXKbMVuU7OWzOsgukrM_riEuOGUHgD17JIrZbRraLjhsU0BUBurROQla4KItCMveTOijoBwPv9VKdTgr2EAjuawdw0Jml4yxqTxMz7nM" expireTime="1603308105058" />
+    <user-connection userId="100263139035497434939" providerId="google" providerUserId="100263139035497434939" rank="1" displayName="CELIA DEL POZO GARRIDO" imageUrl="https://lh3.googleusercontent.com/-NNupq3HjrBI/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnI9bcKFAuzja3FZ5G2gHJ7eYwpWQ/s50/photo.jpg" accessToken="ya29.A0AfH6SMAHG-Zt38wWM281oaljwLSPuhpidcsSLCBX5ZT3e5oSVDF6OLeoZ09M04r5eHw-az-36jZOIkv6Jwmj0tAJComZ3mFQQnHMjE2lgduOhyY2ph1uUCM2LKjiCdFJ4FA6DiM9hPjB4bt1LMutYCC33yDpvEdh8eDePlPsfuN6" expireTime="1605361812547" />
+    <user-connection userId="eduardad" providerId="google" providerUserId="109052809587550955973" rank="1" displayName="EDUARDA DO NASCIMENTO PEREIRA" imageUrl="https://lh5.googleusercontent.com/-vS9JqBFRJcQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucl1x49sYraNruhtdD60LJkxStYRjQ/s50/photo.jpg" accessToken="ya29.A0AfH6SMBlcVNJ3BaQPXcgT9GBEieOIsaVyPLpuf7cIPsA73lIzJr1Rny27aTLRex7LA8mfW6XHdWCZKjV-BWXiNTPh4YJaZm6VtLtfXzSyPW39UIFH3KDL2fCB188dlHgfMFZSNo38iCKGCl5j3Hb6plSMuszPtMnqwTcrcP8SOW1" expireTime="1605269865110" />
+  </user-connections>
+  <registration-tokens>
+    <token token="cb5fe660-b840-4839-9c30-decd847d99a0" expireTime="1604674342419" authorized="true" user="SM" />
+  </registration-tokens>
+</users-management>
