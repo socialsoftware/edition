@@ -3,6 +3,8 @@ FROM maven:3.6.3-jdk-11-slim as DEPS
 
 WORKDIR /opt/app
 COPY pom.xml /opt/app/pom.xml
+COPY repo /opt/app/repo
+
 
 RUN mvn dependency:go-offline
 

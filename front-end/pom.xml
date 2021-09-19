@@ -666,11 +666,11 @@
             <id>fenixedu-maven-repository</id>
             <url>https://repo.fenixedu.org/fenixedu-maven-repository</url>
         </repository>
-<!--        <repository>-->
-<!--            <id>local-repo</id>-->
-<!--            <name>repo</name>-->
-<!--            <url>file:${project.basedir}/repo</url>-->
-<!--        </repository>-->
+        <repository>
+            <id>local-repo</id>
+            <name>repo</name>
+            <url>file:${project.basedir}/repo</url>
+        </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
