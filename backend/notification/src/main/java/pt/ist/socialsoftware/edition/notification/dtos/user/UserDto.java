@@ -39,8 +39,8 @@ public class UserDto {
 
     public UserDto(String username) {
         setUsername(username);
-        this.firstName = getFirstNameFromService();
-        this.lastName = getLastNameFromService();
+//        this.firstName = getFirstNameFromService();
+//        this.lastName = getLastNameFromService();
     }
 
     public String getUsername() {
