@@ -59,31 +59,18 @@ public class VirtualRequiresInterface implements SubscribeInterface {
     // Requires asynchronous events
     public void notify(Event event) {
         if (event.getType().equals(Event.EventType.FRAGMENT_REMOVE)) {
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             VirtualModule.getInstance().getVirtualEditionsSet().stream()
                     .flatMap(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters().stream())
                     .filter(virtualEditionInter -> virtualEditionInter.getUsesScholarInterId() != null && virtualEditionInter.getFragmentXmlId().equals(event.getIdentifier()))
                     .forEach(this::removeAll);
         } else if (event.getType().equals(Event.EventType.SCHOLAR_INTER_REMOVE)) {
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
             VirtualModule.getInstance().getVirtualEditionsSet().stream()
                     .flatMap(virtualEdition -> virtualEdition.getAllDepthVirtualEditionInters().stream())
                     .filter(virtualEditionInter -> virtualEditionInter.getUsesScholarInterId() != null && virtualEditionInter.getUsesScholarInterId().equals(event.getIdentifier()))
                     .forEach(this::removeAll);
         } else if (event.getType().equals(Event.EventType.USER_REMOVE)) {
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
             String username = event.getIdentifier();
             VirtualModule virtualModule = VirtualModule.getInstance();
             virtualModule.getVirtualEditionsSet().stream().flatMap(virtualEdition -> virtualEdition.getMemberSet().stream())
