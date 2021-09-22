@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Facsimilie from './Facsimilie'
 import InterTranscript from './interTranscript'
+import ReactTooltip from 'react-tooltip';
 
 
 const InterAuthorial = (props) => {
@@ -34,27 +35,27 @@ const InterAuthorial = (props) => {
             <div className="inter-authorial-control-div" >
                 <div className="inter-editorial-flex">
                     <input type="checkbox" checked={selected["diff"]} onChange={() => callbackInputSelect("diff")}></input>
-                    <p>{props.messages.fragment_highlightdifferences}</p>
+                    <p data-tip={props.messages.fragment_tt_highlights}>{props.messages.fragment_highlightdifferences}</p>
                 </div>
                 <div className="inter-editorial-flex">
                     <input type="checkbox" checked={selected["del"]} onChange={() => callbackInputSelect("del")}></input>
-                    <p>{props.messages.fragment_showdeleted}</p>
+                    <p data-tip={props.messages.fragment_tt_deletions}>{props.messages.fragment_showdeleted}</p>
                 </div>
                 <div className="inter-editorial-flex">
                     <input type="checkbox" checked={selected["ins"]} onChange={() => callbackInputSelect("ins")}></input>
-                    <p>{props.messages.fragment_highlightinserted}</p>
+                    <p data-tip={props.messages.fragment_tt_additions}>{props.messages.fragment_highlightinserted}</p>
                 </div>
                 <div className="inter-editorial-flex">
                     <input type="checkbox" checked={selected["subst"]} onChange={() => callbackInputSelect("subst")}></input>
-                    <p>{props.messages.fragment_highlightsubstitutions}</p>
+                    <p data-tip={props.messages.fragment_tt_substitution}>{props.messages.fragment_highlightsubstitutions}</p>
                 </div>
                 <div className="inter-editorial-flex">
                     <input type="checkbox" checked={selected["notes"]} onChange={() => callbackInputSelect("notes")}></input>
-                    <p>{props.messages.fragment_shownotes}</p>
+                    <p data-tip={props.messages.fragment_tt_information}>{props.messages.fragment_shownotes}</p>
                 </div>
                 <div className="inter-editorial-flex">
                     <input type="checkbox" checked={selected["facs"]} onChange={() => callbackInputSelect("facs")}></input>
-                    <p>{props.messages.fragment_showfacs}</p>
+                    <p data-tip={props.messages.fragment_tt_image}>{props.messages.fragment_showfacs}</p>
                 </div>
             </div>
             
@@ -66,7 +67,8 @@ const InterAuthorial = (props) => {
             }
             
             
-            
+            <ReactTooltip backgroundColor="#000" textColor="#fff" border={true} borderColor="#000" className="virtual-tooltip" place="bottom" effect="solid"/>
+
         </div>
     )
 }

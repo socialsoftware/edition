@@ -9,7 +9,7 @@ public class ParticipantDto {
 	private String lastName;
 
 	public ParticipantDto(LdoDUser ldodUser) {
-		this.userName = ldodUser.getUsername();
+		this.setUserName(ldodUser.getUsername());
 		this.setFirstName(ldodUser.getFirstName());
 		this.setLastName(ldodUser.getLastName());
 	}

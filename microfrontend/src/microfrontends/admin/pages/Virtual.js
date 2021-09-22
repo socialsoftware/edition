@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getAdminVirtualList, deleteAdminVirtualEdition } from '../../../util/API/AdminAPI';
 import CircleLoader from "react-spinners/RotateLoader";
+import he from 'he'
 
 const Virtual = (props) => {
 
@@ -10,6 +11,7 @@ const Virtual = (props) => {
         getAdminVirtualList()
             .then(res => {
                 setList(res.data)
+                
             })
     }, [])
 
@@ -44,7 +46,7 @@ const Virtual = (props) => {
             return (
                 <tr key={i}>
                     <td>{edition.acronym}</td>
-                    <td style={{maxWidth:"180px"}}>{edition.title}</td>
+                    <td style={{maxWidth:"180px"}}>{he.decode(edition.title)}</td>
                     <td style={{maxWidth:"180px"}}>
                         {mapEditorsToTable(edition)}
                     </td>

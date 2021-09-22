@@ -36,27 +36,133 @@ import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 @RestController
 @RequestMapping("/api/microfrontend/fragment")
 public class MicrofrontendFragmentController {
-	@RequestMapping(method = RequestMethod.GET, value = "/{xmlId}/NoUser")
-	public FragmentBodyDto getFragment(@PathVariable String xmlId) {
-		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
-
-		if (fragment == null) {
-			return null;
-		} else {
-			return new FragmentBodyDto(LdoD.getInstance(), null, fragment, new ArrayList<FragInter>());
-		}
-	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/{xmlId}")
-	public FragmentBodyDto getFragment(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId) {
+	//////////////////////////// VIRTUAL //////////////////////////////////
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/virtual/{xmlId}")
+	public FragmentBodyDto getVirtualFragment(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @RequestBody ArrayList<String> selectedVE) {
 		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
 
 		if (fragment == null) {
 			return null;
 		} else {
 			if(currentUser!=null)
-				return new FragmentBodyDto(LdoD.getInstance(), currentUser.getUser(), fragment, new ArrayList<FragInter>());
-			else return new FragmentBodyDto(LdoD.getInstance(), null, fragment, new ArrayList<FragInter>());
+				return new FragmentBodyDto(LdoD.getInstance(), currentUser.getUser(), fragment, new ArrayList<FragInter>(), selectedVE, "virtual");
+			else return new FragmentBodyDto(LdoD.getInstance(), null, fragment, new ArrayList<FragInter>(), selectedVE, "virtual");
+		}
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/virtual/{xmlId}/NoUser")
+	public FragmentBodyDto getVirtualFragment(@PathVariable String xmlId, @RequestBody ArrayList<String> selectedVE) {
+		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+
+		if (fragment == null) {
+			return null;
+		} else {
+			return new FragmentBodyDto(LdoD.getInstance(), null, fragment, new ArrayList<FragInter>(), selectedVE, "virtual");
+		}
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/virtual/{xmlId}/inter/{urlId}")
+	public FragmentBodyDto getVirtualFragmentWithInterForUrlId(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
+
+		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+
+		if (fragment == null) {
+			return null;
+		}
+
+		FragInter inter = fragment.getFragInterByUrlId(urlId);
+
+		if (inter == null) {
+			return null;
+		}
+
+		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter.getLastUsed());
+		writer.write(false);
+
+		boolean hasAccess = true;
+		// if it is a virtual interpretation check access and set session
+		LdoDUser user = currentUser.getUser();
+		
+		if (inter.getSourceType() == Edition.EditionType.VIRTUAL) {
+			VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
+
+			
+			if (!virtualEdition.checkAccess()) {
+				hasAccess = false;
+			}
+		}
+
+		List<FragInter> inters = new ArrayList<>();
+		inters.add(inter);
+
+		return new FragmentBodyDto(LdoD.getInstance(), user, fragment, inters, writer, hasAccess, selectedVE, "virtual");
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "virtual/{xmlId}/inter/{urlId}/noUser")
+	public FragmentBodyDto getVirtualFragmentWithInterForUrlIdNoUser(@PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
+
+		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+
+		if (fragment == null) {
+			return null;
+		}
+
+		FragInter inter = fragment.getFragInterByUrlId(urlId);
+
+		if (inter == null) {
+			return null;
+		}
+
+		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter.getLastUsed());
+		writer.write(false);
+
+		boolean hasAccess = true;
+		// if it is a virtual interpretation check access and set session
+		
+		if (inter.getSourceType() == Edition.EditionType.VIRTUAL) {
+			VirtualEdition virtualEdition = (VirtualEdition) inter.getEdition();
+
+			
+			if (!virtualEdition.checkAccess()) {
+				hasAccess = false;
+			}
+		}
+
+		List<FragInter> inters = new ArrayList<>();
+		inters.add(inter);
+
+		return new FragmentBodyDto(LdoD.getInstance(), null, fragment, inters, writer, hasAccess, selectedVE, "virtual");
+	}
+	
+	
+	
+	/////////////////////////////// EXPERT //////////////////////////////
+	
+	
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/{xmlId}")
+	public FragmentBodyDto getFragment(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @RequestBody ArrayList<String> selectedVE) {
+		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+
+		if (fragment == null) {
+			return null;
+		} else {
+			if(currentUser!=null)
+				return new FragmentBodyDto(LdoD.getInstance(), currentUser.getUser(), fragment, new ArrayList<FragInter>(), selectedVE);
+			else return new FragmentBodyDto(LdoD.getInstance(), null, fragment, new ArrayList<FragInter>(), selectedVE);
+		}
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/{xmlId}/NoUser")
+	public FragmentBodyDto getFragment(@PathVariable String xmlId, @RequestBody ArrayList<String> selectedVE) {
+		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+
+		if (fragment == null) {
+			return null;
+		} else {
+			return new FragmentBodyDto(LdoD.getInstance(), null, fragment, new ArrayList<FragInter>(), selectedVE);
 		}
 	}
 	
@@ -96,6 +202,8 @@ public class MicrofrontendFragmentController {
 
 		return new FragmentBodyDto(LdoD.getInstance(), user, fragment, inters, writer, hasAccess, selectedVE);
 	}
+	
+	
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/{xmlId}/inter/{urlId}/noUser")
 	public FragmentBodyDto getFragmentWithInterForUrlIdNoUser(@PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {

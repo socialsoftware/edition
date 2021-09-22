@@ -1,34 +1,223 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip';
 import info from '../../../../resources/assets/information.svg'
 import left from '../../../../resources/assets/left-arrow-blue.png'
 import right from '../../../../resources/assets/right-arrow-blue.png'
-
+import { getFragmentWithXml, getFragmentWithXmlNoUser,
+    getNextFragmentWithXmlAndUrl, getNextFragmentWithXmlAndUrlNoUSER, 
+    getPrevFragmentWithXmlAndUrl, getPrevFragmentWithXmlAndUrlNoUSER,
+    getFragmentWithXmlAndUrl, getFragmentWithXmlAndUrlNoUser,
+    getIntersByArrayExternalId} from '../../../../util/API/FragmentAPI'
 
 const Navigation_expert = (props) => {
 
     const [selectedInters, setSelectedInters] = useState([])
+    const history = useHistory()
+    const [data, setData] = useState(null)
 
     useEffect(() => {
-        let aux = []
-        if(props.data && props.data.inters){
-            for(let el of props.data.inters){
-                aux.push(el.externalId)
+        if(props.isAuthenticated){
+            if(props.urlId)
+            getFragmentWithXmlAndUrl(props.xmlId, props.urlId, props.selectedVEAcr)
+                    .then(res => {
+                        dataHandler(res.data)
+                        handleFragmentChangeForBodyData(res.data)
+                    })
+                    
+            else if(props.xmlId){
+                getFragmentWithXml(props.xmlId, props.selectedVEAcr)
+                    .then(res => {
+                        dataHandler(res.data)
+                    })
             }
-            setSelectedInters(aux)
         }
-        
-    }, [props.data])
+        else{
+            if(props.urlId)
+            getFragmentWithXmlAndUrlNoUser(props.xmlId, props.urlId, props.selectedVEAcr)
+                .then(res => {
+                    dataHandler(res.data)
+                    handleFragmentChangeForBodyData(res.data)
+                })
+            else if(props.xmlId)
+            getFragmentWithXmlNoUser(props.xmlId, props.selectedVEAcr)
+                    .then(res => {
+                        dataHandler(res.data)
+                    })
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.xmlId, props.urlId])
 
-    const handleNextClick = (xml, url, nextOrPrev) => {
-        props.callbackNavigationHandler(xml, url, nextOrPrev)
+    useEffect(() => {
+        if(props.isAuthenticated){
+            if(props.urlIdVirtualToExpert)
+            getFragmentWithXmlAndUrl(props.xmlIdVirtualToExpert, props.urlIdVirtualToExpert, props.selectedVEAcr)
+                    .then(res => {
+                        dataHandler(res.data)
+                    })
+                    
+            else if(props.xmlIdVirtualToExpert){
+                getFragmentWithXml(props.xmlIdVirtualToExpert, props.selectedVEAcr)
+                    .then(res => {
+                        dataHandler(res.data)
+                    })
+            }
+        }
+        else{
+            if(props.urlIdVirtualToExpert)
+            getFragmentWithXmlAndUrlNoUser(props.xmlIdVirtualToExpert, props.urlIdVirtualToExpert, props.selectedVEAcr)
+                .then(res => {
+                    dataHandler(res.data)
+                })
+            else if(props.xmlIdVirtualToExpert)
+            getFragmentWithXmlNoUser(props.xmlIdVirtualToExpert, props.selectedVEAcr)
+                    .then(res => {
+                        dataHandler(res.data)
+                    })
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.xmlIdVirtualToExpert, props.urlIdVirtualToExpert])
+
+    const handleFragmentChangeForBodyData = (data1) => {
+        var aux = []
+        for(let el of data1.inters){
+            if(el.type!=="VIRTUAL")
+                aux.push(el.externalId)
+        }
+        props.callbackSetSelected(aux)
+        props.callbackSetExternalId(data1.fragment.externalId)
     }
 
 
+    useEffect(() => {
+        if(props.currentType !== "expert"){
+            setSelectedInters([])
+            let aux = {...data}
+            aux["inters"] = []
+            setData(aux)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.currentType])
+
+
+
+    const handleNextClick = (xml, url, nextOrPrev) => {
+        if(nextOrPrev === "next"){
+            if(props.isAuthenticated){
+                getNextFragmentWithXmlAndUrl(xml, url, props.selectedVEAcr)
+                .then(res => {
+                    history.replace(`/fragments/fragment/${res.data.fragment.fragmentXmlId}/inter/${res.data.inters[0]?res.data.inters[0].urlId:null}`)
+                    dataHandler(res.data)
+                    handleFragmentChangeForBodyData(res.data)
+                    props.callbackNavigationHandler(res.data.fragment.fragmentXmlId, res.data.inters[0]?res.data.inters[0].urlId:null)
+                })
+            }
+            else{
+                getNextFragmentWithXmlAndUrlNoUSER(xml, url, props.selectedVEAcr)
+                .then(res => {
+                    history.replace(`/fragments/fragment/${res.data.fragment.fragmentXmlId}/inter/${res.data.inters[0]?res.data.inters[0].urlId:null}`)
+                    dataHandler(res.data)
+                    handleFragmentChangeForBodyData(res.data)
+                    props.callbackNavigationHandler(res.data.fragment.fragmentXmlId, res.data.inters[0]?res.data.inters[0].urlId:null)
+            })
+            }
+            
+        }
+        else if(nextOrPrev === "prev"){
+            if(props.isAuthenticated){
+                getPrevFragmentWithXmlAndUrl(xml, url, props.selectedVEAcr)
+                .then(res => {
+                    history.replace(`/fragments/fragment/${res.data.fragment.fragmentXmlId}/inter/${res.data.inters[0]?res.data.inters[0].urlId:null}`)
+                    dataHandler(res.data)
+                    handleFragmentChangeForBodyData(res.data)
+                    props.callbackNavigationHandler(res.data.fragment.fragmentXmlId, res.data.inters[0]?res.data.inters[0].urlId:null)
+                }) 
+            }
+            else{
+                getPrevFragmentWithXmlAndUrlNoUSER(xml, url, props.selectedVEAcr)
+                .then(res => {
+                    history.replace(`/fragments/fragment/${res.data.fragment.fragmentXmlId}/inter/${res.data.inters[0]?res.data.inters[0].urlId:null}`)
+                    dataHandler(res.data)
+                    handleFragmentChangeForBodyData(res.data)
+                    props.callbackNavigationHandler(res.data.fragment.fragmentXmlId, res.data.inters[0]?res.data.inters[0].urlId:null)
+                }) 
+            }
+            
+        }
+        else{
+            if(props.isAuthenticated){
+                getFragmentWithXmlAndUrl(xml, url, props.selectedVEAcr)
+                .then(res => {
+                    dataHandler(res.data)
+                    handleFragmentChangeForBodyData(res.data)
+                    props.callbackNavigationHandler(res.data.fragment.fragmentXmlId, res.data.inters[0]?res.data.inters[0].urlId:null)
+                })
+            }
+            else{
+                getFragmentWithXmlAndUrlNoUser(xml, url, props.selectedVEAcr)
+                    .then(res => {
+                        dataHandler(res.data)
+                        handleFragmentChangeForBodyData(res.data)
+                        props.callbackNavigationHandler(res.data.fragment.fragmentXmlId, res.data.inters[0]?res.data.inters[0].urlId:null)
+                    })
+            }
+            
+        }
+    }
+
+    const dataHandler = (obj) => {
+        if(data === null){
+            setData(obj)
+            let aux1 = []
+            for(let el of obj.inters){
+                aux1.push(el.externalId)
+            }
+            setSelectedInters(aux1)
+            props.callbackSetCurrentType("expert")
+            props.callbackSetSelected(aux1)
+        } 
+        else{
+            let aux = {...data}
+            if(obj["fragment"]!==null) aux["fragment"] = obj["fragment"]
+            if(obj["ldoD"] !== undefined){
+                if(obj["ldoD"]["archiveEdition"]!==null) aux["ldoD"] = obj["ldoD"]
+            }
+            if(obj["ldoDuser"]!==null) aux["ldoDuser"] = obj["ldoDuser"]
+            if(obj["inters"]!==undefined && obj["inters"]!==null) aux["inters"] = obj["inters"]
+            if(obj["hasAccess"]!==null) aux["hasAccess"] = obj["hasAccess"]
+            if(obj["transcript"]!==null) aux["transcript"] = obj["transcript"]
+            if(obj["virtualEditionsDto"]!==null) aux["virtualEditionsDto"] = obj["virtualEditionsDto"]
+            if(obj["setTranscriptionSideBySide"]!==null) aux["setTranscriptionSideBySide"] = obj["setTranscriptionSideBySide"]
+            if(obj["variations"]!==null) aux["variations"] = obj["variations"]
+            if(obj["writerLineByLine"]!==null) aux["writerLineByLine"] = obj["writerLineByLine"]
+            if(obj["surface"]!==null) aux["surface"] = obj["surface"]
+            aux["nextPb"] = obj["nextPb"]
+            aux["nextSurface"] = obj["nextSurface"]
+            aux["prevPb"] = obj["prevPb"]
+            aux["prevSurface"] = obj["prevSurface"]
+            setData(aux)
+            let aux1 = []
+            if(obj.inters !== null && obj.inters !== undefined){
+                for(let el of obj.inters){
+                    aux1.push(el.externalId)
+                }
+                setSelectedInters(aux1)
+            }
+        }
+    }
+
+
+    const getIntersByExternalId = (fragmentExternalId, arrayInterId) => {
+        getIntersByArrayExternalId(fragmentExternalId, arrayInterId)
+            .then(res => {
+                dataHandler(res.data)
+                if(!res.data.inters) history.push(`/fragments/fragment/${data.fragment.fragmentXmlId}`)
+            })
+    }
+
     const checkboxSelectedHandler = (fragmentExternalId, externalId) => {
         var aux = []
-        for(let el of props.data.inters){
+        for(let el of data.inters){
             if(el.type!=="VIRTUAL")
                 aux.push(el.externalId)
         }
@@ -41,17 +230,23 @@ const Navigation_expert = (props) => {
                 aux.splice(index, 1);
             }
         }
-        props.callbackCheckboxHandler(fragmentExternalId, aux)
+        setSelectedInters(aux)
+        props.callbackSetExternalId(fragmentExternalId)
+        props.callbackSetSelected(aux)
+        props.callbackSetCurrentType("expert")
+        getIntersByExternalId(fragmentExternalId, aux)
+        
+
     }
 
     const mapSourceIntersToView = () => {
-        return props.data.fragment.sourceInterDtoList.map((sourceInter, i) => {
+        return data.fragment.sourceInterDtoList.map((sourceInter, i) => {
             return (
                 <div key={i} className="navigation-row">
                     <input className="navigation-checkbox" type="checkbox" name={sourceInter.externalId}
-                        onChange={() => {checkboxSelectedHandler(props.data.fragment.externalId, sourceInter.externalId)}} 
+                        onChange={() => {checkboxSelectedHandler(data.fragment.externalId, sourceInter.externalId)}} 
                         checked={selectedInters.includes(sourceInter.externalId)}></input>
-                    <Link onClick={() => handleNextClick(props.data.fragment.fragmentXmlId, sourceInter.urlId, false)} className="navigation-name" to={`/fragments/fragment/${props.data.fragment.fragmentXmlId}/inter/${sourceInter.urlId}`}>{sourceInter.shortName}</Link>
+                    <Link onClick={() => handleNextClick(data.fragment.fragmentXmlId, sourceInter.urlId, false)} className="navigation-name" to={`/fragments/fragment/${data.fragment.fragmentXmlId}/inter/${sourceInter.urlId}`}>{sourceInter.shortName}</Link>
                 </div>
                 
             )
@@ -63,7 +258,7 @@ const Navigation_expert = (props) => {
             return (
                 <div key={i} className="navigation-row">
                     <input className="navigation-checkbox" type="checkbox" name={inter.externalId} 
-                        onChange={() => {checkboxSelectedHandler(props.data.fragment.externalId, inter.externalID)}} 
+                        onChange={() => {checkboxSelectedHandler(data.fragment.externalId, inter.externalID)}} 
                         checked={selectedInters.includes(inter.externalID)}></input>
                     <div className="navigation-row-inter">
                         <img alt="arrow" style={{height:"15px", width:"15px", cursor:"pointer"}} src={left} onClick={() => handleNextClick(inter.fragmentXmlId, inter.urlId, "prev")}></img>
@@ -76,7 +271,7 @@ const Navigation_expert = (props) => {
     }
 
     const mapExpertToView = () => {
-        return props.data.ldoD.sortedExpert.map((expert, i) => {
+        return data.ldoD.sortedExpert.map((expert, i) => {
             if(expert.inter.length > 0){
                 return (
                     <div key={i} style={{marginTop:"10px"}}>
@@ -96,7 +291,7 @@ const Navigation_expert = (props) => {
         <div className="navigation-view">
             <div>
                 <p className="navigation-view-title" style={{marginBottom:"10px"}}>{props.messages.authorial_source}</p>
-                {props.data && props.data.fragment?
+                {data && data.fragment?
                     mapSourceIntersToView()
                 :null
                 }
@@ -109,7 +304,7 @@ const Navigation_expert = (props) => {
                     <ReactTooltip backgroundColor="#fff" textColor="#333" border={true} borderColor="#000" className="reading-tooltip" place="bottom" effect="solid"/>
                 </div>
                 <div style={{marginTop:"30px"}}>
-                    {props.data && props.data.ldoD?
+                    {data && data.ldoD?
                         mapExpertToView()
                     :null
                     }

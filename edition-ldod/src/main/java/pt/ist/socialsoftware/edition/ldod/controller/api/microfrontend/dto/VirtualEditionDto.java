@@ -127,6 +127,15 @@ public class VirtualEditionDto {
 		this.setAnnotationTextList(vEdition.getAnnotationTextList());
 	}
 	
+	public VirtualEditionDto(VirtualEdition vEdition, String type) {
+		this.setAcronym(vEdition.getAcronym());
+		this.setExternalId(vEdition.getExternalId());
+		this.setTitle(vEdition.getTitle());
+		this.setParticipantSet(vEdition.getParticipantSet().stream().map(ParticipantDto::new).collect(Collectors.toList()));
+		this.setCategorySet(vEdition.getTaxonomy().getCategoriesSet().stream().map(cat -> new CategoryDto(cat, type)).collect(Collectors.toList()));
+		this.setAnnotationTextList(vEdition.getAnnotationTextList());
+	}
+	
 	public VirtualEditionDto(VirtualEdition vEdition, boolean noUser) {
 		this.setExternalId(vEdition.getExternalId());
 		this.setAcronym(vEdition.getAcronym());

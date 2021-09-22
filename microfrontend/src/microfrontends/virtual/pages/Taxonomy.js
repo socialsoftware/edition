@@ -120,13 +120,13 @@ const Taxonomy = (props) => {
         return data.taxonomy.categorySet.map((cat,i) => {
             return (
                 <tr key={i}>
-                    <td>
+                    <td className="virtual-td-top">
                         <Link className="virtual-link" to={`/virtual/virtualeditions/restricted/category/${cat.externalId}`}>{cat.normalName}</Link>
                     </td>
                     <td >
                         {mapIntersToTable(cat)}
                     </td>
-                    <td>
+                    <td className="virtual-td-top">
                         {
                             data?data.taxonomy.canManipulate?
                                 <input type="checkbox" checked={selected.includes(cat.externalId)} onChange={() => addSelected(cat.externalId)}> 

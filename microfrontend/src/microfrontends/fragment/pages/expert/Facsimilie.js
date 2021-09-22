@@ -29,8 +29,8 @@ const Facsimilie = (props) => {
             }
             setImages(imgsAux)
         }
-        
-    }, [props.data, images])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.data])
 
 
     const getSurfaceHandler = (side) => {

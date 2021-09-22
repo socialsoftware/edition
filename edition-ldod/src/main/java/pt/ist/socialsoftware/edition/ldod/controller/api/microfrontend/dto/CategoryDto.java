@@ -48,6 +48,9 @@ public class CategoryDto {
 					.map(FragInter -> new FragInterDto(FragInter, category))
 					.collect(Collectors.toList()));
 		}
+		if(type == "manageVirtual") {
+			this.setName(category.getName());
+		}
 	}
 	
 	public CategoryDto(Category category) {

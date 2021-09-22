@@ -206,7 +206,7 @@ const UserContributions = (props) => {
                 
                 {userData?userData.games?
                     <div style={{marginTop:"10px"}}>
-                        <strong>{props.messages.general_participant}:</strong>
+                        <strong>{props.messages.general_participant}: </strong>
                         <span>{getGameList()}</span>
                         <p style={{marginTop:"10px"}}><strong>{props.messages.general_points}:</strong> {userData.score}</p>
                         {userData?userData.position!==-1?

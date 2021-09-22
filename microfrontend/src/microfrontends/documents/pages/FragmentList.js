@@ -3,7 +3,8 @@ import { getFragmentList } from '../../../util/API/DocumentsAPI';
 import { useHistory } from 'react-router-dom';
 import InterMetaInfo from './InterMetaInfo';
 import CircleLoader from "react-spinners/RotateLoader";
-import { useTable, useGlobalFilter, useAsyncDebounce } from 'react-table'
+import { useTable, useGlobalFilter, useAsyncDebounce, usePagination } from 'react-table'
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 
 const FragmentList = (props) => {
@@ -11,6 +12,9 @@ const FragmentList = (props) => {
     const history = useHistory()
     const [fragmentsData, setFragmentsData] = useState([])
     const [loading, setLoading] = useState(true)
+    const [currentData, setCurrentData] = useState([])
+    const [currentPosition, setCurrentPosition] = useState(1)
+    const [currentSearch, setCurrentSearch] = useState("")
 
     useEffect(() => {
       var mounted = true
@@ -18,6 +22,7 @@ const FragmentList = (props) => {
             .then(res => {
               if(mounted){
                 setFragmentsData(res.data)
+                setCurrentData(res.data.slice(0,19))
                 setLoading(false)
               }
                 
@@ -30,6 +35,14 @@ const FragmentList = (props) => {
         }
     }, [])
 
+    const fetchMoreData = () => {
+      let aux = [...currentData]
+      aux = aux.concat(fragmentsData.slice(currentPosition*20, currentPosition*20+19))
+      let val = currentPosition + 1
+      setCurrentPosition(val)
+      setCurrentData(aux)
+  }
+
     function GlobalFilter({
         preGlobalFilteredRows,
         globalFilter,
@@ -39,6 +52,7 @@ const FragmentList = (props) => {
         const [value, setValue] = React.useState(globalFilter)
         const onChange = useAsyncDebounce(value => {
           setGlobalFilter(value || undefined)
+          
         }, 200)
 
     
@@ -48,8 +62,8 @@ const FragmentList = (props) => {
             <input
               value={value || ""}
               onChange={e => {
-                setValue(e.target.value);
-                onChange(e.target.value);
+                setValue(e.target.value)
+                onChange(e.target.value)
               }}
               placeholder={`Search`}
               className="documents-input-filter"
@@ -64,18 +78,41 @@ const FragmentList = (props) => {
           getTableBodyProps,
           headerGroups,
           prepareRow,
-          rows,
+          // @ts-ignore
+          page,
+          // @ts-ignore
+          canPreviousPage,
+          // @ts-ignore
+          canNextPage,
+          // @ts-ignore
+          pageOptions,
+          // @ts-ignore
+          pageCount,
+          // @ts-ignore
+          gotoPage,
+          // @ts-ignore
+          nextPage,
+          // @ts-ignore
+          previousPage,
+          // @ts-ignore
+          setPageSize,
           // @ts-ignore
           preGlobalFilteredRows,
           // @ts-ignore
           setGlobalFilter,
           state,
+          // @ts-ignore
+          state: { pageIndex, pageSize },
         } = useTable(
           {
             columns,
             data,
+            // @ts-ignore
+            initialState: { pageIndex: 0 },
           },
+          
           useGlobalFilter,
+          usePagination,
         )
       
         return (
@@ -102,7 +139,7 @@ const FragmentList = (props) => {
                     ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                    {rows.map((row, i) => {
+                    {page.map((row, i) => {
                     prepareRow(row)
                     return (
                         <tr key={i} {...row.getRowProps()} className="table-row">
@@ -126,6 +163,51 @@ const FragmentList = (props) => {
                     })}
                 </tbody>
             </table>
+
+            <div className="pagination">
+              <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                {'<<'}
+              </button>{' '}
+              <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                {'<'}
+              </button>{' '}
+              <button onClick={() => nextPage()} disabled={!canNextPage}>
+                {'>'}
+              </button>{' '}
+              <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                {'>>'}
+              </button>{' '}
+              <span>
+                Página{' '}
+                <strong>
+                  {pageIndex + 1} de {pageOptions.length}
+                </strong>{' '}
+              </span>
+              <span>
+                | Ir para a página:{' '}
+                <input
+                  type="number"
+                  defaultValue={pageIndex + 1}
+                  onChange={e => {
+                    const page = e.target.value ? Number(e.target.value) - 1 : 0
+                    gotoPage(page)
+                  }}
+                  style={{ width: '100px' }}
+                />
+              </span>{' '}
+              <select
+                value={pageSize}
+                onChange={e => {
+                  setPageSize(Number(e.target.value))
+                }}
+              >
+                {[10, 20, 30, 40, 50].map((pageSize, i) => (
+                  <option key={i} value={pageSize}>
+                    Mostrar {pageSize}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           </div>
           </div>
@@ -231,7 +313,19 @@ const FragmentList = (props) => {
                     <CircleLoader loading={loading}></CircleLoader>
                 :
                 fragmentsData?
-                    <Table columns={tableColumns} data={fragmentsData} />
+                /* <InfiniteScroll
+                        dataLength={currentData.length}
+                        next={fetchMoreData}
+                        hasMore={currentData.length <= fragmentsData.length}
+                        loader={<h4>Loading...</h4>}
+                        endMessage={
+                            <p style={{ textAlign: "center" }}>
+                            <b>Fim</b>
+                            </p>
+                        }
+                        > */
+                      <Table columns={tableColumns} data={fragmentsData} />
+                    /* </InfiniteScroll> */
                     :null
             }        
     </div>

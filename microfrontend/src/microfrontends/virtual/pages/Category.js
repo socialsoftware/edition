@@ -6,6 +6,7 @@ import {ReactComponent as Edit} from '../../../resources/assets/edit.svg'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import { getCategoryData, deleteVirtualCategory, updateVirtualCategory, extractCategories } from '../../../util/API/VirtualAPI';
 import ReactTooltip from 'react-tooltip';
+import he from 'he'
 
 const Category = (props) => {
 
@@ -159,7 +160,7 @@ const Category = (props) => {
                     <p>{props.messages.general_back}</p>
                 </button>
                 <span className="virtual-body-title">
-                    <p>{data?data.title:null} - <span className="virtual-link" onClick={() => history.push(`/virtual/virtualeditions/restricted/taxonomy/${data?data.taxonomyDto.externalId:null}`)}>{props.messages.general_taxonomy} </span>
+                    <p>{data?he.decode(data.title):null} - <span className="virtual-link" onClick={() => history.push(`/virtual/virtualeditions/restricted/taxonomy/${data?data.taxonomyDto.externalId:null}`)}>{props.messages.general_taxonomy} </span>
                     - {data?data.name:null}</p>
                 </span>
                 <div style={{display:"flex", width:"100%", justifyContent:"flex-end"}}>

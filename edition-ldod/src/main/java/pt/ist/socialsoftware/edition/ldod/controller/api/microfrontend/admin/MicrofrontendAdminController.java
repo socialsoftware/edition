@@ -516,7 +516,7 @@ public class MicrofrontendAdminController {
 	public List<VirtualEditionDto> manageVirtualEditions() {
 
 		return LdoD.getInstance().getVirtualEditionsSet().stream()
-				.sorted((v1, v2) -> v1.getAcronym().compareTo(v2.getAcronym())).collect(Collectors.toList()).stream().map(VirtualEditionDto::new).collect(Collectors.toList());
+				.sorted((v1, v2) -> v1.getAcronym().compareTo(v2.getAcronym())).map(ve -> new VirtualEditionDto(ve, "manageVirtual")).collect(Collectors.toList());
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/virtual/delete")

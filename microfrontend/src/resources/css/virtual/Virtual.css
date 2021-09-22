@@ -549,6 +549,9 @@
     background-color: #b4dcf0;
 }
 
+.virtual-td-top{
+    vertical-align:top
+}
 .virtual-arrow-right{
     position: absolute;
     background-color: white;

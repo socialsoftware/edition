@@ -168,7 +168,7 @@ const Reading = (props) => {
                             <p onClick={() => selectExpertHandler(author.acronym)} className={selectedExpert===author.acronym?"reading-column-author-selected":"reading-column-author"}>{author.editor}</p>
                             {
                                 !fragmentData?
-                                <img alt="arrow" src={rightArrow} className="reading-arrow"></img>
+                                <img alt="arrow" onClick={() => selectExpertHandler(author.acronym)} src={rightArrow} className="reading-arrow"></img>
                                 :null
                             }
                             {

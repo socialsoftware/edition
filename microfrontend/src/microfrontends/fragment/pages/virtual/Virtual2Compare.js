@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import tag from '../../../../resources/assets/tag_fill.svg'
 // @ts-ignore
 import user from '../../../../resources/assets/person-fill.svg'
+import he from 'he'
 
 const Virtual2Compare = (props) => {
 
@@ -28,7 +29,7 @@ const Virtual2Compare = (props) => {
         return props.data.inters.map((inter, i) => {
             return(
                 <div key={i}>
-                    <p style={{textAlign:"left", margin:"0", marginBottom:"5px"}}><strong>{props.messages.general_edition}:</strong> <span>{inter.editionTitle}</span></p>
+                    <p style={{textAlign:"left", margin:"0", marginBottom:"5px"}}><strong>{props.messages.general_edition}:</strong> <span>{he.decode(inter.editionTitle)}</span></p>
                     <table className="fragment-vcompare-table">
                         <thead>
                             <tr>

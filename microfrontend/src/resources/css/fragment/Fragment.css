@@ -168,6 +168,7 @@ abbr[title] {
 }
 .fragment-virtual-link{
     color: #337ab7;
+    cursor: pointer;
 }
 .fragment-virtual-link:hover{
     text-decoration: underline;

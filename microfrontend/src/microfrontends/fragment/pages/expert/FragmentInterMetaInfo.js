@@ -50,7 +50,7 @@ const FragmentInterMetaInfo = (props) => {
             return (
                 <p key={i}>
                     <strong>{props.messages.general_manuscript} </strong>
-                    {nota.desc?nota.desc:null}
+                    {nota.desc?`(${nota.desc})`:null}
                     <strong> : </strong>{nota.note}
                 </p>
             )
@@ -62,7 +62,7 @@ const FragmentInterMetaInfo = (props) => {
             return (
                 <p key={i}>
                     <strong>{props.messages.general_typescript} </strong>
-                    {nota.desc?nota.desc:null}
+                    {nota.desc?`(${nota.desc})`:null}
                     <strong> : </strong>{nota.note}
                 </p>
             )
@@ -80,7 +80,7 @@ const FragmentInterMetaInfo = (props) => {
     const getSurfacesMap = (val) => {
         if(val!==null){
             return val.map((elem,key) => {
-                return <p key={key} className="linkFac" onClick={() => {
+                return <p key={key} className="fragment-virtual-link" onClick={() => {
                     setFac(elem.graphic)
                     window.scrollTo({top: 0, behavior: 'smooth'});
                         }}> {elem.graphic},</p>
@@ -201,7 +201,7 @@ const FragmentInterMetaInfo = (props) => {
                     <p><strong>{props.messages.general_date}:</strong> {expertEditionInfo.date}{expertEditionInfo.desc}</p>:null:
             isManuscript?
                 sourceInfo.date!==null?
-                    <p><strong>{props.messages.general_date}:</strong> {sourceInfo.date}{sourceInfo.desc}</p>:null:   
+                    <p><strong>{props.messages.general_date}:</strong> {sourceInfo.date} ({sourceInfo.desc})</p>:null:   
             isPublication?
                 sourceInfo.date!==null?
                     <p><strong>{props.messages.general_date}:</strong> {sourceInfo.date}{sourceInfo.desc}</p>:null:null

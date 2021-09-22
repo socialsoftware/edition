@@ -170,7 +170,7 @@ const CategoryList = (props) => {
     return (
         <div>
             <p className="edition-list-title">{props.messages.general_category}: {categoryData?categoryData.name:null}</p>
-            <div className={loading?"loading-table":"editionTop"} >
+            <div className={loading?"loading-table":"edition-editionTop"} >
                 <p style={{marginTop:"15px"}}><strong>{props.messages.general_taxonomy}:</strong> <Link className="table-body-title" style={{color:"#337ab7"}}
                             to={`/edition/acronym/${categoryData?categoryData.acronym:null}/taxonomy`}>{categoryData?he.decode(categoryData.title):null}</Link> </p>
 

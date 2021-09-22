@@ -20,6 +20,7 @@ const SourceList = (props) => {
                 if(mounted){
                     setSourceList(res.data)
                     setLoading(false)
+                    console.log(res.data);
                 }
                 
             })
@@ -193,7 +194,7 @@ const SourceList = (props) => {
         {
             Header: `${props.messages.general_transcription}`,
             id: "sourceInterSet",
-            accessor: "sourceInterSet",
+            accessor: "sourceInterSet[0].title",
             Cell: cellInfo => {
                 return getInterSetMap(cellInfo.row.original.sourceInterSet)
             }

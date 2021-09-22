@@ -77,8 +77,7 @@ const Root = (props) => {
     //////////
 
     const renderLoader = () => <div style={{marginTop:"250px"}}>
-        <CircleLoader loading={true}></CircleLoader>
-    </div>
+        <CircleLoader loading={true}></CircleLoader> </div>
     
     
     return (

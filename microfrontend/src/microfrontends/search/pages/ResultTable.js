@@ -10,6 +10,7 @@ const ResultTable = (props) => {
 
     useEffect(() => {
       let aux = []
+      console.log(props.data);
       aux.push(
         {
           Header: `${props.messages.fragment} (${props.data.fragCount})`,
@@ -25,7 +26,7 @@ const ResultTable = (props) => {
         }
       )
       // @ts-ignore
-      for(let i = 1; i<props.data.search; i++){
+      for(let i = 1; i<=props.data.searchLenght; i++){
         let h = `C${i}`
         let a = `c${i}`
         aux.push({

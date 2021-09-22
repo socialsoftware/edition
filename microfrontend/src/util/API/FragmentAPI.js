@@ -1,8 +1,48 @@
 import { API_BASE_URL, ACCESS_TOKEN } from '../../constants/index.production';
 import axios from 'axios'
 
-export function getFragmentWithXml (xmlId) {
-    return axios.get(API_BASE_URL + `/api/microfrontend/fragment/${xmlId}`, 
+
+///////////////////// VIRTUAL ////////////////
+
+export function getVirtualFragmentWithXml (xmlId, arraySelected) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/fragment/virtual/${xmlId}`, arraySelected, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        } 
+    )
+}
+
+export function getVirtualFragmentWithXmlAndUrl (xmlId, urlId, arraySelected) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/fragment/virtual/${xmlId}/inter/${urlId}`, arraySelected, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        } 
+    )
+}
+
+export function getVirtualFragmentWithXmlNoUser (xmlId, arraySelected) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/fragment/virtual/${xmlId}/NoUser`, arraySelected, {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    } )
+}
+
+export function getVirtualFragmentWithXmlAndUrlNoUser (xmlId, urlId, arraySelected) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/fragment/virtual/${xmlId}/inter/${urlId}/noUser`, arraySelected, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        } 
+    )
+}
+//////////////////////////////////////////////
+export function getFragmentWithXml (xmlId, arraySelected) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/fragment/${xmlId}`, arraySelected, 
     {
         headers: {
                 'Content-Type': 'application/json',
@@ -11,8 +51,12 @@ export function getFragmentWithXml (xmlId) {
     }
     )
 }
-export function getFragmentWithXmlNoUser (xmlId) {
-    return axios.get(API_BASE_URL + `/api/microfrontend/fragment/${xmlId}/NoUser`)
+export function getFragmentWithXmlNoUser (xmlId, arraySelected) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/fragment/${xmlId}/NoUser`, arraySelected, {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    } )
 }
 
 export function getFragmentWithXmlAndUrl (xmlId, urlId, arraySelected) {

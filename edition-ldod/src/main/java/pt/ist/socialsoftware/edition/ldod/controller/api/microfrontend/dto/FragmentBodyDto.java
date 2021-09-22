@@ -39,13 +39,54 @@ public class FragmentBodyDto {
 	private SurfaceDto surface;
 	
 	
-	public FragmentBodyDto(LdoD instance, LdoDUser user, Fragment fragment, ArrayList<FragInter> inters) {
+	//////////////////////// VIRTUAL /////////////////////////
+	
+	public FragmentBodyDto(LdoD instance, LdoDUser user,
+			Fragment fragment, List<FragInter> inters, PlainHtmlWriter4OneInter writer, boolean hasAccess, ArrayList<String> selectedVEAcr, String type) {
+		this.setFragment(new FragmentDto(fragment));
+		this.setLdoD(new LdoDDto(instance, fragment, user, (ArrayList<FragInter>) inters, type));
+		if(user!=null) {
+			this.setLdoDuser(new LdoDUserDto(user));
+		}
+		this.setInters(inters.stream().map(FragInterDto::new).collect(Collectors.toList()));
+		this.setHasAccess(hasAccess);
+		if(writer != null) {
+			this.setTranscript(writer.getTranscription());
+		}
+		
+
+		List<VirtualEdition> virtualEditions = selectedVEAcr.stream().map(acr -> instance.getEdition(acr)).filter(e -> e != null)
+				.map(VirtualEdition.class::cast).collect(Collectors.toList());
+		
+		this.setVirtualEditionsDto(virtualEditions.stream().map(vEdition -> new VirtualEditionDto(vEdition, fragment, user, inters.get(0))).collect(Collectors.toList()));
+	}
+	
+	public FragmentBodyDto(LdoD instance, LdoDUser user, Fragment fragment, ArrayList<FragInter> inters, ArrayList<String> selectedVEAcr, String type) {
+		this.setFragment(new FragmentDto(fragment));
+		this.setLdoD(new LdoDDto(instance, fragment, user, inters, type));
+		if(user!=null) {
+			this.setLdoDuser(new LdoDUserDto(user));
+		}
+		this.setInters(inters.stream().map(FragInterDto::new).collect(Collectors.toList()));
+		List<VirtualEdition> virtualEditions = selectedVEAcr.stream().map(acr -> instance.getEdition(acr)).filter(e -> e != null)
+				.map(VirtualEdition.class::cast).collect(Collectors.toList());
+		this.setVirtualEditionsDto(virtualEditions.stream().map(vEdition -> new VirtualEditionDto(vEdition, fragment, user, null)).collect(Collectors.toList()));
+
+	}
+	
+	
+	/////////////////////// EXPERT /////////////////////////
+	public FragmentBodyDto(LdoD instance, LdoDUser user, Fragment fragment, ArrayList<FragInter> inters, ArrayList<String> selectedVEAcr) {
 		this.setFragment(new FragmentDto(fragment));
 		this.setLdoD(new LdoDDto(instance, fragment, user, inters));
 		if(user!=null) {
 			this.setLdoDuser(new LdoDUserDto(user));
 		}
 		this.setInters(inters.stream().map(FragInterDto::new).collect(Collectors.toList()));
+		List<VirtualEdition> virtualEditions = selectedVEAcr.stream().map(acr -> instance.getEdition(acr)).filter(e -> e != null)
+				.map(VirtualEdition.class::cast).collect(Collectors.toList());
+		this.setVirtualEditionsDto(virtualEditions.stream().map(vEdition -> new VirtualEditionDto(vEdition, fragment, user, null)).collect(Collectors.toList()));
+
 	}
 
 	public FragmentBodyDto(LdoD instance, LdoDUser user,
@@ -68,6 +109,8 @@ public class FragmentBodyDto {
 		this.setVirtualEditionsDto(virtualEditions.stream().map(vEdition -> new VirtualEditionDto(vEdition, fragment, user, inters.get(0))).collect(Collectors.toList()));
 	}
 
+	
+	
 	public FragmentBodyDto(LdoD instance, LdoDUser user,
 			Fragment fragment, List<FragInter> inters, HtmlWriter2CompInters writer,
 			PlainHtmlWriter4OneInter writer4One, Map<FragInter, HtmlWriter4Variations> variations, List<AppText> apps) {

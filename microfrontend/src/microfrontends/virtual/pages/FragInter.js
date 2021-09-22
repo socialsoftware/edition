@@ -4,6 +4,7 @@ import { getFragInterData } from '../../../util/API/VirtualAPI';
 import {ReactComponent as LeftArrow} from '../../../resources/assets/caret-left-fill.svg'
 import {ReactComponent as List} from '../../../resources/assets/card-list.svg'
 import {ReactComponent as Nest} from '../../../resources/assets/list-nested.svg'
+import he from 'he'
 
 const FragInter = (props) => {
 
@@ -44,7 +45,7 @@ const FragInter = (props) => {
                 <p>{props.messages.general_back}</p>
             </button>
             <span className="virtual-body-title">
-                <p>{data?data.editionTitle:null} - <span className="virtual-link" onClick={() => history.push(`/virtual/virtualeditions/restricted/taxonomy/${data?data.virtualExternalId:null}`)}>{props.messages.general_taxonomy} </span>
+                <p>{data?he.decode(data.editionTitle):null} - <span className="virtual-link" onClick={() => history.push(`/virtual/virtualeditions/restricted/taxonomy/${data?data.virtualExternalId:null}`)}>{props.messages.general_taxonomy} </span>
                 - {data?data.title:null}</p>
             </span>
             <div style={{display:"flex", width:"100%", justifyContent:"flex-end", marginTop:"20px"}}>
