@@ -1,5 +1,5 @@
-//export const API_BASE_URL = 'https://ldod.uc.pt'; //production
-export const API_BASE_URL = 'http://localhost:8080'; //localhost 
+export const API_BASE_URL = 'https://ldod.uc.pt'; //production
+//export const API_BASE_URL = 'http://localhost:8080'; //localhost 
 export const ACCESS_TOKEN = 'accessToken';
 
 
