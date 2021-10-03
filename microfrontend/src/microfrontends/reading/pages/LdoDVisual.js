@@ -1,15 +1,13 @@
-import React, { useEffect } from 'react'
-//import { getLdoDVisual } from '../../../util/API/ReadingAPI';
+import React from 'react'
 
 const LdoDVisual = () => {
     
-    useEffect(() => {
-        //getLdoDVisual()
-    }, [])
 
     return (
         <div>
-            <p>Temporariamente indisponível na versão ReactUI</p>
+            <a style={{color:"#0C4EF6"}} rel="noreferrer" className="reading-link" href="https://ldod.uc.pt/ldod-visual" target="_blank">
+                Ir para Livro Visual
+            </a>
         </div>
     )
 }

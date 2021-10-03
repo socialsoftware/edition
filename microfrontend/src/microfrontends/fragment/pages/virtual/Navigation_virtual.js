@@ -38,13 +38,14 @@ const Navigation_virtual = (props) => {
         else{
             if(props.urlId)
                 getVirtualFragmentWithXmlAndUrlNoUser(props.xmlId, props.urlId, props.selectedVEAcr)
-                .then(res => {
-                    dataHandler(res.data)
-                    handleFragmentChangeForBodyData(res.data)           
-                })
+                    .then(res => {
+                        dataHandler(res.data)
+                        handleFragmentChangeForBodyData(res.data)           
+                    })
             else if(props.xmlId)
                 getVirtualFragmentWithXmlNoUser(props.xmlId, props.selectedVEAcr)
                     .then(res => {
+                        console.log("virtual", res.data);
                         dataHandler(res.data)
                     })
         }        
@@ -109,6 +110,7 @@ const Navigation_virtual = (props) => {
                 aux1.push(el.externalId)
             }
             setSelectedInters(aux1)
+            props.callbackSetCurrentType("virtual")
             if(obj.virtualEditionsDto){
                 setVirtualEditionsDto(obj.virtualEditionsDto)
             }
@@ -136,7 +138,7 @@ const Navigation_virtual = (props) => {
             let aux1 = []
             if(obj.inters !== null && obj.inters !== undefined){
                 for(let el of obj.inters){
-                    aux1.push(el.acronym)
+                    aux1.push(el.externalId)
                 }
                 setSelectedInters(aux1)
                 
@@ -169,7 +171,7 @@ const Navigation_virtual = (props) => {
                     history.replace(`/fragments/fragment/${res.data.fragment.fragmentXmlId}/inter/${res.data.inters[0]?res.data.inters[0].urlId:null}`)
                     dataHandler(res.data)
                     handleFragmentChangeForBodyData(res.data)
-                    props.callbackNavigationHandler(res.data.fragment.fragmentXmlId, res.data.inters[0]?res.data.inters[0].urlId:null, selectedInters)
+                    props.callbackNavigationHandler(res.data.fragment.fragmentXmlId, res.data.inters[0]?res.data.inters[0].urlId:null)
                 })
             }
             else{
@@ -178,7 +180,7 @@ const Navigation_virtual = (props) => {
                     history.replace(`/fragments/fragment/${res.data.fragment.fragmentXmlId}/inter/${res.data.inters[0]?res.data.inters[0].urlId:null}`)
                     dataHandler(res.data)
                     handleFragmentChangeForBodyData(res.data)
-                    props.callbackNavigationHandler(res.data.fragment.fragmentXmlId, res.data.inters[0]?res.data.inters[0].urlId:null, selectedInters)
+                    props.callbackNavigationHandler(res.data.fragment.fragmentXmlId, res.data.inters[0]?res.data.inters[0].urlId:null)
             })
             }
             
@@ -223,6 +225,7 @@ const Navigation_virtual = (props) => {
             }
             
         }
+        props.callbackSetCurrentType("virtual")
     }
 
     const mapVirtualToView = () => {
@@ -233,7 +236,7 @@ const Navigation_virtual = (props) => {
                     <div style={{marginTop:"10px"}}>
                         {
                             virtual.sortedInter4Frag.length > 0?
-                                mapVirtualInterpsToView(virtual.sortedInter4Frag, virtual.acronym)
+                                mapVirtualInterpsToView(virtual.sortedInter4Frag)
                             :
                             virtual.participantSetContains && data.inters.length === 1 && virtual.canAddFragInter?
                                 <div className="navigation-row-add">
@@ -262,8 +265,10 @@ const Navigation_virtual = (props) => {
     const checkboxSelectedHandler = (fragmentExternalId, externalId) => {
         var aux = []
         for(let el of data.inters){
-            if(el.type==="VIRTUAL")
+            if(el.type==="VIRTUAL"){
                 aux.push(el.externalId)
+            }
+                
         }
         if(!aux.includes(externalId)){
             aux.push(externalId)
@@ -275,18 +280,19 @@ const Navigation_virtual = (props) => {
             }
         }
         setSelectedInters(aux)
+        props.callbackSetExternalId(fragmentExternalId)
         props.callbackSetSelected(aux)
-        props.callbackSetCurrentType("expert")
+        props.callbackSetCurrentType("virtual")
         getIntersByExternalId(fragmentExternalId, aux)
     }
 
-    const mapVirtualInterpsToView = (sortedInters, acronym) => {
+    const mapVirtualInterpsToView = (sortedInters) => {
         return sortedInters.map((inter, i) => {
             return (
                 <div key={i} className="navigation-row">
                     <input className="navigation-checkbox" type="checkbox" name={inter.externalId} 
                         onChange={() => {checkboxSelectedHandler(data.fragment.externalId, inter.externalId)}} 
-                        checked={selectedInters.includes(acronym)}>
+                        checked={selectedInters.includes(inter.externalId)}>
                     </input>
                     <div className="navigation-row-inter">
                         <img alt="arrow" style={{height:"15px", width:"15px", cursor:"pointer"}} src={left} onClick={() => {
@@ -307,7 +313,7 @@ const Navigation_virtual = (props) => {
                 <div key={i} className="navigation-row">
                     <input className="navigation-checkbox" type="checkbox" name={inter.externalId} 
                         onChange={() => {checkboxSelectedHandler(data.fragment.externalId, inter.externalId)}}
-                        checked={selectedInters.includes(data.ldoD.archiveEdition.acronym)}></input>
+                        checked={selectedInters.includes(inter.externalId)}></input>
                     <div className="navigation-row-inter">
                         <img alt="arrow" style={{height:"15px", width:"15px", cursor:"pointer"}} src={left} onClick={() => {
                             handleNextClick(inter.fragmentXmlId, inter.urlId, "prev")

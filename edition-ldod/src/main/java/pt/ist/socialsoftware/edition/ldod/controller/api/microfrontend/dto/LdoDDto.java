@@ -27,6 +27,9 @@ public class LdoDDto {
 		if(inters.size()>0) {
 			this.setArchiveEdition(new VirtualEditionDto(instance.getArchiveEdition(), fragment, user, inters.get(0)));
 		}
+		else {
+			this.setArchiveEdition(new VirtualEditionDto(instance.getArchiveEdition(), fragment, user, null));
+		}
 	}
 	
 	public VirtualEditionDto getArchiveEdition() {

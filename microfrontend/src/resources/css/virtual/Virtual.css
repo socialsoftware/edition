@@ -754,3 +754,13 @@
         width: 90%;
     }
 }
+
+.virtual-class{
+    text-align: left;
+    margin-top: 40px;
+    font-family: sans-serif;
+    color: #333;
+    line-height: 1.428;
+
+    
+}

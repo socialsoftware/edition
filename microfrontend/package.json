@@ -16,6 +16,7 @@
     "iconv-lite": "^0.4.24",
     "js-file-download": "^0.4.12",
     "less-loader": "^10.0.1",
+    "openseadragon-react-viewer": "^3.3.1",
     "react": "^17.0.2",
     "react-app-rewired": "^2.1.8",
     "react-bootstrap": "^1.6.1",

@@ -100,7 +100,7 @@ public class MicrofrontendFragmentController {
 		return new FragmentBodyDto(LdoD.getInstance(), user, fragment, inters, writer, hasAccess, selectedVE, "virtual");
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, value = "virtual/{xmlId}/inter/{urlId}/noUser")
+	@RequestMapping(method = RequestMethod.POST, value = "/virtual/{xmlId}/inter/{urlId}/noUser")
 	public FragmentBodyDto getVirtualFragmentWithInterForUrlIdNoUser(@PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
 
 		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
@@ -136,7 +136,104 @@ public class MicrofrontendFragmentController {
 		return new FragmentBodyDto(LdoD.getInstance(), null, fragment, inters, writer, hasAccess, selectedVE, "virtual");
 	}
 	
+	@RequestMapping(method = RequestMethod.POST, value = "/virtual/{xmlId}/inter/{urlId}/nextFrag")
+	public FragmentBodyDto getNextVirtualFragmentWithInter(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
+		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
+		if (fragment == null) {
+			return null;
+		}
+
+		FragInter inter = fragment.getFragInterByUrlId(urlId);
+		if (inter == null) {
+			return null;
+		}
+
+		Edition edition = inter.getEdition();
+		inter = edition.getNextNumberInter(inter, inter.getNumber());
+		
+		if(currentUser == null) {
+			System.out.println("null");
+			return this.getFragmentWithInterForUrlIdNoUser(inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
+		}
+
+		return this.getFragmentWithInterForUrlId(currentUser, inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
+	}
 	
+	@RequestMapping(method = RequestMethod.POST, value = "/virtual/{xmlId}/inter/{urlId}/prevFrag")
+	public FragmentBodyDto getPrevVirtualFragmentWithInter(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
+		
+		System.out.println(currentUser);
+		
+		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
+		if (fragment == null) {
+			return null;
+		}
+
+		FragInter inter = fragment.getFragInterByUrlId(urlId);
+		if (inter == null) {
+			return null;
+		}
+
+		Edition edition = inter.getEdition();
+		inter = edition.getPrevNumberInter(inter, inter.getNumber());
+		
+		if(currentUser == null) {
+			System.out.println("null");
+			return this.getFragmentWithInterForUrlIdNoUser(inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
+		}
+
+		return this.getFragmentWithInterForUrlId(currentUser, inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/virtual/inter")
+	public FragmentBodyDto getVirtualInter(@RequestParam(value = "fragment", required = true) String externalId,
+			@RequestParam(value = "inters[]", required = false) String[] intersID) {
+
+		Fragment fragment = FenixFramework.getDomainObject(externalId);
+
+		List<FragInter> inters = new ArrayList<>();
+		System.out.println(intersID);
+		if (intersID != null) {
+			for (String interID : intersID) {
+				FragInter inter = (FragInter) FenixFramework.getDomainObject(interID);
+				if (inter != null) {
+					inters.add(inter);
+				}
+			}
+		}
+
+		
+		HtmlWriter2CompInters writer = null;
+		PlainHtmlWriter4OneInter writer4One = null;
+		Boolean lineByLine = false;
+		Map<FragInter, HtmlWriter4Variations> variations = new HashMap<>();
+		List<AppText> apps = new ArrayList<>();
+
+		if (inters.size() == 1) {
+			FragInter inter = inters.get(0);
+			writer4One = new PlainHtmlWriter4OneInter(inter);
+			writer4One.write(false);
+		} else if (inters.size() > 1) {
+			writer = new HtmlWriter2CompInters(inters);
+			if (inters.size() > 2) {
+				lineByLine = true;
+			}
+
+			
+			for (FragInter inter : inters) {
+				variations.put(inter, new HtmlWriter4Variations(inter));
+			}
+
+			inters.get(0).getFragment().getTextPortion().putAppTextWithVariations(apps, inters);
+			Collections.reverse(apps);
+
+			writer.write(lineByLine, false);
+		}
+
+		
+		return new FragmentBodyDto(LdoD.getInstance(), LdoDUser.getAuthenticatedUser(), fragment, inters, writer, writer4One, variations, apps);
+
+	}
 	
 	/////////////////////////////// EXPERT //////////////////////////////
 	

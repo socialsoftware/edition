@@ -264,7 +264,7 @@ const ResultTable = (props) => {
                       {row.cells.map((cell, i) => {
                         return <td key={i} className={cell.column.id==="title" || cell.column.id==="interp"?"table-d-link":"table-d"} {...cell.getCellProps()} onClick={() => {
                           if(cell.column.id==="title"){
-                            history.push(`/fragments/fragment/${row.original.fragmentXmlId}`)
+                            history.push(`/fragments/fragment/${row.original.xmlId}`)
                           }
                           else if(cell.column.id==="interp"){
                             history.push(`/fragments/fragment/${row.original.xmlId}/inter/${row.original.urlId}`)

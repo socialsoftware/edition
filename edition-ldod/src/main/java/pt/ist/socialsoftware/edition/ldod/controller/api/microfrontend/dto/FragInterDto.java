@@ -57,6 +57,7 @@ public class FragInterDto {
 	private List<AnnexNoteDto> annexNoteDtoList;
 	private String notes;
 	private String usesReference;
+	private String usesSecondReference;
 	private ArrayList<CategoryUserDto> categoryUserDtoList;
 	private String virtualExternalId;
 	
@@ -109,6 +110,7 @@ public class FragInterDto {
 		}
 		this.setEditionTitle(fragInter.getEdition().getTitle());
 		this.setUsesReference(fragInter.getLastUsed().getEdition().getReference());
+		this.setUsesSecondReference(fragInter.getLastUsed().getReference());
 		
 		if(fragInter instanceof VirtualEditionInter) {
 			this.setCategoryList(((VirtualEditionInter) fragInter).getAssignedCategories().stream()
@@ -555,6 +557,14 @@ public class FragInterDto {
 		this.usesReference = usesReference;
 	}
 
+	public String getUsesSecondReference() {
+		return usesSecondReference;
+	}
+
+	public void setUsesSecondReference(String usesSecondReference) {
+		this.usesSecondReference = usesSecondReference;
+	}
+	
 	public ArrayList<CategoryUserDto> getCategoryUserDtoList() {
 		return categoryUserDtoList;
 	}

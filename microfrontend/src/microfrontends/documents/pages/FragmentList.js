@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import InterMetaInfo from './InterMetaInfo';
 import CircleLoader from "react-spinners/RotateLoader";
 import { useTable, useGlobalFilter, useAsyncDebounce, usePagination } from 'react-table'
-import InfiniteScroll from 'react-infinite-scroll-component';
 
 
 const FragmentList = (props) => {
@@ -12,9 +11,7 @@ const FragmentList = (props) => {
     const history = useHistory()
     const [fragmentsData, setFragmentsData] = useState([])
     const [loading, setLoading] = useState(true)
-    const [currentData, setCurrentData] = useState([])
-    const [currentPosition, setCurrentPosition] = useState(1)
-    const [currentSearch, setCurrentSearch] = useState("")
+
 
     useEffect(() => {
       var mounted = true
@@ -22,7 +19,6 @@ const FragmentList = (props) => {
             .then(res => {
               if(mounted){
                 setFragmentsData(res.data)
-                setCurrentData(res.data.slice(0,19))
                 setLoading(false)
               }
                 
@@ -34,14 +30,6 @@ const FragmentList = (props) => {
           mounted = false
         }
     }, [])
-
-    const fetchMoreData = () => {
-      let aux = [...currentData]
-      aux = aux.concat(fragmentsData.slice(currentPosition*20, currentPosition*20+19))
-      let val = currentPosition + 1
-      setCurrentPosition(val)
-      setCurrentData(aux)
-  }
 
     function GlobalFilter({
         preGlobalFilteredRows,
@@ -313,20 +301,8 @@ const FragmentList = (props) => {
                     <CircleLoader loading={loading}></CircleLoader>
                 :
                 fragmentsData?
-                /* <InfiniteScroll
-                        dataLength={currentData.length}
-                        next={fetchMoreData}
-                        hasMore={currentData.length <= fragmentsData.length}
-                        loader={<h4>Loading...</h4>}
-                        endMessage={
-                            <p style={{ textAlign: "center" }}>
-                            <b>Fim</b>
-                            </p>
-                        }
-                        > */
-                      <Table columns={tableColumns} data={fragmentsData} />
-                    /* </InfiniteScroll> */
-                    :null
+                    <Table columns={tableColumns} data={fragmentsData} />
+                  :null
             }        
     </div>
     )

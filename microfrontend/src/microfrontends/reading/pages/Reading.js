@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getReadingExperts, getStartReadingFragment,
-            getNextReadingFragment, getPrevReadingFragment, getPrevRecom, resetPrevRecom, getCurrentReadingFragmentJson } from '../../../util/API/ReadingAPI';
+            getNextReadingFragment, getPrevReadingFragment, getPrevRecom, getCurrentReadingFragmentJson } from '../../../util/API/ReadingAPI';
 import rightArrow from '../../../resources/assets/right_arrow.svg'
 import leftArrow from '../../../resources/assets/left_arrow.svg'
 import info from '../../../resources/assets/information.svg'
@@ -63,12 +63,14 @@ const Reading = (props) => {
     }, [showModal])
 
     const getFragmentHandler = (xmlId, urlId) => {
-        getCurrentReadingFragmentJson(xmlId, urlId, props.recommendation)
+        if(xmlId !== null && urlId !== null){
+            getCurrentReadingFragmentJson(xmlId, urlId, props.recommendation)
             .then(res => {
                 setFragmentData(res.data)
                 props.setUpdateRecommendation(res.data.readingRecommendation)
                 history.replace(`/reading/fragment/${xmlId}/inter/${urlId}`)
             })
+        }
     }
     const getFragmentWithAcronymHandler = (xmlId, urlId, acronym) => {
         getCurrentReadingFragmentJson(xmlId, urlId, props.recommendation)
@@ -116,11 +118,18 @@ const Reading = (props) => {
         props.setUpdateRecommendation(aux)
     }
 
-    const resetRecommendations = () => {
-        resetPrevRecom(props.recommendation)
+    const resetRecommendations = (xmlId, urlId) => {
+        var val = props.recommendation
+        val.read = []
+        props.setUpdateRecommendation(val)
+        if(xmlId !== null && urlId !== null){
+            getCurrentReadingFragmentJson(xmlId, urlId, props.recommendation)
             .then(res => {
+                setFragmentData(res.data)
                 props.setUpdateRecommendation(res.data.readingRecommendation)
+                history.replace(`/reading/fragment/${xmlId}/inter/${urlId}`)
             })
+        }
     }
 
     const getPrevRecommendedFragment = () => {
@@ -212,7 +221,8 @@ const Reading = (props) => {
                             <div className="reading-modal">
                                 <div className="reading-modal-header">
                                     <p className="reading-modal-header-close" onClick={() => {
-                                        getFragmentHandler(fragmentData.fragment.fragmentXmlId, fragmentData.expertEditionInterDto.urlId)
+                                        getFragmentHandler(fragmentData?fragmentData.fragment.fragmentXmlId:null, 
+                                                            fragmentData?fragmentData.expertEditionInterDto.urlId:null)
                                         setShowModal(false)}}>
                                             x</p>
                                     <p className="reading-modal-header-title">{props.messages.general_recommendation_config}</p>
@@ -254,15 +264,16 @@ const Reading = (props) => {
                                     <div className="reading-modal-footer-buttons">
                                         <p className="reading-modal-footer-restart" onClick={() => {
                                             if(fragmentData){
-                                                resetRecommendations()
-                                                getFragmentHandler(fragmentData.fragment.fragmentXmlId, fragmentData.expertEditionInterDto.urlId)
+                                                resetRecommendations(fragmentData?fragmentData.fragment.fragmentXmlId:null, 
+                                                    fragmentData?fragmentData.expertEditionInterDto.urlId:null)
                                                 setShowModal(false)
                                             }
                                             
                                         }}><span><img alt="arrow" src={save} style={{height:"15px", width:"15px"}}></img></span> {props.messages.general_reset}</p>
                                         <p className="reading-modal-footer-close" onClick={() => {
-                                            getFragmentHandler(fragmentData.fragment.fragmentXmlId, fragmentData.expertEditionInterDto.urlId)
-                                            setShowModal(false)}}>{props.messages.general_close}</p>
+                                            getFragmentHandler(fragmentData?fragmentData.fragment.fragmentXmlId:null, 
+                                                fragmentData?fragmentData.expertEditionInterDto.urlId:null)
+                                            setShowModal(false)}}>{props.messages.recommendation_recommend}</p>
                                     </div>
                                 </div>
                             </div>
@@ -302,7 +313,8 @@ const Reading = (props) => {
                             <div>
                                 <div onClick={() => {
                                     setSelectedExpert(fragmentData.expertEditionInterDto.acronym)
-                                    getFragmentHandler(fragmentData.fragment.fragmentXmlId, fragmentData.expertEditionInterDto.urlId)
+                                    getFragmentHandler(fragmentData?fragmentData.fragment.fragmentXmlId:null, 
+                                        fragmentData?fragmentData.expertEditionInterDto.urlId:null)
                                 }} >
                                     <p style={{color:"#FC1B27"}} className="reading-recommendation-acronym">{fragmentData.expertEditionInterDto.acronym}</p>
                                     <p className="reading-number-selected-no-hover">{fragmentData.expertEditionInterDto.number}</p>

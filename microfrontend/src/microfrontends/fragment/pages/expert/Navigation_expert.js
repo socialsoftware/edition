@@ -163,6 +163,7 @@ const Navigation_expert = (props) => {
             }
             
         }
+        props.callbackSetCurrentType("expert")
     }
 
     const dataHandler = (obj) => {
@@ -179,8 +180,8 @@ const Navigation_expert = (props) => {
         else{
             let aux = {...data}
             if(obj["fragment"]!==null) aux["fragment"] = obj["fragment"]
-            if(obj["ldoD"] !== undefined){
-                if(obj["ldoD"]["archiveEdition"]!==null) aux["ldoD"] = obj["ldoD"]
+            if(obj["ldoD"] !== undefined && obj["ldoD"]!==null){
+                aux["ldoD"] = obj["ldoD"]
             }
             if(obj["ldoDuser"]!==null) aux["ldoDuser"] = obj["ldoDuser"]
             if(obj["inters"]!==undefined && obj["inters"]!==null) aux["inters"] = obj["inters"]
@@ -211,7 +212,7 @@ const Navigation_expert = (props) => {
         getIntersByArrayExternalId(fragmentExternalId, arrayInterId)
             .then(res => {
                 dataHandler(res.data)
-                if(!res.data.inters) history.push(`/fragments/fragment/${data.fragment.fragmentXmlId}`)
+                if(!res.data.inters) history.push(`/fragments/fragment/${data.fragment?data.fragment.fragmentXmlId:null}`)
             })
     }
 
@@ -257,8 +258,9 @@ const Navigation_expert = (props) => {
         return inters.map((inter, i) => {
             return (
                 <div key={i} className="navigation-row">
-                    <input className="navigation-checkbox" type="checkbox" name={inter.externalId} 
-                        onChange={() => {checkboxSelectedHandler(data.fragment.externalId, inter.externalID)}} 
+                    <input className="navigation-checkbox" type="checkbox" name={inter.externalID} 
+                        onChange={() => {checkboxSelectedHandler(data.fragment?
+                                data.fragment.externalId:null, inter.externalID)}} 
                         checked={selectedInters.includes(inter.externalID)}></input>
                     <div className="navigation-row-inter">
                         <img alt="arrow" style={{height:"15px", width:"15px", cursor:"pointer"}} src={left} onClick={() => handleNextClick(inter.fragmentXmlId, inter.urlId, "prev")}></img>

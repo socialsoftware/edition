@@ -2,17 +2,19 @@ import React, {useEffect, useState} from 'react'
 import CircleLoader from "react-spinners/RotateLoader";
 import informationIcon from '../../../resources/assets/information.svg'
 import { getSourceList } from '../../../util/API/DocumentsAPI';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTable, useGlobalFilter, useAsyncDebounce } from 'react-table'
+import FacDisplayDocuments from './FacDisplayDocuments'
 
 
 const SourceList = (props) => {
 
-    const history = useHistory()
     const [sourceList, setSourceList] = useState([])
     const [loading, setLoading] = useState(true)
     const [info, setInfo] = useState(false)
-    
+    const [fac, setFac] = useState(null)
+
+
     useEffect(() => {
         var mounted = true 
         getSourceList()
@@ -20,7 +22,6 @@ const SourceList = (props) => {
                 if(mounted){
                     setSourceList(res.data)
                     setLoading(false)
-                    console.log(res.data);
                 }
                 
             })
@@ -77,7 +78,11 @@ const SourceList = (props) => {
     const getSurfacesMap = (val, title) => {
         if(val!==null){
             return val.map((elem,key) => {
-                return <p key={key}><Link key={key} className="documents-linkFac" to={`/facs/${elem.graphic}`}>({key+1}) {title}</Link></p>
+                return <p key={key}><p key={key} className="documents-linkFac" onClick={() => {
+                        setFac(elem.graphic)
+                        window.scrollTo({top: 0, behavior: 'smooth'});
+                        }}
+                    >({key+1}) {title}</p></p>
             })
         }
     }
@@ -163,12 +168,6 @@ const SourceList = (props) => {
                             return (
                             <td key={i} className={"table-body-row"}
                                 {...cell.getCellProps()}
-                                onClick={() => {
-                                  if(cell.column.id==="title"){
-                                    // @ts-ignore
-                                    history.push(`/fragments/fragment/${row.original.fragmentXmlId}`)
-                                  }
-                                }}
                               >
                                 {cell.render('Cell')}
                             </td>
@@ -256,6 +255,9 @@ const SourceList = (props) => {
             {
                 loading?
                 <CircleLoader loading={loading}></CircleLoader>
+                :
+                fac?
+                    <FacDisplayDocuments url={fac} removeFac={() => setFac(null)}/>
                 :
                 sourceList?
                 <Table columns={tableColumns} data={sourceList} />

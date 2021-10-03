@@ -138,3 +138,28 @@
         width: 90%;
     }
 }
+
+
+.document-fac-display{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.699);
+    margin: 0 auto;
+}
+.document-fac-display-image{
+    height: 95%;
+    margin-top: 20px;
+    align-self: center;
+}
+.document-fac-display-x{
+    font-size: 44px;
+    cursor: pointer;
+    position: absolute;
+    top: 2%;
+    right: 2%;
+    color: white;
+}

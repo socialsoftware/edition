@@ -68,7 +68,9 @@ const Virtual_DISPATCHER = (props) => {
                     />}>
                 </Route>
                 <Route path="/virtual/classificationGames" 
-                    component={() => <JogoClassificacao/>}>
+                    component={() => <JogoClassificacao
+                    messages={props.messages}
+                    />}>
                 </Route>
             </Switch>
         </div>
