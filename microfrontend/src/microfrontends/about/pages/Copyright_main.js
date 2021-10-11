@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CopyrightEn from './Copyright_en'
 import CopyrightEs from './Copyright_es'
 import CopyrightPt from './Copyright_pt'
 
 
 const Copyright_main = (props) => {
+
+    useEffect(() => {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }, [])
+
+    
     return(
         <div>
             <div className="about-container">

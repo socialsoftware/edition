@@ -51,6 +51,9 @@ const Reading = (props) => {
         }
         return function cleanup() {
             mounted = false
+            var val = props.recommendation
+            val.read = []
+            props.setUpdateRecommendation(val)
             }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])

@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import EncodingEn from './Encoding_en'
 import EncodingEs from './Encoding_es'
 import EncodingPt from './Encoding_pt'
 
-
-
 const Encoding_main = (props) => {
+
+    useEffect(() => {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }, [])
+
+    
     return(
         <div>
             <div className="about-container">

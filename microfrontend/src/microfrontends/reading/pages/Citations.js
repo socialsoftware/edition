@@ -160,10 +160,12 @@ const Citations = (props) => {
                               >
                                 {cell.column.id==="tweet"?
                                   // @ts-ignore
-                                  <a className="table-d-link" rel="noreferrer" target="_blank" href={row.original.sourceLink}>{cell.render('Cell')}</a>
+                                    <a className="table-d-link" rel="noreferrer" target="_blank" href={row.original.sourceLink}>{cell.render('Cell')}</a>
                                   :cell.column.id==="username"?
                                   // @ts-ignore
-                                  <a className="table-d-link" rel="noreferrer" target="_blank" href={`https://twitter.com/${row.original.username}`}>{cell.render('Cell')}</a>
+                                    <a className="table-d-link" rel="noreferrer" target="_blank" href={`https://twitter.com/${row.original.username}`}>{cell.render('Cell')}</a>
+                                  :cell.column.id==="title"?
+                                    <p className="table-d-link">{cell.render('Cell')}</p>
                                   :cell.render('Cell')
                                 }
                                 

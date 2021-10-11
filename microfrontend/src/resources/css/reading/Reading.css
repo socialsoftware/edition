@@ -558,3 +558,12 @@
 .reading-link:hover{
     text-decoration: underline;
 }
+
+.table-d-link{
+    color: #0C4EF6;
+    cursor: pointer;
+}
+
+.table-d-link:hover{
+    text-decoration: underline;
+}

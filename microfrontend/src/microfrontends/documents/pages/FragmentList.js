@@ -104,101 +104,107 @@ const FragmentList = (props) => {
         )
       
         return (
-          <div className="documents-table-div">
-          <GlobalFilter
-                  preGlobalFilteredRows={preGlobalFilteredRows}
-                  // @ts-ignore
-                  globalFilter={state.globalFilter}
-                  setGlobalFilter={setGlobalFilter}
-                />
-           <div className="table-div" style={{marginTop:"80px", borderLeft:"1px solid #ddd"}}>
-            <div className="tableWrap">
-            <table className="table" {...getTableProps()} >
-                <thead >
-                    {headerGroups.map((headerGroup, i) => (
-                    <tr key={i} {...headerGroup.getHeaderGroupProps()} className="table-row">
-                        {headerGroup.headers.map((column, i) => (
-                        <th key={i}
-                            {...column.getHeaderProps()}                        >
-                            {column.render('Header')}
-                        </th>
-                        ))}
-                    </tr>
-                    ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                    {page.map((row, i) => {
-                    prepareRow(row)
-                    return (
-                        <tr key={i} {...row.getRowProps()} className="table-row">
-                        {row.cells.map((cell, i) => {
-                            return (
-                            <td key={i} className={cell.column.id==="title"?"documents-table-body-title":"table-body-row"}
-                                {...cell.getCellProps()}
-                                onClick={() => {
-                                  if(cell.column.id==="title"){
-                                    // @ts-ignore
-                                    history.push(`/fragments/fragment/${row.original.fragmentXmlId}`)
-                                  }
-                                }}
-                              >
-                                {cell.render('Cell')}
-                            </td>
-                            )
-                        })}
-                        </tr>
-                    )
-                    })}
-                </tbody>
-            </table>
+          <div>
+            <div className="documents-table-div">
+              <GlobalFilter
+                      preGlobalFilteredRows={preGlobalFilteredRows}
+                      // @ts-ignore
+                      globalFilter={state.globalFilter}
+                      setGlobalFilter={setGlobalFilter}
+                    />
+            </div>
+            <div className="documents-table-div2">
+            
+            <div className="table-div" style={{marginTop:"80px", borderLeft:"1px solid #ddd"}}>
+              <div className="tableWrap">
+              <table className="table" {...getTableProps()} >
+                  <thead >
+                      {headerGroups.map((headerGroup, i) => (
+                      <tr key={i} {...headerGroup.getHeaderGroupProps()} className="table-row">
+                          {headerGroup.headers.map((column, i) => (
+                          <th key={i}
+                              {...column.getHeaderProps()}                        >
+                              {column.render('Header')}
+                          </th>
+                          ))}
+                      </tr>
+                      ))}
+                  </thead>
+                  <tbody {...getTableBodyProps()}>
+                      {page.map((row, i) => {
+                      prepareRow(row)
+                      return (
+                          <tr key={i} {...row.getRowProps()} className="table-row">
+                          {row.cells.map((cell, i) => {
+                              return (
+                              <td key={i} className={cell.column.id==="title"?"documents-table-body-title":"table-body-row"}
+                                  {...cell.getCellProps()}
+                                  onClick={() => {
+                                    if(cell.column.id==="title"){
+                                      // @ts-ignore
+                                      history.push(`/fragments/fragment/${row.original.fragmentXmlId}`)
+                                    }
+                                  }}
+                                >
+                                  {cell.render('Cell')}
+                              </td>
+                              )
+                          })}
+                          </tr>
+                      )
+                      })}
+                  </tbody>
+              </table>
 
-            <div className="pagination">
-              <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-                {'<<'}
-              </button>{' '}
-              <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-                {'<'}
-              </button>{' '}
-              <button onClick={() => nextPage()} disabled={!canNextPage}>
-                {'>'}
-              </button>{' '}
-              <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-                {'>>'}
-              </button>{' '}
-              <span>
-                Página{' '}
-                <strong>
-                  {pageIndex + 1} de {pageOptions.length}
-                </strong>{' '}
-              </span>
-              <span>
-                | Ir para a página:{' '}
-                <input
-                  type="number"
-                  defaultValue={pageIndex + 1}
+              <div className="pagination">
+                <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                  {'<<'}
+                </button>{' '}
+                <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+                  {'<'}
+                </button>{' '}
+                <button onClick={() => nextPage()} disabled={!canNextPage}>
+                  {'>'}
+                </button>{' '}
+                <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                  {'>>'}
+                </button>{' '}
+                <span>
+                  Página{' '}
+                  <strong>
+                    {pageIndex + 1} de {pageOptions.length}
+                  </strong>{' '}
+                </span>
+                <span>
+                  | Ir para a página:{' '}
+                  <input
+                    type="number"
+                    defaultValue={pageIndex + 1}
+                    onChange={e => {
+                      const page = e.target.value ? Number(e.target.value) - 1 : 0
+                      gotoPage(page)
+                    }}
+                    style={{ width: '100px' }}
+                  />
+                </span>{' '}
+                <select
+                  value={pageSize}
                   onChange={e => {
-                    const page = e.target.value ? Number(e.target.value) - 1 : 0
-                    gotoPage(page)
+                    setPageSize(Number(e.target.value))
                   }}
-                  style={{ width: '100px' }}
-                />
-              </span>{' '}
-              <select
-                value={pageSize}
-                onChange={e => {
-                  setPageSize(Number(e.target.value))
-                }}
-              >
-                {[10, 20, 30, 40, 50].map((pageSize, i) => (
-                  <option key={i} value={pageSize}>
-                    Mostrar {pageSize}
-                  </option>
-                ))}
-              </select>
+                >
+                  {[10, 20, 30, 40, 50].map((pageSize, i) => (
+                    <option key={i} value={pageSize}>
+                      Mostrar {pageSize}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            </div>
             </div>
           </div>
-          </div>
-          </div>
+          
         )
       }
 
