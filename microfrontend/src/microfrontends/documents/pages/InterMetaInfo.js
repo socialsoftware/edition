@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {Link} from 'react-router-dom'
+import FacDisplayDocuments from './FacDisplayDocuments'
 
 const InterMetaInfo = (props) => {
 
@@ -8,6 +8,8 @@ const InterMetaInfo = (props) => {
     const [isEditiorial, setIsEditorial] = useState(false)
     const [isManuscript, setIsManuscript] = useState(false)
     const [isPublication, setIsPublication] = useState(false)
+    const [fac, setFac] = useState(null)
+
 
     useEffect(() => {
         if(props.sourceList!==undefined){
@@ -78,13 +80,21 @@ const InterMetaInfo = (props) => {
     const getSurfacesMap = (val) => {
         if(val!==null){
             return val.map((elem,key) => {
-                return <Link key={key} className="documents-linkFac" to={`/facs/${elem.graphic}`}> {elem.graphic},</Link>
-            })
+                return <p key={key} className="documents-linkFac" onClick={() => {
+                    setFac(elem.graphic)
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                        }}> {elem.graphic},</p>
+                })
         }
     }
 
     return(
-        <div onClick={() => console.log(props.expertEditionMap)}>
+        <div>
+            {
+                fac?
+                    <FacDisplayDocuments url={fac} removeFac={() => setFac(null)}/>
+                    :null
+            }
             {/* titulo ident */}
             {isEditiorial?
                 <p>

@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import TutorialsEn from './Tutorials_en'
 import TutorialsEs from './Tutorials_es'
 import TutorialsPt from './Tutorials_pt'
 
 
 const Tutorials_main = (props) => {
+
+    useEffect(() => {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }, [])
+
+    
     return(
         <div>
             <div className="about-container">

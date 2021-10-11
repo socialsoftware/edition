@@ -64,6 +64,11 @@
     margin: auto;
     position: relative;
 }
+.documents-table-div2{
+    width: 1140px;
+    margin: auto;
+    align-content: center;
+}
 .documents-sourceList{
     font-size: 14px;
 }
@@ -151,9 +156,13 @@
     margin: 0 auto;
 }
 .document-fac-display-image{
+    position: absolute;
     height: 95%;
+    left: 0; 
+    right: 0;
+    margin: 0 auto;
     margin-top: 20px;
-    align-self: center;
+
 }
 .document-fac-display-x{
     font-size: 44px;

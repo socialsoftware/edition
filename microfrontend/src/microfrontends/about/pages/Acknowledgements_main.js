@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import AcknowledgementsEn from './Acknowledgements_en'
 import AcknowledgementsEs from './Acknowledgements_es'
 import AcknowledgementsPt from './Acknowledgements_pt'
 
 
 const Acknowledgements_main = (props) => {
+
+    useEffect(() => {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }, [])
+
+    
     return (
         <div>
             <div className="about-container">

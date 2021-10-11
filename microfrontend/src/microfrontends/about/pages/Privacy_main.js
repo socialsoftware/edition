@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PrivacyEn from './Privacy_en'
 import PrivacyEs from './Privacy_es'
 import PrivacyPt from './Privacy_pt'
 
 
 const Privacy_main = (props) => {
+
+    useEffect(() => {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }, [])
+
+    
     return(
         <div>
             <div className="about-container">
