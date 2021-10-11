@@ -60,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable().formLogin().loginPage("/signin").successHandler(ldoDAuthenticationSuccessHandler())
 				.loginProcessingUrl("/signin/authenticate").failureUrl("/signin?param.error=bad_credentials").and()
 				.logout().logoutUrl("/signout").deleteCookies("JSESSIONID").invalidateHttpSession(true).and()
-				.authorizeRequests().antMatchers("/virtualeditions/restricted/**", "/user/**").authenticated()
+				.authorizeRequests().antMatchers("/virtualeditions/restricted/**", "/user/**", "/api/microfrontend/virtual/restricted/**").authenticated()
 				.antMatchers("/admin/**").hasAuthority(RoleType.ROLE_ADMIN.name())
 				.antMatchers("/api/microfrontend/admin/**").hasAuthority(RoleType.ROLE_ADMIN.name()).and().sessionManagement()
 				.maximumSessions(2).sessionRegistry(sessionRegistry());

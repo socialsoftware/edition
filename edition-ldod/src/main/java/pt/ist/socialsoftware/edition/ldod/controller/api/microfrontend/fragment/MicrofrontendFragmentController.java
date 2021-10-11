@@ -64,6 +64,7 @@ public class MicrofrontendFragmentController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/virtual/{xmlId}/inter/{urlId}")
+	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
 	public FragmentBodyDto getVirtualFragmentWithInterForUrlId(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
 
 		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
@@ -101,6 +102,7 @@ public class MicrofrontendFragmentController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/virtual/{xmlId}/inter/{urlId}/noUser")
+	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
 	public FragmentBodyDto getVirtualFragmentWithInterForUrlIdNoUser(@PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
 
 		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
@@ -137,6 +139,7 @@ public class MicrofrontendFragmentController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/virtual/{xmlId}/inter/{urlId}/nextFrag")
+	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
 	public FragmentBodyDto getNextVirtualFragmentWithInter(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
 		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
@@ -160,6 +163,7 @@ public class MicrofrontendFragmentController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/virtual/{xmlId}/inter/{urlId}/prevFrag")
+	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
 	public FragmentBodyDto getPrevVirtualFragmentWithInter(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
 		
 		System.out.println(currentUser);
@@ -202,7 +206,6 @@ public class MicrofrontendFragmentController {
 			}
 		}
 
-		
 		HtmlWriter2CompInters writer = null;
 		PlainHtmlWriter4OneInter writer4One = null;
 		Boolean lineByLine = false;
@@ -299,8 +302,6 @@ public class MicrofrontendFragmentController {
 
 		return new FragmentBodyDto(LdoD.getInstance(), user, fragment, inters, writer, hasAccess, selectedVE);
 	}
-	
-	
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/{xmlId}/inter/{urlId}/noUser")
 	public FragmentBodyDto getFragmentWithInterForUrlIdNoUser(@PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {

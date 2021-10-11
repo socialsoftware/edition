@@ -36,7 +36,8 @@ public class MicrofrontendEditionController {
     }
     
     @GetMapping(value = "/acronym/{acronym}")
-    public String getEditionbyAcronym(@PathVariable String acronym) {
+	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
+	public String getEditionbyAcronym(@PathVariable String acronym) {
     	Edition edition = LdoD.getInstance().getEdition(acronym);
     	return edition.getSourceType().toString();
     }
@@ -44,7 +45,6 @@ public class MicrofrontendEditionController {
     @GetMapping(value = "/expert/acronym/{acronym}")
 	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
 	public ExpertEditionListDto getExpertEditionTableOfContentsbyAcronym(@PathVariable String acronym) {
-
    		for (ExpertEdition edition : LdoD.getInstance().getExpertEditionsSet()) {
 			if (acronym.toUpperCase().equals(edition.getAcronym().toUpperCase())) {
 				return new ExpertEditionListDto(edition);
@@ -53,8 +53,8 @@ public class MicrofrontendEditionController {
 		return null;
 	}
     
-    
     @GetMapping(value = "/virtual/acronym/{acronym}")
+	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
 	public VirtualEditionListDto getVirtualEditionTableOfContentsbyAcronym(@PathVariable String acronym) {
 		for (VirtualEdition edition : LdoD.getInstance().getVirtualEditionsSet()) {
 			if (acronym.toUpperCase().equals(edition.getAcronym().toUpperCase())) {
@@ -66,8 +66,8 @@ public class MicrofrontendEditionController {
 	}
     
     @GetMapping(value = "/acronym/{acronym}/taxonomy")
-    public TaxoDto getTaxonomyTableOfContents(@PathVariable String acronym) {
-    	
+	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
+	public TaxoDto getTaxonomyTableOfContents(@PathVariable String acronym) {
     	Taxonomy taxonomy = LdoD.getInstance().getVirtualEdition(acronym).getTaxonomy();
     	
     	if(taxonomy != null) {
@@ -77,7 +77,8 @@ public class MicrofrontendEditionController {
     }
     
     @GetMapping(value = "/acronym/{acronym}/category/{urlId}")
-    public CategoryDto getCategoryTableOfContents(@PathVariable String acronym, @PathVariable String urlId) {
+	@PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
+	public CategoryDto getCategoryTableOfContents(@PathVariable String acronym, @PathVariable String urlId) {
     	
     	VirtualEdition virtualEdition = (VirtualEdition) LdoD.getInstance().getEdition(acronym);
     	Category category = virtualEdition.getTaxonomy().getCategoryByUrlId(urlId);
