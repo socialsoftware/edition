@@ -136,6 +136,8 @@ const Navbar = (props) => {
                             <p onClick={() => {handleReroute(page.route)}} key={j} className="dropdown-item-ldod">{props.messages[page.id]}</p>:
                             page.virtual?
                             <p onClick={() => {handleReroute(page.route)}} key={j} className="dropdown-item">{page.id}</p>:
+                            page.id==="general_reading_visual"?
+                            <a rel="noreferrer" href="https://ldod.uc.pt/ldod-visual" target="_blank" className="dropdown-item">{props.messages[page.id]}</a>:
                             <p onClick={() => {handleReroute(page.route)}} key={j} className="dropdown-item">{props.messages[page.id]}</p>
                         )
                     })}

@@ -10,13 +10,14 @@ import {ReactComponent as Check} from '../../../resources/assets/check.svg'
 import {ReactComponent as X} from '../../../resources/assets/x.svg'
 import trash from '../../../resources/assets/trash-fill.svg'
 import plus from '../../../resources/assets/plus_white.png'
-import { submitParticipation, cancelParticipation, getEditInfo, getManagePage } from '../../../util/API/VirtualAPI';
+import { submitParticipation, cancelParticipation, getEditInfo, getManagePage, deleteVirtualEdition } from '../../../util/API/VirtualAPI';
 import Select from 'react-select'
 import ReactTooltip from 'react-tooltip'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {Collapse} from 'react-collapse';
 import he from 'he'
+import { connect } from 'react-redux';
 
 const Manage = (props) => {
 
@@ -115,7 +116,10 @@ const Manage = (props) => {
         let mounted = true
         getManagePage(path[5])
             .then(res => {
-                if(mounted) updateData(res.data)
+                if(mounted){
+                    console.log(res.data);
+                    updateData(res.data)
+                } 
             })
             .catch((err) => {
                 console.log(err);
@@ -134,6 +138,18 @@ const Manage = (props) => {
 
     const handleCancel = (externalId) => {
         cancelParticipation(externalId)
+    }
+
+    const handleDelete = () => {
+        deleteVirtualEdition(data.externalId)
+            .then(res => {
+                if(res.data === "success"){
+                    if(props.selectedVEAcr.includes(data.acronym)){
+                        props.updateSelected(data.acronym)
+                    }
+                    history.push("/virtual/virtualeditions")
+                } 
+            })
     }
 
     const countrySelectedHandler = (country) => {
@@ -434,7 +450,7 @@ const Manage = (props) => {
                 }
                 {data?data.admin && !data.ldoDEdition?
                     <div className="virtual-manage-flex-option">
-                        <img alt="imgTrash" src={trash} className="virtual-manage-flex-svg"></img>
+                        <img alt="imgTrash" src={trash} className="virtual-manage-flex-svg" onClick={() => handleDelete()}></img>
                     </div>
                 :null:null
                 }
@@ -447,4 +463,17 @@ const Manage = (props) => {
     )
 }
 
-export default Manage
+
+const mapStateToProps = (state) => {
+    return {
+        selectedVEAcr: state.selectedVEAcr,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateSelected: (acronym) => dispatch({ type: 'REMOVE_FROM_SELECTED', payload: acronym }),
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Manage)

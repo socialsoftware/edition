@@ -632,5 +632,20 @@ public class MicrofrontendVirtualController {
 		}
 		
 	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/restricted/delete")
+	public String deleteVirtualEdition(@AuthenticationPrincipal LdoDUserDetails currentUser, @RequestParam("externalId") String externalId) {
+		logger.debug("deleteVirtualEdition externalId:{}", externalId);
+		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
+		if (virtualEdition == null) {
+			return "erro";
+		} else {
+
+			virtualEdition.remove();
+
+			return "success";
+		}
+	}
+
 
 }

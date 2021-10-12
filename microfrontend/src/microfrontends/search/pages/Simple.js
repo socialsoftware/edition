@@ -39,11 +39,13 @@ const Simple = (props) => {
       }
     
     const searchHandler = () => {
-        var data = query + "&" + search + "&" + search
+        var data = query + "&" + search + "&" + source
         if(query !== "" && query.replace(/\s/g, '').length){
             setLoading(false)
+            console.log(data);
             getSimpleSearchList(data)
                 .then(res => {
+                    console.log(res.data);
                     setData(res.data)
                 })
                 .catch(err => {

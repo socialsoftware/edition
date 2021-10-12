@@ -240,6 +240,7 @@
     margin: 8px 0;
     cursor: pointer;
     text-transform: uppercase;
+    color: #000;
 }
 .dropdown-item:hover{
     color: #0C4EF6;

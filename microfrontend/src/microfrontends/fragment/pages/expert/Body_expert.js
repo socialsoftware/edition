@@ -13,7 +13,6 @@ const Body_expert = (props) => {
     useEffect(() => {
         getIntersByArrayExternalId(props.externalId, props.selectedInters)
             .then(res => {
-                console.log(res.data);
                 dataHandler(res.data)
             })
         // eslint-disable-next-line react-hooks/exhaustive-deps

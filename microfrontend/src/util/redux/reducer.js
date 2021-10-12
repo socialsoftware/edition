@@ -125,9 +125,19 @@ export default function(state = initialState, action) {
             }
             
         }
+        case "REMOVE_FROM_SELECTED" : {
+            console.log(action.payload)
+            let newArray = [...state.selectedVEAcr]
+            newArray.splice(newArray.indexOf(action.payload), 1)
+            return {
+                ...state,
+                selectedVEAcr: newArray
+            }
+        }
         case "RESET" : {
             return initialState
         }
+        
 
         default: 
             return state;

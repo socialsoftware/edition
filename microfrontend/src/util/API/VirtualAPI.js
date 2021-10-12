@@ -313,3 +313,14 @@ export function getFragInterData(fragInterId) {
         }
     })
 }
+
+export function deleteVirtualEdition(externalId) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/virtual/restricted/delete`, 
+        `externalId=${externalId}`,
+        {
+            headers: {
+                Accept: 'application/json',
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+    })
+}

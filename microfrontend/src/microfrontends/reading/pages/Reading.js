@@ -17,12 +17,11 @@ const Reading = (props) => {
     const [experts, setExperts] = useState(null)
     const [fragmentData, setFragmentData] = useState(null)
     const [selectedExpert, setSelectedExpert] = useState(null)
+    const [heteronymWeight, setHeteronymWeight] = useState(0)
+    const [dateWeight, setDateWeight] = useState(0)
+    const [textWeight, setTextWeight] = useState(1)
+    const [taxonomyWeight, setTaxonomyWeight] = useState(0)
     const [showModal, setShowModal] = useState(false) 
-
-    const [heteronymWeight, setHeteronymWeight] = useState(0.2)
-    const [dateWeight, setDateWeight] = useState(1)
-    const [textWeight, setTextWeight] = useState(0.2)
-    const [taxonomyWeight, setTaxonomyWeight] = useState(0.8)
     const history = useHistory()
     const location = useLocation()
 
@@ -42,7 +41,12 @@ const Reading = (props) => {
                 if(mounted){
                 setFragmentData(res.data)
                 setSelectedExpert(res.data.expertEditionInterDto.acronym)
-                props.setUpdateRecommendation(res.data.readingRecommendation)
+                var val = res.data.readingRecommendation
+                val.dateWeight = 0
+                val.heteronymWeight = 0
+                val.taxonomyWeight = 0
+                val.textWeight = 1
+                props.setUpdateRecommendation(val)
                 }
             })
             .catch(error => {
@@ -53,6 +57,10 @@ const Reading = (props) => {
             mounted = false
             var val = props.recommendation
             val.read = []
+            val.dateWeight = 0
+            val.heteronymWeight = 0
+            val.taxonomyWeight = 0
+            val.textWeight = 1
             props.setUpdateRecommendation(val)
             }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -217,7 +225,7 @@ const Reading = (props) => {
                 :
                 <div>
                     {showModal?
-                        <div className="reading-backdrop"></div>
+                        <div className="reading-backdrop" onClick={() => setShowModal(false)}></div>
                     :null}
                     {
                         showModal?
@@ -306,10 +314,7 @@ const Reading = (props) => {
                             window.scrollTo({ top: 0, behavior: 'smooth' })
 
                             setShowModal(true)}}>{props.messages.general_recommendation}</p>
-                        <img alt="info" src={info} data-tip="Na coluna de recomendação são sugeridos de forma automática os fragmentos mais similares ao 
-                                                    fragmento selecionado na coluna da edição. A similaridade entre o fragmento da edição e o fragmento 
-                                                    da recomendação é calculada segundo uma combinação de quatro critérios (ajustáveis pelos utilizadores): 
-                                                    heterónimo, data, texto e taxonomia." 
+                        <img alt="info" src={info} data-tip={props.messages.reading_tt_recom}
                             className="reading-info"></img>
                         <ReactTooltip backgroundColor="#fff" textColor="#333" border={true} borderColor="#000" className="reading-tooltip" place="bottom"/>
                         {fragmentData?

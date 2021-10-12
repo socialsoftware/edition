@@ -21,8 +21,8 @@ const VirtualEditionList = (props) => {
                     setEditionData(res.data.sortedInterpsList)
                     setListSize(res.data.interpsSize)
                     setParticipant(res.data.participantList)
-                    setSynopsis(he.decode(res.data.synopsis))
-                    setTitle(he.decode(res.data.title))
+                    setSynopsis(res.data.synopsis?he.decode(res.data.synopsis):res.data.synopsis)
+                    setTitle(res.data.title?he.decode(res.data.title):res.data.title)
                     
                     setLoading(false)
                 })
