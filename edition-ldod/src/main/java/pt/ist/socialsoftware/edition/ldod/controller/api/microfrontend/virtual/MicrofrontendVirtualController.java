@@ -126,6 +126,7 @@ public class MicrofrontendVirtualController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/manage/{externalId}")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public ResponseEntity<VirtualEditionDto> manageVirtualEdition(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String externalId) {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		logger.debug("manageVirtualEdition externalId:{}", externalId);
@@ -146,6 +147,7 @@ public class MicrofrontendVirtualController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/edit/{externalId}")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
 	public ResponseEntity<VirtualEditionDto> editVirtualEdition(@AuthenticationPrincipal LdoDUserDetails currentUser,
 			@PathVariable String externalId, @RequestParam("acronym") String acronym,
 			@RequestParam("title") String title, @RequestParam("synopsis") String synopsis,
@@ -217,6 +219,7 @@ public class MicrofrontendVirtualController {
 
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/participants")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public ResponseEntity<VirtualEditionDto> showParticipants(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String externalId) {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
@@ -228,6 +231,7 @@ public class MicrofrontendVirtualController {
 
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/participants/approve")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
 	public ResponseEntity<VirtualEditionDto> approveParticipant(@AuthenticationPrincipal LdoDUserDetails currentUser,
 			@PathVariable("externalId") String externalId, @RequestParam("username") String username) {
 
@@ -246,6 +250,7 @@ public class MicrofrontendVirtualController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/participants/add")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
 	public ResponseEntity<VirtualEditionDto> addParticipant(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable("externalId") String externalId,
 			@RequestParam("username") String username) {
 
@@ -264,6 +269,7 @@ public class MicrofrontendVirtualController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/participants/role")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.admin')")
 	public ResponseEntity<VirtualEditionDto> switchRole(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable("externalId") String externalId,
 			@RequestParam("username") String username) {
 
@@ -285,6 +291,7 @@ public class MicrofrontendVirtualController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/participants/remove")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public ResponseEntity<VirtualEditionDto> removeParticipant(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable("externalId") String externalId,
 			@RequestParam("userId") String userId) {
 		logger.debug("removeParticipant userId:{}", userId);
@@ -404,6 +411,7 @@ public class MicrofrontendVirtualController {
 	
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/reorder/{externalId}")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public VirtualRecommendationDto reorderVirtualEdition(@AuthenticationPrincipal LdoDUserDetails currentUser,
 			@PathVariable String externalId, @RequestParam("fraginters") String fraginters) {
 		logger.debug("reorderVirtualEdition externalId:{}, fraginters:{}", externalId, fraginters);
@@ -419,6 +427,7 @@ public class MicrofrontendVirtualController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/{externalId}/taxonomy")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public VirtualTaxonomyDto taxonomy(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String externalId) {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		LdoDUser user = currentUser.getUser();
@@ -430,6 +439,7 @@ public class MicrofrontendVirtualController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/create")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.taxonomy')")
 	public VirtualTaxonomyDto createCategory(@AuthenticationPrincipal LdoDUserDetails currentUser, @RequestParam("externalId") String externalId,
 			@RequestParam("name") String name) {
 		VirtualEdition edition = FenixFramework.getDomainObject(externalId);
@@ -452,6 +462,7 @@ public class MicrofrontendVirtualController {
 		}
 	}
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/delete")
+	@PreAuthorize("hasPermission(#categoryId, 'category.taxonomy')")
 	public VirtualTaxonomyDto deleteCategory(@AuthenticationPrincipal LdoDUserDetails currentUser, @RequestParam("categoryId") String categoryId) {
 		Category category = FenixFramework.getDomainObject(categoryId);
 		LdoDUser user = currentUser.getUser();
@@ -468,6 +479,7 @@ public class MicrofrontendVirtualController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/mulop")
+	@PreAuthorize("hasPermission(#taxonomyId, 'taxonomy.taxonomy')")
 	public VirtualTaxonomyDto mergeCategories(@AuthenticationPrincipal LdoDUserDetails currentUser, @RequestParam("taxonomyId") String taxonomyId,
 			@RequestParam("type") String type, @RequestParam("externalId") String externalId,
 			@RequestParam(value = "categories[]", required = false) String categoriesIds[]) {
@@ -501,6 +513,7 @@ public class MicrofrontendVirtualController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/taxonomy/generateTopics")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.taxonomy')")
 	public TopicListDTO generateTopicModelling(@AuthenticationPrincipal LdoDUserDetails currentUser,
 			@PathVariable String externalId, @RequestParam("numTopics") int numTopics,
 			@RequestParam("numWords") int numWords, @RequestParam("thresholdCategories") int thresholdCategories,
@@ -528,6 +541,7 @@ public class MicrofrontendVirtualController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/taxonomy/createTopics")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.taxonomy')")
 	public VirtualTaxonomyDto createTopicModelling(@AuthenticationPrincipal LdoDUserDetails currentUser,
 			@PathVariable String externalId, @RequestBody TopicListDTO topicList) throws IOException {
 		logger.debug("createTopicModelling externalId:{}, username:{}", externalId, topicList.getUsername());
@@ -550,6 +564,7 @@ public class MicrofrontendVirtualController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/{externalId}/taxonomy/clean")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.taxonomy')")
 	public VirtualTaxonomyDto deleteTaxonomy(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable("externalId") String externalId,
 			@RequestParam("taxonomyExternalId") String taxonomyExternalId) {
 		Taxonomy taxonomy = FenixFramework.getDomainObject(taxonomyExternalId);
@@ -565,6 +580,7 @@ public class MicrofrontendVirtualController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/category/{categoryId}")
+	@PreAuthorize("hasPermission(#categoryId, 'category.participant')")
 	public CategoryDto showCategory(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String categoryId) {
 		Category category = FenixFramework.getDomainObject(categoryId);
 		if (category == null) {
@@ -575,6 +591,7 @@ public class MicrofrontendVirtualController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/update")
+	@PreAuthorize("hasPermission(#categoryId, 'category.taxonomy')")
 	public CategoryDto updateCategoryName(@AuthenticationPrincipal LdoDUserDetails currentUser,
 			@RequestParam("categoryId") String categoryId, @RequestParam("name") String name) {
 		Category category = FenixFramework.getDomainObject(categoryId);
@@ -591,6 +608,7 @@ public class MicrofrontendVirtualController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/fraginter/{fragInterId}")
+	@PreAuthorize("hasPermission(#fragInterId, 'fragInter.participant')")
 	public FragInterDto showFragmentInterpretation(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String fragInterId) {
 		FragInter fragInter = FenixFramework.getDomainObject(fragInterId);
 		if (fragInter == null) {
@@ -601,6 +619,7 @@ public class MicrofrontendVirtualController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/category/extract")
+	@PreAuthorize("hasPermission(#categoryId, 'category.taxonomy')")
 	public String extractCategory(@AuthenticationPrincipal LdoDUserDetails currentUser, @RequestParam("categoryId") String categoryId,
 			@RequestParam(value = "inters[]", required = false) String interIds[]) {
 		Category category = FenixFramework.getDomainObject(categoryId);
