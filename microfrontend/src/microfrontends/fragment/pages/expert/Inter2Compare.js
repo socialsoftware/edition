@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import Inter2CompareLineByLine from './Inter2CompareLineByLine'
 import Inter2CompareSideBySide from './Inter2CompareSideBySide'
+import info from '../../../../resources/assets/information.svg'
+import ReactTooltip from 'react-tooltip';
 
 const Inter2Compare = (props) => {
 
@@ -51,18 +53,24 @@ const Inter2Compare = (props) => {
             <div className="inter-editorial-control-div">
                 {props.data.inters.length === 2?
                     <div className="inter-editorial-flex">
-                        <input type="checkbox" checked={selected["line"]} onChange={() => callbackInputSelect("line")}></input>
-                        <p>{props.messages.fragment_linebyline}</p>
+                        <input style={{cursor:"pointer"}} type="checkbox" checked={selected["line"]} onChange={() => callbackInputSelect("line")}></input>
+                        <p style={{cursor:"pointer"}} onClick={() => callbackInputSelect("line")}>{props.messages.fragment_linebyline}</p>
                     </div>
                 :null
                 }
                 <div className="inter-editorial-flex">
-                    <input type="checkbox" checked={selected["spaces"]} onChange={() => callbackInputSelect("spaces")}></input>
-                    <p>{props.messages.fragment_alignspace}</p>
+                    <input style={{cursor:"pointer"}} type="checkbox" checked={selected["spaces"]} onChange={() => callbackInputSelect("spaces")}></input>
+                    <p style={{cursor:"pointer"}} onClick={() => callbackInputSelect("spaces")}>{props.messages.fragment_alignspace}</p>
                 </div>
             </div>
+            <div style={{textAlign:"left", display:"flex"}}>
+                <p style={{fontSize:"18px", color:"#333", fontWeight:500}}>{props.data.inters.length>0?props.data.inters[0].title:null}</p>
+                <img alt="info" src={info} data-tip={props.messages.info_highlighting}
+                            className="fragment-info"></img>
+            </div>
+            <ReactTooltip backgroundColor="#fff" textColor="#333" border={true} borderColor="#000" className="reading-tooltip" place="bottom" effect="solid"/>
             {
-                selected.line || props.data.inters.length>2?
+                selected.line || props.data.inters.length>1?
                     <Inter2CompareLineByLine spaces={selected.spaces} data={props.data} messages={props.messages}/>
                 :   <Inter2CompareSideBySide spaces={selected.spaces} data={props.data} messages={props.messages}/>
             }

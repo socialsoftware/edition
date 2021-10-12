@@ -15,10 +15,10 @@ const Virtual2Compare = (props) => {
                     <td>---</td>
                     <td>---</td>
                     <td>
-                        <span style={{display:"flex", alignItems:"center"}}><img alt="tagImg" src={tag} style={{height:"20px", width:"20px", marginRight:"5px"}}></img> <Link className="fragment-virtual-link" to={`/edition/user/${val.user.userName}`}>{val.user.userName}</Link></span>
+                        <span style={{display:"flex", alignItems:"center"}}><img alt="userImg" src={user} style={{height:"20px", width:"20px", marginRight:"5px"}}></img> <Link className="fragment-virtual-link" to={`/edition/user/${val.user.userName}`}>{val.user.userName}</Link></span>
                     </td>
                     <td>
-                        <span style={{display:"flex", alignItems:"center"}}><img alt="userImg" src={user} style={{height:"20px", width:"20px", marginRight:"5px"}}></img> <Link className="fragment-virtual-link" to={`/edition/acronym/${val.category.acronym}/category/${val.category.urlId}`}>{val.category.name}</Link></span>
+                        <span style={{display:"flex", alignItems:"center"}}><img alt="tagImg" src={tag} style={{height:"20px", width:"20px", marginRight:"5px"}}></img> <Link className="fragment-virtual-link" to={`/edition/acronym/${val.category.acronym}/category/${val.category.urlId}`}>{val.category.name}</Link></span>
                     </td>
                 </tr>
             )
@@ -29,7 +29,7 @@ const Virtual2Compare = (props) => {
         return props.data.inters.map((inter, i) => {
             return(
                 <div key={i}>
-                    <p style={{textAlign:"left", margin:"0", marginBottom:"5px"}}><strong>{props.messages.general_edition}:</strong> <span>{he.decode(inter.editionTitle)}</span></p>
+                    <p style={{textAlign:"left", margin:"0", marginBottom:"5px"}}><strong>{props.messages.general_edition}:</strong> <span>{he.decode(inter.shortName)}</span></p>
                     <table className="fragment-vcompare-table">
                         <thead>
                             <tr>

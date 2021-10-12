@@ -258,11 +258,12 @@ abbr[title] {
     background-color: rgba(0, 0, 0, 0.699);
 }
 .fac-display-image{
-    width: 90%;
-    height: 95%;
     position: absolute;
-    left: 5%;
-    top: 2.5%;
+    height: 95%;
+    left: 0; 
+    right: 0;
+    margin: 0 auto;
+    margin-top: 20px;
 }
 .fac-display-x{
     font-size: 44px;
@@ -330,3 +331,8 @@ abbr[title] {
     }
 }
 
+.fragment-info{
+    height: 15px;
+    cursor: pointer;
+    margin-left: 5px;
+}

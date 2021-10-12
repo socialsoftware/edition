@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import InterVirtual from './InterVirtual'
 import Virtual2Compare from './Virtual2Compare'
-import { getIntersByArrayExternalId } from '../../../../util/API/FragmentAPI'
+import { getVirtualIntersByArrayExternalId } from '../../../../util/API/FragmentAPI'
 
 const Body_virtual = (props) => {
 
     const [data, setData] = useState(null)
     
     useEffect(() => {
-        getIntersByArrayExternalId(props.externalId, props.selectedInters)
+        getVirtualIntersByArrayExternalId(props.externalId, props.selectedInters)
             .then(res => {
+                console.log(res.data);
                 dataHandler(res.data)
             })
         // eslint-disable-next-line react-hooks/exhaustive-deps

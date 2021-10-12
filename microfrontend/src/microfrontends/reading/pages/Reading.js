@@ -316,7 +316,7 @@ const Reading = (props) => {
                             setShowModal(true)}}>{props.messages.general_recommendation}</p>
                         <img alt="info" src={info} data-tip={props.messages.reading_tt_recom}
                             className="reading-info"></img>
-                        <ReactTooltip backgroundColor="#fff" textColor="#333" border={true} borderColor="#000" className="reading-tooltip" place="bottom"/>
+                        <ReactTooltip backgroundColor="#fff" textColor="#333" border={true} borderColor="#000" className="reading-tooltip" place="bottom" effect="solid"/>
                         {fragmentData?
                             <div>
                                 <div onClick={() => {
