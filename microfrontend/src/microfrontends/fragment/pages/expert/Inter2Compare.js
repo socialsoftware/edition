@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import Inter2CompareLineByLine from './Inter2CompareLineByLine'
 import Inter2CompareSideBySide from './Inter2CompareSideBySide'
-import info from '../../../../resources/assets/information.svg'
-import ReactTooltip from 'react-tooltip';
 
 const Inter2Compare = (props) => {
 
@@ -63,16 +61,14 @@ const Inter2Compare = (props) => {
                     <p style={{cursor:"pointer"}} onClick={() => callbackInputSelect("spaces")}>{props.messages.fragment_alignspace}</p>
                 </div>
             </div>
-            <div style={{textAlign:"left", display:"flex"}}>
-                <p style={{fontSize:"18px", color:"#333", fontWeight:500}}>{props.data.inters.length>0?props.data.inters[0].title:null}</p>
-                <img alt="info" src={info} data-tip={props.messages.info_highlighting}
-                            className="fragment-info"></img>
-            </div>
-            <ReactTooltip backgroundColor="#fff" textColor="#333" border={true} borderColor="#000" className="reading-tooltip" place="bottom" effect="solid"/>
             {
-                selected.line || props.data.inters.length>1?
+                !selected.line && props.data.inters.length === 2?
+                    <Inter2CompareSideBySide spaces={selected.spaces} data={props.data} messages={props.messages}/>:
+                selected.line && props.data.inters.length === 2?
+                    <Inter2CompareLineByLine spaces={selected.spaces} data={props.data} messages={props.messages}/>:
+                props.data.inters.length > 2?
                     <Inter2CompareLineByLine spaces={selected.spaces} data={props.data} messages={props.messages}/>
-                :   <Inter2CompareSideBySide spaces={selected.spaces} data={props.data} messages={props.messages}/>
+                :null
             }
             <div style={{paddingBottom:"30px", maxWidth:"800px"}}>
                 <p className="body-title" style={{textAlign:"left", margin:"0"}}>{props.messages.fragment_variationstable} ({props.data.variations?props.data.variations.length:0})</p>
