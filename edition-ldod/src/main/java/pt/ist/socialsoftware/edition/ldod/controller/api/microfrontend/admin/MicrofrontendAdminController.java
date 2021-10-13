@@ -95,10 +95,8 @@ public class MicrofrontendAdminController {
 		} catch (IOException e) {
 			return new ResponseEntity<>("Problemas com o ficheiro, tipo ou formato", HttpStatus.CONFLICT);
 		} catch (LdoDException ldodE) {
-			System.out.println(ldodE.getMessage());
 			return new ResponseEntity<>(ldodE.getMessage(), HttpStatus.CONFLICT);
 		}
-		System.out.println("3");
 		return new ResponseEntity<>("Corpus carregado", HttpStatus.OK);
 	}
 	
@@ -268,7 +266,6 @@ public class MicrofrontendAdminController {
 			IOUtils.copy(is, response.getOutputStream());
 			response.flushBuffer();
 		} catch (IOException ex) {
-			System.out.println("Error writing file to output stream. Filename was '{}'");
 			throw new RuntimeException("IOError writing file to output stream");
 		}
 	}
@@ -305,7 +302,6 @@ public class MicrofrontendAdminController {
 			IOUtils.copy(is, response.getOutputStream());
 			response.flushBuffer();
 		} catch (IOException ex) {
-			System.out.println("Error writing file to output stream. Filename was '{}'");
 			throw new RuntimeException("IOError writing file to output stream");
 		}
 	}
@@ -354,7 +350,6 @@ public class MicrofrontendAdminController {
 			IOUtils.copy(is, response.getOutputStream());
 			response.flushBuffer();
 		} catch (IOException ex) {
-			System.out.println("Error writing file to output stream. Filename was '{}'");
 			throw new RuntimeException("IOError writing file to output stream");
 		}
 	}
@@ -373,7 +368,6 @@ public class MicrofrontendAdminController {
 			IOUtils.copy(is, response.getOutputStream());
 			response.flushBuffer();
 		} catch (IOException ex) {
-			System.out.println("Error writing file to output stream. Filename was '{}'");
 			throw new RuntimeException("IOError writing file to output stream");
 		}
 	}
@@ -498,7 +492,6 @@ public class MicrofrontendAdminController {
 	public String editUser(@RequestBody EditUserForm form, BindingResult formBinding) {
 		logger.debug("editUser username:{}", form.getOldUsername());
 
-		System.out.println(form.getEmail());
 		EditUserValidator validator = new EditUserValidator();
 		validator.validate(form, formBinding);
 

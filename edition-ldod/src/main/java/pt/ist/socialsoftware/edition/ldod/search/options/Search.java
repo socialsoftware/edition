@@ -20,7 +20,6 @@ import pt.ist.socialsoftware.edition.ldod.search.options.SearchOption.Mode;
 public class Search {
 	private static final String OPTIONS = "options";
 	private static final String MODE = "mode";
-
 	private final Mode mode;
 	private final SearchOption[] searchOptions;
 
@@ -41,8 +40,6 @@ public class Search {
 		Set<SearchOption> options = Arrays.stream(getSearchOptions()).collect(Collectors.toSet());
 		Map<Fragment, Map<FragInter, List<SearchOption>>> resultSet = null;
 
-		System.out.println(options);
-		System.out.println(getMode());
 		if (getMode().equals(Mode.OR)) {
 			resultSet = searchOptionsORComposition(options);
 		}

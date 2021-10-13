@@ -139,7 +139,6 @@ public class FragmentBodyDto {
 		ArrayList<String> array = new ArrayList<String>();
 		
 		
-		System.out.println(apps.size());
 		
 		
 		for(int i = 0; i < apps.size(); i++) {
@@ -170,7 +169,6 @@ public class FragmentBodyDto {
 		if(inter.getPrevSurface(pbText) != null) {
 			this.setPrevSurface(new SurfaceDto(inter.getPrevSurface(pbText)));
 		}
-		System.out.println(inter.getPrevPbText(pbText));
 		if(inter.getNextSurface(pbText) != null) {
 			this.setNextSurface(new SurfaceDto(inter.getNextSurface(pbText)));
 		}
@@ -188,7 +186,6 @@ public class FragmentBodyDto {
 	public FragmentBodyDto(List<FragInter> inters, HtmlWriter2CompInters writer) {
 		this.setInters(inters.stream().map(FragInterDto::new).collect(Collectors.toList()));
 		this.setWriterLineByLine(writer.getTranscriptionLineByLine());
-		System.out.println(writer.getTranscriptionLineByLine());
 	}
 
 	public FragmentDto getFragment() {
