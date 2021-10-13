@@ -1,21 +1,32 @@
 import React, { useEffect, useState } from 'react'
 import noImage from '../../../resources/assets/no_image.png'
+import axios from 'axios'
+
 
 const FacDisplayDocuments = (props) => {
 
     const [source, setSource] = useState(null)
 
     const getImage = (url) => {
-        try{
-            setSource(require(`../../../resources/assets/facsimilies/${url}`).default)
-        }
-        catch (err){
-            setSource(noImage)
-        }
+        axios.get(url, { responseType:"blob" })
+            .then(function (response) {
+                var reader = new window.FileReader();
+                reader.readAsDataURL(response.data); 
+                reader.onload = function() {
+                    var imageDataUrl = reader.result;
+                    setSource(imageDataUrl)
+                    props.loadingHandler()
+                }
+            })
+            .catch(() => {
+                setSource(noImage)
+                props.loadingHandler()
+            })
     }
 
     useEffect(() => {
-        getImage(props.url)
+        let url = `https://ldod.uc.pt/facs/${props.url}`
+        getImage(url)
         document.body.style.overflow = "hidden"
     }, [props.url])
     
@@ -26,7 +37,7 @@ const FacDisplayDocuments = (props) => {
     }
     return (
             source?
-                <div className="document-fac-display">
+                <div className="document-fac-display">                  
                     <img alt="fac" className="document-fac-display-image" src={source}></img>
                     <p className="document-fac-display-x" onClick={() => removeHandler()}>X</p>
                 </div>

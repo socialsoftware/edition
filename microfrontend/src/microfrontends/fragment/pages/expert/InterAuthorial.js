@@ -32,7 +32,7 @@ const InterAuthorial = (props) => {
 
     return (
         <div>
-            <div className="inter-authorial-control-div" >
+            <div className="inter-authorial-control-div">
                 <div className="inter-editorial-flex">
                     <input style={{cursor:"pointer"}} type="checkbox" checked={selected["diff"]} onChange={() => callbackInputSelect("diff")}></input>
                     <p style={{cursor:"pointer"}} data-tip={props.messages.fragment_tt_highlights} onClick={() => callbackInputSelect("diff")}>{props.messages.fragment_highlightdifferences}</p>

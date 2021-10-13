@@ -13,6 +13,7 @@ const SourceList = (props) => {
     const [loading, setLoading] = useState(true)
     const [info, setInfo] = useState(false)
     const [fac, setFac] = useState(null)
+    const [loadingFac, setLoadingFac] = useState(false)
 
 
     useEffect(() => {
@@ -79,6 +80,7 @@ const SourceList = (props) => {
         if(val!==null){
             return val.map((elem,key) => {
                 return <p key={key}><p key={key} className="documents-linkFac" onClick={() => {
+                        setLoadingFac(true)
                         setFac(elem.graphic)
                         window.scrollTo({top: 0, behavior: 'smooth'});
                         }}
@@ -244,6 +246,9 @@ const SourceList = (props) => {
 
     return (
         <div className="documents-sourceList">
+            <div style={{position:"absolute", left:"49%", top:"300px"}}>
+                <CircleLoader loading={loadingFac}></CircleLoader>
+            </div>
             <p className="documents-source-title">
                 {props.messages.authorial_source}
                 <span> {`(${sourceList.length})`}</span>
@@ -257,7 +262,7 @@ const SourceList = (props) => {
                 <CircleLoader loading={loading}></CircleLoader>
                 :
                 fac?
-                    <FacDisplayDocuments url={fac} removeFac={() => setFac(null)}/>
+                    <FacDisplayDocuments loadingHandler={() => {setLoadingFac(false)}} url={fac} removeFac={() => setFac(null)}/>
                 :
                 sourceList?
                 <Table columns={tableColumns} data={sourceList} />
