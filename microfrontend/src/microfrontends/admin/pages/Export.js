@@ -18,7 +18,7 @@ const Export = (props) => {
             .then(response => {
                 if(response.data.type === "application/tei+xml")
                     fileDownload(response.data, "tei.xml")
-                else setErro("Erro a exportar aleatoriamente, tente de novo por favor (fragmentos em falta)")
+                else setErro("Error exporting randomly, please try again (missing fragments)")
             })
     }
 
@@ -28,7 +28,7 @@ const Export = (props) => {
             .then(response => {
                 if(response.data.type === "application/xml")
                     fileDownload(response.data, "users.xml")
-                else setErro("Erro a exportar utilizadores")
+                else setErro("Error exporting users")
             })
     }
 
@@ -38,7 +38,7 @@ const Export = (props) => {
             .then(response => {
                 if(response.data.type === "application/tei+xml")
                     fileDownload(response.data, "tei.xml")
-                else setErro("Erro a exportar o arquivo completo (fragmentos em falta)")
+                else setErro("Error exporting the full archive (missing fragments)")
             })
     }
 
@@ -48,7 +48,7 @@ const Export = (props) => {
             .then(response => {
                 if(response.data.type === "application/zip")
                     fileDownload(response.data, "virtualeditions.zip")
-                else setErro("Erro a exportar o edicoes virtuais")
+                else setErro("Error exporting virtual editions")
             })
     }
 
@@ -62,7 +62,7 @@ const Export = (props) => {
                     setLastQuery(query)
                 }
                     
-                else setErro("Não foram encontrados fragmentos com base nessa pesquisa")
+                else setErro("Fragments not found based on the search parameters")
             })
         }
         
@@ -84,7 +84,7 @@ const Export = (props) => {
             .then(response => {
                 if(response.headers["content-type"] === "application/tei+xml")
                     fileDownload(response.data, "tei.xml")
-                else setErro("Erro a exportar os fragmentos (fragmentos em falta)")
+                else setErro("Error exporting fragments (missing fragments)")
             })
     }
     return (
@@ -95,46 +95,46 @@ const Export = (props) => {
                 :null
             }
             
-            <p className="admin-exp-title">EXPORTAR</p>
-            <p className="admin-exp-subtitle">Exportar Utilizadores</p>
+            <p className="admin-exp-title">EXPORT</p>
+            <p className="admin-exp-subtitle">Export Users</p>
             <div className="admin-exp-subtitle-div">
                 <span className="admin-exp-subtitle-button" onClick={() => exportUsersHandler()}>
                     <Download style={{marginRight:"5px"}}/>
-                    <p>Exportar utilizadores</p>
+                    <p>Export user</p>
                 </span>
             </div>
-            <p className="admin-exp-subtitle">Exportar Edições Virtuais</p>
+            <p className="admin-exp-subtitle">Exportar Virtual Editions</p>
             <div className="admin-exp-subtitle-div">
                 <span className="admin-exp-subtitle-button" onClick={() => exportVirtualEditionsHandler()}>
                     <Download style={{marginRight:"5px"}}/>
-                    <p>Exportar edições virtuais</p>
+                    <p>Export virtual editions</p>
                 </span>
             </div>
-            <p className="admin-exp-subtitle">Exportar Fragmentos</p>
+            <p className="admin-exp-subtitle">Exportar Fragments</p>
             <div className="admin-exp-subtitle-div">
                 <span className="admin-exp-subtitle-button" onClick={() => exportAllHandler()}>
                     <Download style={{marginRight:"5px"}}/>
-                    <p>Exportar arquivo completo</p>
+                    <p>Export entire archive</p>
                 </span>
-                <p className="admin-exp-subtitle-sub">(poderá demorar alguns instantes)</p>
+                <p className="admin-exp-subtitle-sub">(Might take several minutes)</p>
             </div>
             <div className="admin-exp-subtitle-div" style={{marginTop:"20px"}}>
                 <span className="admin-exp-subtitle-button" onClick={() => exportRandomHandler()}>
                     <Download style={{marginRight:"5px"}}/>
-                    <p>Exportar 3 fragmentos aleatórios</p>
+                    <p>Exporting 3 random fragments</p>
                 </span>
             </div>
             <div className="admin-exp-subtitle-div" style={{marginTop:"20px"}}>
                 <input placeholder="pesquisar titulo" className="form-control input-search" onChange={e => setQuery(e.target.value)}></input>
                 <span className="admin-exp-subtitle-button" style={{marginTop:"20px"}} onClick={() => getFragmentsByQueryHandler()}>
                     <Download style={{marginRight:"5px"}}/>
-                    <p>Pesquisar</p>
+                    <p>Search</p>
                 </span>
                 {
                     queryResult.length > 0?
                         <span className="admin-exp-subtitle-button" style={{marginTop:"20px"}} onClick={() => exportFragmentsByQueryHandler()}>
                             <Download style={{marginRight:"5px"}}/>
-                            <p>Exportar {queryResult.length} fragmentos</p>
+                            <p>Exporting {queryResult.length} fragments</p>
                         </span>
                     :null
                 }
@@ -143,7 +143,7 @@ const Export = (props) => {
             {
                     queryResult.length>0?
                         <div>
-                            <p style={{textAlign:"left", marginTop:"20px"}}>Nº de fragmentos encontrados: {queryResult.length}</p>
+                            <p style={{textAlign:"left", marginTop:"20px"}}>Nº of found fragments: {queryResult.length}</p>
                             <table className="admin-simple-table">
                                 <tbody>
                                     {mapFragmentsToTable()}
@@ -153,7 +153,7 @@ const Export = (props) => {
                         
                     :erro?
                         <div className="admin-exp-subtitle-div" style={{marginTop:"20px"}}>
-                            <p>Erro a encontrar fragmentos com base no critério de pesquisa</p>
+                            <p>Error finding fragments based on the search parameters</p>
                         </div>
                     :null
                 }

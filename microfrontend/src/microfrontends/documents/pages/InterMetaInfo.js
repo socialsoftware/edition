@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import FacDisplayDocuments from './FacDisplayDocuments'
+import CircleLoader from "react-spinners/RotateLoader";
 
 const InterMetaInfo = (props) => {
 
@@ -9,7 +10,7 @@ const InterMetaInfo = (props) => {
     const [isManuscript, setIsManuscript] = useState(false)
     const [isPublication, setIsPublication] = useState(false)
     const [fac, setFac] = useState(null)
-
+    const [loadingFac, setLoadingFac] = useState(false)
 
     useEffect(() => {
         if(props.sourceList!==undefined){
@@ -81,6 +82,7 @@ const InterMetaInfo = (props) => {
         if(val!==null){
             return val.map((elem,key) => {
                 return <p key={key} className="documents-linkFac" onClick={() => {
+                    setLoadingFac(true)
                     setFac(elem.graphic)
                     window.scrollTo({top: 0, behavior: 'smooth'});
                         }}> {elem.graphic},</p>
@@ -90,9 +92,12 @@ const InterMetaInfo = (props) => {
 
     return(
         <div>
+            <div style={{position:"absolute", left:"49%", top:"300px", zIndex:3}}>
+                <CircleLoader loading={loadingFac}></CircleLoader>
+            </div>
             {
                 fac?
-                    <FacDisplayDocuments url={fac} removeFac={() => setFac(null)}/>
+                    <FacDisplayDocuments url={fac} removeFac={() => setFac(null)} loadingHandler={() => {setLoadingFac(false)}}/>
                     :null
             }
             {/* titulo ident */}

@@ -45,7 +45,6 @@ const Navigation_virtual = (props) => {
             else if(props.xmlId)
                 getVirtualFragmentWithXmlNoUser(props.xmlId, props.selectedVEAcr)
                     .then(res => {
-                        console.log("virtual", res.data);
                         dataHandler(res.data)
                     })
         }        
@@ -152,14 +151,16 @@ const Navigation_virtual = (props) => {
 
     const addToEditionHandler = (externalId) => {
         addToEdition(externalId, data.inters[0].externalId)
-            .then(res => {
-                if(res.data === "success") {
-                    var path = location.pathname.split('/')
-                    getVirtualFragmentWithXmlAndUrl(path[3], path[5], props.selectedVEAcr)
-                        .then(res => {
-                            dataHandler(res.data)
-                        })
-                }
+            .then((res) => {
+                console.log(res);
+                var path = location.pathname.split('/')
+                getVirtualFragmentWithXmlAndUrl(path[3], path[5], props.selectedVEAcr)
+                    .then(res => {
+                        dataHandler(res.data)
+                    })
+            })
+            .catch(() => {
+                alert("Error adding to edition!")
             })
     }
     

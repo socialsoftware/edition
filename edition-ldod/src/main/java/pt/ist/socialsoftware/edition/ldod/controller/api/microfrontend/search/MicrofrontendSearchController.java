@@ -43,7 +43,6 @@ public class MicrofrontendSearchController {
 	  } else {
 	    split = "%26";
 	  }
-	  System.out.println(split);
 	  String search = params.substring(0, params.indexOf(split));
 	  params = params.substring(params.indexOf(split) + 1);
 	  String searchType = params.substring(0, params.indexOf(split));
@@ -51,7 +50,6 @@ public class MicrofrontendSearchController {
 	  String searchSource = params;
 	
 	  search = TextSearchOption.purgeSearchText(search);
-	  System.out.println(search);
 	  TextSearchOption textSearchOption = new TextSearchOption(search);
 	  List<FragInter> matches = textSearchOption.search();
 	

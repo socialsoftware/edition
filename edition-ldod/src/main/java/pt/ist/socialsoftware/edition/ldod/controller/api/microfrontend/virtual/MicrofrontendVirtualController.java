@@ -181,7 +181,6 @@ public class MicrofrontendVirtualController {
 		List<String> errors = validator.getErrors();
 
 		if (errors.size() > 0) {
-			System.out.println(errors);
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 
@@ -328,6 +327,7 @@ public class MicrofrontendVirtualController {
 
 
 	@RequestMapping(method = RequestMethod.GET, value = "/restricted/recommendation/{externalId}")
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
 	public VirtualRecommendationDto presentEditionWithRecommendation(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String externalId) {
 		// logger.debug("presentEditionWithRecommendation");
 
@@ -336,11 +336,6 @@ public class MicrofrontendVirtualController {
 			return null;
 		} else {
 		
-			
-			//Twitter bug
-		if(externalId == "1407744250740871") {
-			return null;
-		}
 
 			RecommendationWeights recommendationWeights = currentUser.getUser()
 					.getRecommendationWeights(virtualEdition);
@@ -361,9 +356,10 @@ public class MicrofrontendVirtualController {
 		}
 	}
 	
-	@RequestMapping(value = "/linear", method = RequestMethod.POST, headers = {
+	@RequestMapping(value = "/linear/{externalId}", method = RequestMethod.POST, headers = {
 		"Content-type=application/json;charset=UTF-8" })
-	public VirtualRecommendationDto setLinearVirtualEdition(@AuthenticationPrincipal LdoDUserDetails currentUser, @RequestBody RecommendVirtualEditionParam params) {
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
+	public VirtualRecommendationDto setLinearVirtualEdition(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String externalId, @RequestBody RecommendVirtualEditionParam params) {
 	logger.debug("setLinearVirtualEdition acronym:{}, id:{}, properties:{}", params.getAcronym(), params.getId(),
 			params.getProperties().stream()
 					.map(p -> p.getClass().getName().substring(p.getClass().getName().lastIndexOf(".") + 1) + " "
@@ -388,8 +384,9 @@ public class MicrofrontendVirtualController {
 	return new VirtualRecommendationDto(virtualEdition);
 	}
 	
-	@RequestMapping(value = "/linear/save", method = RequestMethod.POST)
-	public VirtualRecommendationDto saveLinearVirtualEdition(@AuthenticationPrincipal LdoDUserDetails currentUser, @RequestParam("acronym") String acronym,
+	@RequestMapping(value = "/linear/save/{externalId}", method = RequestMethod.POST)
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
+	public VirtualRecommendationDto saveLinearVirtualEdition(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String externalId, @RequestParam("acronym") String acronym,
 			@RequestParam(value = "inter[]", required = false) String[] inters) {
 		// logger.debug("saveLinearVirtualEdition");
 
@@ -399,8 +396,8 @@ public class MicrofrontendVirtualController {
 			Section section = virtualEdition.createSection(Section.DEFAULT);
 			VirtualEditionInter VirtualEditionInter;
 			int i = 0;
-			for (String externalId : inters) {
-				VirtualEditionInter = FenixFramework.getDomainObject(externalId);
+			for (String externalId1 : inters) {
+				VirtualEditionInter = FenixFramework.getDomainObject(externalId1);
 				section.addVirtualEditionInter(VirtualEditionInter, ++i);
 			}
 			virtualEdition.clearEmptySections();
@@ -653,18 +650,18 @@ public class MicrofrontendVirtualController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/delete")
-	public String deleteVirtualEdition(@AuthenticationPrincipal LdoDUserDetails currentUser, @RequestParam("externalId") String externalId) {
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
+	public ResponseEntity<Object> deleteVirtualEdition(@AuthenticationPrincipal LdoDUserDetails currentUser, @RequestParam("externalId") String externalId) {
 		logger.debug("deleteVirtualEdition externalId:{}", externalId);
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
-			return "erro";
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		} else {
 
 			virtualEdition.remove();
 
-			return "success";
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 	}
-
 
 }

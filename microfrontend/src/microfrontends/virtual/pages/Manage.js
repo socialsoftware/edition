@@ -142,13 +142,15 @@ const Manage = (props) => {
 
     const handleDelete = () => {
         deleteVirtualEdition(data.externalId)
-            .then(res => {
-                if(res.data === "success"){
-                    if(props.selectedVEAcr.includes(data.acronym)){
-                        props.updateSelected(data.acronym)
-                    }
-                    history.push("/virtual/virtualeditions")
-                } 
+            .then(() => {
+                if(props.selectedVEAcr.includes(data.acronym)){
+                    props.updateSelected(data.acronym)
+                }
+                history.push("/virtual/virtualeditions")
+            })
+            .catch(() => {
+                alert("Error deleting edition! Please try login out and in")
+                history.push("/")
             })
     }
 

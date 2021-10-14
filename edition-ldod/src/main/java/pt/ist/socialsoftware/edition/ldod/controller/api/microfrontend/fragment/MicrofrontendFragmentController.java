@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -155,7 +157,6 @@ public class MicrofrontendFragmentController {
 		inter = edition.getNextNumberInter(inter, inter.getNumber());
 		
 		if(currentUser == null) {
-			System.out.println("null");
 			return this.getFragmentWithInterForUrlIdNoUser(inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
 		}
 
@@ -166,7 +167,6 @@ public class MicrofrontendFragmentController {
 	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
 	public FragmentBodyDto getPrevVirtualFragmentWithInter(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
 		
-		System.out.println(currentUser);
 		
 		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
@@ -182,7 +182,6 @@ public class MicrofrontendFragmentController {
 		inter = edition.getPrevNumberInter(inter, inter.getNumber());
 		
 		if(currentUser == null) {
-			System.out.println("null");
 			return this.getFragmentWithInterForUrlIdNoUser(inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
 		}
 
@@ -196,7 +195,6 @@ public class MicrofrontendFragmentController {
 		Fragment fragment = FenixFramework.getDomainObject(externalId);
 
 		List<FragInter> inters = new ArrayList<>();
-		System.out.println(intersID);
 		if (intersID != null) {
 			for (String interID : intersID) {
 				FragInter inter = (FragInter) FenixFramework.getDomainObject(interID);
@@ -355,7 +353,6 @@ public class MicrofrontendFragmentController {
 		inter = edition.getNextNumberInter(inter, inter.getNumber());
 		
 		if(currentUser == null) {
-			System.out.println("null");
 			return this.getFragmentWithInterForUrlIdNoUser(inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
 		}
 
@@ -365,7 +362,6 @@ public class MicrofrontendFragmentController {
 	@RequestMapping(method = RequestMethod.POST, value = "/{xmlId}/inter/{urlId}/prevFrag")
 	public FragmentBodyDto getPrevFragmentWithInter(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
 		
-		System.out.println(currentUser);
 		
 		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
@@ -381,7 +377,6 @@ public class MicrofrontendFragmentController {
 		inter = edition.getPrevNumberInter(inter, inter.getNumber());
 		
 		if(currentUser == null) {
-			System.out.println("null");
 			return this.getFragmentWithInterForUrlIdNoUser(inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
 		}
 
@@ -395,7 +390,6 @@ public class MicrofrontendFragmentController {
 		Fragment fragment = FenixFramework.getDomainObject(externalId);
 
 		List<FragInter> inters = new ArrayList<>();
-		System.out.println(intersID);
 		if (intersID != null) {
 			for (String interID : intersID) {
 				FragInter inter = (FragInter) FenixFramework.getDomainObject(interID);
@@ -464,7 +458,6 @@ public class MicrofrontendFragmentController {
 			@RequestParam(value = "pb", required = false) String pbTextID) {
 		SourceInter inter = FenixFramework.getDomainObject(interID[0]);
 		PbText pbText = null;
-		System.out.println(pbTextID);
 		if (pbTextID != null && !pbTextID.equals("")) {
 			pbText = FenixFramework.getDomainObject(pbTextID);
 		}
@@ -514,22 +507,20 @@ public class MicrofrontendFragmentController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/addinter/{veId}/{interId}")
-	public String addInter(@PathVariable String veId, @PathVariable String interId) {
+	public ResponseEntity<Object> addInter(@PathVariable String veId, @PathVariable String interId) {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(veId);
 		FragInter inter = FenixFramework.getDomainObject(interId);
 		if (virtualEdition == null || inter == null) {
-			return "error 1";
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 
 		VirtualEditionInter addInter = virtualEdition.createVirtualEditionInter(inter,
 				virtualEdition.getMaxFragNumber() + 1);
 		
-
-		
 		if (addInter == null) {
-			return "error";
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		} else {
-			return "success";
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 	}
 }

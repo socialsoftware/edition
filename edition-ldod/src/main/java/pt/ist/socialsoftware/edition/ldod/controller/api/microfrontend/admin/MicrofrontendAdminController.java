@@ -90,10 +90,8 @@ public class MicrofrontendAdminController {
 		} catch (IOException e) {
 			return new ResponseEntity<>("Problemas com o ficheiro, tipo ou formato", HttpStatus.CONFLICT);
 		} catch (LdoDException ldodE) {
-			System.out.println(ldodE.getMessage());
 			return new ResponseEntity<>(ldodE.getMessage(), HttpStatus.CONFLICT);
 		}
-		System.out.println("3");
 		return new ResponseEntity<>("Corpus carregado", HttpStatus.OK);
 	}
 	
@@ -263,7 +261,6 @@ public class MicrofrontendAdminController {
 			IOUtils.copy(is, response.getOutputStream());
 			response.flushBuffer();
 		} catch (IOException ex) {
-			System.out.println("Error writing file to output stream. Filename was '{}'");
 			throw new RuntimeException("IOError writing file to output stream");
 		}
 	}
@@ -300,7 +297,6 @@ public class MicrofrontendAdminController {
 			IOUtils.copy(is, response.getOutputStream());
 			response.flushBuffer();
 		} catch (IOException ex) {
-			System.out.println("Error writing file to output stream. Filename was '{}'");
 			throw new RuntimeException("IOError writing file to output stream");
 		}
 	}
@@ -349,7 +345,6 @@ public class MicrofrontendAdminController {
 			IOUtils.copy(is, response.getOutputStream());
 			response.flushBuffer();
 		} catch (IOException ex) {
-			System.out.println("Error writing file to output stream. Filename was '{}'");
 			throw new RuntimeException("IOError writing file to output stream");
 		}
 	}
@@ -368,7 +363,6 @@ public class MicrofrontendAdminController {
 			IOUtils.copy(is, response.getOutputStream());
 			response.flushBuffer();
 		} catch (IOException ex) {
-			System.out.println("Error writing file to output stream. Filename was '{}'");
 			throw new RuntimeException("IOError writing file to output stream");
 		}
 	}
@@ -493,7 +487,6 @@ public class MicrofrontendAdminController {
 	public String editUser(@RequestBody EditUserForm form, BindingResult formBinding) {
 		logger.debug("editUser username:{}", form.getOldUsername());
 
-		System.out.println(form.getEmail());
 		EditUserValidator validator = new EditUserValidator();
 		validator.validate(form, formBinding);
 
@@ -533,7 +526,6 @@ public class MicrofrontendAdminController {
 	@RequestMapping(method = RequestMethod.GET, value = "/virtual/list")
 	@PreAuthorize("hasPermission('', 'admin')")
 	public List<VirtualEditionDto> manageVirtualEditions() {
-
 		return LdoD.getInstance().getVirtualEditionsSet().stream()
 				.sorted((v1, v2) -> v1.getAcronym().compareTo(v2.getAcronym())).map(ve -> new VirtualEditionDto(ve, "manageVirtual")).collect(Collectors.toList());
 	}

@@ -84,7 +84,7 @@ const Recommendation = (props) => {
             id : interId,
             properties : json
         }
-        setCriteriaChange(data1)
+        setCriteriaChange(data1, data.externalId)
             .then(res => {
                 setCurrentEdition(res.data.recommendedEditionInter)
             })
@@ -126,7 +126,7 @@ const Recommendation = (props) => {
         for(let el of currentEdition){
             inters.push(el.externalId)
         }
-        saveNewInters(data.acronym, inters)
+        saveNewInters(data.acronym, inters, data.externalId)
     }
 
     const setNewInitialHandler = (id) => {

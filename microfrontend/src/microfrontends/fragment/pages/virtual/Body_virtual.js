@@ -10,7 +10,6 @@ const Body_virtual = (props) => {
     useEffect(() => {
         getVirtualIntersByArrayExternalId(props.externalId, props.selectedInters)
             .then(res => {
-                console.log(res.data);
                 dataHandler(res.data)
             })
         // eslint-disable-next-line react-hooks/exhaustive-deps

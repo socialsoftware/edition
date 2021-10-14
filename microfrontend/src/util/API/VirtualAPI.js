@@ -138,6 +138,7 @@ export function approveMember(externalId, username) {
 }
 
 export function getRecommendationPage(externalId) {
+    console.log(externalId)
     return axios.get(API_BASE_URL + `/api/microfrontend/virtual/restricted/recommendation/${externalId}`, 
     {
         headers: {
@@ -148,8 +149,8 @@ export function getRecommendationPage(externalId) {
     })
 }
 
-export function setCriteriaChange(data) {
-    return axios.post(API_BASE_URL + `/api/microfrontend/virtual/linear`, 
+export function setCriteriaChange(data, externalId) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/virtual/linear/${externalId}`, 
         data, 
         {
             headers: {
@@ -161,8 +162,9 @@ export function setCriteriaChange(data) {
     )
 }
 
-export function saveNewInters(acronym, inters) {
-    return axios.post(API_BASE_URL + `/api/microfrontend/virtual/linear/save`, 
+export function saveNewInters(acronym, inters, externalId) {
+    console.log(externalId);
+    return axios.post(API_BASE_URL + `/api/microfrontend/virtual/linear/save/${externalId}`, 
         `acronym=${acronym}&inter[]=${inters}`, 
         {
             headers: {

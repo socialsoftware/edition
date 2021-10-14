@@ -1,7 +1,5 @@
 
 const initialState = {
-    user : {},
-    data: {},
     recommendation: {
         read: [],
         heteronymWeight: 0,
@@ -97,13 +95,6 @@ export default function(state = initialState, action) {
                 ...state,
                 modules : aux
             }
-        }
-        case "SET_DATA" : {
-            return {
-                ...state,
-                data : action.payload.data
-            }
-            
         }
         case "SET_REC" : {
             return {

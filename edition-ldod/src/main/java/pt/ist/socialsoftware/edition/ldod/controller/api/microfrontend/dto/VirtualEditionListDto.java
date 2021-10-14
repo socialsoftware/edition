@@ -21,7 +21,7 @@ public class VirtualEditionListDto {
 	
 
 	public VirtualEditionListDto(VirtualEdition edition, String type) {	
-		if(type == "shallow") {
+		if(type.equals("shallow")) {
 			if(edition.getTitle()!=null) {
 				this.setTitle(edition.getTitle());
 			}
@@ -33,7 +33,6 @@ public class VirtualEditionListDto {
 			this.setParticipantList(edition.getParticipantList().stream()
 					.map(ParticipantDto::new)
 					.collect(Collectors.toList()));
-			//System.out.println(StringEscapeUtils.unescapeXml(edition.getSynopsis()));
 			this.setSynopsis(edition.getSynopsis());
 			if(edition.getTaxonomy().getCategoriesSet().size() > 0) {
 				this.setAcronym(edition.getAcronym());
