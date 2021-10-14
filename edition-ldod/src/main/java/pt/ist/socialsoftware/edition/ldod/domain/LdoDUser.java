@@ -27,27 +27,25 @@ public class LdoDUser extends LdoDUser_Base {
 
 	@Override
 	public void setFirstName(String firstName) {
-		//if (!firstName.matches("^[\\p{L}\\s]+$")) {
-		//	throw new LdoDException(firstName);
-		//}
-		// TO DO - CHECK FIRST NAME 
+		if (!firstName.matches("^[\\p{L}\\s]+$")) {
+			throw new LdoDException(firstName);
+		}
 		super.setFirstName(firstName);
 	}
 
 	@Override
 	public void setLastName(String lastName) {
-		//if (!lastName.matches("^[\\p{L}\\s]+$")) {
-		//	throw new LdoDException(lastName);
-		//}
-		// TO DO - CHECK LAST NAME 
+		if (!lastName.matches("^[\\p{L}\\s]+$")) {
+			throw new LdoDException(lastName);
+		}
 		super.setLastName(lastName);
 	}
 
 	@Override
 	public void setUsername(String username) {
-		//if (!username.matches("^[A-Za-z0-9_\\s\\-]+$")) {
-		//	throw new LdoDException(username);
-		//}
+		if (!username.matches("^[A-Za-z0-9_\\s\\-]+$")) {
+			throw new LdoDException(username);
+		}
 		checkUniqueUsername(username);
 		super.setUsername(username);
 	}

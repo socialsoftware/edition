@@ -6,13 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -24,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -82,7 +77,7 @@ public class MicrofrontendAdminController {
 	private PasswordEncoder passwordEncoder;
     
 	@PostMapping(value = "/load/corpus")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public ResponseEntity<String> loadTEICorpus(@RequestBody MultipartFile file)
 			throws LdoDLoadException {
 		if (file == null) {
@@ -103,7 +98,7 @@ public class MicrofrontendAdminController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsAtOnce")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public ResponseEntity<String> loadTEIFragmentsAtOnce(@RequestBody MultipartFile file) throws LdoDLoadException {
 		String message = null;
 		if (file == null) {
@@ -127,7 +122,7 @@ public class MicrofrontendAdminController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsStepByStep")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public ResponseEntity<String> loadTEIFragmentsStepByStep(@RequestBody MultipartFile[] files) throws LdoDLoadException {
 
 		if (files == null) {
@@ -152,7 +147,7 @@ public class MicrofrontendAdminController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/load/users")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public ResponseEntity<String> loadUsersXML(@RequestBody MultipartFile file)
 			throws LdoDLoadException {
 		if (file == null) {
@@ -170,7 +165,7 @@ public class MicrofrontendAdminController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/load/virtual-corpus")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public ResponseEntity<String> loadVirtualCorpus(@RequestBody MultipartFile file)
 			throws LdoDLoadException {
 		if (file == null) {
@@ -188,7 +183,7 @@ public class MicrofrontendAdminController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/load/virtual-fragments")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public ResponseEntity<String> loadVirtualFragments(@RequestBody MultipartFile[] files) throws LdoDLoadException {
 		if (files == null) {
 			return new ResponseEntity<>("Deve escolher um ficheiro", HttpStatus.CONFLICT);
@@ -213,7 +208,7 @@ public class MicrofrontendAdminController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/exportSearch")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public List<FragmentDto> exportSearch(@RequestParam("query") String query) {
 
 		LdoD ldoD = LdoD.getInstance();
@@ -238,7 +233,7 @@ public class MicrofrontendAdminController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/exportSearchResult")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public void exportSearchResult(HttpServletResponse response, @RequestParam("query") String query) {
 
 		LdoD ldoD = LdoD.getInstance();
@@ -275,7 +270,7 @@ public class MicrofrontendAdminController {
 
 
 	@RequestMapping(method = RequestMethod.GET, value = "/exportAll")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public void exportAll(HttpServletResponse response) {
 
 		LdoD ldoD = LdoD.getInstance();
@@ -311,7 +306,7 @@ public class MicrofrontendAdminController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/exportRandom")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public void exportRandom(HttpServletResponse response) {
 
 		LdoD ldoD = LdoD.getInstance();
@@ -360,7 +355,7 @@ public class MicrofrontendAdminController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/export/users")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public void exportUsers(HttpServletResponse response) {
 		UsersXMLExport generator = new UsersXMLExport();
 
@@ -379,7 +374,7 @@ public class MicrofrontendAdminController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/export/virtualeditions")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public void exportVirtualEditions(HttpServletResponse response) throws IOException {
 		WriteVirtualEditonsToFile write = new WriteVirtualEditonsToFile();
 		String filename = write.export();
@@ -395,13 +390,13 @@ public class MicrofrontendAdminController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/list")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public List<FragmentDto> deleteFragmentsList() {
 		return LdoD.getInstance().getFragmentsSet().stream().map(FragmentDto::new).collect(Collectors.toList());
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/fragment/delete")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public List<FragmentDto> deleteFragment(@RequestParam("externalId") String externalId) {
 		Fragment fragment = FenixFramework.getDomainObject(externalId);
 		if (fragment == null) {
@@ -413,7 +408,7 @@ public class MicrofrontendAdminController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/fragment/deleteAll")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public List<FragmentDto> deleteAllFragments() {
 		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
 			fragment.remove();
@@ -422,7 +417,7 @@ public class MicrofrontendAdminController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/switch")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public UserListDto switchAdminMode() {
 		logger.debug("switchAdminMode");
 
@@ -433,7 +428,7 @@ public class MicrofrontendAdminController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/sessions/delete")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public UserListDto deleteUserSessons() {
 		logger.debug("deleteUserSessons");
 
@@ -457,24 +452,24 @@ public class MicrofrontendAdminController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/user/list")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public UserListDto listUser() {
 		List<SessionInformation> activeSessions = new ArrayList<>();
 		for (Object principal : this.sessionRegistry.getAllPrincipals()) {
 			activeSessions.addAll(this.sessionRegistry.getAllSessions(principal, false));
 		}
-		activeSessions.stream().sorted((s1, s2) -> s1.getLastRequest().compareTo(s2.getLastRequest()));
+		activeSessions.stream().sorted(Comparator.comparing(SessionInformation::getLastRequest));
 		
 		
 		return new UserListDto(LdoD.getInstance(), LdoD.getInstance().getUsersSet().stream()
-				.sorted((u1, u2) -> u1.getFirstName().toLowerCase().compareTo(u2.getFirstName().toLowerCase()))
+				.sorted(Comparator.comparing(u -> u.getFirstName().toLowerCase()))
 				.collect(Collectors.toList()), activeSessions.stream()
 				.sorted((s1, s2) -> s2.getLastRequest().compareTo(s1.getLastRequest())).collect(Collectors.toList()));
 
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/user/edit")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public EditUserForm editUserForm(@RequestParam("externalId") String externalId) {
 		logger.debug("editUserForm externalId:{}", externalId);
 
@@ -494,7 +489,7 @@ public class MicrofrontendAdminController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/user/edit")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public String editUser(@RequestBody EditUserForm form, BindingResult formBinding) {
 		logger.debug("editUser username:{}", form.getOldUsername());
 
@@ -516,7 +511,7 @@ public class MicrofrontendAdminController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/user/active")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public UserListDto activeUser(@RequestParam("externalId") String externalId) {
 		LdoDUser user = FenixFramework.getDomainObject(externalId);
 
@@ -526,7 +521,7 @@ public class MicrofrontendAdminController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/user/delete")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public UserListDto removeUser(@RequestParam("externalId") String externalId) {
 		LdoDUser user = FenixFramework.getDomainObject(externalId);
 
@@ -536,7 +531,7 @@ public class MicrofrontendAdminController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/virtual/list")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public List<VirtualEditionDto> manageVirtualEditions() {
 
 		return LdoD.getInstance().getVirtualEditionsSet().stream()
@@ -544,7 +539,7 @@ public class MicrofrontendAdminController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/virtual/delete")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public List<VirtualEditionDto> deleteVirtualEdition(@RequestParam("externalId") String externalId) {
 		VirtualEdition edition = FenixFramework.getDomainObject(externalId);
 		if (edition == null) {
@@ -556,7 +551,7 @@ public class MicrofrontendAdminController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/tweets")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public TweetListDto manageTweets() {
 		logger.debug("manageTweets");
 
@@ -570,7 +565,7 @@ public class MicrofrontendAdminController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/tweets/removeTweets")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public TweetListDto removeTweets() {
 		logger.debug("removeTweets");
 		LdoD.getInstance().removeTweets();
@@ -578,7 +573,7 @@ public class MicrofrontendAdminController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/tweets/generateCitations")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasPermission('', 'admin')")
 	public TweetListDto generateCitations(Model model) throws IOException {
 		logger.debug("generateCitations");
 		CitationDetecter detecter = new CitationDetecter();

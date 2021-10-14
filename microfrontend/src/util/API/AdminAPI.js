@@ -6,6 +6,8 @@ export function loadCorpus(file) {
         file, 
         {
             headers: {
+                'Content-type': 'application/json',
+                Accept: 'application/json',
                 Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
             }
         }
@@ -217,15 +219,13 @@ export function getAdminVirtualList() {
 }
 
 export function deleteAdminVirtualEdition(externalId) {
-    return axios.post(API_BASE_URL + `/api/microfrontend/admin/virtual/delete`, 
-        {
-            params : {
-                externalId : externalId
-            },
+    return axios.post(API_BASE_URL + `/api/microfrontend/admin/virtual/delete`,
+        `externalId=${externalId}`,
+    {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
             }
-        } 
+        }
     )
 }
 

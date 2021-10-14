@@ -62,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.logout().logoutUrl("/signout").deleteCookies("JSESSIONID").invalidateHttpSession(true).and()
 				.authorizeRequests().antMatchers("/virtualeditions/restricted/**", "/user/**", "/api/microfrontend/virtual/restricted/**").authenticated()
 				.antMatchers("/admin/**").hasAuthority(RoleType.ROLE_ADMIN.name())
-				.antMatchers("/api/microfrontend/admin/**").hasAuthority(RoleType.ROLE_ADMIN.name()).and().sessionManagement()
+				.and().sessionManagement()
 				.maximumSessions(2).sessionRegistry(sessionRegistry());
 
 		http.cors().and().authorizeRequests().antMatchers("/api/user/**", "/api/services/**").authenticated().and()
