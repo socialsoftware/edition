@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -390,45 +391,45 @@ public class MicrofrontendAdminController {
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/fragment/list")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public List<FragmentDto> deleteFragmentsList() {
+	public List<FragmentDto> deleteFragmentsList(@AuthenticationPrincipal LdoDUserDetails currentUser) {
 		return LdoD.getInstance().getFragmentsSet().stream().map(FragmentDto::new).collect(Collectors.toList());
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/fragment/delete")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public List<FragmentDto> deleteFragment(@RequestParam("externalId") String externalId) {
+	public List<FragmentDto> deleteFragment(@AuthenticationPrincipal LdoDUserDetails currentUser, @RequestParam("externalId") String externalId) {
 		Fragment fragment = FenixFramework.getDomainObject(externalId);
 		if (fragment == null) {
 			return null;
 		} else if (LdoD.getInstance().getFragmentsSet().size() >= 1) {
 			fragment.remove();
 		}
-		return deleteFragmentsList();
+		return deleteFragmentsList(currentUser);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/fragment/deleteAll")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public List<FragmentDto> deleteAllFragments() {
+	public List<FragmentDto> deleteAllFragments(@AuthenticationPrincipal LdoDUserDetails currentUser) {
 		for (Fragment fragment : LdoD.getInstance().getFragmentsSet()) {
 			fragment.remove();
 		}
-		return deleteFragmentsList();
+		return deleteFragmentsList(currentUser);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/switch")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public UserListDto switchAdminMode() {
+	public UserListDto switchAdminMode(@AuthenticationPrincipal LdoDUserDetails currentUser) {
 		logger.debug("switchAdminMode");
 
 		LdoD ldoD = LdoD.getInstance();
 		ldoD.switchAdmin();
 
-		return this.listUser();
+		return this.listUser(currentUser);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/sessions/delete")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public UserListDto deleteUserSessons() {
+	public UserListDto deleteUserSessons(@AuthenticationPrincipal LdoDUserDetails currentUser) {
 		logger.debug("deleteUserSessons");
 
 		List<SessionInformation> activeSessions = new ArrayList<>();
@@ -447,12 +448,12 @@ public class MicrofrontendAdminController {
 			}
 		}
 
-		return this.listUser();
+		return this.listUser(currentUser);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/user/list")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public UserListDto listUser() {
+	public UserListDto listUser(@AuthenticationPrincipal LdoDUserDetails currentUser) {
 		List<SessionInformation> activeSessions = new ArrayList<>();
 		for (Object principal : this.sessionRegistry.getAllPrincipals()) {
 			activeSessions.addAll(this.sessionRegistry.getAllSessions(principal, false));
@@ -510,27 +511,27 @@ public class MicrofrontendAdminController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/user/active")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public UserListDto activeUser(@RequestParam("externalId") String externalId) {
+	public UserListDto activeUser(@AuthenticationPrincipal LdoDUserDetails currentUser, @RequestParam("externalId") String externalId) {
 		LdoDUser user = FenixFramework.getDomainObject(externalId);
 
 		user.switchActive();
 
-		return this.listUser();
+		return this.listUser(currentUser);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/user/delete")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public UserListDto removeUser(@RequestParam("externalId") String externalId) {
+	public UserListDto removeUser(@AuthenticationPrincipal LdoDUserDetails currentUser, @RequestParam("externalId") String externalId) {
 		LdoDUser user = FenixFramework.getDomainObject(externalId);
 
 		user.remove();
 
-		return this.listUser();
+		return this.listUser(currentUser);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/virtual/list")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public List<VirtualEditionDto> manageVirtualEditions() {
+	public List<VirtualEditionDto> manageVirtualEditions(@AuthenticationPrincipal LdoDUserDetails currentUser) {
 
 		return LdoD.getInstance().getVirtualEditionsSet().stream()
 				.sorted((v1, v2) -> v1.getAcronym().compareTo(v2.getAcronym())).map(ve -> new VirtualEditionDto(ve, "manageVirtual")).collect(Collectors.toList());
@@ -538,19 +539,19 @@ public class MicrofrontendAdminController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/virtual/delete")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public List<VirtualEditionDto> deleteVirtualEdition(@RequestParam("externalId") String externalId) {
+	public List<VirtualEditionDto> deleteVirtualEdition(@AuthenticationPrincipal LdoDUserDetails currentUser, @RequestParam("externalId") String externalId) {
 		VirtualEdition edition = FenixFramework.getDomainObject(externalId);
 		if (edition == null) {
 			return null;
 		} else {
 			edition.remove();
 		}
-		return this.manageVirtualEditions();
+		return this.manageVirtualEditions(currentUser);
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/tweets")
+	@RequestMapping(method = RequestMethod.POST, value = "/tweets")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public TweetListDto manageTweets() {
+	public TweetListDto manageTweets(@AuthenticationPrincipal LdoDUserDetails currentUser) {
 		logger.debug("manageTweets");
 
 		DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
@@ -564,15 +565,15 @@ public class MicrofrontendAdminController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/tweets/removeTweets")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public TweetListDto removeTweets() {
+	public TweetListDto removeTweets(@AuthenticationPrincipal LdoDUserDetails currentUser) {
 		logger.debug("removeTweets");
 		LdoD.getInstance().removeTweets();
-		return this.manageTweets();
+		return this.manageTweets(currentUser);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/tweets/generateCitations")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public TweetListDto generateCitations(Model model) throws IOException {
+	public TweetListDto generateCitations(@AuthenticationPrincipal LdoDUserDetails currentUser) throws IOException {
 		logger.debug("generateCitations");
 		CitationDetecter detecter = new CitationDetecter();
 		detecter.detect();
@@ -588,6 +589,6 @@ public class MicrofrontendAdminController {
 		// Repeat to update edition
 		awareFactory.generate();
 
-		return this.manageTweets();
+		return this.manageTweets(currentUser);
 	}
 }

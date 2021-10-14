@@ -193,7 +193,6 @@ export function getInterWithDiff(interID, displayDiff) {
 }
 
 export function getAuthorialInterWithDiffs(interID, obj) {
-    console.log(obj);
     return axios.post(API_BASE_URL + `/api/microfrontend/fragment/inter/authorial`, 
         `interp[]=${interID}&diff=${obj["diff"]}&del=${obj["del"]}&ins=${obj["ins"]}&subst=${obj["subst"]}&notes=${obj["notes"]}&facs=${obj["facs"]}&pb=${obj["pb"]}`, 
         {

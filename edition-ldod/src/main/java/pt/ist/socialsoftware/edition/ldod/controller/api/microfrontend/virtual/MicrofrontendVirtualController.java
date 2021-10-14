@@ -650,18 +650,18 @@ public class MicrofrontendVirtualController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/delete")
-	public String deleteVirtualEdition(@AuthenticationPrincipal LdoDUserDetails currentUser, @RequestParam("externalId") String externalId) {
+	@PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
+	public ResponseEntity<Object> deleteVirtualEdition(@AuthenticationPrincipal LdoDUserDetails currentUser, @RequestParam("externalId") String externalId) {
 		logger.debug("deleteVirtualEdition externalId:{}", externalId);
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(externalId);
 		if (virtualEdition == null) {
-			return "erro";
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		} else {
 
 			virtualEdition.remove();
 
-			return "success";
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 	}
-
 
 }

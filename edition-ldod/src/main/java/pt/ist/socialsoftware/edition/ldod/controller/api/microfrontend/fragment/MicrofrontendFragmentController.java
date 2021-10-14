@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -505,22 +507,20 @@ public class MicrofrontendFragmentController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/restricted/addinter/{veId}/{interId}")
-	public String addInter(@PathVariable String veId, @PathVariable String interId) {
+	public ResponseEntity<Object> addInter(@PathVariable String veId, @PathVariable String interId) {
 		VirtualEdition virtualEdition = FenixFramework.getDomainObject(veId);
 		FragInter inter = FenixFramework.getDomainObject(interId);
 		if (virtualEdition == null || inter == null) {
-			return "error 1";
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 
 		VirtualEditionInter addInter = virtualEdition.createVirtualEditionInter(inter,
 				virtualEdition.getMaxFragNumber() + 1);
 		
-
-		
 		if (addInter == null) {
-			return "error";
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		} else {
-			return "success";
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 	}
 }
