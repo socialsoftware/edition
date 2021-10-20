@@ -12,6 +12,7 @@ public class LdoDUserDto {
 	private String lastName;
 	private boolean enabled;
 	private boolean active;
+	private String roles;
 
 	public LdoDUserDto() {
 	}
@@ -22,6 +23,7 @@ public class LdoDUserDto {
 		this.active = user.getActive();
 		this.firstName = user.getFirstName();
 		this.lastName = user.getLastName();
+		this.setRoles(user.getListOfRolesAsStrings());
 	}
 
 	public String getUsername() {
@@ -70,6 +72,14 @@ public class LdoDUserDto {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public String getRoles() {
+		return roles;
+	}
+
+	public void setRoles(String roles) {
+		this.roles = roles;
 	}
 
 }

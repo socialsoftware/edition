@@ -135,6 +135,7 @@ public class SearchController {
   @RequestMapping(value = "/advanced/result", method = RequestMethod.POST, headers = {
       "Content-type=application/json" })
   public String advancedSearchResultNew(Model model, @RequestBody Search search) {
+  logger.debug("AdvancedSearchResult params:{}", search);
     Map<Fragment, Map<FragInter, List<SearchOption>>> results = search.search();
 
     int fragCount = 0;

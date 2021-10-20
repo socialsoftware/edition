@@ -20,7 +20,6 @@ import pt.ist.socialsoftware.edition.ldod.search.options.SearchOption.Mode;
 public class Search {
 	private static final String OPTIONS = "options";
 	private static final String MODE = "mode";
-
 	private final Mode mode;
 	private final SearchOption[] searchOptions;
 

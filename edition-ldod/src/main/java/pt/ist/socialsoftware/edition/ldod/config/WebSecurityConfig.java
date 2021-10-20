@@ -60,8 +60,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable().formLogin().loginPage("/signin").successHandler(ldoDAuthenticationSuccessHandler())
 				.loginProcessingUrl("/signin/authenticate").failureUrl("/signin?param.error=bad_credentials").and()
 				.logout().logoutUrl("/signout").deleteCookies("JSESSIONID").invalidateHttpSession(true).and()
-				.authorizeRequests().antMatchers("/virtualeditions/restricted/**", "/user/**").authenticated()
-				.antMatchers("/admin/**").hasAuthority(RoleType.ROLE_ADMIN.name()).and().sessionManagement()
+				.authorizeRequests().antMatchers("/virtualeditions/restricted/**", "/user/**", "/api/microfrontend/virtual/restricted/**").authenticated()
+				.antMatchers("/admin/**").hasAuthority(RoleType.ROLE_ADMIN.name())
+				.and().sessionManagement()
 				.maximumSessions(2).sessionRegistry(sessionRegistry());
 
 		http.cors().and().authorizeRequests().antMatchers("/api/user/**", "/api/services/**").authenticated().and()

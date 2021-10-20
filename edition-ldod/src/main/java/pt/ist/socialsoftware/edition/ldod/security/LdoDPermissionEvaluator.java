@@ -9,16 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.Category;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.Tag;
-import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 
 @Component
 public class LdoDPermissionEvaluator implements PermissionEvaluator {
@@ -39,7 +30,11 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 
 		String[] permissions = ((String) permission).split("\\.");
 
-		log.debug("hasPermission {}, {}, {}", targetDomainObject, permissions[0], permissions[1]);
+		log.debug("hasPermission {}, {}", targetDomainObject, permission);
+
+		if (permissions[0].equals(ADMIN)) {
+			return loggedUser.getRolesSet().stream().map(Role::getType).anyMatch(roleType -> roleType.equals(Role.RoleType.ROLE_ADMIN));
+		}
 
 		VirtualEdition virtualEdition = null;
 		LdoDUser user = null;

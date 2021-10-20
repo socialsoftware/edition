@@ -154,6 +154,7 @@ public class AdminController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String loadTEIFragmentsStepByStep(RedirectAttributes redirectAttributes,
 			@RequestParam("files") MultipartFile[] files) throws LdoDLoadException {
+		
 
 		if (files == null) {
 			redirectAttributes.addFlashAttribute("error", true);
@@ -393,7 +394,6 @@ public class AdminController {
 			IOUtils.copy(is, response.getOutputStream());
 			response.flushBuffer();
 		} catch (IOException ex) {
-			System.out.println("Error writing file to output stream. Filename was '{}'");
 			throw new RuntimeException("IOError writing file to output stream");
 		}
 	}
@@ -428,7 +428,6 @@ public class AdminController {
 			IOUtils.copy(is, response.getOutputStream());
 			response.flushBuffer();
 		} catch (IOException ex) {
-			System.out.println("Error writing file to output stream. Filename was '{}'");
 			throw new RuntimeException("IOError writing file to output stream");
 		}
 	}
@@ -476,7 +475,6 @@ public class AdminController {
 			IOUtils.copy(is, response.getOutputStream());
 			response.flushBuffer();
 		} catch (IOException ex) {
-			System.out.println("Error writing file to output stream. Filename was '{}'");
 			throw new RuntimeException("IOError writing file to output stream");
 		}
 	}
@@ -494,7 +492,6 @@ public class AdminController {
 			IOUtils.copy(is, response.getOutputStream());
 			response.flushBuffer();
 		} catch (IOException ex) {
-			System.out.println("Error writing file to output stream. Filename was '{}'");
 			throw new RuntimeException("IOError writing file to output stream");
 		}
 	}
