@@ -57,6 +57,8 @@ const Fragment_DISPATCHER = (props) => {
                 <BodyVirtual 
                     externalId = {externalId}
                     selectedInters = {selectedInters}
+                    selectedVEAcr = {props.selectedVEAcr}
+                    isAuthenticated = {props.isAuthenticated}
                     messages={props.messages}/>
             </div>
 

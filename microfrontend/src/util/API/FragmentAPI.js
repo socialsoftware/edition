@@ -75,15 +75,26 @@ export function getPrevVirtualFragmentWithXmlAndUrlNoUSER (xmlId, urlId, arraySe
     return axios.post(API_BASE_URL + `/api/microfrontend/fragment/virtual/${xmlId}/inter/${urlId}/prevFrag`, arraySelected, {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: null
             }
         } 
     )
 }
 
-export function getVirtualIntersByArrayExternalId(fragmentExternalId, arrayInterId) {
+export function getVirtualIntersByArrayExternalId(fragmentExternalId, arrayInterId, arraySelected) {
     return axios.post(API_BASE_URL + `/api/microfrontend/fragment/virtual/inter`, 
-        `fragment=${fragmentExternalId}&inters[]=${arrayInterId}`, 
+        `fragment=${fragmentExternalId}&inters[]=${arrayInterId}&selectedVE=${arraySelected}`, 
+        {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`
+            }
+        } 
+    )
+}
+
+export function getVirtualIntersByArrayExternalIdNoUser(fragmentExternalId, arrayInterId, arraySelected) {
+    return axios.post(API_BASE_URL + `/api/microfrontend/fragment/virtual/inter/noUser`, 
+        `fragment=${fragmentExternalId}&inters[]=${arrayInterId}&selectedVE=${arraySelected}`, 
         {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',

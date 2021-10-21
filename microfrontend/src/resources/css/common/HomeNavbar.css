@@ -8,7 +8,14 @@
     height: auto;
     margin-left: 20px;
 }
- 
+
+.react-beta{
+    width: 30px;
+    height: 10px;
+    margin-left: 5px;
+    margin-top: 20px;
+}
+
 .home{
     font-family: 'Work Sans', sans-serif;
 }

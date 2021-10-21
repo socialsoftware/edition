@@ -7,8 +7,8 @@ import right from '../../../../resources/assets/right-arrow-blue.png'
 import {ReactComponent as Plus} from '../../../../resources/assets/plus-lg.svg'
 import {getVirtualFragmentWithXmlAndUrl, getVirtualFragmentWithXml,
     getVirtualFragmentWithXmlNoUser, getVirtualFragmentWithXmlAndUrlNoUser,
-    getNextFragmentWithXmlAndUrl, getNextFragmentWithXmlAndUrlNoUSER, 
-    getPrevFragmentWithXmlAndUrl, getPrevFragmentWithXmlAndUrlNoUSER, 
+    getNextVirtualFragmentWithXmlAndUrl, getNextVirtualFragmentWithXmlAndUrlNoUSER, 
+    getPrevVirtualFragmentWithXmlAndUrl, getPrevVirtualFragmentWithXmlAndUrlNoUSER, 
     getIntersByArrayExternalId, addToEdition} from '../../../../util/API/FragmentAPI'
 
 const Navigation_virtual = (props) => {
@@ -167,7 +167,7 @@ const Navigation_virtual = (props) => {
     const handleNextClick = (xml, url, nextOrPrev) => {
         if(nextOrPrev === "next"){
             if(props.isAuthenticated){
-                getNextFragmentWithXmlAndUrl(xml, url, props.selectedVEAcr)
+                getNextVirtualFragmentWithXmlAndUrl(xml, url, props.selectedVEAcr)
                 .then(res => {
                     history.replace(`/fragments/fragment/${res.data.fragment.fragmentXmlId}/inter/${res.data.inters[0]?res.data.inters[0].urlId:null}`)
                     dataHandler(res.data)
@@ -176,7 +176,7 @@ const Navigation_virtual = (props) => {
                 })
             }
             else{
-                getNextFragmentWithXmlAndUrlNoUSER(xml, url, props.selectedVEAcr)
+                getNextVirtualFragmentWithXmlAndUrlNoUSER(xml, url, props.selectedVEAcr)
                 .then(res => {
                     history.replace(`/fragments/fragment/${res.data.fragment.fragmentXmlId}/inter/${res.data.inters[0]?res.data.inters[0].urlId:null}`)
                     dataHandler(res.data)
@@ -188,7 +188,7 @@ const Navigation_virtual = (props) => {
         }
         else if(nextOrPrev === "prev"){
             if(props.isAuthenticated){
-                getPrevFragmentWithXmlAndUrl(xml, url, props.selectedVEAcr)
+                getPrevVirtualFragmentWithXmlAndUrl(xml, url, props.selectedVEAcr)
                 .then(res => {
                     history.replace(`/fragments/fragment/${res.data.fragment.fragmentXmlId}/inter/${res.data.inters[0]?res.data.inters[0].urlId:null}`)
                     dataHandler(res.data)
@@ -197,7 +197,7 @@ const Navigation_virtual = (props) => {
                 }) 
             }
             else{
-                getPrevFragmentWithXmlAndUrlNoUSER(xml, url, props.selectedVEAcr)
+                getPrevVirtualFragmentWithXmlAndUrlNoUSER(xml, url, props.selectedVEAcr)
                 .then(res => {
                     history.replace(`/fragments/fragment/${res.data.fragment.fragmentXmlId}/inter/${res.data.inters[0]?res.data.inters[0].urlId:null}`)
                     dataHandler(res.data)

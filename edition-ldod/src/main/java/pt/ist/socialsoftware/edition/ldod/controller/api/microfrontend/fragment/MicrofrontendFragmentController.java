@@ -157,15 +157,16 @@ public class MicrofrontendFragmentController {
 		inter = edition.getNextNumberInter(inter, inter.getNumber());
 		
 		if(currentUser == null) {
-			return this.getFragmentWithInterForUrlIdNoUser(inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
+			return this.getVirtualFragmentWithInterForUrlIdNoUser(inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
 		}
 
-		return this.getFragmentWithInterForUrlId(currentUser, inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
+		return this.getVirtualFragmentWithInterForUrlId(currentUser, inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/virtual/{xmlId}/inter/{urlId}/prevFrag")
 	@PreAuthorize("hasPermission(#xmlId, #urlId, 'fragInter.public')")
-	public FragmentBodyDto getPrevVirtualFragmentWithInter(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
+	public FragmentBodyDto getPrevVirtualFragmentWithInter(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, 
+			@PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
 		
 		
 		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
@@ -182,15 +183,65 @@ public class MicrofrontendFragmentController {
 		inter = edition.getPrevNumberInter(inter, inter.getNumber());
 		
 		if(currentUser == null) {
-			return this.getFragmentWithInterForUrlIdNoUser(inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
+			return this.getVirtualFragmentWithInterForUrlIdNoUser(inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
 		}
 
-		return this.getFragmentWithInterForUrlId(currentUser, inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
+		return this.getVirtualFragmentWithInterForUrlId(currentUser, inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
 	}
 	
+		
 	@RequestMapping(method = RequestMethod.POST, value = "/virtual/inter")
-	public FragmentBodyDto getVirtualInter(@RequestParam(value = "fragment", required = true) String externalId,
-			@RequestParam(value = "inters[]", required = false) String[] intersID) {
+	public FragmentBodyDto getVirtualInter(@AuthenticationPrincipal LdoDUserDetails currentUser, @RequestParam(value = "fragment", required = true) String externalId,
+			@RequestParam(value = "inters[]", required = false) String[] intersID, @RequestParam(value = "selectedVE", required = true) ArrayList<String> selectedVE) {
+
+		Fragment fragment = FenixFramework.getDomainObject(externalId);
+
+		List<FragInter> inters = new ArrayList<>();
+		if (intersID != null) {
+			for (String interID : intersID) {
+				FragInter inter = (FragInter) FenixFramework.getDomainObject(interID);
+				if (inter != null) {
+					inters.add(inter);
+				}
+			}
+		}
+
+		HtmlWriter2CompInters writer = null;
+		PlainHtmlWriter4OneInter writer4One = null;
+		Boolean lineByLine = false;
+		Map<FragInter, HtmlWriter4Variations> variations = new HashMap<>();
+		List<AppText> apps = new ArrayList<>();
+
+		if (inters.size() == 1) {
+			FragInter inter = inters.get(0);
+			writer4One = new PlainHtmlWriter4OneInter(inter);
+			writer4One.write(false);
+		} else if (inters.size() > 1) {
+			writer = new HtmlWriter2CompInters(inters);
+			if (inters.size() > 2) {
+				lineByLine = true;
+			}
+
+			
+			for (FragInter inter : inters) {
+				variations.put(inter, new HtmlWriter4Variations(inter));
+			}
+
+			inters.get(0).getFragment().getTextPortion().putAppTextWithVariations(apps, inters);
+			Collections.reverse(apps);
+
+			writer.write(lineByLine, false);
+		}
+
+		LdoDUser user = currentUser.getUser();
+		
+		return new FragmentBodyDto(LdoD.getInstance(), user, fragment, inters, writer, writer4One, variations, apps, selectedVE);
+
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/virtual/inter/noUser")
+	public FragmentBodyDto getVirtualInterNoUser(@RequestParam(value = "fragment", required = true) String externalId,
+			@RequestParam(value = "inters[]", required = false) String[] intersID, @RequestParam(value = "selectedVE", required = true) ArrayList<String> selectedVE) {
 
 		Fragment fragment = FenixFramework.getDomainObject(externalId);
 
@@ -232,7 +283,7 @@ public class MicrofrontendFragmentController {
 		}
 
 		
-		return new FragmentBodyDto(LdoD.getInstance(), LdoDUser.getAuthenticatedUser(), fragment, inters, writer, writer4One, variations, apps);
+		return new FragmentBodyDto(LdoD.getInstance(), null, fragment, inters, writer, writer4One, variations, apps, selectedVE);
 
 	}
 	
@@ -241,31 +292,31 @@ public class MicrofrontendFragmentController {
 	
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/{xmlId}")
-	public FragmentBodyDto getFragment(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @RequestBody ArrayList<String> selectedVE) {
+	public FragmentBodyDto getFragment(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId) {
 		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
 
 		if (fragment == null) {
 			return null;
 		} else {
 			if(currentUser!=null)
-				return new FragmentBodyDto(LdoD.getInstance(), currentUser.getUser(), fragment, new ArrayList<FragInter>(), selectedVE);
-			else return new FragmentBodyDto(LdoD.getInstance(), null, fragment, new ArrayList<FragInter>(), selectedVE);
+				return new FragmentBodyDto(LdoD.getInstance(), currentUser.getUser(), fragment, new ArrayList<FragInter>());
+			else return new FragmentBodyDto(LdoD.getInstance(), null, fragment, new ArrayList<FragInter>());
 		}
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/{xmlId}/NoUser")
-	public FragmentBodyDto getFragment(@PathVariable String xmlId, @RequestBody ArrayList<String> selectedVE) {
+	public FragmentBodyDto getFragment(@PathVariable String xmlId) {
 		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
 
 		if (fragment == null) {
 			return null;
 		} else {
-			return new FragmentBodyDto(LdoD.getInstance(), null, fragment, new ArrayList<FragInter>(), selectedVE);
+			return new FragmentBodyDto(LdoD.getInstance(), null, fragment, new ArrayList<FragInter>());
 		}
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/{xmlId}/inter/{urlId}")
-	public FragmentBodyDto getFragmentWithInterForUrlId(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
+	public FragmentBodyDto getFragmentWithInterForUrlId(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @PathVariable String urlId) {
 
 		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
 
@@ -298,11 +349,11 @@ public class MicrofrontendFragmentController {
 		List<FragInter> inters = new ArrayList<>();
 		inters.add(inter);
 
-		return new FragmentBodyDto(LdoD.getInstance(), user, fragment, inters, writer, hasAccess, selectedVE);
+		return new FragmentBodyDto(LdoD.getInstance(), user, fragment, inters, writer, hasAccess);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/{xmlId}/inter/{urlId}/noUser")
-	public FragmentBodyDto getFragmentWithInterForUrlIdNoUser(@PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
+	public FragmentBodyDto getFragmentWithInterForUrlIdNoUser(@PathVariable String xmlId, @PathVariable String urlId) {
 
 		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
 
@@ -334,11 +385,11 @@ public class MicrofrontendFragmentController {
 		List<FragInter> inters = new ArrayList<>();
 		inters.add(inter);
 
-		return new FragmentBodyDto(LdoD.getInstance(), null, fragment, inters, writer, hasAccess, selectedVE);
+		return new FragmentBodyDto(LdoD.getInstance(), null, fragment, inters, writer, hasAccess);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/{xmlId}/inter/{urlId}/nextFrag")
-	public FragmentBodyDto getNextFragmentWithInter(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
+	public FragmentBodyDto getNextFragmentWithInter(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @PathVariable String urlId) {
 		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return null;
@@ -353,14 +404,14 @@ public class MicrofrontendFragmentController {
 		inter = edition.getNextNumberInter(inter, inter.getNumber());
 		
 		if(currentUser == null) {
-			return this.getFragmentWithInterForUrlIdNoUser(inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
+			return this.getFragmentWithInterForUrlIdNoUser(inter.getFragment().getXmlId(), inter.getUrlId());
 		}
 
-		return this.getFragmentWithInterForUrlId(currentUser, inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
+		return this.getFragmentWithInterForUrlId(currentUser, inter.getFragment().getXmlId(), inter.getUrlId());
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/{xmlId}/inter/{urlId}/prevFrag")
-	public FragmentBodyDto getPrevFragmentWithInter(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @PathVariable String urlId, @RequestBody ArrayList<String> selectedVE) {
+	public FragmentBodyDto getPrevFragmentWithInter(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @PathVariable String urlId) {
 		
 		
 		Fragment fragment = FenixFramework.getDomainRoot().getLdoD().getFragmentByXmlId(xmlId);
@@ -377,10 +428,10 @@ public class MicrofrontendFragmentController {
 		inter = edition.getPrevNumberInter(inter, inter.getNumber());
 		
 		if(currentUser == null) {
-			return this.getFragmentWithInterForUrlIdNoUser(inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
+			return this.getFragmentWithInterForUrlIdNoUser(inter.getFragment().getXmlId(), inter.getUrlId());
 		}
 
-		return this.getFragmentWithInterForUrlId(currentUser, inter.getFragment().getXmlId(), inter.getUrlId(), selectedVE);
+		return this.getFragmentWithInterForUrlId(currentUser, inter.getFragment().getXmlId(), inter.getUrlId());
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/inter")
