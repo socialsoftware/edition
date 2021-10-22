@@ -57,7 +57,6 @@ const Body_expert = (props) => {
             if(obj["inters"]!==null) aux["inters"] = obj["inters"]
             if(obj["hasAccess"]!==null) aux["hasAccess"] = obj["hasAccess"]
             if(obj["transcript"]!==null) aux["transcript"] = obj["transcript"]
-            if(obj["virtualEditionsDto"]!==null) aux["virtualEditionsDto"] = obj["virtualEditionsDto"]
             if(obj["setTranscriptionSideBySide"]!==null) aux["setTranscriptionSideBySide"] = obj["setTranscriptionSideBySide"]
             if(obj["variations"]!==null) aux["variations"] = obj["variations"]
             if(obj["writerLineByLine"]!==null) aux["writerLineByLine"] = obj["writerLineByLine"]

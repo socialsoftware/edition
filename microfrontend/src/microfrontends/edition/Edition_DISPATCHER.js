@@ -6,6 +6,7 @@ import VirtualEditionList from './pages/VirtualEditionList';
 import UserContributions from './pages/UserContributions';
 import TaxonomyList from './pages/TaxonomyList';
 import CategoryList from './pages/CategoryList';
+import ClassificationGameUsers from './pages/ClassificationGameUsers';
 import Edition from './pages/Edition';
 import '../../resources/css/common/Table.css'
 import '../../resources/css/common/SearchInput.css'
@@ -82,9 +83,13 @@ const Edition_DISPATCHER = (props) => {
                     messages={props.messages}
                 />
             </Route>
+            <Route exact path={`/edition/game/*`}>
+                <ClassificationGameUsers messages={props.messages}/>
+            </Route>
             <Route exact path={`/edition`}>
                 <Edition messages={props.messages}/>
             </Route>
+            
         </div>
     )
 }

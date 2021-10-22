@@ -53,12 +53,12 @@ const UserContributions = (props) => {
         return userData.games.map((val, i) => {
             if(i===userData.games.length-1){
                 return (
-                    <span key={i}><Link  to={`/virtualeditions/${val.virtualExternalId}/classificationGame/${val.externalId}`} className="edition-participant">{val.virtualTitle} - {val.interTitle}</Link></span>
+                    <span key={i}><Link  to={`/edition/game/${val.virtualExternalId}/classificationGame/${val.externalId}`} className="edition-participant">{val.virtualTitle} - {val.interTitle}</Link></span>
                 )
             }
             else{
                 return (
-                    <span key={i}><Link  to={`/virtualeditions/${val.virtualExternalId}/classificationGame/${val.externalId}`} className="edition-participant">{val.virtualTitle} - {val.interTitle}</Link>, </span>
+                    <span key={i}><Link  to={`/edition/game/${val.virtualExternalId}/classificationGame/${val.externalId}`} className="edition-participant">{val.virtualTitle} - {val.interTitle}</Link>, </span>
                 )
             }
             

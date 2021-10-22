@@ -24,3 +24,9 @@ export function getTaxonomyList (val) {
 export function getCategoryList (val, val2) {
     return axios.get(API_BASE_URL + `/api/microfrontend/edition/acronym/${val}/category/${val2}`)
 }
+
+export function getClassificationContent (val, val2) {
+    return axios.get(API_BASE_URL + `/api/microfrontend/edition/game/${val}/classificationGame/${val2}`,
+        )
+}
+

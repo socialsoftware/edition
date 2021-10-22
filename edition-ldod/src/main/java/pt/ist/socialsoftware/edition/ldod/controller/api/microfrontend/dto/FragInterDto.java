@@ -60,6 +60,7 @@ public class FragInterDto {
 	private String usesSecondReference;
 	private ArrayList<CategoryUserDto> categoryUserDtoList;
 	private String virtualExternalId;
+	private List<CategoryDto> allCategories;
 	
 	
 	public FragInterDto(FragInter fragInter) {
@@ -128,7 +129,7 @@ public class FragInterDto {
 			this.setCategoryUserDtoList(arr);
 			this.setVirtualExternalId(fragInter.getEdition().getExternalId());
 		}
-		
+		this.setAllCategories(fragInter.getAllDepthCategories().stream().map(CategoryDto::new).collect(Collectors.toList()));
 	}
 	
 	public FragInterDto(FragInter fragInter, VirtualEdition edition) {
@@ -579,6 +580,14 @@ public class FragInterDto {
 
 	public void setVirtualExternalId(String virtualExternalId) {
 		this.virtualExternalId = virtualExternalId;
+	}
+
+	public List<CategoryDto> getAllCategories() {
+		return allCategories;
+	}
+
+	public void setAllCategories(List<CategoryDto> allCategories) {
+		this.allCategories = allCategories;
 	}
 
 }

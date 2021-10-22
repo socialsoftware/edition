@@ -6,6 +6,7 @@ import downArrow from '../../resources/assets/down-arrow.png'
 import downArrowRed from '../../resources/assets/down-arrow-red.png'
 import {ReactComponent as List} from '../../resources/assets/list.svg'
 import temporaryLogo from '../../resources/assets/ReactUI.png'
+import temporaryBeta from '../../resources/assets/beta.png'
 
 const Navbar = (props) => {
     const history = useHistory()
@@ -164,6 +165,7 @@ const Navbar = (props) => {
                     <div style={{display:"flex"}}>
                         <Link className="home-navbar-top-content-title" to='/'>{props.messages.header_title}</Link>
                         <img alt="react-logo" className="react-logo" src={temporaryLogo}></img>
+                        <img alt="react-beta" className="react-beta" src={temporaryBeta}></img>
                     </div>
                     <div className="home-navbar-top-content-auth" 
                         style={{color:props.isAuthenticated?"#FC1B27":"#000"}}

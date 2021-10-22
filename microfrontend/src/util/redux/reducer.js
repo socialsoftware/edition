@@ -91,9 +91,12 @@ export default function(state = initialState, action) {
         case "LOGOUT" : {
             let aux = [...initialState.modules]
             aux[6].active=false
+            let aux1 = [...initialState.selectedVEAcr]
+            aux1 = ["LdoD-JPC-anot", "LdoD-Jogo-Class", "LdoD-Mallet", "LdoD-Twitter"]
             return {
                 ...state,
-                modules : aux
+                modules : aux,
+                selectedVEAcr: aux1
             }
         }
         case "SET_REC" : {
