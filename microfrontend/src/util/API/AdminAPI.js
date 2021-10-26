@@ -230,7 +230,7 @@ export function deleteAdminVirtualEdition(externalId) {
 }
 
 export function getTweets() {
-    return axios.post(API_BASE_URL + `/api/microfrontend/admin/tweets`, null,
+    return axios.get(API_BASE_URL + `/api/microfrontend/admin/tweets`,
         {
             headers:{
                 'Content-type': 'application/json',

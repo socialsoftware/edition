@@ -11,6 +11,7 @@ const VirtualEditionList = (props) => {
     const [participant, setParticipant] = useState(null)
     const [listSize, setListSize] = useState(0)
     const [title, setTitle] = useState("")
+    const [acronym, setAcronym] = useState(null)
     const [synopsis, setSynopsis] = useState("")
     const [loading, setLoading] = useState(true)
 
@@ -23,7 +24,7 @@ const VirtualEditionList = (props) => {
                     setParticipant(res.data.participantList)
                     setSynopsis(res.data.synopsis?he.decode(res.data.synopsis):res.data.synopsis)
                     setTitle(res.data.title?he.decode(res.data.title):res.data.title)
-                    
+                    setAcronym(res.data.acronym)
                     setLoading(false)
                 })
         }
@@ -196,15 +197,15 @@ const VirtualEditionList = (props) => {
 
     return (
         <div>
-            <p className="edition-list-title">{props.messages.virtualedition}: {title}<span> {`(${listSize})`}</span></p>
+            <p className="edition-list-title">{props.messages.virtualedition}: {title}</p>
 
              
             
             <div className={loading?"loading-table":"edition-editionTop"} >
-                {participant?<div><strong>{props.messages.general_editors}:</strong> <span>{getParticipanList()}</span></div>:null}
-                <span style={{marginTop:"15px"}}><strong>{props.messages.virtualedition_synopsis}:</strong> <span style={{lineHeight:"1.42857143"}}>{synopsis}</span></span>
-                <p style={{marginTop:"15px"}}><strong>{props.messages.general_taxonomy}:</strong> <Link className="table-body-title" style={{color:"#337ab7"}}
-                            to={`/edition/acronym/${props.acronym}/taxonomy/`}>{title}</Link></p>
+                {participant?<div style={{marginBottom:"15px"}}><strong>{props.messages.general_editors}:</strong> <span>{getParticipanList()}</span></div>:null}
+                {synopsis?synopsis.length>0?<span><strong>{props.messages.virtualedition_synopsis}:</strong> <span style={{lineHeight:"1.42857143"}}>{synopsis}</span></span>:null:null}
+                {acronym?<p style={{marginTop:"15px"}}><strong>{props.messages.general_taxonomy}:</strong> <Link className="table-body-title" style={{color:"#337ab7"}}
+                            to={`/edition/acronym/${acronym}/taxonomy/`}>{title}</Link></p>:null}
                 <p style={{marginTop:"15px"}}><strong>{listSize} {props.messages.fragments}</strong></p>
             </div>
 

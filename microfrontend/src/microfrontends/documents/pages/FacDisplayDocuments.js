@@ -28,6 +28,7 @@ const FacDisplayDocuments = (props) => {
         let url = `https://ldod.uc.pt/facs/${props.url}`
         getImage(url)
         document.body.style.overflow = "hidden"
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.url])
     
     const removeHandler = () => {

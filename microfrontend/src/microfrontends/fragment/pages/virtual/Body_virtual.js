@@ -1,19 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import InterVirtual from './InterVirtual'
 import Virtual2Compare from './Virtual2Compare'
-import { getVirtualIntersByArrayExternalId } from '../../../../util/API/FragmentAPI'
+import { getVirtualIntersByArrayExternalId,
+        getVirtualIntersByArrayExternalIdNoUser } from '../../../../util/API/FragmentAPI'
 
 const Body_virtual = (props) => {
 
     const [data, setData] = useState(null)
     
     useEffect(() => {
-        getVirtualIntersByArrayExternalId(props.externalId, props.selectedInters)
+        if(props.isAuthenticated){
+            getVirtualIntersByArrayExternalId(props.externalId, props.selectedInters, props.selectedVEAcr)
             .then(res => {
                 dataHandler(res.data)
             })
+        }
+        else{
+            getVirtualIntersByArrayExternalIdNoUser(props.externalId, props.selectedInters, props.selectedVEAcr)
+            .then(res => {
+                dataHandler(res.data)
+            })
+        }
+        
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.externalId, props.selectedInters])
+    }, [props.externalId, props.selectedInters, props.isAuthenticated])
 
     const dataHandler = (obj) => {
         if(data === null) setData(obj)

@@ -11,7 +11,6 @@ const Virtual = (props) => {
         getAdminVirtualList()
             .then(res => {
                 setList(res.data)
-                
             })
     }, [])
 
@@ -39,6 +38,9 @@ const Virtual = (props) => {
 
     const deleteVirtualEditionHandler = (externalId) => {
         deleteAdminVirtualEdition(externalId)
+            .then(res => {
+                setList(res.data)
+            })
     }
 
     const mapEditionsToTable = () => {

@@ -76,21 +76,18 @@ public class FragmentBodyDto {
 	
 	
 	/////////////////////// EXPERT /////////////////////////
-	public FragmentBodyDto(LdoD instance, LdoDUser user, Fragment fragment, ArrayList<FragInter> inters, ArrayList<String> selectedVEAcr) {
+	public FragmentBodyDto(LdoD instance, LdoDUser user, Fragment fragment, ArrayList<FragInter> inters) {
 		this.setFragment(new FragmentDto(fragment));
 		this.setLdoD(new LdoDDto(instance, fragment, user, inters));
 		if(user!=null) {
 			this.setLdoDuser(new LdoDUserDto(user));
 		}
 		this.setInters(inters.stream().map(FragInterDto::new).collect(Collectors.toList()));
-		List<VirtualEdition> virtualEditions = selectedVEAcr.stream().map(acr -> instance.getEdition(acr)).filter(e -> e != null)
-				.map(VirtualEdition.class::cast).collect(Collectors.toList());
-		this.setVirtualEditionsDto(virtualEditions.stream().map(vEdition -> new VirtualEditionDto(vEdition, fragment, user, null)).collect(Collectors.toList()));
 
 	}
 
 	public FragmentBodyDto(LdoD instance, LdoDUser user,
-			Fragment fragment, List<FragInter> inters, PlainHtmlWriter4OneInter writer, boolean hasAccess, ArrayList<String> selectedVEAcr) {
+			Fragment fragment, List<FragInter> inters, PlainHtmlWriter4OneInter writer, boolean hasAccess) {
 		this.setFragment(new FragmentDto(fragment));
 		this.setLdoD(new LdoDDto(instance, fragment, user, (ArrayList<FragInter>) inters));
 		if(user!=null) {
@@ -101,15 +98,55 @@ public class FragmentBodyDto {
 		if(writer != null) {
 			this.setTranscript(writer.getTranscription());
 		}
-		
 
-		List<VirtualEdition> virtualEditions = selectedVEAcr.stream().map(acr -> instance.getEdition(acr)).filter(e -> e != null)
-				.map(VirtualEdition.class::cast).collect(Collectors.toList());
-		
-		this.setVirtualEditionsDto(virtualEditions.stream().map(vEdition -> new VirtualEditionDto(vEdition, fragment, user, inters.get(0))).collect(Collectors.toList()));
 	}
 
 	
+	
+	public FragmentBodyDto(LdoD instance, LdoDUser user,
+			Fragment fragment, List<FragInter> inters, HtmlWriter2CompInters writer,
+			PlainHtmlWriter4OneInter writer4One, Map<FragInter, HtmlWriter4Variations> variations, List<AppText> apps, ArrayList<String> selectedVEAcr) {
+		
+		this.setFragment(new FragmentDto(fragment));
+		this.setLdoD(new LdoDDto(instance, fragment, user, (ArrayList<FragInter>) inters));
+		if(user!=null) {
+			this.setLdoDuser(new LdoDUserDto(user));
+		}
+		this.setInters(inters.stream().map(FragInterDto::new).collect(Collectors.toList()));
+		this.setHasAccess(hasAccess);
+		if(writer != null) {
+			if(inters.size() > 1) {
+				this.setSetTranscriptionSideBySide(inters.stream().map(fragInter -> writer.getTranscription(fragInter)).collect(Collectors.toList()));
+			}
+			if(inters.size() > 2) {
+				this.setWriterLineByLine(writer.getTranscriptionLineByLine());
+			}
+			
+		}
+		if(writer4One != null) {
+			this.setTranscript(writer4One.getTranscription());
+		}
+		
+		ArrayList<ArrayList<String>> variationsTranscriptions = new ArrayList<ArrayList<String>>();
+		ArrayList<String> array = new ArrayList<String>();
+		
+		
+		
+		
+		for(int i = 0; i < apps.size(); i++) {
+			array = new ArrayList<String>();
+			for(FragInter interp: inters) {
+				array.add(variations.get(interp).getAppTranscription(apps.get(i)));
+			}
+			variationsTranscriptions.add(array);
+		}
+		this.setVariations(variationsTranscriptions);
+		List<VirtualEdition> virtualEditions = selectedVEAcr.stream().map(acr -> instance.getEdition(acr)).filter(e -> e != null)
+				.map(VirtualEdition.class::cast).collect(Collectors.toList());
+		if(inters.size()>0) {
+			this.setVirtualEditionsDto(virtualEditions.stream().map(vEdition -> new VirtualEditionDto(vEdition, fragment, user, inters.get(0))).collect(Collectors.toList()));
+		}
+	}
 	
 	public FragmentBodyDto(LdoD instance, LdoDUser user,
 			Fragment fragment, List<FragInter> inters, HtmlWriter2CompInters writer,
@@ -149,7 +186,6 @@ public class FragmentBodyDto {
 			variationsTranscriptions.add(array);
 		}
 		this.setVariations(variationsTranscriptions);
-		
 	}
 
 	public FragmentBodyDto(List<FragInter> inters, PlainHtmlWriter4OneInter writer4One) {

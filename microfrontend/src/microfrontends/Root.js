@@ -61,9 +61,7 @@ const Root = (props) => {
             setIsAuthenticated(true)
             //props.resetStore()  //DAR RESET AO ESTADO REDUX PERSISTIDO
         }).catch(error => {
-            setCurrentUser(null)
-            setIsAuthenticated(false)
-            props.logoutUser()
+            handleLogout()
         })
       }
 
