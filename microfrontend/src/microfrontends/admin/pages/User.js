@@ -17,7 +17,7 @@ const User = (props) => {
                 setList(res.data.userList)
                 setSessionList(res.data.sessionList)
                 setAdmin(res.data.ldoDAdmin)
-
+                console.log(res.data);
             })
     }, [])
 
@@ -99,9 +99,9 @@ const User = (props) => {
         return sessionList.map((session, i) => {
             return (
                 <tr key={i}>
-                    <td style={{padding:"10px 0"}}>username</td>
-                    <td>first name</td>
-                    <td>last name</td>
+                    <td style={{padding:"10px 0"}}>{session.userName}</td>
+                    <td>{session.firstName}</td>
+                    <td>{session.lastName}</td>
                     <td>{session.lastRequest}</td>
                     <td>{session.sessionId}</td>
                 </tr>
@@ -143,7 +143,7 @@ const User = (props) => {
             }
             <p className="admin-title">Sessions</p>
             {
-            sessionList.length>0?
+            sessionList?sessionList.length>0?
             <div>
                 <div style={{display:"flex", flexDirection:"column", float:"right"}}>
                     <span className="admin-delete-button" style={{marginTop:"20px"}} onClick={() => switchHandler()}>
@@ -181,6 +181,7 @@ const User = (props) => {
                 <div style={{marginTop:"50px"}}>
                     <CircleLoader loading={list.length===0}></CircleLoader>
                 </div>
+            :null
             }
         </div>
     )

@@ -45,15 +45,22 @@ const SourceList = (props) => {
             )
         })
     }
-    const getHandNoteMap = (val) => {
-        return val.map((nota, i) => {
-            return (
-                <p style={{textAlign:"center"}} key={i}>
-                    {props.messages.general_manuscript}
-                    <span style={{textTransform:"uppercase"}}>({nota.desc?nota.desc:null})</span>
-                </p>
-            )
-        })
+    const getHandNoteMap = (val, typeNote) => {
+        if(val.length>0){
+            return val.map((nota, i) => {
+                return (
+                    <div>
+                        <p style={{textAlign:"center"}} key={i}>
+                            {props.messages.general_manuscript}
+                            <span style={{textTransform:"uppercase"}}>({nota.desc?nota.desc:null})</span>
+                        </p>
+                        {getTypeNoteMap(typeNote)}
+                    </div>
+                )
+            })
+        }
+        else return getTypeNoteMap(typeNote)
+        
     }
 
     const getTypeNoteMap = (val) => {
@@ -89,6 +96,26 @@ const SourceList = (props) => {
         }
     }
 
+    const noteMapAccessor = (row) => {
+        if(row.hadLdoDLabel)
+            return props.messages.general_yes
+        return props.messages.general_no
+    }
+
+    const sourceTypeAcessor = (row) => {
+        if(row.sourceType === "MANUSCRIPT"){
+            if(row.handNoteDtoSet.length>0){
+                if(row.handNoteDtoSet[0].desc===null) 
+                    return `${props.messages.general_manuscript}()`
+                else 
+                    return `${props.messages.general_manuscript}(${row.handNoteDtoSet[0].desc})`
+            }
+            else if(row.typeNoteSet.length>0){
+                return `${props.messages.general_typescript}(${row.typeNoteSet[0].desc})`
+            }
+        }
+        return props.messages.general_printed
+    }
 
     function GlobalFilter({
         preGlobalFilteredRows,
@@ -208,18 +235,17 @@ const SourceList = (props) => {
         {
             Header: `${props.messages.general_type}`,
             id: "noteMap",
-            accessor: "noteMap",
+            accessor: row => sourceTypeAcessor(row),
             Cell: cellInfo => {
                 if(cellInfo.row.original.sourceType==="MANUSCRIPT")
-                    return getHandNoteMap(cellInfo.row.original.handNoteDtoSet)
-                else if(cellInfo.row.original.sourceType==="MANUSCRIPT")
-                    return getTypeNoteMap(cellInfo.row.original.typeNoteSet)
-                else return null
+                    return getHandNoteMap(cellInfo.row.original.handNoteDtoSet, cellInfo.row.original.typeNoteSet)
+                else return props.messages.general_printed
             }
         },
         {
             Header: `${props.messages.general_LdoDLabel}`,
             id: "label",
+            accessor: row => noteMapAccessor(row),
             Cell: cellInfo => {
                 if(cellInfo.row.original.hadLdoDLabel) return <p>{props.messages.general_yes}</p>
                 else return <p >{props.messages.general_no}</p>

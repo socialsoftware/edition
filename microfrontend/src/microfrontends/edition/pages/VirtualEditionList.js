@@ -203,7 +203,7 @@ const VirtualEditionList = (props) => {
             
             <div className={loading?"loading-table":"edition-editionTop"} >
                 {participant?<div style={{marginBottom:"15px"}}><strong>{props.messages.general_editors}:</strong> <span>{getParticipanList()}</span></div>:null}
-                {synopsis.length>0?<span><strong>{props.messages.virtualedition_synopsis}:</strong> <span style={{lineHeight:"1.42857143"}}>{synopsis}</span></span>:null}
+                {synopsis?synopsis.length>0?<span><strong>{props.messages.virtualedition_synopsis}:</strong> <span style={{lineHeight:"1.42857143"}}>{synopsis}</span></span>:null:null}
                 {acronym?<p style={{marginTop:"15px"}}><strong>{props.messages.general_taxonomy}:</strong> <Link className="table-body-title" style={{color:"#337ab7"}}
                             to={`/edition/acronym/${acronym}/taxonomy/`}>{title}</Link></p>:null}
                 <p style={{marginTop:"15px"}}><strong>{listSize} {props.messages.fragments}</strong></p>

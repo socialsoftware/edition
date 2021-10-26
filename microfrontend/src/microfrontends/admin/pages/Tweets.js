@@ -96,7 +96,7 @@ const Tweets = (props) => {
     }
     const deleteTweetsHandler = () =>{
         //to do
-        //dont want to risk it - lucas perry
+        //dont want to risk it, didnt have access to a local version of tweets - lucas perry
     }
 
     const generateCitationsHandler = () =>{
