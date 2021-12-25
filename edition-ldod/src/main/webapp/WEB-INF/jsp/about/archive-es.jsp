@@ -91,8 +91,8 @@
 </p>
 <p>
 	Marrone, Rita, Bruno Ministro, Bruno Fontes, Cect&iacute;lia Magalh&atilde;es, Manuel Portela, Mariana Ferreira, Raquel Gon&ccedil;alves, Rui Silva, 
-	and Sofia Escourido, eds. (2017). &ldquot;Virtual Edition: Jacinto do Prado Coelho - edi&ccedil;&atilde;o anotada&rdquot;. <em>LdoD
-		Archive: Collaborative Digital Archive of the Book of Disquiet</em>. Coimbra: Centre for Portuguese Literature at the University of Coimbra. URL: <a
+	and Sofia Escourido, eds. (2017). &ldquot;Virtual Edition: Jacinto do Prado Coelho - edi&ccedil;&atilde;o anotada&rdquot;. 
+	<em>Archivo LdoD: Archivo digital colaborativo del Libro del desasossiego</em>. Coimbra: Centro de Literatura Portuguesa de la Universidad de Coimbra. URL: <a
 		href="https://ldod.uc.pt/edition/acronym/LdoD-JPC-anot">https://ldod.uc.pt/edition/acronym/LdoD-JPC-anot</a>
 </p>
 <p>&nbsp;</p>
