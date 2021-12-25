@@ -922,6 +922,4 @@
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
 <p>[updated 31-12-2021]</p>
