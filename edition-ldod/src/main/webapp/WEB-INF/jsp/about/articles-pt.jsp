@@ -279,6 +279,19 @@
   	Universidade de Lisboa. MA thesis in Information Systems and Computer Engineering.<br/>
 	URL: <a href= "https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/1691203502343425" target="_new">
 	https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/1691203502343425</a> </p>
+<p>
+	Araujo, Henrique Lima (2019). &ldquo;Navegar &eacute; preciso: o <em>Livro do desassossego </em>, de Fernando Pessoa, e o hipertexto.&rdquo; 
+	MA thesis in Letters (Literary Studies). Porto Alegre: Universidade Federal do Rio Grande do Sul. URL:
+	<a href= "https://lume.ufrgs.br/handle/10183/202447" target="_new">
+	https://lume.ufrgs.br/handle/10183/202447</a> </p>
+
+<p>&nbsp;</p>
+<p><strong>2020</strong> </p>
+<p>
+	Barros, Camylla Herculano de (2020). &ldquo;&lsquo;Nenhum problema tem solu&ccedil;&atilde;o&rsquo;: uma adapta&ccedil;&atilde;o cr&iacute;tico-criativa do 
+	<em>Livro do Desassossego</em>, de Fernando Pessoa, para o mundo virtual.&rdquo; MA thesis in Letters (Theory of Literature). Recife: Universidade Federal de Pernambuco. URL:
+	<a href= "https://repositorio.ufpe.br/handle/123456789/38150" target="_new">
+	https://repositorio.ufpe.br/handle/123456789/38150</a> </p>
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
