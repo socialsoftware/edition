@@ -87,3 +87,12 @@
 	Centro de Literatura Portuguesa da Universidade de Coimbra. URL: <a
 		href="https://ldod.uc.pt/">https://ldod.uc.pt/</a>
 </p>
+<p>
+	Como citar uma edi&ccedil;&atilde;o virtual do <em>Arquivo LdoD?</em>
+</p>
+<p>
+	Marrone, Rita, Bruno Ministro, Bruno Fontes, Cect&iacute;lia Magalh&atilde;es, Manuel Portela, Mariana Ferreira, Raquel Gon&ccedil;alves, Rui Silva, and Sofia Escourido, orgs. (2017). 
+	&ldquot;Edi&ccedil;&atilde;o Virtual: Jacinto do Prado Coelho - edi&ccedil;&atilde;o anotada&rdquot;. <em>Arquivo
+		LdoD: Arquivo Digital Colaborativo do Livro do Desassossego</em>. Coimbra: Centro de Literatura Portuguesa da Universidade de Coimbra. URL: <a
+		href="https://ldod.uc.pt/edition/acronym/LdoD-JPC-anot">https://ldod.uc.pt/edition/acronym/LdoD-JPC-anot</a>
+</p>
