@@ -400,12 +400,6 @@
  	DOI: <a href="https://dx.doi.org/10.5433/1678-2054.2016v32p8" target="_new">
 	https://dx.doi.org/10.5433/1678-2054.2016v32p8</a> </p> 
 
-<p>&nbsp;</p>
-<p> <strong>2020</strong> </p>
-<p> 
-	Gim&eacute;nez, Diego (2020). &ldquo;Problemas de Intertextualidade Filos&oacute;fica no <em>Livro do Desassossego</em>.&rdquo; 
-	<em>Novos Estudos Pessoanos - Ponto de Situa&ccedil;&atilde;o</em>, 
-	Lisboa: Casa Fernando Pessoa. 21-30.</p>
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
