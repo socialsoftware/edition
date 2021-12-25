@@ -96,3 +96,6 @@
 		LdoD: Arquivo Digital Colaborativo do Livro do Desassossego</em>. Coimbra: Centro de Literatura Portuguesa da Universidade de Coimbra. URL: <a
 		href="https://ldod.uc.pt/edition/acronym/LdoD-JPC-anot">https://ldod.uc.pt/edition/acronym/LdoD-JPC-anot</a>
 </p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>[atualiza&ccedil;&atilde;o 31-12-2021]</p>
