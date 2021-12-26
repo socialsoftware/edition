@@ -17,8 +17,8 @@
       together a new theory of literary studies with a highly dynamic digital environment.</p>
 
 <p>
-      Using the digital archive of the modernist masterpiece Book of Disquiet, by the Portuguese writer Fernando Pessoa (1888-1935), 
-      as case study and site for simulation and practical experiment, Literary Simulation and the Digital Humanities demonstrates how 
+	Using the digital archive of the modernist masterpiece <em>Book of Disquiet</em>, by the Portuguese writer Fernando Pessoa (1888-1935), 
+      as case study and site for simulation and practical experiment, <em>Literary Simulation and the Digital Humanities</em> demonstrates how 
       computational approaches to texts can fully engage with the complexities of contemporary literary theory. Manuel Portela marshals 
       a unique combination of theoretical speculation, literary analysis, and human imagination in what amounts to a significant critical 
       intervention and a key advance in the use of digital methods to rethink the processes of reading and writing literature.</p>
