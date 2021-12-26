@@ -894,7 +894,6 @@
 	<em>Pessoa Plural: A Journal of Fernando Pessoa Studies.</em> 12: 725-732. <br />
 	URL: <a href="https://doi.org/10.7301/Z07S7KZD" target="_new">
 	https://doi.org/10.7301/Z07S7KZD</a> </p>
-</p>
 <p>
 	Cipriano, Rita (2017). &ldquo;O Arquivo digital do &ldquo;Livro do Desassossego&rdquo; j&aacute; est&aacute; online. E tem muitas hist&oacute;rias para contar.&rdquo; 
 	<em>Observador.</em> 13 de dezembro de 2017. <br />
@@ -927,8 +926,6 @@
 	<em>Todas as Letras: Revista de Língua e Literatura </em> 23.1: 1–17. URL: <a href="https://doi.org/10.5935/1980-6914/eLETDO2114243" target="_new">
 	https://doi.org/10.5935/1980-6914/eLETDO2114243</a></p> 
 
-<p>&nbsp;</p>
-<p>&nbsp;</p>
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
