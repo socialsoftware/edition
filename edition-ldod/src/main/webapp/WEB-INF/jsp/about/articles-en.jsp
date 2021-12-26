@@ -182,7 +182,7 @@
 <p>
 	Portela, Manuel, and Cec&iacute;lia Magalh&atilde;es (2020). &ldquo;The Book of Disquiet Digital Archive as a Role-playing Experiment.&rdquo;  
 	<em> MIND THE GAP! Thinking Electronic Literature in a Digital Culture | Attention &agrave; la marche: Penser la litt&eacute;rature 
-	&eacute;lectronique en culture num&eacute;rique. Eds. Bertrand Gervais and Sophie Marcotte. Montr&eacute;al: Les presses de
+		&eacute;lectronique en culture num&eacute;rique. </em> Eds. Bertrand Gervais and Sophie Marcotte. Montr&eacute;al: Les presses de
 	l’&eacute;cureuil—ALN/NT2. 307–25. URL: <a href="http://nt2.uqam.ca/en/elo-2018" target="_new">
 	http://nt2.uqam.ca/en/elo-2018</a> </p>
 <p>	
