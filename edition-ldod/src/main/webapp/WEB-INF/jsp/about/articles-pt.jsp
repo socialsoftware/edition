@@ -201,7 +201,7 @@
 	https://doi.org/10.1109/ICSA-C52384.2021.00015</a> </p> 
 <p>
 	Raposo, Jos&eacute;; Rito Silva, Ant&oacute;nio; Portela, Manuel (2021). &ldquo;LdoD Visual - A Visual Reader for Fernando Pessoa&apos;s <em>Book of Disquiet</em>: 
-	An In-Out-In Metaphor.&rdquo; <em>Digital Humanities Quarterly </em> 15.3. <a href="http://digitalhumanities.org/dhq/vol/15/3/000569/000569.html" target="_new">
+	An In-Out-In Metaphor.&rdquo; <em>Digital Humanities Quarterly</em> 15.3. <a href="http://digitalhumanities.org/dhq/vol/15/3/000569/000569.html" target="_new">
 	http://digitalhumanities.org/dhq/vol/15/3/000569/000569.html</a> </p> 
 <p>	
 	Portela, Manuel (2021). &ldquo;An Evolutionary Textual Environment: The Unfinished Machine.&rdquo; <em>Textual Cultures</em> 14.2: 220-238. 
@@ -211,21 +211,21 @@
 <p>&nbsp;</p>
 <p><strong>2022</strong></p>
 <p>
-	Portela, Manuel (2022). <em>Literary Simulation and the Digital Humanities: Reading, Editing, Writing </em>. New York: Bloomsbury Academic. 
+	Portela, Manuel (2022). <em>Literary Simulation and the Digital Humanities: Reading, Editing, Writing</em>. New York: Bloomsbury Academic. 
 	URL: <a href="https://www.bloomsbury.com/ca/literary-simulation-and-the-digital-humanities-9781501385407/" target="_new">
 	https://www.bloomsbury.com/ca/literary-simulation-and-the-digital-humanities-9781501385407/</a> </p>
 <p>	
 	Portela, Manuel (2022). &ldquo;&lsquo;De que me serve reler?&rsquo; Um modelo computacional da rece&ccedil;&atilde;o cr&iacute;tica do <em>Livro do Desassossego</em>.&rdquo; 
-	<em>Congresso Internacional Fernando Pessoa 2021 </em>. Lisboa: Casa Fernando Pessoa. [forthcoming]</p>
+	<em>Congresso Internacional Fernando Pessoa 2021</em>. Lisboa: Casa Fernando Pessoa. [forthcoming]</p>
 <p>	
 	Gim&eacute;nez, Diego  (2022). &ldquo;Uma taxonomia filos&oacute;fica para o <em>Livro do Desassossego</em>.&rdquo; 
-	<em>Congresso Internacional Fernando Pessoa 2021 </em>. Lisboa: Casa Fernando Pessoa. [forthcoming]</p>
+	<em>Congresso Internacional Fernando Pessoa 2021</em>. Lisboa: Casa Fernando Pessoa. [forthcoming]</p>
 <p>
 	Marques, Ana (2022).  &ldquo;Processos de cita&ccedil;&atilde;o e produ&ccedil;&atilde;o de argumentos em textos cr&iacute;ticos e ensa&iacute;sticos. &rdquo;
 	<em>Discurso Acad&eacute;mico: Conhecimento Disciplinar e Apropria&ccedil;&atilde;o Did&aacute;tica.</em> Ed. Joana Vieira Santos. Coimbra: CELGA-ILTEC. [forthcoming]</p>
 <p> 
 	Portela, Manuel (2022). &ldquo;From Meta-Editing to Virtual Editing: The <em>LdoD Archive</em> as a Computer-Assisted Editorial Space.&rdquo; 
-	<em>Approaches to Teaching Pessoa&apos;s The Book of Disquiet. </em> Eds. Paulo de Medeiros and Jer&oacute;nimo Pizarro. 
+	<em>Approaches to Teaching Pessoa&apos;s The Book of Disquiet.</em> Eds. Paulo de Medeiros and Jer&oacute;nimo Pizarro. 
 	New York: Modern Language Association. [forthcoming]</p>
 
 <p>&nbsp;</p>
