@@ -270,6 +270,7 @@
 	URL: <a href= "https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/283828618790314" target="_new">
 	https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/283828618790314</a></p>
 
+<p>&nbsp;</p>
 <p><strong>2019</strong> </p>
 <p> 
 	Raposo, Jos&eacute; (2019). <em>LdoD Visualization: Reading the <em>Book of Disquiet</em> with Information Visualization Techniques</em>. 
