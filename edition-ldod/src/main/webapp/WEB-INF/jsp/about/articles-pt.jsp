@@ -282,7 +282,7 @@
 	URL: <a href= "https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/1691203502343425" target="_new">
 	https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/1691203502343425</a> </p>
 <p>
-	Araujo, Henrique Lima (2019). <em>Navegar &eacute; preciso: o <em>Livro do desassossego </em>, de Fernando Pessoa, e o hipertexto.</em> 
+	Araujo, Henrique Lima (2019). <em>Navegar &eacute; preciso: o <em>Livro do desassossego</em>, de Fernando Pessoa, e o hipertexto.</em> 
 	MA thesis in Letters (Literary Studies). Porto Alegre: Universidade Federal do Rio Grande do Sul. URL:
 	<a href= "https://lume.ufrgs.br/handle/10183/202447" target="_new">
 	https://lume.ufrgs.br/handle/10183/202447</a> </p>
