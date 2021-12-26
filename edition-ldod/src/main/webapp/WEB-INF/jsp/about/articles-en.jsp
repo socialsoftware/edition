@@ -186,16 +186,18 @@
 	&eacute;lectronique en culture num&eacute;rique. Eds. Bertrand Gervais and Sophie Marcotte. Montr&eacute;al: Les presses de
 	l’&eacute;cureuil—ALN/NT2. 307–25. URL: <a href="http://nt2.uqam.ca/en/elo-2018" target="_new">
 	http://nt2.uqam.ca/en/elo-2018</a> </p>
-<p>
-	Marques, Gon&ccedil;alo Montalv&atilde;o, Ant&oacute;nio Rito Silva, and Manuel Portela (2020). 
-	&ldquo;Classification in the <em>LdoD Archive</em>: A Crowdsourcing and Gamification Approach.&rdquo; Submitted.</p>
+<p>	
+	Marques, Gon&ccedil;alo Montalv&atilde;o, Ant&oacute;nio Rito Silva, and Manuel Portela (2020). &ldquo;Classification in the LdoD Archive: A Crowdsourcing 
+	and Gamification Approach.&rdquo; <em>Digital Libraries at Times of Massive Societal Transition </em>, Eds. Ishita, Emi; Pang, Natalie Lee San; Zhou, Lihong. 
+	Cham: Springer Nature Switzerland AG. 313-319. DOI: <a href="https://link.springer.com/chapter/10.1007%2F978-3-030-64452-9_29" target="_new">
+	https://link.springer.com/chapter/10.1007%2F978-3-030-64452-9_29</a> </p>
 
 <p>&nbsp;</p>
 <p><strong>2021</strong></p>
 <p>
 	Gon&ccedil;alves, Nuno, Diogo Faustino, Ant&oacute;nio Rito Silva, and Manuel Portela (2021). &ldquo;Monolith Modularization towards Microservices: 
 	Refactoring and Performance Trade-offs.&rdquo; <em>2021 IEEE 18th International Conference on Software Architecture Companion (ICSA-C)</em>, 
-	Cham: Springer Nature Switzerland. 54-61. DOI: <a href="https://doi.org/10.1109/ICSA-C52384.2021.00015" target="_new">
+	Cham: Springer Nature Switzerland AG. 54-61. DOI: <a href="https://doi.org/10.1109/ICSA-C52384.2021.00015" target="_new">
 	https://doi.org/10.1109/ICSA-C52384.2021.00015</a> </p> 
 <p>
 	Raposo, Jos&eacute;; Rito Silva, Ant&oacute;nio; Portela, Manuel (2021). &ldquo;LdoD Visual - A Visual Reader for Fernando Pessoa&apos;s <em>Book of Disquiet</em>: 
