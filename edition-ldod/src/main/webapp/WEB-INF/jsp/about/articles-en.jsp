@@ -167,7 +167,6 @@
 	https://link.springer.com/chapter/10.1007%2F978-3-030-34058-2_25</a> </p>
 
 <p>&nbsp;</p>
-<p>&nbsp;</p>
 <p><strong>2020</strong></p>
 <p>
 	Marques, Ana, and Manuel Portela (2020). &ldquo;Representa&ccedil;&atilde;o e An&aacute;lise da Rece&ccedil;&atilde;o Cr&iacute;tica 
@@ -269,6 +268,7 @@
 	URL: <a href= "https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/283828618790314" target="_new">
 	https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/283828618790314</a></p>
 
+<p>&nbsp;</p>
 <p><strong>2019</strong> </p>
 <p> 
 	Raposo, Jos&eacute; (2019). <em>LdoD Visualization: Reading the <em>Book of Disquiet</em> with Information Visualization Techniques</em>. 
@@ -889,7 +889,6 @@
 	<em>Pessoa Plural: A Journal of Fernando Pessoa Studies.</em> 12: 725-732. <br />
 	URL: <a href="https://doi.org/10.7301/Z07S7KZD" target="_new">
 	https://doi.org/10.7301/Z07S7KZD</a> </p>
-</p>
 <p>
 	Cipriano, Rita (2017). &ldquo;O Arquivo digital do &ldquo;Livro do Desassossego&rdquo; j&aacute; est&aacute; online. E tem muitas hist&oacute;rias para contar.&rdquo; 
 	<em>Observador.</em> 13 de dezembro de 2017. <br />
