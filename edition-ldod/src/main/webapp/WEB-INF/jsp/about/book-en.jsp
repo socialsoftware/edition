@@ -27,6 +27,7 @@
       The foregrounding of the foundational practices of reading, editing, and writing will be relevant for several fields, including 
       literary studies, scholarly editing, software studies, and digital humanities.</p>
 
+<p>&nbsp;</p>
 <p>
       Table of Contents<br/>
       Incipit: Evolutionary Textual Environment<br/>
