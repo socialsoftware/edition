@@ -13,22 +13,23 @@
 <h3>Descri&ccedil;&atilde;o</h3>
 
 <p>
-      Como podemos usar o meio digital para compreender a leitura, a edi&ccedil;&atilde;o e a escrita enquanto processos liter&aacute;rios? Como podemos conceber o meio 
-      o digital de uma forma que vai al&eacute;m do c&oacute;dice impresso? Este livro &eacute; uma tentativa de responder &agrave;quelas quest&otilde;es fundamentais, 
+      Como usar o meio digital para compreender a leitura, a edi&ccedil;&atilde;o e a escrita enquanto processos liter&aacute;rios? Como conceber o meio 
+      digital de uma forma que vai al&eacute;m do c&oacute;dice impresso? Este livro &eacute; uma tentativa de responder &agrave;quelas quest&otilde;es fundamentais, 
       articulando uma nova teoria liter&aacute;ria com um ambiente digital altamente din&acirc;mico.</p>
 
 <p>
       Usando o arquivo digital da obra-prima modernista <em>Livro do Desassossego</em>, do escritor portugu&ccirc;s Fernando Pessoa (1888-1935),
       como estudo de caso e espa&ccedil;o para simula&ccedil;&atilde;o e experi&ecirc;ncia pr&aacute;tica, <em>Literary Simulation and the Digital Humanities</em> 
-      demonstra como as abordagens computacionais aos textos podem envolver-se plenamente com as complexidades da teoria liter&aacute;ria contempor&acirc;nea. 
-      Manuel Portela reune uma combina&ccedil;&atilde;o &uacute;nica de especula&ccedil;&atilde;o te&oacute;rica, an&aacute;lise liter&aacute;ria e imagina&ccedil;&atilde;o 
-      humana no que equivale a uma intervenção crítica significativa e um avanço fundamental no uso de métodos digitais para repensar os processos de leitura e escrita 
-      literária.</p>
+      demonstra como as abordagens computacionais aos textos podem explorar plenamente as complexidades da teoria liter&aacute;ria contempor&acirc;nea. 
+      Através de uma combina&ccedil;&atilde;o &uacute;nica de especula&ccedil;&atilde;o te&oacute;rica, an&aacute;lise liter&aacute;ria eimagina&ccedil;&atilde;o 
+      humana, a obra representa uma interven&ccedil;&atilde;o cr&iacute;tica significativa e um avan&ccedil;o fundamental no uso de m&eacute;todos digitais para repensar 
+      os processos de leitura e escrita liter&aacute;ria.</p>
 
 <p>
-      The foregrounding of the foundational practices of reading, editing, and writing will be relevant for several fields, including 
-      literary studies, scholarly editing, software studies, and digital humanities.</p>
+      A sali&ccirc;ncia dada &agrave;s pr&aacute;ticas fundamentais da leitura, edi&ccedil;&atilde;o e escrita &eacute; relevante para v&aacute;rios campos, incluindo
+      estudos liter&aacute;rios, edi&ccedil;&atilde;o acad&eacute;mica, estudos de software e humanidades digitais.</p>
 
+<p>&nbsp;</p>
 <p>
       Table of Contents<br/>
       Incipit: Evolutionary Textual Environment<br/>
@@ -44,4 +45,4 @@
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p>[atualização 31-12-2021]</p>
+<p>[atualiza&ccedil;&atilde;o 31-12-2021]</p>
