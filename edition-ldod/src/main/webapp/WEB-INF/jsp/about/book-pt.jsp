@@ -21,7 +21,7 @@
       Usando o arquivo digital da obra-prima modernista <em>Livro do Desassossego</em>, do escritor portugu&ccirc;s Fernando Pessoa (1888-1935),
       como estudo de caso e espa&ccedil;o para simula&ccedil;&atilde;o e experi&ecirc;ncia pr&aacute;tica, <em>Literary Simulation and the Digital Humanities</em> 
       demonstra como as abordagens computacionais aos textos podem explorar plenamente as complexidades da teoria liter&aacute;ria contempor&acirc;nea. 
-      Através de uma combina&ccedil;&atilde;o &uacute;nica de especula&ccedil;&atilde;o te&oacute;rica, an&aacute;lise liter&aacute;ria eimagina&ccedil;&atilde;o 
+      Atrav&eacute;s de uma combina&ccedil;&atilde;o &uacute;nica de especula&ccedil;&atilde;o te&oacute;rica, an&aacute;lise liter&aacute;ria eimagina&ccedil;&atilde;o 
       humana, a obra representa uma interven&ccedil;&atilde;o cr&iacute;tica significativa e um avan&ccedil;o fundamental no uso de m&eacute;todos digitais para repensar 
       os processos de leitura e escrita liter&aacute;ria.</p>
 
