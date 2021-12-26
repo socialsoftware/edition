@@ -18,7 +18,7 @@
       articulando uma nova teoria liter&aacute;ria com um ambiente digital altamente din&acirc;mico.</p>
 
 <p>
-      Usando o arquivo digital da obra-prima modernista <em>Livro do Desassossego</em>, do escritor portugu&ccirc;s Fernando Pessoa (1888-1935),
+      Usando o arquivo digital da obra-prima modernista <em>Livro do Desassossego</em>, do escritor portugu&ecirc;s Fernando Pessoa (1888-1935),
       como estudo de caso e espa&ccedil;o para simula&ccedil;&atilde;o e experi&ecirc;ncia pr&aacute;tica, <em>Literary Simulation and the Digital Humanities</em> 
       demonstra como as abordagens computacionais aos textos podem explorar plenamente as complexidades da teoria liter&aacute;ria contempor&acirc;nea. 
       Atrav&eacute;s de uma combina&ccedil;&atilde;o &uacute;nica de especula&ccedil;&atilde;o te&oacute;rica, an&aacute;lise liter&aacute;ria eimagina&ccedil;&atilde;o 
@@ -26,7 +26,7 @@
       os processos de leitura e escrita liter&aacute;ria.</p>
 
 <p>
-      A sali&ccirc;ncia dada &agrave;s pr&aacute;ticas fundamentais da leitura, edi&ccedil;&atilde;o e escrita &eacute; relevante para v&aacute;rios campos, incluindo
+      A sali&ecirc;ncia dada &agrave;s pr&aacute;ticas fundamentais da leitura, edi&ccedil;&atilde;o e escrita &eacute; relevante para v&aacute;rios campos, incluindo
       estudos liter&aacute;rios, edi&ccedil;&atilde;o acad&eacute;mica, estudos de software e humanidades digitais.</p>
 
 <p>&nbsp;</p>
