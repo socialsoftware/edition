@@ -15,7 +15,7 @@
 <p>
       &iquest;C&oacute;mo podemos utilizar los medios digitales para entender la lectura, la edici&oacute;n y la escritura como procesos literarios? &iquest;C&oacute;mo 
       podemos dise&ntilde;ar el medio digital de una manera que va m&aacute;s all&aacute; del c&oacute;dice impreso? Este libro es un intento de responder a estas preguntas 
-      fundamentales articulando una nueva teor&iacute;a de los estudios literarios con un entorno digital altamente din&aacute;mico.</p>
+      fundamentales articulando una nueva teor&iacute;a literaria con un entorno digital altamente din&aacute;mico.</p>
 
 <p>
       Utilizando el archivo digital de la obra maestra modernista <em>Libro del desasosiego</em>, del escritor portugu&eacute;s Fernando Pessoa (1888-1935),
