@@ -221,7 +221,7 @@
 	Gim&eacute;nez, Diego  (2022). &ldquo;Uma taxonomia filos&oacute;fica para o <em>Livro do Desassossego</em>.&rdquo; 
 	<em>Congresso Internacional Fernando Pessoa 2021</em>. Lisboa: Casa Fernando Pessoa. [forthcoming]</p>
 <p>
-	Marques, Ana (2022).  &ldquo;Processos de cita&ccedil;&atilde;o e produ&ccedil;&atilde;o de argumentos em textos cr&iacute;ticos e ensa&iacute;sticos. &rdquo;
+	Marques, Ana (2022).  &ldquo;Processos de cita&ccedil;&atilde;o e produ&ccedil;&atilde;o de argumentos em textos cr&iacute;ticos e ensa&iacute;sticos.&rdquo;
 	<em>Discurso Acad&eacute;mico: Conhecimento Disciplinar e Apropria&ccedil;&atilde;o Did&aacute;tica.</em> Ed. Joana Vieira Santos. Coimbra: CELGA-ILTEC. [forthcoming]</p>
 <p> 
 	Portela, Manuel (2022). &ldquo;From Meta-Editing to Virtual Editing: The <em>LdoD Archive</em> as a Computer-Assisted Editorial Space.&rdquo; 
