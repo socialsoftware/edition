@@ -229,19 +229,19 @@
 		Cec&iacute;lia Magalh&atilde;es e Liliana Vasques, &ldquo;Sess&otilde;es Online Arquivo LdoD: 3. Oficina LdoD Remix&rdquo;, 27/05/2020, 20h00-21h30.</p> 
 
 	<p>Cec&iacute;lia Magalh&atilde;es, Sess&otilde;es Online Arquivo LdoD em parceria com a C&aacute;tedra Agostinho da Silva e o Desassossego Digital Bras&iacute;lia:
-		1. &ldquo;Introdu&ccedil;&atilde;o ao Arquivo LdoD&rdquo;, 21 de outubro de 2020; 2. &ldquo;Sarau no Arquivo LdoD&rdquo;, 28 de outubro de 2020, 20h00;
-		Cec&iacute;lia Magalh&atilde;es e Liliana Vasques, &ldquo;Oficina LdoD Remix&rdquo;, 4 de novembro de 2020.</p>
+		1. &ldquo;Introdu&ccedil;&atilde;o ao Arquivo LdoD&rdquo;, 21/10/2020; 2. &ldquo;Sarau no Arquivo LdoD&rdquo;, 28/10/2020, 20h00;
+		Cec&iacute;lia Magalh&atilde;es e Liliana Vasques, &ldquo;Oficina LdoD Remix&rdquo;, 04/11/2020.</p>
 <p>
 	Manuel Portela, &ldquo;Desassossego Remix: O <em>Arquivo LdoD</em> como Jogo Liter&aacute;rio&rdquo;, XXXV Encontro Nacional da ANPOLL 
-	(Associa&ccedil;&atilde;o Nacional de P&oacute;s-Gradua&ccedil;&atilde;o e Pesquisa em Letras e Lingu&iacute;stica), em linha, 11 de dezembro de 2020.</p>
+	(Associa&ccedil;&atilde;o Nacional de P&oacute;s-Gradua&ccedil;&atilde;o e Pesquisa em Letras e Lingu&iacute;stica), em linha, 11/12/2020.</p>
 	
 <p>&nbsp;</p>
 <p><strong>2021</strong> </p>
 	<p>Cec&iacute;lia Magalh&atilde;es, 2020-2021. Sess&otilde;es de orienta&ccedil;&atilde;o do grupo teatral estudantil Baile Verde - Universidade de Salamanca na utiliza&ccedil;&atilde;o 
 		do <em>Arquivo LdoD</em> para a produ&ccedil;&atilde;o do espet&aacute;culo teatral baseado no <em>Livro do Desassossego</em> &lsquo;Sim, esta sou, Bernardo Soares&rquo; 
-		(lan&ccedil;amento na internet a 5 de maio de 2021). URL: <a href="https://www.youtube.com/watch?v=IAJk5ZAM14I">https://www.youtube.com/watch?v=IAJk5ZAM14I</a>
+		(lan&ccedil;amento na internet 05/05/2021). URL: <a href="https://www.youtube.com/watch?v=IAJk5ZAM14I">https://www.youtube.com/watch?v=IAJk5ZAM14I</a>
 
-         <p>Manuel Portela, &ldquo;Oficina de Cria&ccedil;&atilde;o e Intera&ccedil;&atilde;o Digital.&rdquo; Teatro da Rainha, Caldas da Rainha, 18-19 de dezembro de 2021.</p>
+         <p>Manuel Portela, &ldquo;Oficina de Cria&ccedil;&atilde;o e Intera&ccedil;&atilde;o Digital.&rdquo; Teatro da Rainha, Caldas da Rainha, 18-19/12/2021.</p>
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
