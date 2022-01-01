@@ -23,7 +23,7 @@
       como estudo de caso e espa&ccedil;o para simula&ccedil;&atilde;o e experi&ecirc;ncia pr&aacute;tica, <em>Literary Simulation and the Digital Humanities</em> 
       demonstra como os modelos computacionais da textualidade podem explorar plenamente as complexidades da teoria liter&aacute;ria contempor&acirc;nea. 
       Atrav&eacute;s de uma combina&ccedil;&atilde;o &uacute;nica de especula&ccedil;&atilde;o te&oacute;rica, an&aacute;lise liter&aacute;ria e imagina&ccedil;&atilde;o 
-      humana, a obra representa uma interven&ccedil;&atilde;o cr&iacute;tica significativa e um avan&ccedil;o assinal&eacute;vel no uso de m&eacute;todos digitais para repensar 
+      humana, a obra representa uma interven&ccedil;&atilde;o cr&iacute;tica significativa e um avan&ccedil;o assinal&aacute;vel no uso de m&eacute;todos digitais para repensar 
       os processos de leitura e escrita liter&aacute;ria.</p>
 
 <p>
