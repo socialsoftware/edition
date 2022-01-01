@@ -27,7 +27,7 @@
       escritura literaria.</p>
 
 <p>
-      El &eacute;nfasis dado a las pr&aacute;cticas fundamentales de lectura, edici&oacute;n y escritura es relevante para varios campos, incluyendo
+      El &eacute;nfasis dado a las pr&aacute;cticas fundacionales de lectura, edici&oacute;n y escritura es relevante para varios campos, incluyendo
       estudios literarios, edici&oacute;n acad&eacute;mica, estudios de software y humanidades digitales.</p>
 
 <p>&nbsp;</p>
