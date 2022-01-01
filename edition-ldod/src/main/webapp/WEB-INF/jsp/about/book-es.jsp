@@ -30,8 +30,8 @@
       estudios literarios, edici&oacute;n acad&eacute;mica, estudios de software y humanidades digitales.</p>
 
 <p>&nbsp;</p>
+<h3>Table of Contents</h3>
 <p>
-      Table of Contents<br/>
       Incipit: Evolutionary Textual Environment<br/>
       1. From Archive to Simulator<br/>
       2. Reading as Simulation<br/>
