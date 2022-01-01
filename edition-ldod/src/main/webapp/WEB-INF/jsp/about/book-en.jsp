@@ -8,7 +8,7 @@
   URL: <a href="https://www.bloomsbury.com/uk/literary-simulation-and-the-digital-humanities-9781501385407/" target="_new">
 	https://www.bloomsbury.com/uk/literary-simulation-and-the-digital-humanities-9781501385407/</a></p> 
   
-
+<p>&nbsp;</p>
 <h3>Description</h3>
 
 <p>
@@ -29,7 +29,7 @@
 
 <p>&nbsp;</p>
 <p>
-      Table of Contents<br/>
+      <h2>Table of Contents</h2><br/>
       Incipit: Evolutionary Textual Environment<br/>
       1. From Archive to Simulator<br/>
       2. Reading as Simulation<br/>
