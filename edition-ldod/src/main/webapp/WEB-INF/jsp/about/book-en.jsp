@@ -1,6 +1,5 @@
 
 
-
 [NOTE Insert Cover Here]
 
 
@@ -28,8 +27,9 @@
       literary studies, scholarly editing, software studies, and digital humanities.</p>
 
 <p>&nbsp;</p>
-<p>
-      <h2>Table of Contents</h2><br/>
+
+      <h3>Table of Contents</h3>
+     <p> 
       Incipit: Evolutionary Textual Environment<br/>
       1. From Archive to Simulator<br/>
       2. Reading as Simulation<br/>
