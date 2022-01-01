@@ -15,7 +15,7 @@
 
 <p>
       Como usar o meio digital para compreender a leitura, a edi&ccedil;&atilde;o e a escrita enquanto processos liter&aacute;rios? Como conceber o meio 
-      digital de uma forma que vai al&eacute;m do c&oacute;dice impresso? Este livro &eacute; uma tentativa de responder &agrave;quelas quest&otilde;es fundamentais, 
+      digital de uma forma que vai al&eacute;m do c&oacute;dice impresso? Este livro &eacute; uma tentativa de responder &agrave;quelas perguntas fundamentais, 
       articulando uma nova teoria liter&aacute;ria com um ambiente digital altamente din&acirc;mico.</p>
 
 <p>
@@ -23,7 +23,7 @@
       como estudo de caso e espa&ccedil;o para simula&ccedil;&atilde;o e experi&ecirc;ncia pr&aacute;tica, <em>Literary Simulation and the Digital Humanities</em> 
       demonstra como os modelos computacionais da textualidade podem explorar plenamente as complexidades da teoria liter&aacute;ria contempor&acirc;nea. 
       Atrav&eacute;s de uma combina&ccedil;&atilde;o &uacute;nica de especula&ccedil;&atilde;o te&oacute;rica, an&aacute;lise liter&aacute;ria e imagina&ccedil;&atilde;o 
-      humana, a obra representa uma interven&ccedil;&atilde;o cr&iacute;tica significativa e um avan&ccedil;o fundamental no uso de m&eacute;todos digitais para repensar 
+      humana, a obra representa uma interven&ccedil;&atilde;o cr&iacute;tica significativa e um avan&ccedil;o assinal&eacute;vel no uso de m&eacute;todos digitais para repensar 
       os processos de leitura e escrita liter&aacute;ria.</p>
 
 <p>
