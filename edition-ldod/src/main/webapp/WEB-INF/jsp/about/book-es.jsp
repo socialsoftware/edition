@@ -10,6 +10,7 @@
 	https://www.bloomsbury.com/uk/literary-simulation-and-the-digital-humanities-9781501385407/</a></p> 
   
 
+<p>&nbsp;</p>
 <h3>Descripci&oacute;n</h3>
 
 <p>
