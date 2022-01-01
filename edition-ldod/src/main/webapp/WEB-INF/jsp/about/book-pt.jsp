@@ -10,6 +10,7 @@
 	https://www.bloomsbury.com/uk/literary-simulation-and-the-digital-humanities-9781501385407/</a></p> 
   
 
+<p>&nbsp;</p>
 <h3>Descri&ccedil;&atilde;o</h3>
 
 <p>
@@ -30,8 +31,8 @@
       estudos liter&aacute;rios, edi&ccedil;&atilde;o acad&eacute;mica, estudos de software e humanidades digitais.</p>
 
 <p>&nbsp;</p>
+<h3>Table of Contents</h3>
 <p>
-      Table of Contents<br/>
       Incipit: Evolutionary Textual Environment<br/>
       1. From Archive to Simulator<br/>
       2. Reading as Simulation<br/>
