@@ -27,7 +27,7 @@
       os processos de leitura e escrita liter&aacute;ria.</p>
 
 <p>
-      A sali&ecirc;ncia dada &agrave;s pr&aacute;ticas fundamentais da leitura, edi&ccedil;&atilde;o e escrita &eacute; relevante para v&aacute;rios campos, incluindo
+      A sali&ecirc;ncia dada &agrave;s pr&aacute;ticas fundacionais da leitura, edi&ccedil;&atilde;o e escrita &eacute; relevante para v&aacute;rios campos, incluindo
       estudos liter&aacute;rios, edi&ccedil;&atilde;o acad&eacute;mica, estudos de software e humanidades digitais.</p>
 
 <p>&nbsp;</p>
