@@ -215,12 +215,29 @@
 		(formadoras: Isilda Marques e Silv&eacute;ria Ramos), organizado pelo Centro de Forma&ccedil;&atilde;o de Associa&ccedil;&atilde;o de Escolas Beira Mar 
 		(Figueira da Foz, Cantanhede, Montemor-o-Velho, Mira).</p> 
 
-	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Sess&otilde;es Online Arquivo LdoD: 1. Introdu&ccedil;&atilde;o ao Arquivo LdoD&rdquo;, 13/05/2020, 20h00-21h30.</p>
+	<p> Cec&iacute;lia Magalh&atilde;es, &ldquo;Pr&aacute;ticas Criativas no Arquivo do <em>Livro do Desassossego</em>&rdquo;(3 horas). 
+		Semin&eacute;rio ministrado na a&ccedil;&atilde;o de forma&ccedil;&atilde;o &ldquo;Pr&aacute;ticas criativas e inovadoras 
+		no ensino da literatura&rdquo; (CCPFC/ACC-106241/19 - 18 horas). 17/02/2020. Faculdade de Letras da Universidade de Coimbra (FLUC).</p>
 
-	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Sess&otilde;es Online Arquivo LdoD: 2. Sarau no Arquivo LdoD&rdquo;, 20/05/2020, 20h00-21h30.</p>
+	<p>Cec&iacute;lia Magalh&atilde;es, &ldquo;Sess&otilde;es Online Arquivo LdoD: 1. Introdu&ccedil;&atilde;o ao Arquivo LdoD&rdquo;, 13/05/2020, 20h00-21h30. 
+		Cec&iacute;lia Magalh&atilde;es, &ldquo;Sess&otilde;es Online Arquivo LdoD: 2. Sarau no Arquivo LdoD&rdquo;, 20/05/2020, 20h00-21h30.
+		Cec&iacute;lia Magalh&atilde;es y Liliana Vasques, &ldquo;Sess&otilde;es Online Arquivo LdoD: 3. Oficina LdoD Remix&rdquo;, 27/05/2020, 20h00-21h30.</p> 
 
-	<p>Cec&iacute;lia Magalh&atilde;es y Liliana Vasques, &ldquo;Sess&otilde;es Online Arquivo LdoD: 3. Oficina LdoD Remix&rdquo;, 27/05/2020, 20h00-21h30.</p> 
+	<p>Cec&iacute;lia Magalh&atilde;es, Sess&otilde;es Online Arquivo LdoD em parceria com a C&aacute;tedra Agostinho da Silva e o Desassossego Digital Bras&iacute;lia:
+		1. &ldquo;Introdu&ccedil;&atilde;o ao Arquivo LdoD&rdquo;, 21/10/2020; 2. &ldquo;Sarau no Arquivo LdoD&rdquo;, 28/10/2020, 20h00;
+		Cec&iacute;lia Magalh&atilde;es y Liliana Vasques, &ldquo;Oficina LdoD Remix&rdquo;, 04/11/2020.</p>
+<p>
+	Manuel Portela, &ldquo;Desassossego Remix: O <em>Arquivo LdoD</em> como Jogo Liter&aacute;rio&rdquo;, XXXV Encontro Nacional da ANPOLL 
+	(Associa&ccedil;&atilde;o Nacional de P&oacute;s-Gradua&ccedil;&atilde;o e Pesquisa em Letras e Lingu&iacute;stica), em linha, 11/12/2020.</p>
+	
+<p>&nbsp;</p>
+<p><strong>2021</strong> </p>
+	<p>Cec&iacute;lia Magalh&atilde;es, 2020-2021. Sess&otilde;es de orienta&ccedil;&atilde;o do grupo teatral estudantil Baile Verde - Universidade de Salamanca na utiliza&ccedil;&atilde;o 
+		do <em>Arquivo LdoD</em> para a produ&ccedil;&atilde;o do espet&aacute;culo teatral baseado no <em>Livro do Desassossego</em> &lsquo;Sim, esta sou, Bernardo Soares&rquo; 
+		(lan&ccedil;amento na internet 05/05/2021). URL: <a href="https://www.youtube.com/watch?v=IAJk5ZAM14I">https://www.youtube.com/watch?v=IAJk5ZAM14I</a>
 
+         <p>Manuel Portela, &ldquo;Oficina de Cria&ccedil;&atilde;o e Intera&ccedil;&atilde;o Digital.&rdquo; Teatro da Rainha, Caldas da Rainha, 18-19/12/2021.</p>
 
 <p>&nbsp;</p>
-<p>[actualizaci&oacute;n 31-07-2020]</p>
+<p>&nbsp;</p>
+<p>[actualizaci&oacute;n 31-12-2021]</p>
