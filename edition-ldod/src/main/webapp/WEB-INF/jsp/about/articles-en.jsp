@@ -58,7 +58,7 @@
   	DOI: <a href="https://doi.org/10.1093/llc/fqu004" target="_new">
 	https://doi.org/10.1093/llc/fqu004</a> </p>
 <p> 
-	Portela, Manuel, and Diego Gim&eacute;nez (2015).
+	Portela, Manuel, and Diego Gim&eacute;nez (2014).
 	&ldquo;The Fragmentary Kinetics of Writing in the <em>Book of Disquiet</em>.&rdquo; 
 	<em>Textual Cultures</em> 9.2: 52-78. <br />
   	URL: <a href="https://scholarworks.iu.edu/journals/index.php/textual/article/view/12752/28916" target="_new">
