@@ -59,6 +59,14 @@
   	DOI: <a href="https://doi.org/10.1093/llc/fqu004" target="_new">
 	https://doi.org/10.1093/llc/fqu004</a> </p>
 <p> 
+	Portela, Manuel, and Diego Gim&eacute;nez (2014).
+	&ldquo;The Fragmentary Kinetics of Writing in the <em>Book of Disquiet</em>.&rdquo; 
+	<em>Textual Cultures</em> 9.2: 52-78. <br />
+  	URL: <a href="https://scholarworks.iu.edu/journals/index.php/textual/article/view/12752/28916" target="_new">
+	https://scholarworks.iu.edu/journals/index.php/textual/article/view/12752/28916</a> <br />
+	DOI: <a href="https://doi.org/10.14434/tc.v9i2.12752" target="_new">
+	https://doi.org/10.14434/tc.v9i2.12752</a> </p> 
+<p> 
 	Silva, Ant&oacute;nio Rito, and Manuel Portela (2014-2015). 
 	&ldquo;TEI4LdoD: Textual Encoding and Social Editing in Web 2.0 Environments.&rdquo; 
 	<em>Journal of the Text Encoding Initiative</em> 8. <br />
@@ -69,14 +77,6 @@
 
 <p>&nbsp;</p>
 <p> <strong>2015</strong> </p>
-<p> 
-	Portela, Manuel, and Diego Gim&eacute;nez (2015).
-	&ldquo;The Fragmentary Kinetics of Writing in the <em>Book of Disquiet</em>.&rdquo; 
-	<em>Textual Cultures</em> 9.2: 52-78. <br />
-  	URL: <a href="https://scholarworks.iu.edu/journals/index.php/textual/article/view/12752/28916" target="_new">
-	https://scholarworks.iu.edu/journals/index.php/textual/article/view/12752/28916</a> <br />
-	DOI: <a href="https://doi.org/10.14434/tc.v9i2.12752" target="_new">
-	https://doi.org/10.14434/tc.v9i2.12752</a> </p> 
 <p> 
 	Portela, Manuel, e Ant&oacute;nio Rito Silva (2015). &ldquo;A Din&acirc;mica entre Arquivo e Edi&ccedil;&atilde;o no <em>Arquivo LdoD</em>.&rdquo; 
 	<em>Col&oacute;quio Letras</em> 188: 33-47. <br />
