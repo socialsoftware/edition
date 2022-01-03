@@ -78,22 +78,22 @@
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p class="ldod-about semibold">
-	How to cite the <em>LdoD Archive?</em>
+	&iquest;C&oacute;mo citar el <em>Archivo LdoD</em>&quest;
 </p>
 <p>
-	Portela, Manuel, and Ant&oacute;nio Rito Silva, eds. (2017). <em>LdoD
-		Archive: Collaborative Digital Archive of the Book of Disquiet</em>.
-	Coimbra: Centre for Portuguese Literature at the University of Coimbra.
+	Portela, Manuel, y Ant&oacute;nio Rito Silva, eds. (2017). <em>Archivo LdoD: 
+	Archivo digital colaborativo del Libro del desasossiego</em>. Coimbra: Centro de Literatura 
+	Portuguesa de la Universidad de Coimbra.
 	URL: <a href="https://ldod.uc.pt/">https://ldod.uc.pt/</a>
 </p>
 <p>&nbsp;</p>
 <p class="ldod-about semibold">
-	How to cite a virtual edition from the <em>LdoD Archive?</em>
+	&iquest;C&oacute;mo citar una edici&iocute;n virtual del <em>Archivo LdoD</em>&quest; 
 </p>
 <p>
 	Marrone, Rita, Bruno Ministro, Bruno Fontes, Cec&iacute;lia Magalh&atilde;es, Manuel Portela, Mariana Ferreira, Raquel Gon&ccedil;alves, Rui Silva, 
-	and Sofia Escourido, eds. (2017). &ldquo;Virtual Edition: Jacinto do Prado Coelho - edi&ccedil;&atilde;o anotada&rdquo;. <em>LdoD
-		Archive: Collaborative Digital Archive of the Book of Disquiet</em>. Coimbra: Centre for Portuguese Literature at the University of Coimbra. URL: <a
+	y Sofia Escourido, eds. (2017). &ldquo;Virtual Edition: Jacinto do Prado Coelho - edi&ccedil;&atilde;o anotada&rdquo;. <em>LdoD
+		Archive: Collaborative Digital Archive of the Book of Disquiet</em>. Coimbra: Centro de Literatura Portuguesa de la Universidad de Coimbra. URL: <a
 		href="https://ldod.uc.pt/edition/acronym/LdoD-JPC-anot">https://ldod.uc.pt/edition/acronym/LdoD-JPC-anot</a>
 </p>
 <p>&nbsp;</p>
