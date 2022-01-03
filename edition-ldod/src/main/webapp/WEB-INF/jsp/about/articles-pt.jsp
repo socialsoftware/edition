@@ -916,17 +916,18 @@
 	https://repositorio.ufpe.br/handle/123456789/38150</a> </p>
 
 <p> 
-	Boto, Sandra (2020). &ldquo;Rese&ntilde;a—Archivo LdoD: Archivo digital colaborativo del <em>Libro del desasosiego</em>.&rdquo; 
-	<em>RHD: Revista de Humanidades Digitales</em> 5: 189–96. URL: <a href="http://revistas.uned.es/index.php/RHD/article/view/24237/22269" target="_new">
+	Boto, Sandra (2020). &ldquo;Rese&ntilde;a - Archivo LdoD: Archivo digital colaborativo del <em>Libro del desasosiego</em>.&rdquo; 
+	<em>RHD: Revista de Humanidades Digitales</em> 5: 189-96. URL: <a href="http://revistas.uned.es/index.php/RHD/article/view/24237/22269" target="_new">
 	http://revistas.uned.es/index.php/RHD/article/view/24237/22269</a></p>
 
 <p>&nbsp;</p>
 <p><strong>2021</strong></p>
 <p> 
 	Dion&iacute;sio, Jo&atilde;o (2021). &ldquo;Fazer Edi&ccedil;&otilde;es com Edi&ccedil;&otilde;es: Peritos e Comunidades.&rdquo; 
-	<em>Todas as Letras: Revista de Língua e Literatura </em> 23.1: 1–17. URL: <a href="https://doi.org/10.5935/1980-6914/eLETDO2114243" target="_new">
+	<em>Todas as Letras: Revista de L&iacute;ngua e Literatura </em> 23.1: 1-17. URL: <a href="https://doi.org/10.5935/1980-6914/eLETDO2114243" target="_new">
 	https://doi.org/10.5935/1980-6914/eLETDO2114243</a></p> 
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
+<p>[updated 31-12-2021]</p>
 <p>[atualiza&ccedil;&atilde;o 31-12-2021]</p>
