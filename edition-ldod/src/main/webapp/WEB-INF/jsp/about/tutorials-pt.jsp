@@ -238,7 +238,7 @@
 <p>&nbsp;</p>
 <p><strong>2021</strong> </p>
 	<p>Cec&iacute;lia Magalh&atilde;es, 2020-2021. Sess&otilde;es de orienta&ccedil;&atilde;o do grupo teatral estudantil Baile Verde - Universidade de Salamanca na utiliza&ccedil;&atilde;o 
-		do <em>Arquivo LdoD</em> para a produ&ccedil;&atilde;o do espet&aacute;culo teatral baseado no <em>Livro do Desassossego</em> &lsquo;Sim, esta sou, Bernardo Soares&rquo; 
+		do <em>Arquivo LdoD</em> para a produ&ccedil;&atilde;o do espet&aacute;culo teatral baseado no <em>Livro do Desassossego</em> &lsquo;Sim, esta sou, Bernardo Soares&rsquo; 
 		(lan&ccedil;amento na internet 05/05/2021). URL: <a href="https://www.youtube.com/watch?v=IAJk5ZAM14I">https://www.youtube.com/watch?v=IAJk5ZAM14I</a>
 
          <p>Manuel Portela, &ldquo;Oficina de Cria&ccedil;&atilde;o e Intera&ccedil;&atilde;o Digital.&rdquo; Teatro da Rainha, Caldas da Rainha, 18-19/12/2021.</p>
