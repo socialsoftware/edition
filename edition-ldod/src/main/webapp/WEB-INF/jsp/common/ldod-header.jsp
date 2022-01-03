@@ -74,6 +74,8 @@
                             code="header.encoding"/></a></li>
                     <li><a href="${contextPath}/about/articles"><spring:message
                             code="header.bibliography"/></a></li>
+                    <li><a href="${contextPath}/about/book"><spring:message
+                            code="header.book"/></a></li>
                     <li><a href="${contextPath}/about/conduct"><spring:message
                             code="header.conduct"/></a></li>
                     <li><a href="${contextPath}/about/privacy"><spring:message

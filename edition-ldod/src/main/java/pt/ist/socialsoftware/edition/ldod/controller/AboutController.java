@@ -48,6 +48,11 @@ public class AboutController {
         return "about/articles-main";
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/book")
+    public String showBook() {
+        return "about/book-main";
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/conduct")
     public String showConduct() {
         return "about/conduct-main";

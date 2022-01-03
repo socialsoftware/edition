@@ -1,10 +1,4 @@
 
-
-
-
-[NOTE Insert Cover Here]
-
-
 <p>Manuel Portela, <em>Literary Simulation and the Digital Humanities: Reading, Editing, Writing </em>. New York: Bloomsbury Academic, 2022. 
   URL: <a href="https://www.bloomsbury.com/uk/literary-simulation-and-the-digital-humanities-9781501385407/" target="_new">
 	https://www.bloomsbury.com/uk/literary-simulation-and-the-digital-humanities-9781501385407/</a></p> 
