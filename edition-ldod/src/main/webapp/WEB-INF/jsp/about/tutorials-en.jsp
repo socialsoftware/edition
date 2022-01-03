@@ -232,7 +232,8 @@ a better understanding of the materials and interactions available in each inter
 		Cec&iacute;lia Magalh&atilde;es and Liliana Vasques, &ldquo;Oficina LdoD Remix&rdquo;, 04/11/2020.</p>
 <p>
 	Manuel Portela, &ldquo;Desassossego Remix: O <em>Arquivo LdoD</em> como Jogo Liter&aacute;rio&rdquo;, XXXV Encontro Nacional da ANPOLL 
-	(Associa&ccedil;&atilde;o Nacional de P&oacute;s-Gradua&ccedil;&atilde;o e Pesquisa em Letras e Lingu&iacute;stica), em linha, 11/12/2020.</p>
+	(Associa&ccedil;&atilde;o Nacional de P&oacute;s-Gradua&ccedil;&atilde;o e Pesquisa em Letras e Lingu&iacute;stica), Universidade Estadual de Londrina, 
+	em linha, 11/12/2020.</p>
 	
 <p>&nbsp;</p>
 <p><strong>2021</strong> </p>
