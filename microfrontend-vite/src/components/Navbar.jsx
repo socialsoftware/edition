@@ -1,6 +1,13 @@
 import '../resources/css/navbar.css';
 import { messages } from '../resources/constants';
-import { useStore, setLanguage, logout, isAuthenticated, isAdmin, getName } from '../store';
+import {
+  useStore,
+  setLanguage,
+  logout,
+  isAuthenticated,
+  isAdmin,
+  getName,
+} from '../store';
 import { modules } from '../resources/header_modules';
 import { Link } from 'react-router-dom';
 
@@ -13,6 +20,36 @@ export default () => {
     if (key !== 'admin') return true;
     return isAuthenticated() && isAdmin();
   };
+
+  const getLoginElement = () => (
+    <Link to="/auth/signin">{messages[language]['header_login']}</Link>
+  );
+
+  const getLoggedInElement = () => (
+    <>
+      <a
+        href="#"
+        className="dropdown-toggle"
+        data-toggle="dropdown"
+        aria-expanded="false"
+      >
+        {getName()}
+        <span className="caret"></span>
+      </a>
+      <ul className="dropdown-menu">
+        <li>
+          <Link to="/auth/change-password">
+            {messages[language]['user_password']}
+          </Link>
+        </li>
+        <li>
+          <Link to="/auth/signin" onClick={logout}>
+            {messages[language]['header_logout']}
+          </Link>
+        </li>
+      </ul>
+    </>
+  );
 
   return (
     <nav
@@ -39,44 +76,23 @@ export default () => {
             <img
               alt="vite-logo"
               className="logo"
-              src={new URL('../resources/assets/vite-logo.svg', import.meta.url).href}
+              src={
+                new URL('../resources/assets/vite-logo.svg', import.meta.url)
+                  .href
+              }
             />
-                        <img
+            <img
               alt="react-logo"
               className="logo"
-              src={new URL('../resources/assets/react.svg', import.meta.url).href}
+              src={
+                new URL('../resources/assets/react.svg', import.meta.url).href
+              }
             />
             <ul className="nav navbar-nav navbar-right hidden-xs">
-              {!isAuthenticated() && (
-                <li>
-                  <Link to="/auth/signin">
-                    {messages[language]['header_login']}
-                  </Link>
-                </li>
-              )}
+              {!isAuthenticated() && <li>{getLoginElement()}</li>}
               {isAuthenticated() && (
                 <li className="dropdown login logged-in">
-                  <a
-                    href="#"
-                    className="dropdown-toggle"
-                    data-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    {getName()}
-                    <span className="caret"></span>
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <Link to="/auth/change-password">
-                        {messages[language]['user_password']}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/auth/signin" onClick={logout}>
-                        {messages[language]['header_logout']}
-                      </Link>
-                    </li>
-                  </ul>
+                  {getLoggedInElement()}
                 </li>
               )}
             </ul>
@@ -114,6 +130,14 @@ export default () => {
                 </li>
               );
             })}
+            {!isAuthenticated() && (
+              <li className="login visible-xs">{getLoginElement()}</li>
+            )}
+            {isAuthenticated() && (
+              <li className="dropdown login logged-in visible-xs">
+                {getLoggedInElement()}
+              </li>
+            )}
             <li className="nav-lang">
               <a
                 className={language === 'pt' ? 'active' : ''}
@@ -140,4 +164,3 @@ export default () => {
     </nav>
   );
 };
-
