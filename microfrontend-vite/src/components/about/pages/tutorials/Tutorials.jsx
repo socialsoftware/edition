@@ -2,7 +2,7 @@ import { lazy, useState, useEffect } from 'react';
 import { useStore } from "../../../../store";
 import '../../../../resources/css/about-tutorials.css';
 
-export default () => {
+export default ({scroll}) => {
   
   const { language } = useStore();
   console.log(`./Tutorials-${language}.jsx`);
@@ -11,14 +11,9 @@ export default () => {
 
   useEffect(() => setTop(false));
 
-  const scroll = (ref) => {
-    const section = document.querySelector(ref);
-    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
   return (
     <Tutorials 
-    scroll={(e, ref) => scroll(e, ref)}
+    scroll={scroll}
     posY={top ? 0 : window.scrollY}/>
   );
 }

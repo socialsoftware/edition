@@ -46,87 +46,87 @@ export default ({ scroll, posY }) => {
       <h5>&Iacute;ndice dos v&iacute;deos:</h5>
       <ul>
         <li>
-          <a href="" onClick={(e) => scroll(e, '#V1')}>
+          <a onClick={() => scroll( '#V1')}>
             Teaser_LdoD: Arquivo LdoD
           </a>
         </li>
         <li>
-          <a href="" onClick={(e) => scroll(e, '#V2')}>
+          <a onClick={() => scroll( '#V2')}>
             A realidade documental &eacute; desorganizada
           </a>
         </li>
         <li>
-          <a href="" onClick={(e) => scroll(e, '#V3')}>
+          <a onClick={() => scroll( '#V3')}>
             Vicente Guedes e Bernardo Soares
           </a>
         </li>
         <li>
-          <a href="" onClick={(e) => scroll(e, '#V4')}>
+          <a onClick={() => scroll( '#V4')}>
             Cria&ccedil;&atilde;o de unidades discursivas
           </a>
         </li>
         <li>
-          <a href="" onClick={(e) => scroll(e, '#V5')}>
+          <a onClick={() => scroll( '#V5')}>
             Cria&ccedil;&atilde;o de par&aacute;grafos
           </a>
         </li>
         <li>
-          <a href="" onClick={(e) => scroll(e, '#V6')}>
+          <a onClick={() => scroll( '#V6')}>
             Fala humana
           </a>
         </li>
         <li>
-          <a href="" onClick={(e) => scroll(e, '#V7')}>
+          <a onClick={() => scroll( '#V7')}>
             Porqu&ecirc; editar?
           </a>
         </li>
         <li>
-          <a href="" onClick={(e) => scroll(e, '#V8')}>
+          <a onClick={() => scroll( '#V8')}>
             Organiza&ccedil;&atilde;o cronol&oacute;gica
           </a>
         </li>
         <li>
-          <a href="" onClick={(e) => scroll(e, '#V9')}>
+          <a onClick={() => scroll( '#V9')}>
             Heter&oacute;nimos
           </a>
         </li>
         <li>
-          <a href="" onClick={(e) => scroll(e, '#V10')}>
+          <a onClick={() => scroll( '#V10')}>
             Possibilidades de edi&ccedil;&atilde;o
           </a>
         </li>
         <li>
-          <a href="" onClick={(e) => scroll(e, '#V11')}>
+          <a onClick={() => scroll( '#V11')}>
             Materialidade e cr&iacute;tica
           </a>
         </li>
         <li>
-          <a href="" onClick={(e) => scroll(e, '#V12')}>
+          <a onClick={() => scroll( '#V12')}>
             Leitura espont&acirc;nea
           </a>
         </li>
         <li>
-          <a href="" onClick={(e) => scroll(e, '#V13')}>
+          <a onClick={() => scroll( '#V13')}>
             Hiperconsci&ecirc;ncia
           </a>
         </li>
         <li>
-          <a href="" onClick={(e) => scroll(e, '#V14')}>
+          <a onClick={() => scroll( '#V14')}>
             Arquivo LdoD
           </a>
         </li>
         <li>
-          <a href="" onClick={(e) => scroll(e, '#V15')}>
+          <a onClick={() => scroll( '#V15')}>
             Arquivo din&acirc;mico
           </a>
         </li>
         <li>
-          <a href="" onClick={(e) => scroll(e, '#V16')}>
+          <a onClick={() => scroll( '#V16')}>
             Aprender Investigar Criar
           </a>
         </li>
         <li>
-          <a href="" onClick={(e) => scroll(e, '#V17')}>
+          <a onClick={() => scroll( '#V17')}>
             Simulador de performatividade liter&aacute;ria
           </a>
         </li>
