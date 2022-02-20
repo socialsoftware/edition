@@ -116,8 +116,8 @@ export default ({ posY, scroll }) => {
           width="560"
           height="315"
           src="https://www.youtube.com/embed/hOVqKufmAv8"
-          frameborder="0"
-          allowfullscreen=""
+          frameBorder="0"
+          allowFullScreen=""
         ></iframe>
       </div>
       <br />
@@ -130,8 +130,8 @@ export default ({ posY, scroll }) => {
           width="560"
           height="315"
           src="https://www.youtube.com/embed/H78nGI5L25M"
-          frameborder="0"
-          allowfullscreen=""
+          frameBorder="0"
+          allowFullScreen=""
         ></iframe>
       </div>
       <br />
@@ -142,8 +142,8 @@ export default ({ posY, scroll }) => {
           width="560"
           height="315"
           src="https://www.youtube.com/embed/dUUUiC-Bl68"
-          frameborder="0"
-          allowfullscreen=""
+          frameBorder="0"
+          allowFullScreen=""
         ></iframe>
       </div>
       <br />
@@ -154,8 +154,8 @@ export default ({ posY, scroll }) => {
           width="560"
           height="315"
           src="https://www.youtube.com/embed/LPGxZjUUh1w"
-          frameborder="0"
-          allowfullscreen=""
+          frameBorder="0"
+          allowFullScreen=""
         ></iframe>
       </div>
       <br />
@@ -166,8 +166,8 @@ export default ({ posY, scroll }) => {
           width="560"
           height="315"
           src="https://www.youtube.com/embed/wFPO-ypEWl8"
-          frameborder="0"
-          allowfullscreen=""
+          frameBorder="0"
+          allowFullScreen=""
         ></iframe>
       </div>
       <br />
@@ -178,8 +178,8 @@ export default ({ posY, scroll }) => {
           width="560"
           height="315"
           src="https://www.youtube.com/embed/h1QJDZ77iT0"
-          frameborder="0"
-          allowfullscreen=""
+          frameBorder="0"
+          allowFullScreen=""
         ></iframe>
       </div>
       <br />
@@ -190,8 +190,8 @@ export default ({ posY, scroll }) => {
           width="560"
           height="315"
           src="https://www.youtube.com/embed/6qcBC8OGJLU"
-          frameborder="0"
-          allowfullscreen=""
+          frameBorder="0"
+          allowFullScreen=""
         ></iframe>
       </div>
       <br />
@@ -202,8 +202,8 @@ export default ({ posY, scroll }) => {
           width="560"
           height="315"
           src="https://www.youtube.com/embed/rANp_CP3DwI"
-          frameborder="0"
-          allowfullscreen=""
+          frameBorder="0"
+          allowFullScreen=""
         ></iframe>
       </div>
       <br />
@@ -214,8 +214,8 @@ export default ({ posY, scroll }) => {
           width="560"
           height="315"
           src="https://www.youtube.com/embed/BMvAbI_TOy8"
-          frameborder="0"
-          allowfullscreen=""
+          frameBorder="0"
+          allowFullScreen=""
         ></iframe>
       </div>
       <br />
@@ -226,8 +226,8 @@ export default ({ posY, scroll }) => {
           width="560"
           height="315"
           src="https://www.youtube.com/embed/3cvvsjvrSzk"
-          frameborder="0"
-          allowfullscreen=""
+          frameBorder="0"
+          allowFullScreen=""
         ></iframe>
       </div>
       <br />
