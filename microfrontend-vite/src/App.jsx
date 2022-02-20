@@ -13,15 +13,14 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(async () => {
-    if (getToken()) {
-      try {
-        await getUser();
-        isAuthenticated() && navigate('/', { replace: true });        
-      } catch (error) {
-        logout();
-        navigate('auth/signin', { replace: true })        
-      }
-    }
+    getToken() &&
+      getUser()
+        .then(() => isAuthenticated() && navigate('/', { replace: true }))
+        .catch((error) => {
+          console.error(error);
+          logout();
+          navigate('auth/signin', { replace: true });
+        });
   }, [useStore().token]);
 
   return (
