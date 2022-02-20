@@ -110,8 +110,7 @@ public class AuthController {
 					throw new LdoDException("Token Confirmation - MessagingException");
 
 				}
-				this.providerSignInUtils.doPostSignUp(user.getUsername(), request);
-
+				//this.providerSignInUtils.doPostSignUp(user.getUsername(), request);
 				return "success";
 			}
 		}

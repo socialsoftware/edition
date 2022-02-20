@@ -19,4 +19,11 @@ public class MicrofrontendController {
         return "microfrontend";
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = { "/microfrontend-vite", "/microfrontend-vite/*" })
+    public String microfrontendVite() {
+        return "microfrontendVite";
+    }
+
+
+
 }
