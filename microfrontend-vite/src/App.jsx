@@ -8,6 +8,8 @@ import { getUser } from './api/user-api';
 
 const User = lazy(() => import('./components/user/User'));
 const About = lazy(() => import('./components/about/About'));
+const Reading = lazy(() => import('./components/reading/reading'));
+
 
 function App() {
   const navigate = useNavigate();
@@ -30,7 +32,8 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='auth/*' element={<User />} /> 
-          <Route path='about/*' element={<About />}/>        
+          <Route path='about/*' element={<About />}/>
+          <Route path='reading/*' element={<Reading />}/>
         </Routes>
       </Suspense>
     </>

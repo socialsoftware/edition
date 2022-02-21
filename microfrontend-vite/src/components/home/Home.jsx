@@ -33,103 +33,103 @@ export default () => {
     ).href;
 
   return (
-    <div className="ldod-default">
-      <div className="container">
-        <Link to={`/reading/fragment/${excerpt.excerpt}`} className="frag-link">
-          <div className="raw col-xs-12 frag-excerpt">
-            <span className="frag-number font-egyptian">{excerpt.number}</span>
-            <span className="frag-editor font-condensed">{excerpt.editor}</span>
+    <div className='ldod-default'>
+    <div className="container">
+      <Link to={`/reading/fragment/${excerpt.excerpt}`} className="frag-link">
+        <div className="raw col-xs-12 frag-excerpt">
+          <span className="frag-number font-egyptian">{excerpt.number}</span>
+          <span className="frag-editor font-condensed">{excerpt.editor}</span>
+        </div>
+      </Link>
+      <div className="frag-excerpt-text font-grotesque">
+        <p>{excerpt.text}</p>
+      </div>
+      <hr className="line-points" />
+      <HomeAbout />
+      <hr className="line-x" />
+      <div className="menu-boxes hidden-xs col-xs-12">
+        <Link to="/reading">
+          <div className="div-link">
+            <img src={boxUrl('D', '01', readingBox)} />
+            <img src={boxUrlH('D', '01', readingBox)} />
           </div>
         </Link>
-        <div className="frag-excerpt-text font-grotesque">
-          <p>{excerpt.text}</p>
-        </div>
         <hr className="line-points" />
-        <HomeAbout />
-        <hr className="line-x" />
-        <div className="menu-boxes hidden-xs col-xs-12">
-          <Link to="/reading">
-            <div className="div-link">
-              <img src={boxUrl('D', '01', readingBox)} />
-              <img src={boxUrlH('D', '01', readingBox)} />
-            </div>
-          </Link>
-          <hr className="line-points" />
-          <Link to="/source/list">
-            <div className="div-link">
-              <img src={boxUrl('D', '02', documentsBox)} />
-              <img src={boxUrlH('D', '02', documentsBox)} />
-            </div>
-          </Link>
-          <hr className="line-points" />
-          <Link to="/edition">
-            <div className="div-link">
-              <img src={boxUrl('D', '03', editionBox)} />
-              <img src={boxUrlH('D', '03', editionBox)} />
-            </div>
-          </Link>
-          <hr className="line-points" />
-          <Link to="/search/simple">
-            <div className="div-link">
-              <img src={boxUrl('D', '04', searchBox)} />
-              <img src={boxUrlH('D', '04', searchBox)} />
-            </div>
-          </Link>
-          <hr className="line-points" />
-          <Link to="/virtualeditions">
-            <div className="div-link">
-              <img src={boxUrl('D', '05', virtualBox)} />
-              <img src={boxUrlH('D', '05', virtualBox)} />
-            </div>
-          </Link>
-        </div>
-
-        <div className="menu-boxes visible-xs-inline col-xs-12">
-          <Link to="/reading">
-            <div className="div-link">
-              <img src={boxUrl('M', '01', readingBox)} />
-              <img src={boxUrlH('M', '01', readingBox)} />
-            </div>
-          </Link>
-
-          <hr className="line-points" />
-
-          <Link to="/source/list">
-            <div className="div-link">
-              <img src={boxUrl('M', '02', documentsBox)} />
-              <img src={boxUrlH('M', '02', documentsBox)} />
-            </div>
-          </Link>
-
-          <hr className="line-points" />
-
-          <Link to="/edition">
-            <div className="div-link">
-              <img src={boxUrl('M', '03', editionBox)} />
-              <img src={boxUrlH('M', '03', editionBox)} />
-            </div>
-          </Link>
-
-          <hr className="line-points" />
-          <Link to="/search/simple">
-            <div className="div-link">
-              <img src={boxUrl('M', '04', searchBox)} />
-              <img src={boxUrlH('M', '04', searchBox)} />
-            </div>
-          </Link>
-
-          <hr className="line-points" />
-
-          <Link to="/virtualeditions">
-            <div className="div-link">
-              <img src={boxUrl('M', '05', virtualBox)} />
-              <img src={boxUrlH('M', '05', virtualBox)} />
-            </div>
-          </Link>
-        </div>
-        <HomeInfo />
+        <Link to="/source/list">
+          <div className="div-link">
+            <img src={boxUrl('D', '02', documentsBox)} />
+            <img src={boxUrlH('D', '02', documentsBox)} />
+          </div>
+        </Link>
+        <hr className="line-points" />
+        <Link to="/edition">
+          <div className="div-link">
+            <img src={boxUrl('D', '03', editionBox)} />
+            <img src={boxUrlH('D', '03', editionBox)} />
+          </div>
+        </Link>
+        <hr className="line-points" />
+        <Link to="/search/simple">
+          <div className="div-link">
+            <img src={boxUrl('D', '04', searchBox)} />
+            <img src={boxUrlH('D', '04', searchBox)} />
+          </div>
+        </Link>
+        <hr className="line-points" />
+        <Link to="/virtualeditions">
+          <div className="div-link">
+            <img src={boxUrl('D', '05', virtualBox)} />
+            <img src={boxUrlH('D', '05', virtualBox)} />
+          </div>
+        </Link>
       </div>
-      <BottomBar />
+
+      <div className="menu-boxes visible-xs-inline col-xs-12">
+        <Link to="/reading">
+          <div className="div-link">
+            <img src={boxUrl('M', '01', readingBox)} />
+            <img src={boxUrlH('M', '01', readingBox)} />
+          </div>
+        </Link>
+
+        <hr className="line-points" />
+
+        <Link to="/source/list">
+          <div className="div-link">
+            <img src={boxUrl('M', '02', documentsBox)} />
+            <img src={boxUrlH('M', '02', documentsBox)} />
+          </div>
+        </Link>
+
+        <hr className="line-points" />
+
+        <Link to="/edition">
+          <div className="div-link">
+            <img src={boxUrl('M', '03', editionBox)} />
+            <img src={boxUrlH('M', '03', editionBox)} />
+          </div>
+        </Link>
+
+        <hr className="line-points" />
+        <Link to="/search/simple">
+          <div className="div-link">
+            <img src={boxUrl('M', '04', searchBox)} />
+            <img src={boxUrlH('M', '04', searchBox)} />
+          </div>
+        </Link>
+
+        <hr className="line-points" />
+
+        <Link to="/virtualeditions">
+          <div className="div-link">
+            <img src={boxUrl('M', '05', virtualBox)} />
+            <img src={boxUrlH('M', '05', virtualBox)} />
+          </div>
+        </Link>
+      </div>
+      <HomeInfo />
+    </div>
+    <BottomBar />
     </div>
   );
 };
