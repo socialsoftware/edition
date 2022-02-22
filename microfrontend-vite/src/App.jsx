@@ -1,14 +1,14 @@
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { lazy, Suspense, useEffect } from 'react';
-import Navbar from './components/Navbar';
-import Home from './components/home/Home';
+import Navbar from './microfrontends/Navbar';
+import Home from './microfrontends/home/Home';
 import './resources/css/app.css';
 import { getToken, isAuthenticated, logout, useStore } from './store';
-import { getUser } from './api/user-api';
+import { getUser } from './microfrontends/user/api/users';
 
-const User = lazy(() => import('./components/user/User'));
-const About = lazy(() => import('./components/about/About'));
-const Reading = lazy(() => import('./components/reading/reading'));
+const User = lazy(() => import('./microfrontends/user/User'));
+const About = lazy(() => import('./microfrontends/about/About'));
+const Reading = lazy(() => import('./microfrontends/reading/ReadingRouter'));
 
 
 function App() {

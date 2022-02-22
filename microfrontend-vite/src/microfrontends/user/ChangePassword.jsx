@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { changePassword } from '../../api/user-api';
+import { changePassword } from './api/users';
 import { messages, PASSWORD_MIN_LENGTH } from '../../resources/constants';
 import { useStore } from '../../store';
 

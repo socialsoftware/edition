@@ -3,7 +3,7 @@ import { useStore  } from '../../store';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../../resources/css/bootstrap-social.css';
-import { authenticate } from '../../api/user-api';
+import { authenticate } from './api/users';
 
 export default () => {
   const location = useLocation();

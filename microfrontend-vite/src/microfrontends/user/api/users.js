@@ -1,5 +1,5 @@
-import fetcher from './axios';
-import { setUser } from '../store';
+import fetcher from '../../../config/axios';
+import { setUser } from '../../../store';
 
 export const getUser = async () => {
   const { data } = await fetcher.get('/user');

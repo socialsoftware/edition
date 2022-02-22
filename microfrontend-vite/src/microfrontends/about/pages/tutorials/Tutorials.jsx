@@ -5,7 +5,6 @@ import '../../../../resources/css/about-tutorials.css';
 export default ({scroll}) => {
   
   const { language } = useStore();
-  console.log(`./Tutorials-${language}.jsx`);
   const Tutorials = lazy(() => import(`./Tutorials-${language}.jsx`));
   const [top, setTop] = useState(true);
 

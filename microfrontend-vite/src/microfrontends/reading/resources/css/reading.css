@@ -5,6 +5,18 @@
     font-weight: regular;
 }
 
+@font-face {
+	font-family: 'Work-Sans';
+	src: url('../fonts/Work_Sans/WorkSans-Regular.ttf') format('truetype');
+	font-style: normal;
+	font-weight: regular;
+}
+
+a {
+    cursor: pointer;
+}
+
+
 .ldod-default .reading-container {
     position: relative;
     float: left;
@@ -12,6 +24,7 @@
 }
 
 @media (min-width: 768px) {
+
     .reading-container {
         margin-top: 60px;
         height: 100%;
@@ -84,6 +97,8 @@
 }
 
 @media (min-width: 768px) {
+
+
     .ldod-default .reading__column,
     .reading__column--open {
         padding: 0 5px;
@@ -211,6 +226,10 @@
     .ldod-default .reading__column .h3-group,
     .reading__column--open .h3-group {
         margin-top: -47px;
+    }
+    .arrows{
+        display: flex;
+        justify-content: space-around;
     }
 }
 .ldod-default .reading__column .h3-group div,
@@ -361,8 +380,6 @@
 @media (max-width: 767px) {
     .ldod-default .reading__column img,
     .reading__column--open img {
-        display: inline-block;
-        padding: 0;
         width: 35px;
         float: right;
         -webkit-transform: rotate(0deg);
@@ -388,6 +405,7 @@
     .reading-grid {
         margin-right: 5px !important;
         margin-left: 5px !important;
+        padding-bottom: 50px;
     }
 }
 @media (min-width: 768px) and (max-width: 991px) {

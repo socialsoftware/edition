@@ -7,7 +7,7 @@ import {
 } from '../../resources/constants';
 import { useStore } from '../../store';
 import { useState, lazy } from 'react';
-import { signup } from '../../api/user-api';
+import { signup } from './api/users';
 import { useNavigate } from 'react-router-dom';
 
 
