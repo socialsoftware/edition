@@ -1,16 +1,12 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import {
-  getCurrentReadingFragment,
   getPrevNextReadingFragment,
   getStartReadingFragment,
 } from '../api/reading';
-import { rightArrowUrl, leftArrowUrl } from '../pages/ReadingMain';
+import { rightArrowUrl, leftArrowUrl, xmlId, urlId } from '../pages/ReadingMain';
 import { getRecommendation, setRecommendation } from '../readingStore';
 
-export const xmlId = (data) => data.fragment.fragmentXmlId;
-export const urlId = (data) => data.expertEditionInterDto.urlId;
-
-export default ({ expert, state }) => {
+export default ({ expert, state,  fetchNumberFragment}) => {
   const { xmlid, urlid } = useParams();
 
   const getExpertFrag = () =>
@@ -36,17 +32,6 @@ export default ({ expert, state }) => {
 
   const fetchPrevNextFragment = (type) => {
     getPrevNextReadingFragment(xmlid, urlid, getRecommendation(), type).then(
-      ({ data }) => {
-        setRecommendation(data.readingRecommendation);
-        navigate(`/reading/fragment/${xmlId(data)}/inter/${urlId(data)}`, {
-          state: data,
-        });
-      }
-    );
-  };
-
-  const fetchNumberFragment = (xmlid, urlid) => {
-    getCurrentReadingFragment(xmlid, urlid, getRecommendation()).then(
       ({ data }) => {
         setRecommendation(data.readingRecommendation);
         navigate(`/reading/fragment/${xmlId(data)}/inter/${urlId(data)}`, {

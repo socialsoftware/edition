@@ -3,3 +3,20 @@ body {
 	padding-top: 190px;
 }
 
+.ldod-default {
+	font-family: 'Work-Sans';
+	color: black;
+	font-size: 15px;
+	line-height: 1.5;
+}
+.ldod-default h1,
+.ldod-default h2,
+.ldod-default h3,
+.ldod-default h4,
+.ldod-default h5,
+.ldod-default h6 {
+	font-family: 'League-Gothic';
+	text-transform: uppercase;
+	margin-top: 40px;
+	margin-bottom: 15px;
+}

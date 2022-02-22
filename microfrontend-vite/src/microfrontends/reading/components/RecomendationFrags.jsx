@@ -1,9 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { getCurrentReadingFragment, getPrevRecom } from '../api/reading';
-import { rightArrowUrl } from '../pages/ReadingMain';
+import { rightArrowUrl, urlId, xmlId } from '../pages/ReadingMain';
 import { leftArrowUrl } from '../pages/ReadingMain';
 import { getRecommendation, setRecommendation } from '../readingStore';
-import { urlId, xmlId } from './ReadingColumn';
 
 export default ({
   state: {
@@ -11,28 +10,9 @@ export default ({
     recommendations,
     expertEditionInterDto: { acronym, number },
   },
+  fetchNumberFragment,
+  fetchPrevRecom,
 }) => {
-  const navigate = useNavigate();
-
-  const fetchNumberFragment = (xmlid, urlid) => {
-    getCurrentReadingFragment(xmlid, urlid, getRecommendation()).then(
-      ({ data }) => {
-        setRecommendation(data.readingRecommendation);
-        navigate(`/reading/fragment/${xmlId(data)}/inter/${urlId(data)}`, {
-          state: data,
-        });
-      }
-    );
-  };
-
-  const fetchPrevRecom = () => {
-    getPrevRecom(getRecommendation()).then(({ data }) => {
-      setRecommendation(data.readingRecommendation);
-      navigate(`/reading/fragment/${xmlId(data)}/inter/${urlId(data)}`, {
-        state: data,
-      });
-    });
-  };
 
   return (
     <>

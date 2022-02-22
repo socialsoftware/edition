@@ -5,6 +5,8 @@ import Home from './microfrontends/home/Home';
 import './resources/css/app.css';
 import { getToken, isAuthenticated, logout, useStore } from './store';
 import { getUser } from './microfrontends/user/api/users';
+import Loading from './microfrontends/Loading';
+import NoPage from './microfrontends/NoPage';
 
 const User = lazy(() => import('./microfrontends/user/User'));
 const About = lazy(() => import('./microfrontends/about/About'));
@@ -28,12 +30,13 @@ function App() {
   return (
     <>
       <Navbar />
-      <Suspense fallback={<div>Loading</div>}>
+      <Suspense fallback={<Loading />}>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='auth/*' element={<User />} /> 
           <Route path='about/*' element={<About />}/>
           <Route path='reading/*' element={<Reading />}/>
+          <Route path="*" element={<NoPage />} />
         </Routes>
       </Suspense>
     </>

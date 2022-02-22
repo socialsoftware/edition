@@ -15,8 +15,11 @@ export const leftArrowUrl = new URL(
   import.meta.url
 ).href;
 
-const getMessages = () =>
+export const getMessages = () => 
   import(`../resources/constants/messages-${getLanguage()}.js`);
+
+export const xmlId = (data) => data.fragment.fragmentXmlId;
+export const urlId = (data) => data.expertEditionInterDto.urlId;
 
 export default () => {
   const [messages, setMessages] = useState();
@@ -30,7 +33,7 @@ export default () => {
         <div className="main-content">
           <div className="row reading-grid">
             <Routes>
-              <Route index element={<Reading messages={messages} />} />
+              <Route index element={<Reading messages={messages}/>} />
               <Route
                 path="/fragment/:xmlid/inter/:urlid"
                 element={<Fragment messages={messages}/>}

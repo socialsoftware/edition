@@ -27,3 +27,7 @@ export const setExperts = (experts) => readingStore.setState({ experts });
 export const getRecommendation = () => state().recommendation;
 export const setRecommendation = (recommendation) =>
   readingStore.setState({ recommendation });
+export const resetRecommendations = () =>
+  setRecommendation({ ...getRecommendation(), read: [] });
+export const setRecommendationAttribute = (attribute, value) =>
+  setRecommendation({ ...getRecommendation(), [attribute]: parseFloat(value) });
