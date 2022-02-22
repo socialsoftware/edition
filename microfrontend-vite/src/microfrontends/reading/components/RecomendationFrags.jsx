@@ -34,7 +34,7 @@ export default ({
                     <img src={leftArrowUrl} />
                   </span>
                   <div className="arrows-recom hidden-xs">
-                    <img src={leftArrowUrl} />{' '}
+                    <img src={leftArrowUrl} />
                   </div>
                 </h2>
               </a>

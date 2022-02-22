@@ -1,34 +1,12 @@
 import { useLocation } from 'react-router-dom';
-import { getExperts, getRecommendation, setRecommendation } from '../readingStore';
+import { getExperts } from '../readingStore';
 import ReadingColumn from '../components/ReadingColumn';
 import ReadingText from '../components/ReadingText';
 import Recomendation from '../components/Recomendation';
-import { urlId, xmlId } from './ReadingMain';
-import {getCurrentReadingFragment, getPrevRecom } from '../api/reading'
 
-export default ({ messages }) => {
+export default ({ messages,fetchNumberFragment, fetchPrevRecom }) => {
   const { state } = useLocation();
   const currentExpert = state.expertEditionInterDto;
-
-  const fetchNumberFragment = (xmlid, urlid) => {
-    getCurrentReadingFragment(xmlid, urlid, getRecommendation()).then(
-      ({ data }) => {
-        setRecommendation(data.readingRecommendation);
-        navigate(`/reading/fragment/${xmlId(data)}/inter/${urlId(data)}`, {
-          state: data,
-        });
-      }
-    );
-  };
-
-  const fetchPrevRecom = () => {
-    getPrevRecom(getRecommendation()).then(({ data }) => {
-      setRecommendation(data.readingRecommendation);
-      navigate(`/reading/fragment/${xmlId(data)}/inter/${urlId(data)}`, {
-        state: data,
-      });
-    });
-  };
 
   return (
     <>

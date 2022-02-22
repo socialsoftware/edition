@@ -16,7 +16,7 @@ export default ({ show, toggle, messages, fetchNumberFragment }) => {
     setRecommendationAttribute(attribute, value);
 
   const recommend = () => {
-    xmlid && urlid && fetchNumberFragment(xmlid, urlid, recommendation);
+    xmlid && urlid && fetchNumberFragment(xmlid, urlid);
     onClose();
   };
 

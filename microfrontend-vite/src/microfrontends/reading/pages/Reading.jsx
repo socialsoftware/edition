@@ -5,10 +5,8 @@ import ReadingColumn from '../components/ReadingColumn';
 import Recomendation from '../components/Recomendation';
 import ReadingText from '../components/ReadingText';
 
-
-
-export default ({messages}) => {
-
+export default ({ messages, fetchNumberFragment, fetchPrevRecom }) => {
+  
   useEffect(() => {
     getReadingExperts().then(({ data }) => setExperts(data));
   }, []);
@@ -18,9 +16,17 @@ export default ({messages}) => {
       <ReadingText title={(() => messages && messages['book_disquiet'])()} />
       {getExperts() &&
         getExperts().map((expert, index) => (
-          <ReadingColumn key={index} expert={expert} />
+          <ReadingColumn
+            key={index}
+            expert={expert}
+            fetchNumberFragment={fetchNumberFragment}
+          />
         ))}
-      <Recomendation messages={messages} />
+      <Recomendation
+        messages={messages}
+        fetchNumberFragment={fetchNumberFragment}
+        fetchPrevRecom={fetchPrevRecom}
+      />
     </>
   );
 };
