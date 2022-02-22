@@ -254,7 +254,7 @@ export default () => {
                 }
               />{' '}
             </div>{' '}
-            <div className="col-sm-2">{errors.password && errors.password}</div>{' '}
+            <div className="col-sm-2">{errors.password}</div>{' '}
           </div>{' '}
           <div className="form-group row">
             <label className="col-sm-4 control-label">
@@ -305,7 +305,7 @@ export default () => {
                 {messages[language]['header_conduct_accept']}{' '}
               </label>{' '}
             </div>{' '}
-            <div className="col-sm-2">{errors.conduct && errors.conduct}</div>{' '}
+            <div className="col-sm-2">{errors.conduct}</div>{' '}
           </div>{' '}
           <div className="col-md-8 col-md-offset-2 text-left row">
             {' '}

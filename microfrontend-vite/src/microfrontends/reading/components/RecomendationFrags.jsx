@@ -20,7 +20,7 @@ export default ({
             <h2 style={{ color: '#FC1B27' }}>{number}</h2>
           </a>
         </div>
-        {prevCom && (
+        {prevCom &&  (
           <div className="ldod-reading-prevrecom">
             <div className="h3-div">
               <a onClick={fetchPrevRecom}>
@@ -41,8 +41,7 @@ export default ({
             </div>
           </div>
         )}
-        {recommendations &&
-          recommendations.map(
+        {recommendations?.map(
             ({ acronym, number, fragmentXmlId, urlId }, index) => (
               <div key={index}>
                 <a onClick={() => fetchNumberFragment(fragmentXmlId, urlId)}>

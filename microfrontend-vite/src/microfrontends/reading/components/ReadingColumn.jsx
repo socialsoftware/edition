@@ -19,7 +19,7 @@ export default ({ expert, state,  fetchNumberFragment}) => {
 
   const navigate = useNavigate();
 
-  const fetchFragment = () => {
+  const fetchStartFragment = () => {
     getStartReadingFragment(expert.acronym, getRecommendation()).then(
       ({ data }) => {
         setRecommendation(data.readingRecommendation);
@@ -45,13 +45,13 @@ export default ({ expert, state,  fetchNumberFragment}) => {
     <div
       className={`reading__column${
         isOpen() ? '--open' : ''
-      } col-xs-12 col-sm-1 no-pad`}
+      } col-xs-12 no-pad`}
     >
       <h4>
-        <a onClick={fetchFragment}>{expert.editor}</a>
+        <a onClick={fetchStartFragment}>{expert.editor}</a>
       </h4>
       {!state ? (
-        <a onClick={fetchFragment}>
+        <a onClick={fetchStartFragment}>
           <img src={rightArrowUrl} />
         </a>
       ) : (

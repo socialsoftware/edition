@@ -10,7 +10,7 @@ export default ({ show, toggle, messages, fetchNumberFragment }) => {
   const { recommendation } = readingStore();
   const { xmlid, urlid } = useParams();
 
-  const onClose = () => toggle(false)
+  const onClose = () => toggle(false);
 
   const changeWeight = (attribute, value) =>
     setRecommendationAttribute(attribute, value);
@@ -58,17 +58,15 @@ export default ({ show, toggle, messages, fetchNumberFragment }) => {
           <span aria-hidden="true">×</span>
         </button>
         <h3 className="modal-title text-center">
-          {messages && messages['general_recommendation_config']}
+          {messages?.['general_recommendation_config']}
         </h3>
       </div>
       <div className="modal-body">
-        <h3 className="text-center">
-          {messages && messages['recommendation_criteria']}
-        </h3>
+        <h3 className="text-center">{messages?.['recommendation_criteria']}</h3>
       </div>
       <div className="row text-center" style={{ padding: '15px' }}>
         <div className="col-md-3 col-sm-4">
-          {messages && messages['heteronym']}
+          {messages?.['heteronym']}
           <input
             type="range"
             className="range"
@@ -80,7 +78,7 @@ export default ({ show, toggle, messages, fetchNumberFragment }) => {
           />
         </div>
         <div className="col-md-3 col-sm-4">
-          {messages && messages['date']}
+          {messages?.['date']}
           <input
             type="range"
             className="range"
@@ -92,7 +90,7 @@ export default ({ show, toggle, messages, fetchNumberFragment }) => {
           />
         </div>
         <div className="col-md-3 col-sm-4">
-          {messages && messages['text']}
+          {messages?.['text']}
           <input
             type="range"
             className="range"
@@ -104,7 +102,7 @@ export default ({ show, toggle, messages, fetchNumberFragment }) => {
           />
         </div>
         <div className="col-md-3 col-sm-4">
-          {messages && messages['taxonomy']}
+          {messages?.['taxonomy']}
           <input
             type="range"
             className="range"
@@ -119,11 +117,11 @@ export default ({ show, toggle, messages, fetchNumberFragment }) => {
       <div className="modal-footer">
         <button type="submit" className="btn btn-danger" onClick={reset}>
           <span className="glyphicon glyphicon-saved"></span>
-          {messages && messages['general_reset']}
+          {messages?.['general_reset']}
         </button>
 
         <button type="button" className="btn btn-primary" onClick={recommend}>
-          {messages && messages['general_close']}
+          {messages?.['general_close']}
         </button>
       </div>
     </Modal>

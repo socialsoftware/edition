@@ -8,7 +8,7 @@ import { authenticate } from './api/users';
 export default () => {
   const location = useLocation();
   const { language } = useStore();
-  const [error, setError] = useState(location.state ? location.state.message : null);
+  const [error, setError] = useState(location.state?.message);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 

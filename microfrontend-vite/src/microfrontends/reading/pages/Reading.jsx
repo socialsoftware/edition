@@ -13,14 +13,17 @@ export default ({ messages, fetchNumberFragment, fetchPrevRecom }) => {
 
   return (
     <>
-      <ReadingText title={(() => messages && messages['book_disquiet'])()} />
-      {getExperts() &&
-        getExperts().map((expert, index) => (
+      <div style={{width: "58.3331%"}}>
+      <ReadingText title={(() => messages?.['book_disquiet'])()} />
+      </div>
+      {getExperts()?.map((expert, index) => (
+        <div key={index} style={{width: "8.333%"}}>
           <ReadingColumn
-            key={index}
+            
             expert={expert}
             fetchNumberFragment={fetchNumberFragment}
           />
+          </div>
         ))}
       <Recomendation
         messages={messages}

@@ -20,13 +20,13 @@ a {
     .recom-modal {
         width: 600px;
         margin: 30px auto;
-    }}
+    }
+}
 
 @media (min-width: 992px) {
     .recom-modal {
         width: 900px;
     }
-
 }
 
 .ReactModal__Overlay {
@@ -34,11 +34,11 @@ a {
     transition: opacity 250ms ease-in-out;
 }
 
-.ReactModal__Overlay--after-open{
+.ReactModal__Overlay--after-open {
     opacity: 1;
 }
 
-.ReactModal__Overlay--before-close{
+.ReactModal__Overlay--before-close {
     opacity: 0;
 }
 
@@ -446,9 +446,23 @@ a {
         margin-top: -8px;
     }
     .reading-grid {
+        display: flex;
+        width: 100%;
         margin-right: 5px !important;
         margin-left: 5px !important;
         padding-bottom: 50px;
+    }
+    .block-column {
+        display: flex;
+        width: 67%!important;
+    }
+
+    .reading__column--open {
+        width: 12.5%!important;
+    }
+
+    .thin-column {
+        width: 8.333%!important;
     }
 }
 
