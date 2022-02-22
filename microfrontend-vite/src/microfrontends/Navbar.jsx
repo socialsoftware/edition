@@ -109,11 +109,7 @@ export default () => {
                   className="dropdown"
                   style={{ display: !isHeaderVisible(key) && 'none' }}
                 >
-                  <a
-                    href="#"
-                    className="dropdown-toggle"
-                    data-toggle="dropdown"
-                  >
+                  <a className="dropdown-toggle" data-toggle="dropdown">
                     {messages[language][module.name]}{' '}
                     <span className="caret"></span>{' '}
                   </a>
@@ -121,9 +117,18 @@ export default () => {
                     <div className="dropdown-menu-bg"></div>
                     {Object.values(module.pages).map((page, index) => (
                       <li key={index}>
-                        <Link to={page.route}>
-                          {messages[language][page.id]}
-                        </Link>
+                        {page.route ? (
+                          <Link to={page.route}>
+                            {messages[language][page.id]}
+                          </Link>
+                        ) : (
+                          <a
+                            href="https://ldod.uc.pt/ldod-visual"
+                            target="_blank"
+                          >
+                            {messages[language][page.id]}
+                          </a>
+                        )}
                       </li>
                     ))}
                   </ul>

@@ -21,7 +21,7 @@ export const modules = {
     name: 'general_reading',
     pages: [
       { id: 'general_reading_sequences', route: '/reading' },
-      { id: 'general_reading_visual', route: '/reading/ldod-visual' },
+      { id: 'general_reading_visual', link: 'https://ldod.uc.pt/ldod-visual' },
       { id: 'general_citations_twitter', route: '/reading/citations' },
     ],
   },

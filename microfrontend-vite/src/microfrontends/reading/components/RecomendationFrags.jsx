@@ -1,8 +1,5 @@
-import { useNavigate } from 'react-router-dom';
-import { getCurrentReadingFragment, getPrevRecom } from '../api/reading';
-import { rightArrowUrl, urlId, xmlId } from '../pages/ReadingMain';
+import { rightArrowUrl } from '../pages/ReadingMain';
 import { leftArrowUrl } from '../pages/ReadingMain';
-import { getRecommendation, setRecommendation } from '../readingStore';
 
 export default ({
   state: {

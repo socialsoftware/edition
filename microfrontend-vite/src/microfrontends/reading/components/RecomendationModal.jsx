@@ -1,7 +1,6 @@
 import Modal from 'react-modal';
 import { useParams } from 'react-router-dom';
 import {
-  getRecommendation,
   readingStore,
   resetRecommendations,
   setRecommendationAttribute,
@@ -11,18 +10,19 @@ export default ({ show, toggle, messages, fetchNumberFragment }) => {
   const { recommendation } = readingStore();
   const { xmlid, urlid } = useParams();
 
+  const onClose = () => toggle(false)
 
   const changeWeight = (attribute, value) =>
     setRecommendationAttribute(attribute, value);
 
-  const onClose = () => {
+  const recommend = () => {
     xmlid && urlid && fetchNumberFragment(xmlid, urlid, recommendation);
-    toggle(false);
+    onClose();
   };
 
   const reset = () => {
     resetRecommendations();
-    onClose();
+    recommend();
   };
 
   return (
@@ -122,7 +122,7 @@ export default ({ show, toggle, messages, fetchNumberFragment }) => {
           {messages && messages['general_reset']}
         </button>
 
-        <button type="button" className="btn btn-primary" onClick={onClose}>
+        <button type="button" className="btn btn-primary" onClick={recommend}>
           {messages && messages['general_close']}
         </button>
       </div>
