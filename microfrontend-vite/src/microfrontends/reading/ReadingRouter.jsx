@@ -1,9 +1,12 @@
 import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import './resources/css/reading.css';
+import { getLanguage } from '../../store';
+import './resources/reading.css';
 
 const Citations = lazy(() => import('./pages/Citations'));
 const ReadingMain = lazy(() => import('./pages/ReadingMain'));
+export const getMessages = () =>m
+  import(`./resources/constants/messages-${getLanguage()}.js`);
 
 export default () => {
   return (

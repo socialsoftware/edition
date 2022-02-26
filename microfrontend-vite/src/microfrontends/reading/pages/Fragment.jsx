@@ -6,7 +6,7 @@ import Recomendation from '../components/Recomendation';
 
 export default ({ messages, fetchNumberFragment, fetchPrevRecom }) => {
   const { state } = useLocation();
-  const currentExpert = state.expertEditionInterDto;
+  const currentExpert = state?.expertEditionInterDto;
 
   return (
     <>

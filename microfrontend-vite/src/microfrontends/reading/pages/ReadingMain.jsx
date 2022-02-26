@@ -17,30 +17,32 @@ export const leftArrowUrl = new URL(
   import.meta.url
 ).href;
 
-export const getMessages = () =>
+const getMessages = () =>
   import(`../resources/constants/messages-${getLanguage()}.js`);
 
 export const xmlId = (data) => data.fragment.fragmentXmlId;
 export const urlId = (data) => data.expertEditionInterDto.urlId;
 
 export default () => {
-  
   const navigate = useNavigate();
   const [messages, setMessages] = useState();
-  
+
   useEffect(() => {
-    setMessages(getMessages().then(({ messages }) => setMessages(messages)));
+    getMessages().then(({ messages }) => setMessages(messages));
   }, [getLanguage()]);
 
   const fetchNumberFragment = (xmlid, urlid) => {
-    getCurrentReadingFragment(xmlid, urlid, getRecommendation()).then(
-      ({ data }) => {
+    getCurrentReadingFragment(xmlid, urlid, getRecommendation())
+      .then(({ data }) => {
         setRecommendation(data.readingRecommendation);
         navigate(`/reading/fragment/${xmlId(data)}/inter/${urlId(data)}`, {
           state: data,
         });
-      }
-    );
+      })
+      .catch((err) => {
+        console.error(err);
+        navigate(-1);
+      });
   };
 
   const fetchPrevRecom = () => {
@@ -60,6 +62,16 @@ export default () => {
             <Routes>
               <Route
                 index
+                element={
+                  <Reading
+                    messages={messages}
+                    fetchNumberFragment={fetchNumberFragment}
+                    fetchPrevRecom={fetchPrevRecom}
+                  />
+                }
+              />
+              <Route
+                path="/:xmlid/:urlid"
                 element={
                   <Reading
                     messages={messages}

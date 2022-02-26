@@ -1,6 +1,5 @@
 import { lazy, useState, useEffect } from 'react';
 import { useStore } from "../../../../store";
-import '../../../../resources/css/about-tutorials.css';
 
 export default ({scroll}) => {
   

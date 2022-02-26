@@ -17,7 +17,7 @@ export default ({ posY, scroll }) => {
         </ul>
       </h4>
       <p>&nbsp;</p>
-      <h3 id="Q01Q">A. Tutoriais</h3>
+      <h3 className="tutorial-subtitles" id="Q01Q">A. Tutoriais</h3>
       <p />
       <p>
         Os Tutoriais LdoD t&ecirc;m duas fun&ccedil;&otilde;es principais: (1)
@@ -242,7 +242,7 @@ export default ({ posY, scroll }) => {
       <br />
       <br />
       <p>&nbsp;</p>
-      <h3 id="Q02Q">B. Workshops</h3>
+      <h3 className="tutorial-subtitles" id="Q02Q">B. Workshops</h3>
       <p>
         O <em>Arquivo LdoD</em> oferece v&aacute;rias oficinas a quem estiver
         interessado em aprender mais sobre a plataforma e os seus usos. Estas

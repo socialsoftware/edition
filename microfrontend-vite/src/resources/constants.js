@@ -1,14 +1,3 @@
-export const NAME_MIN_LENGTH = 4;
-export const NAME_MAX_LENGTH = 40;
-export const USERNAME_MIN_LENGTH = 3;
-export const USERNAME_MAX_LENGTH = 15;
-export const EMAIL_MAX_LENGTH = 40;
-export const PASSWORD_MIN_LENGTH = 6;
-export const PASSWORD_MAX_LENGTH = 20;
-export const alphabeticalRegex = new RegExp(/^[-'a-zA-ZÀ-ÖØ-öø-ÿ]+$/);
-export const alphanumericRegex = new RegExp(/^[0-9a-zA-Z]+$/);
-export const emailRegex = new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/)
-
 export const messages = {
     pt: {
         Different_changePasswordForm: 'As senhas não são iguais',
@@ -16,7 +5,7 @@ export const messages = {
         Email: 'O endereço de correio eletrónico não está correto',
         Exist_editUserForm: 'Nome de utilizador existe',
         NotEmpty: 'Campo obrigatório',
-        Size: 'Deve conter no mínimo 6 caracteres',
+        size: 'Deve conter no mínimo 6 caracteres',
         alphabetic_error: 'Deve ser alfabético',
         authorial: 'Testemunho',
         authorial_source: 'Testemunhos',
@@ -432,7 +421,7 @@ export const messages = {
         Email: 'Not a well-formed email address',
         Exist_editUserForm: 'Username already exists',
         NotEmpty: 'Required',
-        Size: 'Must be at least 6 characters',
+        size: 'Must be at least 6 characters',
         alphabetic_error: 'Must be alphabetic',
         authorial: 'Witness',
         authorial_source: 'Witnesses',
@@ -846,7 +835,7 @@ export const messages = {
         Email: 'No es una dirección de correo bien formada',
         Exist_editUserForm: 'Nombre de usuario ya existe',
         NotEmpty: 'Campo obligatorio',
-        Size: 'Debe contener al menos 6 caracteres',
+        size: 'Debe contener al menos 6 caracteres',
         alphabetic_error: 'Debe ser alfabético',
         authorial: 'Testimonio',
         authorial_source: 'Testimonios',

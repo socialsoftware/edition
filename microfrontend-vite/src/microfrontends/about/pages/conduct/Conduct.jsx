@@ -1,8 +1,7 @@
 import { lazy, useState, useEffect } from 'react';
-import { messages } from '../../../../resources/constants';
 import { useStore } from '../../../../store';
 
-export default () => {
+export default ({messages}) => {
   const { language} = useStore();
   const Conduct = lazy(() => import(`./Conduct-${language}.jsx`))
   const [top, setTop] = useState(true);
@@ -10,7 +9,7 @@ export default () => {
   useEffect(() => setTop(false));
   return (
     <>
-      <h1 className="text-center">{messages[language]['header_conduct']}</h1>
+      <h1 className="text-center">{messages['header_conduct']}</h1>
       <p>&nbsp;</p>
       <Conduct posY={top ? 0 : window.scrollY}/>
     </>

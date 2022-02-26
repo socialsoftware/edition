@@ -1,8 +1,5 @@
-import { messages } from '../resources/constants';
-import { getLanguage } from '../store';
-
 export default () => (
-  <div className="container">
-        {messages[getLanguage()]['loading']}
+  <div className="overlay-transparent">
+    <div className="lds-dual-ring"></div>
   </div>
 );

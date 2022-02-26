@@ -7,21 +7,22 @@ export const useStore = create(
             language: 'pt',
             token: undefined,
             user: undefined,
+            loading: false,
         }), {
-            name: 'state-storage',
+            name: 'ldod-state-storage',
         }
     )
 );
 
 export const state = () => useStore.getState();
-
 export const getUser = () => state().user;
 export const isAdmin = () => getUser() && getUser().roles.includes('ROLE_ADMIN') ? true : false;  
 export const getName = () => getUser() && `${getUser().firstName} ${getUser().lastName}`;
 export const getToken = () => state().token;
 export const getLanguage = () => state().language;
 export const isAuthenticated = () => getUser() ? true : false;
-
+export const isLoading = () => state().loading;
+export const setLoading = (bool) => useStore.setState({loading: bool});
 export const setLanguage = (language) => useStore.setState({ language });
 export const setUser = (user) => useStore.setState({ user });
 export const setToken = (token) => useStore.setState({ token });
