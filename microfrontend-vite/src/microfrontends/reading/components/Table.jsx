@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link as link, } from 'react-router-dom';
 import parseHTML from 'html-react-parser';
 import '../resources/css/bootstrap-table.min.css';
 

@@ -10,10 +10,11 @@ export default ({ messages }) => {
 
   const formatData = (data) =>
     data?.map((entry) => {
-      const { formatedDate, sourceLink, username } = entry;
+      const { formatedDate, sourceLink, username, title, xmlId } = entry;
       entry.formatedDate = `${formatedDate[2]}-${formatedDate[1]}-${formatedDate[0]} ${formatedDate[3]}:${formatedDate[4]}`;
-      entry.sourceLink = `<a href="${sourceLink}" target="_blank">Tweet</a>`
-      entry.username = `<a href="https://twitter.com/${username}" target="_blank">${username}</a>`
+      entry.sourceLink = `<a href="${sourceLink}" target="_blank">Tweet</a>`;
+      entry.username = `<a href="https://twitter.com/${username}" target="_blank">${username}</a>`;
+      entry.title = `<a href="${import.meta.env.VITE_BASE_PATH}/fragments/fragment/${xmlId}">${title}</a>`;
       return entry;
     });
 
@@ -41,7 +42,7 @@ export default ({ messages }) => {
             setDataFiltered={setCitationsFiltered}
           />
         </div>
-        <div className="fixed-table-container"  style={{ marginBottom: "20px" }}>
+        <div className="fixed-table-container" style={{ marginBottom: '20px' }}>
           <Table
             data={citationsFiltered ?? citations}
             headers={messages?.['citations_table_headers']}
