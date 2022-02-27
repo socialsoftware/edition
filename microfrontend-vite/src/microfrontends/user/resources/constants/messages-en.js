@@ -22,5 +22,6 @@ export const messages = {
   user_password_new: 'New password',
   user_password_retype: 'Retype password',
   general_update: 'Update',
+  general_signin: 'Signin',
 
 };

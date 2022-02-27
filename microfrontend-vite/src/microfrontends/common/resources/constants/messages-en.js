@@ -1,0 +1,26 @@
+export const messages = {
+  header_title: 'LdoD Archive',
+  user_password: 'Change Password',
+  header_login: 'Login',
+  header_logout: 'Logout',
+  header_archive: '',
+
+  header_about: 'About',
+  header_videos: 'Videos',
+  header_tutorials: 'Tutorials and Workshops',
+  header_faq: 'Frequently Asked Questions',
+  header_encoding: 'Text Encoding',
+  header_bibliography: 'Bibliography',
+  header_book: 'Book',
+  header_contact: 'Contacto',
+  header_conduct: 'Código de Conduta',
+  header_copyright: 'Copyright',
+  header_privacy: 'Privacy Policy',
+  header_team: 'Editorial Team',
+  header_acknowledgements: 'Acknowledgements',
+  
+  general_reading: 'Reading',
+  general_reading_sequences: 'Reading Sequences',
+  general_reading_visual: 'Visual Book',
+  general_citations_twitter: 'Citations on Twitter',
+};

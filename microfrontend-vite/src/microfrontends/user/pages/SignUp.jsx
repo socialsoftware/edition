@@ -45,14 +45,14 @@ export default ({messages}) => {
         valid = false;
       setErrors((old) => ({
         ...old,
-        [field]: [...old[field], messages['required']],
+        [field]: [...old[field], messages?.['required']],
       }));
     }
     if (!ALPHABETICAL_REGEX.test(signupData[field])) {
       valid = false;
         setErrors((old) => ({
         ...old,
-        [field]: [...old[field], messages['alphabetic_error']],
+        [field]: [...old[field], messages?.['alphabetic_error']],
       }));
     }
     return valid;
@@ -64,7 +64,7 @@ export default ({messages}) => {
       valid = false;
         setErrors((old) => ({
         ...old,
-        [field]: [...old[field], messages['required']],
+        [field]: [...old[field], messages?.['required']],
       }));
     }
     if (!ALPHANUMERIC_REGEX.test(signupData[field])) {
@@ -73,7 +73,7 @@ export default ({messages}) => {
         ...old,
         [field]: [
           ...old[field],
-          messages['edituserform_newusername_pattern'],
+          messages?.['edituserform_newusername_pattern'],
         ],
       }));
     }
@@ -87,14 +87,14 @@ export default ({messages}) => {
           valid = false;
         setErrors((old) => ({
           ...old,
-          email: [...old.email, messages['email']],
+          email: [...old.email, messages?.['email']],
         }));
       }
     } else {
         valid = false;
       setErrors((old) => ({
         ...old,
-        email: [...old.email, messages['required']],
+        email: [...old.email, messages?.['required']],
       }));
     }
     return valid;
@@ -109,7 +109,7 @@ export default ({messages}) => {
         valid = false;
       setErrors((old) => ({
         ...old,
-        password: messages['size'],
+        password: messages?.['size'],
       }));
     }
     if (!checkEmail()) valid = false;
@@ -117,7 +117,7 @@ export default ({messages}) => {
         valid = false;
       setErrors((old) => ({
         ...old,
-        conduct: messages['header_conduct_error'],
+        conduct: messages?.['header_conduct_error'],
       }));
     }
     return valid;
@@ -134,7 +134,7 @@ export default ({messages}) => {
         if (data === 'error') {
           setErrors((old) => ({
             ...old,
-            username: [...old.email, messages['user_duplicateUsername']] 
+            username: [...old.email, messages?.['user_duplicateUsername']] 
           }));
         }
         else navigate('/auth/signin', {state: {message: 'signup_confirmation'}, replace: true})
@@ -147,7 +147,7 @@ export default ({messages}) => {
   return (
     <div className="container text-center">
       <div className="row">
-        <h3> {messages['signup']} </h3>
+        <h3> {messages?.['signup']} </h3>
       </div>{' '}
       <div className="row">
         <br />
@@ -156,7 +156,7 @@ export default ({messages}) => {
           <div className="form-group row">
             <label className="col-sm-4 control-label">
               {' '}
-              {messages['user_firstName']}{' '}
+              {messages?.['user_firstName']}{' '}
             </label>
             <div className="col-sm-4">
               <input
@@ -184,7 +184,7 @@ export default ({messages}) => {
           <div className="form-group row">
             <label className="col-sm-4 control-label">
               {' '}
-              {messages['user_lastName']}
+              {messages?.['user_lastName']}
             </label>{' '}
             <div className="col-sm-4">
               <input
@@ -212,7 +212,7 @@ export default ({messages}) => {
           <div className="form-group row">
             <label className="col-sm-4 control-label">
               {' '}
-              {messages['login_username']}{' '}
+              {messages?.['login_username']}{' '}
             </label>{' '}
             <div className="col-sm-4">
               <input
@@ -240,7 +240,7 @@ export default ({messages}) => {
           <div className="form-group row">
             <label className="col-sm-4 control-label">
               {' '}
-              {messages['login_password']}{' '}
+              {messages?.['login_password']}{' '}
             </label>{' '}
             <div className="col-sm-4">
               <input
@@ -260,7 +260,7 @@ export default ({messages}) => {
           <div className="form-group row">
             <label className="col-sm-4 control-label">
               {' '}
-              {messages['user_email']}{' '}
+              {messages?.['user_email']}{' '}
             </label>{' '}
             <div className="col-sm-4">
               <input
@@ -288,7 +288,7 @@ export default ({messages}) => {
           <div className="form-group row">
             <label className="col-sm-4 control-label">
               {' '}
-              {messages['header_conduct']}{' '}
+              {messages?.['header_conduct']}{' '}
             </label>{' '}
             <div className="col-sm-4">
               <label className="form-check-label">
@@ -303,7 +303,7 @@ export default ({messages}) => {
                     }))
                   }
                 />{' '}
-                {messages['header_conduct_accept']}{' '}
+                {messages?.['header_conduct_accept']}{' '}
               </label>{' '}
             </div>{' '}
             <div className="col-sm-2">{errors.conduct}</div>{' '}
@@ -316,7 +316,7 @@ export default ({messages}) => {
             <div className="col-sm-12">
               <button type="submit" className="btn btn-primary">
                 {' '}
-                {messages['signup']}{' '}
+                {messages?.['signup']}{' '}
               </button>{' '}
             </div>{' '}
           </div>{' '}

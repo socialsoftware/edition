@@ -1,13 +1,13 @@
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { lazy, Suspense, useEffect } from 'react';
-import Navbar from './microfrontends/Navbar';
-import Home from './microfrontends/home/Home';
 import './resources/css/app.css';
 import { getToken, isAuthenticated, logout, useStore } from './store';
 import { getUser } from './microfrontends/user/api/users';
-import NoPage from './microfrontends/NoPage';
-import Loading from './microfrontends/Loading';
-import LoadingModal from './microfrontends/LoadingModal';
+import Navbar from './microfrontends/common/Navbar';
+import Home from './microfrontends/home/Home';
+import NoPage from './microfrontends/common/NoPage';
+import Loading from './microfrontends/common/Loading';
+import LoadingModal from './microfrontends/common/LoadingModal';
 
 const UserRouter = lazy(() => import('./microfrontends/user/UserRouter'));
 const AboutRouter = lazy(() => import('./microfrontends/about/AboutRouter'));

@@ -31,11 +31,11 @@ export default ({messages}) => {
   return (
     <div className="container text-center">
       {error && (
-        <div className="row text-error">{messages[error]}</div>
+        <div className="row text-error">{messages?.[error]}</div>
       )}
       <div className="row">
         <div className="login-form">
-          <h2>{messages['header_title']}</h2>
+          <h2>{messages?.['header_title']}</h2>
           <form className="form-horizontal" role="form" onSubmit={handleSubmit}>
             <div className="form-group">
               <div className="col-md-offset-4 col-md-4">
@@ -44,7 +44,7 @@ export default ({messages}) => {
                   className="form-control"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder={messages['login_username']}
+                  placeholder={messages?.['login_username']}
                 />
               </div>
               <br />
@@ -55,14 +55,14 @@ export default ({messages}) => {
                   className="form-control"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder={messages['login_password']}
+                  placeholder={messages?.['login_password']}
                 />
               </div>
             </div>
             <div className="form-group">
               <div className="col-md-offset-5 col-md-2">
                 <button className="btn btn-primary form-control" type="submit">
-                  {messages['general_signin']}
+                  {messages?.['general_signin']}
                 </button>
               </div>
             </div>
@@ -142,7 +142,7 @@ export default ({messages}) => {
         </div>
         <br />
         <div className="row">
-          <Link to="/auth/signup">{messages['signup_message']}</Link>
+          <Link to="/auth/signup">{messages?.['signup_message']}</Link>
         </div>
       </div>
     </div>

@@ -22,5 +22,6 @@ export const messages = {
   user_password_new: 'Nueva contraseña',
   user_password_retype: 'Vuelva a escribir la contraseña',
   general_update: 'Actualizar',
+  general_signin: 'Ingressar',
 
 }

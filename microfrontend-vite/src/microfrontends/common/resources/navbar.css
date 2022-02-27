@@ -1,13 +1,13 @@
 @font-face {
 	font-family: 'Space-Mono';
-	src: url('../fonts/Space_Mono/SpaceMono-Bold.ttf') format('truetype');
+	src: url('./fonts/SpaceMono-Bold.ttf') format('truetype');
 	font-style: normal;
 	font-weight: bold;
 }
 
 @font-face {
 	font-family: 'Work-Sans';
-	src: url('../fonts/Work_Sans/WorkSans-ExtraBold.ttf') format('truetype');
+	src: url('./fonts/WorkSans-ExtraBold.ttf') format('truetype');
 	font-style: normal;
 	font-weight: 800;
 }

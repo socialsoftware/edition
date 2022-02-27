@@ -20,23 +20,23 @@ export default ({ messages }) => {
   const checkPasswords = () => {
     let result = true;
     if (changePasswordData.newPassword.length < PASSWORD_MIN_LENGTH) {
-      setNewPasswordErrors((old) => [...old, messages['size']]);
+      setNewPasswordErrors((old) => [...old, messages?.['size']]);
       result = false;
     }
 
     if (changePasswordData.retypedPassword.length < PASSWORD_MIN_LENGTH) {
-      setRetypedPasswordErrors((old) => [...old, messages['size']]);
+      setRetypedPasswordErrors((old) => [...old, messages?.['size']]);
       result = false;
     }
 
     if (changePasswordData.newPassword !== changePasswordData.retypedPassword) {
       setNewPasswordErrors((old) => [
         ...old,
-        messages['different_changePasswordForm'],
+        messages?.['different_changePasswordForm'],
       ]);
       setRetypedPasswordErrors((old) => [
         ...old,
-        messages['different_changePasswordForm'],
+        messages?.['different_changePasswordForm'],
       ]);
       result = false;
     }
@@ -56,7 +56,7 @@ export default ({ messages }) => {
       let { data } = await changePassword(changePasswordData);
       if (data === 'error')
         setCurrentPasswordErrors(
-          messages['doNotMatch_changePasswordForm']
+          messages?.['doNotMatch_changePasswordForm']
         );
       else navigate('/', { replace: true });
     }
@@ -65,7 +65,7 @@ export default ({ messages }) => {
   return (
     <div className="container text-center">
       <div className="row">
-        <h3>{messages['user_password']}</h3>
+        <h3>{messages?.['user_password']}</h3>
       </div>
       <div className="row">
         <br />
@@ -73,7 +73,7 @@ export default ({ messages }) => {
         <form className="form-horizontal" onSubmit={handleSubmit}>
           <div className="form-group">
             <label className="col-sm-4 control-label">
-              {messages['user_password_current']}
+              {messages?.['user_password_current']}
             </label>
             <div className="col-sm-4">
               <input
@@ -96,7 +96,7 @@ export default ({ messages }) => {
           </div>
           <div className="form-group">
             <label className="col-sm-4 control-label">
-              {messages['user_password_new']}
+              {messages?.['user_password_new']}
             </label>
             <div className="col-sm-4">
               <input
@@ -126,7 +126,7 @@ export default ({ messages }) => {
           </div>
           <div className="form-group">
             <label className="col-sm-4 control-label">
-              {messages['user_password_retype']}
+              {messages?.['user_password_retype']}
             </label>
             <div className="col-sm-4">
               <input
@@ -157,7 +157,7 @@ export default ({ messages }) => {
           <div className="form-group">
             <div className="col-sm-12">
               <button type="submit" className="btn btn-primary">
-                {messages['general_update']}
+                {messages?.['general_update']}
               </button>
             </div>
           </div>

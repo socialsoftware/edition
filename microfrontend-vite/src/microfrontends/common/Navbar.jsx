@@ -1,20 +1,26 @@
-import '../resources/css/navbar.css';
-import { messages } from '../resources/constants';
+import './resources/navbar.css';
+import { useState, useEffect } from 'react';
 import {
-  useStore,
   setLanguage,
   logout,
   isAuthenticated,
   isAdmin,
   getName,
-} from '../store';
-import { modules } from '../resources/header_modules';
+  getLanguage,
+} from '../../store';
+import { modules } from './resources/header_modules';
 import { Link } from 'react-router-dom';
 
-export default () => {
-  const { language } = useStore();
+const getMessages = () =>
+  import(`./resources/constants/messages-${getLanguage()}.js`);
 
-  const changeLang = (lang) => language !== lang && setLanguage(lang);
+export default () => {
+  const changeLang = (lang) => getLanguage() !== lang && setLanguage(lang);
+  const [messages, setMessages] = useState();
+
+  useEffect(() => {
+    getMessages().then(({ messages }) => setMessages(messages));
+  }, [getLanguage()]);
 
   const isHeaderVisible = (key) => {
     if (key !== 'admin') return true;
@@ -22,7 +28,7 @@ export default () => {
   };
 
   const getLoginElement = () => (
-    <Link to="/auth/signin">{messages[language]['header_login']}</Link>
+    <Link to="/auth/signin">{messages?.['header_login']}</Link>
   );
 
   const getLoggedInElement = () => (
@@ -38,13 +44,11 @@ export default () => {
       </a>
       <ul className="dropdown-menu">
         <li>
-          <Link to="/auth/change-password">
-            {messages[language]['user_password']}
-          </Link>
+          <Link to="/auth/change-password">{messages?.['user_password']}</Link>
         </li>
         <li>
           <Link to="/auth/signin" onClick={logout}>
-            {messages[language]['header_logout']}
+            {messages?.['header_logout']}
           </Link>
         </li>
       </ul>
@@ -71,13 +75,13 @@ export default () => {
               <span className="icon-bar"></span>
             </button>
             <Link className="navbar-brand" to="/">
-              {messages[language]['header_title']}
+              {messages?.['header_title']}
             </Link>
             <img
               alt="vite-logo"
               className="logo"
               src={
-                new URL('../resources/assets/vite-logo.svg', import.meta.url)
+                new URL('./resources/assets/vite-logo.svg', import.meta.url)
                   .href
               }
             />
@@ -85,7 +89,7 @@ export default () => {
               alt="react-logo"
               className="logo"
               src={
-                new URL('../resources/assets/react.svg', import.meta.url).href
+                new URL('./resources/assets/react.svg', import.meta.url).href
               }
             />
             <ul className="nav navbar-nav navbar-right hidden-xs">
@@ -110,23 +114,20 @@ export default () => {
                   style={{ display: !isHeaderVisible(key) && 'none' }}
                 >
                   <a className="dropdown-toggle" data-toggle="dropdown">
-                    {messages[language][module.name]}{' '}
-                    <span className="caret"></span>{' '}
+                    {messages?.[module.name]} <span className="caret"></span>{' '}
                   </a>
                   <ul key={index} className="dropdown-menu">
                     <div className="dropdown-menu-bg"></div>
                     {Object.values(module.pages).map((page, index) => (
                       <li key={index}>
                         {page.route ? (
-                          <Link to={page.route}>
-                            {messages[language][page.id]}
-                          </Link>
+                          <Link to={page.route}>{messages?.[page.id]}</Link>
                         ) : (
                           <a
                             href="https://ldod.uc.pt/ldod-visual"
                             target="_blank"
                           >
-                            {messages[language][page.id]}
+                            {messages?.[page.id]}
                           </a>
                         )}
                       </li>
@@ -145,19 +146,19 @@ export default () => {
             )}
             <li className="nav-lang">
               <a
-                className={language === 'pt' ? 'active' : ''}
+                className={getLanguage() === 'pt' ? 'active' : ''}
                 onClick={() => changeLang('pt')}
               >
                 PT
               </a>
               <a
-                className={language === 'en' ? 'active' : ''}
+                className={getLanguage() === 'en' ? 'active' : ''}
                 onClick={() => changeLang('en')}
               >
                 EN
               </a>
               <a
-                className={language === 'es' ? 'active' : ''}
+                className={getLanguage() === 'es' ? 'active' : ''}
                 onClick={() => changeLang('es')}
               >
                 ES
