@@ -1,7 +1,6 @@
 import React from 'react';
 import Reading from './pages/Reading';
 import Citations from './pages/Citations';
-import LdoDVisual from './pages/LdoDVisual';
 import '../../resources/css/reading/Reading.css'
 import '../../resources/css/common/Table.css'
 import '../../resources/css/common/SearchInput.css'
@@ -13,9 +12,7 @@ const Reading_DISPATCHER = (props) => {
     return (
         <div style={{marginTop:"150px"}}>
             <Switch> 
-                <Route path={"/reading/ldod-visual"}>
-                    <LdoDVisual/>
-                </Route>
+                <Route path={"/reading/ldod-visual"} />
                 <Route path={"/reading/citations"}>
                     <Citations language={props.language} messages={props.messages}/>
                 </Route>

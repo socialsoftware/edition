@@ -10,22 +10,23 @@ body {
 }
 
 
-/*
-.ldod-default h1,
-.ldod-default h2,
-.ldod-default h3,
-.ldod-default h4,
-.ldod-default h5,
-.ldod-default h6 {
-	font-family: 'League-Gothic';
-	text-transform: uppercase;
-	margin-top: 40px;
-	margin-bottom: 15px;
+.ReactModal__Overlay {
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
 }
-style={{
 
-}}
-*/
+.ReactModal__Overlay--after-open {
+    opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+    opacity: 0;
+}
+
+.ReactModal__Body--open {
+    overflow: hidden;
+}
+
 
 .overlay-modal {
     background-color: rgba(0, 0, 0, 0.5);

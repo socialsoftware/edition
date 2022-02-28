@@ -46,6 +46,7 @@ export default ({ messages }) => {
           <Table
             data={citationsFiltered ?? citations}
             headers={messages?.['citations_table_headers']}
+            classes="table table-hover"
           />
         </div>
       </div>

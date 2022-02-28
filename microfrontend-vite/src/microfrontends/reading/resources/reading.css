@@ -1,13 +1,13 @@
 @font-face {
     font-family: 'League-Gothic-Condensed';
-    src: url('./fonts/League-Gothic/LeagueGothic-CondensedRegular.otf') format('truetype');
+    src: url('./fonts/LeagueGothic-CondensedRegular.otf') format('truetype');
     font-style: normal;
     font-weight: regular;
 }
 
 @font-face {
     font-family: 'Work-Sans';
-    src: url('./fonts/Work_Sans/WorkSans-Regular.ttf') format('truetype');
+    src: url('./fonts/WorkSans-Regular.ttf') format('truetype');
     font-style: normal;
     font-weight: regular;
 }
@@ -15,6 +15,18 @@
 a {
     cursor: pointer;
 }
+
+.bootstrap-table .table a {
+    color: #0C4EF6 !important;
+  }
+
+
+  .ldod-default h3 {
+      font-family: 'League-Gothic';
+      text-transform: uppercase;
+      margin-top: 40px;
+      margin-bottom: 15px;
+  }
 
 @media (min-width: 768px) {
     .recom-modal {
@@ -27,19 +39,6 @@ a {
     .recom-modal {
         width: 900px;
     }
-}
-
-.ReactModal__Overlay {
-    opacity: 0;
-    transition: opacity 250ms ease-in-out;
-}
-
-.ReactModal__Overlay--after-open {
-    opacity: 1;
-}
-
-.ReactModal__Overlay--before-close {
-    opacity: 0;
 }
 
 .ldod-default .reading-container {
@@ -865,7 +864,7 @@ hr.ldod-about {
     }
 }
 
-.reading-tooltip {
+.info-tooltip {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     border-color: black;
     background-color: #fff;

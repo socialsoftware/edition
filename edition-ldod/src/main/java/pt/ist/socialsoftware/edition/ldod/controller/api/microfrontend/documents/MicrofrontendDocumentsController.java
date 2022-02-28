@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.documents;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +39,7 @@ public class MicrofrontendDocumentsController {
 
         return sources.stream()
                 .map(SourceInterDto::new)
+                .sorted(Comparator.comparing((SourceInterDto::getTitle)))
                 .collect(Collectors.toList());
     }
 }

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Link as link, } from 'react-router-dom';
+import { Link as link } from 'react-router-dom';
 import parseHTML from 'html-react-parser';
 import '../../../resources/css/bootstrap-table.min.css';
 
@@ -25,7 +25,9 @@ export default ({ data, headers, classes }) => (
         {data?.map((entry, index) => (
           <tr key={index} data-index={index}>
             {Object.keys(headers ?? {}).map((header, ind) => (
-              <td className={`tb-data-${header}`}  key={ind}>{parseHTML(entry[header] ?? '')}</td>
+              <td className={`tb-data-${header}`} key={ind}>
+                {parseHTML(entry?.[header] ?? '')}
+              </td>
             ))}
           </tr>
         ))}

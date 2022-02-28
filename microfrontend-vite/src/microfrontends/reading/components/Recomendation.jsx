@@ -25,7 +25,7 @@ export default ({ messages, state, fetchPrevRecom, fetchNumberFragment }) => {
             type="light"
             place="bottom"
             effect="solid"
-            className="reading-tooltip"
+            className="info-tooltip"
             border={true}
             getContent={() => messages?.['reading_tt_recom']}
           />

@@ -27,13 +27,13 @@ import pt.ist.socialsoftware.edition.ldod.recommendation.ReadingRecommendation;
 public class MicrofrontendReadingController {
 	@RequestMapping(method = RequestMethod.GET)
 	public List<ExpertEditionDto> startReading() {
-    	
+
 		return LdoD.getInstance().getSortedExpertEdition().stream().map(ExpertEditionDto::new)
 				.collect(Collectors.toList());
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST, value = "/fragment/{xmlId}/interJson/{urlId}", headers = {
-    "Content-type=application/json" })
+			"Content-type=application/json" })
 	public ReadingDto readInterpretationJson(@PathVariable String xmlId, @PathVariable String urlId, @RequestBody ReadingRecommendation jsonRecomendation) {
 		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
@@ -47,30 +47,30 @@ public class MicrofrontendReadingController {
 
 		Set<ExpertEditionInter> recommendations = jsonRecomendation.getNextRecommendations(expertEditionInter.getExternalId());
 		ExpertEditionInter prevRecom = jsonRecomendation.getPrevRecommendation();
-		
+
 		PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(expertEditionInter);
 		writer.write(false);
-		
+
 		return new ReadingDto(LdoD.getInstance(), expertEditionInter, recommendations, prevRecom, writer, fragment, jsonRecomendation);
 
 	}
-	
-    @RequestMapping(method = RequestMethod.POST, value = "/edition/{acronym}/start", headers = {
-    "Content-type=application/json" })
+
+	@RequestMapping(method = RequestMethod.POST, value = "/edition/{acronym}/start", headers = {
+			"Content-type=application/json" })
 	public ReadingDto startReadingEdition(@PathVariable String acronym, @RequestBody ReadingRecommendation jsonRecomendation) {
 		ExpertEdition expertEdition = (ExpertEdition) LdoD.getInstance().getEdition(acronym);
 		ExpertEditionInter expertEditionInter = expertEdition.getFirstInterpretation();
-		
+
 
 		jsonRecomendation.clean();
 		jsonRecomendation.setTextWeight(1.0);
-		
+
 		return this.readInterpretationJson(expertEditionInter.getFragment().getXmlId(), expertEditionInter.getUrlId(), jsonRecomendation);
 	}
-    
-    @RequestMapping(method = RequestMethod.POST, value = "/fragment/{xmlId}/inter/{urlId}/next")
+
+	@RequestMapping(method = RequestMethod.POST, value = "/fragment/{xmlId}/inter/{urlId}/next")
 	public ReadingDto readNextInterpretation(@PathVariable String xmlId, @PathVariable String urlId, @RequestBody ReadingRecommendation jsonRecomendation) {
-    	Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return null;
 		}
@@ -85,10 +85,10 @@ public class MicrofrontendReadingController {
 
 		return this.readInterpretationJson(nextExpertEditionInter.getFragment().getXmlId(), nextExpertEditionInter.getUrlId(), jsonRecomendation);
 	}
-    
-    @RequestMapping(method = RequestMethod.POST, value = "/fragment/{xmlId}/inter/{urlId}/prev")
+
+	@RequestMapping(method = RequestMethod.POST, value = "/fragment/{xmlId}/inter/{urlId}/prev")
 	public ReadingDto readPrevInterpretation(@PathVariable String xmlId, @PathVariable String urlId, @RequestBody ReadingRecommendation jsonRecomendation) {
-    	Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+		Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
 		if (fragment == null) {
 			return null;
 		}
@@ -104,13 +104,13 @@ public class MicrofrontendReadingController {
 		return this.readInterpretationJson(prevExpertEditionInter.getFragment().getXmlId(), prevExpertEditionInter.getUrlId(), jsonRecomendation);
 	}
 
-    
-    @RequestMapping(method = RequestMethod.POST, value = "/inter/prev/recom")
+
+	@RequestMapping(method = RequestMethod.POST, value = "/inter/prev/recom")
 	public ReadingDto readPreviousRecommendedFragment(@RequestBody ReadingRecommendation jsonRecomendation) {
 
 		String expertEditionInterId = jsonRecomendation.prevRecommendation();
 		ExpertEditionInter expertEditionInter = FenixFramework.getDomainObject(expertEditionInterId);
-		
+
 		return this.readInterpretationJson(expertEditionInter.getFragment().getXmlId(), expertEditionInter.getUrlId(), jsonRecomendation);
 	}
 
@@ -118,14 +118,14 @@ public class MicrofrontendReadingController {
 	public ReadingRecommendation resetPreviousRecommendedFragments(@RequestBody ReadingRecommendation jsonRecomendation) {
 
 		jsonRecomendation.resetPrevRecommendations();
-		
+
 		return jsonRecomendation;
 	}
-		
+
 	@RequestMapping(method = RequestMethod.GET, value = "/citations")
 	public List<CitationDto> listCitations() {
-		
+
 		return LdoD.getInstance().getCitationsWithInfoRanges().stream().map(CitationDto::new).collect(Collectors.toList());
 	}
-    
+
 }

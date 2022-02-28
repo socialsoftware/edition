@@ -11,8 +11,12 @@ import LoadingModal from './microfrontends/common/LoadingModal';
 
 const UserRouter = lazy(() => import('./microfrontends/user/UserRouter'));
 const AboutRouter = lazy(() => import('./microfrontends/about/AboutRouter'));
-const Reading = lazy(() => import('./microfrontends/reading/ReadingRouter'));
-
+const ReadingRouter = lazy(() =>
+  import('./microfrontends/reading/ReadingRouter')
+);
+const DocumentsRouter = lazy(() =>
+  import('./microfrontends/documents/DocumentsRouter')
+);
 
 function App() {
   const navigate = useNavigate();
@@ -34,10 +38,11 @@ function App() {
       <LoadingModal />
       <Suspense fallback={<Loading />}>
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='auth/*' element={<UserRouter />} /> 
-          <Route path='about/*' element={<AboutRouter />}/>
-          <Route path='reading/*' element={<Reading />}/>
+          <Route path="/" element={<Home />} />
+          <Route path="auth/*" element={<UserRouter />} />
+          <Route path="about/*" element={<AboutRouter />} />
+          <Route path="reading/*" element={<ReadingRouter />} />
+          <Route path="documents/*" element={<DocumentsRouter />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </Suspense>

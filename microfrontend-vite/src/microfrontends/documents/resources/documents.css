@@ -1,0 +1,88 @@
+.info-tooltip {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-color: black;
+    background-color: #fff;
+    color: #333;
+    font-weight: 600;
+    width: 300px;
+    text-align: justify;
+    line-height: 1.25;
+    font-size: 12px;
+}
+
+.glyphicon {
+    font-size: small;
+    margin-left: 10px;
+    color: lightgray;
+}
+
+.glyphicon:hover {
+    color: #0C4EF6;
+}
+
+.bootstrap-table .table a {
+    color: #0C4EF6 !important;
+}
+
+a {
+    cursor: pointer;
+}
+
+.tb-header-date,
+.tb-header-sourceType,
+.tb-header-hadLdoDLabel,
+.tb-header-dimensionDtoList,
+.tb-data-date,
+.tb-data-sourceType,
+.tb-data-hadLdoDLabel,
+.tb-data-dimensionDtoList {
+    text-align: center!important;
+}
+
+.image-modal {
+    inset: 0;
+    position: absolute;
+    overflow: auto;
+}
+
+
+.fac-image {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    max-height: 100vh;
+    max-width: 100%;
+    cursor: zoom-in;
+}
+
+.fac-image-zoomed {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    cursor: zoom-out;
+    margin: none;
+    max-height: none;
+    max-width: none;
+}
+
+
+.image-close {
+    z-index: 1;
+    border-radius: 5px;
+    background-color: #333;
+    border: #fff solid 1px;
+    color: #fff;
+    font-weight: bold;
+    position:fixed;
+    margin-left: 15%;
+    margin-top: 25px;
+}
+
+.image-close:hover {
+    color: #333;
+    background-color: #fff;
+    border: #333 solid 1px;
+}

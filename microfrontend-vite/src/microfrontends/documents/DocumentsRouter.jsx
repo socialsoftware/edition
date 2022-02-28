@@ -1,10 +1,10 @@
 import { lazy, useState, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { getLanguage } from '../../store';
-import './resources/reading.css';
+import './resources/documents.css'
 
-const Citations = lazy(() => import('./pages/Citations'));
-const ReadingMain = lazy(() => import('./pages/ReadingMain'));
+const SourceList = lazy(() => import('./pages/SourceList'));
+const Fragments = lazy(() => import('./pages/Fragments'));
 export const getMessages = () =>
   import(`./resources/constants/messages-${getLanguage()}.js`);
 
@@ -20,8 +20,8 @@ export default () => {
   return (
     <div className="container">
       <Routes>
-        <Route path="/*" element={<ReadingMain  messages={messages}/>} />
-        <Route path="citations" element={<Citations messages={messages}/>} />
+        <Route path="/source/list" element={<SourceList  messages={messages}/>} />
+        <Route path="/fragments/*" element={<Fragments messages={messages}/>} />
       </Routes>
     </div>
   );

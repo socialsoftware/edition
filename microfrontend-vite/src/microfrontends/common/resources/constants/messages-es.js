@@ -22,4 +22,8 @@ export const messages = {
   general_reading_sequences: 'Secuencias de lectura',
   general_reading_visual: 'Libro Visual',
   general_citations_twitter: 'Citas en Twitter',
+
+  header_documents: 'Documentos',
+  authorial_source: 'Testimonios',
+  fragment_codified: 'Fragmentos Codificados',
 };
