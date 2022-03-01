@@ -1,11 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto;
 
-import lombok.Getter;
-import lombok.Setter;
 import pt.ist.socialsoftware.edition.ldod.domain.HandNote;
 
-@Getter
-@Setter
 public class HandNoteDto {
 
 	private String desc;
@@ -16,5 +12,21 @@ public class HandNoteDto {
 			this.setDesc(handNote.getMedium().getDesc());
 		}
 		this.setNote(handNote.getNote());
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 }
