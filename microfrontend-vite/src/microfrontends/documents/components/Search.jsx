@@ -1,24 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useMemo } from 'react';
+import { setDataFiltered } from '../documentsStore';
 
-export default ({ searchData, searchStringState, setDataFiltered }) => {
-  const [searchString, setSearchString] = searchStringState;
+export default ({ data }) => {
+  const [searchString, setSearchString] = useState("");
 
-  const filterFunction = (data) => {
-    console.time('search');
-    let res = data?.filter((item) =>
-      Object.values(item).some((value) =>
-        value?.toLowerCase().includes(searchString.toLowerCase())
-      )
-    );
-    console.timeEnd('search');
-    return res;
-  };
-
-  useEffect(
-    () =>
-      setDataFiltered(searchString ? filterFunction(searchData) : searchData),
-    [searchString]
+  const filterTable = () =>
+  data?.filter((item) =>
+    Object.values(item).some((value) =>
+      value?.toLowerCase().includes(searchString?.toLowerCase().trim())
+    )
   );
+  const result = useMemo(() => filterTable(searchString), [searchString]);
+  useEffect(() => searchString?.length > 1 && setDataFiltered(result), [result?.length]);
 
   return (
     <>

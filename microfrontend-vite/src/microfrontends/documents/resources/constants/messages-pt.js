@@ -42,8 +42,7 @@ export const messages = {
   startPage: "Página",
   notes: "Nota",
 
-  altIdentifier: 'Identificação',
-  heteronym: 'Heterónimo',
+  altIdentifier: 'Identification',
   form: 'Formato',
   material: 'Material',
   columns: 'Colunas',
@@ -56,6 +55,6 @@ export const messages = {
   PAPER: "Papel",
   journal: "Revista",
   issue: "Número",
-  pubPlace: "Local de publicação"
-
+  pubPlace: "Local de publicação",
+  notAssigned: "Não atribuído",
 };

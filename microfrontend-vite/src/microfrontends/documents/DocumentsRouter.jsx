@@ -19,10 +19,12 @@ export default () => {
 
   return (
     <div className="container">
+      <div className="row">
       <Routes>
         <Route path="/source/list" element={<SourceList  messages={messages}/>} />
         <Route path="/fragments/*" element={<Fragments messages={messages}/>} />
       </Routes>
+      </div>
     </div>
   );
 };

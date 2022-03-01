@@ -69,7 +69,7 @@ export default () => {
             </div>
           </Link>
           <hr className="line-points" />
-          <Link to="/source/list">
+          <Link to="/documents/source/list">
             <div className="div-link">
               <img src={boxUrl('D', '02', documentsBox)} />
               <img src={boxUrlH('D', '02', documentsBox)} />

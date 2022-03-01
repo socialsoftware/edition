@@ -6,7 +6,7 @@ export default ({ searchData, searchStringState, setDataFiltered }) => {
   const filterFunction = (data) =>
     data?.filter((cit) =>
       Object.values(cit).some((value) =>
-        value?.toLowerCase().includes(searchString.toLowerCase())
+        value?.toLowerCase().includes(searchString.toLowerCase().trim())
       )
     );
 
