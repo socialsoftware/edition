@@ -5,8 +5,10 @@ import Search from '../components/Search';
 import Table from '../components/Table';
 import ReactTooltip from 'react-tooltip';
 import DisplayDocModal from '../components/DisplayDocModal';
+import { useNavigate } from 'react-router-dom';
 
 export default ({ messages }) => {
+  const navigate = useNavigate();
   const { sourceList, setSourceList } = documentsStore();
   const searchStringState = useState();
   const [listFiltered, setListFiltered] = useState();
@@ -26,14 +28,12 @@ export default ({ messages }) => {
       } = entry;
       const handNote = handNoteDto?.desc;
       const typeNote = typeNoteDto?.desc;
-      const type = `${messages[sourceType]?.[handNote] ?? ''}\n${
-        messages[sourceType]?.[typeNote] ?? ''
+      const type = `${messages?.[sourceType]?.[handNote] ?? ''}\n${
+        messages?.[sourceType]?.[typeNote] ?? ''
       }`;
       return {
         title: entry.title,
-        transcription: `<a href="${
-          import.meta.env.VITE_BASE_PATH
-        }/fragments/fragment/${xmlId}/inter/${urlId}">${transcription}</a>`,
+        transcription: `<a id="${xmlId}/inter/${urlId}">${transcription}</a>`,
         date: entry.date,
         hadLdoDLabel: messages?.[entry.hadLdoDLabel],
         sourceType: type === '\n' ? `${messages?.otherType[sourceType]}` : type,
@@ -47,12 +47,13 @@ export default ({ messages }) => {
         }`,
         surfaceString: `${
           surfaceString
-            ?.reduce((prev, cur, index) => {
-              return [
+            ?.reduce(
+              (prev, cur, index) => [
                 ...prev,
                 `<a id="${cur}"> (${index + 1}) ${entry.title}</a>`,
-              ];
-            }, [])
+              ],
+              []
+            )
             .join('<br />') ?? ''
         }`,
       };
@@ -72,15 +73,23 @@ export default ({ messages }) => {
     setShowModal(fileName);
   };
 
+  const goToFragment = (path) => {
+    console.log(path);
+    navigate(`/fragments/fragment/${path}`);
+  };
+
   useEffect(() => {
     document.querySelectorAll('.tb-data-surfaceString a').forEach((ele) => {
       ele.addEventListener('click', () => displayDocument(ele.id));
+    });
+    document.querySelectorAll('.tb-data-transcription a').forEach((ele) => {
+      ele.addEventListener('click', () => goToFragment(ele.id));
     });
   });
 
   return (
     <>
-      <DisplayDocModal showModal={showModal} setShowModal={setShowModal}/>
+      <DisplayDocModal showModal={showModal} setShowModal={setShowModal} />
       <h3 className="text-center">
         {messages?.['authorial_source']} (
         {listFiltered?.length ?? sourceList?.length})
@@ -89,7 +98,7 @@ export default ({ messages }) => {
           type="light"
           place="bottom"
           effect="solid"
-          className="info-tooltip"    
+          className="info-tooltip"
           border={true}
           getContent={() => messages?.['source_info']}
         />

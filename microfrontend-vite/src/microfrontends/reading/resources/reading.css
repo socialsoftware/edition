@@ -20,7 +20,6 @@ a {
     color: #0C4EF6 !important;
   }
 
-
   .ldod-default h3 {
       font-family: 'League-Gothic';
       text-transform: uppercase;
@@ -682,9 +681,7 @@ a {
 
 /*color:#0C4EF6 !important;*/
 
-.bootstrap-table .table a {
-    color: #0C4EF6 !important;
-}
+
 
 .ldod-about {
     font-family: 'Work-Sans';

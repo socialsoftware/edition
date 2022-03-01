@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getTwitterCitations } from '../api/reading';
 import Search from '../components/Search';
 import Table from '../components/Table';
 
 export default ({ messages }) => {
+  const navigate = useNavigate();
   const [citations, setCitations] = useState();
   const searchStringState = useState();
   const [citationsFiltered, setCitationsFiltered] = useState();
@@ -14,7 +16,7 @@ export default ({ messages }) => {
       entry.formatedDate = `${formatedDate[2]}-${formatedDate[1]}-${formatedDate[0]} ${formatedDate[3]}:${formatedDate[4]}`;
       entry.sourceLink = `<a href="${sourceLink}" target="_blank">Tweet</a>`;
       entry.username = `<a href="https://twitter.com/${username}" target="_blank">${username}</a>`;
-      entry.title = `<a href="${import.meta.env.VITE_BASE_PATH}/fragments/fragment/${xmlId}">${title}</a>`;
+      entry.title = `<a href="${xmlId}">${title}</a>`;
       return entry;
     });
 
@@ -26,6 +28,16 @@ export default ({ messages }) => {
         setCitations([]);
       });
   }, []);
+
+    const goToFragment =  (xmlid) => {
+    navigate(`/fragments/fragment/${xmlid}`);
+  } 
+
+  useEffect(() => {
+    document.querySelectorAll('.tb-data-title a').forEach((ele) => {
+      ele.addEventListener('click', () => goToFragment(ele.id));
+    });
+  });
 
   return (
     <>

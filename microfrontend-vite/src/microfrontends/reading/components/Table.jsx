@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
-import { Link as link, } from 'react-router-dom';
 import parseHTML from 'html-react-parser';
 import '../../../resources/css/bootstrap-table.min.css';
 
 export default ({ data, headers, classes }) => (
+
   <div className="fixed-table-body">
     <table
       id="tablecitations"
@@ -32,4 +31,5 @@ export default ({ data, headers, classes }) => (
       </tbody>
     </table>
   </div>
+
 );
