@@ -44,19 +44,22 @@ public class SourceInterDto {
     private String transcription;
     private String xmlId;
     private String urlId;
+    private String heteronym;
 
 
     public SourceInterDto(SourceInter sourceInter) {
+
         this.sourceType = sourceInter.getSource().getType();
         this.setShortName(sourceInter.getShortName());
-        this.setUrlId(sourceInter.getUrlId());
         this.setExternalId(sourceInter.getExternalId());
+        setHeteronym(sourceInter.getHeteronym().getName());
         if (sourceInter.getLdoDDate() != null) {
             this.setDate(sourceInter.getLdoDDate().print());
             if (sourceInter.getLdoDDate().getPrecision() != null) {
                 this.setDesc(sourceInter.getLdoDDate().getPrecision().getDesc());
             }
         }
+
 
         if (sourceInter.getSource().getType().equals(Source.SourceType.MANUSCRIPT)) {
             ManuscriptSource source = (ManuscriptSource) sourceInter.getSource();
@@ -78,6 +81,11 @@ public class SourceInterDto {
 
             setHandNoteDto(source.getHandNoteSet().stream().map(HandNoteDto::new).findFirst());
             setTypeNoteDto(source.getTypeNoteSet().stream().map(TypeNoteDto::new).findFirst());
+            setTranscription(source.getFragment().getRepresentativeSourceInter().getTitle());
+            setXmlId(source.getSourceIntersSet().stream()
+                    .map(SourceInterSimpleDto::new).findFirst().get().getXmlId());
+            setUrlId(source.getSourceIntersSet().stream()
+                    .map(SourceInterSimpleDto::new).findFirst().get().getUrlId());
 
             this.setMaterial(source.getMaterial());
             this.setColumns(source.getColumns());
@@ -116,8 +124,6 @@ public class SourceInterDto {
                 }
             }
         }
-
-
     }
 
     public SourceInterDto(Source source) {
@@ -129,10 +135,12 @@ public class SourceInterDto {
         this.setSourceInterSet(source.getSourceIntersSet().stream()
                 .map(SourceInterSimpleDto::new)
                 .collect(Collectors.toList()));
-
+        setHeteronym(source.getHeteronym().getName());
         setTranscription(source.getFragment().getRepresentativeSourceInter().getTitle());
-        setXmlId(source.getXmlId());
-        setUrlId(source.getFragment().getRepresentativeSourceInter().getUrlId());
+        setXmlId(source.getSourceIntersSet().stream()
+                .map(SourceInterSimpleDto::new).findFirst().get().getXmlId());
+        setUrlId(source.getSourceIntersSet().stream()
+                .map(SourceInterSimpleDto::new).findFirst().get().getUrlId());
 
         if (source.getType().equals(Source.SourceType.MANUSCRIPT)) {
             ManuscriptSource sourceMan = (ManuscriptSource) source;
