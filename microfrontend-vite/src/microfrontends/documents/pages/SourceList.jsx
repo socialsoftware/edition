@@ -1,54 +1,56 @@
-import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { getSourceList } from '../api/documents';
-import { documentsStore, setSourceList } from '../documentsStore';
+import {
+  documentsStore,
+  setSourceList,
+  setFilteredSourceList,
+} from '../documentsStore';
 import Search from '../components/Search';
 import Table from '../components/Table';
 import ReactTooltip from 'react-tooltip';
 import DisplayDocModal from '../components/DisplayDocModal';
-import { useNavigate } from 'react-router-dom';
-import { getLanguage } from '../../../store';
+import { Source } from '../models/Source';
+const selector = (sel) => (state) => state[sel];
 
-export default ({ messages }) => {
-  const mounted = useRef(false);
-  const navigate = useNavigate();
-  const { sourceList } = documentsStore();
-  const [sourceListFiltered, setDataFiltered] = useState();
-  const setSourceListFiltered = useCallback((data) => setDataFiltered(data));
+export default ({ messages, language }) => {
+  const isMounted = useRef(false);
+  const sourceList = documentsStore(selector('sourceList'));
+  const filteredSourceList = documentsStore(selector('filteredSourceList'));
+
   const [showModal, setShowModal] = useState();
 
   const fetchData = () =>
     getSourceList()
-      .then(({ data }) => setSourceList(data, messages))
+      .then(({ data }) =>
+        setSourceList(
+          data.map((item) => Source(item, messages?.[language], displayDocument))
+        )
+      )
       .catch((err) => {
         console.error(err);
         setSourceList();
       });
 
-  useEffect(() => {
-    !sourceList && fetchData()
-    return () => mounted.current = false
+  useLayoutEffect(() => {
+    !sourceList && fetchData();
   }, []);
+
   useEffect(() => {
-    console.log(mounted.current);
-    mounted.current && fetchData();
-    mounted.current = true
-  }, [getLanguage()]);
+    console.log(language);
+    isMounted.current && fetchData();
+    isMounted.current = true;
+  }, [language]);
 
   const displayDocument = (fileName) => {
     setShowModal(fileName);
-  };
-
-  const goToFragment = (path) => {
-    console.log(path);
-    navigate(`/fragments/fragment/${path}`);
   };
 
   return (
     <>
       <DisplayDocModal showModal={showModal} setShowModal={setShowModal} />
       <h3 className="text-center">
-        {messages?.['authorial_source']} (
-        {sourceListFiltered?.length ?? sourceList?.length})
+        {messages?.[language]['authorial_source']} (
+        {filteredSourceList?.length ?? sourceList?.length})
         <ReactTooltip
           id="recom"
           type="light"
@@ -56,7 +58,7 @@ export default ({ messages }) => {
           effect="solid"
           className="info-tooltip"
           border={true}
-          getContent={() => messages?.['source_info']}
+          getContent={() => messages?.[language]['source_info']}
         />
         <span
           data-tip=""
@@ -66,12 +68,16 @@ export default ({ messages }) => {
       </h3>
       <div className="bootstrap-table">
         <div className="fixed-table-toolbar">
-          <Search />
+          <Search
+            data={sourceList}
+            setDataFiltered={setFilteredSourceList}
+            language={language}
+          />
         </div>
         <div className="fixed-table-container" style={{ marginBottom: '20px' }}>
           <Table
-            data={sourceList}
-            headers={messages?.['source_table_headers']}
+            data={filteredSourceList ?? sourceList}
+            headers={messages?.[language]['source_table_headers']}
             classes="table table-hover table-striped table-bordered"
           />
         </div>

@@ -43,7 +43,7 @@ export default {
       sourceLink: 'Tweet',
       tweetText: 'Text',
       location: 'Geographic Location',
-      country: 'País',
+      country: 'Country',
       username: 'User',
     },
   },

@@ -3,7 +3,7 @@ import React from 'react';
 import '../../../resources/css/bootstrap-table.min.css';
 
 export default React.memo(({headers, data, classes}) => {
-  console.log('table');
+  //console.log('table');
   return (
     <div className="fixed-table-body">
       <table
@@ -27,7 +27,7 @@ export default React.memo(({headers, data, classes}) => {
             <tr key={index} data-index={index}>
               {Object.keys(headers ?? {}).map((header, ind) => (
                 <td className={`tb-data-${header}`} key={ind}>
-                  {parseHTML(entry?.[header] ?? '')}
+                  {entry?.[header]}
                 </td>
               ))}
             </tr>

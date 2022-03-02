@@ -1,31 +1,3 @@
-import create from 'zustand';
-
-export const documentsStore = create(() => ({
-  sourceList: null,
-  filteredSourceList: null,
-  fragmentsList: null,
-}));
-
-export const setSourceList = (data) =>
-  documentsStore.setState({ sourceList: data });
-export const setFilteredSourceList = (data) =>
-  documentsStore.setState({ filteredSourceList: data });
-
-export const setFragmentsList = (data, messages) =>
-  documentsStore.setState({
-    fragmentsList: formatFragmentData(data, messages),
-  });
-
-const getDimensionList = (dimensions) =>
-  `${
-    dimensions
-      ?.reduce(
-        (prev, cur) => [...prev, ` ${cur?.height}cm X ${cur.width}cm`],
-        []
-      )
-      .join(',<br />') ?? ''
-  }`;
-
 const getExpertData = (
   {
     title,

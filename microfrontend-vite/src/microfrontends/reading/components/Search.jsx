@@ -1,13 +1,13 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 
 const filterTable = (data, searchString) =>
   data?.filter((item) =>
-    item.searchData.toLowerCase().includes(searchString.toLowerCase().trim())
+    item?.searchData.toLowerCase().includes(searchString?.toLowerCase().trim())
   );
 
 export default ({ data, setDataFiltered }) => {
-  const [searchString, setSearchString] = useState();
-  const result = useMemo(() => filterTable(data, searchString), [searchString]);
+  const [result, setResult] = useState();
+  const onSearch = (term) => setResult(filterTable(data, term));
 
   useEffect(() => {
     setDataFiltered(result);
@@ -20,7 +20,7 @@ export default ({ data, setDataFiltered }) => {
           className="form-control"
           type="text"
           placeholder="Search"
-          onChange={(e) => setSearchString(e.target.value)}
+          onChange={(e) => onSearch(e.target.value)}
         />
       </div>
     </>

@@ -26,6 +26,6 @@ export const resetRecommendations = () =>
 export const setRecommendationAttribute = (attribute, value) =>
   setRecommendation({ ...getRecommendation(), [attribute]: parseFloat(value) });
 export const setCitations = (data) =>
-  readingStore.setState({ citations: data, filteredCitations: data });
+  readingStore.setState({ citations: data });
 export const setFilteredCitations = (data) =>
   readingStore.setState({ filteredCitations: data });
