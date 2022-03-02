@@ -1,11 +1,13 @@
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { lazy } from 'react';
 import Reading from './Reading';
-
 import { getCurrentReadingFragment, getPrevRecom } from '../api/reading';
-import { getRecommendation, setRecommendation } from '../readingStore';
+import { getRecommendation, setRecommendation, readingStore } from '../readingStore';
+import { useStore } from '../../../store';
 
 const Fragment = lazy(() => import('./Fragment'));
+const experts = state => state.experts;
+const language = state => state.language;
 
 export const rightArrowUrl = new URL(
   '../resources/assets/arrow-right.svg',
@@ -20,9 +22,10 @@ export const leftArrowUrl = new URL(
 export const xmlId = (data) => data.fragment.fragmentXmlId;
 export const urlId = (data) => data.expertEditionInterDto.urlId;
 
-export default ({ messages }) => {
-  const navigate = useNavigate();
 
+export default ({ messages }) => {
+
+  const navigate = useNavigate();
   const fetchNumberFragment = (xmlid, urlid) => {
     getCurrentReadingFragment(xmlid, urlid, getRecommendation())
       .then(({ data }) => {
@@ -36,7 +39,7 @@ export default ({ messages }) => {
         navigate(-1);
       });
   };
-
+  
   const fetchPrevRecom = () => {
     getPrevRecom(getRecommendation()).then(({ data }) => {
       setRecommendation(data.readingRecommendation);
@@ -45,7 +48,6 @@ export default ({ messages }) => {
       });
     });
   };
-
   return (
     <>
       <div className="ldod-default row">
@@ -59,6 +61,8 @@ export default ({ messages }) => {
                     messages={messages}
                     fetchNumberFragment={fetchNumberFragment}
                     fetchPrevRecom={fetchPrevRecom}
+                    experts={readingStore(experts)}
+                    language={useStore(language)}
                   />
                 }
               />
@@ -69,6 +73,8 @@ export default ({ messages }) => {
                     messages={messages}
                     fetchNumberFragment={fetchNumberFragment}
                     fetchPrevRecom={fetchPrevRecom}
+                    experts={readingStore(experts)}
+                    language={useStore(language)}
                   />
                 }
               />
@@ -79,6 +85,8 @@ export default ({ messages }) => {
                     messages={messages}
                     fetchNumberFragment={fetchNumberFragment}
                     fetchPrevRecom={fetchPrevRecom}
+                    experts={readingStore(experts)}
+                    language={useStore(language)}
                   />
                 }
               />

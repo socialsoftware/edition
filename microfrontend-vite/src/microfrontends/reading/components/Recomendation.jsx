@@ -3,20 +3,27 @@ import RecomendationFrags from './RecomendationFrags';
 import { useState } from 'react';
 import RecomendationModal from './RecomendationModal';
 
-export default ({ messages, state, fetchPrevRecom, fetchNumberFragment }) => {
+export default ({
+  messages,
+  state,
+  fetchPrevRecom,
+  fetchNumberFragment,
+  language,
+}) => {
   const [showModal, setShowModal] = useState(false);
   return (
-    <div className='thin-column'>
+    <div className="thin-column">
       <RecomendationModal
         show={showModal}
         toggle={setShowModal}
         messages={messages}
+        language={language}
         fetchNumberFragment={fetchNumberFragment}
       />
       <div className="reading__column col-xs-12 no-pad recommendation-line">
         <h4 className="f--condensed">
           <a onClick={() => setShowModal(true)} className="f--condensed--link">
-            {messages?.['general_recommendation']}
+            {messages[language]['general_recommendation']}
           </a>
           <span className="visible-xs-inline">&nbsp;</span>
 
@@ -27,7 +34,7 @@ export default ({ messages, state, fetchPrevRecom, fetchNumberFragment }) => {
             effect="solid"
             className="info-tooltip"
             border={true}
-            getContent={() => messages?.['reading_tt_recom']}
+            getContent={() => messages[language]['reading_tt_recom']}
           />
           <span
             data-tip=""

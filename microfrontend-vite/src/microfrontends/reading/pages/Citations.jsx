@@ -1,63 +1,50 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { getLanguage } from '../../../store';
 import { getTwitterCitations } from '../api/reading';
+import { TwiterCitation } from '../CitationModel';
 import Search from '../components/Search';
 import Table from '../components/Table';
+import {
+  readingStore,
+  setCitations,
+  setFilteredCitations,
+} from '../readingStore';
+const selector = (sel) => (state) => state[sel];
 
 export default ({ messages }) => {
-  const navigate = useNavigate();
-  const [citations, setCitations] = useState();
-  const searchStringState = useState();
-  const [citationsFiltered, setCitationsFiltered] = useState();
-
-  const formatData = (data) =>
-    data?.map((entry) => {
-      const { formatedDate, sourceLink, username, title, xmlId } = entry;
-      entry.formatedDate = `${formatedDate[2]}-${formatedDate[1]}-${formatedDate[0]} ${formatedDate[3]}:${formatedDate[4]}`;
-      entry.sourceLink = `<a href="${sourceLink}" target="_blank">Tweet</a>`;
-      entry.username = `<a href="https://twitter.com/${username}" target="_blank">${username}</a>`;
-      entry.title = `<a href="${xmlId}">${title}</a>`;
-      return entry;
-    });
-
+  const citations = readingStore(selector('citations'));
+  const filteredCitations = readingStore(selector('filteredCitations'));
+console.log('teste');
   useEffect(() => {
-    getTwitterCitations()
-      .then(({ data }) => setCitations(formatData(data)))
-      .catch((err) => {
-        console.error(err);
-        setCitations([]);
-      });
+    !citations &&
+      getTwitterCitations()
+        .then(({ data }) =>
+          setCitations(data?.map((entry) => TwiterCitation(entry)))
+        )
+        .catch((err) => {
+          console.error(err);
+          setCitations([]);
+        });
   }, []);
-
-    const goToFragment =  (xmlid) => {
-    navigate(`/fragments/fragment/${xmlid}`);
-  } 
-
-  useEffect(() => {
-    document.querySelectorAll('.tb-data-title a').forEach((ele) => {
-      ele.addEventListener('click', () => goToFragment(ele.id));
-    });
-  });
 
   return (
     <>
       <h3 className="text-center">
-        {messages?.['general_citations_twitter']} (
-        {citationsFiltered?.length ?? citations?.length})
+        {messages[getLanguage()]['general_citations_twitter']} (
+        {filteredCitations?.length})
       </h3>
       <br />
       <div className="bootstrap-table">
         <div className="fixed-table-toolbar">
           <Search
-            searchData={citations}
-            searchStringState={searchStringState}
-            setDataFiltered={setCitationsFiltered}
+            data={citations}
+            setDataFiltered={setFilteredCitations}
           />
         </div>
         <div className="fixed-table-container" style={{ marginBottom: '20px' }}>
           <Table
-            data={citationsFiltered ?? citations}
-            headers={messages?.['citations_table_headers']}
+            data={filteredCitations}
+            headers={messages[getLanguage()]['citations_table_headers']}
             classes="table table-hover"
           />
         </div>

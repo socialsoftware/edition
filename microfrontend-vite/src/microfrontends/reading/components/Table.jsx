@@ -1,7 +1,7 @@
-import parseHTML from 'html-react-parser';
+import React from 'react';
 import '../../../resources/css/bootstrap-table.min.css';
 
-export default ({ data, headers, classes }) => (
+export default React.memo(({ data, headers, classes }) => (
 
   <div className="fixed-table-body">
     <table
@@ -24,12 +24,11 @@ export default ({ data, headers, classes }) => (
         {data?.map((entry, index) => (
           <tr key={index} data-index={index}>
             {Object.keys(headers ?? {}).map((header, ind) => (
-              <td className={`tb-data-${header}`}  key={ind}>{parseHTML(entry[header] ?? '')}</td>
+              <td className={`tb-data-${header}`}  key={ind}>{entry[header]}</td>
             ))}
           </tr>
         ))}
       </tbody>
     </table>
   </div>
-
-);
+));

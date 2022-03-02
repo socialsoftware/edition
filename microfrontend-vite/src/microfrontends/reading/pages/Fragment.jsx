@@ -1,16 +1,15 @@
 import { useLocation } from 'react-router-dom';
-import { getExperts } from '../readingStore';
 import ReadingColumn from '../components/ReadingColumn';
 import ReadingText from '../components/ReadingText';
 import Recomendation from '../components/Recomendation';
 
-export default ({ messages, fetchNumberFragment, fetchPrevRecom }) => {
+export default ({ messages, fetchNumberFragment, fetchPrevRecom, language, experts }) => {
   const { state } = useLocation();
   const currentExpert = state?.expertEditionInterDto;
 
   return (
     <>
-      {getExperts()?.map((expert, index) => {
+      {experts?.map((expert, index) => {
         let isOpen = () => expert.acronym === currentExpert.acronym;
 
         return (
@@ -32,6 +31,7 @@ export default ({ messages, fetchNumberFragment, fetchPrevRecom }) => {
       })}
       <Recomendation
         messages={messages}
+        language={language}
         state={state}
         fetchPrevRecom={fetchPrevRecom}
         fetchNumberFragment={fetchNumberFragment}

@@ -1,18 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
-export default ({ searchData, searchStringState, setDataFiltered }) => {
-  const [searchString, setSearchString] = searchStringState;
+const filterTable = (data, searchString) =>
+  data?.filter((item) =>
+    item.searchData.toLowerCase().includes(searchString.toLowerCase().trim())
+  );
 
-  const filterFunction = (data) =>
-    data?.filter((cit) =>
-      Object.values(cit).some((value) =>
-        value?.toLowerCase().includes(searchString.toLowerCase().trim())
-      )
-    );
+export default ({ data, setDataFiltered }) => {
+  const [searchString, setSearchString] = useState();
+  const result = useMemo(() => filterTable(data, searchString), [searchString]);
 
   useEffect(() => {
-    setDataFiltered(searchString ? filterFunction(searchData) : searchData);
-  }, [searchString]);
+    setDataFiltered(result);
+  }, [result?.length]);
 
   return (
     <>
