@@ -96,3 +96,10 @@ a {
   padding-top: 60px;
   margin-top: -60px;
 }
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+}

@@ -1,31 +1,38 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { getSourceList } from '../api/documents';
-import {
-  setSource,
-  documentsStore,
-  setSourceList,
-} from '../documentsStore';
+import { documentsStore, setSourceList } from '../documentsStore';
 import Search from '../components/Search';
 import Table from '../components/Table';
 import ReactTooltip from 'react-tooltip';
 import DisplayDocModal from '../components/DisplayDocModal';
 import { useNavigate } from 'react-router-dom';
+import { getLanguage } from '../../../store';
 
 export default ({ messages }) => {
-  const {dataFiltered, sourceList, source} = documentsStore();
+  const mounted = useRef(false);
   const navigate = useNavigate();
+  const { sourceList } = documentsStore();
+  const [sourceListFiltered, setDataFiltered] = useState();
+  const setSourceListFiltered = useCallback((data) => setDataFiltered(data));
   const [showModal, setShowModal] = useState();
 
+  const fetchData = () =>
+    getSourceList()
+      .then(({ data }) => setSourceList(data, messages))
+      .catch((err) => {
+        console.error(err);
+        setSourceList();
+      });
+
   useEffect(() => {
-    if (source) setSourceList(source, messages);
-    else
-      getSourceList()
-        .then(({ data }) => setSource(data, messages))
-        .catch((err) => {
-          console.error(err);
-          setSource([], messages);
-        });
-  }, [messages]);
+    !sourceList && fetchData()
+    return () => mounted.current = false
+  }, []);
+  useEffect(() => {
+    console.log(mounted.current);
+    mounted.current && fetchData();
+    mounted.current = true
+  }, [getLanguage()]);
 
   const displayDocument = (fileName) => {
     setShowModal(fileName);
@@ -36,20 +43,12 @@ export default ({ messages }) => {
     navigate(`/fragments/fragment/${path}`);
   };
 
-  useEffect(() => {
-    document.querySelectorAll('.tb-data-surfaceString a').forEach((ele) => {
-      ele.addEventListener('click', () => displayDocument(ele.id));
-    });
-    document.querySelectorAll('.tb-data-transcription a').forEach((ele) => {
-      ele.addEventListener('click', () => goToFragment(ele.id));
-    });
-  }, [sourceList, dataFiltered]);
-
   return (
     <>
       <DisplayDocModal showModal={showModal} setShowModal={setShowModal} />
       <h3 className="text-center">
-        {messages?.['authorial_source']} ({dataFiltered?.length ?? sourceList?.length})
+        {messages?.['authorial_source']} (
+        {sourceListFiltered?.length ?? sourceList?.length})
         <ReactTooltip
           id="recom"
           type="light"
@@ -67,11 +66,11 @@ export default ({ messages }) => {
       </h3>
       <div className="bootstrap-table">
         <div className="fixed-table-toolbar">
-          <Search data={sourceList}/>
+          <Search />
         </div>
         <div className="fixed-table-container" style={{ marginBottom: '20px' }}>
           <Table
-            data={dataFiltered}
+            data={sourceList}
             headers={messages?.['source_table_headers']}
             classes="table table-hover table-striped table-bordered"
           />

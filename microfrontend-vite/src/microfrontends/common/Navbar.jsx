@@ -1,59 +1,27 @@
 import './resources/navbar.css';
-import { useState, useEffect } from 'react';
+import messages from './resources/constants';
 import {
   setLanguage,
-  logout,
   isAuthenticated,
   isAdmin,
-  getName,
   getLanguage,
 } from '../../store';
-import { modules } from './resources/header_modules';
+import navHeaders from './resources/header_modules';
 import { Link } from 'react-router-dom';
+import {Login, LoggedIn} from './Login'
 
-const getMessages = () =>
-  import(`./resources/constants/messages-${getLanguage()}.js`);
 
 export default () => {
-  const changeLang = (lang) => getLanguage() !== lang && setLanguage(lang);
-  const [messages, setMessages] = useState();
 
-  useEffect(() => {
-    getMessages().then(({ messages }) => setMessages(messages));
-  }, [getLanguage()]);
+  const changeLang = (lang) => {
+    getLanguage() !== lang && setLanguage(lang);
+  };
 
   const isHeaderVisible = (key) => {
     if (key !== 'admin') return true;
-    return isAuthenticated() && isAdmin();
+    return isAdmin();
   };
 
-  const getLoginElement = () => (
-    <Link to="/auth/signin">{messages?.['header_login']}</Link>
-  );
-
-  const getLoggedInElement = () => (
-    <>
-      <a
-        href="#"
-        className="dropdown-toggle"
-        data-toggle="dropdown"
-        aria-expanded="false"
-      >
-        {getName()}
-        <span className="caret"></span>
-      </a>
-      <ul className="dropdown-menu">
-        <li>
-          <Link to="/auth/change-password">{messages?.['user_password']}</Link>
-        </li>
-        <li>
-          <Link to="/auth/signin" onClick={logout}>
-            {messages?.['header_logout']}
-          </Link>
-        </li>
-      </ul>
-    </>
-  );
 
   return (
     <nav
@@ -75,7 +43,7 @@ export default () => {
               <span className="icon-bar"></span>
             </button>
             <Link className="navbar-brand" to="/">
-              {messages?.['header_title']}
+              {messages[getLanguage()]['header_title']}
             </Link>
             <img
               alt="vite-logo"
@@ -93,11 +61,13 @@ export default () => {
               }
             />
             <ul className="nav navbar-nav navbar-right hidden-xs">
-              {!isAuthenticated() && <li>{getLoginElement()}</li>}
-              {isAuthenticated() && (
-                <li className="dropdown login logged-in">
-                  {getLoggedInElement()}
-                </li>
+              {!isAuthenticated() ? (
+                <Login messages={messages} />
+              ) : (
+                <LoggedIn
+                  messages={messages}
+                  classes={'dropdown login logged-in'}
+                />
               )}
             </ul>
           </div>
@@ -106,7 +76,7 @@ export default () => {
       <div className="container">
         <div className="navbar-collapse collapse" id="navbar-headers">
           <ul className="nav navbar-nav navbar-nav-flex">
-            {Object.entries(modules).map(([key, module], index) => {
+            {Object.entries(navHeaders).map(([key, module], index) => {
               return (
                 <li
                   key={index}
@@ -114,20 +84,23 @@ export default () => {
                   style={{ display: !isHeaderVisible(key) && 'none' }}
                 >
                   <a className="dropdown-toggle" data-toggle="dropdown">
-                    {messages?.[module.name]} <span className="caret"></span>{' '}
+                    {messages[getLanguage()][module.name]}{' '}
+                    <span className="caret"></span>{' '}
                   </a>
                   <ul key={index} className="dropdown-menu">
                     <div className="dropdown-menu-bg"></div>
                     {Object.values(module.pages).map((page, index) => (
                       <li key={index}>
                         {page.route ? (
-                          <Link to={page.route}>{messages?.[page.id]}</Link>
+                          <Link to={page.route}>
+                            {messages[getLanguage()][page.id]}
+                          </Link>
                         ) : (
                           <a
                             href="https://ldod.uc.pt/ldod-visual"
                             target="_blank"
                           >
-                            {messages?.[page.id]}
+                            {messages[getLanguage()][page.id]}
                           </a>
                         )}
                       </li>
@@ -136,13 +109,13 @@ export default () => {
                 </li>
               );
             })}
-            {!isAuthenticated() && (
-              <li className="login visible-xs">{getLoginElement()}</li>
-            )}
-            {isAuthenticated() && (
-              <li className="dropdown login logged-in visible-xs">
-                {getLoggedInElement()}
-              </li>
+            {!isAuthenticated() ? (
+              <Login messages={messages} classes={'login visible-xs'} />
+            ) : (
+              <LoggedIn
+                messages={messages}
+                classes={'dropdown login logged-in visible-xs'}
+              />
             )}
             <li className="nav-lang">
               <a

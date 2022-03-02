@@ -1,20 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import './resources/home.css';
 import { excerpts } from './resources/constants/excerpts';
 import { getLanguage } from '../../store';
 import HomeInfo from './HomeInfo';
-
-const getMessages = () =>
-  import(`./resources/constants/messages-${getLanguage()}.jsx`);
+import messages from './resources/constants/constants';
 
 export default () => {
   const navigate = useNavigate();
-  const [messages, setMessages] = useState();
-
-  useEffect(() => {
-    getMessages().then((messages) => setMessages(messages));
-  }, [getLanguage()]);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -31,7 +24,7 @@ export default () => {
     const xmlid = excerpt?.path.split('/')[0];
     const urlid = excerpt?.path.split('/')[2];
     navigate(`/reading/${xmlid}/${urlid}`);
-  }
+  };
 
   const boxUrl = (version, type, random) =>
     new URL(
@@ -58,7 +51,7 @@ export default () => {
         </div>
         <hr className="line-points" />
         <div className="about font-monospace">
-          <p>{messages?.about}</p>
+          <p>{messages?.[getLanguage()].about}</p>
         </div>
         <hr className="line-x" />
         <div className="menu-boxes hidden-xs col-xs-12">
@@ -141,7 +134,7 @@ export default () => {
             </div>
           </Link>
         </div>
-        <HomeInfo info={messages?.info} />
+        <HomeInfo info={messages?.[getLanguage()].info} />
       </div>
       <div className="bottom-bar"></div>
     </div>

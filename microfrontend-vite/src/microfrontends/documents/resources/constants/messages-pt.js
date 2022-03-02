@@ -42,7 +42,7 @@ export const messages = {
   startPage: "Página",
   notes: "Nota",
 
-  altIdentifier: 'Identification',
+  altIdentifier: 'Identificação',
   form: 'Formato',
   material: 'Material',
   columns: 'Colunas',

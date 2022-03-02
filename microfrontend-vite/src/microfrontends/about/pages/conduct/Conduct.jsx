@@ -1,17 +1,18 @@
 import { lazy, useState, useEffect } from 'react';
-import { useStore } from '../../../../store';
+import { getLanguage } from '../../../../store';
 
-export default ({messages}) => {
-  const { language} = useStore();
-  const Conduct = lazy(() => import(`./Conduct-${language}.jsx`))
+export default ({ messages }) => {
+  const Conduct = lazy(() => import(`./Conduct-${getLanguage()}.jsx`));
   const [top, setTop] = useState(true);
 
   useEffect(() => setTop(false));
   return (
     <>
-      <h1 className="text-center">{messages['header_conduct']}</h1>
+      <h1 className="text-center">
+        {messages[getLanguage()]['header_conduct']}
+      </h1>
       <p>&nbsp;</p>
-      <Conduct posY={top ? 0 : window.scrollY}/>
+      <Conduct posY={top ? 0 : window.scrollY} />
     </>
   );
 };

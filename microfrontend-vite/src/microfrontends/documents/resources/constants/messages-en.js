@@ -40,7 +40,7 @@ export const messages = {
   startPage: "Page",
   notes: "Note",
 
-  altIdentifier: 'Identificação',
+  altIdentifier: 'Identification',
   form: 'Format',
   material: 'Material',
   columns: 'Columns',

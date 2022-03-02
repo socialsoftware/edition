@@ -10,7 +10,7 @@ export default ({ messages, fetchNumberFragment, fetchPrevRecom }) => {
   const params = useParams();
 
   useEffect(() => {
-    getReadingExperts().then(({ data }) => setExperts(data));
+    !getExperts() && getReadingExperts().then(({ data }) => setExperts(data));
     params?.xmlid && params?.urlid && fetchNumberFragment(params.xmlid, params.urlid);
   }, []);
 

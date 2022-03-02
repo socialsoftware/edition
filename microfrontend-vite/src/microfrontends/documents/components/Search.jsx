@@ -1,18 +1,16 @@
 import { useEffect, useState, useMemo } from 'react';
-import { setDataFiltered } from '../documentsStore';
 
-export default ({ data }) => {
-  const [searchString, setSearchString] = useState("");
+const filterTable = (data, searchString) =>
+data?.filter((item) =>
+  Object.values(item).some((value) =>
+    value?.toLowerCase().includes(searchString?.toLowerCase().trim())
+  )
+);
 
-  const filterTable = () =>
-  data?.filter((item) =>
-    Object.values(item).some((value) =>
-      value?.toLowerCase().includes(searchString?.toLowerCase().trim())
-    )
-  );
-  const result = useMemo(() => filterTable(searchString), [searchString]);
+export default ({ data, setDataFiltered }) => {
+  const [searchString, setSearchString] = useState();
+  const result = useMemo(() => filterTable(data, searchString), [searchString]);
   useEffect(() => searchString?.length > 1 && setDataFiltered(result), [result?.length]);
-
   return (
     <>
       <div className="pull-right search">

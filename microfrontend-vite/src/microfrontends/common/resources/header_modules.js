@@ -1,8 +1,8 @@
-export const modules = {
+export default {
   about: {
     name: 'header_about',
     pages: [
-      { id: 'header_archive', route: '/about/archive' },
+      { id: 'header_title', route: '/about/archive' },
       { id: 'header_videos', route: '/about/videos' },
       { id: 'header_tutorials', route: '/about/tutorials' },
       { id: 'header_faq', route: '/about/faq' },

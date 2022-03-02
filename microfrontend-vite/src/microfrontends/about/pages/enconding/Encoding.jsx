@@ -1,11 +1,11 @@
 import { lazy, useEffect, useState } from 'react';
 import { getLanguage } from '../../../../store';
 
-export default ({ scroll }) => {
+export default () => {
   const [top, setTop] = useState(true);
-  const Videos = lazy(() => import(`./Videos-${getLanguage()}.jsx`));
+  const Encoding = lazy(() => import(`./Encoding-${getLanguage()}.jsx`));
 
   useEffect(() => setTop(false));
 
-  return <Videos scroll={scroll} posY={top ? 0 : window.scrollY} />;
+  return <Encoding posY={top ? 0 : window.scrollY} />;
 };

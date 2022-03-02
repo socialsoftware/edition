@@ -65,7 +65,7 @@ export default ({ messages }) => {
           ele.addEventListener('click', () => displayDocument(ele.id))
         )
     );
-  }, [fragmentsList, dataFiltered]);
+  }, [dataFiltered?.length]);
 
   return (
     <>

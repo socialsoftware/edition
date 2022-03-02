@@ -1,37 +1,17 @@
 import create from 'zustand';
 
 export const documentsStore = create(() => ({
-  source: null,
   sourceList: null,
-  fragments: null,
   fragmentsList: null,
-  dataFiltered: null,
 }));
 
-export const setSource = (data, messages) => {
-  documentsStore.setState({ source: data });
-  setSourceList(data, messages);
-};
-
-export const setSourceList = (data, messages) => {
+export const setSourceList = (data, messages) =>
   documentsStore.setState({ sourceList: formatSourceData(data, messages) });
-  setDataFiltered(documentsStore.getState().sourceList);
-};
 
-export const setFragments = (data, messages) => {
-  documentsStore.setState({ fragments: data });
-  setFragmentsList(data, messages);
-};
-
-export const setFragmentsList = (data, messages) => {
+export const setFragmentsList = (data, messages) =>
   documentsStore.setState({
     fragmentsList: formatFragmentData(data, messages),
   });
-  setDataFiltered(documentsStore.getState().fragmentsList); 
-};
-
-export const setDataFiltered = (data) =>
-  documentsStore.setState({ dataFiltered: data });
 
 const getDimensionList = (dimensions) =>
   `${
@@ -73,6 +53,7 @@ const formatSourceData = (data, messages) =>
     const type = `${messages?.[sourceType]?.[handNote] ?? ''}\n${
       messages?.[sourceType]?.[typeNote] ?? ''
     }`;
+    
     return {
       title: entry.title,
       transcription: `<a id="${xmlId}/inter/${urlId}">${transcription}</a>`,
