@@ -1,0 +1,32 @@
+.no-margins {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+a {
+  color: #0C4EF6;   
+ }
+
+ .glyphicon {
+  font-size: small;
+  margin-left: 10px;
+}
+
+.gray-color {
+  color: lightgray!important;
+}
+
+.glyphicon:hover {
+  color: #0C4EF6;
+}
+
+.info-tooltip {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  border-color: black;
+  background-color: #fff;
+  color: #333;
+  font-weight: 600;
+  width: 300px;
+  text-align: justify;
+  line-height: 1.25;
+  font-size: 12px;
+}

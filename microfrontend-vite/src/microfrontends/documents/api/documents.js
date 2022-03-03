@@ -14,7 +14,7 @@ export const getFragmentList = (messages, displayDocument) =>
     )
     .catch((err) => {
       console.error(err);
-      setSourceList([]);
+      setSourceList(null);
     });
 
 export const getSourceList = (messages, displayDocument) =>
@@ -25,5 +25,5 @@ export const getSourceList = (messages, displayDocument) =>
     )
     .catch((err) => {
       console.error(err);
-      setSourceList([]);
+      setSourceList(null);
     });

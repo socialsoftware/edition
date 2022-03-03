@@ -5,7 +5,7 @@ import { getCurrentReadingFragment, getPrevRecom } from '../api/reading';
 import { getRecommendation, setRecommendation, readingStore } from '../readingStore';
 import { useStore } from '../../../store';
 
-const Fragment = lazy(() => import('./Fragment'));
+const Fragment = lazy(() => import('./ReadingFragment'));
 const experts = state => state.experts;
 const language = state => state.language;
 

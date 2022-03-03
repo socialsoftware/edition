@@ -17,6 +17,10 @@ const ReadingRouter = lazy(() =>
 const DocumentsRouter = lazy(() =>
   import('./microfrontends/documents/DocumentsRouter')
 );
+const FragmentRouter = lazy(() =>
+  import('./microfrontends/fragment/FragmentRouter')
+);
+
 
 function App() {
   const navigate = useNavigate();
@@ -43,6 +47,7 @@ function App() {
           <Route path="about/*" element={<AboutRouter />} />
           <Route path="reading/*" element={<ReadingRouter />} />
           <Route path="documents/*" element={<DocumentsRouter />} />
+          <Route path="/fragments/*" element={<FragmentRouter />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </Suspense>
