@@ -1,3 +1,110 @@
+import { Link } from 'react-router-dom';
+import parseHTML, { domToReact } from 'html-react-parser';
+
+const getSurfaceList = (surfaces, altIdentifier, displayDoc) => (
+  <>
+    {surfaces?.map((item, index) => (
+      <a key={index} onClick={() => displayDoc(item)}>
+        {altIdentifier}
+      </a>
+    ))}
+  </>
+);
+
+const getDimensionList = (dimensions) =>
+  `${
+    dimensions
+      ?.reduce(
+        (prev, cur) => [...prev, ` ${cur?.height}cm X ${cur.width}cm`],
+        []
+      )
+      .join(',<br />') ?? ''
+  }`;
+
+const getSourceData = (
+  {
+    altIdentifier,
+    heteronym,
+    heteronymNull,
+    form,
+    material,
+    columns,
+    hadLdoDLabel,
+    typeNoteDto,
+    handNoteDto,
+    surfaceString,
+    notes,
+    date,
+    desc,
+    title,
+    journal,
+    issue,
+    pubPlace,
+    startPage,
+    endPage,
+    dimensionDtoList,
+  },
+  messages,
+  displayDoc
+) => {
+  const identifiers = surfaceString
+    ?.reduce((prev, curr) => [...prev, `${curr.split('.jpg')[0]}`], [])
+    .join(',\n');
+
+  const keyValues = {
+    altIdentifier: identifiers,
+    //sourceType === 'MANUSCRIPT' && identifiers ? `: ${identifiers}` : '',
+    //title: sourceType === 'PRINTED' && title ? `: ${title}` : '',
+    title,
+    heteronym: heteronymNull ? messages?.notAssigned : heteronym,
+    journal,
+    issue,
+    startPage:
+      (startPage || startPage !== 0) &&
+      `${startPage}${endPage ? ` - ${endPage}` : ''}`,
+    pubPlace: pubPlace,
+    form: (
+      <>
+        {messages?.[form]}
+        <small>{`(${getDimensionList(dimensionDtoList)})`}</small>
+      </>
+    ),
+    material: messages?.[material],
+    columns,
+    hadLdoDLabel: messages?.[hadLdoDLabel],
+    handNoteDto: handNoteDto?.note,
+    typeNoteDto: typeNoteDto?.note,
+    date: date && `${date} ${desc ? `(${desc})` : ''}`,
+    notes: notes,
+    surfaceString: (
+      <>
+        {getSurfaceList(surfaceString, altIdentifier, displayDoc)}
+        <br />
+      </>
+    ),
+  };
+
+  const sourceData = Object.entries(keyValues).map(([key, val], index) => {
+    if (val) {
+      const getKey =
+        key === 'handNoteDto'
+          ? parseHTML(messages.handNoteDto(handNoteDto.desc))
+          : key === 'typeNoteDto'
+          ? parseHTML(messages.typeNoteDto(typeNoteDto.desc))
+          : parseHTML(`<strong>${messages?.[key]}: </strong>`);
+      return (
+        <div key={index}>
+          {getKey}
+          {val}
+          <br />
+        </div>
+      );
+    }
+  });
+
+  return sourceData;
+};
+
 const getExpertData = (
   {
     title,
@@ -20,132 +127,56 @@ const getExpertData = (
     notes: notes,
   };
 
-  const expertData = Object.entries(keyValues)
-    .reduce(
-      (prev, [key, val]) => [
-        ...prev,
-        val && `<strong>${messages?.[key]}: </strong>${val}<br />`,
-      ],
-      []
-    )
-    .join('');
-
-  const annexNote = annexNoteDtoList
-    ?.reduce(
-      (prev, curr) => [
-        ...prev,
-        `<strong>${messages?.notes}: </strong>${curr.presentationText}`,
-      ],
-      []
-    )
-    .join('<br />');
-  return `${expertData ?? ''}${annexNote ?? ''}`;
-};
-
-const getSourceData = (
-  {
-    altIdentifier,
-    heteronym,
-    heteronymNull,
-    form,
-    material,
-    columns,
-    hadLdoDLabel,
-    typeNoteDto,
-    handNoteDto,
-    surfaceString,
-    notes,
-    date,
-    desc,
-    sourceType,
-    title,
-    journal,
-    issue,
-    pubPlace,
-    startPage,
-    endPage,
-    dimensionDtoList,
-  },
-  messages
-) => {
-  const identifiers = surfaceString
-    ?.reduce((prev, curr) => [...prev, `${curr.split('.jpg')[0]}`], [])
-    .join(', <br />');
-
-  const keyValues = {
-    altIdentifier:
-      sourceType === 'MANUSCRIPT' && identifiers ? `: ${identifiers}` : '',
-    title: sourceType === 'PRINTED' && title ? `: ${title}` : '',
-    heteronym: heteronymNull ? `: ${messages?.notAssigned}` : `: ${heteronym}`,
-    journal: journal && `: ${journal}`,
-    issue: issue && `: ${issue}`,
-    startPage:
-      startPage !== 0 || endPage !== 0
-        ? `: ${startPage}${endPage ? ` - ${endPage}` : ''} `
-        : '',
-    pubPlace: pubPlace && `: ${pubPlace}`,
-    form:
-      form &&
-      `: ${messages?.[form]} ${
-        dimensionDtoList
-          ? `<small>(${getDimensionList(dimensionDtoList)})</small>`
-          : ''
-      }`,
-    material: material && `: ${messages?.[material]}`,
-    columns: columns && `: ${columns}`,
-    hadLdoDLabel: messages?.[hadLdoDLabel] && `: ${messages?.[hadLdoDLabel]}`,
-    handNoteDto:
-      handNoteDto &&
-      `(<em>${handNoteDto?.desc}</em>): ${handNoteDto?.note ?? ''}`,
-    typeNoteDto:
-      typeNoteDto &&
-      ` (<em>${typeNoteDto?.desc}</em>): ${typeNoteDto?.note ?? ''}`,
-    date: date && `: ${date} ${desc ? `(${desc})` : ''}`,
-    notes: notes && `: ${notes}`,
+  const options = {
+    replace: ({ type, name, attribs, children }) =>
+      type === 'tag' &&
+      name === 'a' && (
+        <Link to={attribs.href ?? '/'}>{domToReact(children)}</Link>
+      ),
   };
 
-  const sourceData = Object.entries(keyValues)
-    .reduce(
-      (prev, [key, val]) => [
-        ...prev,
-        val && `<strong>${messages?.[key]}</strong>${val}<br />`,
-      ],
-      []
-    )
-    .join('');
+  const annexNote = annexNoteDtoList?.map(({ presentationText }, index) => (
+    <div key={`anex-${index}`}>
+      <strong>{messages?.notes}: </strong>
+      {parseHTML(presentationText, options)}
+      <br />
+    </div>
+  ));
 
-  const surfaceData = surfaceString
-    ?.reduce(
-      (prev, curr) => [...prev, `<a id="${curr}">${altIdentifier}</a>`],
-      []
-    )
-    .join(', ');
-  return `${sourceData ?? ''}<strong>${
-    messages?.surfaceString
-  }: </strong>${surfaceData}`;
+  const expertDate = Object.entries(keyValues).map(([key, val], index) => {
+    if (val)
+      return (
+        <div key={index}>
+          <strong>{messages?.[key]}: </strong>
+          {typeof val === 'string' ? parseHTML(val) : val}
+          <br />
+        </div>
+      );
+  });
+
+  return expertDate.concat(annexNote);
 };
 
-const formatFragmentData = (data, messages) =>
-  data?.map(
-    ({
-      title,
-      expertEditionInterDtoMap,
-      sourceInterDtoList,
-      fragmentXmlId,
-    }) => ({
-      title: `<a id="${fragmentXmlId}">${title}</a>`,
-      JPC: getExpertData(expertEditionInterDtoMap.JPC ?? '', messages),
-      TSC: getExpertData(expertEditionInterDtoMap.TSC ?? '', messages),
-      RZ: getExpertData(expertEditionInterDtoMap.RZ ?? '', messages),
-      JP: getExpertData(expertEditionInterDtoMap.JP ?? '', messages),
-      sourceInterDtoList_0:
-        sourceInterDtoList?.[0] &&
-        getSourceData(sourceInterDtoList?.[0], messages),
-      sourceInterDtoList_1:
-        sourceInterDtoList?.[1] &&
-        getSourceData(sourceInterDtoList?.[1], messages),
-      sourceInterDtoList_2:
-        sourceInterDtoList?.[2] &&
-        getSourceData(sourceInterDtoList?.[2], messages),
-    })
-  );
+export function EncodedFragment(
+  { title, expertEditionInterDtoMap, sourceInterDtoList, fragmentXmlId },
+  messages,
+  displayDoc
+) {
+  const result = {
+    title: <Link to={`/fragments/fragment/${fragmentXmlId}`}>{title}</Link>,
+    JPC: getExpertData(expertEditionInterDtoMap.JPC ?? '', messages),
+    TSC: getExpertData(expertEditionInterDtoMap.TSC ?? '', messages),
+    RZ: getExpertData(expertEditionInterDtoMap.RZ ?? '', messages),
+    JP: getExpertData(expertEditionInterDtoMap.JP ?? '', messages),
+    sourceInterDtoList_0:
+      sourceInterDtoList?.[0] &&
+      getSourceData(sourceInterDtoList?.[0], messages, displayDoc),
+    sourceInterDtoList_1:
+      sourceInterDtoList?.[1] &&
+      getSourceData(sourceInterDtoList?.[1], messages, displayDoc),
+    sourceInterDtoList_2:
+      sourceInterDtoList?.[2] &&
+      getSourceData(sourceInterDtoList?.[2], messages, displayDoc),
+  };
+  return { ...result, searchData: JSON.stringify(result) };
+}

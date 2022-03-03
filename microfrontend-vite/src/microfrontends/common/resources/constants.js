@@ -27,6 +27,9 @@ export default {
     header_documents: 'Documentos',
     authorial_source: 'Testemunhos',
     fragment_codified: 'Fragmentos Codificados',
+
+    pagenotfound_message: 'LdoD: Esta página não existe...',
+
   },
   en: {
     header_title: 'LdoD Archive',
@@ -57,6 +60,8 @@ export default {
     header_documents: 'Documents',
     authorial_source: 'Witnesses',
     fragment_codified: 'Encoded Fragments',
+    pagenotfound_message: 'LdoD: Page not found...',
+
   },
   es: {
     header_title: 'Archivo LdoD',
@@ -86,5 +91,7 @@ export default {
     header_documents: 'Documentos',
     authorial_source: 'Testimonios',
     fragment_codified: 'Fragmentos Codificados',
+    pagenotfound_message: 'LdoD: Esta página no existe',
+
   },
 };

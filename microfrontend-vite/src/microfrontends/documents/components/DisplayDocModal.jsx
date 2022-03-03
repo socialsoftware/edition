@@ -1,30 +1,33 @@
 import Modal from 'react-modal';
-import { useRef } from 'react';
+import { documentsStore, toggleShow } from '../documentsStore';
 
-export default ({ showModal, setShowModal }) => {
+export default () => {
+  const { docPath, showModal } = documentsStore();
   const toggleZoom = (e) => {
     const imgClasses = e.target.classList;
     imgClasses.contains('fac-image-zoomed')
       ? imgClasses.remove('fac-image-zoomed')
       : imgClasses.add('fac-image-zoomed');
   };
+
   return (
     <Modal
-      isOpen={showModal ? true : false}
-      onRequestClose={() => setShowModal()}
+      isOpen={showModal}
+      onRequestClose={toggleShow}
       ariaHideApp={false}
       shouldCloseOnOverlayClick={true}
       shouldCloseOnEsc={true}
       overlayClassName="overlay-modal"
       className="image-modal"
     >
-      <button className='image-close' onClick={() => setShowModal()}>Close</button>
+      <button className="image-close" onClick={toggleShow}>
+        Close
+      </button>
       <img
         onClick={toggleZoom}
         className="fac-image"
-        src={`https://ldod.uc.pt/facs/${showModal}`}
+        src={`https://ldod.uc.pt/facs/${docPath}`}
       />
-
     </Modal>
   );
 };

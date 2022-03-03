@@ -1,15 +1,15 @@
-import { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { getSourceList } from '../api/documents';
 import {
   documentsStore,
-  setSourceList,
   setFilteredSourceList,
+  toggleShow,
+  setDocPath,
 } from '../documentsStore';
 import Search from '../components/Search';
 import Table from '../components/Table';
 import ReactTooltip from 'react-tooltip';
 import DisplayDocModal from '../components/DisplayDocModal';
-import { Source } from '../models/Source';
 const selector = (sel) => (state) => state[sel];
 
 export default ({ messages, language }) => {
@@ -17,37 +17,27 @@ export default ({ messages, language }) => {
   const sourceList = documentsStore(selector('sourceList'));
   const filteredSourceList = documentsStore(selector('filteredSourceList'));
 
-  const [showModal, setShowModal] = useState();
-
-  const fetchData = () =>
-    getSourceList()
-      .then(({ data }) =>
-        setSourceList(
-          data.map((item) => Source(item, messages?.[language], displayDocument))
-        )
-      )
-      .catch((err) => {
-        console.error(err);
-        setSourceList();
-      });
-
-  useLayoutEffect(() => {
-    !sourceList && fetchData();
+  useEffect(() => {
+    !sourceList && getSourceList(messages?.[language], displayDocument);
+    return () => {
+      isMounted.current = false;
+      setFilteredSourceList(null);
+    };
   }, []);
 
   useEffect(() => {
-    console.log(language);
-    isMounted.current && fetchData();
+    isMounted.current && getSourceList(messages?.[language], displayDocument);
     isMounted.current = true;
   }, [language]);
 
-  const displayDocument = (fileName) => {
-    setShowModal(fileName);
+  const displayDocument = (filename) => {
+    toggleShow();
+    setDocPath(filename);
   };
 
   return (
     <>
-      <DisplayDocModal showModal={showModal} setShowModal={setShowModal} />
+      <DisplayDocModal />
       <h3 className="text-center">
         {messages?.[language]['authorial_source']} (
         {filteredSourceList?.length ?? sourceList?.length})

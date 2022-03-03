@@ -1,8 +1,8 @@
-import { messages } from '../../resources/constants';
-import { getLanguage } from '../../store';
+import messages from './resources/constants';
+import { useStore } from '../../store';
 
 export default () => (
   <div className="container">
-        {messages[getLanguage()]['pagenotfound_message']}
+        {messages?.[useStore().language]['pagenotfound_message']}
   </div>
 );

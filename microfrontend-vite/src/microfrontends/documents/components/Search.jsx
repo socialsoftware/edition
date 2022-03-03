@@ -6,17 +6,16 @@ const filterTable = (data, searchString) =>
   );
 
 export default ({ data, setDataFiltered, language }) => {
-  const [searchString, setSearchString] = useState();
+  const [searchString, setSearchString] = useState('');
   const [result, setResult] = useState();
   const onSearch = (term) => {
     setSearchString(term);
-    searchString?.length < 1
-      ? setDataFiltered(data)
-      : setResult(filterTable(data, term));
+    setResult(filterTable(data, term));
   };
 
   useEffect(() => {
-    setDataFiltered();
+    setResult();
+    setDataFiltered(null)
     setSearchString('');
   }, [language]);
 
@@ -30,8 +29,8 @@ export default ({ data, setDataFiltered, language }) => {
         <input
           className="form-control"
           type="text"
-          placeholder="Search"
           value={searchString}
+          placeholder="Search"
           onChange={(e) => onSearch(e.target.value)}
         />
       </div>
