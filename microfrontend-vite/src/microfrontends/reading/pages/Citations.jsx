@@ -24,7 +24,6 @@ export default ({ messages }) => {
         )
         .catch((err) => {
           console.error(err);
-          setCitations([]);
         });
     //    return () => setFilteredCitations(null)
   }, []);

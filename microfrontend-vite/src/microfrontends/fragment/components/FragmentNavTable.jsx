@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 
-export default ({ colsWidth, data, tbWidth, expert }) => {
+export default ({ colsWidth, data, tbWidth, author }) => {
   return (
     <table width={tbWidth}>
-      {expert && (
+      {author && (
         <caption className="text-center">
-          <Link to={`/edition/acronym/${expert?.acronym}`}>
-            {expert?.editor}
+          <Link to={`/edition/acronym/${author?.acronym}`}>
+            {author?.editor}
           </Link>
         </caption>
       )}

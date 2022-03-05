@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -55,12 +56,12 @@ public class FragmentBodyDto {
 		}
 		
 
-		List<VirtualEdition> virtualEditions = selectedVEAcr.stream().map(acr -> instance.getEdition(acr)).filter(e -> e != null)
+		List<VirtualEdition> virtualEditions = selectedVEAcr.stream().map(instance::getEdition).filter(Objects::nonNull)
 				.map(VirtualEdition.class::cast).collect(Collectors.toList());
 		
 		this.setVirtualEditionsDto(virtualEditions.stream().map(vEdition -> new VirtualEditionDto(vEdition, fragment, user, inters.get(0))).collect(Collectors.toList()));
 	}
-	
+
 	public FragmentBodyDto(LdoD instance, LdoDUser user, Fragment fragment, ArrayList<FragInter> inters, ArrayList<String> selectedVEAcr, String type) {
 		this.setFragment(new FragmentDto(fragment));
 		this.setLdoD(new LdoDDto(instance, fragment, user, inters, type));
@@ -68,7 +69,7 @@ public class FragmentBodyDto {
 			this.setLdoDuser(new LdoDUserDto(user));
 		}
 		this.setInters(inters.stream().map(FragInterDto::new).collect(Collectors.toList()));
-		List<VirtualEdition> virtualEditions = selectedVEAcr.stream().map(acr -> instance.getEdition(acr)).filter(e -> e != null)
+		List<VirtualEdition> virtualEditions = selectedVEAcr.stream().map(instance::getEdition).filter(Objects::nonNull)
 				.map(VirtualEdition.class::cast).collect(Collectors.toList());
 		this.setVirtualEditionsDto(virtualEditions.stream().map(vEdition -> new VirtualEditionDto(vEdition, fragment, user, null)).collect(Collectors.toList()));
 

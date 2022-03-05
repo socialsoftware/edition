@@ -11,7 +11,7 @@ export default () => {
       <div className="row no-margins">
         <Routes>
           <Route
-            path="/fragment/:xmlid"
+            path="/fragment/:xmlid/*"
             element={
               <FragmentPage messages={messages} language={useStore(language)} />
             }

@@ -24,6 +24,7 @@ public class LdoDDto {
 
 	/////////////////// VIRTUAL ////////////////////////
 	public LdoDDto(LdoD instance, Fragment fragment, LdoDUser user, ArrayList<FragInter> inters, String type) {
+		this.setSortedExpert(instance.getSortedExpertEdition().stream().map(expertEd -> new ExpertEditionDto(expertEd, fragment)).collect(Collectors.toList()));
 		if(inters.size()>0) {
 			this.setArchiveEdition(new VirtualEditionDto(instance.getArchiveEdition(), fragment, user, inters.get(0)));
 		}

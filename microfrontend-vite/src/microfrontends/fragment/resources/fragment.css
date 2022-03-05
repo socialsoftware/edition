@@ -1,32 +1,121 @@
 .no-margins {
-  margin-left: 0px;
-  margin-right: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
 }
-a {
-  color: #0C4EF6;   
- }
 
- .glyphicon {
-  font-size: small;
-  margin-left: 10px;
+a {
+    cursor: pointer;
+    color: #0C4EF6;
+}
+
+a:focus, a:hover {
+    color: #0C4EF6;
+  text-decoration: none;
+}
+
+.glyphicon {
+    font-size: small;
+    margin-left: 10px;
 }
 
 .gray-color {
-  color: lightgray!important;
+    color: lightgray!important;
 }
 
 .glyphicon:hover {
-  color: #0C4EF6;
+    color: #0C4EF6;
 }
 
-.info-tooltip {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  border-color: black;
-  background-color: #fff;
+.glyphicon-eye-open {
+  color: #337ab7!important;
+  font-size:medium!important;
+}
+
+.glyphicon-eye-open:hover{
+  color: #333!important;
+}
+
+.fragment-nav-tooltip {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif!important;
+    opacity: 1!important;
+    background-color: #fff!important;
+    border: 1px solid rgba(0, 0, 0, .2)!important;
+    border-radius: 6px!important;
+    max-width: 300px!important;
+    text-align: justify!important;
+    line-height: 1.4!important;
+    font-size: 14px!important;
+    box-shadow: 0 5px 10px rgb(0 0 0 / 20%)!important;
+}
+
+#fragment-inter {
+    padding-top: 6px;
+}
+
+.image-modal {
+    inset: 0;
+    position: absolute;
+    overflow: auto;
+}
+
+.fac-image {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    max-height: 100vh;
+    max-width: 100%;
+    cursor: zoom-in;
+}
+
+.fac-image-zoomed {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    cursor: zoom-out;
+    margin: none;
+    max-height: none;
+    max-width: none;
+}
+
+.image-close {
+  z-index: 1;
+  border-radius: 5px;
+  background-color: #333;
+  border: #fff solid 1px;
+  color: #fff;
+  font-weight: bold;
+  position:fixed;
+  margin-left: 15%;
+  margin-top: 25px;
+}
+
+.image-close:hover {
   color: #333;
-  font-weight: 600;
-  width: 300px;
-  text-align: justify;
-  line-height: 1.25;
-  font-size: 12px;
+  background-color: #fff;
+  border: #333 solid 1px;
+}
+
+div .checkbox {
+    padding-right: 10px;
+}
+
+.checkbox-props {
+    margin-bottom: 6px!important;
+    margin-right: 5px!important;
+}
+
+.checkbox-tooltip {
+  padding: 5px 5px!important;
+  margin-top: 3px!important;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif!important;
+  opacity: 1!important;
+  border: 1px solid rgba(0, 0, 0, .2)!important;
+  border-radius: 6px!important;
+  max-width: 200px!important;
+  text-align: center;
+  line-height: 1.4!important;
+  font-size: 12px!important;
 }

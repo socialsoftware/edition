@@ -3,6 +3,7 @@ import ReadingColumn from '../components/ReadingColumn';
 import ReadingText from '../components/ReadingText';
 import Recomendation from '../components/Recomendation';
 
+
 export default ({ messages, fetchNumberFragment, fetchPrevRecom, language, experts }) => {
   const { state } = useLocation();
   const currentExpert = state?.expertEditionInterDto;
@@ -10,7 +11,7 @@ export default ({ messages, fetchNumberFragment, fetchPrevRecom, language, exper
   return (
     <>
       {experts?.map((expert, index) => {
-        let isOpen = () => expert.acronym === currentExpert.acronym;
+        let isOpen = () => expert?.acronym === currentExpert?.acronym;
 
         return (
           <div key={index} className={`${isOpen() ? "block-column" : "thin-column"}`}>

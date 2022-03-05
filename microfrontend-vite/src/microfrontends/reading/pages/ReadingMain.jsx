@@ -31,6 +31,7 @@ export default ({ messages }) => {
       .then(({ data }) => {
         setRecommendation(data.readingRecommendation);
         navigate(`/reading/fragment/${xmlId(data)}/inter/${urlId(data)}`, {
+          replace: true,
           state: data,
         });
       })

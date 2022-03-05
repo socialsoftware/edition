@@ -1,19 +1,36 @@
 import fetcher from '../../../config/axios';
-import { getVirtualEditions, setFragment, setVirtualFragment } from '../fragmentStore';
+import FragmentExpert from '../components/FragmentExpert';
+import { FragmentExpertData, FragmentNavData, FragmentSourceData } from '../dataExtraction';
+import {
+  getVirtualEditionsAcronyms,
+  setFragmentSource,
+  setFragmentNavData,
+  setFragmentExpert,
+} from '../fragmentStore';
 const FRAGMENT_BASE_URL = '/microfrontend/fragment';
 
 export const getNoAuthFragment = (xmlid) =>
   fetcher
-    .get(`${FRAGMENT_BASE_URL}/no-auth/${xmlid}`)
-    .then(({ data }) => setFragment(data))
+    .post(
+      `${FRAGMENT_BASE_URL}/virtual/no-auth/${xmlid}`,
+      getVirtualEditionsAcronyms()
+    )
+    .then(({ data }) =>  setFragmentNavData(FragmentNavData(data)))
     .catch((err) => {
       console.error(err);
     });
 
-export const getNoAuthVirtualFragment = (xmlid) =>
+export const getNoAuthFragmentInter = (xmlid, urlid) =>
   fetcher
-    .post(`${FRAGMENT_BASE_URL}/virtual/no-auth/${xmlid}`, getVirtualEditions())
-    .then(({ data }) => setVirtualFragment(data))
+    .post(
+      `${FRAGMENT_BASE_URL}/virtual/no-auth/${xmlid}/inter/${urlid}`,
+      getVirtualEditionsAcronyms()
+    )
+    .then(({ data }) => {
+      setFragmentNavData(FragmentNavData(data));
+      setFragmentSource(FragmentSourceData(data));
+      setFragmentExpert(FragmentExpertData(data));
+    })
     .catch((err) => {
       console.error(err);
     });

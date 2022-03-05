@@ -1,28 +1,90 @@
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { getNoAuthFragment, getNoAuthVirtualFragment } from '../api/fragment';
+import { useEffect, useState } from 'react';
+import { Route, Routes, useParams } from 'react-router-dom';
+import { getNoAuthFragment } from '../api/fragment';
+import FragmentNav from '../components/FragmentNav';
+import FragmentSource from '../components/FragmentSource';
 import Fragment from '../components/Fragment';
 import { fragmentStore } from '../fragmentStore';
-const selector = (sel) => (state) => state[sel];
+import FragmentExpert from '../components/FragmentExpert';
+import FragmentVirtual from '../components/FragmentVirtual';
+const selector = (state) => state.fragmentNavData;
 
 export default ({ messages, language }) => {
-  const fragment = fragmentStore(selector('fragment'));
-  const virtualFragment = fragmentStore(selector('virtualFragment'));
+  const [mounted, isMounted] = useState();
   const { xmlid } = useParams();
+
+  const fragmentNavData = fragmentStore(selector);
 
   useEffect(() => {
     getNoAuthFragment(xmlid);
-    getNoAuthVirtualFragment(xmlid);
   }, []);
 
+  useEffect(() => {
+    isMounted(fragmentNavData && true);
+  }, [fragmentStore()]);
+
   return (
-    <div>
-      <Fragment
-        messages={messages}
-        language={language}
-        frag={fragment}
-        virtualFrag={virtualFragment}
-      />
-    </div>
+    <>
+      {mounted && (
+        <div style={{ marginBottom: '30px' }}>
+          <Routes>
+            <Route
+              index
+              element={
+                <>
+                  <div className="col-md-9">
+                    <Fragment fragment={fragmentNavData} />
+                  </div>
+                  <FragmentNav
+                    messages={messages}
+                    language={language}
+                    fragmentNavData={fragmentNavData}
+                  />
+                </>
+              }
+            />
+            <Route
+              path="/inter/:urlid"
+              element={
+                <>
+                  <FragmentSource messages={messages} language={language} />
+                  <FragmentNav
+                    messages={messages}
+                    language={language}
+                    fragmentNavData={fragmentNavData}
+                  />
+                </>
+              }
+            />
+            <Route
+              path="/expert/:urlid"
+              element={
+                <>
+                  <FragmentExpert messages={messages} language={language} />
+                  <FragmentNav
+                    messages={messages}
+                    language={language}
+                    fragmentNavData={fragmentNavData}
+                  />
+                </>
+              }
+            />
+            <Route
+              path="/virtual/:urlid"
+              element={
+                <>
+                  <FragmentVirtual messages={messages} language={language} />
+                  <FragmentNav
+                    messages={messages}
+                    language={language}
+                    fragmentNavData={fragmentNavData}
+                  />
+                </>
+              }
+            />
+          </Routes>
+        </div>
+      )}
+    </>
   );
 };

@@ -178,5 +178,7 @@ export default {
     journal: 'Revista',
     issue: 'Número',
     pubPlace: 'Lugar de la Publicación',
+    notAssigned: 'No assignado',
+
   },
 };

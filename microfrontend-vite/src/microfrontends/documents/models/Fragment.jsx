@@ -21,7 +21,7 @@ const getDimensionList = (dimensions) =>
       .join(',<br />') ?? ''
   }`;
 
-const getSourceData = (
+export const getSourceData = (
   {
     altIdentifier,
     heteronym,
@@ -96,7 +96,6 @@ const getSourceData = (
         <div key={index}>
           {getKey}
           {val}
-          <br />
         </div>
       );
     }
@@ -105,7 +104,7 @@ const getSourceData = (
   return sourceData;
 };
 
-const getExpertData = (
+export const getExpertData = (
   {
     title,
     heteronym,
