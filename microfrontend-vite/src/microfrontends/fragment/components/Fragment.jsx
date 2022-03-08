@@ -1,12 +1,16 @@
 import parserHTML from 'html-react-parser';
+import { lazy } from 'react';
 import { Link, useParams } from 'react-router-dom';
-export default ({ fragment, fontFamily, fontSize, expert, virtual }) => {
-  const {xmlid, urlid} = useParams();
+const ImageViewer = lazy(() => import('./ImageViewer'));
+
+export default ({ fragment, isNormal = true }) => {
+  const { xmlid, urlid } = useParams();
+
   return (
-    <div id="fragment-transcript">
+    <>
       <h4 className="text-center">
         {fragment?.title}
-        {expert && (
+        {fragment?.type === 'EDITORIAL' && isNormal && (
           <Link to={`/reading/${xmlid}/${urlid}`}>
             <span className="glyphicon glyphicon-eye-open"></span>
           </Link>
@@ -14,15 +18,25 @@ export default ({ fragment, fontFamily, fontSize, expert, virtual }) => {
       </h4>
       <br />
       {fragment?.transcript && (
-        <div
-          className="well"
-          style={{ fontFamily: fontFamily, fontSize: fontSize }}
-        >
-          <p></p>
-          {parserHTML(fragment.transcript)}
-          <p></p>
+        <div className="row">
+          {fragment?.surface?.graphic && (
+            <ImageViewer surface={fragment?.surface} />
+          )}
+          <div
+            className={`well ${fragment?.surface?.graphic && 'col-md-6'}`}
+            style={{
+              fontFamily: fragment?.fontFamily,
+              fontSize: fragment?.fontSize,
+            }}
+          >
+            <p></p>
+            <>
+              {parserHTML(fragment?.transcript)}
+            </>
+            <p></p>
+          </div>
         </div>
       )}
-    </div>
+    </>
   );
 };

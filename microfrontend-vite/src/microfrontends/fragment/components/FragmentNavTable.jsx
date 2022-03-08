@@ -18,11 +18,13 @@ export default ({ colsWidth, data, tbWidth, author }) => {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          {data?.map((row, i) => (
-            <td key={i}>{row}</td>
-          ))}
-        </tr>
+        {data?.map((edition, i) => (
+          <tr key={i}>
+            {edition.map((row, index) => (
+              <td key={index}>{row}</td>
+            ))}
+          </tr>
+        ))}
       </tbody>
     </table>
   );

@@ -132,6 +132,7 @@ public class SourceInterDto {
         if (source.getLdoDDate() != null) {
             this.setDate(source.getLdoDDate().print());
         }
+        setExternalId(source.getExternalId());
         this.setSourceInterSet(source.getSourceIntersSet().stream()
                 .map(SourceInterSimpleDto::new)
                 .collect(Collectors.toList()));

@@ -15,10 +15,10 @@ const getDimensionList = (dimensions) =>
   `${
     dimensions
       ?.reduce(
-        (prev, cur) => [...prev, ` ${cur?.height}cm X ${cur.width}cm`],
+        (prev, cur) => [...prev, `${cur?.height}cm X ${cur.width}cm`],
         []
       )
-      .join(',<br />') ?? ''
+      .join(', ') ?? ''
   }`;
 
 export const getSourceData = (
@@ -66,7 +66,7 @@ export const getSourceData = (
     form: (
       <>
         {messages?.[form]}
-        <small>{`(${getDimensionList(dimensionDtoList)})`}</small>
+        <small>{` (${getDimensionList(dimensionDtoList)})`}</small>
       </>
     ),
     material: messages?.[material],

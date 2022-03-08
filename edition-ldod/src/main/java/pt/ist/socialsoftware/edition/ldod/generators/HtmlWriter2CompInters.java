@@ -31,12 +31,11 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 	private final Map<FragInter, Integer> transcriptionsLengthMap = new HashMap<FragInter, Integer>();
 	private List<FragInter> interps = null;
 
+
+
 	private Boolean lineByLine = false;
 	private Boolean showSpaces = false;
 
-	public Boolean getShowSpaces() {
-		return showSpaces;
-	}
 
 	private String lineByLineTranscription = "";
 
@@ -342,6 +341,13 @@ public class HtmlWriter2CompInters implements TextPortionVisitor {
 	public void visit(RefText refText) {
 		propagate2FirstChild(refText);
 		propagate2NextSibling(refText);
+	}
+
+	public Boolean getShowSpaces() {
+		return showSpaces;
+	}
+	public Boolean getLineByLine() {
+		return lineByLine;
 	}
 
 }

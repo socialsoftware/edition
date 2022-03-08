@@ -1,86 +1,67 @@
 import { useNavigate } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
-import { useEffect } from 'react';
 import {
-  addToExpertsInter,
   fragmentStore,
-  setSourceInter,
-  setExpertInter,
-  addSourceToInters,
-  setVirtualsInter,
+  addToAuthorialsInter,
   addToVirtualsInter,
+  setAuthorialsInter,
+  setVirtualsInter,
+  resetCheckboxesState,
+  getAuthorialsInter,
+  getVirtualsInter,
 } from '../fragmentStore';
 import FragmentNavTable from './FragmentNavTable';
 const selector = (sel) => (state) => state[sel];
 
-export default ({
-  messages,
-  language,
-  fragmentNavData: {
+export default ({ messages, language, fragmentNavData, id }) => {
+  const {
     fragmentXmlId,
     externalId,
-    sourceUrlId,
-    sourceShortName,
-    sourceExternalId,
+    sources,
     expertEditions,
     virtualEditions,
-  },
-}) => {
-  const currentPath = `fragments/fragment/${fragmentXmlId}`;
+  } = fragmentNavData ?? {};
+  const currentPath = `fragments/fragment/${fragmentXmlId ?? ''}`;
   const navigate = useNavigate();
-  const sourceInter = fragmentStore(selector('sourceInter'));
-  const expertsInter = fragmentStore(selector('expertsInter'));
+  const authorialsInter = fragmentStore(selector('authorialsInter'));
   const virtualsInter = fragmentStore(selector('virtualsInter'));
 
-  const goToSourceInter = (e) => {
+  const goToAuthorials = (e, id, urlId, prevNext, isExpert = true) => {
+    isExpert && resetCheckboxesState();
     e.preventDefault();
-    setSourceInter(sourceExternalId);
-    navigate(`/${currentPath}/inter/${sourceUrlId}`);
+    setAuthorialsInter(id);
+    navigate(
+      `/${currentPath}/inter/${urlId}`,
+      prevNext && { state: { prevNext } }
+    );
   };
 
-  const addSourceInter = () => {
-    const to = sourceInter
-      ? `/fragments/fragment/${fragmentXmlId}`
-      : `/${currentPath}/inter/${sourceUrlId}`;
-    addSourceToInters(sourceExternalId);
-    navigate(to);
-  };
-
-  const goToExpert = (e, to, externalID) => {
+  const goToVirtuals = (e, id, urlId) => {
+    resetCheckboxesState();
     e.preventDefault();
-    setExpertInter(externalID);
-    navigate(to);
+    setVirtualsInter(id);
+    navigate(`/${currentPath}/inter/${urlId}`);
   };
 
-  const addToExperts = (e, urlId, externalID) => {
-    const to = expertsInter.includes(externalID)
-      ? `/${currentPath}`
-      : `/${currentPath}/expert/${urlId}`;
-    addToExpertsInter(externalID);
-    navigate(to);
+  const addToAuthorials = (id, urlId, isExpert = true) => {
+    isExpert && resetCheckboxesState();
+    addToAuthorialsInter(id);
+    const to =
+      getAuthorialsInter().length === 0
+        ? `/${currentPath}`
+        : `/${currentPath}/inter/${urlId}`;
+    navigate(to, { state: { inters: getAuthorialsInter() } });
   };
 
-  const goToVirtuals = (e, to, externalId) => {
-    e.preventDefault();
-    setVirtualsInter(externalId);
-    navigate(to);
+  const addToVirtuals = (id, urlId) => {
+    resetCheckboxesState();
+    addToVirtualsInter(id);
+    const to =
+      getVirtualsInter().length === 0
+        ? `/${currentPath}`
+        : `/${currentPath}/inter/${urlId}`;
+    navigate(to, { state: { inters: getVirtualsInter() } });
   };
-
-  const addToVirtuals = (e, urlId, externalId) => {
-    const to = virtualsInter.includes(externalId)
-      ? `/${currentPath}`
-      : `/${currentPath}/virtual/${urlId}`;
-    addToVirtualsInter(externalId);
-    navigate(to);
-  };
-
-  useEffect(() => {
-    return () => {
-      setSourceInter();
-      setExpertInter([]);
-      setVirtualsInter([]);
-    };
-  }, []);
 
   return (
     <>
@@ -95,20 +76,36 @@ export default ({
           >
             <h5 className="text-center">{messages?.[language]['witnesses']}</h5>
             <div className="text-center" style={{ paddingTop: '8px' }}>
-              <FragmentNavTable
-                tbWidth="100%"
-                colsWidth={['10%', '10%', '60%', '20%']}
-                data={[
-                  '',
-                  <input
-                    type="checkbox"
-                    checked={sourceInter ? true : false}
-                    onInput={addSourceInter}
-                  />,
-                  <a onClick={goToSourceInter}> {sourceShortName}</a>,
-                  '',
-                ]}
-              />
+              {sources?.map(({ shortName, urlId, externalId }, index) => (
+                <FragmentNavTable
+                  key={index}
+                  tbWidth="100%"
+                  colsWidth={['10%', '10%', '60%', '20%']}
+                  data={[
+                    [
+                      '',
+                      <input
+                        type="checkbox"
+                        checked={
+                          authorialsInter.includes(externalId) ? true : false
+                        }
+                        onChange={() =>
+                          addToAuthorials(externalId, urlId, false)
+                        }
+                      />,
+                      <a
+                        onClick={(e) =>
+                          goToAuthorials(e, externalId, urlId, false)
+                        }
+                      >
+                        {shortName}
+                      </a>,
+                      '',
+                      ,
+                    ],
+                  ]}
+                />
+              ))}
             </div>
             <br />
             <h5 className="text-center">
@@ -129,60 +126,48 @@ export default ({
                 className="glyphicon glyphicon-info-sign gray-color"
               ></span>
             </h5>
-            {expertEditions?.map(
-              ({ acronym, editor, urlId, number, externalID }, index) => (
-                <div key={index} className="text-center">
+            {expertEditions?.map(({ acronym, editor, inter }, index) => (
+              <div key={index} className="text-center">
+                {inter && (
                   <FragmentNavTable
                     author={{ editor, acronym }}
                     tbWidth="100%"
                     colsWidth={['10%', '10%', '25%', '10%', '25%', '20%']}
-                    data={[
-                      '',
-                      <input
-                        id={`expert-${acronym}-inter-checkbox`}
-                        type="checkbox"
-                        checked={expertsInter.includes(externalID)}
-                        onInput={(e) => addToExperts(e, urlId, externalID)}
-                      />,
-                      <a
-                        onClick={(e) =>
-                          goToExpert(
-                            e,
-                            `/${currentPath}/expert/${urlId}/prev`,
-                            externalID
-                          )
-                        }
-                      >
-                        <span className="glyphicon glyphicon-chevron-left"></span>
-                      </a>,
-                      <a
-                        onClick={(e) =>
-                          goToExpert(
-                            e,
-                            `/${currentPath}/expert/${urlId}`,
-                            externalID
-                          )
-                        }
-                      >
-                        {number}
-                      </a>,
-                      <a
-                        onClick={(e) =>
-                          goToExpert(
-                            e,
-                            `/${currentPath}/expert/${urlId}/next`,
-                            externalID
-                          )
-                        }
-                      >
-                        <span className="glyphicon glyphicon-chevron-right"></span>
-                      </a>,
-                      '',
-                    ]}
+                    data={inter.map(
+                      ({ acronym, externalId, urlId, number }) => [
+                        '',
+                        <input
+                          id={`expert-${acronym}-inter-checkbox`}
+                          type="checkbox"
+                          checked={authorialsInter.includes(externalId)}
+                          onChange={() => addToAuthorials(externalId, urlId)}
+                        />,
+                        <a
+                          onClick={(e) =>
+                            goToAuthorials(e, externalId, urlId, 'prev')
+                          }
+                        >
+                          <span className="glyphicon glyphicon-chevron-left"></span>
+                        </a>,
+                        <a
+                          onClick={(e) => goToAuthorials(e, externalId, urlId)}
+                        >
+                          {number}
+                        </a>,
+                        <a
+                          onClick={(e) =>
+                            goToAuthorials(e, externalId, urlId, 'next')
+                          }
+                        >
+                          <span className="glyphicon glyphicon-chevron-right"></span>
+                        </a>,
+                        '',
+                      ]
+                    )}
                   />
-                </div>
-              )
-            )}
+                )}
+              </div>
+            ))}
           </div>
           <br /> <br />
           <h5 className="text-center">
@@ -203,62 +188,44 @@ export default ({
               className="glyphicon glyphicon-info-sign gray-color"
             ></span>
           </h5>
-          {virtualEditions?.map(
-            ({ acronym, urlId, number, externalId }, index) => (
-              <div key={index} className="text-center">
+          {virtualEditions?.map(({ acronym, inter }, index) => (
+            <div key={index} className="text-center">
+              {inter && (
                 <FragmentNavTable
                   author={{ editor: acronym, acronym }}
                   tbWidth="100%"
                   colsWidth={['10%', '10%', '25%', '10%', '25%', '20%']}
-                  data={
-                    urlId && [
-                      '',
-                      <input
-                        id={`virtual-${acronym}-inter-checkbox`}
-                        type="checkbox"
-                        checked={virtualsInter.includes(externalId)}
-                        onInput={(e) => addToVirtuals(e, urlId, externalId)}
-                      />,
-                      <a
-                        onClick={(e) =>
-                          goToVirtuals(
-                            e,
-                            `/${currentPath}/virtual/${urlId}/prev`,
-                            externalId
-                          )
-                        }
-                      >
-                        <span className="glyphicon glyphicon-chevron-left"></span>
-                      </a>,
-                      <a
-                        onClick={(e) =>
-                          goToVirtuals(
-                            e,
-                            `/${currentPath}/virtual/${urlId}`,
-                            externalId
-                          )
-                        }
-                      >
-                        {number}
-                      </a>,
-                      <a
-                        onClick={(e) =>
-                          goToVirtuals(
-                            e,
-                            `/${currentPath}/virtual/${urlId}/next`,
-                            externalId
-                          )
-                        }
-                      >
-                        <span className="glyphicon glyphicon-chevron-right"></span>
-                      </a>,
-                      '',
-                    ]
-                  }
+                  data={inter.map(({ urlId, number, externalId }) => [
+                    '',
+                    <input
+                      id={`virtual-${acronym}-inter-checkbox`}
+                      type="checkbox"
+                      checked={virtualsInter.includes(externalId)}
+                      onChange={() => addToVirtuals(externalId, urlId)}
+                    />,
+                    <a
+                      onClick={(e) =>
+                        goToVirtuals(e, externalId, `${urlId}-prev`)
+                      }
+                    >
+                      <span className="glyphicon glyphicon-chevron-left"></span>
+                    </a>,
+                    <a onClick={(e) => goToVirtuals(e, externalId, urlId)}>
+                      {number}
+                    </a>,
+                    <a
+                      onClick={(e) =>
+                        goToVirtuals(e, externalId, `${urlId}-next`)
+                      }
+                    >
+                      <span className="glyphicon glyphicon-chevron-right"></span>
+                    </a>,
+                    '',
+                  ])}
                 />
-              </div>
-            )
-          )}
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </>

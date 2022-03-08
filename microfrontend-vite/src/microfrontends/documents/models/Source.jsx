@@ -46,7 +46,7 @@ export function Source(
   const result = {
     title,
     transcription: (
-      <Link to={`/fragments/fragment${xmlId}/inter/${urlId}`}>
+      <Link to={`/fragments/fragment/${xmlId}/inter/${urlId}`}>
         {transcription}
       </Link>
     ),

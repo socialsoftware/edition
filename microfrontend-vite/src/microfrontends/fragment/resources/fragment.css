@@ -8,9 +8,10 @@ a {
     color: #0C4EF6;
 }
 
-a:focus, a:hover {
+a:focus,
+a:hover {
     color: #0C4EF6;
-  text-decoration: none;
+    text-decoration: none;
 }
 
 .glyphicon {
@@ -27,12 +28,12 @@ a:focus, a:hover {
 }
 
 .glyphicon-eye-open {
-  color: #337ab7!important;
-  font-size:medium!important;
+    color: #337ab7!important;
+    font-size: medium!important;
 }
 
-.glyphicon-eye-open:hover{
-  color: #333!important;
+.glyphicon-eye-open:hover {
+    color: #333!important;
 }
 
 .fragment-nav-tooltip {
@@ -81,21 +82,21 @@ a:focus, a:hover {
 }
 
 .image-close {
-  z-index: 1;
-  border-radius: 5px;
-  background-color: #333;
-  border: #fff solid 1px;
-  color: #fff;
-  font-weight: bold;
-  position:fixed;
-  margin-left: 15%;
-  margin-top: 25px;
+    z-index: 1;
+    border-radius: 5px;
+    background-color: #333;
+    border: #fff solid 1px;
+    color: #fff;
+    font-weight: bold;
+    position: fixed;
+    margin-left: 15%;
+    margin-top: 25px;
 }
 
 .image-close:hover {
-  color: #333;
-  background-color: #fff;
-  border: #333 solid 1px;
+    color: #333;
+    background-color: #fff;
+    border: #333 solid 1px;
 }
 
 div .checkbox {
@@ -108,14 +109,135 @@ div .checkbox {
 }
 
 .checkbox-tooltip {
-  padding: 5px 5px!important;
-  margin-top: 3px!important;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif!important;
-  opacity: 1!important;
-  border: 1px solid rgba(0, 0, 0, .2)!important;
-  border-radius: 6px!important;
-  max-width: 200px!important;
-  text-align: center;
-  line-height: 1.4!important;
-  font-size: 12px!important;
+    padding: 5px 5px!important;
+    margin-top: 3px!important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif!important;
+    opacity: 1!important;
+    border: 1px solid rgba(0, 0, 0, .2)!important;
+    border-radius: 6px!important;
+    max-width: 200px!important;
+    text-align: center;
+    line-height: 1.4!important;
+    font-size: 12px!important;
+}
+
+.image-viewer {
+    width: 100%;
+    height: 554px;
+}
+
+.row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.button-arrow {
+    border-color: transparent;
+    border-radius: 100%;
+    opacity: 0.8;
+    color: #333;
+    cursor: pointer;
+    position: absolute;
+    z-index: 1;
+    margin-top: 3px;
+    box-shadow: 0 3px 5px rgb(0 0 0 / 50%);
+}
+
+.prev-fac {
+    margin-left: 150px;
+}
+
+.next-fac {
+    margin-left: 190px;
+}
+
+.prev-fac>span {
+    color: #333;
+    margin-left: 3px;
+}
+
+.next-fac>span {
+    color: #333;
+    margin-left: 3px;
+}
+
+.prev-fac:hover {
+    color: #333;
+    background-color: #D37508;
+}
+
+.next-fac:hover {
+    color: #333;
+    background-color: #D37508;
+}
+
+.prev-fac>span:hover {
+    color: #333;
+}
+
+.next-fac>span:hover {
+    color: #333;
+}
+
+@media ( max-width: 767px) {
+    .text-xs-left {
+        text-align: left;
+    }
+    .text-xs-right {
+        text-align: right;
+    }
+    .text-xs-center {
+        text-align: center;
+    }
+    .text-xs-justify {
+        text-align: justify;
+    }
+}
+
+@media ( min-width: 768px) and (max-width: 991px) {
+    /* sm */
+    .text-sm-left {
+        text-align: left;
+    }
+    .text-sm-right {
+        text-align: right;
+    }
+    .text-sm-center {
+        text-align: center;
+    }
+    .text-sm-justify {
+        text-align: justify;
+    }
+}
+
+@media ( min-width: 992px) and (max-width: 1199px) {
+    /* md */
+    .text-md-left {
+        text-align: left;
+    }
+    .text-md-right {
+        text-align: right;
+    }
+    .text-md-center {
+        text-align: center;
+    }
+    .text-md-justify {
+        text-align: justify;
+    }
+}
+
+@media ( min-width: 1200px) {
+    /* lg */
+    .text-lg-left {
+        text-align: left;
+    }
+    .text-lg-right {
+        text-align: right;
+    }
+    .text-lg-center {
+        text-align: center;
+    }
+    .text-lg-justify {
+        text-align: justify;
+    }
 }

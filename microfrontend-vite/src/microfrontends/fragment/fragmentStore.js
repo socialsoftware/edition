@@ -7,20 +7,18 @@ const initialState = {
   ins: true,
   note: true,
   fac: false,
+  line: false,
+  align: false,
+  pbText: null,
 };
 
 export const fragmentStore = create(() => ({
   showModal: false,
   docPath: null,
   fragmentNavData: null,
-  fragmentSource: null,
-  framentExpert: null,
-  fragmentVirtual: null,
-  expertEditions: null,
-  virtualEditions: null,
-  sourceInter: null,
+  fragmentInter: null,
   checkboxesState: initialState,
-  expertsInter: [],
+  authorialsInter: [],
   virtualsInter: [],
   virtualEditionsAcronyms: [
     'LdoD-JPC-anot',
@@ -37,77 +35,79 @@ export const setDocPath = (path) => fragmentStore.setState({ docPath: path });
 export const setFragmentNavData = (data) =>
   fragmentStore.setState({ fragmentNavData: data });
 
-export const setFragmentSource = (data) =>
-  fragmentStore.setState({ fragmentSource: data });
-
-export const setFragmentExpert = (data) =>
-  fragmentStore.setState({ fragmentExpert: data });
-
-export const setFragmentVirtual = (data) =>
-  fragmentStore.setState({ fragmentVirtual: data });
-
-export const setExpertEditions = (data) =>
-  fragmentStore.setState({ expertEditions: data });
-export const setVirtualEditions = (data) =>
-  fragmentStore.setState({ virtualEditions: data });
+export const setFragmentInter = (data) =>
+  fragmentStore.setState({ fragmentInter: data });
 
 export const setCheckboxesState = (sel, val) =>
-  fragmentStore.setState((state) => ({
-    checkboxesState: {
-      ...state.checkboxesState,
-      [sel]: val,
-    },
-  }));
+  sel === 'fac'
+    ? fragmentStore.setState((state) => ({
+        checkboxesState: {
+          ...state.checkboxesState,
+          pbText: null,
+          [sel]: val,
+        },
+      }))
+    : fragmentStore.setState((state) => ({
+        checkboxesState: {
+          ...state.checkboxesState,
+          [sel]: val,
+        },
+      }));
 
 export const resetCheckboxesState = () =>
   fragmentStore.setState({ checkboxesState: initialState });
 
-export const setSourceInter = (data) =>
+export const setAuthorialsInter = (inter) => {
   fragmentStore.setState({
-    sourceInter: data,
-    expertsInter: [],
+    authorialsInter: inter instanceof Array ? [...inter] : [inter],
     virtualsInter: [],
   });
-
-export const setExpertInter = (inter) =>
-  fragmentStore.setState({
-    expertsInter: [inter],
-    sourceInter: null,
-    virtualsInter: [],
-  });
-
+};
 export const setVirtualsInter = (inter) =>
   fragmentStore.setState({
-    expertsInter: [],
-    sourceInter: null,
-    virtualsInter: [inter],
+    authorialsInter: [],
+    virtualsInter: inter instanceof Array ? [...inter] : [inter],
   });
 
-export const addSourceToInters = (data) => {
+export const addToAuthorialsInter = (inter) => {
   fragmentStore.setState((state) =>
-    state.sourceInter
-      ? { sourceInter: null }
-      : { sourceInter: data, virtualsInter: [] }
+    !state.authorialsInter.includes(inter)
+      ? {
+          authorialsInter: [...state.authorialsInter.filter(Boolean), inter],
+          virtualsInter: [],
+        }
+      : {
+          authorialsInter: state.authorialsInter.filter(
+            (id) => id !== inter && Boolean
+          ),
+          virtualsInter: [],
+        }
   );
 };
 
-export const addToExpertsInter = (inter) =>
+export const addToVirtualsInter = (inter) => {
   fragmentStore.setState((state) =>
-    state.expertsInter.includes(inter)
+    !state.virtualsInter.includes(inter)
       ? {
-          expertsInter: state.expertsInter.filter((id) => inter !== id),
+          virtualsInter: [...state.virtualsInter.filter(Boolean), inter],
+          authorialsInter: [],
         }
-      : { expertsInter: [...state.expertsInter, inter] }
+      : {
+          virtualsInter: state.virtualsInter.filter(
+            (id) => id !== inter && Boolean
+          ),
+          authorialsInter: [],
+        }
   );
+};
 
-export const addToVirtualsInter = (inter) =>
-  fragmentStore.setState((state) =>
-    state.virtualsInter.includes(inter)
-      ? {
-          virtualsInter: state.virtualsInter.filter((id) => inter !== id),
-        }
-      : { virtualsInter: [...state.virtualsInter, inter] }
-  );
+export const getAuthorialsInter = () =>
+  fragmentStore.getState().authorialsInter;
+
+export const getVirtualsInter = () => fragmentStore.getState().virtualsInter;
+
+export const getCheckboxesState = () =>
+  fragmentStore.getState().checkboxesState;
 
 export const getVirtualEditionsAcronyms = () =>
   fragmentStore.getState().virtualEditionsAcronyms;
