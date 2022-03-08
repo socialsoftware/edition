@@ -10,17 +10,19 @@ import {
 } from '../editionStore';
 const selector = (sel) => (state) => state[sel];
 
-export default ({ acronym, messages, edition }) => {
+export default ({ acronym, messages }) => {
+  const edition = editionStore(selector('edition'));
   const dataFiltered = editionStore(selector('dataFiltered'));
-  acronym !== getAcronym() && getExpertEdition(acronym);
-  setAcronym(acronym);
-  console.log('teste');
-
   const getTitle = () =>
     `${messages['edition_of']} ${edition.editor} (${
       dataFiltered?.length ?? edition.tableData?.length
     })`;
 
+    useEffect(() => {
+      acronym !== getAcronym() && getExpertEdition(acronym);
+      setAcronym(acronym);
+    }, [])
+ 
   return (
     <div>
       {edition && (

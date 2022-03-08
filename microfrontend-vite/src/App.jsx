@@ -46,12 +46,12 @@ function App() {
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="auth/*" element={<UserRouter />} />
-          <Route path="about/*" element={<AboutRouter />} />
-          <Route path="reading/*" element={<ReadingRouter />} />
-          <Route path="documents/*" element={<DocumentsRouter />} />
+          <Route path="/auth/*" element={<UserRouter />} />
+          <Route path="/about/*" element={<AboutRouter />} />
+          <Route path="/reading/*" element={<ReadingRouter />} />
+          <Route path="/documents/*" element={<DocumentsRouter />} />
           <Route path="/fragments/*" element={<FragmentRouter />} />
-          <Route path="/edition/acronym/:acronym" element={<EditionRouter />} />
+          <Route path="/edition/*" element={<EditionRouter />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </Suspense>
