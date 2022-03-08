@@ -139,26 +139,29 @@ div .checkbox {
     cursor: pointer;
     position: absolute;
     z-index: 1;
-    margin-top: 3px;
+    top: 3px;
     box-shadow: 0 3px 5px rgb(0 0 0 / 50%);
 }
 
 .prev-fac {
-    margin-left: 150px;
+    left: 165px;
 }
 
 .next-fac {
-    margin-left: 190px;
+    left: 210px;
 }
 
 .prev-fac>span {
+    margin: 0;
     color: #333;
-    margin-left: 3px;
+    top: 2px;
 }
 
 .next-fac>span {
+    margin: 0;
     color: #333;
-    margin-left: 3px;
+    left: 2px;
+    top: 2px;
 }
 
 .prev-fac:hover {

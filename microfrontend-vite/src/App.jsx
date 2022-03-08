@@ -20,6 +20,9 @@ const DocumentsRouter = lazy(() =>
 const FragmentRouter = lazy(() =>
   import('./microfrontends/fragment/FragmentRouter')
 );
+const EditionRouter = lazy(() =>
+  import('./microfrontends/editions/EditionRouter')
+);
 
 
 function App() {
@@ -48,6 +51,7 @@ function App() {
           <Route path="reading/*" element={<ReadingRouter />} />
           <Route path="documents/*" element={<DocumentsRouter />} />
           <Route path="/fragments/*" element={<FragmentRouter />} />
+          <Route path="/edition/acronym/:acronym" element={<EditionRouter />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </Suspense>

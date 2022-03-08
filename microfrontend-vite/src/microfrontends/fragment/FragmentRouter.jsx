@@ -11,7 +11,7 @@ const language = (state) => state.language;
 
 export default () => {
   return (
-    <div className="container">
+    <div className="container" >
       <div className="row no-margins">
         <Routes>
           <Route

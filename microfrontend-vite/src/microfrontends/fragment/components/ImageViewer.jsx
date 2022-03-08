@@ -1,6 +1,6 @@
 import OpenSeadragon from 'openseadragon';
 import { useEffect, useState } from 'react';
-import { setCheckboxesState } from '../fragmentStore';
+import { getCheckboxesState, setCheckboxesState } from '../fragmentStore';
 const baseURL = 'https://ldod.uc.pt/facs';
 
 const openImages = '../../../../viewer-images/';
@@ -10,12 +10,11 @@ export default ({ surface }) => {
 
   useEffect(() => {
     setViewer(initViewer());
-    return () => viewer && viewer.destroy();
-  }, [surface?.graphic]);
+  }, [surface]);
 
   const handleChangeImage = (id) => {
+    setCheckboxesState('pbText',id);
     viewer && viewer.destroy();
-    setCheckboxesState('pbText', id);
   };
 
   const initViewer = () =>
@@ -36,7 +35,7 @@ export default ({ surface }) => {
 
   return (
     <div className="col-md-6" style={{ marginBottom: '20px' }}>
-      {surface?.prevGraphic && (
+      {(surface?.prevGraphic || surface?.prevPb) && (
         <div title="Previous image">
           <button
             className="button-arrow prev-fac"
@@ -46,7 +45,7 @@ export default ({ surface }) => {
           </button>
         </div>
       )}
-      {surface?.nextGraphic && (
+      {(surface?.nextGraphic || surface?.nextPb) && (
         <div title="Next image">
           <button
             className="button-arrow next-fac"
