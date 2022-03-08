@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -125,8 +126,8 @@ public class LdoDUser extends LdoDUser_Base {
 	}
 
 	public List<VirtualEdition> getPublicEditionList() {
-		return getMemberSet().stream().map(m -> m.getVirtualEdition()).filter(v -> v.getPub()).distinct()
-				.sorted((e1, e2) -> e1.getTitle().compareTo(e2.getTitle())).collect(Collectors.toList());
+		return getMemberSet().stream().map(Member_Base::getVirtualEdition).filter(Edition_Base::getPub).distinct()
+				.sorted(Comparator.comparing(VirtualEdition::getTitle)).collect(Collectors.toList());
 	}
 
 	public RecommendationWeights getRecommendationWeights(VirtualEdition virtualEdition) {

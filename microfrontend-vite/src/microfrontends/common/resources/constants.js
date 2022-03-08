@@ -30,6 +30,15 @@ export default {
 
     pagenotfound_message: 'LdoD: Esta página não existe...',
 
+    header_editions: 'Edições',
+    general_editor_prado: 'Jacinto do Prado Coelho',
+    general_editor_zenith: 'Richard Zenith',
+    general_editor_cunha: 'Teresa Sobral Cunha',
+    general_editor_pizarro: 'Jerónimo Pizarro',
+    anot: 'LdoD-JPC-Anot',
+    mallet: 'LdoD-Jogo-Class',
+    class: 'LdoD-Mallet',
+    twitter: 'LdoD-Twitter',
   },
   en: {
     header_title: 'LdoD Archive',
@@ -62,6 +71,15 @@ export default {
     fragment_codified: 'Encoded Fragments',
     pagenotfound_message: 'LdoD: Page not found...',
 
+    header_editions: 'Editions',
+    general_editor_prado: 'Jacinto do Prado Coelho',
+    general_editor_zenith: 'Richard Zenith',
+    general_editor_cunha: 'Teresa Sobral Cunha',
+    general_editor_pizarro: 'Jerónimo Pizarro',
+    anot: 'LdoD-JPC-Anot',
+    mallet: 'LdoD-Jogo-Class',
+    class: 'LdoD-Mallet,',
+    twitter: 'LdoD-Twitter',
   },
   es: {
     header_title: 'Archivo LdoD',
@@ -93,5 +111,14 @@ export default {
     fragment_codified: 'Fragmentos Codificados',
     pagenotfound_message: 'LdoD: Esta página no existe',
 
+    header_editions: 'Ediciones',
+    general_editor_prado: 'Jacinto do Prado Coelho',
+    general_editor_zenith: 'Richard Zenith',
+    general_editor_cunha: 'Teresa Sobral Cunha',
+    general_editor_pizarro: 'Jerónimo Pizarro',
+    anot: 'LdoD-JPC-Anot',
+    mallet: 'LdoD-Jogo-Class',
+    class: 'LdoD-Mallet,',
+    twitter: 'LdoD-Twitter',
   },
 };

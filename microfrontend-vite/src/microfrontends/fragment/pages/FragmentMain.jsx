@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import { getNoAuthFragment } from '../api/fragment';
 import FragmentNav from '../components/FragmentNav';
 import Fragment from '../components/Fragment';
-import { fragmentStore,  setFragmentNavData, setFragmentInter, setAuthorialsInter } from '../fragmentStore';
+import { fragmentStore,  setFragmentNavData, setFragmentInter, setAuthorialsInter, setSelectedVE, getVirtualEditionsAcronyms } from '../fragmentStore';
+import { userSelectedVE } from '../../../store';
 const selector = (state) => state.fragmentNavData;
 
 export default ({ messages, language }) => {
@@ -12,11 +13,13 @@ export default ({ messages, language }) => {
 
   useEffect(() => {
     setAuthorialsInter()
+    setSelectedVE(userSelectedVE());
     xmlid && getNoAuthFragment(xmlid);
-
+    console.log(getVirtualEditionsAcronyms());
     return () => {
       setFragmentNavData();
       setFragmentInter();
+      setSelectedVE([]);
     }
   }, []);
 

@@ -1,6 +1,17 @@
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
 
+export const defaultHeaders = 
+[
+  { id: 'general_editor_prado', route: '/edition/acronym/JPC' },
+  { id: 'general_editor_cunha', route: '/edition/acronym/TSC' },
+  { id: 'general_editor_zenith', route: '/edition/acronym/RZ' },
+  { id: 'general_editor_pizarro', route: '/edition/acronym/JP' },
+  { className: 'divider' },
+  { id: 'header_title', route: '/edition/acronym/LdoD-Arquivo' },
+  { className: 'divider' },
+]
+
 export const useStore = create(
   persist(
     () => ({
@@ -8,10 +19,11 @@ export const useStore = create(
       token: undefined,
       user: undefined,
       loading: false,
+      editionHeaders: defaultHeaders,
     }),
     {
       name: 'ldod-state-storage',
-    }
+    },
   )
 );
 
@@ -30,8 +42,13 @@ export const setUser = (user) => useStore.setState({ user });
 export const setToken = (token) => useStore.setState({ token });
 export const removeUser = () => useStore.setState({ user: undefined });
 export const removeToken = () => useStore.setState({ token: undefined });
+export const setEditionHeaders = (headers) =>
+  useStore.setState({ editionHeaders: headers });  
 
+export const userSelectedVE = () => useStore.getState()?.user?.selectedVE ?? [];
 export const logout = () => {
   removeToken();
   removeUser();
 };
+
+

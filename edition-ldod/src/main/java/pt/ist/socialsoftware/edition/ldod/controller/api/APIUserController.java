@@ -25,12 +25,9 @@ public class APIUserController {
 	@GetMapping
 	public ResponseEntity<LdoDUserDto> getCurrentUser(@AuthenticationPrincipal LdoDUserDetails currentUser) {
 		logger.debug("getCurrentUser {}", currentUser == null ? "null" : currentUser.getUsername());
-		if (currentUser != null) {
-			LdoDUserDto userDTO = new LdoDUserDto(currentUser.getUser());
-			return new ResponseEntity<LdoDUserDto>(userDTO, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+		return currentUser != null
+				? new ResponseEntity<LdoDUserDto>(new LdoDUserDto(currentUser.getUser()), HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 	@GetMapping(value = "/{username}")

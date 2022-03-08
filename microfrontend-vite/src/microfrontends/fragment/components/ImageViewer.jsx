@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { setCheckboxesState } from '../fragmentStore';
 const baseURL = 'https://ldod.uc.pt/facs';
 
-const openImages =
-  '../../../../node_modules/openseadragon/build/openseadragon/images/';
+const openImages = '../../../../viewer-images/';
+
 export default ({ surface }) => {
   const [viewer, setViewer] = useState();
 

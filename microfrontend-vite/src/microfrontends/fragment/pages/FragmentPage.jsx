@@ -13,7 +13,9 @@ import {
   setFragmentNavData,
   setFragmentInter,
   setAuthorialsInter,
+  setSelectedVE,
 } from '../fragmentStore';
+import { userSelectedVE } from '../../../store';
 const selector = (sel) => (state) => state[sel];
 
 export default ({ messages, language }) => {
@@ -24,6 +26,7 @@ export default ({ messages, language }) => {
   const checkboxes = fragmentStore(selector('checkboxesState'));
 
   useEffect(() => {
+    setSelectedVE(userSelectedVE());
     if (checkboxes && xmlid && urlid) {
       !state && getNoAuthFragmentInter(xmlid, urlid);
       state && getNoAuthFragmentInter(xmlid, urlid, state);
@@ -32,6 +35,7 @@ export default ({ messages, language }) => {
 
   useEffect(() => {
     return () => {
+      setSelectedVE();
       setFragmentInter();
       setFragmentNavData();
       resetCheckboxesState();
@@ -66,10 +70,10 @@ export default ({ messages, language }) => {
                     <>
                       {isLine ? (
                         <>
-                          <FragmentInterLine 
-                          messages={messages}
-                          language={language}
-                          fragmentInter={fragmentInter}
+                          <FragmentInterLine
+                            messages={messages}
+                            language={language}
+                            fragmentInter={fragmentInter}
                           />
                         </>
                       ) : (

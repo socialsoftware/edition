@@ -20,12 +20,7 @@ export const fragmentStore = create(() => ({
   checkboxesState: initialState,
   authorialsInter: [],
   virtualsInter: [],
-  virtualEditionsAcronyms: [
-    'LdoD-JPC-anot',
-    'LdoD-Jogo-Class',
-    'LdoD-Mallet',
-    'LdoD-Twitter',
-  ],
+  selectedVE: [],
 }));
 
 export const toggleShow = () =>
@@ -110,4 +105,8 @@ export const getCheckboxesState = () =>
   fragmentStore.getState().checkboxesState;
 
 export const getVirtualEditionsAcronyms = () =>
-  fragmentStore.getState().virtualEditionsAcronyms;
+  fragmentStore.getState().selectedVE;
+
+
+  export const setSelectedVE = (veList) =>
+    fragmentStore.setState({ selectedVE: veList });
