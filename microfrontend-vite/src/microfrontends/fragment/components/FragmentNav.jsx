@@ -36,11 +36,14 @@ export default ({ messages, language, fragmentNavData, id }) => {
     );
   };
 
-  const goToVirtuals = (e, id, urlId) => {
+  const goToVirtuals = (e, id, urlId, prevNext) => {
     resetCheckboxesState();
     e.preventDefault();
     setVirtualsInter(id);
-    navigate(`/${currentPath}/inter/${urlId}`);
+    navigate(
+      `/${currentPath}/inter/${urlId}`,
+      prevNext && { state: { prevNext } }
+    );
   };
 
   const addToAuthorials = (id, urlId, isExpert = true) => {
@@ -205,7 +208,7 @@ export default ({ messages, language, fragmentNavData, id }) => {
                     />,
                     <a
                       onClick={(e) =>
-                        goToVirtuals(e, externalId, `${urlId}-prev`)
+                        goToVirtuals(e, externalId,urlId, 'prev')
                       }
                     >
                       <span className="glyphicon glyphicon-chevron-left"></span>
@@ -215,7 +218,7 @@ export default ({ messages, language, fragmentNavData, id }) => {
                     </a>,
                     <a
                       onClick={(e) =>
-                        goToVirtuals(e, externalId, `${urlId}-next`)
+                        goToVirtuals(e, externalId, urlId, 'next')
                       }
                     >
                       <span className="glyphicon glyphicon-chevron-right"></span>
