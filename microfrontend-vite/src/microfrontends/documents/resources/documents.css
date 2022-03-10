@@ -36,8 +36,13 @@ a {
 .tb-data-sourceType,
 .tb-data-hadLdoDLabel,
 .tb-data-dimensionDtoList {
-    text-align: center!important;
+    text-align: center;
 }
+
+.tb-data-sourceType {
+    max-width: 177px;
+}
+
 
 .image-modal {
     inset: 0;

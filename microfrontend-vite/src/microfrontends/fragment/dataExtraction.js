@@ -195,7 +195,7 @@ function FragmentInterLine(data) {
     variations: data.variations,
     writerLineByLine: data.writerLineByLine,
     title: data.fragment?.title,
-    fontFamily: getCheckboxesState().align ? 'monospace' : 'gerogia',
+    fontFamily: getCheckboxesState().line ? 'monospace' : 'gerogia',
   };
 }
 

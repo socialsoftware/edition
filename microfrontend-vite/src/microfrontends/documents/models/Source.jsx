@@ -1,25 +1,28 @@
+import parserHTML from 'html-react-parser';
 import { Link } from 'react-router-dom';
 
 const getDimensionList = (dimensions) =>
   `${
     dimensions
       ?.reduce(
-        (prev, cur) => [...prev, ` ${cur?.height}cm X ${cur.width}cm`],
+        (prev, cur) => [...prev, ` ${cur.height}cm X ${cur.width}cm`],
         []
       )
-      .join(', \n') ?? ''
+      .join('<br />') ?? ''
   }`;
 
-const getSurfaceList = (surfaces, title, displayDoc) => (
-  <>
-    {surfaces?.map((item, index) => (
-      <div key={index}>
-        <a onClick={() => displayDoc(item)}>{`(${index + 1}) ${title}`}</a>
-        <br />
-      </div>
-    ))}
-  </>
-);
+const getSurfaceList = (surfaces, title, displayDoc) =>
+  `${
+    surfaces
+      ?.reduce(
+        (prev, curr, index) => [
+          ...prev,
+          `<a id=${curr}>(${index + 1}) ${title}</a>`,
+        ],
+        []
+      )
+      .join('<br />') ?? ''
+  }`;
 
 export function Source(
   {
@@ -43,6 +46,18 @@ export function Source(
   const type = `${messages?.[sourceType]?.[handNote] ?? ''}\n${
     messages?.[sourceType]?.[typeNote] ?? ''
   }`;
+
+  const onClickOption = {
+    replace: (node) => {
+      if (node?.type === 'tag' && node?.name === 'a') {
+        const id = { ...node.attribs }.id;
+        node.attribs = {
+          onClick: () => displayDoc(id),
+        };
+      }
+    },
+  };
+
   const result = {
     title,
     transcription: (
@@ -53,8 +68,8 @@ export function Source(
     date,
     sourceType: type === '\n' ? `${messages?.otherType[sourceType]}` : type,
     hadLdoDLabel: messages?.[hadLdoDLabel],
-    dimensionDtoList: getDimensionList(dimensionDtoList),
-    surfaceString: getSurfaceList(surfaceString, title, displayDoc),
+    dimensionDtoList: parserHTML(getDimensionList(dimensionDtoList)),
+    surfaceString: parserHTML(getSurfaceList(surfaceString, title), onClickOption),
   };
   return { ...result, searchData: JSON.stringify(result) };
 }

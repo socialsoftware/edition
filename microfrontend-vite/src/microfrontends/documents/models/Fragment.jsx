@@ -41,6 +41,7 @@ export const getSourceData = (
     issue,
     pubPlace,
     startPage,
+    sourceType,
     endPage,
     dimensionDtoList,
   },
@@ -52,8 +53,9 @@ export const getSourceData = (
     .join(',\n');
 
   const keyValues = {
-    altIdentifier: identifiers,
-    //sourceType === 'MANUSCRIPT' && identifiers ? `: ${identifiers}` : '',
+    altIdentifier:
+      sourceType === 'MANUSCRIPT' && identifiers,
+    //
     //title: sourceType === 'PRINTED' && title ? `: ${title}` : '',
     title,
     heteronym: heteronymNull ? messages?.notAssigned : heteronym,
@@ -61,9 +63,9 @@ export const getSourceData = (
     issue,
     startPage:
       (startPage || startPage !== 0) &&
-      `${startPage}${endPage ? ` - ${endPage}` : ''}`,
+      `${startPage}${endPage && endPage !== startPage ? ` - ${endPage}` : ''}`,
     pubPlace: pubPlace,
-    form: (
+    form: sourceType === 'MANUSCRIPT' && (
       <>
         {messages?.[form]}
         <small>{` (${getDimensionList(dimensionDtoList)})`}</small>

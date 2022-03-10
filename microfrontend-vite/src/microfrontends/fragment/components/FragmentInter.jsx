@@ -8,11 +8,6 @@ const getCheckboxesAccordingFragType = (fragmentInter) =>
     ? ['diff', 'del', 'ins', 'sub', 'note', 'fac']
     : ['diff'];
 
-const getMetaDataAccordingFragType = (fragmentInter) =>
-  isAuthorial(fragmentInter)
-    ? fragmentInter?.metaData[0]
-    : fragmentInter?.metaData[1];
-
 export default ({ messages, fragmentInter }) => {
   return (
     <>

@@ -1,20 +1,24 @@
 import OpenSeadragon from 'openseadragon';
 import { useEffect, useState } from 'react';
-import { setCheckboxesState } from '../fragmentStore';
+import { fragmentStateSelector, setCheckboxesState } from '../fragmentStore';
 
 const baseURL = 'https://ldod.uc.pt/facs';
 const openImages = '../../../../viewer-images/';
 
 export default ({ surface }) => {
   const [viewer, setViewer] = useState();
+  const cb = fragmentStateSelector('checkboxesState')
 
   useEffect(() => {
     setViewer(initViewer());
-  }, [surface]);
+    return () => viewer && viewer.destroy();
+  }, [cb.pbText]);
+
+
 
   const handleChangeImage = (id) => {
-    setCheckboxesState('pbText',id);
     viewer && viewer.destroy();
+    setCheckboxesState('pbText', id);
   };
 
   const initViewer = () =>
