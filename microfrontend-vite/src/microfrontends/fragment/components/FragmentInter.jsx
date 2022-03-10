@@ -1,18 +1,24 @@
 import Fragment from './Fragment';
 import FragmentMetaData from './FragmentMetaData';
 import Checkboxes from './Checkboxes';
+import { isAuthorial } from '../dataExtraction';
 
-export default ({ messages, language, fragmentInter }) => {
+const getCheckboxesAccordingFragType = (fragmentInter) =>
+  isAuthorial(fragmentInter)
+    ? ['diff', 'del', 'ins', 'sub', 'note', 'fac']
+    : ['diff'];
+
+const getMetaDataAccordingFragType = (fragmentInter) =>
+  isAuthorial(fragmentInter)
+    ? fragmentInter?.metaData[0]
+    : fragmentInter?.metaData[1];
+
+export default ({ messages, fragmentInter }) => {
   return (
     <>
       <Checkboxes
         messages={messages}
-        language={language}
-        checkboxes={
-          fragmentInter?.type === 'AUTHORIAL'
-            ? ['diff', 'del', 'ins', 'sub', 'note', 'fac']
-            : ['diff']
-        }
+        checkboxes={getCheckboxesAccordingFragType(fragmentInter)}
       />
       <br />
       <div id="fragment-transcript">
@@ -21,13 +27,7 @@ export default ({ messages, language, fragmentInter }) => {
       <br />
       <FragmentMetaData
         messages={messages}
-        language={language}
-        sourceInter={
-          fragmentInter?.type === 'AUTHORIAL'
-            ? fragmentInter?.metaData[0]
-            : fragmentInter?.metaData[1]
-        }
-        type={fragmentInter?.type}
+        fragment={fragmentInter}
       />
     </>
   );

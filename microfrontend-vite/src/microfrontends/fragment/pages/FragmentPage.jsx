@@ -1,37 +1,42 @@
 import { useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { getNoAuthFragmentInter } from '../api/fragment';
-import FragmentNav from '../components/FragmentNav';
+// TODO: Fecthing from BE server in a MFE decoupled architecture
+import { userSelectedVE } from '../../../store';
+import { getFragmentInter } from '../api/fragment';
 import FragmentInter from '../components/FragmentInter';
+import FragmentInterLine from '../components/FragmentInterLineByLine';
 import FragmentInterSide from '../components/FragmentInterSideBySide';
 import FragmentInterVirtual from '../components/FragmentInterVirtual';
-import FragmentInterLine from '../components/FragmentInterLineByLine';
-
+import FragmentNav from '../components/FragmentNav';
+import { isLineByLine, isSideBySide, isVirtual } from '../dataExtraction';
 import {
-  fragmentStore,
+  fragmentStateSelector,
   resetCheckboxesState,
-  setFragmentNavData,
   setFragmentInter,
-  setAuthorialsInter,
-  setSelectedVE,
+  setFragmentNavData,
+  setSelectedVE
 } from '../fragmentStore';
-import { userSelectedVE } from '../../../store';
-const selector = (sel) => (state) => state[sel];
 
-export default ({ messages, language }) => {
+const getVariationsHeaders = (fragmentInter) =>
+  fragmentInter.inters?.map(({ shortName, title }) => ({
+    shortName,
+    title,
+  }));
+
+export default ({ messages }) => {
   const { xmlid, urlid } = useParams();
   const { state } = useLocation();
-  const fragmentNavData = fragmentStore(selector('fragmentNavData'));
-  const fragmentInter = fragmentStore(selector('fragmentInter'));
-  const checkboxes = fragmentStore(selector('checkboxesState'));
+  const fragmentNavData = fragmentStateSelector('fragmentNavData');
+  const fragmentInter = fragmentStateSelector('fragmentInter');
+  const checkboxes = fragmentStateSelector('checkboxesState');
 
   useEffect(() => {
     setSelectedVE(userSelectedVE());
-    if (checkboxes && xmlid && urlid) {
-      !state && getNoAuthFragmentInter(xmlid, urlid);
-      state && getNoAuthFragmentInter(xmlid, urlid, state);
-    }
-  }, [urlid, language, checkboxes, state]);
+    checkboxes &&
+      xmlid &&
+      urlid &&
+      getFragmentInter(xmlid, urlid, state);
+  }, [urlid, messages, checkboxes, state]);
 
   useEffect(() => {
     return () => {
@@ -42,9 +47,6 @@ export default ({ messages, language }) => {
     };
   }, []);
 
-  const isVirtual = fragmentInter?.type === 'VIRTUAL';
-  const isSide = fragmentInter?.transcriptType === 'SIDE';
-  const isLine = fragmentInter?.transcriptType === 'LINE';
 
   return (
     <div>
@@ -52,34 +54,32 @@ export default ({ messages, language }) => {
         <>
           <div className="col-md-9" style={{ marginBottom: '40px' }}>
             <div id="fragment-inter" className="row">
-              {isVirtual ? (
+              {isVirtual(fragmentInter) ? (
                 <FragmentInterVirtual
                   messages={messages}
-                  language={language}
                   fragmentInter={fragmentInter}
                 />
               ) : (
                 <>
-                  {isSide ? (
+                  {isSideBySide(fragmentInter) ? (
                     <FragmentInterSide
                       messages={messages}
-                      language={language}
                       fragmentInter={fragmentInter}
+                      getVariationsHeaders={getVariationsHeaders}
                     />
                   ) : (
                     <>
-                      {isLine ? (
+                      {isLineByLine(fragmentInter) ? (
                         <>
                           <FragmentInterLine
                             messages={messages}
-                            language={language}
                             fragmentInter={fragmentInter}
+                            getVariationsHeaders={getVariationsHeaders}
                           />
                         </>
                       ) : (
                         <FragmentInter
                           messages={messages}
-                          language={language}
                           fragmentInter={fragmentInter}
                         />
                       )}
@@ -89,11 +89,7 @@ export default ({ messages, language }) => {
               )}
             </div>
           </div>
-          <FragmentNav
-            messages={messages}
-            language={language}
-            fragmentNavData={fragmentNavData}
-          />
+          <FragmentNav messages={messages} fragmentNavData={fragmentNavData} />
         </>
       )}
     </div>

@@ -59,6 +59,8 @@ export default {
     comment: 'Comentário',
     user: 'Utilizador',
     tags: 'Etiquetas',
+    line_by_line_info:
+      'O gradiente de cor aumenta consoante o número de diferenças entre as transcrições em comparação',
   },
   en: {
     expert_edition_info:
@@ -119,6 +121,8 @@ export default {
     comment: 'Comment',
     user: 'User',
     tags: 'Tags',
+    line_by_line_info:
+      'Colour gradient increases according to the number of differences across compared editions',
   },
   es: {
     expert_edition_info:
@@ -171,11 +175,14 @@ export default {
 
     uses: 'Usa',
     variations: 'Tabla de Variaciones',
-    virtual_edition_comparison: 'Comparación de anotaciones de ediciones virtuales',
+    virtual_edition_comparison:
+      'Comparación de anotaciones de ediciones virtuales',
     edition: 'Edición',
     citation: 'Cita',
     comment: 'Comentario',
     user: 'Usuario',
     tags: 'Etiquetas',
+    line_by_line_info:
+      'El gradiente de color aumenta según el número de diferencias entre las transcripciones en comparación',
   },
 };

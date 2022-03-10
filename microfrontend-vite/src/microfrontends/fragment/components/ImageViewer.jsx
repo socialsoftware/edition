@@ -1,8 +1,8 @@
 import OpenSeadragon from 'openseadragon';
 import { useEffect, useState } from 'react';
-import { getCheckboxesState, setCheckboxesState } from '../fragmentStore';
-const baseURL = 'https://ldod.uc.pt/facs';
+import { setCheckboxesState } from '../fragmentStore';
 
+const baseURL = 'https://ldod.uc.pt/facs';
 const openImages = '../../../../viewer-images/';
 
 export default ({ surface }) => {

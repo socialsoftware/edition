@@ -1,29 +1,27 @@
 import Fragment from './Fragment';
 import Checkboxes from './Checkboxes';
 import VariationsTable from './VariationsTable';
+import { getAuthorialsInter } from '../fragmentStore';
 
-export default ({ messages, language, fragmentInter }) => {
+export default ({ messages, fragmentInter, getVariationsHeaders }) => {
   return (
     <>
       <Checkboxes
         messages={messages}
-        language={language}
-        checkboxes={['align']}
+        checkboxes={
+          getAuthorialsInter().length > 2 ? ['align'] : ['line', 'align']
+        }
       />
       <br />
       <div id="fragment-transcript">
-        <Fragment fragment={fragmentInter} isNormal={false} />
+        <Fragment fragment={fragmentInter} messages={messages}/>
       </div>
       <br />
       <div>
         <VariationsTable
           messages={messages}
-          language={language}
-          variations={fragmentInter?.variations}
-          headers={fragmentInter?.inters?.map(({ shortName, title }) => ({
-            shortName,
-            title,
-          }))}
+          variations={fragmentInter.variations ?? []}
+          headers={getVariationsHeaders(fragmentInter) ?? []}
         />
       </div>
     </>

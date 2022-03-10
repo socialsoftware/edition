@@ -1,19 +1,21 @@
 import { useNavigate } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
+import { isEditorial } from '../dataExtraction';
 import {
-  fragmentStore,
   addToAuthorialsInter,
   addToVirtualsInter,
-  setAuthorialsInter,
-  setVirtualsInter,
-  resetCheckboxesState,
+  fragmentStateSelector,
   getAuthorialsInter,
   getVirtualsInter,
+  resetCheckboxesState,
+  setAuthorialsInter,
+  setVirtualsInter
 } from '../fragmentStore';
 import FragmentNavTable from './FragmentNavTable';
-const selector = (sel) => (state) => state[sel];
 
-export default ({ messages, language, fragmentNavData, id }) => {
+export default ({ messages, fragmentNavData }) => {
+  const navigate = useNavigate();
+
   const {
     fragmentXmlId,
     externalId,
@@ -21,49 +23,43 @@ export default ({ messages, language, fragmentNavData, id }) => {
     expertEditions,
     virtualEditions,
   } = fragmentNavData ?? {};
-  const currentPath = `fragments/fragment/${fragmentXmlId ?? ''}`;
-  const navigate = useNavigate();
-  const authorialsInter = fragmentStore(selector('authorialsInter'));
-  const virtualsInter = fragmentStore(selector('virtualsInter'));
 
-  const goToAuthorials = (e, id, urlId, prevNext, isExpert = true) => {
-    isExpert && resetCheckboxesState();
+  const currentPath = `fragments/fragment/${fragmentXmlId ?? ''}`;
+  const authorialsInter = fragmentStateSelector('authorialsInter');
+  const virtualsInter = fragmentStateSelector('virtualsInter');
+
+  const goToAuthorials = (e, id, urlId, state) => {
     e.preventDefault();
+    isEditorial(state) && resetCheckboxesState();
     setAuthorialsInter(id);
-    navigate(
-      `/${currentPath}/inter/${urlId}`,
-      prevNext && { state: { prevNext } }
-    );
+    navigate(`/${currentPath}/inter/${urlId}`, { state });
   };
 
-  const goToVirtuals = (e, id, urlId, prevNext) => {
+  const goToVirtuals = (e, id, urlId, state) => {
     resetCheckboxesState();
     e.preventDefault();
     setVirtualsInter(id);
-    navigate(
-      `/${currentPath}/inter/${urlId}`,
-      prevNext && { state: { prevNext } }
-    );
+    navigate(`/${currentPath}/inter/${urlId}`, { state });
   };
 
-  const addToAuthorials = (id, urlId, isExpert = true) => {
-    isExpert && resetCheckboxesState();
+  const addToAuthorials = (id, urlId, state) => {
+    resetCheckboxesState();
     addToAuthorialsInter(id);
     const to =
       getAuthorialsInter().length === 0
         ? `/${currentPath}`
         : `/${currentPath}/inter/${urlId}`;
-    navigate(to, { state: { inters: getAuthorialsInter() } });
+    navigate(to, { state: { ...state, inters: getAuthorialsInter() } });
   };
 
-  const addToVirtuals = (id, urlId) => {
+  const addToVirtuals = (id, urlId, state) => {
     resetCheckboxesState();
     addToVirtualsInter(id);
     const to =
       getVirtualsInter().length === 0
         ? `/${currentPath}`
         : `/${currentPath}/inter/${urlId}`;
-    navigate(to, { state: { inters: getVirtualsInter() } });
+    navigate(to, { state: { ...state, inters: getVirtualsInter() } });
   };
 
   return (
@@ -77,7 +73,7 @@ export default ({ messages, language, fragmentNavData, id }) => {
             data-toggle="checkbox"
             style={{ width: '100%' }}
           >
-            <h5 className="text-center">{messages?.[language]['witnesses']}</h5>
+            <h5 className="text-center">{messages['witnesses']}</h5>
             <div className="text-center" style={{ paddingTop: '8px' }}>
               {sources?.map(({ shortName, urlId, externalId }, index) => (
                 <FragmentNavTable
@@ -89,16 +85,18 @@ export default ({ messages, language, fragmentNavData, id }) => {
                       '',
                       <input
                         type="checkbox"
-                        checked={
-                          authorialsInter.includes(externalId) ? true : false
-                        }
+                        checked={authorialsInter.includes(externalId)}
                         onChange={() =>
-                          addToAuthorials(externalId, urlId, false)
+                          addToAuthorials(externalId, urlId, {
+                            type: 'AUTHORIAL',
+                          })
                         }
                       />,
                       <a
                         onClick={(e) =>
-                          goToAuthorials(e, externalId, urlId, false)
+                          goToAuthorials(e, externalId, urlId, {
+                            type: 'AUTHORIAL',
+                          })
                         }
                       >
                         {shortName}
@@ -112,7 +110,7 @@ export default ({ messages, language, fragmentNavData, id }) => {
             </div>
             <br />
             <h5 className="text-center">
-              {messages?.[language]['expert_editions']}
+              {messages['expert_editions']}
               <ReactTooltip
                 id="expert-info-tooltip"
                 type="light"
@@ -121,7 +119,7 @@ export default ({ messages, language, fragmentNavData, id }) => {
                 border={true}
                 borderColor="rgba(0,0,0,.2)"
                 className="fragment-nav-tooltip"
-                getContent={() => messages?.[language]['expert_edition_info']}
+                getContent={() => messages['expert_edition_info']}
               />
               <span
                 data-tip=""
@@ -143,23 +141,37 @@ export default ({ messages, language, fragmentNavData, id }) => {
                           id={`expert-${acronym}-inter-checkbox`}
                           type="checkbox"
                           checked={authorialsInter.includes(externalId)}
-                          onChange={() => addToAuthorials(externalId, urlId)}
+                          onChange={() =>
+                            addToAuthorials(externalId, urlId, {
+                              type: 'EDITORIAL',
+                            })
+                          }
                         />,
                         <a
                           onClick={(e) =>
-                            goToAuthorials(e, externalId, urlId, 'prev')
+                            goToAuthorials(e, externalId, urlId, {
+                              type: 'EDITORIAL',
+                              prevNext: 'prev',
+                            })
                           }
                         >
                           <span className="glyphicon glyphicon-chevron-left"></span>
                         </a>,
                         <a
-                          onClick={(e) => goToAuthorials(e, externalId, urlId)}
+                          onClick={(e) =>
+                            goToAuthorials(e, externalId, urlId, {
+                              type: 'EDITORIAL',
+                            })
+                          }
                         >
                           {number}
                         </a>,
                         <a
                           onClick={(e) =>
-                            goToAuthorials(e, externalId, urlId, 'next')
+                            goToAuthorials(e, externalId, urlId, {
+                              type: 'EDITORIAL',
+                              prevNext: 'prev',
+                            })
                           }
                         >
                           <span className="glyphicon glyphicon-chevron-right"></span>
@@ -174,7 +186,7 @@ export default ({ messages, language, fragmentNavData, id }) => {
           </div>
           <br /> <br />
           <h5 className="text-center">
-            {messages?.[language]['virtual_editions']}
+            {messages['virtual_editions']}
             <ReactTooltip
               id="virtual-info-tooltip"
               type="light"
@@ -183,7 +195,7 @@ export default ({ messages, language, fragmentNavData, id }) => {
               border={true}
               borderColor="rgba(0,0,0,.2)"
               className="fragment-nav-tooltip"
-              getContent={() => messages?.[language]['virtual_editions_info']}
+              getContent={() => messages['virtual_editions_info']}
             />
             <span
               data-tip=""
@@ -204,21 +216,37 @@ export default ({ messages, language, fragmentNavData, id }) => {
                       id={`virtual-${acronym}-inter-checkbox`}
                       type="checkbox"
                       checked={virtualsInter.includes(externalId)}
-                      onChange={() => addToVirtuals(externalId, urlId)}
+                      onChange={() =>
+                        addToVirtuals(externalId, urlId, {
+                          type: 'VIRTUAL',
+                        })
+                      }
                     />,
                     <a
                       onClick={(e) =>
-                        goToVirtuals(e, externalId,urlId, 'prev')
+                        goToVirtuals(e, externalId, urlId, {
+                          type: 'VIRTUAL',
+                          prevNext: 'prev',
+                        })
                       }
                     >
                       <span className="glyphicon glyphicon-chevron-left"></span>
                     </a>,
-                    <a onClick={(e) => goToVirtuals(e, externalId, urlId)}>
+                    <a
+                      onClick={(e) =>
+                        goToVirtuals(e, externalId, urlId, {
+                          type: 'VIRTUAL',
+                        })
+                      }
+                    >
                       {number}
                     </a>,
                     <a
                       onClick={(e) =>
-                        goToVirtuals(e, externalId, urlId, 'next')
+                        goToVirtuals(e, externalId, urlId, {
+                          type: 'VIRTUAL',
+                          prevNext: 'next',
+                        })
                       }
                     >
                       <span className="glyphicon glyphicon-chevron-right"></span>

@@ -15,19 +15,23 @@ export default ({ taxonomies }) => {
           </tr>
         </thead>
         <tbody>
-          {taxonomies?.map(({ user, category }, index) => (
+          {taxonomies.map(({ user, category }, index) => (
             <tr key={index}>
               <td>
-                <Link
-                  to={`/edition/acronym/${category?.acronym}/category/${category?.urlId}`}
-                >
-                  {category?.name}
-                </Link>
+                {category && (
+                  <Link
+                    to={`/edition/acronym/${category.acronym}/category/${category.urlId}`}
+                  >
+                    {category.name}
+                  </Link>
+                )}
               </td>
               <td>
-                <Link
-                  to={`/edition/user/${user?.userName}`}
-                >{`${user?.firstName} ${user?.lastName} (${user?.userName})`}</Link>
+                {user && (
+                  <Link to={`/edition/user/${user.userName}`}>
+                    {`${user.firstName} ${user.lastName} (${user.userName})`}
+                  </Link>
+                )}
               </td>
             </tr>
           ))}

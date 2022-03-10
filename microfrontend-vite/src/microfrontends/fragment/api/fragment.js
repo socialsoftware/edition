@@ -1,5 +1,5 @@
 import fetcher from '../../../config/axios';
-import { FragmentNavData, FragmentInterData } from '../dataExtraction';
+import { FragmentNavData, extractData } from '../dataExtraction';
 import {
   getVirtualEditionsAcronyms,
   setFragmentInter,
@@ -21,7 +21,8 @@ export const getNoAuthFragment = (xmlid) =>
       console.error(err);
     });
 
-export const getNoAuthFragmentInter = (xmlid, urlid, state) => {
+
+export const getFragmentInter = (xmlid, urlid, state) => {
 
   fetcher
     .post(
@@ -36,7 +37,7 @@ export const getNoAuthFragmentInter = (xmlid, urlid, state) => {
     )
     .then(({ data }) => {
       setFragmentNavData(FragmentNavData(data));
-      setFragmentInter(FragmentInterData(data));
+      setFragmentInter(extractData(data, state));
     })
     .catch((err) => {
       setFragmentInter();

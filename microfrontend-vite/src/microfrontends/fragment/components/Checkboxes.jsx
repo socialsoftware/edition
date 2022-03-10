@@ -1,12 +1,8 @@
 import ReactTooltip from 'react-tooltip';
+import { fragmentStateSelector, setCheckboxesState } from '../fragmentStore';
 
-const checkboxesSelector =  (state) => state.checkboxesState;
-
-
-import { fragmentStore,setCheckboxesState } from '../fragmentStore';
-
-export default ({ messages, language, checkboxes}) => {
-  const checkboxesState = fragmentStore(checkboxesSelector);
+export default ({ messages, checkboxes}) => {
+  const checkboxesState = fragmentStateSelector('checkboxesState');
   return (
     <form className="form-inline" role="form">
       <div className="form-group">
@@ -20,7 +16,7 @@ export default ({ messages, language, checkboxes}) => {
                   place="bottom"
                   effect="solid"
                   className="checkbox-tooltip"
-                  getContent={() => messages?.[language][`${cb}_info`]}
+                  getContent={() => messages[`${cb}_info`]}
                 />
                 <label data-tip="" data-for={`${cb}-tooltip`}>
                   <input
@@ -31,7 +27,7 @@ export default ({ messages, language, checkboxes}) => {
                       setCheckboxesState(cb, !checkboxesState[cb])
                     }
                   />
-                  {messages?.[language][cb]}
+                  {messages[cb]}
                 </label>
               </div>
             ))}

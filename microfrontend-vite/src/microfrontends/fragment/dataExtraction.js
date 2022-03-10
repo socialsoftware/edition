@@ -1,4 +1,60 @@
-import { setAuthorialsInter, setVirtualsInter } from './fragmentStore';
+import {
+  getCheckboxesState,
+  setAuthorialsInter,
+  setVirtualsInter,
+} from './fragmentStore';
+
+const fragmentType = {
+  AUTHORIAL: 'AUTHORIAL',
+  EDITORIAL: 'EDITORIAL',
+  VIRTUAL: 'VIRTUAL',
+};
+export const isVirtual = ({ type }) => type === fragmentType.VIRTUAL;
+export const isEditorial = ({ type }) => type === fragmentType.EDITORIAL;
+export const isAuthorial = ({ type }) => type === fragmentType.AUTHORIAL;
+
+const fragmentSourceType = {
+  MANUSCRIPT: 'MANUSCRIPT',
+  PRINTED: 'PRINTED',
+  PUBLICATION: 'PUBLICATION',
+};
+
+export const isManuscript = ({ sourceType, type }) =>
+  isAuthorial({ type }) && sourceType === fragmentSourceType.MANUSCRIPT;
+export const isPublication = ({ sourceType, type }) =>
+  isAuthorial({ type }) && sourceType === fragmentSourceType.PRINTED;
+
+const getSourceType = (fragment) =>
+  isManuscript(fragment)
+    ? fragmentSourceType.MANUSCRIPT
+    : isPublication(fragment)
+    ? fragmentSourceType.PUBLICATION
+    : undefined;
+
+const transcriptType = {
+  SINGLE: 'SINGLE',
+  SIDE: 'SIDE',
+  LINE: 'LINE',
+};
+
+const getTranscriptionType = ({
+  writerLineByLine,
+  transcript,
+  setTranscriptionSideBySide,
+}) =>
+  writerLineByLine
+    ? transcriptType.LINE
+    : setTranscriptionSideBySide
+    ? transcriptType.SIDE
+    : transcript && transcriptType.SINGLE;
+
+export const isSingle = (fragment) =>
+  getTranscriptionType(fragment) === transcriptType.SINGLE;
+export const isSideBySide = (fragment) =>
+  (getTranscriptionType(fragment) || fragment.transcriptType) ===
+  transcriptType.SIDE;
+export const isLineByLine = (fragment) =>
+  getTranscriptionType(fragment) === transcriptType.LINE;
 
 export const FragmentNavData = ({
   fragment: { externalId, fragmentXmlId, title, sourceInterDtoList },
@@ -8,10 +64,10 @@ export const FragmentNavData = ({
   externalId,
   fragmentXmlId,
   title,
-  sources: sourceInterDtoList.map((source) => ({
-    urlId: source.urlId,
-    shortName: source.shortName,
-    externalId: source.externalId,
+  sources: sourceInterDtoList.map(({ urlId, shortName, externalId }) => ({
+    urlId,
+    shortName,
+    externalId,
   })),
   expertEditions: sortedExpert.map(({ acronym, editor, inter }) => ({
     acronym,
@@ -25,7 +81,7 @@ export const FragmentNavData = ({
   virtualEditions: [archiveEdition, ...virtualEditionsDto].map(
     ({ acronym, sortedInter4Frag }) => ({
       acronym,
-      inter: sortedInter4Frag.map(({ urlId, number, externalId }) => ({
+      inter: sortedInter4Frag.map(({ externalId, urlId, number }) => ({
         externalId,
         urlId,
         number,
@@ -34,53 +90,32 @@ export const FragmentNavData = ({
   ),
 });
 
-export const FragmentInterData = ({
+function FragmentAuthorialSingle({
+  fragment,
   transcript,
-  writerLineByLine,
-  setTranscriptionSideBySide,
-  fragment: {
-    title,
-    sourceInterDtoList: [authorialMetaData],
-  },
-  inters,
   nextPb,
   prevPb,
+  surface,
   nextSurface,
   prevSurface,
-  surface,
-  variations,
-}) => {
-  const inter = inters?.[0]
-  const isLineByLine = writerLineByLine && true;
-  const isSideBySide = setTranscriptionSideBySide && true;
-  const isNormal = !isLineByLine && !isSideBySide;
-  const isVirtual = inter.type === 'VIRTUAL';
-  const isAuthorial = inter.type === 'AUTHORIAL';
-
-  isVirtual
-    ? setVirtualsInter(inters?.map((inter) => inter?.externalId) ?? [])
-    : setAuthorialsInter(inters?.map((inter) => inter?.externalId) ?? []);
+  inters,
+}) {
+  const inter = inters?.[0];
+  const type = inter.type;
 
   return {
-    externalIds: inters?.map((inter) => inter.externalId),
-    fontFamily: !isNormal || !isAuthorial ? 'georgia' : 'courier',
-    type: inter.type,
-    transcriptType: isLineByLine ? 'LINE' : isSideBySide ? 'SIDE' : 'NORMAL',
-    editionTitle: inter.editionTitle,
-    usesList: inter.usedList.map(({ shortName }) => shortName),
-    usesReference: `${inter.usesReference}${
-      inter.usesSecondReference && `(${inter.usesSecondReference})`
-    }`,
-    fontSize:
-      isNormal ? isVirtual || isAuthorial ? 'medium' : '' : '',
-    transcript: isLineByLine
-      ? writerLineByLine
-      : isSideBySide
-      ? setTranscriptionSideBySide
-      : transcript,
-    title,
-    metaData: !isVirtual && [authorialMetaData, ...inters],
-    inters,
+    type,
+    transcriptType: transcriptType.SINGLE,
+    sourceType: getSourceType(inter),
+    title: inter?.title,
+    transcript,
+    fontFamily: 'courier',
+    fontSize: '',
+    metaData: isAuthorial(inter)
+      ? fragment.sourceInterDtoList?.find(
+          ({ externalId }) => externalId === inter.externalId
+        )
+      : inter,
     surface: {
       prevPb,
       nextPb,
@@ -88,8 +123,95 @@ export const FragmentInterData = ({
       prevGraphic: prevSurface?.graphic,
       nextGraphic: nextSurface?.graphic,
     },
-    taxonomies: inters?.length === 1 && inter.categoryUserDtoList,
-    taxonomiesComp: inters.map(inter => inter?.categoryUserDtoList),
-    variations,
   };
-};
+}
+
+function FragmentEditorialSingle({ fragment, transcript, inters }) {
+  const inter = inters?.[0];
+  const type = inter.type;
+
+  return {
+    type,
+    transcriptType: transcriptType.SINGLE,
+    sourceType: null,
+    title: inter?.title,
+    transcript,
+    fontFamily: 'georgia',
+    fontSize: 'medium',
+    metaData: isAuthorial(inter)
+      ? fragment.sourceInterDtoList?.find(
+          ({ externalId }) => externalId === inter.externalId
+        )
+      : inter,
+  };
+}
+
+function FragmentVirtualSingle({ transcript, inters }) {
+  const inter = inters?.[0];
+  const type = inter.type;
+
+  return {
+    type,
+    transcriptType: transcriptType.SINGLE,
+    sourceType: null,
+    title: inter?.title,
+    transcript,
+    inters,
+    fontFamily: 'monospace',
+    fontSize: '',
+    metaData: null,
+    taxonomies: inters?.length <= 1 && inter.categoryUserDtoList,
+    taxonomiesComp:
+      inters?.length > 1 && inters.map((inter) => inter?.categoryUserDtoList),
+    editionTitle: inter.editionTitle,
+    usesList: inter.usedList.map(({ shortName }) => shortName),
+    usesReference: `${inter.usesReference}${
+      inter.usesSecondReference && `(${inter.usesSecondReference})`
+    }`,
+  };
+}
+
+function FragmentInterSide(data) {
+  return {
+    transcriptType: transcriptType.SIDE,
+    variations: data.variations,
+    inters: data.inters?.map((inter, index) => ({
+      type: inter.type,
+      setTranscriptionSideBySide: data.setTranscriptionSideBySide[index],
+      title: inter?.title,
+      metaData: isAuthorial(inter)
+        ? data.fragment.sourceInterDtoList?.find(
+            ({ externalId }) => externalId === inter.externalId
+          )
+        : inter,
+      fontFamily: getCheckboxesState().align ? 'monospace' : 'gerogia',
+    })),
+  };
+}
+
+function FragmentInterLine(data) {
+  return {
+    transcriptType: transcriptType.LINE,
+    variations: data.variations,
+    writerLineByLine: data.writerLineByLine,
+    title: data.fragment?.title,
+    fontFamily: getCheckboxesState().align ? 'monospace' : 'gerogia',
+  };
+}
+
+export function extractData(data, state) {
+  const inters = data.inters;
+  isVirtual(inters?.[0])
+    ? setVirtualsInter(inters?.map((inter) => inter?.externalId) ?? [])
+    : setAuthorialsInter(inters?.map((inter) => inter?.externalId) ?? []);
+
+  if (isSingle(data)) {
+    if (!state || isAuthorial(state)) return FragmentAuthorialSingle(data);
+    if (isEditorial(state)) return FragmentEditorialSingle(data);
+  }
+  if (isSideBySide(data)) return FragmentInterSide(data);
+
+  if (isLineByLine(data)) return FragmentInterLine(data);
+
+  if (isVirtual(state)) return FragmentVirtualSingle(data);
+}

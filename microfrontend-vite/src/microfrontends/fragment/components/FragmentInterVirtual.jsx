@@ -3,25 +3,24 @@ import parserHTML from 'html-react-parser';
 import Taxonomy from './Taxonomy';
 import FragmentInterVirtualComp from './FragmentInterVirtualComp';
 
-export default ({ messages, language, fragmentInter }) => {
+export default ({ messages, fragmentInter }) => {
   return (
     <>
-      {fragmentInter && fragmentInter?.taxonomies ? (
+      {fragmentInter.taxonomies ? (
         <>
           <h4>{`${parserHTML(fragmentInter.editionTitle ?? '') ?? ''} - ${
-            messages?.[language]['uses']
+            messages.uses
           } ${fragmentInter.usesReference}`}</h4>
 
           <br />
           <div id="fragment-transcript">
-            <Fragment fragment={fragmentInter} isNormal={false}/>
+            <Fragment fragment={fragmentInter}/>
           </div>
-          <Taxonomy taxonomies={fragmentInter.taxonomies ?? []} />
+          <Taxonomy taxonomies={fragmentInter.taxonomies} />
         </>
       ) : (
         <FragmentInterVirtualComp
           messages={messages}
-          language={language}
           fragmentInter={fragmentInter}
         />
       )}

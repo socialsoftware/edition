@@ -107,6 +107,7 @@ export const getCheckboxesState = () =>
 export const getVirtualEditionsAcronyms = () =>
   fragmentStore.getState().selectedVE;
 
+export const setSelectedVE = (veList) =>
+  fragmentStore.setState({ selectedVE: veList });
 
-  export const setSelectedVE = (veList) =>
-    fragmentStore.setState({ selectedVE: veList });
+export const fragmentStateSelector = (sel) => fragmentStore(state => state[sel]);
