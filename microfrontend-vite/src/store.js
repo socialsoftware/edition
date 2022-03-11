@@ -27,6 +27,7 @@ export const useStore = create(
   )
 );
 
+export const storeStateSelector = (sel) => useStore(state => state[sel]);
 export const state = () => useStore.getState();
 export const getUser = () => state().user;
 export const isAdmin = () => getUser()?.roles.includes('ROLE_ADMIN') ? true : false;

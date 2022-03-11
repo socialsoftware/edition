@@ -1,18 +1,16 @@
 import { Route, Routes, useParams } from "react-router-dom"
-import { lazy, useEffect } from 'react';
+import { lazy } from 'react';
 
 const VirtualEdition = lazy(() => import('../page/VirtualEdition'));
 const ExpertEdition = lazy(() => import('../page/ExpertEdition'));
 const Category = lazy(() => import('../page/Category'));
+const Taxonomies = lazy(() => import('./Taxonomies'));
 
+const isVirtualAcronym = (acronym) => acronym?.startsWith('LdoD-');
+const getCurrentAcronym = (params) => params['*']?.split('/')?.[0]
 
 export default ({messages}) => {
   const  params  = useParams();
-  const acronym = params?.['*']?.split('/')?.[0]
-
-  useEffect(() => {
-    console.log(acronym);
-  },[acronym])
 
   return (
     <div>
@@ -20,21 +18,20 @@ export default ({messages}) => {
         <Route
           path=":acronym"
           element={
-            acronym?.startsWith('LdoD-') ? (
+            isVirtualAcronym(getCurrentAcronym(params)) ? (
               <VirtualEdition
-                acronym={acronym}
+                acronym={getCurrentAcronym(params)}
                 messages={messages}
               />
             ) : (
-              <ExpertEdition
-                acronym={acronym}
-                messages={messages}
-              />
+              <ExpertEdition messages={messages} />
             )
           }
         />
         <Route path=":acronym/category/:category" element={<Category />} />
+        <Route path=":acronym/taxonomy" element={<Taxonomies />} />
       </Routes>
     </div>
   );
 }
+

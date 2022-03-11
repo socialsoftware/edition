@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
 import { isEditorial } from '../dataExtraction';
 import {
@@ -15,6 +15,7 @@ import FragmentNavTable from './FragmentNavTable';
 
 export default ({ messages, fragmentNavData }) => {
   const navigate = useNavigate();
+  const currentUrlId  = useParams()?.urlid;
 
   const {
     fragmentXmlId,
@@ -32,14 +33,17 @@ export default ({ messages, fragmentNavData }) => {
     e.preventDefault();
     isEditorial(state) && resetCheckboxesState();
     setAuthorialsInter(id);
-    navigate(`/${currentPath}/inter/${urlId}`, { state });
+    console.log(currentUrlId);
+    urlId !== currentUrlId &&
+      navigate(`/${currentPath}/inter/${urlId}`, { state });
   };
 
   const goToVirtuals = (e, id, urlId, state) => {
     resetCheckboxesState();
     e.preventDefault();
     setVirtualsInter(id);
-    navigate(`/${currentPath}/inter/${urlId}`, { state });
+    urlId !== currentUrlId &&
+      navigate(`/${currentPath}/inter/${urlId}`, { state });
   };
 
   const addToAuthorials = (id, urlId, state) => {

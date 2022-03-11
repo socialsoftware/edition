@@ -17,6 +17,19 @@ export default {
     page_info: 'Página em que o fragmento se encontra',
     date_info: 'Data inscrita ou atribuída ao fragmento',
     heteronym_info: 'Atribuição de heterónimo segundo o editor',
+
+    editors: 'Editores',
+    synopse: 'Sinopse',
+    taxonomy: 'Taxonomia',
+    fragments: 'Fragmentos',
+    virtualTableHeaders: {
+      number: 'Número',
+      title: 'Título',
+      category: 'Categoria',
+      useEditions: 'Usa Edições',
+    },
+    virtualEdition: 'Edição Virtual'
+
   },
   en: {
     edition_of: 'Edition of',
@@ -36,6 +49,18 @@ export default {
     page_info: 'Page where the fragment can be found',
     date_info: 'Date inscribed or ascribed to the fragment',
     heteronym_info: 'Heteronym attribution according to the editor',
+
+    editors: 'Editors',
+    synopse: 'Synopse',
+    taxonomy: 'Taxonomy',
+    fragments: 'Fragments',
+    virtualTableHeaders: {
+      number: 'Number',
+      title: 'Title',
+      category: 'Category',
+      useEditions: 'Use Editions',
+    },
+    virtualEdition: 'Virtual Edition'
   },
   es: {
     edition_of: 'Edición de',

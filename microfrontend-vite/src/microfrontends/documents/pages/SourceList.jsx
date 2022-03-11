@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { getSourceList } from '../api/documents';
 import {
-  documentsStore,
+  documentStateSelector,
   setFilteredSourceList,
   toggleShow,
   setDocPath,
@@ -10,13 +10,11 @@ import Search from '../components/Search';
 import Table from '../components/Table';
 import ReactTooltip from 'react-tooltip';
 import DisplayDocModal from '../components/DisplayDocModal';
-const selector = (sel) => (state) => state[sel];
 
 export default ({ messages, language }) => {
   const isMounted = useRef(false);
-  const sourceList = documentsStore(selector('sourceList'));
-  const filteredSourceList = documentsStore(selector('filteredSourceList'));
-
+  const sourceList = documentStateSelector('sourceList');
+  const filteredSourceList = documentStateSelector('filteredSourceList');
   useEffect(() => {
     !sourceList && getSourceList(messages?.[language], displayDocument);
     return () => {

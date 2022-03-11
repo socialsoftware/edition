@@ -205,6 +205,8 @@ export function extractData(data, state) {
     ? setVirtualsInter(inters?.map((inter) => inter?.externalId) ?? [])
     : setAuthorialsInter(inters?.map((inter) => inter?.externalId) ?? []);
 
+  if (isVirtual(inters?.[0])) return FragmentVirtualSingle(data);
+
   if (isSingle(data)) {
     if (!state || isAuthorial(state)) return FragmentAuthorialSingle(data);
     if (isEditorial(state)) return FragmentEditorialSingle(data);
@@ -213,5 +215,4 @@ export function extractData(data, state) {
 
   if (isLineByLine(data)) return FragmentInterLine(data);
 
-  if (isVirtual(state)) return FragmentVirtualSingle(data);
 }

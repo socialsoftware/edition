@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 
+export const isExpertEdition = (edition) => edition?.type === "EXPERT";
+
 export function ExpertEditionEntry(entry) {
 
   const xmlid = entry?.xmlId;

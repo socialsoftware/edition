@@ -9,6 +9,9 @@ export const documentsStore = create(() => ({
   docPath: null,
 }));
 
+export const documentStateSelector = (sel) => documentsStore(state => state[sel]);
+
+
 export const setSourceList = (data) =>
   documentsStore.setState({ sourceList: data });
 export const setFilteredSourceList = (data) =>

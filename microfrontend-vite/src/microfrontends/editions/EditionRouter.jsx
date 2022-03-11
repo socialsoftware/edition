@@ -1,15 +1,14 @@
 import { Route, Routes } from 'react-router-dom';
 import { lazy } from 'react';
 import messages from './resources/constants';
-import { useStore } from '../../store';
+import { storeStateSelector } from '../../store';
 import './resources/edition.css';
 
 const MainEdition = lazy(() => import('./page/MainEdition'));
 const UserEditions = lazy(() => import('./page/UserEditions'));
-const selector = (sel) => (state) => state[sel];
 
 export default () => {
-  const language = useStore(selector('language'));
+  const language = storeStateSelector('language');
 
 
   return (

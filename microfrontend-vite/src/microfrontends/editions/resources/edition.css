@@ -1,16 +1,58 @@
+.pagination-select {
+    -webkit-appearance: menulist-button;
+    color: #333;
+    height: 34.18px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.pagination {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.select-label {
+    margin-right: 5px;
+}
+
+.pagination-button {
+    margin-left: 20px;
+    color: #0C4EF6;
+}
+
+.icon-align {
+    vertical-align: middle;
+}
+
+@media (min-width: 767px) {
+    .fixed-table-toolbar {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
 .edition-table-tooltip {
-  padding: 5px 5px!important;
-  margin-top: 3px!important;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif!important;
-  opacity: 1!important;
-  border: 1px solid rgba(0, 0, 0, .2)!important;
-  border-radius: 6px!important;
-  max-width: 200px!important;
-  text-align: center;
-  line-height: 1.4!important;
-  font-size: 12px!important;
+    padding: 5px 5px!important;
+    margin-top: 3px!important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif!important;
+    opacity: 1!important;
+    border: 1px solid rgba(0, 0, 0, .2)!important;
+    border-radius: 6px!important;
+    max-width: 200px!important;
+    text-align: center;
+    line-height: 1.4!important;
+    font-size: 12px!important;
 }
 
 .bootstrap-table .table a {
-  color: #0C4EF6 !important;
+    color: #0C4EF6 !important;
+}
+
+.expert-column-number,
+.expert-column-read,
+.expert-column-volume,
+.expert-column-page,
+.expert-column-date {
+    text-align: center;
 }

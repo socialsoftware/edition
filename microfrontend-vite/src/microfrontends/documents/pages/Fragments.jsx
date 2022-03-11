@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { getFragmentList } from '../api/documents';
 import {
-  documentsStore,
+  documentStateSelector,
   setDocPath,
   setFilteredEncodedFragments,
   toggleShow,
@@ -10,13 +10,12 @@ import Search from '../components/Search';
 
 import DisplayDocModal from '../components/DisplayDocModal';
 import Table from '../components/Table';
-const selector = (sel) => (state) => state[sel];
 
 export default ({ messages, language }) => {
   const isMounted = useRef(false);
-  const encodedFragments = documentsStore(selector('encodedFragments'));
-  const filteredEncodedFragments = documentsStore(
-    selector('filteredEncodedFragments')
+  const encodedFragments = documentStateSelector('encodedFragments');
+  const filteredEncodedFragments = documentStateSelector(
+    'filteredEncodedFragments'
   );
 
   useEffect(() => {

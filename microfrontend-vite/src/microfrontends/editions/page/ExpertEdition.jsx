@@ -1,52 +1,47 @@
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { getExpertEdition } from '../api/edition';
-import Search from '../components/Search';
 import Table from '../components/Table';
 import {
-  editionStore,
+  editionStoreSelector,
   getAcronym,
   setAcronym,
   setDataFiltered,
 } from '../editionStore';
-const selector = (sel) => (state) => state[sel];
+import { isExpertEdition } from '../Models/ExpertEdition';
 
-export default ({ acronym, messages }) => {
-  const edition = editionStore(selector('edition'));
-  const dataFiltered = editionStore(selector('dataFiltered'));
-  const getTitle = () =>
-    `${messages['edition_of']} ${edition.editor} (${
-      dataFiltered?.length ?? edition.tableData?.length
-    })`;
+const getTitle = (messages, edition, dataFiltered) =>
+  `${messages['edition_of']} ${edition.editor} (${
+    dataFiltered?.length ?? edition.tableData?.length
+  })`;
 
-    useEffect(() => {
-      acronym !== getAcronym() && getExpertEdition(acronym);
-      setAcronym(acronym);
-    }, [])
- 
+export default ({ messages }) => {
+  const { acronym } = useParams();
+  const edition = editionStoreSelector('edition');
+  const dataFiltered = editionStoreSelector('dataFiltered');
+
+  useEffect(() => {
+    acronym !== getAcronym() && getExpertEdition(acronym);
+    setAcronym(acronym);
+  }, [acronym]);
+
+
   return (
     <div>
-      {edition && (
+      {edition && isExpertEdition(edition) && (
         <>
-          <h3 className="text-center">{getTitle()}</h3>
+          <h3 className="text-center">
+            {getTitle(messages, edition, dataFiltered)}
+          </h3>
           <br />
-          <div className="bootstrap-table">
-            <div className="fixed-table-toolbar">
-              <Search
-                data={edition?.tableData}
-                setDataFiltered={setDataFiltered}
-                language={messages}
-              />
-            </div>
-            <div className="fixed-table-container">
-              <div className="fixed-table-toolbar"></div>
-              <Table
-                data={dataFiltered ?? edition?.tableData}
-                headers={messages?.expertTableHeaders}
-                classes="table table-hover"
-                messages={messages}
-              />
-            </div>
-          </div>
+          <Table 
+          data={edition?.tableData}
+          setDataFiltered={setDataFiltered}          
+          dataFiltered={dataFiltered ?? edition?.tableData}
+          headers={messages?.expertTableHeaders}
+          classes="table table-hover"
+          messages={messages}
+          />
         </>
       )}
     </div>
