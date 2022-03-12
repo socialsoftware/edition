@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 
 const filterTable = (data, searchString) =>
   data?.filter((item) =>
-    item?.searchData.toLowerCase().includes(searchString?.toLowerCase().trim())
+    item?.searchData.toLowerCase()?.includes(searchString?.toLowerCase().trim())
   );
 
 export default ({ data, setDataFiltered, language }) => {
-  const [searchString, setSearchString] = useState('');
+    const [searchString, setSearchString] = useState('');
   const [result, setResult] = useState();
   const onSearch = (term) => {
     setSearchString(term);
@@ -15,10 +15,10 @@ export default ({ data, setDataFiltered, language }) => {
 
   useEffect(() => {
     setResult();
-    setDataFiltered(null)
+    setDataFiltered()
     setSearchString('');
   }, [language]);
-
+  
   useEffect(() => {
     setDataFiltered(result);
   }, [result?.length]);

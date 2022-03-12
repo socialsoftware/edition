@@ -18,11 +18,11 @@
 
 .pagination-button {
     margin-left: 20px;
-    color: #0C4EF6;
 }
 
 .icon-align {
     vertical-align: middle;
+    color: #333;
 }
 
 @media (min-width: 767px) {

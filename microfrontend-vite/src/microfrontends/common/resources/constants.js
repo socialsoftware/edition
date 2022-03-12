@@ -39,6 +39,7 @@ export default {
     mallet: 'LdoD-Jogo-Class',
     class: 'LdoD-Mallet',
     twitter: 'LdoD-Twitter',
+    error: 'Algo correu mal. Tente novamente mais tarde'
   },
   en: {
     header_title: 'LdoD Archive',
@@ -80,6 +81,8 @@ export default {
     mallet: 'LdoD-Jogo-Class',
     class: 'LdoD-Mallet,',
     twitter: 'LdoD-Twitter',
+    error: 'Something went wrong. Try again later'
+
   },
   es: {
     header_title: 'Archivo LdoD',
@@ -120,5 +123,6 @@ export default {
     mallet: 'LdoD-Jogo-Class',
     class: 'LdoD-Mallet,',
     twitter: 'LdoD-Twitter',
+    error: 'Algo salió mal. Vuelve a intentarlo más tarde'
   },
 };

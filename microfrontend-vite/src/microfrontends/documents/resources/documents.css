@@ -91,3 +91,31 @@ a {
     background-color: #fff;
     border: #333 solid 1px;
 }
+
+.pagination-select {
+    -webkit-appearance: menulist-button;
+    color: #333;
+    height: 34.18px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+
+.pagination {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.select-label {
+    margin-right: 5px;
+}
+
+.pagination-button {
+    margin-left: 20px;
+}
+
+.icon-align {
+    vertical-align: middle;
+    color: #333;
+}

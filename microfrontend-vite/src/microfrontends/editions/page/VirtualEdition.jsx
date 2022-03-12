@@ -1,4 +1,4 @@
-import HTMLReactParser from 'html-react-parser';
+import parserHTML from 'html-react-parser';
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getVirtualEdition } from '../api/edition';
@@ -41,11 +41,11 @@ export default ({ messages }) => {
           <br />
           <p>
             <strong>{messages.editors}: </strong>
-              {edition.editors}
+            {edition.editors}
           </p>
           <p>
             <strong>{messages.synopse}: </strong>
-            {HTMLReactParser(edition.synopsis ?? '')}
+            {parserHTML(edition.synopsis ?? '')}
           </p>
           <p>
             <strong>{messages.taxonomy}: </strong>
@@ -54,26 +54,18 @@ export default ({ messages }) => {
             </Link>
           </p>
           <p>
-            <strong>{edition.interpsSize} {messages.fragments} :</strong>
+            <strong>
+              {edition.interpsSize} {messages.fragments} :
+            </strong>
           </p>
-          <div className="bootstrap-table">
-            <div className="fixed-table-toolbar">
-              <Search
-                data={edition?.tableData}
-                setDataFiltered={setDataFiltered}
-                language={messages}
-              />
-            </div>
-            <div className="fixed-table-container">
-              <div className="fixed-table-toolbar"></div>
-              <Table
-                data={dataFiltered ?? edition?.tableData}
-                headers={messages.virtualTableHeaders}
-                classes="table table-hover"
-                messages={messages}
-              />
-            </div>
-          </div>
+          <Table
+            data={edition?.tableData}
+            setDataFiltered={setDataFiltered}
+            dataFiltered={dataFiltered ?? edition?.tableData}
+            classes="table table-hover"
+            messages={messages}
+            headers={messages.virtualTableHeaders}
+          />
         </>
       )}
     </div>

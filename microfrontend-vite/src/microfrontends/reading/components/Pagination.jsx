@@ -22,7 +22,7 @@ export default ({
 
   useEffect(() => {
     setIndex(0);
-    isMounted.current && setNumberOfItems(numberOfItems < length ? numberOfItems : length);
+    isMounted.current && setNumberOfItems(length);
     isMounted.current = true;
   }, [length]);
 

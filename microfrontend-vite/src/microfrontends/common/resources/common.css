@@ -12,6 +12,12 @@
 	font-weight: 800;
 }
 
+.error {
+    color: #FC1B27;
+    font-size: larger;
+    text-align: center;
+}
+
 /* === NAVBAR === */
 
 .logo {

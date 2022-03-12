@@ -6,15 +6,15 @@ import {
   toggleShow,
   setDocPath,
 } from '../documentsStore';
-import Search from '../components/Search';
 import Table from '../components/Table';
 import ReactTooltip from 'react-tooltip';
 import DisplayDocModal from '../components/DisplayDocModal';
+import { setDataFiltered } from '../../editions/editionStore';
 
 export default ({ messages, language }) => {
   const isMounted = useRef(false);
   const sourceList = documentStateSelector('sourceList');
-  const filteredSourceList = documentStateSelector('filteredSourceList');
+  const dataFiltered = documentStateSelector('filteredSourceList');
   useEffect(() => {
     !sourceList && getSourceList(messages?.[language], displayDocument);
     return () => {
@@ -35,41 +35,38 @@ export default ({ messages, language }) => {
 
   return (
     <>
-      <DisplayDocModal />
-      <h3 className="text-center">
-        {messages?.[language]['authorial_source']} (
-        {filteredSourceList?.length ?? sourceList?.length})
-        <ReactTooltip
-          id="recom"
-          type="light"
-          place="bottom"
-          effect="solid"
-          className="info-tooltip"
-          border={true}
-          getContent={() => messages?.[language]['source_info']}
-        />
-        <span
-          data-tip=""
-          data-for="recom"
-          className="glyphicon glyphicon-info-sign"
-        ></span>
-      </h3>
-      <div className="bootstrap-table">
-        <div className="fixed-table-toolbar">
-          <Search
-            data={sourceList}
-            setDataFiltered={setFilteredSourceList}
-            language={language}
-          />
-        </div>
-        <div className="fixed-table-container" style={{ marginBottom: '20px' }}>
+      {sourceList && (
+        <>
+          <DisplayDocModal />
+          <h3 className="text-center">
+            {messages?.[language]['authorial_source']} (
+            {dataFiltered?.length ?? sourceList?.length})
+            <ReactTooltip
+              id="recom"
+              type="light"
+              place="bottom"
+              effect="solid"
+              className="info-tooltip"
+              border={true}
+              getContent={() => messages?.[language]['source_info']}
+            />
+            <span
+              data-tip=""
+              data-for="recom"
+              className="glyphicon glyphicon-info-sign"
+            ></span>
+          </h3>
+          <br />
           <Table
-            data={filteredSourceList ?? sourceList}
+            data={sourceList}
+            setDataFiltered={setDataFiltered}
+            dataFiltered={dataFiltered ?? sourceList}
             headers={messages?.[language]['source_table_headers']}
             classes="table table-hover table-striped table-bordered"
+            messages={messages[language]}
           />
-        </div>
-      </div>
+        </>
+      )}
     </>
   );
 };

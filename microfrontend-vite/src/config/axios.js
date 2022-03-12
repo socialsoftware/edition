@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getToken, setToken, setLoading } from '../store';
+import { getToken, setToken, setLoading, setError } from '../store';
 
 const fetcher = axios.create({
   baseURL: import.meta.env.VITE_URL,
@@ -14,6 +14,12 @@ fetcher.interceptors.request.use((config) => {
 
 fetcher.interceptors.response.use(
   async (response) => {
+    if (!response.data) {
+      const error = Error("No data fetched")
+      setLoading(false);
+      setError(error);
+      return Promise.reject(error);
+    } 
     const { accessToken } = response.data;
     accessToken && setToken(accessToken);
     setLoading(false);
@@ -21,6 +27,7 @@ fetcher.interceptors.response.use(
   },
   (error) => {
     setLoading(false);
+    setError(true);
     return Promise.reject(error);
   }
 );

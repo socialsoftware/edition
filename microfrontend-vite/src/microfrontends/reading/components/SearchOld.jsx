@@ -2,22 +2,12 @@ import { useEffect, useState } from 'react';
 
 const filterTable = (data, searchString) =>
   data?.filter((item) =>
-    item?.searchData.toLowerCase()?.includes(searchString?.toLowerCase().trim())
+    item?.searchData.toLowerCase().includes(searchString?.toLowerCase().trim())
   );
 
-export default ({ data, setDataFiltered, language }) => {
-  const [searchString, setSearchString] = useState('');
+export default ({ data, setDataFiltered }) => {
   const [result, setResult] = useState();
-  const onSearch = (term) => {
-    setSearchString(term);
-    setResult(filterTable(data, term));
-  };
-
-  useEffect(() => {
-    setResult();
-    setDataFiltered()
-    setSearchString('');
-  }, [language]);
+  const onSearch = (term) => setResult(filterTable(data, term));
 
   useEffect(() => {
     setDataFiltered(result);
@@ -29,7 +19,6 @@ export default ({ data, setDataFiltered, language }) => {
         <input
           className="form-control"
           type="text"
-          value={searchString}
           placeholder="Search"
           onChange={(e) => onSearch(e.target.value)}
         />

@@ -19,6 +19,7 @@ export const useStore = create(
       token: undefined,
       user: undefined,
       loading: false,
+      error: false,
       editionHeaders: defaultHeaders,
     }),
     {
@@ -37,7 +38,8 @@ export const getToken = () => state().token;
 export const getLanguage = () => state().language;
 export const isAuthenticated = () => (getUser() ?? false);
 export const isLoading = () => state().loading;
-export const setLoading = (bool) => useStore.setState({ loading: bool });
+export const setLoading = (loading) => useStore.setState({ loading });
+export const setError = (error) => useStore.setState({ error });
 export const setLanguage = (language) => useStore.setState({ language });
 export const setUser = (user) => useStore.setState({ user });
 export const setToken = (token) => useStore.setState({ token });

@@ -1,13 +1,14 @@
-import { Routes, Route, useNavigate } from 'react-router-dom';
 import { lazy, Suspense, useEffect } from 'react';
-import './resources/css/app.css';
-import { getToken, isAuthenticated, logout, useStore } from './store';
-import { getUser } from './microfrontends/user/api/users';
-import Navbar from './microfrontends/common/Navbar';
-import Home from './microfrontends/home/Home';
-import NoPage from './microfrontends/common/NoPage';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import Error from './microfrontends/common/Error';
 import Loading from './microfrontends/common/Loading';
 import LoadingModal from './microfrontends/common/LoadingModal';
+import Navbar from './microfrontends/common/Navbar';
+import NoPage from './microfrontends/common/NoPage';
+import Home from './microfrontends/home/Home';
+import { getUser } from './microfrontends/user/api/users';
+import './resources/css/app.css';
+import { getToken, isAuthenticated, logout, storeStateSelector } from './store';
 
 const UserRouter = lazy(() => import('./microfrontends/user/UserRouter'));
 const AboutRouter = lazy(() => import('./microfrontends/about/AboutRouter'));
@@ -27,6 +28,13 @@ const EditionRouter = lazy(() =>
 
 function App() {
   const navigate = useNavigate();
+  const error = storeStateSelector('error');
+  const token = storeStateSelector('loading')
+
+
+  useEffect(() => {
+    error && navigate("/error", {replace: true})
+  },[error])
 
   useEffect(async () => {
     getToken() &&
@@ -37,7 +45,7 @@ function App() {
           logout();
           navigate('auth/signin', { replace: true });
         });
-  }, [useStore().token]);
+  }, [token]);
 
   return (
     <>
@@ -52,6 +60,7 @@ function App() {
           <Route path="/documents/*" element={<DocumentsRouter />} />
           <Route path="/fragments/*" element={<FragmentRouter />} />
           <Route path="/edition/*" element={<EditionRouter />} />
+          <Route path="/error" element={<Error />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </Suspense>

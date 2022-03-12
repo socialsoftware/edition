@@ -38,27 +38,24 @@ export default ({ messages, language }) => {
 
   return (
     <>
-      <DisplayDocModal />
-      <h3 className="text-center">
-        {messages?.[language]['fragment_codified']} (
-        {filteredEncodedFragments?.length ?? encodedFragments?.length})
-      </h3>
-      <div className="bootstrap-table">
-        <div className="fixed-table-toolbar">
-          <Search
-            data={encodedFragments}
-            setDataFiltered={setFilteredEncodedFragments}
-            language={language}
-          />
-        </div>
-        <div className="fixed-table-container" style={{ marginBottom: '20px' }}>
+      {encodedFragments && (
+        <>
+          <DisplayDocModal />
+          <h3 className="text-center">
+            {messages?.[language]['fragment_codified']} (
+            {filteredEncodedFragments?.length ?? encodedFragments?.length})
+          </h3>
+          <br />
           <Table
-            data={filteredEncodedFragments ?? encodedFragments}
+            data={encodedFragments}
+            dataFiltered={filteredEncodedFragments ?? encodedFragments}
+            setDataFiltered={setFilteredEncodedFragments}
             headers={messages?.[language]['fragments_table_headers']}
             classes="table table-hover"
+            messages={messages[language]}
           />
-        </div>
-      </div>
+        </>
+      )}
     </>
   );
 };

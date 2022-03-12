@@ -17,6 +17,7 @@ export default ({ messages }) => {
   const filteredCitations = readingStore(selector('filteredCitations'));
   
   useEffect(() => {
+    //TODO: Refactor passing the logic to the API method
     !citations &&
       getTwitterCitations()
         .then(({ data }) =>
@@ -35,18 +36,13 @@ export default ({ messages }) => {
         {filteredCitations?.length ?? citations?.length})
       </h3>
       <br />
-      <div className="bootstrap-table">
-        <div className="fixed-table-toolbar">
-          <Search data={citations} setDataFiltered={setFilteredCitations} />
-        </div>
-        <div className="fixed-table-container" style={{ marginBottom: '20px' }}>
-          <Table
-            data={filteredCitations ?? citations}
+      <Table
+            data={citations}
+            setDataFiltered={setFilteredCitations}
+            dataFiltered={filteredCitations ?? citations}
             headers={messages[language]['citations_table_headers']}
             classes="table table-hover"
           />
-        </div>
-      </div>
     </>
   );
 };

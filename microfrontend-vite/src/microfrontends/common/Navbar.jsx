@@ -1,4 +1,4 @@
-import './resources/navbar.css';
+import './resources/common.css';
 import messages from './resources/constants';
 import {
   setLanguage,

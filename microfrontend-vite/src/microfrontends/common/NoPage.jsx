@@ -1,8 +1,17 @@
 import messages from './resources/constants';
-import { useStore } from '../../store';
+import { setError, useStore } from '../../store';
+import { useEffect} from 'react';
 
-export default () => (
+
+export default () => {
+  
+  useEffect(() => {
+    return () => setError();
+  },[])
+  
+  return (
   <div className="container">
         {messages?.[useStore().language]['pagenotfound_message']}
   </div>
 );
+  }
