@@ -3,6 +3,7 @@ import { lazy } from 'react';
 import messages from './resources/constants';
 import { storeStateSelector } from '../../store';
 import './resources/edition.css';
+import EditionIndex from './page/EditionIndex';
 
 const MainEdition = lazy(() => import('./page/MainEdition'));
 const UserEditions = lazy(() => import('./page/UserEditions'));
@@ -12,10 +13,17 @@ export default () => {
 
 
   return (
-    <div className="container" style={{marginBottom: "20px"}}>
+    <div className="container" style={{ marginBottom: '20px' }}>
       <Routes>
-        <Route path='acronym/*' element={<MainEdition messages={messages[language]} />}/>
-        <Route path='user/:username' element={<UserEditions messages={messages[language]}/>}/>
+        <Route index element={<EditionIndex messages={messages[language]}/>} />
+        <Route
+          path="acronym/*"
+          element={<MainEdition messages={messages[language]} />}
+        />
+        <Route
+          path="user/:username"
+          element={<UserEditions messages={messages[language]} />}
+        />
       </Routes>
     </div>
   );
