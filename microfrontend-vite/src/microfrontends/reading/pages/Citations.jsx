@@ -1,48 +1,30 @@
 import { useEffect } from 'react';
+import Table from '../../../shared/Table';
 import { getTwitterCitations } from '../api/reading';
-import { TwiterCitation } from '../CitationModel';
-import Search from '../components/Search';
-import Table from '../components/Table';
-import {useStore} from '../../../store'
-import {
-  readingStore,
-  setCitations,
-  setFilteredCitations,
-} from '../readingStore';
-const selector = (sel) => (state) => state[sel];
+import { readingStateSelector, setLength } from '../readingStore';
 
 export default ({ messages }) => {
-  const language = useStore(selector('language'))
-  const citations = readingStore(selector('citations'));
-  const filteredCitations = readingStore(selector('filteredCitations'));
-  
+  const citations = readingStateSelector('citations');
+  const length = readingStateSelector('length');
+
   useEffect(() => {
-    //TODO: Refactor passing the logic to the API method
-    !citations &&
-      getTwitterCitations()
-        .then(({ data }) =>
-          setCitations(data?.map((entry) => TwiterCitation(entry)))
-        )
-        .catch((err) => {
-          console.error(err);
-        });
-    //    return () => setFilteredCitations(null)
+    !citations && getTwitterCitations();
   }, []);
 
   return (
     <>
       <h3 className="text-center">
-        {messages[language]['general_citations_twitter']} (
-        {filteredCitations?.length ?? citations?.length})
+        {messages['general_citations_twitter']} ({length})
       </h3>
       <br />
       <Table
-            data={citations}
-            setDataFiltered={setFilteredCitations}
-            dataFiltered={filteredCitations ?? citations}
-            headers={messages[language]['citations_table_headers']}
-            classes="table table-hover"
-          />
+        data={citations}
+        labels={messages.citationsTableLabels}
+        classes="table table-hover"
+        setLength={setLength}
+        pagination
+        search
+      />
     </>
   );
 };

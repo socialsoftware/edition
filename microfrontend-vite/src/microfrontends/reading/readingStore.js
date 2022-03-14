@@ -12,8 +12,11 @@ export const readingStore = create((set, get) => ({
     prevRecomendation: null,
   },
   citations: null,
-  filteredCitations: null,
+  length: null,
 }));
+
+export const readingStateSelector = (sel) => readingStore(state => state[sel]);
+
 
 export const state = () => readingStore.getState();
 export const getExperts = () => state().experts;
@@ -27,5 +30,4 @@ export const setRecommendationAttribute = (attribute, value) =>
   setRecommendation({ ...getRecommendation(), [attribute]: parseFloat(value) });
 export const setCitations = (data) =>
   readingStore.setState({ citations: data });
-export const setFilteredCitations = (data) =>
-  readingStore.setState({ filteredCitations: data });
+export const setLength = (length) => readingStore.setState({ length });

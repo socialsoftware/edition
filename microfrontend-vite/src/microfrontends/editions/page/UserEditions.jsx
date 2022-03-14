@@ -1,34 +1,57 @@
-import HTMLReactParser from 'html-react-parser';
 import { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { getVirtualEdition } from '../api/edition';
-import Search from '../components/Search';
-import Table from '../components/Table';
+import { useParams } from 'react-router-dom';
+import { getUserContributions } from '../api/edition';
+import Table from '../../../shared/Table';
 import {
   editionStoreSelector,
-  getAcronym,
-  setAcronym,
-  setDataFiltered,
 } from '../editionStore';
-import { isVirtualEdition } from '../Models/VirtualEdition';
-
-const getTitle = (messages, edition) =>
-  `${messages['edition_of']} ${edition.title} `;
-
-const getFullName = (edition) => `${edition?.firstName} ${edition?.lastName}`;
 
 export default ({ messages }) => {
   const { username } = useParams();
-  const edition = editionStoreSelector('edition');
-  const dataFiltered = editionStoreSelector('dataFiltered');
+  const data = editionStoreSelector('data');
 
   useEffect(() => {
-    setAcronym(acronym);
-  }, [acronym]);
+    getUserContributions(username);
+  }, [messages]);
+
 
   return (
-    <div>
-
-    </div>
+    <>
+      {data?.tableData && (
+        <>
+          <h3 className="text-center">{data.title}</h3>
+          <br />
+          <p>
+            <strong>{messages.editions}: </strong>
+            {data.editions}
+          </p>
+          <p>
+            <strong>{messages.participant}: </strong>
+            {data.games}
+          </p>
+          <p>
+            <strong>{messages.points}: </strong>
+            {data.score}
+          </p>
+          <p>
+            <strong>{messages.position}: </strong>
+            {data.position}
+          </p>
+          <p>
+            <strong>
+              {data.fragments} {messages.fragments}:
+            </strong>
+          </p>
+          <br />
+          <Table 
+          data={data.tableData}
+          labels={messages.userTableLabels}
+          classes="table table-hover"
+          pagination
+          search
+          />
+        </>
+      )}
+    </>
   );
 };

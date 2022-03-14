@@ -9,7 +9,7 @@ const options = {
     name === 'a' && <Link to={attribs.to ?? '/'}>{domToReact(children)}</Link>,
 };
 
-export function VirtualEditionEntry(entry) {
+function VirtualEditionEntry(entry) {
   const xmlid = entry?.xmlId;
   const urlid = entry?.urlId;
 
@@ -51,7 +51,7 @@ export function VirtualEditionEntry(entry) {
   return { ...result, searchData: JSON.stringify(result) };
 }
 
-export const Editors = ({ participantList }) =>
+const Editors = ({ participantList }) =>
   parserHTML(
     participantList
       ?.reduce(
@@ -65,4 +65,17 @@ export const Editors = ({ participantList }) =>
     options
   );
 
-export const Title = ({ title }) => parserHTML(title ?? '');
+const Title = ({ title }) => parserHTML(title ?? '');
+
+export function VirtualEditionModel(data) {
+  return {
+    ...data,
+    synopsis: parserHTML(data.synopsis),
+    title: Title(data),
+    editors: Editors(data),
+    type: 'VIRTUAL',
+    tableData: data?.sortedInterpsList?.map((entry) =>
+      VirtualEditionEntry(entry)
+    ),
+  };  
+}

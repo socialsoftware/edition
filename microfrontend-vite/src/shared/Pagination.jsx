@@ -1,10 +1,8 @@
-import { useEffect, useRef } from 'react';
-
 const getNavLabel = (index, numberOfItems, length) => {
   const start = index * numberOfItems + 1;
   let end = numberOfItems * (index + 1);
   end = end > length ? length : end;
-  return `${start} - ${end}`;
+  return length ? `${start} - ${end}` : 0;
 };
 
 export default ({
@@ -14,17 +12,10 @@ export default ({
   numberOfItems,
   length,
 }) => {
-  const isMounted = useRef();
   const handleSelect = (e) => {
     setIndex(parseInt((index * numberOfItems) / e.target.value));
     setNumberOfItems(+e.target.value);
   };
-
-  useEffect(() => {
-    setIndex(0);
-    isMounted.current && setNumberOfItems(numberOfItems < length ? numberOfItems : length);
-    isMounted.current = true;
-  }, [length]);
 
   const changeIndex = (val) => {
     val === 'FIRST' && setIndex(0);
@@ -43,31 +34,14 @@ export default ({
         value={numberOfItems}
         onChange={handleSelect}
       >
-        {length >= 10 && (
-          <option id="option-10" value={10} className="option-select">
-            10
-          </option>
-        )}
-        {length >= 25 && (
-          <option id="option-25" value={25} className="option-select">
-            25
-          </option>
-        )}
-        {length >= 50 && (
-          <option id="option-50" value={50} className="option-select">
-            50
-          </option>
-        )}
-        {length >= 100 && (
-          <option id="option-100" value={100} className="option-select">
-            100
-          </option>
-        )}
-        <option
-          id={`option-${length}`}
-          value={length}
-          className="option-select"
-        >
+        {[10, 25, 50, 100]
+          .filter((option) => option < length)
+          .map((option, index) => (
+            <option key={index} value={option} className="option-select">
+              {option === length ? 'All' : option}
+            </option>
+          ))}
+        <option value={length} className="option-select">
           All
         </option>
       </select>

@@ -3,7 +3,7 @@ export default {
     authorial_source: 'Testemunhos',
     source_info:
       'Fac-símiles dos documentos originais de Fernando Pessoa (manuscritos, datiloscritos ou impressos)',
-    source_table_headers: {
+    sourceTableLabels: {
       title: 'Documentos',
       transcription: 'Transcrição',
       date: 'Data',
@@ -26,7 +26,7 @@ export default {
     true: 'Sim',
 
     fragment_codified: 'Fragmentos Codificados',
-    fragments_table_headers: {
+    fragmentsTableLabels: {
       title: 'Título',
       JPC: 'Jacinto do Prado Coelho',
       TSC: 'Teresa Sobral Cunha',
@@ -63,7 +63,7 @@ export default {
     authorial_source: 'Testimonios',
     source_info:
       'Facsimiles of original documents by Fernando Pessoa (handwritten, typewritten or printed)',
-    source_table_headers: {
+    sourceTableLabels: {
       title: 'Documents',
       transcription: 'Transcription',
       date: 'Date',
@@ -86,7 +86,7 @@ export default {
     true: 'yes',
 
     fragment_codified: 'Encoded Fragments',
-    fragments_table_headers: {
+    fragmentsTableLabels: {
       title: 'Title',
       JPC: 'Jacinto do Prado Coelho',
       TSC: 'Teresa Sobral Cunha',
@@ -123,7 +123,7 @@ export default {
     authorial_source: 'Witnesses',
     source_info:
       'Facsímiles de los documentos originales de Fernando Pessoa (manuscritos, mecanografiados o impresos)',
-    source_table_headers: {
+    sourceTableLabels: {
       title: 'Documentos',
       transcription: 'Transcripción',
       date: 'Fecha',
@@ -146,7 +146,7 @@ export default {
     true: 'Si',
 
     fragment_codified: 'Fragmentos Codificados',
-    fragments_table_headers: {
+    fragmentsTableLabels: {
       title: 'Título',
       JPC: 'Jacinto do Prado Coelho',
       TSC: 'Teresa Sobral Cunha',

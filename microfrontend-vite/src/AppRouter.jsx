@@ -1,14 +1,14 @@
 import { lazy, Suspense, useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import Error from './microfrontends/common/Error';
-import Loading from './microfrontends/common/Loading';
-import LoadingModal from './microfrontends/common/LoadingModal';
+import Error from './pages/Error';
+import Loading from './shared/Loading';
+import LoadingModal from './pages/LoadingModal';
 import Navbar from './microfrontends/common/Navbar';
-import NoPage from './microfrontends/common/NoPage';
+import NoPage from './pages/NoPage';
 import Home from './microfrontends/home/Home';
 import { getUser } from './microfrontends/user/api/users';
 import './resources/css/app.css';
-import { getToken, isAuthenticated, logout, storeStateSelector } from './store';
+import { getToken, isAuthenticated, logout, setError, storeStateSelector } from './store';
 
 const UserRouter = lazy(() => import('./microfrontends/user/UserRouter'));
 const AboutRouter = lazy(() => import('./microfrontends/about/AboutRouter'));
@@ -25,16 +25,17 @@ const EditionRouter = lazy(() =>
   import('./microfrontends/editions/EditionRouter')
 );
 
-
 function App() {
   const navigate = useNavigate();
   const error = storeStateSelector('error');
-  const token = storeStateSelector('loading')
-
+  const token = storeStateSelector('loading');
 
   useEffect(() => {
-    error && navigate("/error", {replace: true})
-  },[error])
+    error && navigate('/error', { replace: true });
+    setError();
+  }, [error]);
+
+
 
   useEffect(async () => {
     getToken() &&

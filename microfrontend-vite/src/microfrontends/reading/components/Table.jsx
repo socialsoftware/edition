@@ -1,4 +1,4 @@
-import React ,{ useCallback, useMemo, useState } from 'react';
+import React ,{ useCallback, useMemo, useState, useEffect } from 'react';
 import '../../../resources/css/bootstrap-table.min.css';
 import Pagination from './Pagination';
 import Search from './Search';
@@ -11,12 +11,17 @@ const getTableData = (data, index, numberOfItems) => {
 
 export default React.memo(
   ({ headers, data, dataFiltered, classes, messages, setDataFiltered }) => {
-    const [numberOfItems, setNumberOfItems] = useState(dataFiltered?.length);
-    const [index, setIndex] = useState(0);
+    const [numberOfItems, setNumberOfItems] = useState();
+    const [index, setIndex] = useState();
     const tableData = useMemo(() =>
       getTableData(dataFiltered, index, numberOfItems)
     );
 
+    useEffect(() => {
+      setIndex(0);
+      setNumberOfItems(10);
+    }, [data, dataFiltered]);
+    
     const changeNumberOfItems = useCallback((val) => setNumberOfItems(val));
     const changeIndex = useCallback((index) => setIndex(index));
 

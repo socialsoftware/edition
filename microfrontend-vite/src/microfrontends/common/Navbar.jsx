@@ -1,23 +1,17 @@
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import {
+  defaultHeaders, isAdmin, isAuthenticated, setEditionHeaders, setLanguage, storeStateSelector
+} from '../../store';
+import { LoggedIn, Login } from './LoginNavHeader';
 import './resources/common.css';
 import messages from './resources/constants';
-import {
-  setLanguage,
-  isAuthenticated,
-  isAdmin,
-  getLanguage,
-  useStore,
-  setEditionHeaders,
-  defaultHeaders,
-} from '../../store';
 import { navHeaders } from './resources/header_modules';
-import { Link } from 'react-router-dom';
-import { Login, LoggedIn } from './Login';
-import { useEffect } from 'react';
-const selector = (sel) => (state) => state[sel];
 
 export default () => {
-  const user = useStore(selector('user'));
-  const editionHeaders = useStore(selector('editionHeaders'));
+  const user = storeStateSelector('user');
+  const editionHeaders = storeStateSelector('editionHeaders');
+  const language = storeStateSelector('language')
 
   useEffect(() => {
     user && user?.selectedVE
@@ -32,7 +26,7 @@ export default () => {
   }, [user?.selectedVE]);
 
   const changeLang = (lang) => {
-    getLanguage() !== lang && setLanguage(lang);
+    language !== lang && setLanguage(lang);
   };
 
   const isHeaderVisible = (key) => {
@@ -60,7 +54,7 @@ export default () => {
               <span className="icon-bar"></span>
             </button>
             <Link className="navbar-brand" to="/">
-              {messages[getLanguage()]['header_title']}
+              {messages[language]['header_title']}
             </Link>
             <img
               alt="vite-logo"
@@ -100,7 +94,7 @@ export default () => {
                 style={{ display: !isHeaderVisible(key) && 'none' }}
               >
                 <a className="dropdown-toggle" data-toggle="dropdown">
-                  {messages[getLanguage()][module.name]}{' '}
+                  {messages[language][module.name]}{' '}
                   <span className="caret"></span>{' '}
                 </a>
                 <ul key={index} className="dropdown-menu">
@@ -111,7 +105,7 @@ export default () => {
                         <li key={index} className={page?.className ?? ''}>
                           {page?.route && (
                             <Link to={page?.route}>
-                              {messages[getLanguage()][page?.id ?? ""] ?? page?.name ?? ""}
+                              {messages[language][page?.id ?? ""] ?? page?.name ?? ""}
                             </Link>
                           )}
                         </li>
@@ -123,14 +117,14 @@ export default () => {
                         <li key={index} className={page?.className ?? ''}>
                           {page?.route ? (
                             <Link to={page?.route}>
-                              {messages[getLanguage()][page?.id]}
+                              {messages[language][page?.id]}
                             </Link>
                           ) : (
                             <a
                               href="https://ldod.uc.pt/ldod-visual"
                               target="_blank"
                             >
-                              {messages[getLanguage()][page?.id]}
+                              {messages[language][page?.id]}
                             </a>
                           )}
                         </li>
@@ -150,19 +144,19 @@ export default () => {
             )}
             <li className="nav-lang">
               <a
-                className={getLanguage() === 'pt' ? 'active' : ''}
+                className={language === 'pt' ? 'active' : ''}
                 onClick={() => changeLang('pt')}
               >
                 PT
               </a>
               <a
-                className={getLanguage() === 'en' ? 'active' : ''}
+                className={language === 'en' ? 'active' : ''}
                 onClick={() => changeLang('en')}
               >
                 EN
               </a>
               <a
-                className={getLanguage() === 'es' ? 'active' : ''}
+                className={language === 'es' ? 'active' : ''}
                 onClick={() => changeLang('es')}
               >
                 ES

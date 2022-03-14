@@ -6,7 +6,6 @@ const filterTable = (data, searchString) =>
   );
 
 export default ({ data, setDataFiltered, language }) => {
-
   const [searchString, setSearchString] = useState('');
   const [result, setResult] = useState();
   const onSearch = (term) => {
@@ -16,13 +15,13 @@ export default ({ data, setDataFiltered, language }) => {
 
   useEffect(() => {
     setResult();
-    setDataFiltered()
+    setDataFiltered();
     setSearchString('');
-  }, [language]);
-
+  }, [language, data]);
 
   useEffect(() => {
-    setDataFiltered(result);
+    if (result?.length === data?.length) setDataFiltered();
+    else setDataFiltered(result);
   }, [result?.length]);
 
   return (

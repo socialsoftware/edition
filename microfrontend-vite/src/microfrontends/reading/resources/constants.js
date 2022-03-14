@@ -13,7 +13,7 @@ export default {
     text: 'Texto',
     taxonomy: 'Taxonomia',
     general_citations_twitter: 'Citações no Twitter',
-    citations_table_headers: {
+    citationsTableLabels: {
       date: 'Data',
       title: 'Fragmento',
       sourceLink: 'Tweet',
@@ -37,7 +37,7 @@ export default {
     text: 'Text',
     taxonomy: 'Taxonomy',
     general_citations_twitter: 'Citations on Twitter',
-    citations_table_headers: {
+    citationsTableLabels: {
       date: 'Date',
       title: 'Fragment',
       sourceLink: 'Tweet',
@@ -61,7 +61,7 @@ export default {
     text: 'Texto',
     taxonomy: 'Taxonomía',
     general_citations_twitter: 'Citas en Twitter',
-    citations_table_headers: {
+    citationsTableLabels: {
       date: 'Fecha',
       title: 'Fragmento',
       sourceLink: 'Tweet',

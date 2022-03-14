@@ -1,6 +1,8 @@
 .pagination-select {
     -webkit-appearance: menulist-button;
     color: #333;
+    width: 50px;
+    text-align: center;
     height: 34.18px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -39,7 +41,6 @@
     opacity: 1!important;
     border: 1px solid rgba(0, 0, 0, .2)!important;
     border-radius: 6px!important;
-    max-width: 200px!important;
     text-align: center;
     line-height: 1.4!important;
     font-size: 12px!important;

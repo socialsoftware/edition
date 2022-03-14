@@ -1,8 +1,6 @@
 import Modal from 'react-modal';
-import { fragmentStore, toggleShow } from '../fragmentStore';
 
-export default () => {
-  const { docPath, showModal } = fragmentStore();
+export default ({docPath, showModal, toggleShow}) => {
   const toggleZoom = (e) => {
     const imgClasses = e.target.classList;
     imgClasses.contains('fac-image-zoomed')

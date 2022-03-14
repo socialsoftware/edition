@@ -28,7 +28,6 @@ export default {
     authorial_source: 'Testemunhos',
     fragment_codified: 'Fragmentos Codificados',
 
-    pagenotfound_message: 'LdoD: Esta página não existe...',
 
     header_editions: 'Edições',
     general_editor_prado: 'Jacinto do Prado Coelho',
@@ -39,7 +38,7 @@ export default {
     mallet: 'LdoD-Jogo-Class',
     class: 'LdoD-Mallet',
     twitter: 'LdoD-Twitter',
-    error: 'Algo correu mal. Tente novamente mais tarde'
+    error: 'Algo correu mal. Tente novamente mais tarde',
   },
   en: {
     header_title: 'LdoD Archive',
@@ -70,7 +69,6 @@ export default {
     header_documents: 'Documents',
     authorial_source: 'Witnesses',
     fragment_codified: 'Encoded Fragments',
-    pagenotfound_message: 'LdoD: Page not found...',
 
     header_editions: 'Editions',
     general_editor_prado: 'Jacinto do Prado Coelho',
@@ -81,7 +79,7 @@ export default {
     mallet: 'LdoD-Jogo-Class',
     class: 'LdoD-Mallet,',
     twitter: 'LdoD-Twitter',
-    error: 'Something went wrong. Try again later'
+    error: 'Something went wrong. Try again later',
 
   },
   es: {
@@ -112,7 +110,6 @@ export default {
     header_documents: 'Documentos',
     authorial_source: 'Testimonios',
     fragment_codified: 'Fragmentos Codificados',
-    pagenotfound_message: 'LdoD: Esta página no existe',
 
     header_editions: 'Ediciones',
     general_editor_prado: 'Jacinto do Prado Coelho',
@@ -123,6 +120,6 @@ export default {
     mallet: 'LdoD-Jogo-Class',
     class: 'LdoD-Mallet,',
     twitter: 'LdoD-Twitter',
-    error: 'Algo salió mal. Vuelve a intentarlo más tarde'
+    error: 'Algo salió mal. Vuelve a intentarlo más tarde',
   },
 };

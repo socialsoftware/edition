@@ -5,7 +5,7 @@ import messages from './resources/constants';
 
 // TODO: dependecy from Home MFE
 import HomeInfo from '../home/HomeInfo';
-import { getLanguage } from '../../store';
+import { storeStateSelector } from '../../store';
 
 const Archive = lazy(() => import('./pages/archive/Archive'));
 const Videos = lazy(() => import('./pages/videos/Videos'));
@@ -24,6 +24,8 @@ const Copyright = lazy(() => import('./pages/copyright/Copyright'));
 
 
 export default () => {
+  const language = storeStateSelector('language')
+
   const scroll = (ref) => {
     const section = document.querySelector(ref);
     section.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -41,7 +43,7 @@ export default () => {
             <Route path="encoding" element={<Encoding />} />
             <Route path="articles" element={<Articles scroll={scroll} />} />
             <Route path="book" element={<Book />} />
-            <Route path="conduct" element={<Conduct messages={messages} />} />
+            <Route path="conduct" element={<Conduct messages={messages} language={language}/>} />
             <Route path="privacy" element={<Privacy />} />
             <Route path="team" element={<Team />} />
             <Route path="acknowledgements" element={<Ack />} />
@@ -50,7 +52,7 @@ export default () => {
           </Routes>
         </div>
         <div className="ldod-default col-md-8 col-md-offset-2 ldod-about">
-          <HomeInfo info={messages[getLanguage()].info} />
+          <HomeInfo info={messages[language].info} />
         </div>
       </div>
       <div className="bottom-bar"></div>

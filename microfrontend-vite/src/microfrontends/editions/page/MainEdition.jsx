@@ -28,8 +28,8 @@ export default ({messages}) => {
             )
           }
         />
-        <Route path=":acronym/category/:category" element={<Category />} />
-        <Route path=":acronym/taxonomy" element={<Taxonomies />} />
+        <Route path=":acronym/category/:category" element={<Category messages={messages}/>} />
+        <Route path=":acronym/taxonomy" element={<Taxonomies messages={messages}/>} />
       </Routes>
     </div>
   );

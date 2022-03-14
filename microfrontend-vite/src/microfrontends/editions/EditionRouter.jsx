@@ -14,8 +14,8 @@ export default () => {
   return (
     <div className="container" style={{marginBottom: "20px"}}>
       <Routes>
-        <Route path='acronym/*' element={<MainEdition messages={messages?.[language]} />}/>
-        <Route path='user/:username' element={<UserEditions messages={messages?.[language]}/>}/>
+        <Route path='acronym/*' element={<MainEdition messages={messages[language]} />}/>
+        <Route path='user/:username' element={<UserEditions messages={messages[language]}/>}/>
       </Routes>
     </div>
   );

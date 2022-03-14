@@ -1,58 +1,52 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
+import DisplayDocModal from '../../../shared/DisplayDocModal';
+import Table from '../../../shared/Table';
 import { getFragmentList } from '../api/documents';
 import {
   documentStateSelector,
-  setDocPath,
-  setFilteredEncodedFragments,
-  toggleShow,
+  setDocPath, setFragmentLength, toggleShow
 } from '../documentsStore';
-import Search from '../components/Search';
 
-import DisplayDocModal from '../components/DisplayDocModal';
-import Table from '../components/Table';
 
-export default ({ messages, language }) => {
-  const isMounted = useRef(false);
+export default ({ messages }) => {
+  const [mounted, setMounted] = useState(false);
   const encodedFragments = documentStateSelector('encodedFragments');
-  const filteredEncodedFragments = documentStateSelector(
-    'filteredEncodedFragments'
-  );
+  const length = documentStateSelector('fragmentLength');
+  const showModal = documentStateSelector('showModal');
+  const docPath = documentStateSelector('docPath');
 
   useEffect(() => {
-    !encodedFragments && getFragmentList(messages?.[language], displayDocument);
-    return () => {
-      isMounted.current = false;
-      setFilteredEncodedFragments(null);
-    };
-  }, []);
-
-  useEffect(() => {
-    isMounted.current && getFragmentList(messages?.[language], displayDocument);
-    isMounted.current = true;
-  }, [language]);
+    !encodedFragments && getFragmentList(messages, displayDocument);
+    mounted && getFragmentList(messages, displayDocument);
+    setMounted(true);
+  }, [messages]);
 
   const displayDocument = (filename) => {
-    toggleShow();
     setDocPath(filename);
+    toggleShow();
   };
 
   return (
     <>
       {encodedFragments && (
         <>
-          <DisplayDocModal />
+          <DisplayDocModal
+            toggleShow={toggleShow}
+            docPath={docPath}
+            showModal={showModal}
+          />
           <h3 className="text-center">
-            {messages?.[language]['fragment_codified']} (
-            {filteredEncodedFragments?.length ?? encodedFragments?.length})
+            {messages['fragment_codified']} ({length})
           </h3>
           <br />
           <Table
             data={encodedFragments}
-            dataFiltered={filteredEncodedFragments ?? encodedFragments}
-            setDataFiltered={setFilteredEncodedFragments}
-            headers={messages?.[language]['fragments_table_headers']}
             classes="table table-hover"
-            messages={messages[language]}
+            labels={messages.fragmentsTableLabels}
+            setLength={setFragmentLength}
+            itemsPerPage={10}
+            pagination
+            search
           />
         </>
       )}

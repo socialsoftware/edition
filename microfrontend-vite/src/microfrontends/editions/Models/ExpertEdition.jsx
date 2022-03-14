@@ -1,9 +1,25 @@
 import { Link } from 'react-router-dom';
 
-export const isExpertEdition = (edition) => edition?.type === "EXPERT";
+export const isExpertEdition = (edition) => edition?.type === 'EXPERT';
 
-export function ExpertEditionEntry(entry) {
+const dropEmptyCols = (data) => {
+  let filteredHeaders = Object.keys(data[0]).filter((header) =>
+    data.some((entry) => entry[header])
+  );
+  return data.map((row) =>
+    Object.keys(row)
+      .filter((header) => filteredHeaders.includes(header))
+      .reduce(
+        (prev, curr) => ({
+          ...prev,
+          [curr]: row[curr],
+        }),
+        {}
+      )
+  );
+};
 
+function ExpertEditionEntry(entry) {
   const xmlid = entry?.xmlId;
   const urlid = entry?.urlId;
 
@@ -26,5 +42,15 @@ export function ExpertEditionEntry(entry) {
     date: entry?.date,
     heteronym: entry?.heteronym,
   };
-  return {...result, searchData: JSON.stringify(result)}
+  return { ...result, searchData: JSON.stringify(result) };
+}
+
+export function ExpertEditionModel(data) {
+  return {
+    ...data,
+    type: 'EXPERT',
+    tableData: dropEmptyCols(
+      data?.sortedInterpsList?.map((entry) => ExpertEditionEntry(entry))
+    ),
+  };
 }

@@ -2,7 +2,7 @@ import Modal from 'react-modal';
 import {
   setLoading,
   storeStateSelector,
-} from '../../store';
+} from '../store';
 
 export default () => {
   

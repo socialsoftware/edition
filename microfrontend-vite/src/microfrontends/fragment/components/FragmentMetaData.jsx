@@ -1,7 +1,11 @@
 import { getExpertData, getSourceData } from '../../documents/models/Fragment';
 import { isEditorial, isPublication } from '../dataExtraction';
-import { setDocPath, toggleShow } from '../fragmentStore';
-import DisplayDocModal from './DisplayDocModal';
+import {
+  fragmentStateSelector,
+  setDocPath,
+  toggleShow,
+} from '../fragmentStore';
+import DisplayDocModal from '../../../shared/DisplayDocModal';
 
 function displayDocument(filename) {
   toggleShow();
@@ -9,13 +13,20 @@ function displayDocument(filename) {
 }
 
 export default ({ fragment, messages }) => {
-  const metaData = fragment.metaData ?? {}
+  const metaData = fragment.metaData ?? {};
+  const showModal = fragmentStateSelector('showModal');
+  const docPath = fragmentStateSelector('docPath');
+
   return (
     <div className="well">
       {isEditorial(fragment)
         ? getExpertData(metaData, messages)
         : getSourceData(metaData, messages, displayDocument)}
-      <DisplayDocModal />
+      <DisplayDocModal
+        toggleShow={toggleShow}
+        docPath={docPath}
+        showModal={showModal}
+      />
     </div>
   );
 };

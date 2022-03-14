@@ -1,46 +1,38 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getExpertEdition } from '../api/edition';
-import Table from '../components/Table';
+import Table from '../../../shared/Table';
 import {
   editionStoreSelector,
-  getAcronym,
-  setAcronym,
-  setDataFiltered,
+  setLength,
 } from '../editionStore';
 import { isExpertEdition } from '../Models/ExpertEdition';
 
-const getTitle = (messages, edition, dataFiltered) =>
-  `${messages['edition_of']} ${edition.editor} (${
-    dataFiltered?.length ?? edition.tableData?.length
-  })`;
 
 export default ({ messages }) => {
   const { acronym } = useParams();
-  const edition = editionStoreSelector('edition');
-  const dataFiltered = editionStoreSelector('dataFiltered');
+  const data = editionStoreSelector('data');
+  const length = editionStoreSelector('length')
 
   useEffect(() => {
-    acronym !== getAcronym() && getExpertEdition(acronym);
-    setAcronym(acronym);
-  }, [acronym]);
-
+    getExpertEdition(acronym);
+  }, [messages, acronym]);
 
   return (
     <div>
-      {edition && isExpertEdition(edition) && (
+      {data?.tableData && isExpertEdition(data) && (
         <>
           <h3 className="text-center">
-            {getTitle(messages, edition, dataFiltered)}
+            {messages['edition_of']} {data.editor} ({length})
           </h3>
           <br />
-          <Table 
-          data={edition?.tableData}
-          setDataFiltered={setDataFiltered}          
-          dataFiltered={dataFiltered ?? edition?.tableData}
-          headers={messages?.expertTableHeaders}
-          classes="table table-hover"
-          messages={messages}
+          <Table
+            data={data.tableData}
+            classes="table table-hover"
+            labels={messages.expertTableLabels}
+            setLength={setLength}
+            pagination
+            search
           />
         </>
       )}

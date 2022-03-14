@@ -75,6 +75,12 @@ body {
     animation: lds-dual-ring 1.2s linear infinite;
 }
 
+.error {
+    color: #FC1B27;
+    font-size: larger;
+    text-align: center;
+}
+
 @keyframes lds-dual-ring {
     0% {
         transform: rotate(0deg);

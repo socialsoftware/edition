@@ -1,32 +1,26 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
+import ReactTooltip from 'react-tooltip';
+import DisplayDocModal from '../../../shared/DisplayDocModal';
+import Table from '../../../shared/Table';
 import { getSourceList } from '../api/documents';
 import {
-  documentStateSelector,
-  setFilteredSourceList,
-  toggleShow,
-  setDocPath,
+  documentStateSelector, setDocPath,
+  setSourceLength, toggleShow
 } from '../documentsStore';
-import Table from '../components/Table';
-import ReactTooltip from 'react-tooltip';
-import DisplayDocModal from '../components/DisplayDocModal';
-import { setDataFiltered } from '../../editions/editionStore';
 
-export default ({ messages, language }) => {
-  const isMounted = useRef(false);
+export default ({ messages }) => {
+  const [mounted, setMounted] = useState(false);
   const sourceList = documentStateSelector('sourceList');
-  const dataFiltered = documentStateSelector('filteredSourceList');
+  const length = documentStateSelector('sourceLength');
+  const showModal = documentStateSelector('showModal');
+  const docPath = documentStateSelector('docPath');
+  
   useEffect(() => {
-    !sourceList && getSourceList(messages?.[language], displayDocument);
-    return () => {
-      isMounted.current = false;
-      setFilteredSourceList(null);
-    };
-  }, []);
+    !sourceList && getSourceList(messages, displayDocument);
+    mounted && getSourceList(messages, displayDocument);
+    setMounted(true)
+  }, [messages]);
 
-  useEffect(() => {
-    isMounted.current && getSourceList(messages?.[language], displayDocument);
-    isMounted.current = true;
-  }, [language]);
 
   const displayDocument = (filename) => {
     toggleShow();
@@ -37,10 +31,9 @@ export default ({ messages, language }) => {
     <>
       {sourceList && (
         <>
-          <DisplayDocModal />
+          <DisplayDocModal toggleShow={toggleShow} showModal={showModal} docPath={docPath}/>
           <h3 className="text-center">
-            {messages?.[language]['authorial_source']} (
-            {dataFiltered?.length ?? sourceList?.length})
+            {messages['authorial_source']} ({length})
             <ReactTooltip
               id="recom"
               type="light"
@@ -48,7 +41,7 @@ export default ({ messages, language }) => {
               effect="solid"
               className="info-tooltip"
               border={true}
-              getContent={() => messages?.[language]['source_info']}
+              getContent={() => messages['source_info']}
             />
             <span
               data-tip=""
@@ -59,11 +52,11 @@ export default ({ messages, language }) => {
           <br />
           <Table
             data={sourceList}
-            setDataFiltered={setDataFiltered}
-            dataFiltered={dataFiltered ?? sourceList}
-            headers={messages?.[language]['source_table_headers']}
+            labels={messages.sourceTableLabels}
             classes="table table-hover table-striped table-bordered"
-            messages={messages[language]}
+            setLength={setSourceLength}
+            pagination
+            search
           />
         </>
       )}
