@@ -9,7 +9,6 @@ body {
     line-height: 1.5;
 }
 
-
 .ReactModal__Overlay {
     opacity: 0;
     transition: opacity 300ms ease-in-out;
@@ -26,7 +25,6 @@ body {
 .ReactModal__Body--open {
     overflow: hidden;
 }
-
 
 .overlay-modal {
     background-color: rgba(0, 0, 0, 0.5);
@@ -88,4 +86,94 @@ body {
     100% {
         transform: rotate(360deg);
     }
+}
+
+
+/* TABLE  */
+
+.pagination-select {
+    -webkit-appearance: menulist-button;
+    color: #333;
+    width: 50px;
+    text-align: center;
+    height: 34.18px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.pagination {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.select-label {
+    margin-right: 5px;
+}
+
+.pagination-button {
+    margin-left: 20px;
+}
+
+.icon-align {
+    vertical-align: middle;
+    color: #333;
+}
+
+@media (min-width: 767px) {
+    .fixed-table-toolbar {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+/* DISPLAY DOC  */
+.image-modal {
+    inset: 0;
+    position: absolute;
+    overflow: auto;
+}
+
+.fac-image {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    max-height: 100vh;
+    max-width: 100%;
+    cursor: zoom-in;
+}
+
+.fac-image-zoomed {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    cursor: zoom-out;
+    margin: none;
+    max-height: none;
+    max-width: none;
+}
+
+.image-close {
+    z-index: 1;
+    border-radius: 5px;
+    background-color: #333;
+    border: #fff solid 1px;
+    color: #fff;
+    font-weight: bold;
+    position: fixed;
+    margin-left: 15%;
+    margin-top: 25px;
+}
+
+.image-close:hover {
+    color: #333;
+    background-color: #fff;
+    border: #333 solid 1px;
+}
+
+.table a {
+    color: #0C4EF6 !important;
 }

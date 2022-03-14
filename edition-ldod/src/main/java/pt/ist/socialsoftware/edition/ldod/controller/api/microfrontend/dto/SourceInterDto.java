@@ -60,6 +60,18 @@ public class SourceInterDto {
             }
         }
 
+        setXmlId(sourceInter.getSource().getSourceIntersSet().stream()
+                .map(SourceInterSimpleDto::new)
+                .map(SourceInterSimpleDto::getXmlId)
+                .findFirst()
+                .orElse(""));
+
+        setUrlId(sourceInter.getSource().getSourceIntersSet().stream()
+                .map(SourceInterSimpleDto::new)
+                .map(SourceInterSimpleDto::getUrlId)
+                .findFirst()
+                .orElse(""));
+
 
         if (sourceInter.getSource().getType().equals(Source.SourceType.MANUSCRIPT)) {
             ManuscriptSource source = (ManuscriptSource) sourceInter.getSource();
@@ -82,10 +94,7 @@ public class SourceInterDto {
             setHandNoteDto(source.getHandNoteSet().stream().map(HandNoteDto::new).findFirst());
             setTypeNoteDto(source.getTypeNoteSet().stream().map(TypeNoteDto::new).findFirst());
             setTranscription(source.getFragment().getRepresentativeSourceInter().getTitle());
-            setXmlId(source.getSourceIntersSet().stream()
-                    .map(SourceInterSimpleDto::new).findFirst().get().getXmlId());
-            setUrlId(source.getSourceIntersSet().stream()
-                    .map(SourceInterSimpleDto::new).findFirst().get().getUrlId());
+
 
             this.setMaterial(source.getMaterial());
             this.setColumns(source.getColumns());
@@ -105,13 +114,13 @@ public class SourceInterDto {
             this.setAltIdentifier(source.getAltIdentifier());
         } else {
             PrintedSource source = (PrintedSource) sourceInter.getSource();
-            this.title = source.getTitle();
-            this.setJournal(source.getJournal());
-            this.setIssue(source.getIssue());
-            this.setStartPage(source.getStartPage());
-            this.setEndPage(source.getEndPage());
-            this.setPubPlace(source.getPubPlace());
-            this.setAltIdentifier(source.getAltIdentifier());
+            setTitle(source.getTitle());
+            setJournal(source.getJournal());
+            setIssue(source.getIssue());
+            setStartPage(source.getStartPage());
+            setEndPage(source.getEndPage());
+            setPubPlace(source.getPubPlace());
+            setAltIdentifier(source.getAltIdentifier());
 
 
             if (source.getFacsimile() != null) {
@@ -141,9 +150,16 @@ public class SourceInterDto {
 
         setTranscription(source.getFragment().getRepresentativeSourceInter().getTitle());
         setXmlId(source.getSourceIntersSet().stream()
-                .map(SourceInterSimpleDto::new).findFirst().get().getXmlId());
+                .map(SourceInterSimpleDto::new)
+                .map(SourceInterSimpleDto::getXmlId)
+                .findFirst()
+                .orElse(""));
+
         setUrlId(source.getSourceIntersSet().stream()
-                .map(SourceInterSimpleDto::new).findFirst().get().getUrlId());
+                .map(SourceInterSimpleDto::new)
+                .map(SourceInterSimpleDto::getUrlId)
+                .findFirst()
+                .orElse(""));
 
         if (source.getType().equals(Source.SourceType.MANUSCRIPT)) {
             ManuscriptSource sourceMan = (ManuscriptSource) source;

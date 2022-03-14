@@ -38,6 +38,11 @@ export default {
     mallet: 'LdoD-Jogo-Class',
     class: 'LdoD-Mallet',
     twitter: 'LdoD-Twitter',
+    
+    header_search: "Pesquisa",
+    header_search_simple: "Pesquisa Simples",
+    header_search_advanced: "Pesquisa Avançada",
+
     error: 'Algo correu mal. Tente novamente mais tarde',
   },
   en: {
@@ -79,6 +84,11 @@ export default {
     mallet: 'LdoD-Jogo-Class',
     class: 'LdoD-Mallet,',
     twitter: 'LdoD-Twitter',
+
+    header_search: "Search",
+    header_search_simple: "Simple Search",
+    header_search_advanced: "Advanced Search",
+
     error: 'Something went wrong. Try again later',
 
   },
@@ -120,6 +130,11 @@ export default {
     mallet: 'LdoD-Jogo-Class',
     class: 'LdoD-Mallet,',
     twitter: 'LdoD-Twitter',
+
+    header_search: "Búsqueda",
+    header_search_simple: "Búsqueda Sencilla",
+    header_search_advanced: "Búsqueda Avanzada",
+
     error: 'Algo salió mal. Vuelve a intentarlo más tarde',
   },
 };

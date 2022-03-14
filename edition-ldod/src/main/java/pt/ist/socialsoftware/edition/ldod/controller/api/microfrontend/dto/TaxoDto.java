@@ -21,7 +21,7 @@ public class TaxoDto {
 		this.setAcronym(taxonomy.getEdition().getAcronym());
 		this.setCategorySetSize(taxonomy.getCategoriesSet().size());
 		this.setCategorySet(taxonomy.getCategoriesSet().stream()
-									.map(category -> new CategoryDto(category, "taxonomyPage"))
+									.map(category -> new CategoryDto(category, CategoryDto.PresentationTarget.TAXONOMY_PAGE))
 									.collect(Collectors.toList()));
 	}
 

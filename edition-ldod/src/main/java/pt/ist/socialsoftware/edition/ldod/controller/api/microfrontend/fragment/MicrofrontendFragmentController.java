@@ -28,7 +28,9 @@ public class MicrofrontendFragmentController {
     public FragmentBodyDto getVirtualFragment(@AuthenticationPrincipal LdoDUserDetails currentUser, @PathVariable String xmlId, @RequestBody ArrayList<String> selectedVE) {
         Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
         if (fragment == null) return null;
-        return currentUser != null ? new FragmentBodyDto(LdoD.getInstance(), currentUser.getUser(), fragment, new ArrayList<>(), selectedVE, "virtual") : new FragmentBodyDto(LdoD.getInstance(), null, fragment, new ArrayList<>(), selectedVE, "virtual");
+        return currentUser != null
+                ? new FragmentBodyDto(LdoD.getInstance(), currentUser.getUser(), fragment, new ArrayList<>(), selectedVE, "virtual")
+                : new FragmentBodyDto(LdoD.getInstance(), null, fragment, new ArrayList<>(), selectedVE, "virtual");
     }
 
 

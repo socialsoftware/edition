@@ -35,6 +35,7 @@
 					<artifactId>spring-boot-starter-tomcat</artifactId>
 					<scope>provided</scope>
 				</dependency>
+
 			</dependencies>
 		</profile>
 	</profiles>
@@ -89,7 +90,6 @@
 		    <artifactId>json-simple</artifactId>
 		    <version>1.1.1</version>
 		</dependency>
-		
 	</dependencies>
 	
 </project>

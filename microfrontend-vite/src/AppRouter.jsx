@@ -24,6 +24,8 @@ const FragmentRouter = lazy(() =>
 const EditionRouter = lazy(() =>
   import('./microfrontends/editions/EditionRouter')
 );
+const SearchRouter = lazy(() => import('./microfrontends/search/SearchRouter'));
+
 
 function App() {
   const navigate = useNavigate();
@@ -61,6 +63,8 @@ function App() {
           <Route path="/documents/*" element={<DocumentsRouter />} />
           <Route path="/fragments/*" element={<FragmentRouter />} />
           <Route path="/edition/*" element={<EditionRouter />} />
+          <Route path="/edition/*" element={<EditionRouter />} />
+          <Route path="/search/*" element={<SearchRouter />} />
           <Route path="/error" element={<Error />} />
           <Route path="*" element={<NoPage />} />
         </Routes>

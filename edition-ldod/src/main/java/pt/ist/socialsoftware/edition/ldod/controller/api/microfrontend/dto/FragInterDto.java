@@ -203,7 +203,7 @@ public class FragInterDto {
         this.setSimpleName(fragInter.getClass().getSimpleName());
         this.setType(fragInter.getSourceType());
         if (fragInter instanceof ExpertEditionInter) {
-            this.setEditor(((ExpertEdition) ((ExpertEditionInter) fragInter).getEdition()).getEditor());
+            this.setEditor(((ExpertEdition) fragInter.getEdition()).getEditor());
         }
 
         this.setFragment_title(frag.getTitle());

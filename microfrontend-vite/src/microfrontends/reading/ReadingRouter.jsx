@@ -12,7 +12,7 @@ export default () => {
   const language = storeStateSelector('language')
   
   return (
-  <div className="container">
+  <div className="container" style={{marginBottom: "20px"}}>
     <Routes>
       <Route path="/*" element={<ReadingMain messages={messages} />} />
       <Route path="citations" element={<Citations messages={messages[language]} />} />

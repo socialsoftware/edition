@@ -53,52 +53,6 @@ a:hover {
     padding-top: 6px;
 }
 
-.image-modal {
-    inset: 0;
-    position: absolute;
-    overflow: auto;
-}
-
-.fac-image {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    max-height: 100vh;
-    max-width: 100%;
-    cursor: zoom-in;
-}
-
-.fac-image-zoomed {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    cursor: zoom-out;
-    margin: none;
-    max-height: none;
-    max-width: none;
-}
-
-.image-close {
-    z-index: 1;
-    border-radius: 5px;
-    background-color: #333;
-    border: #fff solid 1px;
-    color: #fff;
-    font-weight: bold;
-    position: fixed;
-    margin-left: 15%;
-    margin-top: 25px;
-}
-
-.image-close:hover {
-    color: #333;
-    background-color: #fff;
-    border: #333 solid 1px;
-}
-
 div .checkbox {
     padding-right: 10px;
 }

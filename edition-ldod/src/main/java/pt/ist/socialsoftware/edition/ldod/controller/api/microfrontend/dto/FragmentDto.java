@@ -16,17 +16,17 @@ public class FragmentDto {
 	private String exportString;
 
     public FragmentDto(Fragment fragment) {
-        this.setFragmentXmlId(fragment.getXmlId());
-        this.setTitle(fragment.getTitle());
+        setFragmentXmlId(fragment.getXmlId());
+        setTitle(fragment.getTitle());
 
-        this.setExpertEditionInterDtoMap(fragment.getExpertEditionInterSet().stream()
+        setExpertEditionInterDtoMap(fragment.getExpertEditionInterSet().stream()
                 .map(ExpertEditionInterDto::new)
                 .collect(Collectors.toMap(ExpertEditionInterDto::getAcronym, Function.identity(), (existing, replacement) -> existing)));
 
-        this.setSourceInterDtoList(fragment.getSortedSourceInter().stream()
+        setSourceInterDtoList(fragment.getSortedSourceInter().stream()
                 .map(SourceInterDto::new)
                 .collect(Collectors.toList()));
-        this.setExternalId(fragment.getExternalId());
+        setExternalId(fragment.getExternalId());
     }
 
     public FragmentDto(Fragment fragment, String s) {
