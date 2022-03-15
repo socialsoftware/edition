@@ -34,7 +34,7 @@ public final class PublicationSearchOption extends SearchOption {
 	}
 
 	public boolean hasDate() {
-		return dateSearchOption == null ? false : dateSearchOption.hasDate();
+		return dateSearchOption != null && dateSearchOption.hasDate();
 	}
 
 }

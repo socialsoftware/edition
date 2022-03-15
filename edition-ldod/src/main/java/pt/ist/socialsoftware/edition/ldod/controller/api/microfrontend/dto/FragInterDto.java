@@ -201,6 +201,8 @@ public class FragInterDto {
         this.setExternalId(fragInter.getExternalId());
         this.setShortName(fragInter.getShortName());
         this.setSimpleName(fragInter.getClass().getSimpleName());
+
+        // TODO: Shouldn't be setSourceType instead of setType ??
         this.setType(fragInter.getSourceType());
         if (fragInter instanceof ExpertEditionInter) {
             this.setEditor(((ExpertEdition) fragInter.getEdition()).getEditor());
@@ -208,6 +210,8 @@ public class FragInterDto {
 
         this.setFragment_title(frag.getTitle());
         this.setFragment_externalId(frag.getExternalId());
+
+        // TODO: fragment xmlId duplicated ??
         this.setFragment_xmlId(frag.getXmlId());
         this.setUsedList(fragInter.getListUsed().stream()
                 .map(UsedDto::new)

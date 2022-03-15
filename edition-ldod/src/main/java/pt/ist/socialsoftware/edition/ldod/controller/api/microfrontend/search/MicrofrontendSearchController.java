@@ -158,7 +158,7 @@ public class MicrofrontendSearchController {
 
     @RequestMapping(value = "/getVirtualEditions")
     public Map<String, String> getVirtualEditions() {
-        Stream<VirtualEdition> virtualEditionStream = LdoD.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getPub());
+        Stream<VirtualEdition> virtualEditionStream = LdoD.getInstance().getVirtualEditionsSet().stream().filter(Edition_Base::getPub);
 
         LdoDUser user = LdoDUser.getAuthenticatedUser();
         if (user != null) {

@@ -19,20 +19,6 @@ public class FragInterRequestBodyDto {
     public FragInterRequestBodyDto() {
     }
 
-    public FragInterRequestBodyDto(ArrayList<String> selectedVE, boolean diff, boolean del, boolean ins, boolean sub, boolean note, boolean fac, boolean line, boolean align, String pbText, List<String> inters) {
-        this.selectedVE = selectedVE;
-        this.diff = diff;
-        this.del = del;
-        this.ins = ins;
-        this.sub = sub;
-        this.note = note;
-        this.fac = fac;
-        this.line = line;
-        this.align = align;
-        this.pbText = pbText;
-        this.inters = inters;
-    }
-
     public List<String> getInters() {
         return inters;
     }
