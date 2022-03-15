@@ -151,6 +151,10 @@ export default {
     issue: 'Número',
     pubPlace: 'Lugar de la Publicación',
     notAssigned: 'No assignado',
+    
+    notes: 'Nota',
+    true: 'Con marca LdoD',
+    no: 'Sin marca LdoD',
 
     title: 'Título',
     volume: 'Volume',

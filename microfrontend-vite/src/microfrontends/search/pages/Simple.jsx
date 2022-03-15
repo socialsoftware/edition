@@ -1,6 +1,6 @@
 import SimpleSearchForms from '../components/SimpleSearchForms';
 import Table from '../../../shared/Table';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { searchStateSelector, setSearchResult } from '../searchStore';
 
 const addLengthToLabels = (labels, frags, inters) => ({
@@ -24,19 +24,21 @@ export default ({ messages }) => {
       <br />
       <br />
       <div style={{ display: 'block', width: '100%' }}>
-        <hr />
         {searchResult?.tableData && (
-          <Table
-            classes="table table-hover"
-            data={searchResult.tableData}
-            labels={addLengthToLabels(
-              messages.simpleResultsLabels,
-              searchResult.fragCount,
-              searchResult.interCount
-            )}
-            pagination
-            search
-          />
+          <>
+            <hr />
+            <Table
+              classes="table table-hover"
+              data={searchResult.tableData}
+              labels={addLengthToLabels(
+                messages.simpleResultsLabels,
+                searchResult.fragCount,
+                searchResult.interCount
+              )}
+              pagination
+              search
+            />
+          </>
         )}
       </div>
     </>

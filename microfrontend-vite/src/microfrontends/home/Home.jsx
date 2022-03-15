@@ -23,7 +23,7 @@ export default () => {
   const readingFrag = (excerpt) => {
     const xmlid = excerpt?.path.split('/')[0];
     const urlid = excerpt?.path.split('/')[2];
-    navigate(`/reading/${xmlid}/${urlid}`);
+    navigate(`/reading/fragment/${xmlid}/inter/${urlid}`);
   };
 
   const boxUrl = (version, type, random) =>

@@ -1,13 +1,9 @@
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { lazy } from 'react';
 import Reading from './Reading';
-import { getCurrentReadingFragment, getPrevRecom } from '../api/reading';
-import { getRecommendation, setRecommendation, readingStore } from '../readingStore';
-import { useStore } from '../../../store';
+import { readingStateSelector } from '../readingStore';
 
 const Fragment = lazy(() => import('./ReadingFragment'));
-const experts = state => state.experts;
-const language = state => state.language;
 
 export const rightArrowUrl = new URL(
   '../resources/assets/arrow-right.svg',
@@ -20,35 +16,13 @@ export const leftArrowUrl = new URL(
 ).href;
 
 export const xmlId = (data) => data.fragment.fragmentXmlId;
+
 export const urlId = (data) => data.expertEditionInterDto.urlId;
 
-
 export default ({ messages }) => {
+  const experts = readingStateSelector('experts');
+  const fragment = readingStateSelector('fragment');
 
-  const navigate = useNavigate();
-  const fetchNumberFragment = (xmlid, urlid) => {
-    getCurrentReadingFragment(xmlid, urlid, getRecommendation())
-      .then(({ data }) => {
-        setRecommendation(data.readingRecommendation);
-        navigate(`/reading/fragment/${xmlId(data)}/inter/${urlId(data)}`, {
-          replace: true,
-          state: data,
-        });
-      })
-      .catch((err) => {
-        console.error(err);
-        navigate(-1);
-      });
-  };
-  
-  const fetchPrevRecom = () => {
-    getPrevRecom(getRecommendation()).then(({ data }) => {
-      setRecommendation(data.readingRecommendation);
-      navigate(`/reading/fragment/${xmlId(data)}/inter/${urlId(data)}`, {
-        state: data,
-      });
-    });
-  };
   return (
     <>
       <div className="ldod-default row">
@@ -57,39 +31,11 @@ export default ({ messages }) => {
             <Routes>
               <Route
                 index
-                element={
-                  <Reading
-                    messages={messages}
-                    fetchNumberFragment={fetchNumberFragment}
-                    fetchPrevRecom={fetchPrevRecom}
-                    experts={readingStore(experts)}
-                    language={useStore(language)}
-                  />
-                }
-              />
-              <Route
-                path="/:xmlid/:urlid"
-                element={
-                  <Reading
-                    messages={messages}
-                    fetchNumberFragment={fetchNumberFragment}
-                    fetchPrevRecom={fetchPrevRecom}
-                    experts={readingStore(experts)}
-                    language={useStore(language)}
-                  />
-                }
+                element={<Reading messages={messages} experts={experts} />}
               />
               <Route
                 path="/fragment/:xmlid/inter/:urlid"
-                element={
-                  <Fragment
-                    messages={messages}
-                    fetchNumberFragment={fetchNumberFragment}
-                    fetchPrevRecom={fetchPrevRecom}
-                    experts={readingStore(experts)}
-                    language={useStore(language)}
-                  />
-                }
+                element={<Fragment messages={messages} experts={experts} fragment={fragment} />}
               />
             </Routes>
           </div>

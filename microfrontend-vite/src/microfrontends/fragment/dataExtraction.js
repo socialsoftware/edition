@@ -10,8 +10,9 @@ const fragmentType = {
   VIRTUAL: 'VIRTUAL',
 };
 export const isVirtual = ({ type }) => type === fragmentType.VIRTUAL;
-export const isEditorial = ({ type }) => type === fragmentType.EDITORIAL;
 export const isAuthorial = ({ type }) => type === fragmentType.AUTHORIAL;
+export const isEditorial = ({ type }) => type === fragmentType.EDITORIAL;
+
 
 const fragmentSourceType = {
   MANUSCRIPT: 'MANUSCRIPT',
@@ -201,15 +202,18 @@ function FragmentInterLine(data) {
 
 export function extractData(data, state) {
   const inters = data.inters;
-  isVirtual(inters?.[0])
-    ? setVirtualsInter(inters?.map((inter) => inter?.externalId) ?? [])
-    : setAuthorialsInter(inters?.map((inter) => inter?.externalId) ?? []);
+  const inter = inters?.[0];
+  
+  if (isVirtual(inter)) {
+    setVirtualsInter(inters?.map((inter) => inter?.externalId) ?? [])
+    return FragmentVirtualSingle(data);
+  }
 
-  if (isVirtual(inters?.[0])) return FragmentVirtualSingle(data);
+  setAuthorialsInter(inters?.map((inter) => inter?.externalId) ?? []);
 
   if (isSingle(data)) {
-    if (!state || isAuthorial(state)) return FragmentAuthorialSingle(data);
-    if (isEditorial(state)) return FragmentEditorialSingle(data);
+    if (isAuthorial(inter)) return FragmentAuthorialSingle(data);
+    if (isEditorial(inter)) return FragmentEditorialSingle(data);
   }
   if (isSideBySide(data)) return FragmentInterSide(data);
 

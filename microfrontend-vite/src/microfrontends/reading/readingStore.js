@@ -2,6 +2,7 @@ import create from 'zustand';
 
 export const readingStore = create((set, get) => ({
   experts: null,
+  fragment: null,
   recommendation: {
     read: [],
     heteronymWeight: 0,
@@ -15,13 +16,15 @@ export const readingStore = create((set, get) => ({
   length: null,
 }));
 
-export const readingStateSelector = (sel) => readingStore(state => state[sel]);
-
+export const readingStateSelector = (sel) =>
+  readingStore((state) => state[sel]);
 
 export const state = () => readingStore.getState();
 export const getExperts = () => state().experts;
 export const setExperts = (experts) => readingStore.setState({ experts });
 export const getRecommendation = () => state().recommendation;
+export const getFragment = () => state().fragment;
+export const setFragment = (fragment) => readingStore.setState({ fragment: fragment });
 export const setRecommendation = (recommendation) =>
   readingStore.setState({ recommendation });
 export const resetRecommendations = () =>

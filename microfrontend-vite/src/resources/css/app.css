@@ -113,21 +113,26 @@ body {
 
 .pagination-button {
     margin-left: 20px;
+
 }
 
 .icon-align {
     vertical-align: middle;
-    color: #333;
+    color: #333!important;
+}
+
+.center-button-label {
+    position: relative;
+    top: 2px;
 }
 
 @media (min-width: 767px) {
-    .fixed-table-toolbar {
-        display: flex;
-        justify-content: space-between;
-    }
+
 }
 
+
 /* DISPLAY DOC  */
+
 .image-modal {
     inset: 0;
     position: absolute;

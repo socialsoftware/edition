@@ -1,42 +1,46 @@
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import ReadingColumn from '../components/ReadingColumn';
 import ReadingText from '../components/ReadingText';
 import Recomendation from '../components/Recomendation';
+import { getCurrentReadingFragment, getReadingExperts } from '../api/reading';
+import { getExperts, getFragment, getRecommendation, readingStateSelector, readingStore, setFragment } from '../readingStore';
 
+export default ({ messages, experts, fragment }) => {
+  const { xmlid, urlid } = useParams();
 
-export default ({ messages, fetchNumberFragment, fetchPrevRecom, language, experts }) => {
-  const { state } = useLocation();
-  const currentExpert = state?.expertEditionInterDto;
+  useEffect(() => {
+    !experts && getReadingExperts();
+    !fragment && getCurrentReadingFragment(xmlid, urlid, getRecommendation());
+    return () =>  setFragment()
+  }, []);
 
   return (
     <>
-      {experts?.map((expert, index) => {
-        let isOpen = () => expert?.acronym === currentExpert?.acronym;
+      {fragment  &&  (
+        <>
+          {experts?.map((expert, index) => {
+              let isOpen = () =>
+                expert?.acronym === fragment.expertEditionInterDto?.acronym;
 
-        return (
-          <div key={index} className={`${isOpen() ? "block-column" : "thin-column"}`}>
-            <ReadingColumn
-              expert={expert}
-              state={state}
-              key={index}
-              fetchNumberFragment={fetchNumberFragment}
-            />
-            {isOpen() && (
-              <ReadingText
-                title={state.fragment.title}
-                text={state.transcript}
-              />
-            )}
-          </div>
-        );
-      })}
-      <Recomendation
-        messages={messages}
-        language={language}
-        state={state}
-        fetchPrevRecom={fetchPrevRecom}
-        fetchNumberFragment={fetchNumberFragment}
-      />
+              return (
+                <div
+                  key={index}
+                  className={`${isOpen() ? 'block-column' : 'thin-column'}`}
+                >
+                  <ReadingColumn expert={expert} fragment={fragment} />
+                  {isOpen() && (
+                    <ReadingText
+                      title={fragment.fragment.title}
+                      text={fragment.transcript}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          <Recomendation messages={messages} fragment={fragment} />
+        </>
+      )}
     </>
   );
 };

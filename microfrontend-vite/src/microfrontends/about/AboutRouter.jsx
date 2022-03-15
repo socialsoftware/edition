@@ -18,13 +18,13 @@ const Conduct = lazy(() => import('./pages/conduct/Conduct'));
 const Privacy = lazy(() => import('./pages/privacy/Privacy'));
 const Team = lazy(() => import('./pages/team/Team'));
 const Ack = lazy(() => import('./pages/Ack/Ack'));
-const Contact = () => messages?.[getLanguage()]['contact'];
 const Copyright = lazy(() => import('./pages/copyright/Copyright'));
 
 
 
 export default () => {
   const language = storeStateSelector('language')
+  const Contact = () => messages?.[language]['contact'];
 
   const scroll = (ref) => {
     const section = document.querySelector(ref);

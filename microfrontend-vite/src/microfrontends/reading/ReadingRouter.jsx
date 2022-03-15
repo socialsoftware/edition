@@ -14,7 +14,7 @@ export default () => {
   return (
   <div className="container" style={{marginBottom: "20px"}}>
     <Routes>
-      <Route path="/*" element={<ReadingMain messages={messages} />} />
+      <Route path="/*" element={<ReadingMain messages={messages[language]} />} />
       <Route path="citations" element={<Citations messages={messages[language]} />} />
     </Routes>
   </div>

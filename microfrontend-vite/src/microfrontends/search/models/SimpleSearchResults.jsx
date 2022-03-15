@@ -6,13 +6,11 @@ const getEditorialtitle = ({ title, editor }) =>
 const SimpleSearchResultEntry = (entry) => {
   const result = {
     fragment: (
-      <Link to={`/fragments/fragment/${entry.xmlId}`}>
-        {entry.fragment_title}
-      </Link>
+      <Link to={`/fragments/fragment/${entry.xmlId}`}>{entry.fragTitle}</Link>
     ),
     interpts: (
       <Link to={`/fragments/fragment/${entry.xmlId}/inter/${entry.urlId}`}>
-        {entry.type === 'EDITORIAL'
+        {entry.sourceType !== 'MANUSCRIPT'
           ? getEditorialtitle(entry)
           : entry.shortName}
       </Link>
@@ -29,8 +27,6 @@ export function SimpleSearchResultsModel(data) {
   return {
     fragCount: data.fragCount,
     interCount: data.interCount,
-    tableData: data.listFragments.map((entry) =>
-      SimpleSearchResultEntry(entry)
-    ),
+    tableData: data.fragments.map((entry) => SimpleSearchResultEntry(entry)),
   };
 }

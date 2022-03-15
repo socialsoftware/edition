@@ -2,7 +2,7 @@ const getNavLabel = (index, numberOfItems, length) => {
   const start = index * numberOfItems + 1;
   let end = numberOfItems * (index + 1);
   end = end > length ? length : end;
-  return length ? `${start} - ${end}` : 0;
+  return length ? `${start} - ${end} of ${length} items` : 0;
 };
 
 export default ({
@@ -37,7 +37,7 @@ export default ({
         {[10, 25, 50, 100]
           .filter((option) => option < length)
           .map((option, index) => (
-            <option key={index} value={option} className="option-select">
+            <option key={index} value={option} className="option-select" >
               {option === length ? 'All' : option}
             </option>
           ))}
@@ -75,9 +75,9 @@ export default ({
           disabled
           type="button"
           className="btn btn-default"
-          style={{ width: '100px' }}
+          style={{ width: '150px' }}
         >
-          {getNavLabel(index, numberOfItems, length)}
+         <div className="center-button-label">{getNavLabel(index, numberOfItems, length)}</div>
         </button>
         <button
           type="button"
@@ -85,7 +85,7 @@ export default ({
           onClick={() => changeIndex(+1)}
           disabled={index >= length / numberOfItems - 1 && true}
         >
-          <span className="glyphicon glyphicon-chevron-right icon-align"></span>
+          <span  className="glyphicon glyphicon-chevron-right icon-align"></span>
         </button>
         <button
           type="button"

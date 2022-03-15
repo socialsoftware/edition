@@ -16,11 +16,12 @@ a:hover {
 
 .glyphicon {
     font-size: small;
-    margin-left: 10px;
 }
 
 .gray-color {
     color: lightgray!important;
+    vertical-align: middle;
+    margin-left: 3px;
 }
 
 .glyphicon:hover {
@@ -28,6 +29,7 @@ a:hover {
 }
 
 .glyphicon-eye-open {
+    margin-left: 5px;
     color: #337ab7!important;
     font-size: medium!important;
 }

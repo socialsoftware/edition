@@ -33,7 +33,7 @@ function ExpertEditionEntry(entry) {
       </Link>
     ),
     read: (
-      <Link to={xmlid && urlid && `/reading/${xmlid}/${urlid}`}>
+      <Link to={xmlid && urlid && `/reading/fragment/${xmlid}/inter/${urlid}`}>
         <span className="glyphicon glyphicon-eye-open"></span>
       </Link>
     ),

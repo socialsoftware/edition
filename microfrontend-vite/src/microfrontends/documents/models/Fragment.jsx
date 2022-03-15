@@ -11,6 +11,8 @@ const getSurfaceList = (surfaces, altIdentifier, displayDoc) => (
   </>
 );
 
+const isNotAssigned = (heteronym) => heteronym === "não atribuído"
+
 const getDimensionList = (dimensions) =>
   `${
     dimensions
@@ -113,6 +115,8 @@ export const getExpertData = (
     volume,
     number,
     startPage,
+    endPage,
+    date,
     notes,
     heteronymNull,
     annexNoteDtoList,
@@ -121,10 +125,14 @@ export const getExpertData = (
 ) => {
   const keyValues = {
     title: title,
-    heteronym: heteronymNull ? messages?.notAssigned : heteronym,
+    heteronym: isNotAssigned(heteronym) || heteronymNull ? messages?.notAssigned : heteronym,
     volume: volume,
-    number: number,
-    startPage: startPage,
+    number: number || number === 0 ? `${number}` : '',
+    startPage:
+      endPage && endPage !== startPage
+        ? `${startPage} - ${endPage}`
+        : startPage,
+    date: date,
     notes: notes,
   };
 

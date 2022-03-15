@@ -53,21 +53,21 @@ export default React.memo(
         ) : (
           <div className="bootstrap-table">
             <div className="fixed-table-toolbar">
-              {pagination && (
-                <Pagination
-                  numberOfItems={numberOfItems}
-                  setNumberOfItems={setNumberOfItems}
-                  index={index}
-                  setIndex={setIndex}
-                  length={dataFiltered?.length}
-                />
-              )}
+
               {search && (
                 <Search
                   data={data}
                   setDataFiltered={setDataFiltered}
                   searchString={searchString}
                   setSearchString={setSearchString}
+                />
+              )}              {pagination && (
+                <Pagination
+                  numberOfItems={numberOfItems}
+                  setNumberOfItems={setNumberOfItems}
+                  index={index}
+                  setIndex={setIndex}
+                  length={dataFiltered?.length}
                 />
               )}
             </div>

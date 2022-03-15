@@ -1,95 +1,96 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import {
+  getCurrentReadingFragment,
   getPrevNextReadingFragment,
   getStartReadingFragment,
 } from '../api/reading';
 import { rightArrowUrl, leftArrowUrl, xmlId, urlId } from '../pages/ReadingMain';
-import { getRecommendation, setRecommendation } from '../readingStore';
+import { getFragment, getRecommendation, readingStateSelector, setFragment } from '../readingStore';
 
-export default ({ expert, state,  fetchNumberFragment}) => {
+const getExpertFrag = (fragment, expert) =>
+fragment?.expertEditionDtoList.find(
+    ([exp]) => exp?.acronym === expert?.acronym
+  );
+
+const isOpen = (fragment, expert) =>
+fragment?.expertEditionInterDto.acronym === expert.acronym;
+
+export default ({ expert, fragment }) => {
   const { xmlid, urlid } = useParams();
-
-  const getExpertFrag = () =>
-    state.expertEditionDtoList.find(
-      ([exp]) => exp && exp.acronym && exp.acronym === expert.acronym
-    );
-
-  const isOpen = () =>
-    state && state.expertEditionInterDto.acronym === expert.acronym;
-
   const navigate = useNavigate();
 
-  const fetchStartFragment = () => {
-    getStartReadingFragment(expert.acronym, getRecommendation()).then(
-      ({ data }) => {
-        setRecommendation(data.readingRecommendation);
-        navigate(`/reading/fragment/${xmlId(data)}/inter/${urlId(data)}`, {
-          state: data,
-        });
-      }
+  const fetchStartFragment = async () => {
+    await getStartReadingFragment(expert.acronym, getRecommendation());
+    navigate(
+      `/reading/fragment/${xmlId(getFragment())}/inter/${urlId(getFragment())}`
     );
   };
 
-  const fetchPrevNextFragment = (type) => {
-    getPrevNextReadingFragment(xmlid, urlid, getRecommendation(), type).then(
-      ({ data }) => {
-        setRecommendation(data.readingRecommendation);
-        navigate(`/reading/fragment/${xmlId(data)}/inter/${urlId(data)}`, {
-          state: data,
-        });
-      }
+  const fetchPrevNextFragment = async (type) => {
+    await getPrevNextReadingFragment(xmlid, urlid, getRecommendation(), type);
+    navigate(
+      `/reading/fragment/${xmlId(getFragment())}/inter/${urlId(getFragment())}`
     );
   };
 
   return (
     <div
       className={`reading__column${
-        isOpen() ? '--open' : ''
+        isOpen(fragment, expert) ? '--open' : ''
       } col-xs-12 no-pad`}
     >
       <h4>
         <a onClick={fetchStartFragment}>{expert.editor}</a>
       </h4>
-      {!state ? (
+      {!fragment ? (
         <a onClick={fetchStartFragment}>
           <img src={rightArrowUrl} />
         </a>
       ) : (
-        getExpertFrag() &&
-        getExpertFrag().map(({ number, urlId, fragmentXmlId }, index) => {
-          return (
-            <div key={index}>
-              <div className="hidden-xs" style={{ marginBottom: '25px' }}>
-                <a onClick={() => fetchNumberFragment(fragmentXmlId, urlId)}>
-                  <h2>{number}</h2>
-                </a>
-                <div className="arrows">
+        getExpertFrag(fragment, expert)?.map(
+          ({ number, urlId, fragmentXmlId }, index) => {
+            return (
+              <div key={index}>
+                <div className="hidden-xs" style={{ marginBottom: '25px' }}>
+                  <a
+                    onClick={() =>
+                      getCurrentReadingFragment(
+                        fragmentXmlId,
+                        urlId,
+                        getRecommendation()
+                      )
+                    }
+                  >
+                    <h2>{number}</h2>
+                  </a>
+                  <div className="arrows">
+                    <div>
+                      <a onClick={() => fetchPrevNextFragment('prev')}>
+                        <img src={leftArrowUrl} />
+                      </a>
+                    </div>
+                    <div>
+                      <a onClick={() => fetchPrevNextFragment('next')}>
+                        <img src={rightArrowUrl} />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div className="visible-xs-block">
                   <div>
+                    <h2>{number}</h2>
+                    <a onClick={() => fetchPrevNextFragment('next')}>
+                      <img src={rightArrowUrl} />
+                    </a>
                     <a onClick={() => fetchPrevNextFragment('prev')}>
                       <img src={leftArrowUrl} />
                     </a>
                   </div>
-                  <div>
-                    <a onClick={() => fetchPrevNextFragment('next')}>
-                      <img src={rightArrowUrl} />
-                    </a>
-                  </div>
                 </div>
               </div>
-              <div className="visible-xs-block">
-                <div>
-                  <h2>{number}</h2>
-                  <a onClick={() => fetchPrevNextFragment('next')}>
-                    <img src={rightArrowUrl} />
-                  </a>
-                  <a onClick={() => fetchPrevNextFragment('prev')}>
-                    <img src={leftArrowUrl} />
-                  </a>
-                </div>
-              </div>
-            </div>
-          );
-        })
+            );
+          }
+        )
       )}
     </div>
   );

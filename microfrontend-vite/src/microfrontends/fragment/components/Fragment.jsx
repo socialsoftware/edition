@@ -35,7 +35,7 @@ export default ({ fragment, messages }) => {
           </>
         )}
         {isEditorial(fragment) && isSingle(fragment) && (
-          <Link to={`/reading/${xmlid}/${urlid}`}>
+          <Link to={`/reading/fragment/${xmlid}/inter/${urlid}`}>
             <span className="glyphicon glyphicon-eye-open"></span>
           </Link>
         )}

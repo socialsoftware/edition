@@ -1,12 +1,14 @@
 import Modal from 'react-modal';
 import { useParams } from 'react-router-dom';
+import { getCurrentReadingFragment } from '../api/reading';
 import {
+  getRecommendation,
   readingStore,
   resetRecommendations,
   setRecommendationAttribute,
 } from '../readingStore';
 
-export default ({ show, toggle, messages, fetchNumberFragment, language }) => {
+export default ({ show, toggle, messages }) => {
   const { recommendation } = readingStore();
   const { xmlid, urlid } = useParams();
 
@@ -16,7 +18,7 @@ export default ({ show, toggle, messages, fetchNumberFragment, language }) => {
     setRecommendationAttribute(attribute, value);
 
   const recommend = () => {
-    xmlid && urlid && fetchNumberFragment(xmlid, urlid);
+    xmlid && urlid && getCurrentReadingFragment(xmlid, urlid, getRecommendation());
     onClose();
   };
 
@@ -45,15 +47,15 @@ export default ({ show, toggle, messages, fetchNumberFragment, language }) => {
           <span aria-hidden="true">×</span>
         </button>
         <h3 className="modal-title text-center">
-          {messages[language]['general_recommendation_config']}
+          {messages['general_recommendation_config']}
         </h3>
       </div>
       <div className="modal-body">
-        <h3 className="text-center">{messages[language]['recommendation_criteria']}</h3>
+        <h3 className="text-center">{messages['recommendation_criteria']}</h3>
       </div>
       <div className="row text-center" style={{ padding: '15px' }}>
         <div className="col-md-3 col-sm-4">
-          {messages[language]['heteronym']}
+          {messages['heteronym']}
           <input
             type="range"
             className="range"
@@ -65,7 +67,7 @@ export default ({ show, toggle, messages, fetchNumberFragment, language }) => {
           />
         </div>
         <div className="col-md-3 col-sm-4">
-          {messages[language]['date']}
+          {messages['date']}
           <input
             type="range"
             className="range"
@@ -77,7 +79,7 @@ export default ({ show, toggle, messages, fetchNumberFragment, language }) => {
           />
         </div>
         <div className="col-md-3 col-sm-4">
-          {messages[language]['text']}
+          {messages['text']}
           <input
             type="range"
             className="range"
@@ -89,7 +91,7 @@ export default ({ show, toggle, messages, fetchNumberFragment, language }) => {
           />
         </div>
         <div className="col-md-3 col-sm-4">
-          {messages[language]['taxonomy']}
+          {messages['taxonomy']}
           <input
             type="range"
             className="range"
@@ -104,11 +106,11 @@ export default ({ show, toggle, messages, fetchNumberFragment, language }) => {
       <div className="modal-footer">
         <button type="submit" className="btn btn-danger" onClick={reset}>
           <span className="glyphicon glyphicon-saved"></span>
-          {messages[language]['general_reset']}
+          {messages['general_reset']}
         </button>
 
         <button type="button" className="btn btn-primary" onClick={recommend}>
-          {messages[language]['general_close']}
+          {messages['general_close']}
         </button>
       </div>
     </Modal>
