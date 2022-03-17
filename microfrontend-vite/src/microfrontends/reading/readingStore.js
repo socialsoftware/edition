@@ -1,20 +1,26 @@
+import { devtools } from 'zustand/middleware';
 import create from 'zustand';
 
-export const readingStore = create((set, get) => ({
-  experts: null,
-  fragment: null,
-  recommendation: {
-    read: [],
-    heteronymWeight: 0,
-    dateWeight: 0,
-    textWeight: 1,
-    taxonomyWeight: 0,
-    currentInterpretation: null,
-    prevRecomendation: null,
-  },
-  citations: null,
-  length: null,
-}));
+export const readingStore = create(
+  devtools(
+    () => ({
+      experts: null,
+      fragment: null,
+      recommendation: {
+        read: [],
+        heteronymWeight: 0,
+        dateWeight: 0,
+        textWeight: 1,
+        taxonomyWeight: 0,
+        currentInterpretation: null,
+        prevRecomendation: null,
+      },
+      citations: null,
+      length: null,
+    }),
+    { name: 'ReadingStore' }
+  )
+);
 
 export const readingStateSelector = (sel) =>
   readingStore((state) => state[sel]);
@@ -24,7 +30,8 @@ export const getExperts = () => state().experts;
 export const setExperts = (experts) => readingStore.setState({ experts });
 export const getRecommendation = () => state().recommendation;
 export const getFragment = () => state().fragment;
-export const setFragment = (fragment) => readingStore.setState({ fragment: fragment });
+export const setFragment = (fragment) =>
+  readingStore.setState({ fragment: fragment });
 export const setRecommendation = (recommendation) =>
   readingStore.setState({ recommendation });
 export const resetRecommendations = () =>

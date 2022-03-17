@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 export const isExpertEdition = (edition) => edition?.type === 'EXPERT';
 
 const dropEmptyCols = (data) => {
-  let filteredHeaders = Object.keys(data[0]).filter((header) =>
+  let filteredHeaders = Object.keys(data?.[0] ?? {}).filter((header) =>
     data.some((entry) => entry[header])
   );
-  return data.map((row) =>
+  return data?.map((row) =>
     Object.keys(row)
       .filter((header) => filteredHeaders.includes(header))
       .reduce(

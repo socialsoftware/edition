@@ -11,7 +11,7 @@ const getDimensionList = (dimensions) =>
       .join('<br />') ?? ''
   }`;
 
-const getSurfaceList = (surfaces, title, displayDoc) =>
+const getSurfaceList = (surfaces, title) =>
   `${
     surfaces
       ?.reduce(

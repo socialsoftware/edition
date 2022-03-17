@@ -17,7 +17,7 @@ const getDimensionList = (dimensions) =>
   `${
     dimensions
       ?.reduce(
-        (prev, cur) => [...prev, `${cur?.height}cm X ${cur.width}cm`],
+        (prev, cur) => [...prev, `${cur?.height}cm X ${cur?.width}cm`],
         []
       )
       .join(', ') ?? ''
@@ -179,13 +179,13 @@ export function EncodedFragment(
     JP: getExpertData(expertEditionInterDtoMap.JP ?? '', messages),
     sourceInterDtoList_0:
       sourceInterDtoList?.[0] &&
-      getSourceData(sourceInterDtoList?.[0], messages, displayDoc),
+      getSourceData(sourceInterDtoList?.[0] ?? {}, messages, displayDoc),
     sourceInterDtoList_1:
       sourceInterDtoList?.[1] &&
-      getSourceData(sourceInterDtoList?.[1], messages, displayDoc),
+      getSourceData(sourceInterDtoList?.[1] ?? {}, messages, displayDoc),
     sourceInterDtoList_2:
       sourceInterDtoList?.[2] &&
-      getSourceData(sourceInterDtoList?.[2], messages, displayDoc),
+      getSourceData(sourceInterDtoList?.[2] ?? {}, messages, displayDoc),
   };
   return { ...result, searchData: JSON.stringify(result) };
 }

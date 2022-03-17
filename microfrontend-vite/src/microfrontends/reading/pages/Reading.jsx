@@ -3,7 +3,6 @@ import { getReadingExperts } from '../api/reading';
 import ReadingColumn from '../components/ReadingColumn';
 import Recomendation from '../components/Recomendation';
 import ReadingText from '../components/ReadingText';
-import { getExperts } from '../readingStore';
 
 export default ({ messages, experts }) => {
   

@@ -1,4 +1,4 @@
-import { getCurrentReadingFragment, getPrevNextReadingFragment, getPrevRecom } from '../api/reading';
+import { getCurrentReadingFragment, getPrevRecom } from '../api/reading';
 import { rightArrowUrl } from '../pages/ReadingMain';
 import { leftArrowUrl } from '../pages/ReadingMain';
 import { getRecommendation } from '../readingStore';

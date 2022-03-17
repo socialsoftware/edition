@@ -1,5 +1,5 @@
 import { getExpertData, getSourceData } from '../../documents/models/Fragment';
-import { isEditorial, isPublication } from '../dataExtraction';
+import { isEditorial } from '../dataExtraction';
 import {
   fragmentStateSelector,
   setDocPath,

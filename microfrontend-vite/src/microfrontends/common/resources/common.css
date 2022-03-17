@@ -39,14 +39,14 @@
 }
 
 .ldod-navbar.navbar {
-    border-top: 10px solid #FC1B27;
+    border-top: 10px solid #e71924;
     font-family: 'Space-Mono';
     font-weight: bold;
     font-size: 14px;
 }
 
 .ldod-navbar .container-fluid:first-of-type {
-    border-bottom: 1px solid #FC1B27;
+    border-bottom: 1px solid #e71924;
 }
 
 .ldod-navbar.navbar-default {
@@ -68,12 +68,12 @@
 }
 
 .ldod-navbar.navbar-default .navbar-nav>li.dropdown.logged-in>a {
-    color: #FC1B27;
+    color: #e71924;
 }
 
 
 .ldod-navbar.navbar-default .navbar-nav>li>a.active {
-    color: #FC1B27;
+    color: #e71924;
 }
 
 .ldod-navbar.navbar-default .navbar-brand:hover,
@@ -82,7 +82,7 @@
 }
 
 .ldod-navbar.navbar-default .navbar-nav>li>a:focus {
-    color: #FC1B27;
+    color: #e71924;
 }
 
 .ldod-navbar.navbar-default .navbar-toggle:focus,
@@ -183,13 +183,13 @@
     transform: translateX(-50%);
     background-color: rgba(255, 255, 255, 0.8);
     z-index: -1;
-    border-top: 1px dashed #FC1B27;
-    border-bottom: 1px solid #FC1B27;
+    border-top: 1px dashed #e71924;
+    border-bottom: 1px solid #e71924;
 }
 
 .ldod-navbar .navbar-right>li.login .dropdown-menu {
     background-color: white;
-    border: 1px solid #FC1B27;
+    border: 1px solid #e71924;
     margin-right: 15px;
     padding-left: 15px;
     padding-right: 15px;
@@ -208,7 +208,7 @@
     }
     .ldod-navbar .navbar-collapse {
         background-color: white;
-        border-bottom: 1px solid #FC1B27;
+        border-bottom: 1px solid #e71924;
     }
     .navbar-nav-flex {
         -webkit-box-orient: vertical;

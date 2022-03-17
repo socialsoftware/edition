@@ -6,10 +6,7 @@ import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.Simpl
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.search.options.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,7 +23,7 @@ public class MicrofrontendSearchController {
                         || inter.getShortName().toLowerCase().contains(simpleSearchDto.getSearchSource().toLowerCase()))
                 .filter(inter -> simpleSearchDto.getSearchType().equals("")
                         || inter.getTitle().toLowerCase().contains(simpleSearchDto.getSearchTerm().toLowerCase()))
-                .collect(Collectors.toMap(FragInter_Base::getFragment, List::of, (exist, replace) -> Stream
+                .collect(Collectors.toMap(FragInter_Base::getFragment, Arrays::asList, (exist, replace) -> Stream
                         .concat(exist.stream(), replace.stream())
                         .collect(Collectors.toList()))));
    }

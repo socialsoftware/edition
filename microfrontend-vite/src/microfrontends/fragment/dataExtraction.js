@@ -101,14 +101,14 @@ function FragmentAuthorialSingle({
   prevSurface,
   inters,
 }) {
-  const inter = inters?.[0];
+  const inter = inters[0];
   const type = inter.type;
 
   return {
     type,
     transcriptType: transcriptType.SINGLE,
     sourceType: getSourceType(inter),
-    title: inter?.title,
+    title: inter.title,
     transcript,
     fontFamily: 'courier',
     fontSize: '',
@@ -128,14 +128,14 @@ function FragmentAuthorialSingle({
 }
 
 function FragmentEditorialSingle({ fragment, transcript, inters }) {
-  const inter = inters?.[0];
+  const inter = inters[0];
   const type = inter.type;
 
   return {
     type,
     transcriptType: transcriptType.SINGLE,
     sourceType: null,
-    title: inter?.title,
+    title: inter.title,
     transcript,
     fontFamily: 'georgia',
     fontSize: 'medium',
@@ -148,8 +148,8 @@ function FragmentEditorialSingle({ fragment, transcript, inters }) {
 }
 
 function FragmentVirtualSingle({ transcript, inters }) {
-  const inter = inters?.[0];
-  const type = inter.type;
+  const inter = inters[0] ?? {};
+  const type = inter?.type;
 
   return {
     type,
@@ -161,9 +161,9 @@ function FragmentVirtualSingle({ transcript, inters }) {
     fontFamily: 'monospace',
     fontSize: '',
     metaData: null,
-    taxonomies: inters?.length <= 1 && inter.categoryUserDtoList,
+    taxonomies: inters.length <= 1 && inter.categoryUserDtoList,
     taxonomiesComp:
-      inters?.length > 1 && inters.map((inter) => inter?.categoryUserDtoList),
+      inters.length > 1 && inters.map((inter) => inter?.categoryUserDtoList),
     editionTitle: inter.editionTitle,
     usesList: inter.usedList.map(({ shortName }) => shortName),
     usesReference: `${inter.usesReference}${
@@ -179,7 +179,7 @@ function FragmentInterSide(data) {
     inters: data.inters?.map((inter, index) => ({
       type: inter.type,
       setTranscriptionSideBySide: data.setTranscriptionSideBySide[index],
-      title: inter?.title,
+      title: inter.title,
       metaData: isAuthorial(inter)
         ? data.fragment.sourceInterDtoList?.find(
             ({ externalId }) => externalId === inter.externalId
@@ -204,7 +204,7 @@ export function extractData(data, state) {
   const inters = data.inters;
   const inter = inters?.[0];
   
-  if (isVirtual(inter)) {
+  if (isVirtual(inter ?? {})) {
     setVirtualsInter(inters?.map((inter) => inter?.externalId) ?? [])
     return FragmentVirtualSingle(data);
   }

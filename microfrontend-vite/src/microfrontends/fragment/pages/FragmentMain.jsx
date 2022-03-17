@@ -5,7 +5,7 @@ import { getNoAuthFragment } from '../api/fragment';
 import Fragment from '../components/Fragment';
 import FragmentNav from '../components/FragmentNav';
 import {
-  fragmentStateSelector, getVirtualEditionsAcronyms, setAuthorialsInter, setFragmentInter, setFragmentNavData, setSelectedVE
+  fragmentStateSelector, setAuthorialsInter, setFragmentInter, setFragmentNavData, setSelectedVE
 } from '../fragmentStore';
 
 export default ({ messages, language }) => {

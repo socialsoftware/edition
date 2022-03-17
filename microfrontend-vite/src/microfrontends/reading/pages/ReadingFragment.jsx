@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import ReadingColumn from '../components/ReadingColumn';
 import ReadingText from '../components/ReadingText';
 import Recomendation from '../components/Recomendation';
 import { getCurrentReadingFragment, getReadingExperts } from '../api/reading';
-import { getExperts, getFragment, getRecommendation, readingStateSelector, readingStore, setFragment } from '../readingStore';
+import { getRecommendation, setFragment } from '../readingStore';
 
 export default ({ messages, experts, fragment }) => {
   const { xmlid, urlid } = useParams();

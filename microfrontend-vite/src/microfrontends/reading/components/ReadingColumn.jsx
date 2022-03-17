@@ -5,7 +5,7 @@ import {
   getStartReadingFragment,
 } from '../api/reading';
 import { rightArrowUrl, leftArrowUrl, xmlId, urlId } from '../pages/ReadingMain';
-import { getFragment, getRecommendation, readingStateSelector, setFragment } from '../readingStore';
+import { getFragment, getRecommendation } from '../readingStore';
 
 const getExpertFrag = (fragment, expert) =>
 fragment?.expertEditionDtoList.find(

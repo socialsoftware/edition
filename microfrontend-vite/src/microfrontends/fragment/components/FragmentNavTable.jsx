@@ -5,8 +5,8 @@ export default ({ colsWidth, data, tbWidth, author }) => {
     <table width={tbWidth}>
       {author && (
         <caption className="text-center">
-          <Link to={`/edition/acronym/${author?.acronym}`}>
-            {author?.editor}
+          <Link to={`/edition/acronym/${author.acronym}`}>
+            {author.editor}
           </Link>
         </caption>
       )}

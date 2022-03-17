@@ -10,11 +10,11 @@ const options = {
 const CategoryEntry = (data) => {
   const result = {
     title: (
-      <Link to={`/fragments/fragment/${data?.xmlId}/inter/${data?.urlId}`}>
-        {data?.title}
+      <Link to={`/fragments/fragment/${data.xmlId}/inter/${data.urlId}`}>
+        {data.title}
       </Link>
     ),
-    virtualEdition: <Link to={`/edition/acronym/${data?.acronym}`}>{parseHTML(data?.editionTitle ?? "")}</Link>,
+    virtualEdition: <Link to={`/edition/acronym/${data.acronym}`}>{parseHTML(data.editionTitle ?? "")}</Link>,
     user:  parseHTML(
       data.userDtoList
         ?.reduce(
@@ -28,7 +28,7 @@ const CategoryEntry = (data) => {
       options
     ),
     useEditions: parseHTML(
-      data?.usedList
+      data.usedList
         ?.reduce(
           (prev, { shortName, urlId, xmlId }) => [
             ...prev,

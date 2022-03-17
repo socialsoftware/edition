@@ -40,12 +40,12 @@ export default () => {
   return (
     <div className="ldod-default">
       <div className="container">
-        <a onClick={() => readingFrag(excerpt)} className="frag-link">
+        <div onClick={() => readingFrag(excerpt)} className="frag-link">
           <div className="raw col-xs-12 frag-excerpt">
             <span className="frag-number font-egyptian">{excerpt.number}</span>
             <span className="frag-editor font-condensed">{excerpt.editor}</span>
           </div>
-        </a>
+        </div>
         <div className="frag-excerpt-text font-grotesque">
           <p>{excerpt.text}</p>
         </div>
@@ -55,82 +55,82 @@ export default () => {
         </div>
         <hr className="line-x" />
         <div className="menu-boxes hidden-xs col-xs-12">
-          <Link to="/reading">
+          <Link to="/reading" aria-label='reading module redirection'>
             <div className="div-link">
-              <img src={boxUrl('D', '01', readingBox)} />
-              <img src={boxUrlH('D', '01', readingBox)} />
+              <img src={boxUrl('D', '01', readingBox)} alt="reading-box"/>
+              <img src={boxUrlH('D', '01', readingBox)} alt="reading-box"/>
             </div>
           </Link>
           <hr className="line-points" />
-          <Link to="/documents/source/list">
+          <Link to="/documents/source/list" aria-label='documents source list redirection'>
             <div className="div-link">
-              <img src={boxUrl('D', '02', documentsBox)} />
-              <img src={boxUrlH('D', '02', documentsBox)} />
+              <img src={boxUrl('D', '02', documentsBox)} alt="documents-box"/>
+              <img src={boxUrlH('D', '02', documentsBox)} alt="documents-box"/>
             </div>
           </Link>
           <hr className="line-points" />
-          <Link to="/edition">
+          <Link to="/edition" aria-label='edition module redirection'>
             <div className="div-link">
-              <img src={boxUrl('D', '03', editionBox)} />
-              <img src={boxUrlH('D', '03', editionBox)} />
+              <img src={boxUrl('D', '03', editionBox)} alt="edition-box"/>
+              <img src={boxUrlH('D', '03', editionBox)} alt="edition-box"/>
             </div>
           </Link>
           <hr className="line-points" />
-          <Link to="/search/simple">
+          <Link to="/search/simple" aria-label='search module redirection'>
             <div className="div-link">
-              <img src={boxUrl('D', '04', searchBox)} />
-              <img src={boxUrlH('D', '04', searchBox)} />
+              <img src={boxUrl('D', '04', searchBox)} alt="search-box"/>
+              <img src={boxUrlH('D', '04', searchBox)} alt="search-box"/>
             </div>
           </Link>
           <hr className="line-points" />
-          <Link to="/virtualeditions">
+          <Link to="/virtualeditions" aria-label='virtual editions module redirection'>
             <div className="div-link">
-              <img src={boxUrl('D', '05', virtualBox)} />
-              <img src={boxUrlH('D', '05', virtualBox)} />
+              <img src={boxUrl('D', '05', virtualBox)} alt="virtual-edition-box"/>
+              <img src={boxUrlH('D', '05', virtualBox)} alt="virtual-edition-box"/>
             </div>
           </Link>
         </div>
 
         <div className="menu-boxes visible-xs-inline col-xs-12">
           <Link to="/reading">
-            <div className="div-link">
-              <img src={boxUrl('M', '01', readingBox)} />
-              <img src={boxUrlH('M', '01', readingBox)} />
+            <div className="div-link" aria-label='mobile reading module redirection'>
+              <img src={boxUrl('M', '01', readingBox)} alt="reading-box"/>
+              <img src={boxUrlH('M', '01', readingBox)} alt="reading-box"/>
             </div>
           </Link>
 
           <hr className="line-points" />
 
           <Link to="/source/list">
-            <div className="div-link">
-              <img src={boxUrl('M', '02', documentsBox)} />
-              <img src={boxUrlH('M', '02', documentsBox)} />
+            <div className="div-link" aria-label='mobile document source list module redirection'>
+              <img src={boxUrl('M', '02', documentsBox)} alt="documents-box"/>
+              <img src={boxUrlH('M', '02', documentsBox)} alt="documents-box"/>
             </div>
           </Link>
 
           <hr className="line-points" />
 
-          <Link to="/edition">
+          <Link to="/edition" aria-label='mobile edition module redirection'>
             <div className="div-link">
-              <img src={boxUrl('M', '03', editionBox)} />
-              <img src={boxUrlH('M', '03', editionBox)} />
+              <img src={boxUrl('M', '03', editionBox)} alt="edition-box"/>
+              <img src={boxUrlH('M', '03', editionBox)} alt="edition-box"/>
             </div>
           </Link>
 
           <hr className="line-points" />
-          <Link to="/search/simple">
+          <Link to="/search/simple" aria-label='mobile simple search module redirection'>
             <div className="div-link">
-              <img src={boxUrl('M', '04', searchBox)} />
-              <img src={boxUrlH('M', '04', searchBox)} />
+              <img src={boxUrl('M', '04', searchBox)} alt="search-box"/>
+              <img src={boxUrlH('M', '04', searchBox)} alt="search-box"/>
             </div>
           </Link>
 
           <hr className="line-points" />
 
-          <Link to="/virtualeditions">
+          <Link to="/virtualeditions" aria-label='mobile virtual editions module redirection'>
             <div className="div-link">
-              <img src={boxUrl('M', '05', virtualBox)} />
-              <img src={boxUrlH('M', '05', virtualBox)} />
+              <img src={boxUrl('M', '05', virtualBox)} alt="virtual-edition-box"/>
+              <img src={boxUrlH('M', '05', virtualBox)} alt="virtual-edition-box"/>
             </div>
           </Link>
         </div>

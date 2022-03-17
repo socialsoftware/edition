@@ -78,6 +78,6 @@ export function UserContributionData(data) {
     score: data.score,
     position: data.position,
     fragments: data.fragInterSize,
-    tableData: data?.fragInterSet?.map((entry) => UserContributionEntry(entry)),
+    tableData: data.fragInterSet?.map((entry) => UserContributionEntry(entry)),
   };
 }

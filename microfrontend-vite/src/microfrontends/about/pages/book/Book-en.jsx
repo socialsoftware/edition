@@ -4,7 +4,7 @@ export default ({ posY, image }) => {
   useEffect(() => window.scrollTo({ top: posY }));
   return (
     <>
-      <h1 class="text-center">Book</h1>
+      <h1 className="text-center">Book</h1>
       <p>&nbsp;</p>
       <img
         className="center"

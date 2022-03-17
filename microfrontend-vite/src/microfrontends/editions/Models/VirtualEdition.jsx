@@ -74,7 +74,7 @@ export function VirtualEditionModel(data) {
     title: Title(data),
     editors: Editors(data),
     type: 'VIRTUAL',
-    tableData: data?.sortedInterpsList?.map((entry) =>
+    tableData: data.sortedInterpsList?.map((entry) =>
       VirtualEditionEntry(entry)
     ),
   };  
