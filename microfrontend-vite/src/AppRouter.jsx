@@ -8,7 +8,13 @@ import NoPage from './pages/NoPage';
 import Home from './microfrontends/home/Home';
 import { getUser } from './microfrontends/user/api/users';
 import './resources/css/app.css';
-import { getToken, isAuthenticated, logout, setError, storeStateSelector } from './store';
+import {
+  getToken,
+  isAuthenticated,
+  logout,
+  setError,
+  storeStateSelector,
+} from './store';
 
 const UserRouter = lazy(() => import('./microfrontends/user/UserRouter'));
 const AboutRouter = lazy(() => import('./microfrontends/about/AboutRouter'));
@@ -26,7 +32,6 @@ const EditionRouter = lazy(() =>
 );
 const SearchRouter = lazy(() => import('./microfrontends/search/SearchRouter'));
 
-
 function App() {
   const navigate = useNavigate();
   const error = storeStateSelector('error');
@@ -37,9 +42,7 @@ function App() {
     setError();
   }, [error]);
 
-
-
-  useEffect(async () => {
+  useEffect(() => {
     getToken() &&
       getUser()
         .then(() => isAuthenticated() && navigate('/', { replace: true }))

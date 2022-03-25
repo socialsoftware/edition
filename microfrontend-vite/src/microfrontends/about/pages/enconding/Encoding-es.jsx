@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 
 export default ({ posY, scroll }) => {
-  useEffect(() => window.scrollTo({ top: posY }));
+  useEffect(() => window.scrollTo({ top: posY }), []);
   return (
     <>
-      <h1 class="text-center">Codificación de Texto</h1>
+      <h1 className="text-center">Codificación de Texto</h1>
       <p>&nbsp;</p>
       <h3>1. La norma XML TEI</h3>
       <p>
@@ -167,8 +167,7 @@ export default ({ posY, scroll }) => {
         testimonio{' '}
         <a
           href="https://ldod.uc.pt/fragments/fragment/Fr044/inter/Fr044_WIT_MS_Fr044a_51"
-          target="new"
-        >
+          target="new">
           BNP/E3 1-50r
         </a>
         , por ejemplo, la interfaz muestra un acrecentado (dean- teira ∧d’ella)
@@ -207,8 +206,7 @@ export default ({ posY, scroll }) => {
         testimonio{' '}
         <a
           href="https://ldod.uc.pt/fragments/fragment/Fr044/inter/Fr044_WIT_MS_Fr044a_51"
-          target="new"
-        >
+          target="new">
           BNP/E3 1-50r
         </a>
         , por ejemplo, la interfaz muestra las variantes “rancor” y “torpor” con

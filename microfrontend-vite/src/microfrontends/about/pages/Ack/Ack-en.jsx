@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
-export default ({ posY, scroll }) => {
-  useEffect(() => window.scrollTo({ top: posY }));
+export default ({ posY }) => {
+  useEffect(() => window.scrollTo({ top: posY }), []);
   return (
     <>
       <h1 className="text-center">Acknowledgements</h1>
@@ -85,8 +85,7 @@ export default ({ posY, scroll }) => {
             (FCSH): VI Seminar “
             <a
               href="http://elab.fcsh.unl.pt/actividades/estranhar-pessoa-vi-seminario"
-              target="new"
-            >
+              target="new">
               Assuntos Materiais
             </a>
             ,” organized by the Project “Estranhar Pessoa” (Februrary 7, 2013;
@@ -98,8 +97,7 @@ export default ({ posY, scroll }) => {
             organized by the Project “
             <a
               href="https://www.westernsydney.edu.au/writing_and_society/research/past_research_projects/creative_nation_writers_and_writing_in_the_new_media_culture"
-              target="new"
-            >
+              target="new">
               Creative Nation: Writers and Writing in the New Media Culture
             </a>
             ” (June 10, 2013; coords. Anna Gibbs and Maria Angel)
@@ -134,8 +132,7 @@ export default ({ posY, scroll }) => {
             modernes (ITEM): “
             <a
               href="https://textualscholarship.files.wordpress.com/2015/04/programme-ests-paris-conference-2013.pdf"
-              target="new"
-            >
+              target="new">
               Variance in Textual Scholarship and Genetic Criticism/ La variance
               en philologie et dans la critique génétique
             </a>
@@ -151,8 +148,7 @@ export default ({ posY, scroll }) => {
             University of Coimbra, Biblioteca Geral: International Congress “
             <a
               href="http://www.uc.pt/bguc/500anos/Congresso_internacional"
-              target="new"
-            >
+              target="new">
               A Biblioteca da Universidade: Permanências e Metamorfoses
             </a>
             ” (January 16-18, 2014; coord. J. A. Cardoso Bernardes)
@@ -172,8 +168,7 @@ export default ({ posY, scroll }) => {
             Los Andes University, Bogotá: International conference “
             <a
               href="https://ilusionymaterialidad.wordpress.com/programa-2/"
-              target="new"
-            >
+              target="new">
               Ilusión y materialidad de los archivos literarios
             </a>
             , ” organized by Universidad de los Andes, Instituto Caro y Cuervo
@@ -202,8 +197,7 @@ export default ({ posY, scroll }) => {
             University of Grenoble: Symposium “
             <a
               href="http://www.nedimah.eu/reports/toward-new-social-contract-between-publishers-and-editors"
-              target="new"
-            >
+              target="new">
               Toward a New Social Contract between Publishers and Editors
             </a>
             ,” organized by the Network for Digital Methods in the Arts and
@@ -215,8 +209,7 @@ export default ({ posY, scroll }) => {
             University of Rome La Sapienza: Symposium “
             <a
               href="http://www.disp.let.uniroma1.it/archivionotizie/ecd/dce-edizioni-confronto/comparing-editions"
-              target="new"
-            >
+              target="new">
               Edizioni Critiche Digitali: Edizioni a Confronto / Digital
               Critical Editions: Comparing Editions
             </a>
@@ -229,8 +222,7 @@ export default ({ posY, scroll }) => {
             Arts: Symposium “
             <a
               href="https://willson.uga.edu/event/textual-machines-a-spring-symposium-exhibit/"
-              target="new"
-            >
+              target="new">
               Textual Machines
             </a>
             ” (April 17-18, 2015; coord. Jonathan Baillehache)
@@ -253,8 +245,7 @@ export default ({ posY, scroll }) => {
             University of Gothemburg, Center for Digital Humanities:{' '}
             <a
               href="http://cdh.hum.gu.se/Aktuellt/e/?eventId=2355210788"
-              target="new"
-            >
+              target="new">
               Seminar
             </a>{' '}
             (September 24, 2015; coord. Jenny Bergenmar)
@@ -264,8 +255,7 @@ export default ({ posY, scroll }) => {
             (FCSH): International congress “
             <a
               href="https://congressohdpt.wordpress.com/programa/"
-              target="new"
-            >
+              target="new">
               Humanidades Digitais em Portugal: Construir Pontes e Quebrar
               Barreiras na Era Digital
             </a>
@@ -276,14 +266,12 @@ export default ({ posY, scroll }) => {
             (CHSC): International conference “
             <a
               href="http://ahlist.org/conferences/2015-ahlist-coimbra/program/"
-              target="new"
-            >
+              target="new">
               Consilience and Inclusion: Scientific and Cultural Encounters
             </a>
             <a
               href="http://ahlist.org/conferences/2015-ahlist-coimbra/"
-              target="new"
-            ></a>
+              target="new"></a>
             ,” organized by the Association of History, Literature, Science, and
             Technology (November 19-21, 2015; coord. Yonsoo Kim)
           </li>
@@ -291,8 +279,7 @@ export default ({ posY, scroll }) => {
             University of Coimbra, School of Economics: Colloquium “
             <a
               href="https://www.uc.pt/feuc/noticias/2015/novembro15/20151123"
-              target="new"
-            >
+              target="new">
               On/Off: Navegando pelas Culturas Digitais, Tecnologia e
               Conhecimento
             </a>
@@ -329,8 +316,7 @@ export default ({ posY, scroll }) => {
             University of Pisa, Informatica Umanistica:{' '}
             <a
               href="http://www.labcd.unipi.it/seminari/silvestre-a-digital-archive-of-fernando-pessoa/"
-              target="new"
-            >
+              target="new">
               Seminario di Cultura Digitale
             </a>{' '}
             (December 7, 2016; coord. Enrica Salvatori)
@@ -342,8 +328,7 @@ export default ({ posY, scroll }) => {
             University of Lisbon, School of Arts and Humanities:{' '}
             <a
               href="http://www.letras.ulisboa.pt/pt/agenda/conferencia-reimaginar-a-edicao-digital-no-arquivo-livro-do-desassossego"
-              target="new"
-            >
+              target="new">
               Lecture for the Program in Textual Criticism
             </a>
             (January 24, 2017; coords. Esperança Cardeira, Cristina Sobral and
@@ -354,8 +339,7 @@ export default ({ posY, scroll }) => {
             and Information Studies:{' '}
             <a
               href="https://is.gseis.ucla.edu/research/colloquium/"
-              target="new"
-            >
+              target="new">
               Colloquium: Breslauer lecture series
             </a>{' '}
             (February 2, 2017; coord. Johanna Drucker)
@@ -364,8 +348,7 @@ export default ({ posY, scroll }) => {
             Calouste Gulbenkian Foundation:{' '}
             <a
               href="http://casafernandopessoa.cm-lisboa.pt/fileadmin/CASA_FERNANDO_PESSOA/AF_CFP_Congresso_Internacional_FP_2017_Programa_Digital_V3.pdf"
-              target="new"
-            >
+              target="new">
               IV Congresso Internacional Fernando Pessoa
             </a>
             , organizaed by Casa Fernando Pessoa (February 9-11, 2017; coord.
@@ -375,8 +358,7 @@ export default ({ posY, scroll }) => {
             Fernando Pessoa University, Porto: International conference “
             <a
               href="https://conference.eliterature.org/2017/conference"
-              target="new"
-            >
+              target="new">
               ELO 2017: Affiliations, Communities, Translations
             </a>
             ” (July 18-22, 2017; coords. Rui Torres and Sandy Baldwin)

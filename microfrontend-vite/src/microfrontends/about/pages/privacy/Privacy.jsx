@@ -1,11 +1,16 @@
-import { lazy, useEffect, useState } from 'react';
-import { getLanguage } from '../../../../store';
+import { lazy, Suspense, useEffect, useState } from 'react';
+import Loading from '../../../../shared/Loading';
 
-export default () => {
+export default ({ language }) => {
   const [top, setTop] = useState(true);
-  const Privacy = lazy(() => import(`./Privacy-${getLanguage()}.jsx`));
+  const Privacy = lazy(() => import(`./Privacy-${language}.jsx`));
 
-  useEffect(() => setTop(false));
-
-  return <Privacy  posY={top ? 0 : window.scrollY} />;
+  useEffect(() => {
+    setTop(false);
+  }, []);
+  return (
+    <Suspense fallback={<Loading />}>
+      <Privacy posY={top ? 0 : window.scrollY} />
+    </Suspense>
+  );
 };

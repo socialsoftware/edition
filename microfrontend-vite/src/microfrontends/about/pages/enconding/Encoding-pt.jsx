@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 export default ({ posY, scroll }) => {
-  useEffect(() => window.scrollTo({ top: posY }));
+  useEffect(() => window.scrollTo({ top: posY }), []);
   return (
     <>
       <h1 className="text-center">Codificação de Texto</h1>
@@ -167,8 +167,7 @@ export default ({ posY, scroll }) => {
         substituições”. No segundo parágrafo do testemunho{' '}
         <a
           href="https://ldod.uc.pt/fragments/fragment/Fr044/inter/Fr044_WIT_MS_Fr044a_51"
-          target="new"
-        >
+          target="new">
           BNP/E3 1-50r
         </a>
         , por exemplo, a interface mostra um acrescento (dean- teira ∧d'ella)
@@ -204,8 +203,7 @@ export default ({ posY, scroll }) => {
         pelo número de variantes textuais. No primeiro parágrafo do testemunho{' '}
         <a
           href="https://ldod.uc.pt/fragments/fragment/Fr044/inter/Fr044_WIT_MS_Fr044a_51"
-          target="new"
-        >
+          target="new">
           BNP/E3 1-50r
         </a>
         , por exemplo, a interface mostra as variantes “rancor” e “torpor” com

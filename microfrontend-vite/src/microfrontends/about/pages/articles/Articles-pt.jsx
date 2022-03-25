@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 export default ({ posY, scroll }) => {
-  useEffect(() => window.scrollTo({ top: posY }));
+  useEffect(() => window.scrollTo({ top: posY }), []);
   return (
     <>
       <h1 className="text-center">Bibliografia</h1>
@@ -57,8 +57,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://impactum-journals.uc.pt/matlit/article/view/2182-8830_1-1_3"
-          target="_new"
-        >
+          target="_new">
           https://impactum-journals.uc.pt/matlit/article/view/2182-8830_1-1_3
         </a>{' '}
         <br />
@@ -74,8 +73,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://impactum-journals.uc.pt/matlit/article/view/2182-8830_1-1_1"
-          target="_new"
-        >
+          target="_new">
           https://impactum-journals.uc.pt/matlit/article/view/2182-8830_1-1_1
         </a>{' '}
         <br />
@@ -97,8 +95,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://tidsskrift.dk/daimipb/article/view/13587/11586"
-          target="_new"
-        >
+          target="_new">
           https://tidsskrift.dk/daimipb/article/view/13587/11586
         </a>{' '}
         <br />
@@ -119,8 +116,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://tei-c.org/Vault/MembersMeetings/2013/wp-content/uploads/2013/09/book-abstracts.pdf"
-          target="_new"
-        >
+          target="_new">
           https://tei-c.org/Vault/MembersMeetings/2013/wp-content/uploads/2013/09/book-abstracts.pdf
         </a>{' '}
       </p>
@@ -139,8 +135,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://academic.oup.com/dsh/article-abstract/30/3/354/345465"
-          target="_new"
-        >
+          target="_new">
           https://academic.oup.com/dsh/article-abstract/30/3/354/345465
         </a>{' '}
         <br />
@@ -156,8 +151,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://scholarworks.iu.edu/journals/index.php/textual/article/view/12752/28916"
-          target="_new"
-        >
+          target="_new">
           https://scholarworks.iu.edu/journals/index.php/textual/article/view/12752/28916
         </a>{' '}
         <br />
@@ -192,8 +186,7 @@ export default ({ posY, scroll }) => {
         URI:{' '}
         <a
           href="https://estudogeral.sib.uc.pt/handle/10316/44734"
-          target="_new"
-        >
+          target="_new">
           https://estudogeral.sib.uc.pt/handle/10316/44734
         </a>{' '}
       </p>
@@ -206,8 +199,7 @@ export default ({ posY, scroll }) => {
         DOI:{' '}
         <a
           href="https://dx.doi.org/10.14195/978-989-26-1045-0_14"
-          target="_new"
-        >
+          target="_new">
           https://dx.doi.org/10.14195/978-989-26-1045-0_14
         </a>{' '}
       </p>
@@ -223,8 +215,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://periodicos.ufsc.br/index.php/textodigital/article/download/1807-9288.2016v12n1p54/32358"
-          target="_new"
-        >
+          target="_new">
           https://periodicos.ufsc.br/index.php/textodigital/article/download/1807-9288.2016v12n1p54/32358
         </a>{' '}
         <br />
@@ -241,8 +232,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://ejournals.lib.auth.gr/gramma/article/download/5401/5295"
-          target="_new"
-        >
+          target="_new">
           https://ejournals.lib.auth.gr/gramma/article/download/5401/5295
         </a>{' '}
         <br />
@@ -269,8 +259,7 @@ export default ({ posY, scroll }) => {
         URI:{' '}
         <a
           href="https://estudogeral.sib.uc.pt/handle/10316/43431"
-          target="_new"
-        >
+          target="_new">
           https://estudogeral.sib.uc.pt/handle/10316/43431
         </a>{' '}
       </p>
@@ -302,8 +291,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://thewritingplatform.com/2017/07/book-disquiet-archive-collaborative-textual-environment-digital-archive-digital-simulator/"
-          target="_new"
-        >
+          target="_new">
           https://thewritingplatform.com/2017/07/book-disquiet-archive-collaborative-textual-environment-digital-archive-digital-simulator/
         </a>
       </p>
@@ -315,8 +303,7 @@ export default ({ posY, scroll }) => {
         URI:{' '}
         <a
           href="https://estudogeral.sib.uc.pt/handle/10316/44304"
-          target="_new"
-        >
+          target="_new">
           https://estudogeral.sib.uc.pt/handle/10316/44304
         </a>
       </p>
@@ -338,8 +325,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://impactum-journals.uc.pt/matlit/article/view/2182-8830_6-3_5"
-          target="_new"
-        >
+          target="_new">
           https://impactum-journals.uc.pt/matlit/article/view/2182-8830_6-3_5
         </a>{' '}
         <br />
@@ -365,8 +351,7 @@ export default ({ posY, scroll }) => {
         DOI:{' '}
         <a
           href="https://link.springer.com/chapter/10.1007%2F978-3-030-34058-2_25"
-          target="_new"
-        >
+          target="_new">
           https://link.springer.com/chapter/10.1007%2F978-3-030-34058-2_25
         </a>{' '}
       </p>
@@ -382,8 +367,7 @@ export default ({ posY, scroll }) => {
         Fernando Pessoa. 5-11. URL:{' '}
         <a
           href="https://www.casafernandopessoa.pt/download_file/342/0"
-          target="_new"
-        >
+          target="_new">
           https://www.casafernandopessoa.pt/download_file/342/0
         </a>
       </p>
@@ -394,8 +378,7 @@ export default ({ posY, scroll }) => {
         Fernando Pessoa. 21-30. URL:{' '}
         <a
           href="https://www.casafernandopessoa.pt/download_file/342/0"
-          target="_new"
-        >
+          target="_new">
           https://www.casafernandopessoa.pt/download_file/342/0
         </a>
       </p>
@@ -423,8 +406,7 @@ export default ({ posY, scroll }) => {
         Nature Switzerland AG. 313-319. DOI:{' '}
         <a
           href="https://link.springer.com/chapter/10.1007%2F978-3-030-64452-9_29"
-          target="_new"
-        >
+          target="_new">
           https://link.springer.com/chapter/10.1007%2F978-3-030-64452-9_29
         </a>{' '}
       </p>
@@ -451,8 +433,7 @@ export default ({ posY, scroll }) => {
         In-Out-In Metaphor.” <em>Digital Humanities Quarterly</em> 15.3.{' '}
         <a
           href="http://digitalhumanities.org/dhq/vol/15/3/000569/000569.html"
-          target="_new"
-        >
+          target="_new">
           http://digitalhumanities.org/dhq/vol/15/3/000569/000569.html
         </a>{' '}
       </p>
@@ -473,8 +454,7 @@ export default ({ posY, scroll }) => {
         . New York: Bloomsbury Academic. URL:{' '}
         <a
           href="https://www.bloomsbury.com/ca/literary-simulation-and-the-digital-humanities-9781501385407/"
-          target="_new"
-        >
+          target="_new">
           https://www.bloomsbury.com/ca/literary-simulation-and-the-digital-humanities-9781501385407/
         </a>{' '}
       </p>
@@ -524,8 +504,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/846778572211152"
-          target="_new"
-        >
+          target="_new">
           https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/846778572211152
         </a>
       </p>
@@ -565,8 +544,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/1972678479054227"
-          target="_new"
-        >
+          target="_new">
           https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/1972678479054227
         </a>
       </p>
@@ -581,8 +559,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/1972678479054238"
-          target="_new"
-        >
+          target="_new">
           https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/1972678479054238
         </a>
       </p>
@@ -597,8 +574,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/283828618790314"
-          target="_new"
-        >
+          target="_new">
           https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/283828618790314
         </a>
       </p>
@@ -617,8 +593,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/283828618790395"
-          target="_new"
-        >
+          target="_new">
           https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/283828618790395
         </a>
       </p>
@@ -631,8 +606,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/1691203502343425"
-          target="_new"
-        >
+          target="_new">
           https://fenix.tecnico.ulisboa.pt/cursos/meic-a/dissertacao/1691203502343425
         </a>{' '}
       </p>
@@ -653,8 +627,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://impactum-journals.uc.pt/matlit/article/view/2182-8830_1-1_6"
-          target="_new"
-        >
+          target="_new">
           https://impactum-journals.uc.pt/matlit/article/view/2182-8830_1-1_6
         </a>{' '}
         <br />
@@ -679,8 +652,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://impactum-journals.uc.pt/matlit/article/view/2182-8830_1-1_8"
-          target="_new"
-        >
+          target="_new">
           https://impactum-journals.uc.pt/matlit/article/view/2182-8830_1-1_8
         </a>{' '}
         <br />
@@ -706,8 +678,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://impactum-journals.uc.pt/matlit/article/view/2182-8830_1-1_5"
-          target="_new"
-        >
+          target="_new">
           https://impactum-journals.uc.pt/matlit/article/view/2182-8830_1-1_5
         </a>{' '}
         <br />
@@ -746,8 +717,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://impactum-journals.uc.pt/matlit/article/view/2182-8830_2-1_4"
-          target="_new"
-        >
+          target="_new">
           https://impactum-journals.uc.pt/matlit/article/view/2182-8830_2-1_4
         </a>{' '}
         <br />
@@ -768,8 +738,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="http://coloquio.gulbenkian.pt/cat/sirius.exe/do?bibrecord&amp;id=PT.FCG.RCL.9782&amp;org=I&amp;orgp=188"
-          target="_new"
-        >
+          target="_new">
           http://coloquio.gulbenkian.pt/cat/sirius.exe/do?bibrecord&amp;id=PT.FCG.RCL.9782&amp;org=I&amp;orgp=188
         </a>{' '}
       </p>
@@ -781,8 +750,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="http://coloquio.gulbenkian.pt/cat/sirius.exe/do?bibrecord&amp;id=PT.FCG.RCL.9780&amp;org=I&amp;orgp=188"
-          target="_new"
-        >
+          target="_new">
           http://coloquio.gulbenkian.pt/cat/sirius.exe/do?bibrecord&amp;id=PT.FCG.RCL.9780&amp;org=I&amp;orgp=188
         </a>{' '}
       </p>
@@ -794,8 +762,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://impactum-journals.uc.pt/matlit/article/view/2517"
-          target="_new"
-        >
+          target="_new">
           https://impactum-journals.uc.pt/matlit/article/view/2517
         </a>{' '}
         <br />
@@ -817,8 +784,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://impactum-journals.uc.pt/rel/article/view/4308/3686"
-          target="_new"
-        >
+          target="_new">
           https://impactum-journals.uc.pt/rel/article/view/4308/3686
         </a>
         <br />
@@ -838,8 +804,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.4/19981"
-          target="_new"
-        >
+          target="_new">
           https://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.4/19981
         </a>{' '}
         <br />
@@ -880,8 +845,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="http://www.blogletras.com/2013/12/livro-do-desassossego-o-romance.html"
-          target="_new"
-        >
+          target="_new">
           http://www.blogletras.com/2013/12/livro-do-desassossego-o-romance.html
         </a>
       </p>
@@ -891,8 +855,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://impactum-journals.uc.pt/matlit/article/view/2182-8830_1-1_2"
-          target="_new"
-        >
+          target="_new">
           https://impactum-journals.uc.pt/matlit/article/view/2182-8830_1-1_2
         </a>{' '}
         <br />
@@ -912,8 +875,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://impactum-journals.uc.pt/matlit/article/view/2182-8830_2-1_3"
-          target="_new"
-        >
+          target="_new">
           https://impactum-journals.uc.pt/matlit/article/view/2182-8830_2-1_3
         </a>{' '}
         <br />
@@ -934,8 +896,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.2/19979"
-          target="_new"
-        >
+          target="_new">
           https://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.2/19979
         </a>{' '}
         <br />
@@ -950,8 +911,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.6/20057"
-          target="_new"
-        >
+          target="_new">
           https://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.6/20057
         </a>{' '}
         <br />
@@ -968,16 +928,14 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="http://www.periodicos.letras.ufmg.br/index.php/cesp/article/view/11386/9886"
-          target="_new"
-        >
+          target="_new">
           http://www.periodicos.letras.ufmg.br/index.php/cesp/article/view/11386/9886
         </a>
         <br />
         DOI:{' '}
         <a
           href="http://dx.doi.org/10.17851/2359-0076.36.55.11-27 "
-          target="_new"
-        >
+          target="_new">
           http://dx.doi.org/10.17851/2359-0076.36.55.11-27
         </a>
       </p>
@@ -988,8 +946,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.3/19980"
-          target="_new"
-        >
+          target="_new">
           https://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.3/19980
         </a>{' '}
         <br />
@@ -1006,8 +963,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://oajournals.fupress.net/index.php/bsfm-lea/article/view/7716"
-          target="_new"
-        >
+          target="_new">
           https://oajournals.fupress.net/index.php/bsfm-lea/article/view/7716
         </a>{' '}
         <br />
@@ -1023,8 +979,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.1/20058"
-          target="_new"
-        >
+          target="_new">
           https://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.1/20058
         </a>{' '}
         <br />
@@ -1040,8 +995,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.5/19982"
-          target="_new"
-        >
+          target="_new">
           https://revistes.ub.edu/index.php/Abriu/article/download/abriu2016.5.5/19982
         </a>{' '}
         <br />
@@ -1755,8 +1709,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://observador.pt/2017/12/13/o-arquivo-digital-do-livro-do-desassossego-ja-esta-online-e-tem-muitas-historias-para-contar"
-          target="_new"
-        >
+          target="_new">
           https://observador.pt/2017/12/13/o-arquivo-digital-do-livro-do-desassossego-ja-esta-online-e-tem-muitas-historias-para-contar
         </a>
       </p>
@@ -1767,8 +1720,7 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://www.publico.pt/2017/12/14/culturaipsilon/noticia/um-arquivo-digital-do-livro-do-desassossego-para-ler-e-mexer-1795920"
-          target="_new"
-        >
+          target="_new">
           https://www.publico.pt/2017/12/14/culturaipsilon/noticia/um-arquivo-digital-do-livro-do-desassossego-para-ler-e-mexer-1795920
         </a>
       </p>
@@ -1814,8 +1766,7 @@ export default ({ posY, scroll }) => {
         Federal de Pernambuco. URL:
         <a
           href="https://repositorio.ufpe.br/handle/123456789/38150"
-          target="_new"
-        >
+          target="_new">
           https://repositorio.ufpe.br/handle/123456789/38150
         </a>{' '}
       </p>
@@ -1825,8 +1776,7 @@ export default ({ posY, scroll }) => {
         <em>RHD: Revista de Humanidades Digitales</em> 5: 189-96. URL:{' '}
         <a
           href="http://revistas.uned.es/index.php/RHD/article/view/24237/22269"
-          target="_new"
-        >
+          target="_new">
           http://revistas.uned.es/index.php/RHD/article/view/24237/22269
         </a>
       </p>

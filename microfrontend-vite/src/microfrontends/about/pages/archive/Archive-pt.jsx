@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 export default ({ posY }) => {
-  useEffect(() => window.scrollTo({ top: posY }));
+  useEffect(() => window.scrollTo({ top: posY }), []);
   return (
     <div>
       <p className="ldod-about semibold">

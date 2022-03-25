@@ -1,11 +1,17 @@
-import { lazy, useEffect, useState } from 'react';
-import { getLanguage } from '../../../../store';
+import { lazy, Suspense, useEffect, useState } from 'react';
+import Loading from '../../../../shared/Loading';
 
-export default () => {
+export default ({ language }) => {
   const [top, setTop] = useState(true);
-  const Encoding = lazy(() => import(`./Encoding-${getLanguage()}.jsx`));
+  const Encoding = lazy(() => import(`./Encoding-${language}.jsx`));
 
-  useEffect(() => setTop(false));
+  useEffect(() => {
+    setTop(false);
+  }, []);
 
-  return <Encoding posY={top ? 0 : window.scrollY} />;
+  return (
+    <Suspense fallback={<Loading />}>
+      <Encoding posY={top ? 0 : window.scrollY} />
+    </Suspense>
+  );
 };

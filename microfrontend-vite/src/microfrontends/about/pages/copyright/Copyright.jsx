@@ -1,14 +1,16 @@
-import { lazy } from 'react';
-import { getLanguage } from '../../../../store';
+import { lazy, Suspense } from 'react';
+import Loading from '../../../../shared/Loading';
 
-export default () => {
-  const Copyright = lazy(() => import(`./Copyright-${getLanguage()}.jsx`));
+export default ({ language }) => {
+  const Copyright = lazy(() => import(`./Copyright-${language}.jsx`));
 
   return (
     <>
       <h1 className="text-center">Copyright</h1>
       <p>&nbsp;</p>
-      <Copyright scroll={scroll} posY={top ? 0 : window.scrollY} />
+      <Suspense fallback={<Loading />}>
+        <Copyright />
+      </Suspense>
     </>
   );
 };

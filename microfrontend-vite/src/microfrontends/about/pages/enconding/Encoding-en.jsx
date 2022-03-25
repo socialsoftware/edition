@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 export default ({ posY, scroll }) => {
-  useEffect(() => window.scrollTo({ top: posY }));
+  useEffect(() => window.scrollTo({ top: posY }), []);
   return (
     <>
       <h1 className="text-center">Text Encoding</h1>
@@ -154,8 +154,7 @@ export default ({ posY, scroll }) => {
         second paragraph of{' '}
         <a
           href="https://ldod.uc.pt/fragments/fragment/Fr044/inter/Fr044_WIT_MS_Fr044a_51"
-          target="new"
-        >
+          target="new">
           BNP/E3 1-50r
         </a>
         , for example, the interface shows an addition (dean- teira ∧d’ella)
@@ -190,8 +189,7 @@ export default ({ posY, scroll }) => {
         number of textual variants. In the first paragraph of{' '}
         <a
           href="https://ldod.uc.pt/fragments/fragment/Fr044/inter/Fr044_WIT_MS_Fr044a_51"
-          target="new"
-        >
+          target="new">
           BNP/E3 1-50r
         </a>
         , for example, the interface shows the variants “rancor” and “torpor”

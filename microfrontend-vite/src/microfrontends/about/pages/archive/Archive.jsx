@@ -1,18 +1,22 @@
-import { lazy, useEffect, useState } from 'react';
-import { useStore } from '../../../../store';
+import { lazy, Suspense, useEffect, useState } from 'react';
+import Loading from '../../../../shared/Loading';
 
-export default () => {
-  const { language } = useStore();
+export default ({ language }) => {
   const [top, setTop] = useState(true);
 
-  useEffect(() => setTop(false));
+  useEffect(() => {
+    setTop(false);
+  }, []);
 
   const Archive = lazy(() => import(`./Archive-${language}.jsx`));
 
   return (
     <div className="ldod-default">
       <p>&nbsp;</p>
-      <Archive posY={top ? 0 : window.scrollY} />
+      <Suspense fallback={<Loading />}>
+        {' '}
+        <Archive posY={top ? 0 : window.scrollY} />
+      </Suspense>
     </div>
   );
 };

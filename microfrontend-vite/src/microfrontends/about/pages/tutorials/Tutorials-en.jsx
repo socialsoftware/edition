@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 export default ({ posY, scroll }) => {
-  useEffect(() => window.scrollTo({ top: posY }));
+  useEffect(() => window.scrollTo({ top: posY }), []);
   return (
     <>
       <h1 className="text-center">Tutorials and Workshops</h1>
@@ -39,25 +39,24 @@ export default ({ posY, scroll }) => {
         URL:{' '}
         <a
           href="https://www.youtube.com/channel/UCHK5OjU1w4OwPOF_e0jd9bQ"
-          target="_new"
-        >
+          target="_new">
           https://www.youtube.com/channel/UCHK5OjU1w4OwPOF_e0jd9bQ
           <br />
         </a>
       </p>
-      <a href="https://www.youtube.com/channel/UCHK5OjU1w4OwPOF_e0jd9bQ" target="_new">
+      <a
+        href="https://www.youtube.com/channel/UCHK5OjU1w4OwPOF_e0jd9bQ"
+        target="_new">
         <h5>Table of LdoD Tutorials:</h5>
       </a>
       <ul>
         <a
           href="https://www.youtube.com/channel/UCHK5OjU1w4OwPOF_e0jd9bQ"
-          target="_new"
-        ></a>
+          target="_new"></a>
         <li>
           <a
             href="https://www.youtube.com/channel/UCHK5OjU1w4OwPOF_e0jd9bQ"
-            target="_new"
-          ></a>
+            target="_new"></a>
           <a onClick={() => scroll('#V1')}>
             Tutorial 1: What is the <em>LdoD Archive</em>?
           </a>{' '}
@@ -117,8 +116,7 @@ export default ({ posY, scroll }) => {
           height="315"
           src="https://www.youtube.com/embed/hOVqKufmAv8"
           frameBorder="0"
-          allowFullScreen=""
-        ></iframe>
+          allowFullScreen=""></iframe>
       </div>
       <br />
       <br />
@@ -131,8 +129,7 @@ export default ({ posY, scroll }) => {
           height="315"
           src="https://www.youtube.com/embed/H78nGI5L25M"
           frameBorder="0"
-          allowFullScreen=""
-        ></iframe>
+          allowFullScreen=""></iframe>
       </div>
       <br />
       <br />
@@ -143,8 +140,7 @@ export default ({ posY, scroll }) => {
           height="315"
           src="https://www.youtube.com/embed/dUUUiC-Bl68"
           frameBorder="0"
-          allowFullScreen=""
-        ></iframe>
+          allowFullScreen=""></iframe>
       </div>
       <br />
       <br />
@@ -155,8 +151,7 @@ export default ({ posY, scroll }) => {
           height="315"
           src="https://www.youtube.com/embed/LPGxZjUUh1w"
           frameBorder="0"
-          allowFullScreen=""
-        ></iframe>
+          allowFullScreen=""></iframe>
       </div>
       <br />
       <br />
@@ -167,8 +162,7 @@ export default ({ posY, scroll }) => {
           height="315"
           src="https://www.youtube.com/embed/wFPO-ypEWl8"
           frameBorder="0"
-          allowFullScreen=""
-        ></iframe>
+          allowFullScreen=""></iframe>
       </div>
       <br />
       <br />
@@ -179,8 +173,7 @@ export default ({ posY, scroll }) => {
           height="315"
           src="https://www.youtube.com/embed/h1QJDZ77iT0"
           frameBorder="0"
-          allowFullScreen=""
-        ></iframe>
+          allowFullScreen=""></iframe>
       </div>
       <br />
       <br />
@@ -191,8 +184,7 @@ export default ({ posY, scroll }) => {
           height="315"
           src="https://www.youtube.com/embed/6qcBC8OGJLU"
           frameBorder="0"
-          allowFullScreen=""
-        ></iframe>
+          allowFullScreen=""></iframe>
       </div>
       <br />
       <br />
@@ -203,8 +195,7 @@ export default ({ posY, scroll }) => {
           height="315"
           src="https://www.youtube.com/embed/rANp_CP3DwI"
           frameBorder="0"
-          allowFullScreen=""
-        ></iframe>
+          allowFullScreen=""></iframe>
       </div>
       <br />
       <br />
@@ -215,8 +206,7 @@ export default ({ posY, scroll }) => {
           height="315"
           src="https://www.youtube.com/embed/BMvAbI_TOy8"
           frameBorder="0"
-          allowFullScreen=""
-        ></iframe>
+          allowFullScreen=""></iframe>
       </div>
       <br />
       <br />
@@ -227,8 +217,7 @@ export default ({ posY, scroll }) => {
           height="315"
           src="https://www.youtube.com/embed/3cvvsjvrSzk"
           frameBorder="0"
-          allowFullScreen=""
-        ></iframe>
+          allowFullScreen=""></iframe>
       </div>
       <br />
       <br />

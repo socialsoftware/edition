@@ -4,7 +4,7 @@ export default ({ posY, scroll }) => {
   useEffect(() => window.scrollTo({ top: posY }));
   return (
     <>
-      <h1 class="text-center">Preguntas Frecuentes</h1>
+      <h1 className="text-center">Preguntas Frecuentes</h1>
       <p>&nbsp;</p>
 
       <h4>

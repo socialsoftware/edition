@@ -1,17 +1,17 @@
-import { lazy, useState, useEffect } from 'react';
-import { useStore } from "../../../../store";
+import { lazy, useState, useEffect, Suspense } from 'react';
+import Loading from '../../../../shared/Loading';
 
-export default ({scroll}) => {
-  
-  const { language } = useStore();
+export default ({ scroll, language }) => {
   const Tutorials = lazy(() => import(`./Tutorials-${language}.jsx`));
   const [top, setTop] = useState(true);
 
-  useEffect(() => setTop(false));
+  useEffect(() => {
+    setTop(false);
+  }, []);
 
   return (
-    <Tutorials 
-    scroll={scroll}
-    posY={top ? 0 : window.scrollY}/>
+    <Suspense fallback={<Loading />}>
+      <Tutorials scroll={scroll} posY={top ? 0 : window.scrollY} />
+    </Suspense>
   );
-}
+};

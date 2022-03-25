@@ -1,11 +1,16 @@
-import { lazy, useEffect, useState } from 'react';
-import { getLanguage } from '../../../../store';
+import { lazy, Suspense, useEffect, useState } from 'react';
+import Loading from '../../../../shared/Loading';
 
-export default ({ scroll }) => {
+export default ({ scroll, language }) => {
   const [top, setTop] = useState(true);
-  const Faq = lazy(() => import(`./Faq-${getLanguage()}.jsx`));
+  const Faq = lazy(() => import(`./Faq-${language}.jsx`));
 
-  useEffect(() => setTop(false));
-
-  return <Faq scroll={scroll} posY={top ? 0 : window.scrollY} />;
+  useEffect(() => {
+    setTop(false);
+  }, []);
+  return (
+    <Suspense fallback={<Loading />}>
+      <Faq scroll={scroll} posY={top ? 0 : window.scrollY} />
+    </Suspense>
+  );
 };

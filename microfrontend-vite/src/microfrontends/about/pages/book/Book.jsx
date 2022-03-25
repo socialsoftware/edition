@@ -1,14 +1,20 @@
-import { lazy, useEffect, useState } from 'react';
-import { getLanguage } from '../../../../store';
+import { lazy, Suspense, useEffect, useState } from 'react';
+import Loading from '../../../../shared/Loading';
 const image = new URL(
   `../../resources/assets/LiterarySimulation_BookCover.webp`,
   import.meta.url
-).href
-export default ({ scroll }) => {
+).href;
+export default ({ language }) => {
   const [top, setTop] = useState(true);
-  const Book = lazy(() => import(`./Book-${getLanguage()}.jsx`));
+  const Book = lazy(() => import(`./Book-${language}.jsx`));
 
-  useEffect(() => setTop(false));
+  useEffect(() => {
+    setTop(false);
+  }, []);
 
-  return <Book posY={top ? 0 : window.scrollY} image={image} />;
+  return (
+    <Suspense fallback={<Loading />}>
+      <Book posY={top ? 0 : window.scrollY} image={image} />
+    </Suspense>
+  );
 };

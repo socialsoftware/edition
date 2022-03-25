@@ -1,16 +1,12 @@
 import { useEffect } from 'react';
 
 export default ({ posY, image }) => {
-  useEffect(() => window.scrollTo({ top: posY }));
+  useEffect(() => window.scrollTo({ top: posY }), []);
   return (
     <>
       <h1 className="text-center">Book</h1>
       <p>&nbsp;</p>
-      <img
-        className="center"
-        src={image}
-        width="75%"
-      />
+      <img className="center" src={image} width="75%" />
 
       <p>
         Manuel Portela,{' '}
@@ -21,8 +17,7 @@ export default ({ posY, image }) => {
         . New York: Bloomsbury Academic, 2022. URL:{' '}
         <a
           href="https://www.bloomsbury.com/uk/literary-simulation-and-the-digital-humanities-9781501385407/"
-          target="_new"
-        >
+          target="_new">
           https://www.bloomsbury.com/uk/literary-simulation-and-the-digital-humanities-9781501385407/
         </a>
       </p>

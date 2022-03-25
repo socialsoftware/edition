@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
-export default ({posY}) => {
-  useEffect(() => window.scrollTo({ top: posY }));
+export default ({ posY }) => {
+  useEffect(() => window.scrollTo({ top: posY }), []);
   return (
     <div>
       <p>
@@ -64,11 +64,13 @@ export default ({posY}) => {
           cualquier contenido generado por el usuario (como una edici&oacute;n
           virtual, anotaciones a una edici&oacute;n virtual y textos de
           escritura virtual) puede ser utilizado por otros en el contexto de la
-          plataforma.<br />
+          plataforma.
+          <br />
           <em>
             Tenga en cuenta que la infraestructura est&aacute; diseñada para
             conservar la autor&iacute;a de todo el contenido de edici&oacute;n
-            virtual y escritura virtual.<br />
+            virtual y escritura virtual.
+            <br />
           </em>{' '}
           Toda reproducci&oacute;n posterior, en cualquier medio, del contenido
           generado por usuarios del <em>Archivo LdoD</em> debe ser atribuida.

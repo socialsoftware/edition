@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 export default ({ scroll, posY }) => {
-  
-  useEffect(() => window.scrollTo({ top: posY }));
+  useEffect(() => window.scrollTo({ top: posY }), []);
 
   return (
     <>
@@ -46,87 +45,65 @@ export default ({ scroll, posY }) => {
       <h5>&Iacute;ndice dos v&iacute;deos:</h5>
       <ul>
         <li>
-          <a onClick={() => scroll( '#V1')}>
-            Teaser_LdoD: Arquivo LdoD
-          </a>
+          <a onClick={() => scroll('#V1')}>Teaser_LdoD: Arquivo LdoD</a>
         </li>
         <li>
-          <a onClick={() => scroll( '#V2')}>
+          <a onClick={() => scroll('#V2')}>
             A realidade documental &eacute; desorganizada
           </a>
         </li>
         <li>
-          <a onClick={() => scroll( '#V3')}>
-            Vicente Guedes e Bernardo Soares
-          </a>
+          <a onClick={() => scroll('#V3')}>Vicente Guedes e Bernardo Soares</a>
         </li>
         <li>
-          <a onClick={() => scroll( '#V4')}>
+          <a onClick={() => scroll('#V4')}>
             Cria&ccedil;&atilde;o de unidades discursivas
           </a>
         </li>
         <li>
-          <a onClick={() => scroll( '#V5')}>
+          <a onClick={() => scroll('#V5')}>
             Cria&ccedil;&atilde;o de par&aacute;grafos
           </a>
         </li>
         <li>
-          <a onClick={() => scroll( '#V6')}>
-            Fala humana
-          </a>
+          <a onClick={() => scroll('#V6')}>Fala humana</a>
         </li>
         <li>
-          <a onClick={() => scroll( '#V7')}>
-            Porqu&ecirc; editar?
-          </a>
+          <a onClick={() => scroll('#V7')}>Porqu&ecirc; editar?</a>
         </li>
         <li>
-          <a onClick={() => scroll( '#V8')}>
+          <a onClick={() => scroll('#V8')}>
             Organiza&ccedil;&atilde;o cronol&oacute;gica
           </a>
         </li>
         <li>
-          <a onClick={() => scroll( '#V9')}>
-            Heter&oacute;nimos
-          </a>
+          <a onClick={() => scroll('#V9')}>Heter&oacute;nimos</a>
         </li>
         <li>
-          <a onClick={() => scroll( '#V10')}>
+          <a onClick={() => scroll('#V10')}>
             Possibilidades de edi&ccedil;&atilde;o
           </a>
         </li>
         <li>
-          <a onClick={() => scroll( '#V11')}>
-            Materialidade e cr&iacute;tica
-          </a>
+          <a onClick={() => scroll('#V11')}>Materialidade e cr&iacute;tica</a>
         </li>
         <li>
-          <a onClick={() => scroll( '#V12')}>
-            Leitura espont&acirc;nea
-          </a>
+          <a onClick={() => scroll('#V12')}>Leitura espont&acirc;nea</a>
         </li>
         <li>
-          <a onClick={() => scroll( '#V13')}>
-            Hiperconsci&ecirc;ncia
-          </a>
+          <a onClick={() => scroll('#V13')}>Hiperconsci&ecirc;ncia</a>
         </li>
         <li>
-          <a onClick={() => scroll( '#V14')}>
-            Arquivo LdoD
-          </a>
+          <a onClick={() => scroll('#V14')}>Arquivo LdoD</a>
         </li>
         <li>
-          <a onClick={() => scroll( '#V15')}>
-            Arquivo din&acirc;mico
-          </a>
+          <a onClick={() => scroll('#V15')}>Arquivo din&acirc;mico</a>
         </li>
         <li>
-          <a onClick={() => scroll( '#V16')}>
-            Aprender Investigar Criar
-          </a>
+          <a onClick={() => scroll('#V16')}>Aprender Investigar Criar</a>
         </li>
         <li>
-          <a onClick={() => scroll( '#V17')}>
+          <a onClick={() => scroll('#V17')}>
             Simulador de performatividade liter&aacute;ria
           </a>
         </li>
@@ -141,8 +118,7 @@ export default ({ scroll, posY }) => {
           height="315"
           src="https://www.youtube.com/embed/dEnavuucyrY"
           frameBorder="0"
-          allowFullScreen
-        ></iframe>
+          allowFullScreen></iframe>
       </div>
       <br />
       <br />
@@ -155,8 +131,7 @@ export default ({ scroll, posY }) => {
           height="315"
           src="https://www.youtube.com/embed/wHMLD23JkIw"
           frameBorder="0"
-          allowFullScreen
-        ></iframe>
+          allowFullScreen></iframe>
       </div>
       <br />
       <br />
@@ -169,8 +144,7 @@ export default ({ scroll, posY }) => {
           height="315"
           src="https://www.youtube.com/embed/AfTDWoOFEMA"
           frameBorder="0"
-          allowFullScreen
-        ></iframe>
+          allowFullScreen></iframe>
       </div>
       <br />
       <br />
@@ -182,8 +156,7 @@ export default ({ scroll, posY }) => {
           height="315"
           src="https://www.youtube.com/embed/EZYBzryVWYI"
           frameBorder="0"
-          allowFullScreen
-        ></iframe>
+          allowFullScreen></iframe>
       </div>
       <br />
       <br />
@@ -195,8 +168,7 @@ export default ({ scroll, posY }) => {
           height="315"
           src="https://www.youtube.com/embed/-LGEm7qf6qc"
           frameBorder="0"
-          allowFullScreen
-        ></iframe>
+          allowFullScreen></iframe>
       </div>
       <br />
       <br />
@@ -208,8 +180,7 @@ export default ({ scroll, posY }) => {
           height="315"
           src="https://www.youtube.com/embed/ObI5qTT1qhU"
           frameBorder="0"
-          allowFullScreen
-        ></iframe>
+          allowFullScreen></iframe>
       </div>
       <br />
       <br />
@@ -221,8 +192,7 @@ export default ({ scroll, posY }) => {
           height="315"
           src="https://www.youtube.com/embed/qdc3y_pUBII"
           frameBorder="0"
-          allowFullScreen
-        ></iframe>
+          allowFullScreen></iframe>
       </div>
       <br />
       <br />
@@ -234,8 +204,7 @@ export default ({ scroll, posY }) => {
           height="315"
           src="https://www.youtube.com/embed/0E8-k7ZuCd8"
           frameBorder="0"
-          allowFullScreen
-        ></iframe>
+          allowFullScreen></iframe>
       </div>
       <br />
       <br />
@@ -247,8 +216,7 @@ export default ({ scroll, posY }) => {
           height="315"
           src="https://www.youtube.com/embed/sXliW-96fLw"
           frameBorder="0"
-          allowFullScreen
-        ></iframe>
+          allowFullScreen></iframe>
       </div>
       <br />
       <br />
@@ -260,8 +228,7 @@ export default ({ scroll, posY }) => {
           height="315"
           src="https://www.youtube.com/embed/CODlWW6BqhE"
           frameBorder="0"
-          allowFullScreen
-        ></iframe>
+          allowFullScreen></iframe>
       </div>
       <br />
       <br />
@@ -273,8 +240,7 @@ export default ({ scroll, posY }) => {
           height="315"
           src="https://www.youtube.com/embed/N-6lEbfFB6E"
           frameBorder="0"
-          allowFullScreen
-        ></iframe>
+          allowFullScreen></iframe>
       </div>
       <br />
       <br />
@@ -286,8 +252,7 @@ export default ({ scroll, posY }) => {
           height="315"
           src="https://www.youtube.com/embed/chTLiJDAhCA"
           frameBorder="0"
-          allowFullScreen
-        ></iframe>
+          allowFullScreen></iframe>
       </div>
       <br />
       <br />
@@ -299,8 +264,7 @@ export default ({ scroll, posY }) => {
           height="315"
           src="https://www.youtube.com/embed/oAFPcx6_rbs"
           frameBorder="0"
-          allowFullScreen
-        ></iframe>
+          allowFullScreen></iframe>
       </div>
       <br />
       <br />
@@ -312,8 +276,7 @@ export default ({ scroll, posY }) => {
           height="315"
           src="https://www.youtube.com/embed/6MiYye4rQJk"
           frameBorder="0"
-          allowFullScreen
-        ></iframe>
+          allowFullScreen></iframe>
       </div>
       <br />
       <br />
@@ -325,8 +288,7 @@ export default ({ scroll, posY }) => {
           height="315"
           src="https://www.youtube.com/embed/7_6pKD2ktSY"
           frameBorder="0"
-          allowFullScreen
-        ></iframe>
+          allowFullScreen></iframe>
       </div>
       <br />
       <br />
@@ -338,8 +300,7 @@ export default ({ scroll, posY }) => {
           height="315"
           src="https://www.youtube.com/embed/MxycSwfE8XY"
           frameBorder="0"
-          allowFullScreen
-        ></iframe>
+          allowFullScreen></iframe>
       </div>
       <br />
       <br />
@@ -351,8 +312,7 @@ export default ({ scroll, posY }) => {
           height="315"
           src="https://www.youtube.com/embed/OF3OD3-i1EY"
           frameBorder="0"
-          allowFullScreen
-        ></iframe>
+          allowFullScreen></iframe>
       </div>
       <br />
       <br />

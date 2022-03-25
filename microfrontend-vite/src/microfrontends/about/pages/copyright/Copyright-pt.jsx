@@ -27,7 +27,7 @@ export default () => (
       </a>
       ”(CC BY-NC 4.0). Esta licença não se aplica às quatro edições dos peritos
       (Prado Coelho-1982; Sobral Cunha-2008; Zenith-2012; e Pizarro-2010), as
-      quais
+      quais{' '}
       <strong>
         só podem ser usadas dentro da infraestrutura <em>Arquivo LdoD</em>.
       </strong>{' '}

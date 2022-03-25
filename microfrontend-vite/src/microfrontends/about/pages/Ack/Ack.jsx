@@ -1,11 +1,18 @@
-import { lazy, useEffect, useState } from 'react';
-import { getLanguage } from '../../../../store';
+import { lazy, Suspense, useEffect, useState } from 'react';
+import Loading from '../../../../shared/Loading';
 
-export default ({ scroll }) => {
+export default ({ language }) => {
   const [top, setTop] = useState(true);
-  const Ack = lazy(() => import(`./Ack-${getLanguage()}.jsx`));
+  const Ack = lazy(() => import(`./Ack-${language}.jsx`));
 
-  useEffect(() => setTop(false));
+  console.log('teste');
 
-  return <Ack scroll={scroll} posY={top ? 0 : window.scrollY} />;
+  useEffect(() => {
+    setTop(false);
+  }, []);
+  return (
+    <Suspense fallback={<Loading />}>
+      <Ack posY={top ? 0 : window.scrollY} />
+    </Suspense>
+  );
 };
