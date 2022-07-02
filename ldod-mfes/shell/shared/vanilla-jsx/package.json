@@ -1,0 +1,21 @@
+{
+    "name": "vanilla-jsx",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "prebuild": "npm run test",
+        "test": "jest --coverage --env=jest-environment-jsdom",
+        "build": "rollup -c"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.17.10",
+        "@babel/preset-env": "^7.17.10",
+        "@types/jest": "^28.1.1",
+        "babel-jest": "^28.1.0",
+        "jest": "^28.1.0",
+        "jest-environment-jsdom": "^28.1.0",
+        "rollup": "^2.73.0",
+        "rollup-plugin-terser": "^7.0.2"
+    }
+}

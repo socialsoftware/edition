@@ -4,11 +4,9 @@ yarn.lock
 package-lock.json
 
 */public/
+*/build/
 */dist/
 */node_modules/
-*/shell/
-*/shared/
-*/home/
 
 server/static/*
 server/importmap.json
