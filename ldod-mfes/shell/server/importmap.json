@@ -1,0 +1,7 @@
+{
+    "imports": {
+        "shared/": "/shared/",
+        "home": "/home/home.js",
+        "user": "/user/user.js"
+    }
+}

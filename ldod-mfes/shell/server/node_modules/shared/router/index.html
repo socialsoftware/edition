@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="importmap">
+        { "imports": { "shared/":"http://127.0.0.1:3000/" } }
+    </script>
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        a[is=nav-to] {
+            cursor: pointer;
+        }
+    </style> <a is="nav-to" to="/home">Home</a>
+    <a is="nav-to" to="/about">About</a>
+    <ldod-router id="router" language="pt">
+
+    </ldod-router>
+    <script type="module">
+        import './index.js';
+    </script>
+
+</body>
+
+</html>

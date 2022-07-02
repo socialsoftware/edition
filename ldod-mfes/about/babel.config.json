@@ -1,0 +1,11 @@
+{
+  "presets": [
+    [
+      "@babel/preset-react",
+      {
+        "pragma": "createElement", // default pragma is React.createElement (only in classic runtime)
+        "pragmaFrag": "createFragment" // default is React.Fragment (only in classic runtime)
+      }
+    ]
+  ]
+}

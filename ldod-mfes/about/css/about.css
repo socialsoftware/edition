@@ -1,0 +1,61 @@
+@font-face {
+    font-family: 'Work-Sans';
+    src: url('./fonts/WorkSans-Medium.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Work-Sans';
+    src: url('fonts/WorkSans-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: regular;
+    font-display: swap;
+}
+
+.ldod-about {
+    font-family: 'Work-Sans';
+    font-size: 15px;
+}
+
+.ldod-about a {
+    color: #0c4ef6;
+}
+
+.ldod-about a:hover {
+    color: #0c4ef6;
+}
+
+.ldod-about.semibold {
+    font-weight: 500;
+}
+
+.ldod-about h5 {
+    font-size: 18px;
+    font-weight: 600;
+    padding-top: 15px;
+}
+
+.col-md-8 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+hr.ldod-about {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    border-top: 2px solid #0c4ef6;
+}
+
+@media (min-width: 992px) {
+    .col-md-8 {
+        width: 66.66666667%;
+        float: left;
+    }
+    .col-md-offset-2 {
+        margin-left: 16.66666667%;
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "name": "home",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "build": "if [ -d build ]; then rm -r build;fi &&  rollup -c && cp -r resources build",
+        "start": "serve -C -l 3001",
+        "pack": "yarn build && ./scripts/pack.sh home",
+        "publish": "yarn run pack && ./scripts/publish.sh home home.js @./dist/home.tgz",
+        "unpublish": "./scripts/unpublish.sh home"
+    },
+    "devDependencies": {
+        "@rollup/plugin-dynamic-import-vars": "^1.4.3",
+        "acorn-import-assertions": "^1.8.0",
+        "rollup": "^2.75.6",
+        "rollup-plugin-import-assert": "^2.1.0",
+        "rollup-plugin-terser": "^7.0.2",
+        "serve": "^13.0.2"
+    },
+    "dependencies": {
+        "rollup-plugin-import-css": "^3.0.3",
+        "shared": "file:../shared"
+    }
+}

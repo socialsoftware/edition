@@ -1,0 +1,101 @@
+@font-face {
+    font-family: 'Work-Sans';
+    src: url('./fonts/work-sans/WorkSans-ExtraBold.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 800;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Space-Mono';
+    src: url('./fonts/space-mono/SpaceMono-Bold.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Ultra';
+    src: url('./fonts/ultra/Ultra-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: regular;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'League-Gothic';
+    src: url('./fonts/league-gothic/LeagueGothic-Regular.otf') format('truetype');
+    font-style: normal;
+    font-weight: regular;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Work-Sans';
+    src: url('./fonts/work-sans/WorkSans-SemiBold.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Space-Mono';
+    src: url('./fonts/space-mono/SpaceMono-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+.ldod-default {
+    font-family: 'Work-Sans';
+    color: black;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+html {
+    font-size: 10px;
+}
+
+html::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    margin: 0;
+    padding-top: 190px;
+}
+
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media (max-width: 767px) {
+    body {
+        padding-top: 100px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        width: 940px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 1140px;
+    }
+    body {
+        padding-top: 150px;
+    }
+}
