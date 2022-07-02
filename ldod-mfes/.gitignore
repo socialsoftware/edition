@@ -1,18 +1,12 @@
 .vscode
-
 yarn.lock
 package-lock.json
 
-*/public/
 */build/
 */dist/
+*/public/
 */node_modules/
+*/transpiled-src/
 
-node_modules
-
-shell/client/node_modules/
-shell/server/node_modules/
-
-**/node_modules/
 server/static/*
 server/importmap.json
