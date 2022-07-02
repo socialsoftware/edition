@@ -8,5 +8,5 @@ build/
 dist/
 public/
 transpiled-src
-server/static/*
-server/importmap.json
+static/
+importmap.json
