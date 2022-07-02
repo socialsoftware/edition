@@ -1,7 +1,1 @@
-{
-    "imports": {
-        "shared/": "/shared/",
-        "home": "/home/home.js",
-        "user": "/user/user.js"
-    }
-}
+{"imports":{"user":"/user/user.js","home":"/home/home.js","shared/":"/shared/"}}

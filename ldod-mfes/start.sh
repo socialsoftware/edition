@@ -1,1 +1,8 @@
-(trap 'kill 0' SIGINT; (cd shared && yarn start) & (cd user && yarn start) & (cd home && yarn start) & (cd about && yarn start)& (cd shell && yarn start))
+#! /bin/sh
+
+(trap 'kill 0' SIGINT; 
+  (cd shell/shared && yarn install && yarn run publish) & 
+  (cd shell/client && yarn install && yarn run publish) &
+  (cd home && yarn install && yarn run publish) &
+  (cd user && yarn install && yarn run publish)
+  )

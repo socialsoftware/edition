@@ -8,5 +8,11 @@ package-lock.json
 */dist/
 */node_modules/
 
+node_modules
+
+shell/client/node_modules/
+shell/server/node_modules/
+
+**/node_modules/
 server/static/*
 server/importmap.json

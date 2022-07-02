@@ -230,8 +230,6 @@ describe('testing simple router ', () => {
 
     await new Promise((r) => setTimeout(r, 1));
 
-    console.log(uut);
-
     document.body.removeChild(router);
   });
 });

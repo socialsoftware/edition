@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1656782690364" clover="3.2.0">
-  <project timestamp="1656782690364" name="All files">
+<coverage generated="1656796242147" clover="3.2.0">
+  <project timestamp="1656796242147" name="All files">
     <metrics statements="41" coveredstatements="41" conditionals="38" coveredconditionals="38" methods="20" coveredmethods="20" elements="99" coveredelements="99" complexity="0" loc="41" ncloc="41" packages="1" files="2" classes="2"/>
-    <file name="LdodRouter.js" path="/home/raimundo/Documents/thesis/code/ldod-mfes/shell/shared/router/src/LdodRouter.js">
+    <file name="LdodRouter.js" path="/home/raimundo/Documents/thesis/edition/ldod-mfes/shell/shared/router/src/LdodRouter.js">
       <metrics statements="34" coveredstatements="34" conditionals="38" coveredconditionals="38" methods="15" coveredmethods="15"/>
       <line num="3" count="20" type="stmt"/>
       <line num="7" count="148" type="stmt"/>
@@ -39,7 +39,7 @@
       <line num="78" count="8" type="cond" truecount="2" falsecount="0"/>
       <line num="82" count="1" type="stmt"/>
     </file>
-    <file name="NavTo.js" path="/home/raimundo/Documents/thesis/code/ldod-mfes/shell/shared/router/src/NavTo.js">
+    <file name="NavTo.js" path="/home/raimundo/Documents/thesis/edition/ldod-mfes/shell/shared/router/src/NavTo.js">
       <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="5"/>
       <line num="3" count="1" type="stmt"/>
       <line num="7" count="2" type="stmt"/>

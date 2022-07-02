@@ -4,8 +4,9 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "build": "./build.sh",
-        "start": "./start.sh",
-        "restore": "./restore.sh"
+        "start": "concurrently \"cd shell/server && yarn install && yarn start\" \"./start.sh \""
+    },
+    "devDependencies": {
+        "concurrently": "^7.2.2"
     }
 }
