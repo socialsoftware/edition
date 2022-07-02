@@ -8,5 +8,7 @@ package-lock.json
 */node_modules/
 */transpiled-src/
 
+**/node_modules/
+
 server/static/*
 server/importmap.json
