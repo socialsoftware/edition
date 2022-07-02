@@ -1,6 +1,7 @@
 .vscode
 yarn.lock
 package-lock.json
+node_modules/
 
 */build/
 */dist/
@@ -8,7 +9,7 @@ package-lock.json
 */node_modules/
 */transpiled-src/
 
-**/node_modules/
+**node_modules/
 
 server/static/*
 server/importmap.json
