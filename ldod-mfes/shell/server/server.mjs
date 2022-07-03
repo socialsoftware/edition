@@ -1,6 +1,6 @@
 import express from 'express';
 import fs from 'fs';
-import { resolve } from 'path';
+import path, { resolve } from 'path';
 import cors from 'cors';
 import multer from 'multer';
 import tar from 'tar';
@@ -27,7 +27,18 @@ const sendIndex = (req, res) => {
   res.send(getIndexHtml() ?? getAlternativeIndexHtml());
 };
 
+const sendLdodVisualIndex = (req, res) =>
+  res.send(getIndexHtml(path.resolve(process.cwd(), 'static/ldod-visual')));
+
+const sendClassificationGameIndex = (req, res) =>
+  res.send(
+    getIndexHtml(path.resolve(process.cwd(), 'static/classification-game'))
+  );
+
 app.get('/', sendIndex);
+
+app.get('/ldod-visual/', sendLdodVisualIndex);
+app.get('/classification-game/', sendClassificationGameIndex);
 
 app.post('/publish', upload.single('file'), async (req, res) => {
   const fileInfo = req.file;

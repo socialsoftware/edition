@@ -22,9 +22,9 @@ const saveImportmaps = (importmap) => {
   fs.writeFileSync(importmapPath, importmap);
 };
 
-export const getIndexHtml = () => {
+export const getIndexHtml = (path = shellPath) => {
   try {
-    return fs.readFileSync(resolve(shellPath, 'index.html'), 'utf8');
+    return fs.readFileSync(resolve(path, 'index.html'), 'utf8');
   } catch (error) {
     return;
   }

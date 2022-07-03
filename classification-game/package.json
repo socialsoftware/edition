@@ -1,0 +1,41 @@
+{
+    "name": "classification-game",
+    "version": "0.1.0",
+    "private": true,
+    "homepage": "/classification-game",
+    "dependencies": {
+        "ajv": "^6.10.0",
+        "antd": "^3.19.3",
+        "bootstrap-social": "^5.1.1",
+        "customize-cra": "^0.2.14",
+        "font-awesome": "^4.7.0",
+        "kleur": "^3.0.3",
+        "less": "^3.9.0",
+        "less-loader": "^4.1.0",
+        "react": "^16.8.6",
+        "react-bootstrap": "^0.32.4",
+        "react-countdown-clock": "^2.6.0",
+        "react-dom": "^16.8.6",
+        "react-router-dom": "^4.3.1",
+        "react-scripts": "^3.0.1",
+        "react-stomp": "^4.1.1",
+        "typescript": "^3.5.2"
+    },
+    "scripts": {
+        "start": "react-app-rewired start",
+        "build": "react-app-rewired build && cp -r build/* ../ldod-mfes/shell/server/static/classification-game",
+        "test": "react-app-rewired test --env=jsdom",
+        "eject": "react-scripts eject"
+    },
+    "devDependencies": {
+        "babel-plugin-import": "^1.12.0",
+        "react-app-rewire-less": "^2.1.3",
+        "react-app-rewired": "^2.1.3"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ]
+}

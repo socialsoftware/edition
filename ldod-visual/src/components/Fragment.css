@@ -1,0 +1,29 @@
+.box {
+  width: 70%;
+  background-color: inherit;
+  margin: 0 auto;
+  padding: 40px;
+  text-align: justify;
+  border-radius: 20px;
+  /* box-shadow: 0 10px 70px rgba(0,0,0,0.4); */
+  margin-bottom: 2%;
+  margin-top: 30px;
+}
+
+.loadingGifCentered {
+  display: flex;
+  flex-direction: row;
+  margin: 25px auto;
+  width: 10%;
+  height: 10%;
+}
+
+.fragmentTitle h1{
+  font-family: 'leaguegothic-regular-webfont';
+  font-size: 40px;
+}
+
+.fragmentText{
+  font-family: 'WorkSans-Regular' ;
+  font-size: 20px;
+}

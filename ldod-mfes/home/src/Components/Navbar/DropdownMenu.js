@@ -35,10 +35,12 @@ class DropdownMenu extends HTMLLIElement {
       <ul class="dropdown-menu">
         <div class="dropdown-menu-bg"></div>
         ${this.menuItems.reduce(
-          (prev, { id, route, name }) =>
+          (prev, { id, route, link, name }) =>
             prev.concat(html`
               <li>
-                <a is="nav-to" to=${route} id=${id}>${name}</a>
+                ${route
+                  ? html`<a is="nav-to" to=${route} id=${id}>${name}</a>`
+                  : html`<a href=${link} target="_blank" id=${id}>${name}</a>`}
               </li>
             `),
           ''

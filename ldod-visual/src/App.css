@@ -1,0 +1,290 @@
+  /*vertical scrollbar persists so there is no width change bouncing around when changing to larger fragments;*/
+  html {
+    overflow-y: scroll;
+  }
+
+  /*necessario para evitar que uma modal box, quando aberta, altere a width da pagina. tradeoff: double scrollbar*/
+  body {
+    padding-right: 0px !important;
+    background-color: white; /*antes era floral white*/
+  }
+
+  .custom-modal-instructions {
+    width: 50%;
+    /* overflow-y: auto; nao parece necessario para evitar que a modal box aberta altere a width da pagina */
+  }
+
+  .custom-modal {
+    width: 90%;
+    /* overflow-y: auto; nao parece necessario para evitar que a modal box aberta altere a width da pagina */
+  }
+
+  @font-face {
+    font-family: 'Gingham';
+    src: url('Gingham.woff2') format('woff2'),
+      url('Gingham.woff') format('woff'),
+      url('Gingham.ttf') format('truetype');
+    /*font-weight: normal;
+   font-style: normal;
+   format('truetype');*/
+  }
+
+  @font-face {
+    font-family: 'Amstelvar';
+    src: url('AmstelvarAlpha-VF.ttf') format('truetype');
+    /*font-weight: normal;
+    font-style: normal;
+    format('truetype');*/
+  }
+
+
+
+  @font-face {
+    font-family: 'AdobeVFPrototype';
+    src: url('AdobeVFPrototype.otf') format('opentype'),
+      url('AdobeVFPrototype.ttf') format('ttf')
+      /*font-weight: normal;
+     font-style: normal;
+     format('truetype');*/
+  }
+
+  @font-face {
+    font-family: 'leaguegothic-regular-webfont';
+    src: url('leaguegothic-regular-webfont.ttf') format('ttf');
+    src: url('leaguegothic-regular-webfont.woff') format('woff');
+  }
+
+  @font-face {
+    font-family: 'WorkSans-Regular';
+    src: url('WorkSans-Regular.otf') format('opentype');
+  }
+
+  .app {
+    background-color: inherit;
+    /*#fff #fffbf7 floralwhite white*/
+    display: flex;
+    flex-direction: column;
+
+  }
+
+  .buttonToolbarBanner {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #4C4C4C;
+    height: 50px;
+  }
+
+  .firstLessFocusButtons {
+    margin-right: auto;
+    margin-left: 10px;
+  }
+
+  .buttonToolbar {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-family: 'Arial';
+    /*Gingham; Consolas; Amstelvar;*/
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .lessFocusButtons {
+    margin-left: auto;
+    margin-right: 10px;
+  }
+
+  Button:not(:last-child) {
+    margin-right: 5px;
+  }
+
+  .toggleTextSkimming {
+    font-family: 'Arial';
+    /*Gingham; Consolas; Amstelvar;*/
+    position: fixed;
+    align-self: center;
+    margin-top: 95px;
+  }
+
+  .instructionsButton {
+    font-family: 'Arial';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  .instructionsText {
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: justify;
+    text-justify: inter-word;
+  }
+
+  .instructionsTextHistory {
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center
+  }
+
+  .catTitle {
+    margin-top: 30px;
+  }
+
+  .navReadSection {
+    display: inline-block;
+    flex-direction: row;
+    align-self: center;
+  }
+
+  .navPrevious {
+    position: fixed;
+    margin-top: 250px;
+    right: 90%;
+  }
+
+  .navPrevious:hover {
+    filter: drop-shadow(-2px 2px 2px gray);
+  }
+
+  .navPrevious:active {
+    filter: drop-shadow(-8px 4px 4px black);
+  }
+
+  .navNext {
+    position: fixed;
+    margin-top: 250px;
+    left: 90%;
+  }
+
+  .navNext:hover {
+    filter: drop-shadow(2px 2px 2px gray);
+  }
+
+  .navNext:active {
+    filter: drop-shadow(8px 4px 4px black);
+  }
+
+  .navPreviousGolden {
+    position: fixed;
+    margin-top: 400px;
+    right: 91%;
+  }
+
+  .navPreviousGolden:hover {
+    filter: drop-shadow(-1px 1px 1px gray);
+  }
+
+  .navPreviousGolden:active {
+    filter: drop-shadow(-2px 2px 2px black);
+  }
+
+  .navNextGolden {
+    position: fixed;
+    margin-top: 400px;
+    left: 91%;
+  }
+
+  .navNextGolden:hover {
+    filter: drop-shadow(1px 1px 1px gray);
+  }
+
+  .navNextGolden:active {
+    filter: drop-shadow(4px 2px 2px black);
+  }
+
+  .navigationText {
+    display: inline-block;
+    flex-direction: row;
+    width: 90%;
+  }
+
+  .readingMoreInfo {
+    margin-left: 12%;
+    margin-right: 10%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: justify;
+  }
+
+  .metaInfo {
+    font-size: 10px;
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-bottom: 30px;
+    margin-top: 100px;
+  }
+
+  .buttonToolbarStart {
+    display: inline-block;
+    flex-direction: column;
+    margin: 30px auto;
+  }
+
+  .landing-activity-style {
+    margin: 0 auto;
+    margin-top: 0 auto;
+    width: 100%;
+    height: 100%;
+  }
+
+  .loadingGifCentered {
+    display: flex;
+    flex-direction: row;
+    margin: 25px auto;
+    width: 10%;
+    height: 10%;
+  }
+
+  .goldenButton {
+    background: linear-gradient(to bottom, #ECC129 0%, #FFD700 90%);
+    color: #000000;
+    border: 3px solid #ECC129;
+    padding: 5px 10px;
+    border-radius: 2px;
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+
+  .goldenButton:hover {
+    background: #FAD004;
+  }
+
+  .goldenButton:active {
+    background: #F4E5C0;
+  }
+
+  .goldenButtonInactive {
+    background: linear-gradient(to bottom, #ADADAD 0%, #F3F3F3 90%);
+    color: #000000;
+    border: 3px solid #ADADAD;
+    padding: 5px 10px;
+    border-radius: 2px;
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+
+  .progress-bar {
+    position: fixed;
+    top: 99%;
+    height: 15px;
+    width: 100%;
+    border-radius: 0px;
+    border: 1px solid black;
+    background: #808080;
+    /*test*/
+  }
+
+  .filler {
+    background: #3379B5;
+    /* #46a8fc; #3379B5 #265A88*/
+    height: 100%;
+    border-radius: inherit;
+    transition: width .2s ease-in;
+  }

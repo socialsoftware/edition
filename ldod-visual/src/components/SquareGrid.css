@@ -1,0 +1,11 @@
+.graphGrid {
+
+  width: 100%;
+  height: 100%;
+
+  position: flex;
+  align-self: center;
+
+
+
+}

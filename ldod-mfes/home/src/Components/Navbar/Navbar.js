@@ -203,10 +203,11 @@ export default class LdodNavbar extends HTMLElement {
   }
 
   getItems(pages) {
-    return pages.map(({ id, route }) => ({
+    return pages.map(({ id, route, link }) => ({
       id,
       name: this.constants[id],
       route,
+      link,
     }));
   }
 
