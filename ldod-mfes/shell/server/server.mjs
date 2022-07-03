@@ -16,7 +16,7 @@ const app = express();
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 9000;
 
 app.use(express.static(resolve(process.cwd(), 'static')));
 
