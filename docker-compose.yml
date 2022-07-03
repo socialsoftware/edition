@@ -6,6 +6,4 @@ services:
   server:
     build: ./ldod-mfes/shell/server/
     command: node server.mjs
-    volumes:
-      - .:/user/server
     network_mode: host
