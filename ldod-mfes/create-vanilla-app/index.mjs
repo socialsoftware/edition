@@ -22,12 +22,14 @@ const scriptsDir = `${path.dirname(fileURLToPath(import.meta.url))}/scripts`;
   }
 })();
 
-// checking options
+const getArrayIndex = (arr, flag) => Array.from(arr).indexOf(flag);
 const hasOption = (index) => index !== -1;
+
+// checking options
 const args = process.argv.slice(2);
-const appNameIndex = Array.from(args).indexOf('-d');
+const appNameIndex = getArrayIndex(args, '-d');
 const appName = hasOption(appNameIndex) && args[appNameIndex + 1];
-const portIndex = Array.from(args).indexOf('-p');
+const portIndex = getArrayIndex(args, '-p');
 const port = hasOption(portIndex) ? args[portIndex + 1] : undefined;
 
 // directory name is mandatory

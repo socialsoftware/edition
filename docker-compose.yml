@@ -5,5 +5,5 @@ services:
 
   server:
     build: ./ldod-mfes/shell/server/
-    command: node server.mjs
+    command: yarn start
     network_mode: host

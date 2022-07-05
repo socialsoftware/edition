@@ -4,4 +4,3 @@ COPY package.json ./
 RUN yarn install
 EXPOSE 9000
 COPY . .
-CMD node server.mjs

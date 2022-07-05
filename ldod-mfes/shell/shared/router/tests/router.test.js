@@ -4,6 +4,7 @@ describe('testing simple router ', () => {
   let uut;
   let router;
   let nestedRouter;
+  let emptyRouter;
   let routes;
   let subRoutes;
   let mocks;
@@ -43,6 +44,11 @@ describe('testing simple router ', () => {
     nestedRouter.routes = subRoutes;
     nestedRouter.setAttribute('language', 'pt');
     nestedRouter.setAttribute('base', 'sub');
+
+    emptyRouter = document.createElement('ldod-router');
+    emptyRouter.id = 'empry-router';
+    emptyRouter.routes = {};
+    emptyRouter.language = 'pt';
   });
 
   beforeAll(async () => {
@@ -64,6 +70,15 @@ describe('testing simple router ', () => {
         mount: mocks.mountSubPath,
         unMount: mocks.unMountSubPath,
       }),
+      '/err': () => ({
+        mountError: 'error',
+        unMountError: 'error',
+      }),
+      '/not': () => ({
+        mount: 'error',
+        unMount: 'error',
+      }),
+      '/bad': 'bad',
     };
 
     subRoutes = {
@@ -79,6 +94,7 @@ describe('testing simple router ', () => {
   });
   it('when appending a router without base it should mount the view correspondent to /', async () => {
     await document.body.appendChild(router);
+    await new Promise((r) => setTimeout(r, 1));
 
     expect(mocks.mountPath).toBeCalledTimes(1);
     expect(uut).toEqual(['/']);
@@ -90,6 +106,7 @@ describe('testing simple router ', () => {
     router.setAttribute('base', '/sub');
     window.location.pathname = '/sub';
     await document.body.appendChild(router);
+    await new Promise((r) => setTimeout(r, 1));
 
     expect(mocks.mountSubPath).toBeCalledTimes(1);
     expect(uut).toEqual(['sub']);
@@ -100,6 +117,7 @@ describe('testing simple router ', () => {
   it('when appending a router with base and the location does not contains the base it should do nothing', async () => {
     router.setAttribute('base', 'sub');
     await document.body.appendChild(router);
+    await new Promise((r) => setTimeout(r, 1));
 
     expect(mocks.mountSubPath).toBeCalledTimes(0);
     expect(uut).toEqual([]);
@@ -110,6 +128,7 @@ describe('testing simple router ', () => {
   it('when appending a router with base and the location contains the base it should mount the view', async () => {
     window.location.pathname = '/sub';
     await document.body.appendChild(router);
+    await new Promise((r) => setTimeout(r, 1));
 
     expect(mocks.mountSubPath).toBeCalledTimes(1);
     expect(uut).toEqual(['sub']);
@@ -119,6 +138,7 @@ describe('testing simple router ', () => {
 
   it('when view is already active the router should do nothing', async () => {
     await document.body.appendChild(router);
+    await new Promise((r) => setTimeout(r, 1));
 
     window.dispatchEvent(
       new CustomEvent('ldod-url-changed', { detail: { path: '/' } })
@@ -135,6 +155,7 @@ describe('testing simple router ', () => {
     router.setAttribute('base', '/sub');
     window.location.pathname = '/SUB';
     await document.body.appendChild(router);
+    await new Promise((r) => setTimeout(r, 1));
 
     expect(mocks.mountSubPath).toBeCalledTimes(1);
     expect(uut).toEqual(['sub']);
@@ -145,6 +166,7 @@ describe('testing simple router ', () => {
   it('when the location path is unknown the router should do nothing', async () => {
     window.location.pathname = '/path4';
     await document.body.appendChild(router);
+    await new Promise((r) => setTimeout(r, 1));
 
     expect(uut).toEqual([]);
 
@@ -153,6 +175,7 @@ describe('testing simple router ', () => {
 
   it('when navigating through routes the views are mounted and unmounted accordingly', async () => {
     await document.body.appendChild(router);
+    await new Promise((r) => setTimeout(r, 1));
 
     window.dispatchEvent(
       new CustomEvent('ldod-url-changed', { detail: { path: '/path1' } })
@@ -177,6 +200,7 @@ describe('testing simple router ', () => {
 
   it('simulating back or forward navigation on browser', async () => {
     await document.body.appendChild(router);
+    await new Promise((r) => setTimeout(r, 1));
 
     window.dispatchEvent(
       new CustomEvent('ldod-url-changed', { detail: { path: '/path1' } })
@@ -207,10 +231,14 @@ describe('testing simple router ', () => {
     ]);
     document.body.removeChild(router);
   });
+
   it('appending a nested router and when navigating on it the router should not do nothing', async () => {
     await document.body.appendChild(router);
+    await new Promise((r) => setTimeout(r, 1));
 
     await router.appendChild(nestedRouter);
+
+    await new Promise((r) => setTimeout(r, 1));
 
     window.dispatchEvent(
       new CustomEvent('ldod-url-changed', { detail: { path: '/sub/path1/' } })
@@ -221,15 +249,69 @@ describe('testing simple router ', () => {
     window.dispatchEvent(
       new CustomEvent('ldod-url-changed', { detail: { path: '/sub/path2' } })
     );
-
     await new Promise((r) => setTimeout(r, 1));
 
     window.dispatchEvent(
       new CustomEvent('ldod-url-changed', { detail: { path: '/' } })
     );
+    await new Promise((r) => setTimeout(r, 1));
+
+    expect(uut.length).toBe(8);
+    expect(uut).toEqual([
+      '/',
+      'unMountPath',
+      'sub/path1',
+      'sub',
+      'unMountSubPath1',
+      'sub/path2',
+      'unMountSubPath',
+      '/',
+    ]);
+    document.body.removeChild(router);
+  });
+
+  it('rendering to non compliant view the router should ignore it', async () => {
+    await document.body.appendChild(router);
+    await new Promise((r) => setTimeout(r, 1));
+
+    window.dispatchEvent(
+      new CustomEvent('ldod-url-changed', { detail: { path: '/err' } })
+    );
 
     await new Promise((r) => setTimeout(r, 1));
 
+    expect(uut.length).toBe(1);
+    expect(uut).toEqual(['/']);
     document.body.removeChild(router);
+  });
+
+  it('rendering to non compliant view the router should ignore it', async () => {
+    await document.body.appendChild(router);
+    await new Promise((r) => setTimeout(r, 1));
+
+    window.dispatchEvent(
+      new CustomEvent('ldod-url-changed', { detail: { path: '/not' } })
+    );
+
+    await new Promise((r) => setTimeout(r, 1));
+
+    expect(uut.length).toBe(1);
+    expect(uut).toEqual(['/']);
+    document.body.removeChild(router);
+  });
+
+  it('Router with no routes should be ignored', async () => {
+    await document.body.appendChild(emptyRouter);
+    await new Promise((r) => setTimeout(r, 1));
+
+    window.dispatchEvent(
+      new CustomEvent('ldod-url-changed', { detail: { path: '/not' } })
+    );
+
+    await new Promise((r) => setTimeout(r, 1));
+
+    expect(uut.length).toBe(0);
+    expect(uut).toEqual([]);
+    document.body.removeChild(emptyRouter);
   });
 });

@@ -4,7 +4,6 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "start": "cd shell/server && yarn install && yarn start",
-        "publish": "./publish.sh"
+        "start-shell": "./start-shell.sh"
     }
 }

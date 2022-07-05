@@ -3,7 +3,6 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-        "prebuild": "npm run test",
         "test": "jest --coverage --env=@happy-dom/jest-environment",
         "start": "serve -C -l 3005",
         "build": "rollup -c"

@@ -62,21 +62,32 @@ export default class LdodRouter extends HTMLElement {
 
   async render() {
     if (this.isPathActive(this.routerPath)) return;
-    this.active && this.remove();
 
     const route = this.routes?.[this.routerPath];
-    route &&
-      (await route())?.mount(
-        this.language || this.getAttribute('language'),
-        `ldod-router#${this.id}>ldod-outlet`
-      );
+    if (!route || (await isApiContractNotCompliant(route))) return;
+    this.active && (await this.remove());
+    const api = await route();
+    api.mount(
+      this.language || this.getAttribute('language'),
+      `ldod-router#${this.id}>ldod-outlet`
+    );
     this.active = this.routerPath;
   }
 
   async remove() {
     const route = this.routes?.[this.active];
-    route && (await route())?.unMount();
+    const api = await route();
+    api.unMount();
   }
 }
+
+const isApiContractNotCompliant = async (route) => {
+  if (typeof route !== 'function') return true;
+  const api = await route();
+  if (!(api.mount && api.unMount)) return true;
+  if (typeof api.mount !== 'function' || typeof api.unMount !== 'function')
+    return true;
+  return false;
+};
 
 customElements.define('ldod-router', LdodRouter);

@@ -2,13 +2,10 @@
     "scripts": {
         "test": "./scripts/test.sh",
         "build": "./scripts/build.sh",
-        "start": "serve -C -l 3000",
-        "publish": "yarn build && node ./scripts/publish.mjs",
-        "unpublish": "node ./scripts/unpublish.mjs"
+        "publish": "yarn build && node ./scripts/publish.js",
+        "unpublish": "node ./scripts/unpublish.js"
     },
-    "devDependencies": {
-        "serve": "^13.0.2"
-    },
+    "type": "module",
     "name": "shared",
     "version": "1.0.0",
     "main": "index.js",

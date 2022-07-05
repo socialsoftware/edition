@@ -1,14 +1,7 @@
-import path, { resolve } from 'path';
 import fs from 'fs';
 import { parse } from 'node-html-parser';
-import { fileURLToPath } from 'url';
-
-const importmapPath = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  'importmap.json'
-);
-const shellPath =
-  resolve(path.dirname(fileURLToPath(import.meta.url)), 'static') || '';
+import { resolve } from 'path';
+import { importmapPath, staticPath } from './constants.js';
 
 const loadImportmaps = () => {
   try {
@@ -22,7 +15,7 @@ const saveImportmaps = (importmap) => {
   fs.writeFileSync(importmapPath, importmap);
 };
 
-export const getIndexHtml = (path = shellPath) => {
+export const getIndexHtml = (path = staticPath) => {
   try {
     return fs.readFileSync(resolve(path, 'index.html'), 'utf8');
   } catch (error) {
@@ -30,7 +23,7 @@ export const getIndexHtml = (path = shellPath) => {
   }
 };
 
-export const addToImportmaps = ({ name, entry }) => {
+export const addToImportmaps = async ({ name, entry }) => {
   let importmap = loadImportmaps();
   importmap.imports[name] = entry;
   saveAndUpdateHTML(JSON.stringify(importmap));
@@ -53,5 +46,5 @@ const updateImportmapScript = (importmap) => {
   const html = parse(indexHTML);
   const importmapScript = html.querySelector('script[type=importmap]');
   importmapScript.set_content(importmap);
-  fs.writeFileSync(resolve(shellPath, 'index.html'), html.toString());
+  fs.writeFileSync(resolve(staticPath, 'index.html'), html.toString());
 };

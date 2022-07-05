@@ -23,7 +23,7 @@ export default {
       { id: 'general_reading_sequences', route: '/reading' },
       {
         id: 'general_reading_visual',
-        link: 'http://localhost:9000/ldod-visual',
+        link: `${process.host}/ldod-visual`,
       },
       { id: 'general_citations_twitter', route: '/reading/citations' },
     ],

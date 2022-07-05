@@ -4,7 +4,6 @@
     "description": "",
     "main": "store.js",
     "scripts": {
-        "prebuild": "npm run test",
         "build": "rollup -c",
         "test": "jest --coverage"
     },

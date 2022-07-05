@@ -19,9 +19,13 @@ delete modules['shared/'];
 document.querySelector('ldod-navbar').setAttribute('language', getLanguage());
 
 const routes = await Object.keys(modules).reduce(async (acc, name) => {
-  const api = (await import(name))?.default ?? '';
-  const path = api.path;
-  if (path) (await acc)[path] = () => api;
+  try {
+    const api = (await import(name))?.default ?? '';
+    const path = api.path;
+    if (path) (await acc)[path] = () => api;
+  } catch (error) {
+    console.error(error);
+  }
   return await acc;
 }, Promise.resolve({}));
 

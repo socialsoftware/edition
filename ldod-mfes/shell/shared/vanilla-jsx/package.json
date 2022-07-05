@@ -4,7 +4,6 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "prebuild": "npm run test",
         "test": "jest --coverage --env=jest-environment-jsdom",
         "build": "rollup -c"
     },

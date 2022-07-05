@@ -5,14 +5,17 @@
     "license": "MIT",
     "scripts": {
         "build": "if [ -d build ]; then rm -r build;fi &&  rollup -c && cp -r resources build",
-        "start": "serve -C -l 3001",
+        "start": "node ./scripts/process.mjs http://localhost:9000 && serve -C -l 3001",
         "pack": "yarn build && ./scripts/pack.sh home",
-        "publish": "yarn run pack && ./scripts/publish.sh home home.js @./dist/home.tgz",
-        "unpublish": "./scripts/unpublish.sh home"
+        "publish-dev": "yarn run pack && ./scripts/publish.sh home home.js @./dist/home.tgz http://localhost:9000",
+        "unpublish-dev": "./scripts/unpublish.sh home http://localhost:9000",
+        "publish": "yarn run pack && ./scripts/publish.sh home home.js @./dist/home.tgz http://localhost",
+        "unpublish": "./scripts/unpublish.sh home http://localhost"
     },
     "devDependencies": {
         "@rollup/plugin-dynamic-import-vars": "^1.4.3",
         "acorn-import-assertions": "^1.8.0",
+        "node-html-parser": "^5.3.3",
         "rollup": "^2.75.6",
         "rollup-plugin-import-assert": "^2.1.0",
         "rollup-plugin-terser": "^7.0.2",

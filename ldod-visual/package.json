@@ -41,7 +41,7 @@
     },
     "scripts": {
         "start": "react-app-rewired start",
-        "build": "react-app-rewired build && cp -r ./build/* ../ldod-mfes/shell/server/static/ldod-visual",
+        "build": "react-app-rewired build && rm -rf ../ldod-mfes/shell/server/static/ldod-visual  && mkdir ../ldod-mfes/shell/server/static/ldod-visual && cp -r build/* ../ldod-mfes/shell/server/static/ldod-visual",
         "test": "react-app-rewired test --env=jsdom",
         "eject": "react-scripts eject"
     },

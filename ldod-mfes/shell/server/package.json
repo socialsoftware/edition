@@ -3,8 +3,10 @@
     "version": "1.0.0",
     "main": "index.js",
     "license": "MIT",
+    "type": "module",
     "scripts": {
-        "start": "node server.mjs"
+        "dev": "node src/process.js http://localhost:9000  && node src/server.js",
+        "start": "node src/process.js http://localhost && node src/server.js"
     },
     "dependencies": {
         "cors": "^2.8.5",

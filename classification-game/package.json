@@ -23,7 +23,7 @@
     },
     "scripts": {
         "start": "react-app-rewired start",
-        "build": "react-app-rewired build && cp -r build/* ../ldod-mfes/shell/server/static/classification-game",
+        "build": "react-app-rewired build && rm -rf ../ldod-mfes/shell/server/static/classification-game  && mkdir ../ldod-mfes/shell/server/static/classification-game && cp -r build/* ../ldod-mfes/shell/server/static/classification-game",
         "test": "react-app-rewired test --env=jsdom",
         "eject": "react-scripts eject"
     },
