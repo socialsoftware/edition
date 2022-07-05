@@ -1,6 +1,10 @@
 import { resolve } from 'path';
 import { extractTarball, removeStaticAssets } from './static.js';
-import { addToImportmaps, removeFromImportmaps } from './importmaps.js';
+import {
+  addToImportmaps,
+  removeFromImportmaps,
+  getIndexHtml,
+} from './importmaps.js';
 
 const sendIndex = (req, res) => res.send(getIndexHtml());
 

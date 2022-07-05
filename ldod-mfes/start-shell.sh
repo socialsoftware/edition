@@ -1,18 +1,17 @@
 #! /bin/bash
 
-cd shell/server
-rm -rf static/*
-cd ../..
+export NODE_OPTIONS=--openssl-legacy-provider
 
-dirs=('shell/shared' 'shell/client')
+rm -rf shell/server/static/*
 
-for dir in "${dirs[@]}"
-do
-  cd $dir
-  yarn install
-  yarn run publish
-  cd ../..
-done
+yarn --cwd ../ldod-visual run build
+yarn --cwd ../classification-game run build
+
+yarn --cwd shell/shared install
+yarn --cwd shell/shared run publish
+  
+yarn --cwd shell/client install
+yarn --cwd shell/client run publish
 
 docker-compose build
 docker-compose up -d
