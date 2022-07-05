@@ -1,0 +1,13 @@
+component_depth: 1
+
+languages:
+  - java
+  - groovy
+  - javascript
+
+exclude:
+  - .*/webapp/resources/.*
+  - .*/webapp/classification-game/.*
+  - .*/webapp/ldod-visual/.*
+  - .*/classification-game/.*
+  - .*/ldod-visual/.*

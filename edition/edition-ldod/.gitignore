@@ -1,0 +1,5 @@
+src/main/resources/application.properties
+src/main/webapp/classification-game
+src/main/webapp/ldod-visual
+src/main/webapp/microfrontend
+src/main/webapp/microfrontend-vite
