@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Ultra&display=swap');
+@font-face {
+    font-family: 'League-Gothic';
+    src: url(../../fonts/LeagueGothic-Regular.otf) format('opentype');
+    font-display: swap
+}
+.home{
+    width: 100%
+}
+body{
+    margin: 0;
+}
+.home-container{
+    width: 1140px;
+    margin: 0 auto;
+    margin-top: 120px;
+}
+.home-frag-excerpt{
+    display: flex;
+    cursor: pointer;
+    color: #FC1B27;
+}
+.home-frag-excerpt:hover{
+    color: #0C4EF6;
+}
+.home-frag-number{
+    font-size: 80px;
+    font-family: 'Ultra', serif;
+    margin-left: 10%;
+}
+.home-frag-editor{
+    font-size: 40px;
+    font-family: 'League-Gothic';
+    font-weight: 600;
+    margin-top: 15px;
+    margin-left: 20px;
+    text-transform: uppercase;
+}
+
+.home-frag-excerpt-text{
+    text-align: left;
+    font-weight: 600;
+    font-size: 50px;
+    line-height: 58px;
+}
+hr{
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+.home-line-points{
+    border-top: 3px dotted #FC1B27;
+}
+.home-ldod-text{
+    font-family: 'Space Mono', monospace;
+    color: #0C4EF6;
+    font-size: 36px;
+    line-height: 48px;
+    text-align: left;
+}
+.home-line-x{
+    height: 20px;
+    background: url(../../assets/x.png) repeat-x 0 0;
+    border: 0;
+}
+.home-div-link{
+    cursor: pointer;
+    position: relative;
+}
+.home-div-link .home-img-hover{
+    visibility: hidden;
+}
+.home-div-link:hover .home-img-hover{
+    visibility: visible;
+}
+.home-img{
+    width: 100%;
+}
+.home-img-hover{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+.home-info{
+    width:1140px;
+    margin: auto;
+    margin-top: 30px;
+    text-align: left;
+}
+.home-boxes-web{
+    display: block;
+}
+.home-boxes-mobile{
+    display: none;
+}
+
+@media (max-width: 1200px){
+    .home-container {
+        width: 970px;
+    }
+    .home-info {
+        width: 970px;
+    }
+}
+@media (max-width: 992px){
+    .home-container {
+        width: 720px;
+    }
+    .home-info {
+        width: 720px;
+    }
+}
+@media (max-width: 768px){
+    .home-container {
+        width: 100%;
+    }
+    .home-info {
+        width: 100%;
+    }
+    .home-boxes-web{
+        display: none;
+    }
+    .home-boxes-mobile{
+        display: block;
+    }
+    .home-frag-excerpt-text{
+        padding-left: 10px;
+    }
+    .home-ldod-text{
+        padding-left: 10px;
+    }
+}
+

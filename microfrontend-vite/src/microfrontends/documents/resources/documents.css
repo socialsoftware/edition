@@ -1,0 +1,44 @@
+.info-tooltip {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    border-color: black;
+    background-color: #fff;
+    color: #333;
+    font-weight: 600;
+    width: 300px;
+    text-align: justify;
+    line-height: 1.25;
+    font-size: 12px;
+}
+
+.glyphicon {
+    font-size: small;
+    margin-left: 3px;
+    color: lightgray;
+}
+
+.glyphicon:hover {
+    color: #0C4EF6;
+}
+
+.bootstrap-table .table a {
+    color: #0C4EF6 !important;
+}
+
+a {
+    cursor: pointer;
+}
+
+.tb-header-date,
+.tb-header-sourceType,
+.tb-header-hadLdoDLabel,
+.tb-header-dimensionDtoList,
+.tb-data-date,
+.tb-data-sourceType,
+.tb-data-hadLdoDLabel,
+.tb-data-dimensionDtoList {
+    text-align: center;
+}
+
+.tb-data-sourceType {
+    max-width: 177px;
+}

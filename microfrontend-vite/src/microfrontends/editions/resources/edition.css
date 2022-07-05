@@ -1,0 +1,23 @@
+.edition-table-tooltip {
+    padding: 5px 5px!important;
+    margin-top: 3px!important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif!important;
+    opacity: 1!important;
+    border: 1px solid rgba(0, 0, 0, .2)!important;
+    border-radius: 6px!important;
+    text-align: center;
+    line-height: 1.4!important;
+    font-size: 12px!important;
+}
+
+.bootstrap-table .table a {
+    color: #0C4EF6 !important;
+}
+
+.expert-column-number,
+.expert-column-read,
+.expert-column-volume,
+.expert-column-page,
+.expert-column-date {
+    text-align: center;
+}

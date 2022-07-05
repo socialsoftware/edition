@@ -1,0 +1,182 @@
+@font-face {
+    font-family: 'League-Gothic';
+    src: url('./fonts/LeagueGothic-Regular.otf') format('truetype');
+    font-style: normal;
+    font-weight: regular;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Ultra';
+    src: url('./fonts/Ultra-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: regular;
+    font-display: swap;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Space-Mono';
+    src: url('./fonts/SpaceMono-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: regular;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Work-Sans';
+    src: url('./fonts/WorkSans-SemiBold.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+}
+
+
+.font-condensed {
+    font-family: 'League-Gothic';
+}
+
+.font-egyptian {
+    font-family: 'Ultra';
+}
+
+.font-grotesque {
+    font-family: 'Work-Sans';
+}
+
+.font-monospace {
+    font-family: 'Space-Mono';
+}
+
+.ldod-default .frag-number {
+    font-size: 80px;
+    padding-left: 8%;
+}
+
+.ldod-default .frag-editor {
+    position: relative;
+    font-weight: 600;
+    font-size: 40px;
+    padding-left: 2%;
+    text-transform: uppercase;
+    vertical-align: top;
+    top: 16px;
+}
+
+.ldod-default .frag-excerpt {
+    color: #e71924;
+}
+
+.ldod-default .frag-excerpt-text p {
+    font-weight: 600;
+    font-size: 50px;
+    line-height: 58px;
+}
+
+.ldod-default .line-points {
+    border-top: 3px dotted #e71924;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+.ldod-default .about {
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+
+.ldod-default .about p {
+    color: #0C4EF6;
+    font-size: 36px;
+    line-height: 48px;
+}
+
+.ldod-default .line-x {
+    height: 20px;
+    background: url('./assets/x.webp') repeat-x 0 0;
+    border: 0;
+}
+
+.ldod-default .menu-boxes {
+    position: relative;
+    display: block;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.ldod-default .menu-boxes img {
+    position: relative;
+    width: 100%;
+}
+
+.ldod-default .div-link img:nth-child(2) {
+    display: none;
+}
+
+.ldod-default .div-link:hover img:nth-child(2) {
+    display: inline;
+}
+
+.ldod-default .div-link:hover img:nth-child(1) {
+    display: none;
+}
+
+.ldod-default .bottom-info {
+    position: relative;
+    float: left;
+    margin-top: 40px;
+    font-size: 10px;
+}
+
+.ldod-default .bottom-bar {
+    position: relative;
+    width: 100%;
+    height: 60px;
+    border-bottom: 40px solid #e71924;
+}
+
+.ldod-default .frag-excerpt:hover {
+    color: #0C4EF6;
+}
+
+
+/* mobile */
+
+@media (max-width: 767px) {
+    body {
+        padding-top: 100px!important;
+    }
+    .ldod-default .frag-number {
+        font-size: 35px;
+    }
+    .ldod-default .frag-editor {
+        font-size: 20px;
+        top: 6px;
+    }
+    .ldod-default .frag-excerpt-text p {
+        font-weight: 600;
+        font-size: 32px;
+        line-height: 36px;
+    }
+    .ldod-default .about p {
+        font-size: 20px;
+        line-height: 25px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    .ldod-default .about {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .ldod-default .line-points {
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+    .ldod-default .menu-boxes {
+        margin-top: 7px;
+    }
+}
+
+.ldod-default .frag-link {
+    cursor: pointer;
+
+}

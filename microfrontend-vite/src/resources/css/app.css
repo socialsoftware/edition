@@ -1,0 +1,181 @@
+body {
+    padding-top: 190px;
+}
+
+.ldod-default {
+    font-family: 'Work-Sans';
+    color: black;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.ReactModal__Overlay {
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+    opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+    opacity: 0;
+}
+
+.ReactModal__Body--open {
+    overflow: hidden;
+}
+
+.overlay-modal {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1050;
+    outline: 0;
+}
+
+.loading-modal {
+    outline: none;
+}
+
+.overlay-transparent {
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow-y: hidden;
+    overflow-x: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1050;
+    outline: 0;
+}
+
+.lds-dual-ring {
+    border: none;
+    display: flex;
+    justify-content: center;
+    margin-top: 40vh;
+}
+
+.lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid #fff;
+    border-color: #fff transparent #fff transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+}
+
+.error {
+    color: #e71924;
+    font-size: larger;
+    text-align: center;
+}
+
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* TABLE  */
+
+.pagination-select {
+    -webkit-appearance: menulist-button;
+    color: #333;
+    width: 50px;
+    text-align: center;
+    height: 34.18px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.pagination {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.select-label {
+    margin-right: 5px;
+}
+
+.pagination-button {
+    margin-left: 20px;
+}
+
+.icon-align {
+    vertical-align: middle;
+    color: #333!important;
+}
+
+.center-button-label {
+    position: relative;
+    top: 2px;
+}
+
+@media (min-width: 767px) {}
+
+
+/* DISPLAY DOC  */
+
+.image-modal {
+    inset: 0;
+    position: absolute;
+    overflow: auto;
+}
+
+.fac-image {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    max-height: 100vh;
+    max-width: 100%;
+    cursor: zoom-in;
+}
+
+.fac-image-zoomed {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    cursor: zoom-out;
+    margin: none;
+    max-height: none;
+    max-width: none;
+}
+
+.image-close {
+    z-index: 1;
+    border-radius: 5px;
+    background-color: #333;
+    border: #fff solid 1px;
+    color: #fff;
+    font-weight: bold;
+    position: fixed;
+    margin-left: 15%;
+    margin-top: 25px;
+}
+
+.image-close:hover {
+    color: #333;
+    background-color: #fff;
+    border: #333 solid 1px;
+}
+
+.table a {
+    color: #0C4EF6 !important;
+}
