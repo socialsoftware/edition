@@ -1,0 +1,27 @@
+<teiCorpus xmlns="http://www.tei-c.org/ns/1.0">
+  <TEI xml:id="Fr002">
+    <teiHeader type="text">
+      <fileDesc>
+        <sourceDesc>
+          <listWit xml:id="Fr002.WIT.ED.VIRT">
+            <witness xml:id="Fr002.WIT.ED.VIRT.LdoD-Teste.1" source="#Fr002.WIT.ED.CRIT.C">
+              <num value="2" />
+            </witness>
+            <witness xml:id="Fr002.WIT.ED.VIRT.LdoD-Arquivo.1" source="#Fr002.WIT.MS.Fr002a.2">
+              <num value="2" />
+            </witness>
+          </listWit>
+        </sourceDesc>
+      </fileDesc>
+      <profileDesc>
+        <textClass source="#Fr002.WIT.ED.VIRT.LdoD-Teste.1">
+          <classificationGameList />
+        </textClass>
+        <textClass source="#Fr002.WIT.ED.VIRT.LdoD-Arquivo.1">
+          <classificationGameList />
+        </textClass>
+      </profileDesc>
+      <citationList />
+    </teiHeader>
+  </TEI>
+</teiCorpus>

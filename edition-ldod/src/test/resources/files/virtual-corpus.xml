@@ -1,0 +1,55 @@
+<teiCorpus xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader type="corpus">
+    <tweetList />
+    <fileDesc>
+      <sourceDesc>
+        <listBibl xml:id="ED.VIRT">
+          <bibl xml:id="LdoD-Teste" status="PUBLIC">
+            <title>Teste</title>
+            <synopsis />
+            <date when="2019-02-20" />
+            <editor nymRef="ars" role="ADMIN" active="true">
+              <persName>António Rito Silva</persName>
+              <date when="2019-02-20" />
+            </editor>
+          </bibl>
+          <bibl xml:id="LdoD-Arquivo" status="PUBLIC">
+            <title>Edição do Arquivo LdoD</title>
+            <synopsis />
+            <date when="2019-02-20" />
+            <editor nymRef="ars" role="ADMIN" active="true">
+              <persName>António Rito Silva</persName>
+              <date when="2019-02-20" />
+            </editor>
+          </bibl>
+        </listBibl>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy source="#ED.VIRT.LdoD-Teste">
+          <desc>
+            <list type="interaction">
+              <item>CLOSED_MANAGEMENT</item>
+              <item>CLOSED_ANNOTATION</item>
+              <item>OPEN_VOCABULARY</item>
+            </list>
+          </desc>
+        </taxonomy>
+        <taxonomy source="#ED.VIRT.LdoD-Arquivo">
+          <desc>
+            <list type="interaction">
+              <item>CLOSED_MANAGEMENT</item>
+              <item>CLOSED_ANNOTATION</item>
+              <item>OPEN_VOCABULARY</item>
+            </list>
+          </desc>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+    <socialMediaCriteria>
+      <editionCriteria source="#ED.VIRT.LdoD-Teste" />
+      <editionCriteria source="#ED.VIRT.LdoD-Arquivo" />
+    </socialMediaCriteria>
+  </teiHeader>
+</teiCorpus>

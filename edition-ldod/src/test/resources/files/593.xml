@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+    <TEI xml:id="Fr593" xmlns="http://www.tei-c.org/ns/1.0">
+        <teiHeader type="text">
+            <fileDesc>
+                <titleStmt>
+                    <title>Ergo-me da cadeira</title>
+                    <author>Fernando Pessoa</author>
+                    <respStmt>
+                        <resp>encoding</resp>
+                        <name>Diego Giménez</name>
+                    </respStmt>
+                    <respStmt>
+                        <resp>revision</resp>
+                        <name>Rita Marrone, Manuel Portela</name>
+                    </respStmt>
+                </titleStmt>         
+                <publicationStmt>
+                    <publisher>Centre for Portuguese Literature at the University of Coimbra</publisher>
+                    <pubPlace>Coimbra</pubPlace>
+                    <availability status="restricted">
+                        <licence target="https://creativecommons.org/licenses/by-nc/4.0/">
+                            <p>All items in the LdoD Archive may be shared in accordance with the Creative Commons “Attribution-NonCommercial 4.0 International” license (CC BY-NC 4.0).</p>
+                        </licence>
+                    </availability>
+                    <date when="2016"/>
+                </publicationStmt>
+                <sourceDesc>         
+                    <listBibl xml:id="Fr593.SRC">         
+                        <listBibl xml:id="Fr593.SRC.MS">                                     
+                            <msDesc xml:id="Fr593.SRC.MS.Fr593a">
+                                <msIdentifier>         
+                                    <settlement>Lisbon</settlement>
+                                    <repository>BN</repository>
+                                    <idno>bn-acpc-e-e3-6-1-17_0017_9_t24-C-R0150</idno>
+                                    <altIdentifier type="SC">
+                                        <idno>BNP/E3, 6-9r</idno>
+                                    </altIdentifier>
+                                </msIdentifier>
+                                <physDesc>
+                                    <objectDesc form="leaf">
+                                        <supportDesc material="paper">
+                                            <extent>
+                                                <dimensions unit="cm">
+                                                    <height>27.4</height>
+                                                    <width>21.4</width>
+                                                </dimensions>
+                                            </extent>
+                                        </supportDesc>
+                                        <layoutDesc>
+                                            <layout columns="1"/>
+                                        </layoutDesc>
+                                    </objectDesc>
+                                    <typeDesc>
+                                        <typeNote medium="black-ink">
+                                        <p>Testemunho datiloscrito a tinta preta</p>
+                                        </typeNote>
+                                    </typeDesc>
+                                    <additions>LdoD</additions>
+                                    <bindingDesc>
+                                        <binding>
+                                            <p>Texto escrito no recto da última folha de um conjunto de folhas idênticas 
+                                                em que se encontra um trecho de 'A Educação do Estoico'.</p>
+                                        </binding>
+                                    </bindingDesc>
+                                </physDesc>    
+                                <history>
+                                    <origin>
+                                        <origDate when="1929" precision="low">1929</origDate>
+                                    </origin>
+                                </history>
+                            </msDesc>                             
+                        </listBibl>
+                    </listBibl>           
+                    <listWit xml:id="Fr593.WIT">
+                        <listWit xml:id="Fr593.WIT.MS">
+                            <witness xml:id="Fr593.WIT.MS.Fr593a.000">
+                                <ref target="#Fr593.SRC.MS.Fr593a"/>
+                            </witness>                             
+                        </listWit>        
+                        <listWit xml:id="Fr593.WIT.ED">
+                            <head>O grupo de testemunhos impressos do fragmento</head>
+                            <listWit xml:id="Fr593.WIT.ED.CRIT">
+                                <witness xml:id="Fr593.WIT.ED.CRIT.C">
+                                    <ref target="#ED.CRIT.C"/>
+                                    <bibl>
+                                        <respStmt>
+                                            <resp>heterónimo</resp>
+                                            <persName corresp="#HT.BS">Bernardo Soares</persName>
+                                        </respStmt>
+                                        <title level="a">Ergo-me da cadeira</title>
+                                        <biblScope unit="number">123</biblScope>
+                                        <note type="physDesc">[6-8, dact., pt.]</note>
+                                        <date/>
+                                        <biblScope unit="vol">I</biblScope>
+                                        <biblScope unit="pp" from="128" to="128"/>
+                                    </bibl>
+                                </witness>   
+                                <witness xml:id="Fr593.WIT.ED.CRIT.SC">
+                                    <ref target="#ED.CRIT.SC"/>
+                                    <bibl>
+                                        <respStmt>
+                                            <resp>heterónimo</resp>
+                                            <persName corresp="#HT.BS">Bernardo Soares</persName>
+                                        </respStmt>
+                                        <title level="a">Ergo-me da cadeira com um esforço monstruoso</title>
+                                        <biblScope unit="number">507</biblScope>
+                                        <note type="physDesc">[6-8, dact.]</note>
+                                        <date/>
+                                        <biblScope unit="pp" from="406" to="406"/>
+                                    </bibl>
+                                </witness>    
+                                <witness xml:id="Fr593.WIT.ED.CRIT.Z">
+                                    <ref target="#ED.CRIT.Z"/>
+                                    <bibl>
+                                        <respStmt>
+                                            <resp>heterónimo</resp>
+                                            <persName corresp="#HT.BS">Bernardo Soares</persName>
+                                        </respStmt>
+                                        <title level="a">Ergo-me da cadeira com um esforço monstruoso</title>
+                                        <biblScope unit="number">153</biblScope>
+                                        <note type="physDesc">[6-9, dact.]</note>
+                                        <date/>
+                                        <biblScope unit="pp" from="173" to="173"/>
+                                    </bibl>
+                                </witness>  
+                                <witness xml:id="Fr593.WIT.ED.CRIT.P">
+                                    <ref target="#ED.CRIT.P"/>
+                                    <bibl>
+                                        <title level="a">Ergo-me da cadeira com um exforço</title>
+                                        <biblScope unit="number">189</biblScope>
+                                        <note type="physDesc">[6-9r]</note>
+                                        <date when="1929" precision="low">[1929?]</date>
+                                        <biblScope unit="pp" from="189" to="189"/>
+                                    </bibl>
+                                </witness>
+                            </listWit>
+                        </listWit>
+                    </listWit>
+                </sourceDesc>
+            </fileDesc>
+        </teiHeader>
+        <facsimile xml:id="Fr593a-fs" corresp="#Fr593.SRC.MS.Fr593a">
+            <surface>
+                <graphic url="bn-acpc-e-e3-6-1-17_0017_9_t24-C-R0150.jpg"/>
+            </surface>
+        </facsimile>
+        <text>
+            <body>
+                <div xml:id="Fr593.TEXT">
+                    <p>   
+                        <app>
+                            <rdg wit="#Fr593.WIT.MS.Fr593a.000"><seg rendition="#u #red">L; do D.</seg>
+                            <space dim="vertical" quantity="1" unit="minims"/></rdg>
+                            <rdg wit="#Fr593.WIT.ED.CRIT.C"><seg rendition="#i">L. do D.</seg><space dim="vertical" quantity="1" unit="minims"/></rdg>
+                            <rdg wit="#Fr593.WIT.ED.CRIT.P"><seg rendition="#i">L; do D.</seg><space dim="vertical" quantity="1" unit="minims"/></rdg>
+                        </app>
+                    </p>
+                    <p>
+                        Ergo-me da cadeira com um 
+                        <app type="orthographic">
+                            <rdg wit="#Fr593.WIT.MS.Fr593a.000 #Fr593.WIT.ED.CRIT.P">exforço</rdg>
+                            <rdg wit="#Fr593.WIT.ED.CRIT.Z #Fr593.WIT.ED.CRIT.SC #Fr593.WIT.ED.CRIT.C">esforço</rdg>
+                        </app> monstruoso, mas<lb ed="#Fr593.WIT.MS.Fr593a.000"/>
+                        tenho a impressão de que 
+                        <app type="substantive">
+                            <rdg wit="#Fr593.WIT.ED.CRIT.C">levo-a</rdg>
+                            <rdg wit="#Fr593.WIT.MS.Fr593a.000 #Fr593.WIT.ED.CRIT.P #Fr593.WIT.ED.CRIT.Z #Fr593.WIT.ED.CRIT.SC">levo a cadeira</rdg>
+                        </app> 
+                        <app type="orthographic">
+                            <rdg wit="#Fr593.WIT.MS.Fr593a.000 #Fr593.WIT.ED.CRIT.P #Fr593.WIT.ED.CRIT.C">commigo</rdg>
+                            <rdg wit="#Fr593.WIT.ED.CRIT.Z #Fr593.WIT.ED.CRIT.SC">comigo</rdg>
+                        </app>, e que<lb ed="#Fr593.WIT.MS.Fr593a.000"/>
+                        é mais pesada, porque é a cadeira do subjectivismo.
+                    </p>
+                </div>
+            </body>
+        </text>
+    </TEI>

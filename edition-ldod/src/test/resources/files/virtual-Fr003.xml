@@ -1,0 +1,42 @@
+<teiCorpus xmlns="http://www.tei-c.org/ns/1.0">
+  <TEI xml:id="Fr003">
+    <teiHeader type="text">
+      <fileDesc>
+        <sourceDesc>
+          <listWit xml:id="Fr003.WIT.ED.VIRT">
+            <witness xml:id="Fr003.WIT.ED.VIRT.LdoD-Arquivo.1" source="#Fr003.WIT.MS.Fr003a.3">
+              <num value="3" />
+            </witness>
+            <witness xml:id="Fr003.WIT.ED.VIRT.LdoD-Teste.1" source="#Fr003.WIT.ED.CRIT.C">
+              <num value="1" />
+            </witness>
+          </listWit>
+        </sourceDesc>
+      </fileDesc>
+      <profileDesc>
+        <textClass source="#Fr003.WIT.ED.VIRT.LdoD-Arquivo.1">
+          <classificationGameList />
+        </textClass>
+        <textClass source="#Fr003.WIT.ED.VIRT.LdoD-Teste.1">
+          <catRef scheme="#ED.VIRT.LdoD-Jogos" target="#governar como um poeta" resp="#ars" />
+          <classificationGameList>
+            <classificationGame state="FINISHED" description="Teste 9" dateTime="2018-10-11T12:21:00.000+01:00" sync="false" responsible="ars" tag="governar como um poeta" winningUser="ars">
+              <classificationGameRoundList>
+                <classificationGameRound paragraphNumber="1" roundNumber="3" tag="governar como um poeta" vote="2.0" dateTime="2018-10-11T12:24:04.000+01:00" username="ars" />
+                <classificationGameRound paragraphNumber="0" roundNumber="1" tag="cameleões" vote="1.0" dateTime="2018-10-11T12:23:29.000+01:00" username="ars" />
+                <classificationGameRound paragraphNumber="1" roundNumber="3" tag="governar como um poeta" vote="3.0" dateTime="2018-10-11T12:24:13.000+01:00" username="ars" />
+                <classificationGameRound paragraphNumber="0" roundNumber="2" tag="cameleões" vote="2.0" dateTime="2018-10-11T12:23:49.000+01:00" username="ars" />
+                <classificationGameRound paragraphNumber="0" roundNumber="1" tag="governar como um poeta" vote="1.0" dateTime="2018-10-11T12:23:29.000+01:00" username="ars" />
+              </classificationGameRoundList>
+              <classificationGameParticipantList>
+                <classificationGameParticipant username="ars" winner="false" score="11.0" />
+                <classificationGameParticipant username="ars" winner="true" score="23.0" />
+              </classificationGameParticipantList>
+            </classificationGame>
+          </classificationGameList>
+        </textClass>
+      </profileDesc>
+      <citationList />
+    </teiHeader>
+  </TEI>
+</teiCorpus>
