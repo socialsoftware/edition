@@ -1,6 +1,5 @@
-import { removeFromImportmaps } from '../../server/importmaps.mjs';
-import { removeStaticAssets } from '../../server/static.mjs';
-import path from 'path';
+import { removeFromImportmaps } from '../../server/src/importmaps.js';
+import { removeStaticAssets } from '../../server/src/static.js';
 
 removeStaticAssets({ name: 'shared' });
 removeFromImportmaps({ name: 'shared/' });

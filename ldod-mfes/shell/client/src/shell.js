@@ -1,5 +1,5 @@
 import { store } from './store.js';
-window.html = String.raw;
+import './components/loading/LdodLoading.js';
 
 const getLanguage = () => store.getState().language;
 const updateLanguage = (newV, oldV) => {
@@ -34,4 +34,4 @@ router.id = 'shell';
 router.language = getLanguage();
 router.routes = routes;
 
-document.getElementById('root').appendChild(router);
+document.getElementById('root').append(router);

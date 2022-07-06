@@ -5,6 +5,7 @@ import {
   removeFromImportmaps,
   getIndexHtml,
 } from './importmaps.js';
+import { addToMfes, removeFromMfes } from './mfes.js';
 
 const sendIndex = (req, res) => res.send(getIndexHtml());
 
@@ -22,13 +23,14 @@ const publishMFE = async (req, res) => {
     name,
     entry: name !== entry ? `/${id}/${entry}` : `/${entry}`,
   });
-
+  await addToMfes(name);
   return res.sendStatus(200);
 };
 const unPublishMFE = async (req, res) => {
   const { name } = req.body;
   removeStaticAssets({ name });
   removeFromImportmaps({ name });
+  removeFromMfes(name);
   return res.sendStatus(200);
 };
 

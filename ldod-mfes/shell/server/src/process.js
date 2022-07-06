@@ -9,9 +9,7 @@ const args = process.argv.slice(2);
 const host = args[0];
 
 if (!host) throw new Error('Host information is required');
-console.log(host);
-const script = parse(`
-<script id=process>
+const script = parse(`<script id=process>
   window.process = {
     host: "${host}",
   };

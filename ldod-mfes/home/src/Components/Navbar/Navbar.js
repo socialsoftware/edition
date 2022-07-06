@@ -5,7 +5,7 @@ import style from '../../../style/navbar.css' assert { type: 'css' };
 import './DropdownMenu.js';
 import './LangMenu.js';
 const styleSheet = new CSSStyleSheet();
-await import('user').catch((e) => console.error(e));
+
 window.html = String.raw;
 const loadConstants = async (lang) =>
   (await import(`../../../resources/navbar/constants-${lang}.js`)).default;
@@ -189,7 +189,9 @@ export default class LdodNavbar extends HTMLElement {
   }
 
   appendDropdownMenus(node, ref) {
-    Object.entries(headers).forEach(([key, { name, pages }]) => {
+    Object.entries(headers).forEach(([key, value]) => {
+      if (!value) return;
+      const { name, pages } = value;
       const dropdownMenu = parseHTML(html`<li
         is="dropdown-menu"
         id=${key}
@@ -203,7 +205,7 @@ export default class LdodNavbar extends HTMLElement {
   }
 
   getItems(pages) {
-    return pages.map(({ id, route, link }) => ({
+    return pages.filter(Boolean).map(({ id, route, link }) => ({
       id,
       name: this.constants[id],
       route,

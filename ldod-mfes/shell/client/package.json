@@ -3,7 +3,8 @@
     "version": "1.0.0",
     "scripts": {
         "build": "if [ -d dist ]; then rm -r dist;fi && rollup -c && cp -r style dist && cp index.html dist",
-        "publish": "yarn build && node scripts/publish.js"
+        "publish": "yarn build && node scripts/publish.js",
+        "start": "serve -C -l 3000"
     },
     "type": "module",
     "license": "MIT",
@@ -13,6 +14,7 @@
         "npm-packlist": "^5.1.0",
         "rollup": "^2.75.6",
         "rollup-plugin-import-assert": "^2.1.0",
-        "rollup-plugin-terser": "^7.0.2"
+        "rollup-plugin-terser": "^7.0.2",
+        "serve": "^13.0.2"
     }
 }

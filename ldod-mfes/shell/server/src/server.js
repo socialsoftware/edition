@@ -1,7 +1,9 @@
 import express from 'express';
 import { resolve } from 'path';
+import fs from 'fs';
 import cors from 'cors';
 import multer from 'multer';
+import { staticPath } from './constants.js';
 
 import {
   sendIndex,
@@ -10,6 +12,7 @@ import {
   publishMFE,
   unPublishMFE,
 } from './endpoints.js';
+import { exec } from 'child_process';
 
 const upload = multer({ dest: 'static' });
 const app = express();
@@ -31,3 +34,8 @@ const port = process.env.PORT || 9000;
 app.listen(port, () => {
   console.log(`Server running at port ${port}.`);
 });
+
+fs.watchFile(
+  resolve(staticPath, 'index.html'),
+  (curr, prev) => prev.mtime !== curr.mtime && exec('yarn dev')
+);

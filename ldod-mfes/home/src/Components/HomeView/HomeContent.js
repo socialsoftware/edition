@@ -1,5 +1,6 @@
 import { excerpts } from '../../../resources/home/constants/excerpts.js';
 import { parseHTML } from 'shared/utils.js';
+const isMFEAvailable = (mfe) => window.mfes?.indexOf(mfe) !== -1 && true;
 
 const random = parseInt(Math.random() * 2) + 1;
 const path = import.meta.url.includes('src') ? '../../../' : '';
@@ -22,13 +23,28 @@ export const boxUrlH = (version, key, lang) =>
 const excerpt = excerpts[parseInt(Math.random() * excerpts.length)];
 
 const boxes = [
-  { mod: 'reading', path: '/reading' },
-  { mod: 'documents', path: '/source/list' },
-  { mod: 'editions', path: '/edition' },
-  { mod: 'search', path: '/search/simple' },
-  { mod: 'virtual', path: '/virtualeditions' },
-];
-
+  isMFEAvailable('reading') && { mod: 'reading', path: '/reading', index: 1 },
+  isMFEAvailable('text') && {
+    mod: 'documents',
+    path: '/source/list',
+    index: 2,
+  },
+  (isMFEAvailable('text') || isMFEAvailable('virutal')) && {
+    mod: 'editions',
+    path: '/edition',
+    index: 3,
+  },
+  isMFEAvailable('search') && {
+    mod: 'search',
+    path: '/search/simple',
+    index: 4,
+  },
+  isMFEAvailable('virtual') && {
+    mod: 'virtual',
+    path: '/virtualeditions',
+    index: 5,
+  },
+].filter(Boolean);
 export default (language, constants) => {
   const xmlId = excerpt.path.split('/')[0];
   const urlId = excerpt.path.split('/')[2];
@@ -37,7 +53,9 @@ export default (language, constants) => {
       <div class="container ldod-default">
         <a
           is="nav-to"
-          to="/reading/fragment/${xmlId}/inter/${urlId}"
+          to=${isMFEAvailable('text')
+            ? '/reading/fragment/${xmlId}/inter/${urlId}'
+            : ''}
           class="home-frag-link"
         >
           <div class="raw col-xs-12 frag-excerpt">
@@ -54,13 +72,13 @@ export default (language, constants) => {
         </div>
         <hr class="line-x" style="background: url(${getUrl()})  repeat-x 0 0" />
         <div class="menu-boxes hidden-xs col-xs-12">
-          ${boxes.reduce((prev, { mod, path }, index) => {
-            return prev.concat(boxGroup(mod, path, ++index, 'D', language));
+          ${boxes.reduce((prev, { mod, path, index }) => {
+            return prev.concat(boxGroup(mod, path, index, 'D', language));
           }, '')}
         </div>
         <div class="menu-boxes visible-xs-inline col-xs-12">
-          ${boxes.reduce((prev, { mod, path }, index) => {
-            return prev.concat(boxGroup(mod, path, ++index, 'M', language));
+          ${boxes.reduce((prev, { mod, path, index }) => {
+            return prev.concat(boxGroup(mod, path, index, 'M', language));
           }, '')}
         </div>
       </div>

@@ -140,4 +140,5 @@ export class UserComponent extends HTMLLIElement {
   }
 }
 
-customElements.define('user-component', UserComponent, { extends: 'li' });
+!customElements.get('user-component') &&
+  customElements.define('user-component', UserComponent, { extends: 'li' });
