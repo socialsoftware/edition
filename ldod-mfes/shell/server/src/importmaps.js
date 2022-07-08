@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { parse } from 'node-html-parser';
-import { resolve } from 'path';
-import { importmapPath, staticPath } from './constants.js';
+import { importmapPath, htmlPath } from './constants.js';
+import { getIndexHtml } from './static.js';
 
 const loadImportmaps = () => {
   try {
@@ -13,14 +13,6 @@ const loadImportmaps = () => {
 
 const saveImportmaps = (importmap) => {
   fs.writeFileSync(importmapPath, importmap);
-};
-
-export const getIndexHtml = (path = staticPath) => {
-  try {
-    return fs.readFileSync(resolve(path, 'index.html'), 'utf8');
-  } catch (error) {
-    return;
-  }
 };
 
 export const addToImportmaps = async ({ name, entry }) => {
@@ -46,5 +38,5 @@ const updateImportmapScript = (importmap) => {
   const html = parse(indexHTML);
   const importmapScript = html.querySelector('script[type=importmap]');
   importmapScript.set_content(importmap);
-  fs.writeFileSync(resolve(staticPath, 'index.html'), html.toString());
+  fs.writeFileSync(htmlPath, html.toString());
 };

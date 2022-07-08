@@ -1,10 +1,9 @@
 {
-    "name": "ldod-shell",
+    "name": "shell-client",
     "version": "1.0.0",
     "scripts": {
         "build": "if [ -d dist ]; then rm -r dist;fi && rollup -c && cp -r style dist && cp index.html dist",
-        "publish": "yarn build && node scripts/publish.js",
-        "start": "serve -C -l 3000"
+        "dev": "serve -C -l 3000"
     },
     "type": "module",
     "license": "MIT",

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { parse } from 'node-html-parser';
-import { resolve } from 'path';
-import { mfesPath, staticPath } from './constants.js';
+import { mfesPath, htmlPath } from './constants.js';
+import { getIndexHtml } from './static.js';
 
 const loadMfes = () => {
   try {
@@ -13,14 +13,6 @@ const loadMfes = () => {
 
 const saveMfes = (mfes) => {
   fs.writeFileSync(mfesPath, mfes);
-};
-
-export const getIndexHtml = (path = staticPath) => {
-  try {
-    return fs.readFileSync(resolve(path, 'index.html'), 'utf8');
-  } catch (error) {
-    return;
-  }
 };
 
 export const addToMfes = async (name) => {
@@ -48,5 +40,5 @@ const updateMfes = (mfes) => {
   if (mfesScript) mfesScript.remove();
   const script = parse(`<script id="mfes">window.mfes = ${mfes}</script>`);
   html.querySelector('head').appendChild(script);
-  fs.writeFileSync(`${staticPath}/index.html`, html.toString());
+  fs.writeFileSync(htmlPath, html.toString());
 };

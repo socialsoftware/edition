@@ -1,21 +1,21 @@
 import fs from 'fs';
 import { parse } from 'node-html-parser';
-import { staticPath } from './constants.js';
+import { htmlPath } from './constants.js';
+import { getIndexHtml } from './static.js';
 
-const indexHTML = parse(fs.readFileSync(`${staticPath}/index.html`));
-
-const args = process.argv.slice(2);
-
-const host = args[0];
-
-if (!host) throw new Error('Host information is required');
-const script = parse(`<script id=process>
+export const addProcessScript = () => {
+  const script =
+    process.env.HOST &&
+    parse(`<script id="process">
   window.process = {
-    host: "${host}",
+    host: "${process.env.HOST}",
   };
 </script>`);
-
-const headScript = indexHTML.querySelector('head>script#process');
-headScript && headScript.remove();
-indexHTML.querySelector('head').appendChild(script);
-fs.writeFileSync(`${staticPath}/index.html`, indexHTML.toString());
+  let indexHTML = getIndexHtml();
+  if (!indexHTML || !script) return;
+  indexHTML = parse(indexHTML);
+  const headScript = indexHTML.querySelector('head>script#process');
+  if (headScript) return;
+  indexHTML.querySelector('head').appendChild(script);
+  fs.writeFileSync(htmlPath, indexHTML.toString());
+};

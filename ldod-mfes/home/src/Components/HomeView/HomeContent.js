@@ -53,8 +53,8 @@ export default (language, constants) => {
       <div class="container ldod-default">
         <a
           is="nav-to"
-          to=${isMFEAvailable('text')
-            ? '/reading/fragment/${xmlId}/inter/${urlId}'
+          ${isMFEAvailable('text')
+            ? (to = '/reading/fragment/${xmlId}/inter/${urlId}')
             : ''}
           class="home-frag-link"
         >

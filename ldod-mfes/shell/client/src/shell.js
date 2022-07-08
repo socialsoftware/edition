@@ -1,14 +1,8 @@
 import { store } from './store.js';
 import './components/loading/LdodLoading.js';
+import NotFound from './components/not-found/NotFound.js';
 
 const getLanguage = () => store.getState().language;
-const updateLanguage = (newV, oldV) => {
-  if (newV.language !== oldV.language) {
-    router.language = newV.language;
-  }
-};
-
-const unsub = store.subscribe(updateLanguage);
 
 const modules = JSON.parse(
   document.querySelector('script#importmap').textContent
@@ -17,7 +11,6 @@ const modules = JSON.parse(
 delete modules['shared/'];
 
 document.querySelector('ldod-navbar').setAttribute('language', getLanguage());
-
 const routes = await Object.keys(modules).reduce(async (acc, name) => {
   try {
     const api = (await import(name))?.default ?? '';
@@ -29,9 +22,17 @@ const routes = await Object.keys(modules).reduce(async (acc, name) => {
   return await acc;
 }, Promise.resolve({}));
 
+routes[NotFound.path] = () => NotFound;
 const router = document.createElement('ldod-router');
 router.id = 'shell';
 router.language = getLanguage();
 router.routes = routes;
 
 document.getElementById('root').append(router);
+
+const updateLanguage = (newV, oldV) => {
+  if (newV.language !== oldV.language) {
+    router.language = newV.language;
+  }
+};
+const unsub = store.subscribe(updateLanguage);

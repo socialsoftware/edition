@@ -23,9 +23,14 @@
     },
     "scripts": {
         "start": "react-app-rewired start",
-        "build": "react-app-rewired build && rm -rf ../ldod-mfes/shell/server/static/classification-game  && mkdir ../ldod-mfes/shell/server/static/classification-game && cp -r build/* ../ldod-mfes/shell/server/static/classification-game",
+        "build": "export NODE_OPTIONS=--openssl-legacy-provider && react-app-rewired build",
         "test": "react-app-rewired test --env=jsdom",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "pack": "npm run build && rm -rf dist && mkdir dist &&  tar -czvf dist/classification-game.tgz -C ./build ./",
+        "publish-dev": "npm run pack && curl -F id=classification-game -F file=@./dist/classification-game.tgz http://localhost:9000/publish",
+        "publish": "npm run pack && curl -F id=classification-game -F file=@./dist/classification-game.tgz http://localhost/publish",
+        "unpublish-dev": "curl -d id=classification-game http://localhost:9000/unpublish",
+        "unpublish": "curl -d id=classification-game http://localhost/unpublish"
     },
     "devDependencies": {
         "babel-plugin-import": "^1.12.0",

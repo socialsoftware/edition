@@ -4,6 +4,6 @@ services:
     network_mode: host
 
   server:
-    build: ./ldod-mfes/shell/server/
-    command: yarn start
+    build: ./ldod-mfes/shell/
+    command: npm run docker
     network_mode: host

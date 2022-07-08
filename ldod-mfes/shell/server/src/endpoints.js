@@ -1,36 +1,32 @@
-import { resolve } from 'path';
-import { extractTarball, removeStaticAssets } from './static.js';
-import {
-  addToImportmaps,
-  removeFromImportmaps,
-  getIndexHtml,
-} from './importmaps.js';
+import { extractTarball, getIndexHtml, removeStaticAssets } from './static.js';
+import { addToImportmaps, removeFromImportmaps } from './importmaps.js';
 import { addToMfes, removeFromMfes } from './mfes.js';
+import { gamePath, visualPath } from './constants.js';
 
 const sendIndex = (req, res) => res.send(getIndexHtml());
 
-const sendLdodVisualIndex = (req, res) =>
-  res.send(getIndexHtml(resolve(process.cwd(), 'static/ldod-visual')));
+const sendLdodVisualIndex = (req, res) => res.send(getIndexHtml(visualPath));
 
 const sendClassificationGameIndex = (req, res) =>
-  res.send(getIndexHtml(resolve(process.cwd(), 'static/classification-game')));
+  res.send(getIndexHtml(gamePath));
 
 const publishMFE = async (req, res) => {
   const fileInfo = req.file;
   const { id, name, entry } = req.body;
-  await extractTarball(fileInfo, id, name);
-  await addToImportmaps({
-    name,
-    entry: name !== entry ? `/${id}/${entry}` : `/${entry}`,
-  });
-  await addToMfes(name);
+  await extractTarball(fileInfo, id);
+  name &&
+    (await addToImportmaps({
+      name,
+      entry: name !== entry ? `/${id}/${entry}` : `/${entry}`,
+    }));
+  await addToMfes(id);
   return res.sendStatus(200);
 };
 const unPublishMFE = async (req, res) => {
-  const { name } = req.body;
-  removeStaticAssets({ name });
+  const { id, name } = req.body;
+  removeStaticAssets({ name: id });
   removeFromImportmaps({ name });
-  removeFromMfes(name);
+  removeFromMfes(id);
   return res.sendStatus(200);
 };
 

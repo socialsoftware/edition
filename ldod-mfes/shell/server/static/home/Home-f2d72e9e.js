@@ -9,7 +9,7 @@ import{parseHTML as n}from"shared/utils.js";const e=new CSSStyleSheet;e.replaceS
       <div class="container ldod-default">
         <a
           is="nav-to"
-          to=${o("text")?"/reading/fragment/${xmlId}/inter/${urlId}":""}
+          ${o("text")?to="/reading/fragment/${xmlId}/inter/${urlId}":""}
           class="home-frag-link"
         >
           <div class="raw col-xs-12 frag-excerpt">

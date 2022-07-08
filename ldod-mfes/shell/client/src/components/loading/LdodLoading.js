@@ -1,5 +1,5 @@
-import style from './loading-modal.css' assert { type: 'css' };
 import { parseHTML } from 'shared/utils.js';
+import style from './loading-modal.css' assert { type: 'css' };
 window.html = String.raw;
 
 const styleSheet = new CSSStyleSheet();

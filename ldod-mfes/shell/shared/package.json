@@ -1,9 +1,7 @@
 {
     "scripts": {
         "test": "./scripts/test.sh",
-        "build": "./scripts/build.sh",
-        "publish": "yarn build && node ./scripts/publish.js",
-        "unpublish": "node ./scripts/unpublish.js"
+        "build": "./scripts/build.sh"
     },
     "type": "module",
     "name": "shared",

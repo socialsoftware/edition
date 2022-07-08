@@ -21,14 +21,14 @@ export default {
   },
   reading: (isMFEAvailable('social') ||
     isMFEAvailable('reading') ||
-    isMFEAvailable('visual')) && {
+    isMFEAvailable('ldod-visual')) && {
     name: 'general_reading',
     pages: [
       isMFEAvailable('reading') && {
         id: 'general_reading_sequences',
         route: '/reading',
       },
-      isMFEAvailable('visual') && {
+      isMFEAvailable('ldod-visual') && {
         id: 'general_reading_visual',
         link: `${process.host}/ldod-visual`,
       },
@@ -56,14 +56,15 @@ export default {
       { id: 'header_search_advanced', route: '/search/advanced' },
     ],
   },
-  virtual: (isMFEAvailable('virtual') || isMFEAvailable('game')) && {
+  virtual: (isMFEAvailable('virtual') ||
+    isMFEAvailable('classification-game')) && {
     name: 'header_virtual',
     pages: [
       isMFEAvailable('virtual') && {
         id: 'header_virtualeditions',
         route: '/virtual/virtualeditions',
       },
-      isMFEAvailable('game') && {
+      isMFEAvailable('classification-game') && {
         id: 'general_classificationGame',
         route: '/virtual/classificationGames',
       },

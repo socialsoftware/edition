@@ -26,6 +26,8 @@ export default class LdodRouter extends HTMLElement {
     );
   }
 
+  isNotFound = (path) => path !== '/not-found';
+
   isPathActive = (path) => this.active === path;
 
   isFromThisRouter = (path) =>
@@ -48,23 +50,26 @@ export default class LdodRouter extends HTMLElement {
   }
 
   navigate = (path) => {
-    if (this.active && this.isPathActive(path)) return;
+    if (this.isNotFound(path) && this.active && this.isPathActive(path)) return;
     this.location !== path && history.pushState({}, undefined, path);
     this.render();
   };
 
-  handleURLChanged = ({ detail: { path } }) =>
+  handleURLChanged = ({ detail: { path } }) => {
     this.isFromThisRouter(path) && this.navigate(path);
+  };
 
   handlePopstate = (e) => {
     this.isFromThisRouter(this.location) && this.navigate(this.location);
   };
 
   async render() {
-    if (this.isPathActive(this.routerPath)) return;
-
     const route = this.routes?.[this.routerPath];
-    if (!route || (await isApiContractNotCompliant(route))) return;
+    if (!route) {
+      this.routes['/not-found'] && this.navigate('/not-found');
+      return;
+    }
+    if (await isApiContractNotCompliant(route)) return;
     this.active && (await this.remove());
     const api = await route();
     api.mount(
@@ -76,8 +81,7 @@ export default class LdodRouter extends HTMLElement {
 
   async remove() {
     const route = this.routes?.[this.active];
-    const api = await route();
-    api.unMount();
+    route && (await route()).unMount();
   }
 }
 

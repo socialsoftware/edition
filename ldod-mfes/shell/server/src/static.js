@@ -1,5 +1,5 @@
 import fs from 'fs';
-import path from 'path';
+import path, { resolve } from 'path';
 import tar from 'tar';
 import { staticPath } from './constants.js';
 
@@ -22,20 +22,28 @@ const addStaticAssets = ({ from, name }) => {
   });
 };
 
-async function extractTarball(fileInfo, id, name) {
-  fs.rmSync(`${fileInfo.destination}/${id}`, { recursive: true, force: true });
-  fs.mkdirSync(`${fileInfo.destination}/${id}`, { recursive: true });
-  fs.renameSync(
-    fileInfo.path,
-    `${fileInfo.destination}/${id}/${fileInfo.originalname}`
-  );
+async function extractTarball(fileInfo, id) {
+  const dest = resolve(fileInfo.destination, id);
+  const source = resolve(fileInfo.destination, id, fileInfo.originalname);
+
+  fs.rmSync(dest, { recursive: true, force: true });
+  fs.mkdirSync(dest);
+  fs.renameSync(fileInfo.path, source);
 
   await tar.extract({
-    cwd: `${fileInfo.destination}/${id}`,
-    file: `${fileInfo.destination}/${name}/${fileInfo.originalname}`,
+    cwd: dest,
+    file: source,
   });
 
-  fs.rmSync(`./${fileInfo.destination}/${id}/${fileInfo.originalname}`);
+  fs.rmSync(resolve(fileInfo.destination, id, fileInfo.originalname));
 }
 
-export { extractTarball, addStaticAssets, removeStaticAssets };
+const getIndexHtml = (path = staticPath) => {
+  try {
+    return fs.readFileSync(resolve(path, 'index.html'), 'utf8');
+  } catch (error) {
+    return;
+  }
+};
+
+export { extractTarball, addStaticAssets, removeStaticAssets, getIndexHtml };
