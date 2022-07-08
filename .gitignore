@@ -9,6 +9,7 @@ dist/
 public/
 transpiled-src
 importmap.json
+mfes.json
 static/classification-game
 static/ldod-visual
 static/user
