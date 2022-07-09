@@ -1,0 +1,428 @@
+<teiHeader type="corpus">
+    <fileDesc>
+        <titleStmt>
+            <title>Livro do Desassossego</title>
+            <author>Fernando Pessoa</author>
+            <editor>Project: Nenhum Problema tem Solução</editor>
+            <sponsor/>
+            <funder>Fundação para a Ciência e a Tecnologia - FCT</funder>
+            <principal>Manuel Portela</principal>
+            <principal>António Rito Silva</principal>
+            <respStmt>
+                <resp>encoding</resp>
+                <name>Diego Giménez, Tiago Santos, Manuel Portela</name>
+            </respStmt>
+            <respStmt>
+                <resp>schema definition</resp>
+                <name>Timothy Thompson</name>
+            </respStmt>
+            <respStmt>
+                <resp>schema definition</resp>
+                <name>António Rito Silva</name>
+            </respStmt>
+            <respStmt>
+                <resp>revision</resp>
+                <name>Tiago Santos, Daniela Maduro, Rita Marrone, Manuel Portela</name>
+            </respStmt>
+        </titleStmt>
+        <publicationStmt>
+            <publisher>Centre for Portuguese Literature at the University of Coimbra</publisher>
+            <pubPlace>Coimbra</pubPlace>
+            <availability
+                status="restricted">
+                <licence
+                    target="https://creativecommons.org/licenses/by-nc/4.0/">
+                    <p>All items in the LdoD Archive may be shared in accordance with the Creative Commons “Attribution-NonCommercial 4.0 International” license (CC BY-NC 4.0).</p>
+                </licence>
+            </availability>
+            <date
+                when="2017"/>
+        </publicationStmt>
+        <!-- RELEVANT: Here we codify the 4 existing editions of LdoD -->
+        <sourceDesc>
+            <listBibl
+                xml:id="ED.CRIT">
+                <!-- RELEVANT: Each edition contains -->
+                <bibl
+                    xml:id="ED.CRIT.C">
+                    <author
+                        corresp="#FP">
+                        <persName>Fernando Pessoa</persName>
+                    </author>
+                    <title>Livro do Desassossego</title>
+                    <editor>
+                        <persName>Jacinto do Prado Coelho</persName>
+                    </editor>
+                    <!-- Other bibliographic information -->
+                    <date
+                        when="1982"/>
+                </bibl>
+                <bibl
+                    xml:id="ED.CRIT.SC">
+                    <author
+                        corresp="#FP">
+                        <persName>Fernando Pessoa</persName>
+                    </author>
+                    <title>Livro do Desassossego</title>
+                    <editor>
+                        <persName>Teresa Sobral Cunha</persName>
+                    </editor>
+                    <!-- Other bibliographic information -->
+                    <date
+                        type="edition"
+                        when="2008"/>
+                </bibl>
+                <bibl
+                    xml:id="ED.CRIT.Z">
+                    <author
+                        corresp="#FP">
+                        <persName>Fernando Pessoa</persName>
+                    </author>
+                    <title>Livro do Desassossego</title>
+                    <editor>
+                        <persName>Richard Zenith</persName>
+                    </editor>
+                    <!-- Other bibliographic information -->
+                    <date
+                        type="edition"
+                        when="2012"/>
+                </bibl>
+                <bibl
+                    xml:id="ED.CRIT.P">
+                    <author
+                        corresp="#FP">
+                        <persName>Fernando Pessoa</persName>
+                    </author>
+                    <title>Livro do Desasocego</title>
+                    <editor>
+                        <persName>Jerónimo Pizarro</persName>
+                    </editor>
+                    <!-- Other bibliographic information -->
+                    <date
+                        type="edition"
+                        when="2010"/>
+                </bibl>
+            </listBibl>
+        </sourceDesc>
+    </fileDesc>
+    <!-- Encoding information, not relevant for the open -->
+    <encodingDesc>
+        <projectDesc>
+            <p>The LdoD Archive is a collaborative digital archive of the Book of Disquiet by Fernando Pessoa. 
+                It contains images of the autograph documents, new transcriptions of those documents and also 
+                transcriptions of four editions of the work. In addition to reading and comparing transcriptions, 
+                the LdoD Archive enables users to collaborate in creating virtual editions of the Book of Disquiet.</p>
+        </projectDesc>
+        <samplingDecl>
+            <p>The witnesses selected for inclusion in the archive are the total sum of the witnesses that were 
+                selected by the four expert editions. The editions by the experts included in the LdoD Archive are 
+                the main critical editions published between 1982 and 2012. These four critical editions (prepared 
+                from the autographs) were organized, respectively, by Jacinto do Prado Coelho (1982; reprinted 1997), 
+                Teresa Sobral Cunha (2008; 1st ed. 1990-1991), Richard Zenith (2012; 1st ed. 1998), and Jerónimo Pizarro (2010).</p>
+        </samplingDecl>
+        <editorialDecl>
+            <p>The XML encoding of both the witnesses and the four expert editions contained in the LdoD Archive 
+                has been extremely granular, so that all variations could become comparable either (a) at the internal
+                microtextual scale of each fragment, or (b) at the macrotextual scale of the external organization of the 
+                fragments in the Book, or (c) at the level of the metadata about each item in the Archive. The elements 
+                that have been formally represented include (a) punctuation, spelling, words, division/aggregation of 
+                paragraphs and spaces between paragraphs, but also (b) division/aggregation and ordering of fragments 
+                within the structure of the Book, as well as (c) metainformation concerning editorial attribution of date 
+                and heteronym or relative to the material nature of the witnesses. In the case of the witnesses, all acts 
+                of authorial revision (deletions, additions, substitutions, variants) have been encoded, as well as the 
+                topography of line breaks and the use of spaces or rules for dividing blocks of text in all documents. 
+                In the case of the experts editions all spaces and rules of division between paragraphs have also been marked up.</p>
+        </editorialDecl>
+        <!-- Similar to Swinburne Project (http://swinburneproject.indiana.edu/swinburne/resources/swinburne_data.zip) -->
+        <tagsDecl
+            xml:base="includes/tagsDecl.xml"
+            xmlns="http://www.tei-c.org/ns/1.0">
+            <rendition
+                n="mono"
+                scheme="css"
+                xml:id="mono">font-family: Courier,
+                monospace</rendition>
+            <rendition
+                n="code"
+                scheme="css"
+                xml:id="code">font-family: courier, monospace; </rendition>
+            <!-- font-size -->
+            <rendition
+                n="small"
+                scheme="css"
+                xml:id="small">font-size: small;</rendition>
+            <rendition
+                n="x-small"
+                scheme="css"
+                xml:id="x-small">font-size: x-small;</rendition>
+            <rendition
+                n="xx-small"
+                scheme="css"
+                xml:id="xx-small">font-size:
+                xx-small;</rendition>
+            <rendition
+                n="large"
+                scheme="css"
+                xml:id="large">font-size: large;</rendition>
+            <rendition
+                n="x-large"
+                scheme="css"
+                xml:id="x-large">font-size: x-large;</rendition>
+            <rendition
+                n="xx-large"
+                scheme="css"
+                xml:id="xx-large">font-size:
+                xx-large</rendition>
+            <!-- font-style -->
+            <rendition
+                n="italic"
+                scheme="css"
+                xml:id="i">font-style: italic;</rendition>
+            <rendition
+                n="normal"
+                scheme="css"
+                xml:id="n">font-style: normal;</rendition>
+            <!-- font-variant -->
+            <rendition
+                n="small caps"
+                scheme="css"
+                xml:id="sc">font-variant:
+                small-caps;</rendition>
+            <!-- font-weight -->
+            <rendition
+                n="bold"
+                scheme="css"
+                xml:id="b">font-weight: bold;</rendition>
+            <!-- text-decoration -->
+            <rendition
+                n="strike through"
+                scheme="css"
+                xml:id="strike">text-decoration:
+                line-through;</rendition>
+            <rendition
+                n="underline"
+                scheme="css"
+                xml:id="u">text-decoration:
+                underline;</rendition>
+            <rendition
+                n="double underline"
+                scheme="css"
+                xml:id="uu">text-decoration: underline;
+                border-bottom: 1px solid black;</rendition>
+            <rendition
+                n="block"
+                scheme="css"
+                xml:id="block">display: block; margin:
+                4em;</rendition>
+            <rendition
+                n="blockquote"
+                scheme="css"
+                xml:id="blockquote">display: block;
+                margin-left:4em;</rendition>
+            <rendition
+                n="expanded letter spacing"
+                scheme="css"
+                xml:id="expanded">letter-spacing: +3pt;</rendition>
+            <!-- text-transform -->
+            <rendition
+                n="uppercase"
+                scheme="css"
+                xml:id="uc">text-transform:
+                uppercase;</rendition>
+            <!-- text-align -->
+            <rendition
+                n="align center"
+                scheme="css"
+                xml:id="center">text-align:
+                center;</rendition>
+            <rendition
+                n="align right"
+                scheme="css"
+                xml:id="right">text-align:
+                right;</rendition>
+            <rendition
+                n="align left"
+                scheme="css"
+                xml:id="left">text-align: right;</rendition>
+            <!-- block alignment: centers a block of text, but doesn't affect the alignment of text withing the centered block.-->
+            <rendition
+                n="center block"
+                scheme="css"
+                xml:id="center-block"> margin-left:auto;
+                margin-right:auto; </rendition>
+            <!-- text-indent: hanging indents for verse-->
+            <rendition
+                n="indent 1 level"
+                scheme="css"
+                xml:id="ti-1">text-indent:
+                1em;</rendition>
+            <rendition
+                n="indent 2 levels"
+                scheme="css"
+                xml:id="ti-2">text-indent:
+                2em;</rendition>
+            <rendition
+                n="indent 3 levels"
+                scheme="css"
+                xml:id="ti-3">text-indent:
+                3em;</rendition>
+            <rendition
+                n="indent 4 levels"
+                scheme="css"
+                xml:id="ti-4">text-indent:
+                4em;</rendition>
+            <rendition
+                n="indent 5 levels"
+                scheme="css"
+                xml:id="ti-5">text-indent:
+                5em;</rendition>
+            <rendition
+                n="indent 6 levels"
+                scheme="css"
+                xml:id="ti-6">text-indent:
+                6em;</rendition>
+            <rendition
+                n="indent 7 levels"
+                scheme="css"
+                xml:id="ti-7">text-indent:
+                7em;</rendition>
+            <rendition
+                n="indent 8 levels"
+                scheme="css"
+                xml:id="ti-8">text-indent:
+                8em;</rendition>
+            <rendition
+                n="indent 9 levels"
+                scheme="css"
+                xml:id="ti-9">text-indent:
+                9em;</rendition>
+            <rendition
+                n="indent 10 levels"
+                scheme="css"
+                xml:id="ti-10">text-indent:
+                10em;</rendition>
+            <rendition
+                n="indent 10 levels"
+                scheme="css"
+                xml:id="ti-11">text-indent:
+                11em;</rendition>
+            <rendition
+                n="indent 12 levels"
+                scheme="css"
+                xml:id="ti-12">text-indent:
+                12em;</rendition>
+            <rendition
+                n="indent 13 levels"
+                scheme="css"
+                xml:id="ti-13">text-indent:
+                13em;</rendition>
+            <rendition
+                n="indent 14 levels"
+                scheme="css"
+                xml:id="ti-14">text-indent:
+                14em;</rendition>
+            <rendition
+                n="indent 15 levels"
+                scheme="css"
+                xml:id="ti-15">text-indent:
+                15em;</rendition>
+            <rendition
+                n="indent 16 levels"
+                scheme="css"
+                xml:id="ti-16">text-indent:
+                16em;</rendition>
+            <rendition
+                n="indent 17 levels"
+                scheme="css"
+                xml:id="ti-17">text-indent:
+                17em;</rendition>
+            <rendition
+                n="indent 18 levels"
+                scheme="css"
+                xml:id="ti-18">text-indent:
+                18em;</rendition>
+            <rendition
+                n="indent 19 levels"
+                scheme="css"
+                xml:id="ti-19">text-indent:
+                19em;</rendition>
+            <rendition
+                n="indent 20 levels"
+                scheme="css"
+                xml:id="ti-20">text-indent:
+                20em;</rendition>
+            <rendition
+                n="indent 21 levels"
+                scheme="css"
+                xml:id="ti-21">text-indent:
+                21em;</rendition>
+            <rendition
+                n="indent 22 levels"
+                scheme="css"
+                xml:id="ti-22">text-indent:
+                22em;</rendition>
+            <!-- vertical-align -->
+            <rendition
+                n="subscript"
+                scheme="css"
+                xml:id="sub">vertical-align: sub;</rendition>
+            <rendition
+                n="superscript"
+                scheme="css"
+                xml:id="super">vertical-align:
+                super;</rendition>
+            <rendition
+                n="border"
+                scheme="css"
+                xml:id="border">border: 2px solid;</rendition>
+            <!-- color -->
+            <rendition
+                n="red"
+                scheme="css"
+                xml:id="red">color: red;</rendition>
+            <rendition
+                n="green"
+                scheme="css"
+                xml:id="green">color: green;</rendition>
+            <rendition
+                n="blue"
+                scheme="css"
+                xml:id="blue">color: blue;</rendition>
+        </tagsDecl>
+        <variantEncoding
+            location="internal"
+            method="parallel-segmentation"/>
+    </encodingDesc>
+    <profileDesc>
+        <creation>
+            <date
+                from="1900"
+                to="1900">19xx-19yy</date>
+        </creation>
+        <langUsage>
+            <language
+                ident="pt-PT"
+                usage="100">português</language>
+        </langUsage>
+        <!-- RELEVANT: Here we codify Pessoa's orthonym and heteronyms -->
+        <particDesc>
+            <person
+                xml:id="FP">
+                <persName
+                    type="orthonym">Fernando Pessoa</persName>
+            </person>
+            <listPerson
+                type="heteronyms"
+                xml:id="HT">
+                <person
+                    xml:id="HT.BS">
+                    <persName>Bernardo Soares</persName>
+                </person>
+                <person
+                    xml:id="HT.VG">
+                    <persName>Vicente Guedes</persName>
+                </person>
+            </listPerson>
+        </particDesc>
+    </profileDesc>
+</teiHeader>

@@ -26,7 +26,7 @@ public class CurrentBackEndId extends BackEndId {
     }
     
     public String getAppName() {
-        return "edition-ldod";
+        return "edition";
     }
     
 }

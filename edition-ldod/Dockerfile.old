@@ -1,0 +1,22 @@
+# Multistage dockerfile to take advantage of caching
+FROM maven:3.8.6-jdk-11-slim as DEPS
+
+WORKDIR /opt/app
+COPY pom.xml pom.xml
+RUN mvn dependency:go-offline
+
+
+FROM maven:3.8.6-jdk-11-slim as BUILDER
+WORKDIR /opt/app
+COPY --from=deps /root/.m2 /root/.m2
+COPY --from=deps /opt/app /opt/app
+
+COPY .  /opt/app/
+
+RUN mvn clean install -DskipTests=true
+
+FROM openjdk:18-alpine
+WORKDIR /opt/app/edition-ldod
+COPY --from=builder /opt/app/ /opt/app/
+EXPOSE 8000
+CMD [ "java", "-jar", "/opt/app/edition-ldod/target/ldod.jar" ]

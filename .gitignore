@@ -1,4 +1,5 @@
 .vscode
+.idea
 yarn.lock
 yarn-error.log
 package-lock.json

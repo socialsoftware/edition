@@ -3,7 +3,55 @@ services:
     build: ./proxy-server
     network_mode: host
 
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'edition'
+      # So you don't have to use root, but you can if you like
+      MYSQL_USER: 'raimundo'
+      # You can use whatever password you like
+      MYSQL_PASSWORD: 'raimundo'
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: 'raimundo'
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '3307:3307'
+    expose:
+      # Opens port 3307 on the container
+      - '3307'
+      # Where our data will be persisted
+    volumes:
+      - my-db:/var/lib/mysql
+
+  docker-monolith:
+    build: ./edition-ldod
+    restart: on-failure
+    depends_on:
+      - db
+    network_mode: host
+    environment:
+      dbAlias: jdbc:mysql://db:3307/edition?useSSL=false&useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;
+      # Database username and password
+      dbUsername: raimundo
+      dbPassword: raimundo
+
+    volumes:
+      - /opt/ldod/corpus/:/opt/ldod/corpus
+      - /opt/ldod/corpus/files/:/opt/ldod/corpus/files/
+      - /opt/ldod/corpus/stoplist-pt.txt:/opt/ldod/corpus/stoplist-pt.txt
+      - /opt/ldod/inters/:/opt/ldod/inters/
+      - /opt/ldod/facsimiles/:/opt/ldod/facsimiles/
+      - /opt/ldod/encoding/:/opt/ldod/encoding/
+      - /opt/ldod/export/:/opt/ldod/export/
+      - /opt/ldod/indexer/:/opt/ldod/indexer/
+      - /opt/ldod/tests/:/opt/ldod/tests/
+      - /opt/ldod/social/aware/:/opt/ldod/social/aware/
+
   server:
     build: ./ldod-mfes/shell/
     command: npm run docker
     network_mode: host
+
+volumes:
+  my-db:
