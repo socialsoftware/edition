@@ -21,16 +21,20 @@
         "react-stomp": "^4.1.1",
         "typescript": "^3.5.2"
     },
+    "config": {
+        "docker": "http://localhost/ldod-mfes/",
+        "dev": "http://localhost:9000/ldod-mfes"
+    },
     "scripts": {
         "start": "react-app-rewired start",
         "build": "export NODE_OPTIONS=--openssl-legacy-provider && react-app-rewired build",
         "test": "react-app-rewired test --env=jsdom",
         "eject": "react-scripts eject",
         "pack": "npm run build && rm -rf dist && mkdir dist &&  tar -czvf dist/classification-game.tgz -C ./build ./",
-        "publish-dev": "npm run pack && curl -F id=classification-game -F file=@./dist/classification-game.tgz http://localhost:9000/publish",
-        "publish": "npm run pack && curl -F id=classification-game -F file=@./dist/classification-game.tgz http://localhost/publish",
-        "unpublish-dev": "curl -d id=classification-game http://localhost:9000/unpublish",
-        "unpublish": "curl -d id=classification-game http://localhost/unpublish"
+        "publish-dev": "npm run pack && curl -F id=classification-game -F file=@./dist/classification-game.tgz $npm_package_config_dev/publish",
+        "publish": "npm run pack && curl -F id=classification-game -F file=@./dist/classification-game.tgz $npm_package_config_docker/publish",
+        "unpublish-dev": "curl -d id=classification-game $npm_package_config_dev/unpublish",
+        "unpublish": "curl -d id=classification-game $npm_package_config_docker/unpublish"
     },
     "devDependencies": {
         "babel-plugin-import": "^1.12.0",

@@ -25,6 +25,7 @@ const routes = await Object.keys(modules).reduce(async (acc, name) => {
 routes[NotFound.path] = () => NotFound;
 const router = document.createElement('ldod-router');
 router.id = 'shell';
+router.setAttribute('base', 'ldod-mfes');
 router.language = getLanguage();
 router.routes = routes;
 

@@ -3,14 +3,18 @@
     "version": "1.0.0",
     "main": "index.js",
     "license": "MIT",
+    "config": {
+        "docker": "http://localhost/ldod-mfes",
+        "dev": "http://localhost:9000/ldod-mfes"
+    },
     "scripts": {
         "build": "if [ -d build ]; then rm -r build;fi &&  rollup -c && cp -r resources build",
-        "start": "node ./scripts/process.mjs http://localhost:9000 && serve -C -l 3001",
+        "start": "node ./scripts/process.mjs $npm_package_config_dev && serve -C -l 3001",
         "pack": "yarn build && ./scripts/pack.sh home",
-        "publish-dev": "yarn run pack && ./scripts/publish.sh home home.js @./dist/home.tgz http://localhost:9000",
-        "unpublish-dev": "./scripts/unpublish.sh home http://localhost:9000",
-        "publish": "yarn run pack && ./scripts/publish.sh home home.js @./dist/home.tgz http://localhost",
-        "unpublish": "./scripts/unpublish.sh home http://localhost"
+        "publish-dev": "yarn run pack && ./scripts/publish.sh home home.js @./dist/home.tgz $npm_package_config_dev",
+        "unpublish-dev": "./scripts/unpublish.sh home $npm_package_config_dev",
+        "publish": "yarn run pack && ./scripts/publish.sh home home.js @./dist/home.tgz $npm_package_config_docker",
+        "unpublish": "./scripts/unpublish.sh home $npm_package_config_docker"
     },
     "devDependencies": {
         "@rollup/plugin-dynamic-import-vars": "^1.4.3",

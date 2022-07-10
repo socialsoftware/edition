@@ -9,6 +9,6 @@ const sharedPath = path.resolve(process.cwd(), 'shared/dist');
 
 addStaticAssets({ from: clientPath, name: '' });
 addStaticAssets({ from: sharedPath, name: 'shared' });
-addToImportmaps({ name: 'shared/', entry: '/shared/' });
+addToImportmaps({ name: 'shared/', entry: '/ldod-mfes/shared/' });
 addToMfes();
 addProcessScript();

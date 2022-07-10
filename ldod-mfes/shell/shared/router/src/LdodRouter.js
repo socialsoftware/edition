@@ -4,20 +4,17 @@ export default class LdodRouter extends HTMLElement {
   }
 
   get location() {
-    const path = location.pathname;
-    return path !== '/' && path.endsWith('/')
-      ? path.substring(0, path.length - 1).toLowerCase()
-      : path.toLowerCase();
+    return addSlashes(location.pathname.toLowerCase());
   }
 
   get base() {
-    return this.getAttribute('base') ?? '/';
+    return addSlashes(this.getAttribute('base'));
   }
 
   get routerPath() {
-    if (this.location === this.base) return this.location;
+    if (this.location === this.base) return '/';
     const path = this.location.split(this.base)[1];
-    return path && (path.startsWith('/') ? path : `/${path}`);
+    return path && removeSlashes(path);
   }
 
   get outlet() {
@@ -26,12 +23,16 @@ export default class LdodRouter extends HTMLElement {
     );
   }
 
-  isNotFound = (path) => path !== '/not-found';
+  addBaseToPath = (path) => `${this.base}${removeSlashes(path)}`;
 
-  isPathActive = (path) => this.active === path;
+  isPathActive = (path) =>
+    this.active && removeSlashes(this.active) === removeSlashes(path);
 
-  isFromThisRouter = (path) =>
-    path && (path === this.base || (path.split(this.base)[1] && true));
+  isFromThisRouter = (pathname) => {
+    if (!pathname) return;
+    let path = addSlashes(pathname);
+    return path === this.base || (path.split(this.base)[1] && true);
+  };
 
   async connectedCallback() {
     this.append(this.outlet);
@@ -50,13 +51,15 @@ export default class LdodRouter extends HTMLElement {
   }
 
   navigate = (path) => {
-    if (this.isNotFound(path) && this.active && this.isPathActive(path)) return;
-    this.location !== path && history.pushState({}, undefined, path);
+    if (!isNotFound(path) && this.isPathActive(path)) return;
+
+    this.location !== addEndSlash(path) &&
+      history.pushState({}, undefined, this.addBaseToPath(path));
     this.render();
   };
 
   handleURLChanged = ({ detail: { path } }) => {
-    this.isFromThisRouter(path) && this.navigate(path);
+    this.isFromThisRouter(this.addBaseToPath(path)) && this.navigate(path);
   };
 
   handlePopstate = (e) => {
@@ -66,7 +69,7 @@ export default class LdodRouter extends HTMLElement {
   async render() {
     const route = this.routes?.[this.routerPath];
     if (!route) {
-      this.routes['/not-found'] && this.navigate('/not-found');
+      this.routes['not-found'] && this.navigate('not-found');
       return;
     }
     if (await isApiContractNotCompliant(route)) return;
@@ -80,7 +83,7 @@ export default class LdodRouter extends HTMLElement {
   }
 
   async remove() {
-    const route = this.routes?.[this.active];
+    const route = this.routes?.[removeSlashes(this.active)];
     route && (await route()).unMount();
   }
 }
@@ -95,3 +98,19 @@ const isApiContractNotCompliant = async (route) => {
 };
 
 customElements.define('ldod-router', LdodRouter);
+
+const addSlashes = (path) => addStartSlash(addEndSlash(path));
+
+const addStartSlash = (path) => (path.startsWith('/') ? path : `/${path}`);
+
+const addEndSlash = (path) => (path.endsWith('/') ? path : `${path}/`);
+
+const isNotFound = (path) => removeEndSlash(path).endsWith('/not-found');
+
+const removeEndSlash = (path) =>
+  path.endsWith('/') ? path.substring(0, path.length - 1) : path;
+
+const removeStartSlash = (path) =>
+  path.startsWith('/') ? path.substring(1) : path;
+
+const removeSlashes = (path) => removeStartSlash(removeEndSlash(path));

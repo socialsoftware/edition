@@ -8,19 +8,13 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: 'edition'
-      # So you don't have to use root, but you can if you like
       MYSQL_USER: 'raimundo'
-      # You can use whatever password you like
       MYSQL_PASSWORD: 'raimundo'
-      # Password for root access
       MYSQL_ROOT_PASSWORD: 'raimundo'
-    ports:
-      # <Port exposed> : < MySQL Port running inside container>
-      - '3307:3307'
-    expose:
-      # Opens port 3307 on the container
-      - '3307'
-      # Where our data will be persisted
+      MYSQL_TCP_PORT: 3307
+
+    network_mode: host
+
     volumes:
       - my-db:/var/lib/mysql
 
@@ -31,8 +25,7 @@ services:
       - db
     network_mode: host
     environment:
-      dbAlias: jdbc:mysql://db:3307/edition?useSSL=false&useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;
-      # Database username and password
+      dbAlias: jdbc:mysql//db:3307/edition?useSSL=false&useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;
       dbUsername: raimundo
       dbPassword: raimundo
 
@@ -50,6 +43,7 @@ services:
 
   server:
     build: ./ldod-mfes/shell/
+    restart: on-failure
     command: npm run docker
     network_mode: host
 

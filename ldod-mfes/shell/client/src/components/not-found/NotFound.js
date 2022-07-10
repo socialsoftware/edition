@@ -33,7 +33,7 @@ const handleLanguageEvent = ({ detail }) =>
   (getNoPage().textContent = message[detail.language]);
 
 export default {
-  path: '/not-found',
+  path: 'not-found',
   mount,
   unMount,
 };

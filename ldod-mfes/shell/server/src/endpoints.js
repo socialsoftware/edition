@@ -17,7 +17,8 @@ const publishMFE = async (req, res) => {
   name &&
     (await addToImportmaps({
       name,
-      entry: name !== entry ? `/${id}/${entry}` : `/${entry}`,
+      entry:
+        name !== entry ? `/${process.env.BASE}/${id}/${entry}` : `/${entry}`,
     }));
   await addToMfes(id);
   return res.sendStatus(200);
