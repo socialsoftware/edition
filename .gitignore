@@ -11,10 +11,8 @@ public/
 transpiled-src
 importmap.json
 mfes.json
-static/classification-game
-static/ldod-visual
-static/user
-static/home
+**/static/**
+static
 .env
 
 .classpath
@@ -23,6 +21,7 @@ static/home
 target
 bin
 dist
+
 doc
 test-db
 commands
