@@ -1,9 +1,9 @@
 services:
-  reverse-proxy:
+  nginx-reverse-proxy:
     build: ./proxy-server
     network_mode: host
 
-  db:
+  mysql-db:
     image: mysql:latest
     restart: always
     environment:
@@ -18,14 +18,14 @@ services:
     volumes:
       - my-db:/var/lib/mysql
 
-  docker-monolith:
+  ldod-be-monolith:
     build: ./edition-ldod
     restart: on-failure
     depends_on:
-      - db
+      - mysql-db
     network_mode: host
     environment:
-      dbAlias: jdbc:mysql//db:3307/edition?useSSL=false&useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;
+      dbAlias: jdbc:mysql//mysql-db:3307/edition?useSSL=false&useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;
       dbUsername: raimundo
       dbPassword: raimundo
 
@@ -41,7 +41,7 @@ services:
       - /opt/ldod/tests/:/opt/ldod/tests/
       - /opt/ldod/social/aware/:/opt/ldod/social/aware/
 
-  server:
+  ldod-mfes-server:
     build: ./ldod-mfes/shell/
     restart: on-failure
     command: npm run docker
