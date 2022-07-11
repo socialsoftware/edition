@@ -3,6 +3,7 @@ import express from 'express';
 import multer from 'multer';
 import './shell-modules.js';
 import { staticPath } from './constants.js';
+import asyncRouter from 'async-express-decorator';
 import {
   publishMFE,
   sendClassificationGameIndex,
@@ -13,13 +14,15 @@ import {
 
 const upload = multer({ dest: staticPath });
 const app = express();
-const router = express.Router();
+const router = asyncRouter(express.Router());
 
 app.use(express.static(staticPath));
 app.use('/ldod-mfes', express.static(staticPath));
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 app.use('/ldod-mfes', router);
 router.get('/', sendIndex);
 router.post('/publish', upload.single('file'), publishMFE);
@@ -27,7 +30,12 @@ router.post('/unpublish', unPublishMFE);
 router.get('/', sendLdodVisualIndex);
 router.get('/classification-game/', sendClassificationGameIndex);
 
-router.get('/*', sendIndex);
+app.get('*', sendIndex);
+
+app.use((err, req, res, next) => {
+  return res.status(400).send(`Error: ${err.message}`);
+});
+
 const port = process.env.PORT || 9000;
 
 app.listen(port, () => {

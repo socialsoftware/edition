@@ -1,4 +1,4 @@
-import './Components/Navbar/Navbar.js';
+await import('./Components/Navbar/Navbar.js').catch((e) => e);
 
 let Home;
 

@@ -25,7 +25,6 @@ const addStaticAssets = ({ from, name }) => {
 async function extractTarball(fileInfo, id) {
   const dest = resolve(fileInfo.destination, id);
   const source = resolve(fileInfo.destination, id, fileInfo.originalname);
-
   fs.rmSync(dest, { recursive: true, force: true });
   fs.mkdirSync(dest);
   fs.renameSync(fileInfo.path, source);
