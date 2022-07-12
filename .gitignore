@@ -9,6 +9,7 @@ test-db
 commands
 src/main/resources/configuration.properties
 .idea/
+.vscode
 *.iml
 opt/
 

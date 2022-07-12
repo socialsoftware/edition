@@ -18,7 +18,6 @@ public class LdoDErrorController implements ErrorController {
 		return modelAndView;
 	}
 
-	@Override
 	public String getErrorPath() {
 		return PATH;
 	}
