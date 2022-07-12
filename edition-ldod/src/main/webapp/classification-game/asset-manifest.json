@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/classification-game/static/css/main.044e20be.chunk.css",
+    "main.js": "/classification-game/static/js/main.ed58c87c.chunk.js",
+    "main.js.map": "/classification-game/static/js/main.ed58c87c.chunk.js.map",
+    "runtime-main.js": "/classification-game/static/js/runtime-main.099a29a8.js",
+    "runtime-main.js.map": "/classification-game/static/js/runtime-main.099a29a8.js.map",
+    "static/css/2.41c78b23.chunk.css": "/classification-game/static/css/2.41c78b23.chunk.css",
+    "static/js/2.959d0e70.chunk.js": "/classification-game/static/js/2.959d0e70.chunk.js",
+    "static/js/2.959d0e70.chunk.js.map": "/classification-game/static/js/2.959d0e70.chunk.js.map",
+    "index.html": "/classification-game/index.html",
+    "precache-manifest.f5c36dd104a12f540bba786653686f12.js": "/classification-game/precache-manifest.f5c36dd104a12f540bba786653686f12.js",
+    "service-worker.js": "/classification-game/service-worker.js",
+    "static/css/2.41c78b23.chunk.css.map": "/classification-game/static/css/2.41c78b23.chunk.css.map",
+    "static/css/main.044e20be.chunk.css.map": "/classification-game/static/css/main.044e20be.chunk.css.map",
+    "static/js/2.959d0e70.chunk.js.LICENSE.txt": "/classification-game/static/js/2.959d0e70.chunk.js.LICENSE.txt",
+    "static/media/font-awesome.min.css": "/classification-game/static/media/fontawesome-webfont.fee66e71.woff"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.099a29a8.js",
+    "static/css/2.41c78b23.chunk.css",
+    "static/js/2.959d0e70.chunk.js",
+    "static/css/main.044e20be.chunk.css",
+    "static/js/main.ed58c87c.chunk.js"
+  ]
+}
