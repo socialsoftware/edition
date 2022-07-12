@@ -1,8 +1,7 @@
-#! /usr/bin/zsh
-
+#! /bin/sh
 dirs='store utils router vanilla-jsx'
 
-rm -r public
+rm -r dist
 
 for dir in $dirs
 do

@@ -8,7 +8,7 @@ export default class LdodRouter extends HTMLElement {
   }
 
   get base() {
-    return addSlashes(this.getAttribute('base'));
+    return addSlashes(this.getAttribute('base') ?? '/');
   }
 
   get routerPath() {
@@ -55,6 +55,7 @@ export default class LdodRouter extends HTMLElement {
 
     this.location !== addEndSlash(path) &&
       history.pushState({}, undefined, this.addBaseToPath(path));
+
     this.render();
   };
 
@@ -68,10 +69,12 @@ export default class LdodRouter extends HTMLElement {
 
   async render() {
     const route = this.routes?.[this.routerPath];
+    console.log(this.routes);
     if (!route) {
       this.routes['not-found'] && this.navigate('not-found');
       return;
     }
+
     if (await isApiContractNotCompliant(route)) return;
     this.active && (await this.remove());
     const api = await route();
@@ -81,7 +84,6 @@ export default class LdodRouter extends HTMLElement {
     );
     this.active = this.routerPath;
   }
-
   async remove() {
     const route = this.routes?.[removeSlashes(this.active)];
     route && (await route()).unMount();
