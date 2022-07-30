@@ -123,7 +123,7 @@ public class SignupController {
 		return null;
 	}
 
-	@RequestMapping(value = "/signup/registrationAuthorization", method = RequestMethod.GET)
+	@RequestMapping(value = "/signup/auth", method = RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public String authorizeRegistration(WebRequest request, HttpServletRequest servletRequest, Model model,
 			@RequestParam("token") String token) {
@@ -135,13 +135,10 @@ public class SignupController {
 			model.addAttribute("message", "signup.token.invalid");
 			return "signin";
 		}
-
-		LdoDUser user = registrationToken.getUser();
 		if ((registrationToken.getExpireTimeDateTime().getMillis() - DateTime.now().getMillis()) <= 0) {
 			model.addAttribute("message", "signup.token.expired");
 			return "signin";
 		}
-
 		registrationToken.setAuthorized(true);
 
 		try {
@@ -155,7 +152,7 @@ public class SignupController {
 		return "signin";
 	}
 
-	@RequestMapping(value = "/signup/registrationConfirm", method = RequestMethod.GET)
+	@RequestMapping(value = "/signup/confirm", method = RequestMethod.GET)
 	public String confirmRegistration(WebRequest request, Model model, @RequestParam("token") String token) {
 		logger.debug("confirmRegistration");
 

@@ -6,6 +6,7 @@ public class JWTAuthenticationDto {
 	private String accessToken;
 	private String tokenType = PropertiesManager.getProperties().getProperty("spring.security.jwt.token.prefix");
 
+	public JWTAuthenticationDto(){}
 	public JWTAuthenticationDto(String accessToken) {
 		this.accessToken = accessToken;
 	}

@@ -98,4 +98,18 @@ public class LdoDUserDto {
     public void setSelectedVE(List<String> selectedVE) {
         this.selectedVE = selectedVE;
     }
+
+    @Override
+    public String toString() {
+        return "LdoDUserDto{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", enabled=" + enabled +
+                ", active=" + active +
+                ", roles='" + roles + '\'' +
+                ", selectedVE=" + selectedVE +
+                '}';
+    }
 }

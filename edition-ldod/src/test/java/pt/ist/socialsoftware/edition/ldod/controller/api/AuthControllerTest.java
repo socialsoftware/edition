@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
+import pt.ist.socialsoftware.edition.ldod.bff.user.controller.UserAuthController;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
@@ -42,7 +43,7 @@ public class AuthControllerTest {
     JWTTokenProvider tokenProvider;
 
     @InjectMocks
-    AuthController authController;
+    pt.ist.socialsoftware.edition.ldod.bff.user.controller.UserAuthController UserAuthController;
 
     protected MockMvc mockMvc;
 
@@ -60,7 +61,7 @@ public class AuthControllerTest {
 
     @BeforeEach
     public void setUp() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(this.authController)
+        this.mockMvc = MockMvcBuilders.standaloneSetup(this.UserAuthController)
                 .setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
     }
 

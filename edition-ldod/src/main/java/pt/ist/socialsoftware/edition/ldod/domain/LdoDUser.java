@@ -1,219 +1,263 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
+import pt.ist.socialsoftware.edition.ldod.bff.dtos.LdoDUserDto;
+import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
+import pt.ist.socialsoftware.edition.ldod.dto.ldodMfes.SignupDto;
+import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import pt.ist.fenixframework.Atomic;
-import pt.ist.fenixframework.Atomic.TxMode;
-import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
-import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
-import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
-
 public class LdoDUser extends LdoDUser_Base {
-	private static Logger logger = LoggerFactory.getLogger(LdoDUser.class);
+    private static Logger logger = LoggerFactory.getLogger(LdoDUser.class);
 
-	public enum SocialMediaService {
-		TWITTER, FACEBOOK, LINKEDIN, GOOGLE
-	};
+    public enum SocialMediaService {
+        TWITTER, FACEBOOK, LINKEDIN, GOOGLE
+    }
 
-	@Override
-	public void setFirstName(String firstName) {
-		if (!firstName.matches("^[\\p{L}\\s]+$")) {
-			throw new LdoDException(firstName);
-		}
-		super.setFirstName(firstName);
-	}
+    ;
 
-	@Override
-	public void setLastName(String lastName) {
-		if (!lastName.matches("^[\\p{L}\\s]+$")) {
-			throw new LdoDException(lastName);
-		}
-		super.setLastName(lastName);
-	}
+    @Override
+    public void setFirstName(String firstName) {
+        if (!firstName.matches("^[\\p{L}\\s]+$")) {
+            throw new LdoDException(firstName);
+        }
+        super.setFirstName(firstName);
+    }
 
-	@Override
-	public void setUsername(String username) {
-		if (!username.matches("^[A-Za-z0-9_\\s\\-]+$")) {
-			throw new LdoDException(username);
-		}
-		checkUniqueUsername(username);
-		super.setUsername(username);
-	}
+    @Override
+    public void setLastName(String lastName) {
+        if (!lastName.matches("^[\\p{L}\\s]+$")) {
+            throw new LdoDException(lastName);
+        }
+        super.setLastName(lastName);
+    }
 
-	public static LdoDUser getAuthenticatedUser() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication != null) {
-			LdoDUserDetails userDetails = null;
-			Object principal = authentication.getPrincipal();
-			if (principal instanceof LdoDUserDetails) {
-				userDetails = (LdoDUserDetails) principal;
-				return userDetails.getUser();
-			}
-		}
-		return null;
-	}
+    @Override
+    public void setUsername(String username) {
+        if (!username.matches("^[A-Za-z0-9_\\s\\-]+$")) {
+            throw new LdoDException(username);
+        }
+        checkUniqueUsername(username);
+        super.setUsername(username);
+    }
 
-	@Atomic(mode = TxMode.WRITE)
-	public void remove() {
-		getMemberSet().stream().forEach(m -> m.remove());
-		getSelectedVirtualEditionsSet().stream().forEach(ve -> removeSelectedVirtualEditions(ve));
-		getTagSet().stream().forEach(ut -> ut.remove());
-		getAnnotationSet().stream().forEach(a -> a.remove());
-		getRecommendationWeightsSet().stream().forEach(rw -> rw.remove());
+    public static LdoDUser getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            LdoDUserDetails userDetails = null;
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof LdoDUserDetails) {
+                userDetails = (LdoDUserDetails) principal;
+                return userDetails.getUser();
+            }
+        }
+        return null;
+    }
 
-		getLdoD().getUserConnectionSet().stream().filter(uc -> uc.getUserId().equals(getUsername()))
-				.forEach(uc -> uc.remove());
-		if (getToken() != null) {
-			getToken().remove();
-		}
-		getRolesSet().stream().forEach(r -> removeRoles(r));
-		setLdoD(null);
+    @Atomic(mode = TxMode.WRITE)
+    public void remove() {
+        getMemberSet().stream().forEach(m -> m.remove());
+        getSelectedVirtualEditionsSet().stream().forEach(ve -> removeSelectedVirtualEditions(ve));
+        getTagSet().stream().forEach(ut -> ut.remove());
+        getAnnotationSet().stream().forEach(a -> a.remove());
+        getRecommendationWeightsSet().stream().forEach(rw -> rw.remove());
 
-		if (getPlayer() != null) {
-			getPlayer().remove();
-		}
-		getResponsibleForGamesSet().stream().forEach(g -> g.remove());
+        getLdoD().getUserConnectionSet().stream().filter(uc -> uc.getUserId().equals(getUsername()))
+                .forEach(uc -> uc.remove());
+        if (getToken() != null) {
+            getToken().remove();
+        }
+        getRolesSet().stream().forEach(r -> removeRoles(r));
+        setLdoD(null);
 
-		deleteDomainObject();
-	}
+        if (getPlayer() != null) {
+            getPlayer().remove();
+        }
+        getResponsibleForGamesSet().stream().forEach(g -> g.remove());
 
-	public LdoDUser(LdoD ldoD, String username, String password, String firstName, String lastName, String email) {
-		setEnabled(false);
-		setActive(true);
-		setLdoD(ldoD);
-		setUsername(username);
-		setPassword(password);
-		setFirstName(firstName);
-		setLastName(lastName);
-		setEmail(email);
-	}
+        deleteDomainObject();
+    }
 
-	private void checkUniqueUsername(String username) {
-		if (getLdoD().getUsersSet().stream().filter(u -> u.getUsername() != null && u.getUsername().equals(username))
-				.findFirst().isPresent()) {
-			throw new LdoDDuplicateUsernameException(username);
-		}
+    public LdoDUser(LdoD ldoD, String username, String password, String firstName, String lastName, String email) {
+        setEnabled(false);
+        setActive(true);
+        setLdoD(ldoD);
+        setUsername(username);
+        setPassword(password);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setEmail(email);
+    }
 
-	}
+    public LdoDUser(LdoD ldoD, String password, SignupDto signupDto) {
+        setEnabled(false);
+        setActive(true);
+        setLdoD(ldoD);
+        setUsername(signupDto.getUsername());
+        setPassword(password);
+        setFirstName(signupDto.getFirstName());
+        setLastName(signupDto.getLastName());
+        setEmail(signupDto.getEmail());
+    }
 
-	public List<VirtualEditionInter> getFragInterSet() {
-		Set<VirtualEditionInter> inters = new HashSet<>();
+    private void checkUniqueUsername(String username) {
+        if (getLdoD()
+                .getUsersSet()
+                .stream()
+                .anyMatch(ldoDUser -> ldoDUser.getUsername() != null && ldoDUser.getUsername().equals(username))) {
+            throw new LdoDDuplicateUsernameException(username);
+        }
+    }
 
-		for (Annotation annotation : getAnnotationSet()) {
-			if (annotation.getVirtualEditionInter().getVirtualEdition().checkAccess()) {
-				inters.add(annotation.getVirtualEditionInter());
-			}
-		}
+    public List<VirtualEditionInter> getFragInterSet() {
+        Set<VirtualEditionInter> inters = new HashSet<>();
 
-		for (Tag tag : getTagSet()) {
-			if (tag.getInter().getVirtualEdition().checkAccess()) {
-				inters.add(tag.getInter());
-			}
-		}
+        for (Annotation annotation : getAnnotationSet()) {
+            if (annotation.getVirtualEditionInter().getVirtualEdition().checkAccess()) {
+                inters.add(annotation.getVirtualEditionInter());
+            }
+        }
 
-		return inters.stream().sorted((i1, i2) -> i1.getTitle().compareTo(i2.getTitle())).collect(Collectors.toList());
-	}
+        for (Tag tag : getTagSet()) {
+            if (tag.getInter().getVirtualEdition().checkAccess()) {
+                inters.add(tag.getInter());
+            }
+        }
 
-	public List<VirtualEdition> getPublicEditionList() {
-		return getMemberSet().stream().map(Member_Base::getVirtualEdition).filter(Edition_Base::getPub).distinct()
-				.sorted(Comparator.comparing(VirtualEdition::getTitle)).collect(Collectors.toList());
-	}
+        return inters.stream().sorted((i1, i2) -> i1.getTitle().compareTo(i2.getTitle())).collect(Collectors.toList());
+    }
 
-	public RecommendationWeights getRecommendationWeights(VirtualEdition virtualEdition) {
-		for (RecommendationWeights recommendationWeights : getRecommendationWeightsSet()) {
-			if (recommendationWeights.getVirtualEdition() == virtualEdition) {
-				return recommendationWeights;
-			}
-		}
-		return LdoD.getInstance().createRecommendationWeights(this, virtualEdition);
-	}
+    public List<VirtualEdition> getPublicEditionList() {
+        return getMemberSet().stream().map(Member_Base::getVirtualEdition).filter(Edition_Base::getPub).distinct()
+                .sorted(Comparator.comparing(VirtualEdition::getTitle)).collect(Collectors.toList());
+    }
 
-	@Atomic(mode = TxMode.WRITE)
-	public RegistrationToken createRegistrationToken(String token) {
-		return new RegistrationToken(token, this);
-	}
+    public RecommendationWeights getRecommendationWeights(VirtualEdition virtualEdition) {
+        for (RecommendationWeights recommendationWeights : getRecommendationWeightsSet()) {
+            if (recommendationWeights.getVirtualEdition() == virtualEdition) {
+                return recommendationWeights;
+            }
+        }
+        return LdoD.getInstance().createRecommendationWeights(this, virtualEdition);
+    }
 
-	@Atomic(mode = TxMode.WRITE)
-	public void enableUnconfirmedUser() {
-		setEnabled(true);
-		if (getToken() != null) {
-			getToken().remove();
-		}
-	}
+    @Atomic(mode = TxMode.WRITE)
+    public RegistrationToken createRegistrationToken(String token) {
+        return new RegistrationToken(token, this);
+    }
 
-	@Atomic(mode = TxMode.WRITE)
-	public void updatePassword(PasswordEncoder passwordEncoder, String currentPassword, String newPassword) {
-		if (!passwordEncoder.matches(currentPassword, getPassword())) {
-			throw new LdoDException();
-		}
+    @Atomic(mode = TxMode.WRITE)
+    public void enableUnconfirmedUser() {
+        setEnabled(true);
+        if (getToken() != null) {
+            getToken().remove();
+        }
+    }
 
-		setPassword(passwordEncoder.encode(newPassword));
-	}
+    @Atomic(mode = TxMode.WRITE)
+    public void updatePassword(PasswordEncoder passwordEncoder, String currentPassword, String newPassword) {
+        if (!passwordEncoder.matches(currentPassword, getPassword())) {
+            throw new LdoDException();
+        }
 
-	public String getListOfRolesAsStrings() {
-		return getRolesSet().stream().map(r -> r.getType().name()).collect(Collectors.joining(", "));
-	}
+        setPassword(passwordEncoder.encode(newPassword));
+    }
 
-	@Atomic(mode = TxMode.WRITE)
-	public void switchActive() {
-		if (getActive()) {
-			setActive(false);
-		} else {
-			setActive(true);
-		}
-	}
+    public String getListOfRolesAsStrings() {
+        return getRolesSet().stream().map(r -> r.getType().name()).collect(Collectors.joining(", "));
+    }
 
-	@Atomic(mode = TxMode.WRITE)
-	public void update(PasswordEncoder passwordEncoder, String oldUsername, String newUsername, String firstName,
-			String lastName, String email, String newPassword, boolean isUser, boolean isAdmin, boolean isEnabled) {
+    @Atomic(mode = TxMode.WRITE)
+    public void switchActive() {
+        if (getActive()) {
+            setActive(false);
+        } else {
+            setActive(true);
+        }
+    }
 
-		if (!oldUsername.equals(newUsername)) {
-			changeUsername(oldUsername, newUsername);
-		}
+    @Atomic(mode = TxMode.WRITE)
+    public void update(PasswordEncoder passwordEncoder, String oldUsername, String newUsername, String firstName,
+                       String lastName, String email, String newPassword, boolean isUser, boolean isAdmin, boolean isEnabled) {
 
-		setFirstName(firstName);
-		setLastName(lastName);
-		setEmail(email);
+        if (!oldUsername.equals(newUsername)) {
+            changeUsername(oldUsername, newUsername);
+        }
 
-		getRolesSet().clear();
+        setFirstName(firstName);
+        setLastName(lastName);
+        setEmail(email);
 
-		if (isUser) {
-			addRoles(Role.getRole(RoleType.ROLE_USER));
-		}
+        getRolesSet().clear();
 
-		if (isAdmin) {
-			addRoles(Role.getRole(RoleType.ROLE_ADMIN));
-		}
+        if (isUser) {
+            addRoles(Role.getRole(RoleType.ROLE_USER));
+        }
 
-		setEnabled(isEnabled);
+        if (isAdmin) {
+            addRoles(Role.getRole(RoleType.ROLE_ADMIN));
+        }
 
-		if (newPassword != null && !newPassword.trim().equals("")) {
-			setPassword(passwordEncoder.encode(newPassword));
-		}
+        setEnabled(isEnabled);
 
-	}
+        if (newPassword != null && !newPassword.trim().equals("")) {
+            setPassword(passwordEncoder.encode(newPassword));
+        }
 
-	private void changeUsername(String oldUsername, String newUsername) {
-		setUsername(newUsername);
+    }
 
-		UserConnection userConnection = getLdoD().getUserConnectionSet().stream()
-				.filter(uc -> uc.getUserId().equals(oldUsername)).findFirst().orElse(null);
+    @Atomic(mode = TxMode.WRITE)
+    public void update(PasswordEncoder passwordEncoder, LdoDUserDto user) {
 
-		if (userConnection != null) {
-			userConnection.setUserId(newUsername);
-		}
+        if (!user.getOldUsername().equals(user.getNewUsername())) {
+            changeUsername(user.getOldUsername(), user.getNewUsername());
+        }
 
-	}
+        setFirstName(user.getFirstName());
+        setLastName(user.getLastName());
+        setEmail(user.getEmail());
+
+        getRolesSet().clear();
+
+        if (user.isUser()) {
+            addRoles(Role.getRole(RoleType.ROLE_USER));
+        }
+
+        if (user.isAdmin()) {
+            addRoles(Role.getRole(RoleType.ROLE_ADMIN));
+        }
+
+        setEnabled(user.isEnabled());
+
+        if (user.getNewPassword() != null && !user.getNewPassword().trim().equals("")) {
+            setPassword(passwordEncoder.encode(user.getNewPassword()));
+        }
+
+    }
+
+    private void changeUsername(String oldUsername, String newUsername) {
+        setUsername(newUsername);
+
+        UserConnection userConnection = getLdoD().getUserConnectionSet().stream()
+                .filter(uc -> uc.getUserId().equals(oldUsername)).findFirst().orElse(null);
+
+        if (userConnection != null) {
+            userConnection.setUserId(newUsername);
+        }
+
+    }
 
 }

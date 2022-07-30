@@ -10,6 +10,7 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser.SocialMediaService;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
+import pt.ist.socialsoftware.edition.ldod.dto.ldodMfes.SignupDto;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
 
@@ -272,6 +273,23 @@ public class LdoD extends LdoD_Base {
             return user;
         } else {
             throw new LdoDDuplicateUsernameException(username);
+        }
+    }
+
+    @Atomic(mode = TxMode.WRITE)
+    public LdoDUser createUser(PasswordEncoder passwordEncoder, SignupDto signupDto) {
+        removeOutdatedUnconfirmedUsers();
+
+        if (getUser(signupDto.getUsername()) == null) {
+            LdoDUser user = new LdoDUser(this, passwordEncoder.encode(signupDto.getPassword()), signupDto);
+            user.setSocialMediaService(signupDto.getSocialMediaService());
+            user.setSocialMediaId(signupDto.getSocialMediaId());
+            Role userRole = Role.getRole(RoleType.ROLE_USER);
+            user.addRoles(userRole);
+
+            return user;
+        } else {
+            throw new LdoDDuplicateUsernameException(signupDto.getUsername());
         }
     }
 

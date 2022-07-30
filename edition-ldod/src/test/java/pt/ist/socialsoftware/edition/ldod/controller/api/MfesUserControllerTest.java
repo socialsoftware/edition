@@ -1,6 +1,5 @@
 package pt.ist.socialsoftware.edition.ldod.controller.api;
 
-import org.joda.time.DateTime;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,9 +11,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
+import pt.ist.socialsoftware.edition.ldod.bff.user.controller.MfesUserController;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
-import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
 
 import java.io.FileNotFoundException;
@@ -28,9 +27,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
 @AutoConfigureMockMvc
-public class APIUserControllerTest {
+public class MfesUserControllerTest {
     @InjectMocks
-    APIUserController apiUserController;
+    MfesUserController mfesUserController;
 
     protected MockMvc mockMvc;
 
@@ -48,7 +47,7 @@ public class APIUserControllerTest {
 
     @BeforeEach
     public void setUp() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(this.apiUserController)
+        this.mockMvc = MockMvcBuilders.standaloneSetup(this.mfesUserController)
                 .setControllerAdvice(new LdoDExceptionHandler()).addFilters(new TransactionFilter()).build();
     }
 

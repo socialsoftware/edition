@@ -74,7 +74,7 @@ public class LdoDUserDetails implements SocialUserDetails {
 	}
 
 	public boolean hasRole(String role) {
-		return getAuthorities().stream().filter(a -> a.getAuthority().equals(role)).findFirst().isPresent();
+		return getAuthorities().stream().anyMatch(a -> a.getAuthority().equals(role));
 	}
 
 }
