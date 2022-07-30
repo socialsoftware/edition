@@ -2,18 +2,31 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="importmap">
-        { "imports": { "shared/":"http://127.0.0.1:8080/shared/"} }
-    </script>
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/devStyle.css">
+    <title>User MFE</title>
 </head>
 
 <body>
+
+
+    <li is="user-component" language="en"></li>
+    <li is="user-component" language="en"></li>
+    <button class="lang" id="pt">PT</button>
+    <button class="lang" id="es">ES</button>
+    <button class="lang" id="en">EN</button>
+
+
+    <div id="loading" aria-hidden="true">Loading</div>
+    <div id="message"></div>
+    <div id="error" style="color: red;"></div>
+    <button id="clear-message">Clear</button>
+
     <div id="root"></div>
-    <script type="module" src="index.js"></script>
+    <script type="module" src="/index.js"></script>
+
 </body>
 
 </html>

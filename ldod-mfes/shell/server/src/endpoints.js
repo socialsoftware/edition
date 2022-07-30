@@ -41,6 +41,7 @@ const publishMFE = async (req, res) => {
         name !== entry ? `/${process.env.BASE}/${id}/${entry}` : `/${entry}`,
     });
   await addToMfes(id);
+
   return res.sendStatus(200);
 };
 const unPublishMFE = async (req, res) => {

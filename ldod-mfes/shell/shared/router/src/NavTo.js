@@ -1,10 +1,8 @@
 export default class NavTo extends HTMLAnchorElement {
-  constructor() {
-    super();
-  }
-
   get to() {
-    return this.getAttribute('to');
+    let toAttr = this.getAttribute('to');
+    toAttr = typeof toAttr === 'string' ? toAttr.trim() : toAttr;
+    return toAttr;
   }
 
   connectedCallback() {
@@ -13,10 +11,11 @@ export default class NavTo extends HTMLAnchorElement {
 
   onclick(e) {
     e.preventDefault();
-    this.emittURLEvent();
+    this.emitURLEvent();
   }
 
-  emittURLEvent() {
+  emitURLEvent() {
+    if (!this.to) return;
     this.dispatchEvent(
       new CustomEvent('ldod-url-changed', {
         composed: true,

@@ -14,14 +14,13 @@ import {
 
 const upload = multer({ dest: staticPath });
 const app = express();
-const router = asyncRouter(express.Router());
-
-app.use(express.static(staticPath));
-app.use('/ldod-mfes', express.static(staticPath));
-
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+const router = asyncRouter(express.Router());
+app.use('/ldod-mfes', express.static(staticPath));
+app.get('/', (req, res) => res.redirect('/ldod-mfes'));
 
 app.use('/ldod-mfes', router);
 router.get('/', sendIndex);

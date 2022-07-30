@@ -3,7 +3,7 @@ const isAnEventHandler = (name) =>
 
 export const createElement = (tag, props, ...children) => {
   if (typeof tag === 'string') {
-    const elem = document.createElement(tag);
+    const elem = document.createElement(tag, props?.is ? { is: props.is } : '');
 
     Object.entries(props || {}).forEach(([key, value]) => {
       if (isAnEventHandler(key))
@@ -15,11 +15,19 @@ export const createElement = (tag, props, ...children) => {
         );
       }
 
+      if (key === 'style-module') {
+        Object.entries(value).forEach(([key, value]) => {
+          if (elem.classList.contains(key)) elem.classList.remove(key);
+          elem.classList.add(value);
+        });
+        delete props.class;
+      }
+
       if (typeof value === 'function' || typeof value === 'object') {
         return (elem[key] = value);
       }
 
-      elem.setAttribute(key, value.toString());
+      elem.setAttribute(key, value?.toString());
     });
 
     children.forEach((child) => appendChildren(elem, child));
@@ -34,7 +42,8 @@ export const createElement = (tag, props, ...children) => {
 const appendChildren = (parent, child) => {
   if (Array.isArray(child))
     return child.forEach((nested) => appendChildren(parent, nested));
-  parent.appendChild(child.nodeType ? child : document.createTextNode(child));
+  child &&
+    parent.appendChild(child.nodeType ? child : document.createTextNode(child));
 };
 
 export const createFragment = (...children) => {

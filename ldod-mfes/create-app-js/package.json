@@ -1,7 +1,8 @@
 {
-    "name": "create-vanilla-app",
+    "type": "module",
+    "name": "create-app-js",
     "version": "1.0.0",
     "main": "index.js",
     "license": "MIT",
-    "bin": "index.mjs"
+    "bin": "index.js"
 }

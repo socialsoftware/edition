@@ -1,4 +1,4 @@
-const isMFEAvailable = (mfe) => window.mfes?.indexOf(mfe) !== -1 && true;
+import { isMFEAvailable } from '../../src/utils.js';
 
 export default {
   about: isMFEAvailable('about') && {
@@ -73,12 +73,24 @@ export default {
   admin: {
     name: 'header_admin',
     pages: [
-      { id: 'load', route: '/admin/loadForm' },
-      { id: 'general_export', route: '/admin/exportForm' },
-      { id: 'fragment_delete', route: '/admin/fragment/list' },
-      { id: 'user_manage', route: '/admin/user/list' },
-      { id: 'virtual_editions_manage', route: '/admin/virtual/list' },
-      { id: 'twitter_manage', route: '/admin/tweets' },
+      isMFEAvailable('text') && { id: 'load', route: '/admin/loadForm' },
+      isMFEAvailable('text') && {
+        id: 'general_export',
+        route: '/admin/exportForm',
+      },
+      isMFEAvailable('text') && {
+        id: 'fragment_delete',
+        route: '/admin/fragment/list',
+      },
+      isMFEAvailable('user') && { id: 'user_manage', route: '/user/admin' },
+      isMFEAvailable('virtual') && {
+        id: 'virtual_editions_manage',
+        route: '/admin/virtual/list',
+      },
+      isMFEAvailable('social') && {
+        id: 'twitter_manage',
+        route: '/admin/tweets',
+      },
     ],
   },
 };

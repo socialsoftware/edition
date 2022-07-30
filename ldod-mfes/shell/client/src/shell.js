@@ -1,4 +1,5 @@
 import { store } from './store.js';
+import './eventListeners.js';
 import './components/loading/LdodLoading.js';
 import NotFound from './components/not-found/NotFound.js';
 
@@ -8,13 +9,21 @@ const modules = JSON.parse(
   document.querySelector('script#importmap').textContent
 ).imports;
 
+document.querySelector('ldod-navbar').setAttribute('language', getLanguage());
+
+const router = document.createElement('ldod-router');
+router.id = 'shell';
+router.setAttribute('base', '/ldod-mfes');
+router.setAttribute('language', getLanguage());
+router.fallback = NotFound;
+
 delete modules['shared/'];
 
-document.querySelector('ldod-navbar').setAttribute('language', getLanguage());
 const routes = await Object.keys(modules).reduce(async (acc, name) => {
   try {
     const api = (await import(name))?.default ?? '';
     const path = api.path;
+    if (path === '/') return (router.index = () => api);
     if (path) (await acc)[path] = () => api;
   } catch (error) {
     console.error(error);
@@ -22,11 +31,6 @@ const routes = await Object.keys(modules).reduce(async (acc, name) => {
   return await acc;
 }, Promise.resolve({}));
 
-routes[NotFound.path] = () => NotFound;
-const router = document.createElement('ldod-router');
-router.id = 'shell';
-router.setAttribute('base', 'ldod-mfes');
-router.language = getLanguage();
 router.routes = routes;
 
 document.getElementById('root').append(router);

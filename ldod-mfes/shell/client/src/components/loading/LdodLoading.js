@@ -40,11 +40,10 @@ export class LdodLoading extends HTMLElement {
     window.addEventListener('ldod-loading', this.handleLoadingEvent);
   };
 
-  handleLoadingEvent = () => {
-    console.log(this);
+  handleLoadingEvent = ({ detail: { isLoading } }) => {
     this.shadowRoot
       .querySelector('#overlay')
-      .setAttribute('aria-hidden', 'false');
+      .setAttribute('aria-hidden', String(!isLoading));
   };
 }
 

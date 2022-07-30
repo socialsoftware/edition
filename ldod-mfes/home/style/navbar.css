@@ -256,7 +256,7 @@ a.active {
     font-weight: inherit;
 }
 
-li#user-component.dropdown>a.dropdown-toggle {
+li[is='user-component'].dropdown>a.dropdown-toggle {
     color: #fc1b27;
 }
 
@@ -366,7 +366,7 @@ li#user-component.dropdown>a.dropdown-toggle {
         right: 0;
         left: auto;
     }
-    li#user-component.visible-xs {
+    li[is='user-component'].visible-xs {
         display: none;
     }
 }
@@ -387,7 +387,7 @@ li#user-component.dropdown>a.dropdown-toggle {
     display: none;
 }
 
-li#user-component>a:hover {
+li[is='user-component']>a:hover {
     color: #0c4ef6;
 }
 

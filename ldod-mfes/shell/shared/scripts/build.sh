@@ -1,6 +1,6 @@
 #! /bin/sh
 
-dirs="store utils router vanilla-jsx"
+dirs="store utils router vanilla-jsx fetcher"
 
 rm -r dist
 

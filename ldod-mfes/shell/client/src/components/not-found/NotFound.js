@@ -32,8 +32,8 @@ const removeLanguageListener = () =>
 const handleLanguageEvent = ({ detail }) =>
   (getNoPage().textContent = message[detail.language]);
 
-export default {
+export default () => ({
   path: '/not-found',
   mount,
   unMount,
-};
+});

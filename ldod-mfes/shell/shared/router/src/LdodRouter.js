@@ -1,24 +1,32 @@
+import {
+  addEndSlash,
+  addStartSlash,
+  isSlash,
+  PATH_REGEX,
+  removeEndSlash,
+} from './utils';
 export default class LdodRouter extends HTMLElement {
   constructor() {
     super();
   }
+  static get observedAttributes() {
+    return ['language'];
+  }
 
-  // location = "/some-location"
   get location() {
     return removeEndSlash(location.pathname.toLowerCase());
   }
 
-  // base = "/some-path"
-  get base() {
-    const baseAttr = this.getAttribute('base');
-    return baseAttr ? addStartSlash(removeEndSlash(baseAttr)) : '/';
+  get route() {
+    return addStartSlash(removeEndSlash(this.getAttribute('route'))) ?? '';
   }
 
-  // routerPath ="/some-path"
-  get routerPath() {
-    if (this.location === this.base) return '/';
-    const path = this.location.split(this.base)[1];
-    return path && addStartSlash(removeEndSlash(path));
+  get base() {
+    return addStartSlash(removeEndSlash(this.getAttribute('base'))) ?? '';
+  }
+
+  get routerPathname() {
+    return removeEndSlash(`/${this.base}${this.route}`)?.replace(/\/\/+/g, '/');
   }
 
   get outlet() {
@@ -27,24 +35,64 @@ export default class LdodRouter extends HTMLElement {
     );
   }
 
-  addBaseToPath = (path) => {
-    if (isSlash(this.base)) return path;
-    return `${this.base}${path}`;
+  get language() {
+    return this.getAttribute('language');
+  }
+
+  set language(language) {
+    this.setAttribute('language', language);
+  }
+
+  getFullPath = (path) =>
+    removeEndSlash(`/${this.base}/${path ?? ''}`.replace(/\/\/+/g, '/'));
+
+  isPathActive = (path) => {
+    if (!this.active) return false;
+    const transform = (pathname) =>
+      isSlash(this.routerPathname)
+        ? pathname
+        : addEndSlash(pathname)
+            .replace(`${this.routerPathname}/`, '/')
+            .replace(/\/\/+/g, '/');
+    let target = PATH_REGEX.exec(transform(path)).at(0);
+    let current = removeEndSlash(transform(this.active.path));
+    return current === target;
   };
 
-  isPathActive = (path) =>
-    this.active && removeSlashes(this.active) === removeSlashes(path);
-
-  isFromThisRouter = (pathname) => {
-    if (!pathname) return;
-    let path = addSlashes(pathname);
-    return path === this.base || (path.split(this.base)[1] && true);
+  isFromThisRouter = (path) => {
+    if (!this.route) return true;
+    const target = this.base ? path.replace(this.base, '') : path;
+    return PATH_REGEX.exec(target).at(0) === this.route;
   };
 
   async connectedCallback() {
+    if (!this.routes && !this.index) return;
+    this.processRoutes();
     this.append(this.outlet);
     this.addEventListeners();
-    this.navigate(this.location);
+    this.navigate();
+  }
+
+  processRoutes() {
+    if (!this.routes) return;
+    this.routes = Object.entries(this.routes).reduce((prev, [key, api]) => {
+      let path = removeEndSlash(
+        `/${this.base}/${this.route}/${key}`.replace(/\/\/+/g, '/')
+      );
+      prev[path] = api;
+      return prev;
+    }, {});
+  }
+
+  attributeChangedCallback(name, oldV, newV) {
+    if (name === 'language' && oldV && oldV !== newV)
+      this.handleLanguageChange(newV);
+  }
+
+  handleLanguageChange(language) {
+    this.querySelectorAll('[language]').forEach((ele) =>
+      ele.setAttribute('language', language)
+    );
   }
 
   disconnectedCallback() {
@@ -57,70 +105,72 @@ export default class LdodRouter extends HTMLElement {
     window.addEventListener('popstate', this.handlePopstate);
   }
 
-  navigate = (path) => {
-    if (!isNotFound(path) && this.isPathActive(path)) return;
-    if (this.location !== path) history.pushState({}, undefined, path);
+  navigate = (path = this.location, state = {}) => {
+    if (this.isPathActive(path)) return;
+    if (this.location !== path) history.pushState(state, undefined, path);
     this.render();
   };
 
-  handleURLChanged = ({ detail: { path } }) => {
-    let newPath = addStartSlash(removeEndSlash(path));
-    this.isFromThisRouter(newPath) && this.navigate(newPath);
+  handleURLChanged = ({ detail: { path, state } }) => {
+    if (path && this.isFromThisRouter(path))
+      this.navigate(this.getFullPath(path), state);
   };
 
   handlePopstate = (e) => {
     this.isFromThisRouter(this.location) && this.navigate(this.location);
   };
-  async render() {
-    const route = this.routes?.[this.routerPath];
-    if (!route)
-      return (
-        this.routes['/not-found'] &&
-        this.navigate(this.addBaseToPath('/not-found'))
-      );
 
-    if (await isApiContractNotCompliant(route)) return;
-    this.active && (await this.remove());
-    const api = await route();
-    api.mount(
-      this.language || this.getAttribute('language'),
-      `ldod-router#${this.id}>ldod-outlet`
-    );
-    this.active = this.routerPath;
+  async render() {
+    let route = this.getRoute();
+    if (await isApiContractNotCompliant(route, this.id)) return;
+    if (this.active) await this.removeMFE();
+    await this.appendMFE(route);
   }
-  async remove() {
-    const route = this.routes?.[removeEndSlash(this.active)];
-    route && (await route()).unMount();
+
+  getRoute() {
+    let targetPath =
+      this.location === this.routerPathname
+        ? this.index
+        : Object.entries(this.routes).find(([path, api]) => {
+            return this.location.startsWith(path) && api;
+          })?.[1];
+
+    if (!targetPath) targetPath = this.fallback;
+    return targetPath;
+  }
+
+  async appendMFE(route) {
+    if (!route) return;
+    const api = await route();
+    this.active = api;
+    await api.mount(this.language, `ldod-router#${this.id}>ldod-outlet`);
+  }
+
+  async removeMFE() {
+    await this.active.unMount();
+    this.outlet.innerHTML = '';
   }
 }
 
-const isApiContractNotCompliant = async (route) => {
-  if (typeof route !== 'function') return true;
+const isApiContractNotCompliant = async (route, id) => {
+  if (!route) return;
+  if (typeof route !== 'function')
+    return complianceWaring('Exposed api must of type "function"', id);
   const api = await route();
-  if (!(api.mount && api.unMount)) return true;
-  if (typeof api.mount !== 'function' || typeof api.unMount !== 'function')
-    return true;
+  if (
+    !(api.mount && api.unMount) ||
+    !(typeof api.mount === 'function' && typeof api.unMount === 'function')
+  )
+    return complianceWaring(
+      'the api function must expose mount and unMount functions',
+      id
+    );
   return false;
 };
 
+const complianceWaring = (message, id) => {
+  console.error(`ldod-router#${id}: ${message}`);
+  return true;
+};
+
 customElements.define('ldod-router', LdodRouter);
-
-const addSlashes = (path) => addStartSlash(addEndSlash(path));
-
-const addStartSlash = (path) => (path.startsWith('/') ? path : `/${path}`);
-
-const addEndSlash = (path) => (path.endsWith('/') ? path : `${path}/`);
-
-const isNotFound = (path) => removeEndSlash(path).endsWith('/not-found');
-
-const isSlash = (path) => path === '/';
-
-const removeEndSlash = (path) =>
-  isSlash(path) || !path.endsWith('/')
-    ? path
-    : path.substring(0, path.length - 1);
-
-const removeStartSlash = (path) =>
-  !isSlash(path) && path.startsWith('/') ? path.substring(1) : path;
-
-const removeSlashes = (path) => removeStartSlash(removeEndSlash(path));

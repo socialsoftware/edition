@@ -1,4 +1,6 @@
-await import('./Components/Navbar/Navbar.js').catch(() => {});
+await import('./Components/Navbar/Navbar.js').catch((error) => {
+  if (error.code && error.code !== 'ERR_MODULE_NOT_FOUND') throw error;
+});
 
 let Home;
 
@@ -10,10 +12,10 @@ export default {
   path: '/',
   mount: async (lang, ref) => {
     if (!Home) await loadHome();
-    Home.mount(lang, ref);
+    await Home.mount(lang, ref);
   },
   unMount: async () => {
     if (!Home) await loadHome();
-    Home.unMount();
+    await Home.unMount();
   },
 };

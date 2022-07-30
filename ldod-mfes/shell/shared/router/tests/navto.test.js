@@ -1,28 +1,47 @@
-import NavTo from '../src/NavTo.js';
 import { Window } from 'happy-dom';
+import NavTo from '../src/NavTo.js';
 
-describe('nav-to component testing on DOM', () => {
-  let result;
-  let window;
-  let document;
-  cb = jest.fn((e) => (result = e.detail));
+let window;
+let uut;
+let result;
+const callback = jest.fn((e) => (result = e.detail));
 
-  beforeEach(() => {
-    window = new Window();
-    window.customElements.define('nav-to', NavTo);
-    document = window.document;
-    document.addEventListener('ldod-url-changed', cb);
-    const navTo = document.createElement('nav-to');
-    navTo.setAttribute('to', 'path');
-    document.body.appendChild(navTo);
-  });
+beforeEach(() => {
+  result = undefined;
+  window = new Window();
+  window.addEventListener('ldod-url-changed', callback);
+  window.customElements.define('nav-to', NavTo);
+  uut = window.document.createElement('nav-to');
+});
 
-  it('adding and clicking on nav-to a ldod-url-changed is fired up', async () => {
-    const uut = document.querySelector('nav-to');
-    uut.dispatchEvent(new Event('click'));
-    expect(uut).toBeDefined();
-    expect(uut.getAttribute('to')).toBe('path');
-    expect(cb).toHaveBeenCalled();
-    expect(result.path).toBe('path');
-  });
+test('when the nav-to is appended to DOM with valid "to" attribute the event is  fired', () => {
+  uut.setAttribute('to', '/path');
+  window.document.appendChild(uut);
+  uut.dispatchEvent(new Event('click'));
+
+  expect(result).toEqual({ path: '/path' });
+});
+test('when the nav-to is not appended to DOM the event is not fired', () => {
+  uut.dispatchEvent(new Event('click'));
+
+  expect(result).toBeUndefined();
+});
+
+test('when the nav-to is appended to DOM with no "to" attribute the event is not fired', () => {
+  window.document.appendChild(uut);
+  expect(result).toBeUndefined();
+});
+
+test('when the nav-to is appended to DOM with invalid "to" attribute the event is not fired', () => {
+  uut.setAttribute('to', '');
+  window.document.appendChild(uut);
+  uut.dispatchEvent(new Event('click'));
+  expect(result).toBeUndefined();
+});
+
+test('when the nav-to is appended to DOM with invalid "to" attribute the event is not fired', () => {
+  uut.setAttribute('to', '  ');
+  window.document.appendChild(uut);
+  uut.dispatchEvent(new Event('click'));
+  expect(result).toBeUndefined();
 });

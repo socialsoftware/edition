@@ -6,11 +6,13 @@ import {
 } from './utils.js';
 
 export class Store {
-  #listeners;
+  #listenersBySelector;
   #persist;
+  #listeners;
   #state;
   constructor(state, { storageName, keys } = {}) {
     this.#state = typeof state === 'object' ? state : state ? { state } : {};
+    this.#listenersBySelector = new Map();
     this.#listeners = new Set();
     this.#persist = undefined;
     if (storageName && keys) {
@@ -22,12 +24,23 @@ export class Store {
     }
   }
 
-  subscribe(listener) {
-    this.#listeners.add(listener); //sub
-    return () => this.#listeners.delete(listener); //unsub
+  subscribe(listener, selector) {
+    if (!selector) return this.subscribeAll(listener);
+    if (this.#listenersBySelector.has(selector))
+      this.#listenersBySelector.get(selector).add(listener);
+    else {
+      this.#listenersBySelector.set(selector, new Set([listener]));
+    }
+    return () => this.#listenersBySelector.get(selector).delete(listener); //unsub
+  }
+
+  subscribeAll(listener) {
+    this.#listeners.add(listener);
+    return () => this.#listeners.delete(listener);
   }
 
   destroy() {
+    this.#listenersBySelector.clear();
     this.#listeners.clear();
   }
 
@@ -50,6 +63,13 @@ export class Store {
           this.#persist.storageName,
           filterObjectByKeys(this.#state, this.#persist.keys)
         );
+      Object.keys(nextState).forEach((key) => {
+        this.#listenersBySelector
+          .get(key)
+          ?.forEach((listener) =>
+            listener(this.#state[key], previousState[key])
+          );
+      });
       this.#listeners.forEach((listener) =>
         listener(this.#state, previousState)
       );

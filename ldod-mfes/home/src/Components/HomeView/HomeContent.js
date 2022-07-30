@@ -1,6 +1,6 @@
 import { excerpts } from '../../../resources/home/constants/excerpts.js';
 import { parseHTML } from 'shared/utils.js';
-const isMFEAvailable = (mfe) => window.mfes?.indexOf(mfe) !== -1 && true;
+import { isMFEAvailable } from '../../utils.js';
 
 const random = parseInt(Math.random() * 2) + 1;
 const path = import.meta.url.includes('src') ? '../../../' : '';
@@ -54,7 +54,7 @@ export default (language, constants) => {
         <a
           is="nav-to"
           ${isMFEAvailable('text')
-            ? (to = '/reading/fragment/${xmlId}/inter/${urlId}')
+            ? html`to="/reading/fragment/${xmlId}/inter/${urlId}`
             : ''}
           class="home-frag-link"
         >

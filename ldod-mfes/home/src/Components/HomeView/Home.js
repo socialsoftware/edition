@@ -13,8 +13,6 @@ export default class HomeMFE extends HTMLElement {
   constructor() {
     super();
     this.constants = undefined;
-    this.onChangedLanguageEvent = this.onChangedLanguageEvent.bind(this);
-
     const shadow = this.attachShadow({ mode: 'open' });
     shadow.adoptedStyleSheets = [styleSheet];
   }
@@ -26,27 +24,16 @@ export default class HomeMFE extends HTMLElement {
     return this.getAttribute('language');
   }
 
-  set language(language) {
-    this.setAttribute('language', language);
-  }
-
   async connectedCallback() {
     styleSheet.replaceSync(style);
     if (!styleSheet.cssRules.length) {
       this.shadowRoot.adoptedStyleSheets = [style];
     }
-    window.addEventListener('ldod-language', this.onChangedLanguageEvent);
     await this.setConstants();
     this.render();
   }
 
-  disconnectedCallback() {
-    window.removeEventListener('ldod-language', this.onChangedLanguageEvent);
-  }
-
-  onChangedLanguageEvent({ detail: { language } }) {
-    this.setAttribute('language', language);
-  }
+  disconnectedCallback() {}
 
   languageUpdate = () =>
     this.shadowRoot
@@ -114,5 +101,5 @@ export const mount = (language, ref) => {
 
 export const unMount = () => {
   const home = document.querySelector('home-mfe');
-  home.remove();
+  home?.remove();
 };

@@ -4,8 +4,9 @@ import headers from '../../../resources/navbar/headers-menus.js';
 import style from '../../../style/navbar.css' assert { type: 'css' };
 import './DropdownMenu.js';
 import './LangMenu.js';
-const styleSheet = new CSSStyleSheet();
+import { checkUserCompCompliance, isMFEAvailable } from '../../utils.js';
 
+const styleSheet = new CSSStyleSheet();
 window.html = String.raw;
 const loadConstants = async (lang) =>
   (await import(`../../../resources/navbar/constants-${lang}.js`)).default;
@@ -47,15 +48,15 @@ export default class LdodNavbar extends HTMLElement {
     styleSheet.replaceSync(style);
     if (!styleSheet.cssRules.length)
       this.shadowRoot.adoptedStyleSheets = [style];
-    this.shadowRoot.addEventListener('ldod-user-event', this.onUserLogin);
+    this.shadowRoot.addEventListener('ldod-login', this.onUserLogin);
     this.language = this.language;
     await this.setConstants();
-    this.render();
+    await this.render();
     this.addDropdownEventListeners();
   }
 
   disconnectedCallback() {
-    this.shadowRoot.removeEventListener('ldod-user-event', this.onUserLogin);
+    this.shadowRoot.removeEventListener('ldod-login', this.onUserLogin);
   }
 
   async attributeChangedCallback(name, oldValue, newValue) {
@@ -101,8 +102,8 @@ export default class LdodNavbar extends HTMLElement {
       );
   }
 
-  render() {
-    this.setInnerHTML();
+  async render() {
+    await this.setInnerHTML();
     this.shadowRoot
       .querySelector('.navbar-toggle')
       .addEventListener('click', this.toggleEvent);
@@ -114,10 +115,11 @@ export default class LdodNavbar extends HTMLElement {
   }
 
   onUserLogin({ detail: { user } }) {
-    if (this.user !== user) {
+    // TODO: Implement correct logic to check if the user has the Admin Role
+    if (user && typeof user === 'object') {
       this.user = user;
       const admin = this.querySelector('nav>div.container>div>ul>li#admin');
-      admin.ariaHidden = !user?.admin;
+      admin.ariaHidden = !user.admin;
     }
   }
 
@@ -128,7 +130,8 @@ export default class LdodNavbar extends HTMLElement {
   async setConstants() {
     this.constants = await loadConstants(this.language);
   }
-  setInnerHTML() {
+
+  async setInnerHTML() {
     const nav = parseHTML(
       html`
         <nav
@@ -152,14 +155,15 @@ export default class LdodNavbar extends HTMLElement {
                   ${this.constants['header_title']}
                 </a>
                 <ul class="nav navbar-nav user-component hidden-xs">
-                  <li
-                    id="user-component"
-                    master
-                    class="dropdown"
-                    is="user-component"
-                    language=${this.language}
-                    token=${this.token}
-                  ></li>
+                  ${isMFEAvailable('user') && (await checkUserCompCompliance())
+                    ? html`
+                        <li
+                          class="dropdown"
+                          is="user-component"
+                          language=${this.language}
+                        ></li>
+                      `
+                    : ''}
                 </ul>
               </div>
             </div>
@@ -167,13 +171,13 @@ export default class LdodNavbar extends HTMLElement {
           <div class="container">
             <div class="navbar-collapse collapse" aria-expanded="false">
               <ul class="nav navbar-nav navbar-nav-flex">
-                <li
-                  id="user-component"
-                  class="dropdown visible-xs"
-                  is="user-component"
-                  language=${this.language}
-                  token=${this.token}
-                ></li>
+                ${isMFEAvailable('user') && (await checkUserCompCompliance())
+                  ? html` <li
+                      class="dropdown visible-xs"
+                      is="user-component"
+                      language=${this.language}
+                    ></li>`
+                  : ''}
                 <li is="lang-menu" language=${this.language}></li>
               </ul>
             </div>

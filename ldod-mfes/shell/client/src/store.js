@@ -5,7 +5,4 @@ const store = new Store(
   { storageName: 'ldod-store', keys: ['language', 'token'] }
 );
 
-const onLanguage = ({ detail }) => store.setState(detail);
-window.addEventListener('ldod-language', onLanguage);
-
 export { store };
