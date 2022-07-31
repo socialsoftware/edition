@@ -1,10 +1,8 @@
+import { parseHTML } from 'shared/utils.js';
+
 class DropdownMenu extends HTMLLIElement {
   static get observedAttributes() {
     return ['language'];
-  }
-
-  get menuItems() {
-    return this.items;
   }
 
   get menuName() {
@@ -34,19 +32,47 @@ class DropdownMenu extends HTMLLIElement {
       </a>
       <ul class="dropdown-menu">
         <div class="dropdown-menu-bg"></div>
-        ${this.menuItems.reduce(
-          (prev, { id, route, link, name }) =>
+        ${this.items?.reduce(
+          (prev, { id, route, link, name, clazz }) =>
             prev.concat(html`
-              <li>
+              <li ${clazz ? `class=${clazz}` : ''}>
                 ${route
-                  ? html`<a is="nav-to" to=${route} id=${id}>${name}</a>`
-                  : html`<a href=${link} target="_blank" id=${id}>${name}</a>`}
+                  ? html`<a is="nav-to" to=${route} id=${id ?? ''}
+                      >${name ?? ''}</a
+                    >`
+                  : link
+                  ? html`<a href=${link} target="_blank" id=${id}>${name}</a>`
+                  : ''}
               </li>
             `),
           ''
         )}
       </ul>
     `;
+  }
+
+  addSelectedEditions(editions) {
+    if (this.id !== 'editions') return;
+    editions.forEach((edition) => {
+      if (edition !== 'LdoD-Arquivo') {
+        this.querySelector('ul.dropdown-menu').appendChild(
+          parseHTML(html`
+            <li data-selected>
+              <a
+                is="nav-to"
+                to=${`/edition/acronym/${edition}`}
+                id=${edition.toLowerCase()}
+                >${edition}</a
+              >
+            </li>
+          `)
+        );
+      }
+    });
+  }
+  removeSelectedEditions() {
+    if (this.id !== 'editions') return;
+    this.querySelectorAll('li[data-selected]').forEach((node) => node.remove());
   }
 
   setDropDownMenuName() {
@@ -57,7 +83,7 @@ class DropdownMenu extends HTMLLIElement {
   }
 
   setAnchorItemsNames() {
-    this.menuItems.forEach(({ id, name }) =>
+    this.item?.forEach(({ id, name }) =>
       this.querySelectorAll(`li>a#${id}`).forEach(
         (anchor) => (anchor.textContent = name)
       )

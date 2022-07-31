@@ -256,6 +256,13 @@ a.active {
     font-weight: inherit;
 }
 
+.dropdown-menu .divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #e5e5e5;
+}
+
 li[is='user-component'].dropdown>a.dropdown-toggle {
     color: #fc1b27;
 }

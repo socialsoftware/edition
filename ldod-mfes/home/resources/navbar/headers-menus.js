@@ -45,9 +45,17 @@ export default {
       { id: 'fragment_codified', route: '/documents/fragments' },
     ],
   },
-  editions: (isMFEAvailable('virtual') || isMFEAvailable('text')) && {
+  editions: /* (isMFEAvailable('virtual') || isMFEAvailable('text')) &&*/ {
     name: 'header_editions',
-    pages: [],
+    pages: [
+      { id: 'general_editor_prado', route: '/edition/acronym/JPC' },
+      { id: 'general_editor_cunha', route: '/edition/acronym/TSC' },
+      { id: 'general_editor_zenith', route: '/edition/acronym/RZ' },
+      { id: 'general_editor_pizarro', route: '/edition/acronym/JP' },
+      { clazz: 'divider' },
+      { id: 'header_title', route: '/edition/acronym/LdoD-Arquivo' },
+      { clazz: 'divider' },
+    ],
   },
   search: isMFEAvailable('search') && {
     name: 'header_search',

@@ -36,27 +36,25 @@ export default class LdodNavbar extends HTMLElement {
     return this.getAttribute('token');
   }
 
-  getUser() {
-    return this.user;
-  }
-
   isAdmin() {
-    return this.getUser()?.admin;
+    return this.user && this.user.roles.includes('ROLE_ADMIN');
   }
 
   async connectedCallback() {
     styleSheet.replaceSync(style);
     if (!styleSheet.cssRules.length)
       this.shadowRoot.adoptedStyleSheets = [style];
-    this.shadowRoot.addEventListener('ldod-login', this.onUserLogin);
     this.language = this.language;
     await this.setConstants();
     await this.render();
     this.addDropdownEventListeners();
+    this.addEventListener('ldod-login', this.onUserLogin);
+    this.addEventListener('ldod-logout', this.onUserLogout);
   }
 
   disconnectedCallback() {
-    this.shadowRoot.removeEventListener('ldod-login', this.onUserLogin);
+    this.removeEventListener('ldod-login', this.onUserLogin);
+    this.addEventListener('ldod-logout', this.onUserLogout);
   }
 
   async attributeChangedCallback(name, oldValue, newValue) {
@@ -114,13 +112,36 @@ export default class LdodNavbar extends HTMLElement {
     element.ariaExpanded = element.ariaExpanded === 'true' ? 'false' : 'true';
   }
 
-  onUserLogin({ detail: { user } }) {
-    // TODO: Implement correct logic to check if the user has the Admin Role
+  onUserLogin(e) {
+    e.stopPropagation();
+    const user = e.detail.user;
     if (user && typeof user === 'object') {
+      !this.user && this.addUserEditions(user.selectedVE);
+      this.setAdminVisibility();
       this.user = user;
-      const admin = this.querySelector('nav>div.container>div>ul>li#admin');
-      admin.ariaHidden = !user.admin;
     }
+  }
+
+  onUserLogout(e) {
+    e.stopPropagation();
+    this.user && this.setAdminVisibility();
+    this.user && this.removeUserEditions();
+    this.user = undefined;
+  }
+
+  setAdminVisibility() {
+    const admin = this.shadowRoot.querySelector('li#admin[is=dropdown-menu]');
+    if (admin) admin.ariaHidden = !this.isAdmin();
+  }
+
+  addUserEditions(selectedVE) {
+    const editions = this.shadowRoot.querySelector('li#editions');
+    editions && editions.addSelectedEditions(selectedVE);
+  }
+
+  removeUserEditions() {
+    const editions = this.shadowRoot.querySelector('li#editions');
+    editions && editions.removeSelectedEditions();
   }
 
   getHeaders(selector) {
@@ -209,11 +230,12 @@ export default class LdodNavbar extends HTMLElement {
   }
 
   getItems(pages) {
-    return pages.filter(Boolean).map(({ id, route, link }) => ({
+    return pages.filter(Boolean).map(({ id, route, link, clazz }) => ({
       id,
       name: this.constants[id],
       route,
       link,
+      clazz,
     }));
   }
 
