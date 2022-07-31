@@ -16,4 +16,6 @@ const mount = async (lang, ref) => {
 };
 const unMount = () => console.log('unmount');
 
-export { mount, unMount };
+const path = '/confirm';
+
+export { mount, unMount, path };

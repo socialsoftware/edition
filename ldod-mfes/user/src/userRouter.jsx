@@ -9,6 +9,8 @@ const routes = {
     await import('./pages/change-pw/ChangePassword.jsx'),
   '/auth': async () => await import('./pages/authorization.js'),
   '/confirm': async () => await import('./pages/confirmation.js'),
+  '/manage-users': async () =>
+    await import('./pages/manage-users/ManageUsers.jsx'),
 };
 const userMfeSelector = 'div#user-mfe';
 

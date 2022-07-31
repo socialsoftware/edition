@@ -41,6 +41,12 @@ export const changePasswordRequest = async (data) =>
     return Promise.resolve(res);
   });
 
+export const getUsersList = async () =>
+  await fetcher.get(`${HOST}/user/admin/list`);
+
+export const switchMode = async () =>
+  await fetcher.post(`${HOST}/user/admin/switch`);
+
 function isAccessToken(response) {
   return Object.keys(response).some(
     (key) => key === 'accessToken' || key === 'tokenType'

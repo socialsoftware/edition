@@ -114,22 +114,24 @@ export class UserComponent extends HTMLLIElement {
 
   onUserLogin() {
     this.updateComponent();
-    this.dispatchEvent(
-      new CustomEvent('ldod-login', {
-        bubbles: true,
-        composed: true,
-        detail: { user: getState().user },
-      })
-    );
+    import.meta.env.PROD &&
+      this.dispatchEvent(
+        new CustomEvent('ldod-login', {
+          bubbles: true,
+          composed: true,
+          detail: { user: getState().user },
+        })
+      );
   }
   onUserLogout() {
     this.updateComponent();
-    this.dispatchEvent(
-      new CustomEvent('ldod-logout', {
-        composed: true,
-        bubbles: true,
-      })
-    );
+    import.meta.env.PROD &&
+      this.dispatchEvent(
+        new CustomEvent('ldod-logout', {
+          composed: true,
+          bubbles: true,
+        })
+      );
   }
 
   async updateLanguage() {
