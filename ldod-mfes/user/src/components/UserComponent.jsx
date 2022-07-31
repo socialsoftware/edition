@@ -38,7 +38,9 @@ const getUserComponentAuthenticated = () => {
 export class UserComponent extends HTMLLIElement {
   constructor() {
     super();
-    this.updateComponent = this.updateComponent.bind(this);
+    this.onUserLogout = this.onUserLogout.bind(this);
+    this.onUserLogin = this.onUserLogin.bind(this);
+
     this.id = `user-component-${registerInstance()}`;
   }
   get language() {
@@ -56,6 +58,7 @@ export class UserComponent extends HTMLLIElement {
   async connectedCallback() {
     await this.setConstants();
     this.render();
+    if (getState().user) this.onUserLogin();
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -73,28 +76,15 @@ export class UserComponent extends HTMLLIElement {
 
   getConstants = (key) => this.constants[key];
 
-  removeListeners() {
-    ['logout', 'password'].forEach((id) =>
-      this.querySelector(`#${id}`)?.removeEventListener(
-        'click',
-        this.handlers(id)?.handler
-      )
-    );
-    this.innerHTML = '';
-    ['ldod-login', 'ldod-logout'].forEach((event) =>
-      window.removeEventListener(event, this.updateComponent)
-    );
-  }
-
   render() {
     getState().user
       ? this.appendChild(getUserComponentAuthenticated())
       : this.appendChild(getUserComponentNotAuthenticated());
-    this.addListeners();
     this.updateLanguage();
+    this.addListeners();
   }
 
-  updateComponent() {
+  updateComponent(e) {
     this.removeListeners();
     this.render();
   }
@@ -106,8 +96,39 @@ export class UserComponent extends HTMLLIElement {
         this.handlers(id).handler
       )
     );
-    ['ldod-login', 'ldod-logout'].forEach((event) =>
-      window.addEventListener(event, this.updateComponent)
+    window.addEventListener('ldod-login', this.onUserLogin);
+    window.addEventListener('ldod-logout', this.onUserLogout);
+  }
+
+  removeListeners() {
+    ['logout', 'password'].forEach((id) =>
+      this.querySelector(`#${id}`)?.removeEventListener(
+        'click',
+        this.handlers(id)?.handler
+      )
+    );
+    this.innerHTML = '';
+    window.removeEventListener('ldod-login', this.onUserLogin);
+    window.removeEventListener('ldod-logout', this.onUserLogout);
+  }
+
+  onUserLogin() {
+    this.updateComponent();
+    this.dispatchEvent(
+      new CustomEvent('ldod-login', {
+        bubbles: true,
+        composed: true,
+        detail: { user: getState().user },
+      })
+    );
+  }
+  onUserLogout() {
+    this.updateComponent();
+    this.dispatchEvent(
+      new CustomEvent('ldod-logout', {
+        composed: true,
+        bubbles: true,
+      })
     );
   }
 

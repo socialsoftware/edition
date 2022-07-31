@@ -5,16 +5,16 @@ import { navigateTo } from 'shared/router.js';
 
 const HOST = import.meta.env.VITE_HOST;
 
-export const authRequest = (data) => {
-  fetcher.post(`${HOST}/auth/signin`, data).then((res) => {
+export const authRequest = async (data) => {
+  await fetcher.post(`${HOST}/auth/signin`, data).then((res) => {
     if (res.message)
       eventEmiter('ldod-error', { detail: { message: res.message } });
     login(res.accessToken);
   });
 };
 
-export const userRequest = (token) => {
-  fetcher
+export const userRequest = async (token) => {
+  await fetcher
     .get(`${HOST}/user`, null, token)
     .then((user) => setUser(user))
     .catch((error) => console.error(error));

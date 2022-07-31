@@ -12,13 +12,12 @@ const intialState = {
 export const store = new Store(intialState);
 export const getState = () => store.getState();
 export const setState = (state) => store.setState(state);
-
 export const userFullName = () =>
   `${getState().user.firstName} ${getState().user.lastName}`;
 
-const unsub = store.subscribe((curr, prev) => {
+const unsub = store.subscribe(async (curr, prev) => {
   if (prev.token !== curr.token && curr.token) {
-    userRequest(curr.token);
+    await userRequest(curr.token);
     navigateTo('/');
   }
 });
