@@ -8,14 +8,14 @@ const mount = async (lang, ref) => {
       emitMessageEvent(messages[key], type)
     );
   let params = new URL(document.location).searchParams;
-  let path = `/auth?token=${params.get('token')}`;
+  let path = `/sign-up-authorization?token=${params.get('token')}`;
   tokenAuthRequest(path)
-    .then(({ message }) => emitMessage(message))
-    .catch(({ message }) => emitMessage(message), 'error');
+    .then((res) => res && emitMessage(res.messages))
+    .catch((error) => console.error(error));
   navigateTo('/');
 };
 const unMount = () => console.log('unmount');
 
-const path = '/auth';
+const path = '/sign-up-authorization';
 
 export { mount, unMount, path };

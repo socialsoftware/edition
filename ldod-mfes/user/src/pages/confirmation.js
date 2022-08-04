@@ -1,5 +1,5 @@
 import { navigateTo } from 'shared/router.js';
-import { tokenAuthRequest } from '../apiRequests.js';
+import { tokenConfirmRequest } from '../apiRequests.js';
 import { emitMessageEvent, loadConstants } from '../utils.js';
 
 const mount = async (lang, ref) => {
@@ -8,14 +8,14 @@ const mount = async (lang, ref) => {
       emitMessageEvent(messages[key], type)
     );
   let params = new URL(document.location).searchParams;
-  let path = `/confirm?token=${params.get('token')}`;
-  tokenAuthRequest(path)
+  let path = `/sign-up-confirmation?token=${params.get('token')}`;
+  await tokenConfirmRequest(path)
     .then(({ message }) => emitMessage(message))
     .catch(({ message }) => emitMessage(message), 'error');
   navigateTo('/user/signin');
 };
 const unMount = () => console.log('unmount');
 
-const path = '/confirm';
+const path = '/sign-up-confirmation';
 
 export { mount, unMount, path };

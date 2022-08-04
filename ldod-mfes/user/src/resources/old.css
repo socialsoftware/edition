@@ -1,0 +1,12 @@
+.btn-icon {
+    background-color: transparent;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-icon:hover {
+    background-color: #286090;
+    border-color: #286090;
+}

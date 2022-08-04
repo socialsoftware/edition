@@ -133,10 +133,14 @@ export class SignUp extends HTMLElement {
         socialMediaId: this.socialId.value,
         socialMediaService: this.socialMedia.value,
       })
-        .then(({ message }) => {
-          emitMessageEvent(this.getConstants(message));
-          this.clearDataInputs();
-          return navigateTo('/user/signin');
+        .then(({ ok, message }) => {
+          if (ok) {
+            emitMessageEvent(this.getConstants(message));
+            console.log('test');
+            this.clearDataInputs();
+            return navigateTo('/user/signin');
+          }
+          emitMessageEvent(message, 'error');
         })
         .catch(({ message }) =>
           emitMessageEvent(this.getConstants(message), 'error')
@@ -310,7 +314,7 @@ export class SignUp extends HTMLElement {
               </div>
             </div>
             <div class="col-sm-12">
-              <button key="register" class="btn-signin" type="submit">
+              <button key="register" class="btn btn-primary" type="submit">
                 {this.getConstants('register')}
               </button>
             </div>

@@ -33,7 +33,7 @@ public class MfesUserController {
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).body(new AuthResponseDto(false, "userUnauthorized"));
     }
 
-    @GetMapping(value = "/{username}")
+    @GetMapping(value = "/auth/{username}")
     public ResponseEntity<LdoDUserDto> getUserProfileController(@PathVariable(value = "username") String username) {
         logger.debug("getUserProfile");
         Optional<LdoDUserDto> userDto = service.getUserByUsernameService(username);

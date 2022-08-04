@@ -215,7 +215,7 @@ export class ChangePassword extends HTMLElement {
 
             <div class="form-group row">
               <div class="col-sm-12">
-                <button key="update" class="btn-signin" type="submit">
+                <button key="update" class="btn btn-primary" type="submit">
                   {this.getConstants('update')}
                 </button>
               </div>

@@ -1,5 +1,7 @@
 import 'shared/router.js';
 import style from '@src/resources/style.css?inline';
+import buttons from '@src/resources/buttons.css?inline';
+
 import { isDev } from './utils.js';
 
 const routes = {
@@ -7,8 +9,9 @@ const routes = {
   '/signup': async () => await import('./pages/signup/Signup.jsx'),
   '/change-password': async () =>
     await import('./pages/change-pw/ChangePassword.jsx'),
-  '/auth': async () => await import('./pages/authorization.js'),
-  '/confirm': async () => await import('./pages/confirmation.js'),
+  '/sign-up-authorization': async () =>
+    await import('./pages/authorization.js'),
+  '/sign-up-confirmation': async () => await import('./pages/confirmation.js'),
   '/manage-users': async () =>
     await import('./pages/manage-users/ManageUsers.jsx'),
 };
@@ -27,6 +30,7 @@ const UserRouter = ({ language }) => {
     <>
       <div id="user-mfe" class="container text-center">
         <style>{style}</style>
+        <style>{buttons}</style>
         <ldod-router
           id="user-router"
           base={isDev() ? '' : import.meta.env.VITE_BASE}

@@ -1,12 +1,12 @@
 import { fetcher } from 'shared/fetcher.js';
-import { setState } from './store';
-import { eventEmiter } from './utils';
+import { getState, setState } from './store';
+import { emitMessageEvent, eventEmiter } from './utils';
 import { navigateTo } from 'shared/router.js';
 
 const HOST = import.meta.env.VITE_HOST;
 
 export const authRequest = async (data) => {
-  await fetcher.post(`${HOST}/auth/signin`, data).then((res) => {
+  await fetcher.post(`${HOST}/auth/sign-in`, data).then((res) => {
     if (res.message)
       eventEmiter('ldod-error', { detail: { message: res.message } });
     login(res.accessToken);
@@ -17,11 +17,11 @@ export const userRequest = async (token) => {
   await fetcher
     .get(`${HOST}/user`, null, token)
     .then((user) => setUser(user))
-    .catch((error) => console.error(error));
+    .catch((error) => error.message === 'unauthorized' && logout());
 };
 
 export const signupRequest = async (data) =>
-  await fetcher.post(`${HOST}/auth/signup`, data);
+  await fetcher.post(`${HOST}/auth/sign-up`, data);
 
 export const socialAuthRequest = async (path, data) =>
   fetcher.post(`${HOST}/auth/${path}`, data).then((response) => {
@@ -32,20 +32,42 @@ export const socialAuthRequest = async (path, data) =>
     isAccessToken(response) && login(response.accessToken);
   });
 
-export const tokenAuthRequest = async (path) =>
-  await fetcher.get(`${HOST}/auth/signup${path}`);
+export const tokenConfirmRequest = async (path) =>
+  await fetcher.get(`${HOST}/auth${path}`);
+
+export const tokenAuthRequest = async (path) => {
+  if (import.meta.env.PROD && !getState().token) {
+    emitMessageEvent('Not authorized to access resource', 'error');
+    return navigateTo('/');
+  }
+  await fetcher.get(`${HOST}/admin/user${path}`, null, getState().token);
+};
 
 export const changePasswordRequest = async (data) =>
-  fetcher.post(`${HOST}/auth/change-password`, data).then((res) => {
+  fetcher.post(`${HOST}/user/change-password`, data).then((res) => {
     navigateTo('/');
     return Promise.resolve(res);
   });
 
-export const getUsersList = async () =>
-  await fetcher.get(`${HOST}/user/admin/list`);
+export const getUsersList = async () => {
+  if (!getState().token) {
+    emitMessageEvent('Not authorized to access resource', 'error');
+    return navigateTo('/');
+  }
+  return await fetcher.get(`${HOST}/admin/user/list`, null, getState().token);
+};
 
-export const switchMode = async () =>
-  await fetcher.post(`${HOST}/user/admin/switch`);
+export const switchModeRequest = async () =>
+  await fetcher.post(`${HOST}/admin/user/switch`);
+
+export const deleteSessionsRequest = async () =>
+  await fetcher.post(`${HOST}/admin/user/sessions-delete`);
+
+export const changeActiveRequest = async (externalId) =>
+  await fetcher.post(`${HOST}/admin/user/active/${externalId}`);
+
+export const removeUserRequest = async (externalId) =>
+  await fetcher.post(`${HOST}/admin/user/delete/${externalId}`);
 
 function isAccessToken(response) {
   return Object.keys(response).some(

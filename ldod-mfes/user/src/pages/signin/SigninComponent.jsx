@@ -164,7 +164,7 @@ class SignIn extends HTMLElement {
           <div class="col-md-offset-5 col-md-2">
             <button
               key="sign-in"
-              class="btn-signin"
+              class="btn btn-primary"
               type="submit"
               style={{ width: '100%' }}>
               {this.getConstants('sign-in')}
@@ -180,7 +180,7 @@ class SignIn extends HTMLElement {
           ].map(([provider, src]) => (
             <div class="col-md-offset-5 col-md-2">
               <button
-                class={`btn-signin social ${provider}`}
+                class={`btn btn-outline-primary social ${provider}`}
                 type="button"
                 onClick={() => socialAuth(provider, this.constants)}
                 style={{ width: '100%' }}>
