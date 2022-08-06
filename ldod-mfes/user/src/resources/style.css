@@ -108,13 +108,32 @@ a:hover {
 }
 
 .form-control {
-    margin-bottom: 12px;
     padding-bottom: 12px;
     position: relative;
 }
 
 .form-group {
     margin-bottom: 16px;
+}
+
+.form-flex {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.form-flex>label[data-key] {
+    width: 30%;
+    text-align: end;
+}
+
+.form-flex>input[type='text'] {
+    width: 50%;
+}
+
+.form-flex>div {
+    width: 50%;
 }
 
 input[type='text'],
@@ -213,7 +232,6 @@ h3 {
 label {
     display: inline-block;
     max-width: 100%;
-    margin-bottom: 5px;
     font-weight: 700;
 }
 

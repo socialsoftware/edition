@@ -1,4 +1,4 @@
-import tooltipStyle from '@src/resources/tooltip.css';
+import tooltipStyle from '@src/resources/tooltip.css?inline';
 import { createPopper } from '@popperjs/core/dist/esm/popper';
 
 export class LdodTooltip extends HTMLElement {
@@ -9,6 +9,7 @@ export class LdodTooltip extends HTMLElement {
       <style>{tooltipStyle}</style>,
       <div id="tooltip" role="tooltip">
         <div id="arrow" data-popper-arrow></div>
+        <span id="content"></span>
       </div>
     );
   }
@@ -46,14 +47,24 @@ export class LdodTooltip extends HTMLElement {
   get instance() {
     return createPopper(this.element, this.tooltip, this.options);
   }
-  static get observedAttributes() {}
+  static get observedAttributes() {
+    return ['content'];
+  }
 
   connectedCallback() {
-    this.tooltip.appendChild(<span>{this.content}</span>);
     this.addEventListeners();
     this.element.setAttribute('aria-describedby', 'tooltip');
+    this.render();
   }
-  attributeChangedCallback() {}
+
+  render() {
+    this.tooltip.querySelector('#content').textContent = this.content;
+  }
+
+  attributeChangedCallback(name, oldV, newV) {
+    if (name === 'content' && oldV && oldV !== newV) this.render();
+  }
+
   disconnectedCallback() {
     this.removeEventListeners();
   }

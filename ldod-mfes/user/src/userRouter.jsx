@@ -1,7 +1,7 @@
 import 'shared/router.js';
 import style from '@src/resources/style.css?inline';
+import switchCSS from './resources/switch.css?inline';
 import buttons from '@src/resources/buttons.css?inline';
-
 import { isDev } from './utils.js';
 
 const routes = {
@@ -31,6 +31,7 @@ const UserRouter = ({ language }) => {
       <div id="user-mfe" class="container text-center">
         <style>{style}</style>
         <style>{buttons}</style>
+        <style>{switchCSS}</style>
         <ldod-router
           id="user-router"
           base={isDev() ? '' : import.meta.env.VITE_BASE}

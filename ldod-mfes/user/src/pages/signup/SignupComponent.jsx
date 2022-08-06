@@ -83,7 +83,7 @@ export class SignUp extends HTMLElement {
 
   importHistoryState() {
     this.getStateKeys().forEach((state) => {
-      this[state].value = history.state[state] ?? '';
+      this[state].value = history.state?.[state] ?? '';
     });
   }
 

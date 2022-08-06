@@ -1,4 +1,4 @@
-import tableStyle from '@src/resources/table.css';
+import tableStyle from '@src/resources/table.css?inline';
 export default ({ id, headers, data, constants, classes }) => {
   return (
     <>

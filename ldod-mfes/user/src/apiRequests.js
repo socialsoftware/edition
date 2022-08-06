@@ -69,6 +69,9 @@ export const changeActiveRequest = async (externalId) =>
 export const removeUserRequest = async (externalId) =>
   await fetcher.post(`${HOST}/admin/user/delete/${externalId}`);
 
+export const updateUserRequest = async (data) =>
+  await fetcher.post(`${HOST}/admin/user/edit`, data);
+
 function isAccessToken(response) {
   return Object.keys(response).some(
     (key) => key === 'accessToken' || key === 'tokenType'

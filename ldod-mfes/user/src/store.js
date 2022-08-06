@@ -18,7 +18,11 @@ export const userFullName = () =>
 const unsub = store.subscribe(async (curr, prev) => {
   if (prev.token !== curr.token && curr.token) {
     await userRequest(curr.token);
-    navigateTo('/');
+    if (
+      location.pathname.endsWith('signin') ||
+      location.pathname.endsWith('signup')
+    )
+      navigateTo('/');
   }
 });
 
