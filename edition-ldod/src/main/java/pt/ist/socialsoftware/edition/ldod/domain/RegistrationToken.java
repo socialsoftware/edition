@@ -61,7 +61,7 @@ public class RegistrationToken extends RegistrationToken_Base {
                 "Autorize o registo no arquivo do LdoD do utilizador " + getUser().getFirstName() + " "
                         + getUser().getLastName() + " com username " + getUser().getUsername()
                         + " com o endereço de email " + getUser().getEmail() + " nesta ligação <a href=\""
-                        + getAuthUrl(request, "auth") + "\">" + getAuthUrl(request, "auth") + "</a>",
+                        + getAuthUrl(request, "sign-up-authorization") + "\">" + getAuthUrl(request, "sign-up-authorization") + "</a>",
                 PropertiesManager.getProperties().getProperty("registration.confirmation.email.address"));
     }
 
@@ -71,7 +71,7 @@ public class RegistrationToken extends RegistrationToken_Base {
         emailer.sendEmail(recipientAddress, subject,
                 "Confirme o registo no arquivo do LdoD do utilizador " + getUser().getUsername()
                         + " com o endereço de email " + getUser().getEmail() + " nesta ligação <a href=\""
-                        + getAuthUrl(request, "confirm") + "\">" + getAuthUrl(request, "confirm") + "</a>",
+                        + getAuthUrl(request, "sign-up-confirmation") + "\">" + getAuthUrl(request, "sign-up-confirmation") + "</a>",
                 PropertiesManager.getProperties().getProperty("registration.confirmation.email.address"));
     }
 

@@ -4,6 +4,7 @@ let ldodRouter;
 
 beforeEach(() => {
   ldodRouter = document.createElement('ldod-router');
+  ldodRouter.id = 'test-router';
   document.body.appendChild(ldodRouter);
 });
 

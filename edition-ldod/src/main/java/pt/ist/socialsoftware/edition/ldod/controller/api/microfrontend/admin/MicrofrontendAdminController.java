@@ -427,10 +427,19 @@ public class MicrofrontendAdminController {
         for (Object principal : this.sessionRegistry.getAllPrincipals()) {
             activeSessions.addAll(this.sessionRegistry.getAllSessions(principal, false));
         }
-        activeSessions.stream().sorted(Comparator.comparing(SessionInformation::getLastRequest));
-
-
-        return new UserListDto(LdoD.getInstance(), LdoD.getInstance().getUsersSet().stream().sorted(Comparator.comparing(u -> u.getFirstName().toLowerCase())).collect(Collectors.toList()), activeSessions.stream().sorted((s1, s2) -> s2.getLastRequest().compareTo(s1.getLastRequest())).collect(Collectors.toList()));
+        return UserListDto.UserListDtoBuilder.anUserListDto()
+                .ldoDAdmin(LdoD.getInstance().getAdmin())
+                .userList(LdoD.getInstance()
+                        .getUsersSet()
+                        .stream()
+                        .sorted(Comparator.comparing(u -> u.getFirstName().toLowerCase()))
+                        .map(UserDto::new)
+                        .collect(Collectors.toList()))
+                .sessionList(activeSessions
+                        .stream()
+                        .sorted((s1, s2) -> s2.getLastRequest().compareTo(s1.getLastRequest()))
+                        .map(SessionDto::new)
+                        .collect(Collectors.toList())).build();
 
     }
 

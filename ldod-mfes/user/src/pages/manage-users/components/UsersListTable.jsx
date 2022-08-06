@@ -1,7 +1,7 @@
 import { changeActiveRequest, removeUserRequest } from '@src/apiRequests.js';
 import edit from '@src/resources/icons/edit-primary.svg';
 import trash from '@src/resources/icons/trash.svg';
-import Table from '../LdodTable.jsx';
+import { Table } from 'shared/table.js';
 import { setUser, usersData } from '../ManageUsers';
 import constants from '../resources/constants.js';
 import UpdateModal from './UpdateUserModal.jsx';
@@ -61,6 +61,7 @@ const getUsersListActive = (active, id) => {
     <div id={`active-${id}`} class="text-center">
       <button
         id={`button-active-${id}`}
+        tooltip-ref={`button-active-${id}`}
         class={`btn ${active ? 'btn-success' : 'btn-secondary'} btn-sm`}
         onClick={() => onChangeActive(id)}>
         <span data-key={String(active).toUpperCase()}>
@@ -69,7 +70,7 @@ const getUsersListActive = (active, id) => {
       </button>
       <ldod-tooltip
         placement="top"
-        data-ref={`#button-active-${id}`}
+        data-ref={`[tooltip-ref='button-active-${id}']`}
         data-tooltipkey="toggleActiveMode"
         content={getConstants('toggleActiveMode')}></ldod-tooltip>
     </div>
@@ -81,6 +82,7 @@ const getUsersListActions = (id) => {
     <div class="text-center">
       <img
         id={`edit-icon-${id}`}
+        tooltip-ref={`edit-icon-${id}`}
         data-id={id}
         src={edit}
         class="btn-icon action"
@@ -88,18 +90,19 @@ const getUsersListActions = (id) => {
       />
       <img
         id={`trash-icon-${id}`}
+        tooltip-ref={`trash-icon-${id}`}
         data-id={id}
         src={trash}
         class="btn-icon action"
         onClick={onDeleteUser}
       />
       <ldod-tooltip
-        data-ref={`#edit-icon-${id}`}
+        data-ref={`[tooltip-ref='edit-icon-${id}']`}
         data-tooltipkey="edit"
         placement="top"
         content={getConstants('edit')}></ldod-tooltip>
       <ldod-tooltip
-        data-ref={`#trash-icon-${id}`}
+        data-ref={`[tooltip-ref='trash-icon-${id}']`}
         data-tooltipkey="remove"
         placement="top"
         content={getConstants('remove')}></ldod-tooltip>

@@ -90,7 +90,10 @@ export default {
         id: 'fragment_delete',
         route: '/admin/fragment/list',
       },
-      isMFEAvailable('user') && { id: 'user_manage', route: '/user/admin' },
+      isMFEAvailable('user') && {
+        id: 'user_manage',
+        route: '/user/manage-users',
+      },
       isMFEAvailable('virtual') && {
         id: 'virtual_editions_manage',
         route: '/admin/virtual/list',

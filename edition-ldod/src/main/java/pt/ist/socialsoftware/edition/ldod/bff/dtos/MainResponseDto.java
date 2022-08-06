@@ -1,17 +1,17 @@
 package pt.ist.socialsoftware.edition.ldod.bff.dtos;
 
-public class AuthResponseDto {
+public class MainResponseDto {
 
     private final String message;
     private final boolean ok;
 
 
-    public AuthResponseDto(boolean ok, String message) {
+    public MainResponseDto(boolean ok, String message) {
         this.message = message;
         this.ok = ok;
     }
 
-    public AuthResponseDto(AuthResponseDtoBuilder builder) {
+    public MainResponseDto(AuthResponseDtoBuilder builder) {
         this.message = builder.message;
         this.ok = builder.ok;
     }
@@ -38,8 +38,8 @@ public class AuthResponseDto {
             return this;
         }
 
-        public AuthResponseDto build() {
-            return new AuthResponseDto(this);
+        public MainResponseDto build() {
+            return new MainResponseDto(this);
         }
 
 

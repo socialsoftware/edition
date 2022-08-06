@@ -2,8 +2,6 @@ import constants from '../resources/constants.js';
 import { usersData } from '../ManageUsers';
 import { updateUserRequest } from '@src/apiRequests.js';
 
-import '../LdodModal';
-
 const getManageUsers = () => document.querySelector('manage-users');
 function getConstants(key) {
   return constants[getManageUsers().language][key];

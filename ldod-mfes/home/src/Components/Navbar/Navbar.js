@@ -124,14 +124,14 @@ export default class LdodNavbar extends HTMLElement {
 
   onUserLogout(e) {
     e.stopPropagation();
-    this.user && this.setAdminVisibility();
+    this.user && this.setAdminVisibility(true);
     this.user && this.removeUserEditions();
     this.user = undefined;
   }
 
-  setAdminVisibility() {
+  setAdminVisibility(hide = !this.isAdmin()) {
     const admin = this.shadowRoot.querySelector('li#admin[is=dropdown-menu]');
-    if (admin) admin.ariaHidden = !this.isAdmin();
+    if (admin) admin.ariaHidden = hide;
   }
 
   addUserEditions(selectedVE) {

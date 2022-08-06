@@ -5,10 +5,63 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        .ldod-default {
+            font-family: 'Work-Sans';
+            color: black;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        
+        html::-webkit-scrollbar {
+            display: none;
+        }
+        
+        body {
+            margin: 0;
+            padding-top: 190px;
+        }
+        
+        .container {
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        
+        @media (max-width: 767px) {
+            body {
+                padding-top: 100px;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                width: 720px;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .container {
+                width: 940px;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .container {
+                width: 1140px;
+            }
+            body {
+                padding-top: 150px;
+            }
+        }
+    </style>
+    <link rel="preload" as="style" href="/ldod-mfes/style/style.css" onload="this.rel='stylesheet'" />
+
     <script id="importmap" type="importmap">
         { "imports": { "shared/":"/node_modules/shared/dist/" } }
     </script>
-    <link rel="stylesheet" href="/ldod-mfes/style/style.css">
+
 
     <title>LdoD Shell MFE</title>
 </head>
@@ -19,6 +72,8 @@
     <ldod-loading id="shell-loading"></ldod-loading>
     <div id="root"></div>
     <script type="module" src="/ldod-mfes/shell.js"></script>
+    <script src="/ldod-mfes/fonts.js" defer async>
+    </script>
 </body>
 
 </html>

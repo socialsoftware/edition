@@ -42,8 +42,11 @@ export const createElement = (tag, props, ...children) => {
 const appendChildren = (parent, child) => {
   if (Array.isArray(child))
     return child.forEach((nested) => appendChildren(parent, nested));
-  child &&
-    parent.appendChild(child.nodeType ? child : document.createTextNode(child));
+  if (child) {
+    const node =
+      parent instanceof HTMLTemplateElement ? parent.content : parent;
+    node.appendChild(child.nodeType ? child : document.createTextNode(child));
+  }
 };
 
 export const createFragment = (...children) => {

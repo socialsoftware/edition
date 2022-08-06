@@ -1,17 +1,27 @@
-import tooltipStyle from '@src/resources/tooltip.css?inline';
+import tooltipStyle from './tooltip.css?inline';
+import { dom } from '../../dist/utils.js';
 import { createPopper } from '@popperjs/core/dist/esm/popper';
+window.html = String.raw;
+
+const getStyle = () =>
+  dom(
+    html`<style>
+      ${tooltipStyle}
+    </style>`
+  );
+const getInner = () =>
+  dom(html`
+    <div id="tooltip" role="tooltip">
+      <div id="arrow" data-popper-arrow></div>
+      <span id="content"></span>
+    </div>
+  `);
 
 export class LdodTooltip extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    this.shadowRoot.append(
-      <style>{tooltipStyle}</style>,
-      <div id="tooltip" role="tooltip">
-        <div id="arrow" data-popper-arrow></div>
-        <span id="content"></span>
-      </div>
-    );
+    this.shadowRoot.append(getStyle(), getInner());
   }
 
   get element() {

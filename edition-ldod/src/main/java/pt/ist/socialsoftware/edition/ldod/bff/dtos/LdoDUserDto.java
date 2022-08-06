@@ -88,6 +88,20 @@ public class LdoDUserDto {
         this.enabled = enabled;
     }
 
+    @Override
+    public String toString() {
+        return "LdoDUserDto{" +
+                "oldUsername='" + oldUsername + '\'' +
+                ", newUsername='" + newUsername + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", newPassword='" + newPassword + '\'' +
+                ", user=" + user +
+                ", admin=" + admin +
+                ", enabled=" + enabled +
+                '}';
+    }
 
     public static final class LdoDUserDtoBuilder {
         private String oldUsername;

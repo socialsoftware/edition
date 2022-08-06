@@ -1,37 +1,28 @@
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '');
-  return {
-    build: {
-      target: 'es2022',
-      outDir: 'build',
-      lib: {
-        entry: 'src/table.js',
-        formats: ['es'],
-        fileName: 'table',
+export default defineConfig({
+  build: {
+    target: 'es2022',
+    outDir: '../dist',
+    lib: {
+      entry: 'table.js',
+      formats: ['es'],
+      fileName: 'table',
+    },
+    emptyOutDir: false,
+  },
+  esbuild: {
+    jsxFactory: 'createElement',
+    jsxFragment: 'createFragment',
+    jsxInject:
+      "import {createElement, createFragment} from 'shared/vanilla-jsx.js'",
+  },
+  resolve: {
+    alias: [
+      {
+        find: 'shared/',
+        replacement: '../dist/',
       },
-      rollupOptions: {
-        external: ['shared/store.js', 'shared/vanilla-jsx.js'],
-      },
-    },
-    esbuild: {
-      jsxFactory: 'createElement',
-      jsxFragment: 'createFragment',
-      jsxInject:
-        "import {createElement, createFragment} from 'shared/vanilla-jsx.js'",
-    },
-    resolve: {
-      alias: [
-        {
-          find: 'shared/',
-          replacement: `${env.VITE_NODE_HOST}/shared/`,
-        },
-        {
-          find: '@src/',
-          replacement: '/src/',
-        },
-      ],
-    },
-  };
+    ],
+  },
 });

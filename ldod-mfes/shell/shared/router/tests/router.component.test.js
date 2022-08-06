@@ -62,6 +62,7 @@ const subRoutes = {
 beforeEach(() => {
   document.body.innerHTML = '';
   router = document.createElement('ldod-router');
+  router.id = 'test-router';
   router.setAttribute('language', 'pt');
   router.index = index;
   uut = [];
@@ -430,6 +431,7 @@ test('when appending a nested router and navigating on it the outter router shou
   const nestedRouter = document.createElement('ldod-router');
   nestedRouter.setAttribute('route', '/sub');
   nestedRouter.routes = subRoutes;
+  nestedRouter.id = 'nested-router';
   router.outlet.appendChild(nestedRouter);
   await new Promise((r) => setTimeout(r, 1));
 

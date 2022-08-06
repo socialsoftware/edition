@@ -5,83 +5,89 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import pt.ist.socialsoftware.edition.ldod.bff.dtos.AuthResponseDto;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+import pt.ist.socialsoftware.edition.ldod.bff.dtos.MainResponseDto;
 import pt.ist.socialsoftware.edition.ldod.bff.dtos.LdoDUserDto;
 import pt.ist.socialsoftware.edition.ldod.bff.user.services.UserAdminService;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.UserListDto;
+import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/api/user/admin")
+//@Secured({ "ROLE_ADMIN "})
+@RequestMapping("/api/admin/user")
 public class UserAdminController {
-    private static final Logger logger = LoggerFactory.getLogger(MfesUserController.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserAdminController.class);
     @Autowired
     UserAdminService service;
 
-    @Secured({"ROLE_ADMIN"})
+    @RequestMapping(value = "/sign-up-authorization", method = RequestMethod.GET)
+    public ResponseEntity<MainResponseDto> authorizeRegistration(HttpServletRequest servletRequest, @RequestParam("token") String token) {
+        logger.debug("authorizeRegistration");
+        try {
+            service.registerTokenService(token, servletRequest);
+        } catch (LdoDException | javax.mail.MessagingException e) {
+            return getResponse(HttpStatus.BAD_REQUEST, false, e.getMessage());
+        }
+        return getResponse(HttpStatus.OK, true, "tokenAuthorized");
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/switch")
-    public ResponseEntity<?> switchAdminMode() {
+    public ResponseEntity<MainResponseDto> switchAdminMode() {
         logger.debug("switchAdminMode");
-        service.switchToAdminMode();
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return getResponse(HttpStatus.OK, service.switchToAdminMode(), "");
     }
 
-    @Secured({"ROLE_ADMIN"})
-    @RequestMapping(method = RequestMethod.POST, value = "/sessions/delete")
-    public ResponseEntity<?> deleteUserSessions() {
+    @RequestMapping(method = RequestMethod.POST, value = "/sessions-delete")
+    public ResponseEntity<UserListDto> deleteUserSessions(@AuthenticationPrincipal LdoDUserDetails currentUser) {
         logger.debug("deleteUserSessions");
-        service.deleteUserSessionsService();
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(service.deleteUserSessionsService(currentUser.getUser()));
 
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/list")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<UserListDto> listUser(Model model) {
+    @GetMapping("/list")
+    public ResponseEntity<UserListDto> listUser() {
         logger.debug("List users");
-        return ResponseEntity.status(HttpStatus.OK).body(service.listUserService());
+        return ResponseEntity.status(HttpStatus.OK).body(service.listUserAndSessionsService());
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/edit")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<LdoDUserDto> editUser(@RequestParam("externalId") String externalId) {
+    @RequestMapping(method = RequestMethod.GET, value = "/edit/{externalId}")
+    public ResponseEntity<LdoDUserDto> editUser(@PathVariable("externalId") String externalId) {
         logger.debug("editUserForm externalId:{}", externalId);
         return ResponseEntity.status(HttpStatus.OK).body(service.getUserToEdit(externalId));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/edit")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> editUser(LdoDUserDto userEdit) {
-        logger.debug("editUser username:{}", userEdit.getOldUsername());
+    public ResponseEntity<?> editUser(@RequestBody LdoDUserDto userEdit) {
+        logger.debug("editUser:{}", userEdit.toString());
         try {
-            service.editUserService(userEdit);
+            return ResponseEntity.status(HttpStatus.OK).body(service.editUserService(userEdit));
         } catch (LdoDDuplicateUsernameException e) {
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(new AuthResponseDto
-                            .AuthResponseDtoBuilder(false)
-                            .message(e.getMessage())
-                            .build());
+            return getResponse(HttpStatus.OK, false, e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/active")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<UserListDto> activeUser(@RequestParam("externalId") String externalId) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.activeUserService(externalId));
+    @RequestMapping(method = RequestMethod.POST, value = "/active/{externalId}")
+    public ResponseEntity<MainResponseDto> activeUser(@PathVariable("externalId") String externalId) {
+        return getResponse(HttpStatus.OK, service.activeUserService(externalId), "");
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/delete")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<UserListDto> removeUser(@RequestParam("externalId") String externalId) {
+
+    @RequestMapping(method = RequestMethod.POST, value = "/delete/{externalId}")
+    public ResponseEntity<UserListDto> removeUser(@PathVariable("externalId") String externalId) {
         return ResponseEntity.status(HttpStatus.OK).body(service.removeUserService(externalId));
+    }
+
+    private ResponseEntity<MainResponseDto> getResponse(HttpStatus status, boolean ok, String message) {
+        return ResponseEntity
+                .status(status)
+                .body(new MainResponseDto
+                        .AuthResponseDtoBuilder(ok)
+                        .message(message)
+                        .build());
     }
 }

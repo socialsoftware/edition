@@ -1,5 +1,5 @@
 import './ManageUsersComponent.jsx';
-import { getUsersList } from '../../apiRequests.js';
+import { getUsersList } from '@src/apiRequests.js';
 
 const useState = (initial) => {
   let state = initial;

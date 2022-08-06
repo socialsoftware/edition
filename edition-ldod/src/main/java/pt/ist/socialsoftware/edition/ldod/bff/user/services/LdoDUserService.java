@@ -1,20 +1,24 @@
 package pt.ist.socialsoftware.edition.ldod.bff.user.services;
 
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDto;
 import pt.ist.socialsoftware.edition.ldod.dto.ldodMfes.SignupDto;
+import pt.ist.socialsoftware.edition.ldod.forms.ChangePasswordForm;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
+import pt.ist.socialsoftware.edition.ldod.validator.ChangePasswordValidator;
 
 import java.util.Optional;
 
 
 @Service
-public class UserService {
+public class LdoDUserService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -37,5 +41,14 @@ public class UserService {
 
     public LdoDUser createUserService(SignupDto signupForm) throws LdoDDuplicateUsernameException {
         return LdoD.getInstance().createUser(this.passwordEncoder, signupForm);
+    }
+
+    public Optional<LdoDUser> changePasswordService(ChangePasswordForm form, BindingResult formBinding) {
+        ChangePasswordValidator validator = new ChangePasswordValidator(this.passwordEncoder);
+        validator.validate(form, formBinding);
+        if (formBinding.hasErrors()) return Optional.empty();
+        LdoDUser user = LdoD.getInstance().getUser(form.getUsername());
+        user.updatePassword(this.passwordEncoder, form.getCurrentPassword(), form.getNewPassword());
+        return Optional.of(user);
     }
 }

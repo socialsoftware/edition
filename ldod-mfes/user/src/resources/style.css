@@ -109,6 +109,7 @@ a:hover {
 
 .form-control {
     padding-bottom: 12px;
+    margin-bottom: 10px;
     position: relative;
 }
 

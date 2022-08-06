@@ -1,46 +1,30 @@
-export class LdodTable extends HTMLElement {
-  constructor() {
-    super();
-    const shadow = this.attachShadow({ mode: 'open' });
-  }
-  static get observedAttributes() {}
-  connectedCallback() {
-    this.shadowRoot.appendChild(
-      <Table headers={this.headers} dataByCols={this.data} />
-    );
-  }
-  attributeChangedCallback() {}
-  disconnectedCallback() {}
-}
-!customElements.get('ldod-table') &&
-  customElements.define('ldod-table', LdodTable);
+import tableStyle from './table.css?inline';
 
-const Table = ({ headers, dataByCols }) => {
+export const Table = ({ id, headers, data, constants, classes }) => {
   return (
-    <div>
-      <div></div>
-      <div>
-        <table>
-          <thead>
+    <>
+      <style>{tableStyle}</style>
+
+      <table id={id} class={classes}>
+        <thead>
+          <tr>
+            {headers.map((key) => (
+              <td data-key={key}>{constants(key)}</td>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((entry) => (
             <tr>
-              {headers?.map((header, index) => {
-                return <th index={index}>{header}</th>;
-              })}
+              {headers.map((key) => (
+                <td>
+                  {typeof entry[key] === 'function' ? entry[key]() : entry[key]}
+                </td>
+              ))}
             </tr>
-          </thead>
-          <tbody>
-            {dataByCols?.map((col, index) => {
-              return (
-                <tr index={index}>
-                  {headers?.map((header, index) => (
-                    <td index={index}>{col[header]}</td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </div>
+          ))}
+        </tbody>
+      </table>
+    </>
   );
 };

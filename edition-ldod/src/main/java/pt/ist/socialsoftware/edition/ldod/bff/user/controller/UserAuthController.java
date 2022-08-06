@@ -8,15 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.MessagingException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pt.ist.socialsoftware.edition.ldod.bff.dtos.AuthResponseDto;
+import pt.ist.socialsoftware.edition.ldod.bff.dtos.MainResponseDto;
 import pt.ist.socialsoftware.edition.ldod.bff.dtos.SigninRequestDto;
-import pt.ist.socialsoftware.edition.ldod.bff.user.services.authService;
+import pt.ist.socialsoftware.edition.ldod.bff.user.services.UserAuthService;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.dto.JWTAuthenticationDto;
 import pt.ist.socialsoftware.edition.ldod.dto.ldodMfes.SignupDto;
-import pt.ist.socialsoftware.edition.ldod.forms.ChangePasswordForm;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,15 +22,15 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/auth")
 public class UserAuthController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserAuthController.class);
 
     @Autowired
-    authService userAuthService;
+    UserAuthService userAuthService;
 
-    @PostMapping("/no-auth/signin")
+    @PostMapping("/sign-in")
     public ResponseEntity<?> authenticationController(@Valid @RequestBody SigninRequestDto signinRequestDto) {
         logger.debug("auth request {}", signinRequestDto.toString());
         try {
@@ -43,7 +41,7 @@ public class UserAuthController {
     }
 
 
-    @PostMapping("/no-auth/google")
+    @PostMapping("/google")
     public ResponseEntity<?> googleAuthenticationController(@RequestBody JWTAuthenticationDto tokenDto) {
         logger.debug("google auth request {}", tokenDto.toString());
         try {
@@ -55,8 +53,8 @@ public class UserAuthController {
         }
     }
 
-    @PostMapping(value = "/no-auth/signup")
-    public ResponseEntity<AuthResponseDto> userSignup(@RequestBody SignupDto signupForm, HttpServletRequest servletRequest)
+    @PostMapping(value = "/sign-up")
+    public ResponseEntity<MainResponseDto> userSignup(@RequestBody SignupDto signupForm, HttpServletRequest servletRequest)
             throws javax.mail.MessagingException {
         logger.debug("signup form :{}", signupForm.toString());
         try {
@@ -68,10 +66,8 @@ public class UserAuthController {
 
     }
 
-
-
-    @RequestMapping(value = "/no-auth/signup-confirmation", method = RequestMethod.GET)
-    public ResponseEntity<AuthResponseDto> confirmRegistration(@RequestParam("token") String token) {
+    @RequestMapping(value = "/sign-up-confirmation", method = RequestMethod.GET)
+    public ResponseEntity<MainResponseDto> confirmRegistration(@RequestParam("token") String token) {
         logger.debug("confirmRegistration");
         Optional<LdoDUser> ldoDUser;
         try {
@@ -85,20 +81,12 @@ public class UserAuthController {
 
     }
 
-    @PostMapping(value = "/auth/change-password")
-    public ResponseEntity<AuthResponseDto> changePassword(@RequestBody ChangePasswordForm form, BindingResult formBinding) {
-        logger.debug("changePassword username:{}", form.getUsername());
-        Optional<LdoDUser> user = userAuthService.changePasswordService(form, formBinding);
-        return user.isPresent()
-                ? getResponse(HttpStatus.OK, true, "passwordChanged")
-                : getResponse(HttpStatus.BAD_REQUEST, false, "badCredentials");
 
-    }
-    private ResponseEntity<AuthResponseDto> getResponse(HttpStatus status, boolean ok, String message) {
+    private ResponseEntity<MainResponseDto> getResponse(HttpStatus status, boolean ok, String message) {
         return ResponseEntity
                 .status(status)
-                .body(new AuthResponseDto
-                        .AuthResponseDtoBuilder(false)
+                .body(new MainResponseDto
+                        .AuthResponseDtoBuilder(ok)
                         .message(message)
                         .build());
     }

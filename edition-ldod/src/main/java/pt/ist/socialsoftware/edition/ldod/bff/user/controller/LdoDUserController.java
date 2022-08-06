@@ -6,40 +6,58 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import pt.ist.socialsoftware.edition.ldod.bff.dtos.AuthResponseDto;
-import pt.ist.socialsoftware.edition.ldod.bff.user.services.UserService;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import pt.ist.socialsoftware.edition.ldod.bff.dtos.MainResponseDto;
+import pt.ist.socialsoftware.edition.ldod.bff.user.services.LdoDUserService;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDto;
+import pt.ist.socialsoftware.edition.ldod.forms.ChangePasswordForm;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user")
-public class MfesUserController {
-    private static final Logger logger = LoggerFactory.getLogger(MfesUserController.class);
+public class LdoDUserController {
+    private static final Logger logger = LoggerFactory.getLogger(LdoDUserController.class);
 
     @Autowired
-    UserService service;
+    LdoDUserService service;
 
     @GetMapping
     public ResponseEntity<?> getCurrentUserController(@AuthenticationPrincipal LdoDUserDetails currentUser) {
         logger.debug("getCurrentUser {}", currentUser == null ? "null" : currentUser.getUsername());
         return currentUser != null
                 ? ResponseEntity.status(HttpStatus.OK).body(service.getUserService(currentUser))
-                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(new AuthResponseDto(false, "userUnauthorized"));
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MainResponseDto(false, "userUnauthorized"));
     }
 
-    @GetMapping(value = "/auth/{username}")
+    @GetMapping(value = "/{username}")
     public ResponseEntity<LdoDUserDto> getUserProfileController(@PathVariable(value = "username") String username) {
         logger.debug("getUserProfile");
         Optional<LdoDUserDto> userDto = service.getUserByUsernameService(username);
         return userDto
                 .map(ldoDUserDto -> ResponseEntity.status(HttpStatus.OK).body(ldoDUserDto))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    @PostMapping(value = "/change-password")
+    public ResponseEntity<MainResponseDto> changePassword(@RequestBody ChangePasswordForm form, BindingResult formBinding) {
+        logger.debug("changePassword username:{}", form.getUsername());
+        Optional<LdoDUser> user = service.changePasswordService(form, formBinding);
+        return user.isPresent()
+                ? getResponse(HttpStatus.OK, true, "passwordChanged")
+                : getResponse(HttpStatus.BAD_REQUEST, false, "badCredentials");
+
+    }
+    private ResponseEntity<MainResponseDto> getResponse(HttpStatus status, boolean ok, String message) {
+        return ResponseEntity
+                .status(status)
+                .body(new MainResponseDto
+                        .AuthResponseDtoBuilder(ok)
+                        .message(message)
+                        .build());
     }
 
 }

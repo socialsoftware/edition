@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
+import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -113,6 +114,7 @@ public class LdoDUser extends LdoDUser_Base {
         setEmail(signupDto.getEmail());
     }
 
+
     private void checkUniqueUsername(String username) {
         if (getLdoD()
                 .getUsersSet()
@@ -217,6 +219,11 @@ public class LdoDUser extends LdoDUser_Base {
             setPassword(passwordEncoder.encode(newPassword));
         }
 
+    }
+
+    @Atomic(mode = TxMode.WRITE)
+    public void setLogin(LocalDate date) {
+        this.setLastLogin(date);
     }
 
     @Atomic(mode = TxMode.WRITE)

@@ -86,7 +86,7 @@ export default {
     lastName: 'Apellido',
     lastRequest: 'Última Petición',
     sessionId: 'ID de sesión',
-    enabled: 'Activado',
+    enabled: 'Confirmado',
     listOfRoles: 'Funciones',
     lastLogin: 'Último acceso',
     actions: 'Acciones',

@@ -11,7 +11,7 @@ import {
   faLinkedinIn,
 } from '@fortawesome/free-brands-svg-icons';
 
-export default ({messages}) => {
+export default ({ messages }) => {
   const location = useLocation();
   const [error, setError] = useState(location.state?.message);
   const [username, setUsername] = useState('');
@@ -19,7 +19,7 @@ export default ({messages}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let data = { username: username, password: password };
+    let data = { username, password };
     try {
       await authenticate(data);
     } catch (error) {
@@ -72,8 +72,7 @@ export default ({messages}) => {
             <div className="col-md-offset-5 col-md-2">
               <button
                 className="btn btn-block btn-social btn-twitter"
-                type="submit"
-              >
+                type="submit">
                 {' '}
                 <i>
                   <FontAwesomeIcon icon={faTwitter} className="social-icon" />
@@ -91,8 +90,7 @@ export default ({messages}) => {
             <div className="col-md-offset-5 col-md-2">
               <button
                 className="btn btn-block btn-social btn-google-plus"
-                type="submit"
-              >
+                type="submit">
                 <i>
                   <FontAwesomeIcon icon={faGoogle} className="social-icon" />
                 </i>
@@ -109,8 +107,7 @@ export default ({messages}) => {
             <div className="col-md-offset-5 col-md-2">
               <button
                 className="btn btn-block btn-social btn-facebook"
-                type="submit"
-              >
+                type="submit">
                 <i>
                   <FontAwesomeIcon icon={faFacebookF} className="social-icon" />
                 </i>
@@ -126,8 +123,7 @@ export default ({messages}) => {
             <div className="col-md-offset-5 col-md-2">
               <button
                 className="btn btn-block btn-social btn-linkedin"
-                type="submit"
-              >
+                type="submit">
                 <i>
                   <FontAwesomeIcon
                     icon={faLinkedinIn}
@@ -141,7 +137,9 @@ export default ({messages}) => {
         </div>
         <br />
         <div className="row">
-          <Link to="/auth/signup">{messages[getLanguage()]['signup_message']}</Link>
+          <Link to="/auth/signup">
+            {messages[getLanguage()]['signup_message']}
+          </Link>
         </div>
       </div>
     </>

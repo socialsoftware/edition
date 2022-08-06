@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.bff.user.services;
 import com.google.api.client.json.webtoken.JsonWebToken;
 import com.google.auth.oauth2.TokenVerifier;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,7 +12,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 import pt.ist.socialsoftware.edition.ldod.bff.dtos.GoogleIdentityDto;
 import pt.ist.socialsoftware.edition.ldod.bff.dtos.SigninRequestDto;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
@@ -19,13 +19,11 @@ import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.ldod.dto.JWTAuthenticationDto;
 import pt.ist.socialsoftware.edition.ldod.dto.ldodMfes.SignupDto;
-import pt.ist.socialsoftware.edition.ldod.forms.ChangePasswordForm;
 import pt.ist.socialsoftware.edition.ldod.security.jwt.GoogleAuthTokenVerifier;
 import pt.ist.socialsoftware.edition.ldod.security.jwt.JWTTokenProvider;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.Emailer;
-import pt.ist.socialsoftware.edition.ldod.validator.ChangePasswordValidator;
 import pt.ist.socialsoftware.edition.ldod.validator.SignupValidator;
 
 import javax.mail.MessagingException;
@@ -46,7 +44,7 @@ public class UserAuthService {
     GoogleAuthTokenVerifier googleTokenVerifier;
 
     @Autowired
-    UserService userService;
+    LdoDUserService userService;
 
     @Autowired
     SignupValidator signupValidator;
@@ -57,16 +55,19 @@ public class UserAuthService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+
     public JWTAuthenticationDto authenticationService(SigninRequestDto signinRequestDto) throws AuthenticationException {
         UsernamePasswordAuthenticationToken user = new UsernamePasswordAuthenticationToken(signinRequestDto.getUsername(), signinRequestDto.getPassword());
         Authentication auth = this.authenticationManager.authenticate(user);
         SecurityContextHolder.getContext().setAuthentication(auth);
+        LdoD.getInstance().getUser(signinRequestDto.getUsername()).setLogin(LocalDate.now());
         return new JWTAuthenticationDto(this.tokenProvider.generateToken(auth));
     }
 
     public Object googleAuthenticationService(JWTAuthenticationDto tokenDto) throws TokenVerifier.VerificationException, IllegalArgumentException {
         JsonWebToken.Payload payload = googleTokenVerifier.verify(tokenDto.getAccessToken()).getPayload();
         Optional<LdoDUser> user = userService.findUserBySocialId(payload.getSubject());
+        user.ifPresent((ldoDUser) -> ldoDUser.setLogin(LocalDate.now()));
         return user.isPresent() && user.get().getEnabled()
                 ? new JWTAuthenticationDto(this.tokenProvider.generateToken(user.get().getUsername()))
                 : new GoogleIdentityDto(payload, "google");
@@ -100,14 +101,6 @@ public class UserAuthService {
         return Optional.of(user);
     }
 
-    public Optional<LdoDUser> changePasswordService(ChangePasswordForm form, BindingResult formBinding) {
-        ChangePasswordValidator validator = new ChangePasswordValidator(this.passwordEncoder);
-        validator.validate(form, formBinding);
-        if (formBinding.hasErrors()) return Optional.empty();
-        LdoDUser user = LdoD.getInstance().getUser(form.getUsername());
-        user.updatePassword(this.passwordEncoder, form.getCurrentPassword(), form.getNewPassword());
-        return Optional.of(user);
-    }
 
     private RegistrationToken checkRegistrationToken(String token) throws LdoDException {
         RegistrationToken registrationToken = LdoD.getInstance().getTokenSet(token);

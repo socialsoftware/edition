@@ -6,11 +6,25 @@ import {
   removeEndSlash,
 } from './utils';
 export default class LdodRouter extends HTMLElement {
-  constructor() {
+  constructor(shadow) {
     super();
+    if (shadow) this.shadow = shadow;
   }
+
   static get observedAttributes() {
     return ['language'];
+  }
+
+  get shadow() {
+    return this.getAttribute('shadow');
+  }
+
+  set shadow(shadow) {
+    this.setAttribute('shadow', '');
+  }
+
+  get self() {
+    return this.shadow ? this.shadowRoot : this;
   }
 
   get location() {
@@ -30,9 +44,11 @@ export default class LdodRouter extends HTMLElement {
   }
 
   get outlet() {
-    return (
-      this.querySelector('ldod-outlet') || document.createElement('ldod-outlet')
-    );
+    if (this.self.querySelector('ldod-outlet'))
+      return this.self.querySelector('ldod-outlet');
+    const outlet = document.createElement('ldod-outlet');
+    outlet.id = `${this.id}-outlet`;
+    return outlet;
   }
 
   get language() {
@@ -66,9 +82,12 @@ export default class LdodRouter extends HTMLElement {
   };
 
   async connectedCallback() {
+    if (!this.id) throw new Error('Each router must have an unique ID');
     if (!this.routes && !this.index) return;
+
+    this.shadow && this.attachShadow({ mode: 'open' });
     this.processRoutes();
-    this.append(this.outlet);
+    this.self.append(this.outlet);
     this.addEventListeners();
     this.navigate();
   }
@@ -90,9 +109,9 @@ export default class LdodRouter extends HTMLElement {
   }
 
   handleLanguageChange(language) {
-    this.querySelectorAll('[language]').forEach((ele) =>
-      ele.setAttribute('language', language)
-    );
+    this.self
+      .querySelectorAll('[language]')
+      .forEach((ele) => ele.setAttribute('language', language));
   }
 
   disconnectedCallback() {
@@ -143,7 +162,7 @@ export default class LdodRouter extends HTMLElement {
     if (!route) return;
     const api = await route();
     this.active = api;
-    await api.mount(this.language, `ldod-router#${this.id}>ldod-outlet`);
+    await api.mount(this.language, `#${this.outlet.id}`);
   }
 
   async removeMFE() {

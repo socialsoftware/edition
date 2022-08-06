@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.socialsoftware.edition.ldod.TestLoadUtils;
-import pt.ist.socialsoftware.edition.ldod.bff.user.controller.MfesUserController;
+import pt.ist.socialsoftware.edition.ldod.bff.user.controller.LdoDUserController;
 import pt.ist.socialsoftware.edition.ldod.config.Application;
 import pt.ist.socialsoftware.edition.ldod.controller.LdoDExceptionHandler;
 import pt.ist.socialsoftware.edition.ldod.filters.TransactionFilter;
@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class MfesUserControllerTest {
     @InjectMocks
-    MfesUserController mfesUserController;
+    LdoDUserController mfesUserController;
 
     protected MockMvc mockMvc;
 

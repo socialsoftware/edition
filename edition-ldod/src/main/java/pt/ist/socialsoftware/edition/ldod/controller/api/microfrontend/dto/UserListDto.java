@@ -14,12 +14,7 @@ public class UserListDto {
 	private List<UserDto> userList;
 	private List<SessionDto> sessionList;
 
-	public UserListDto(LdoD instance, List<LdoDUser> list, List<SessionInformation> sessionInformation) {
-		this.setLdoDAdmin(instance.getAdmin());
-		this.setUserList(list.stream().map(UserDto::new).collect(Collectors.toList()));
-		this.setSessionList(sessionInformation.stream().map(SessionDto::new).collect(Collectors.toList()));
-	}
-
+	private UserListDto() {}
 	public boolean isLdoDAdmin() {
 		return ldoDAdmin;
 	}
@@ -43,5 +38,40 @@ public class UserListDto {
 	public void setSessionList(List<SessionDto> sessionList) {
 		this.sessionList = sessionList;
 	}
-	
+
+	public static final class UserListDtoBuilder {
+		private boolean ldoDAdmin;
+		private List<UserDto> userList;
+		private List<SessionDto> sessionList;
+
+		private UserListDtoBuilder() {
+		}
+
+		public static UserListDtoBuilder anUserListDto() {
+			return new UserListDtoBuilder();
+		}
+
+		public UserListDtoBuilder ldoDAdmin(boolean ldoDAdmin) {
+			this.ldoDAdmin = ldoDAdmin;
+			return this;
+		}
+
+		public UserListDtoBuilder userList(List<UserDto> userList) {
+			this.userList = userList;
+			return this;
+		}
+
+		public UserListDtoBuilder sessionList(List<SessionDto> sessionList) {
+			this.sessionList = sessionList;
+			return this;
+		}
+
+		public UserListDto build() {
+			UserListDto userListDto = new UserListDto();
+			userListDto.setLdoDAdmin(ldoDAdmin);
+			userListDto.setUserList(userList);
+			userListDto.setSessionList(sessionList);
+			return userListDto;
+		}
+	}
 }

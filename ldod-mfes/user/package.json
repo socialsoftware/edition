@@ -12,6 +12,7 @@
         "dev": "vite",
         "build": "vite build",
         "build-dev": "vite --config vite.config.dev.js build",
+        "prepreview": "vite --config vite.config.dev.js build",
         "preview": "vite --config vite.config.dev.js preview",
         "pack": "yarn build && ./scripts/pack.sh user",
         "publish-dev": "yarn run pack && ./scripts/publish.sh user user.js @./dist/user.tgz $npm_package_config_dev",

@@ -1,11 +1,14 @@
-import constants from './resources/constants.js';
+import { deleteSessionsRequest, switchModeRequest } from '@src/apiRequests.js';
 import editIcon from '@src/resources/icons/edit.svg';
+import 'shared/modal.js';
 import UsersTable from './components/UsersListTable.jsx';
-import { switchModeRequest, deleteSessionsRequest } from '@src/apiRequests.js';
-import './LdodTooltip.jsx';
-import Table from './LdodTable.jsx';
-import './LdodModal.jsx';
+import { Table } from 'shared/table.js';
 import { usersData } from './ManageUsers.jsx';
+import constants from './resources/constants.js';
+
+async function loadToolip() {
+  await import('shared/tooltip.js');
+}
 
 export class ManageUsers extends HTMLElement {
   constructor() {
@@ -44,6 +47,12 @@ export class ManageUsers extends HTMLElement {
   }
   disconnectedCallback() {}
 
+  addEventListeners() {
+    this.querySelectorAll('[tooltip-ref]').forEach((tooltipped) => {
+      tooltipped.parentNode.addEventListener('mouseover', loadToolip);
+    });
+  }
+
   render() {
     this.innerHTML = '';
     this.appendChild(this.getComponent());
@@ -53,7 +62,10 @@ export class ManageUsers extends HTMLElement {
     language: (oldV, newV) => {
       if (oldV && newV !== oldV) this.handleChangeLanguage();
     },
-    data: () => this.render(),
+    data: () => {
+      this.render();
+      this.addEventListeners();
+    },
   };
 
   handleChangeLanguage() {
@@ -85,15 +97,17 @@ export class ManageUsers extends HTMLElement {
     });
   };
 
-  getSessionsTable = () => (
-    <Table
-      id="sessions-list-table"
-      classes="table table-responsive-sm table-striped table-bordered"
-      headers={constants.sessionListHeaders}
-      data={usersData().sessionList}
-      constants={(key) => this.getConstants(key)}
-    />
-  );
+  getSessionsTable = () => {
+    return (
+      <Table
+        id="sessions-list-table"
+        classes="table table-responsive-sm table-striped table-bordered"
+        headers={constants.sessionListHeaders}
+        data={usersData().sessionList}
+        constants={(key) => this.getConstants(key)}
+      />
+    );
+  };
 
   updateUsersLength = () =>
     (this.querySelector('h1>span').innerHTML = `&nbsp;(${this.usersLength})`);
@@ -115,7 +129,7 @@ export class ManageUsers extends HTMLElement {
             </h1>
             <div id="adminMode" class="row btn-row">
               <button
-                id="switch-button"
+                tooltip-ref="switch-button"
                 type="button"
                 class="btn btn-danger ellipsis"
                 onClick={this.onSwitchMode}>
@@ -126,13 +140,13 @@ export class ManageUsers extends HTMLElement {
               </button>
               <ldod-tooltip
                 placement="top"
-                data-ref="#switch-button"
+                data-ref="[tooltip-ref='switch-button']"
                 data-tooltipkey="changeLdodMode"
                 content={this.getConstants('changeLdodMode')}></ldod-tooltip>
             </div>
             <div id="deleteSessions" class="row btn-row">
               <button
-                id="delete-sessions-button"
+                tooltip-ref="delete-sessions-button"
                 type="button"
                 class="btn btn-danger ellipsis"
                 onClick={this.onDeleteSessions}>
@@ -143,7 +157,7 @@ export class ManageUsers extends HTMLElement {
               </button>
               <ldod-tooltip
                 placement="top"
-                data-ref="#delete-sessions-button"
+                data-ref="[tooltip-ref='delete-sessions-button']"
                 data-tooltipkey="deleteUserSessions"
                 content={this.getConstants(
                   'deleteUserSessions'

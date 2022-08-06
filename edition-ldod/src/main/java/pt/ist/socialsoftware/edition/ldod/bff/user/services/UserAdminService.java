@@ -7,15 +7,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.bff.dtos.LdoDUserDto;
+import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.SessionDto;
+import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.UserListDto;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
+import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.ldod.domain.Role;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,16 +33,33 @@ public class UserAdminService {
     @Autowired
     private PasswordEncoder encoder;
 
-    public void switchToAdminMode() {
-        LdoD.getInstance().switchAdmin();
+    @Autowired
+    private UserAuthService userAuthService;
+
+
+
+    public void registerTokenService(String token, HttpServletRequest servletRequest) throws MessagingException, LdoDException {
+        userAuthService.registerTokenService(token, servletRequest);
     }
 
-    public void deleteUserSessionsService() {
+    public boolean switchToAdminMode() {
+        LdoD.getInstance().switchAdmin();
+        return LdoD.getInstance().getAdmin();
+    }
+
+    public UserListDto deleteUserSessionsService(LdoDUser user) {
+
+        Optional<SessionInformation> currentSession = getSessionInformationList()
+                .stream()
+                .filter(sessionInformation -> ((LdoDUserDetails) sessionInformation.getPrincipal()).getUser().equals(user))
+                .min(Comparator.comparing(SessionInformation::getLastRequest));
+
         getSessionInformationList()
                 .stream()
                 .filter(session -> session.getPrincipal() instanceof LdoDUserDetails)
-                .filter(session -> ((LdoDUserDetails) session.getPrincipal()).getUser() != LdoDUser.getAuthenticatedUser())
+                .filter(session -> !currentSession.isPresent() || !session.equals(currentSession.get()))
                 .forEach(SessionInformation::expireNow);
+        return listSessionsService();
     }
 
     private List<SessionInformation> getSessionInformationList() {
@@ -46,20 +70,38 @@ public class UserAdminService {
                         .stream()).collect(Collectors.toList());
     }
 
-    public UserListDto listUserService() {
-        return new UserListDto(
-                LdoD.getInstance(),
-                LdoD.getInstance()
-                        .getUsersSet()
-                        .stream()
-                        .sorted(Comparator.comparing(u -> u.getFirstName().toLowerCase()))
-                        .collect(Collectors.toList()),
-                getSessionInformationList()
-                        .stream()
-                        .sorted(Comparator.comparing(SessionInformation::getLastRequest))
-                        .collect(Collectors.toList()));
+
+    private UserListDto listUsersService() {
+        return UserListDto
+                .UserListDtoBuilder
+                .anUserListDto()
+                .userList(
+                        LdoD.getInstance()
+                                .getUsersSet()
+                                .stream()
+                                .sorted(Comparator.comparing(u -> u.getFirstName().toLowerCase()))
+                                .map(UserDto::new)
+                                .collect(Collectors.toList()))
+                .build();
     }
 
+    private UserListDto listSessionsService() {
+        return UserListDto.UserListDtoBuilder.anUserListDto().sessionList(getSessionInformationList()
+                .stream()
+                .sorted(Comparator.comparing(SessionInformation::getLastRequest))
+                .map(SessionDto::new)
+                .collect(Collectors.toList())).build();
+    }
+
+    public UserListDto listUserAndSessionsService() {
+        return UserListDto
+                .UserListDtoBuilder
+                .anUserListDto()
+                .ldoDAdmin(LdoD.getInstance().getAdmin())
+                .userList(listUsersService().getUserList())
+                .sessionList(listSessionsService().getSessionList())
+                .build();
+    }
 
     public LdoDUserDto getUserToEdit(String id) {
         LdoDUser user = FenixFramework.getDomainObject(id);
@@ -71,29 +113,28 @@ public class UserAdminService {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .oldUsername(user.getUsername())
-                .newUsername(user.getUsername())
                 .build();
     }
 
-    public void editUserService(LdoDUserDto userEdit) throws LdoDDuplicateUsernameException {
+    public UserListDto editUserService(LdoDUserDto userEdit) throws LdoDDuplicateUsernameException {
         if (!userEdit.getNewUsername().equals(userEdit.getOldUsername())
                 && LdoD.getInstance().getUser(userEdit.getNewUsername()) != null)
             throw new LdoDDuplicateUsernameException(String.format("Duplicated username %s", userEdit.getNewPassword()));
 
         LdoDUser user = LdoD.getInstance().getUser(userEdit.getOldUsername());
         user.update(this.encoder, userEdit);
-
+        return listUsersService();
     }
 
-    public UserListDto activeUserService(String externalId) {
+    public boolean activeUserService(String externalId) {
         LdoDUser user = FenixFramework.getDomainObject(externalId);
         user.switchActive();
-        return this.listUserService();
+        return user.getActive();
     }
 
     public UserListDto removeUserService(String externalId) {
         LdoDUser user = FenixFramework.getDomainObject(externalId);
         user.remove();
-        return this.listUserService();
+        return listUsersService();
     }
 }
