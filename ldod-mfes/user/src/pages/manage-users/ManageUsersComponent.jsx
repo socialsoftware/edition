@@ -2,10 +2,11 @@ import { deleteSessionsRequest, switchModeRequest } from '@src/apiRequests.js';
 import editIcon from '@src/resources/icons/edit.svg';
 import 'shared/modal.js';
 import UsersTable from './components/UsersListTable.jsx';
-import { Table } from 'shared/table.js';
 import { usersData } from './ManageUsers.jsx';
 import constants from './resources/constants.js';
-
+import.meta.env.DEV
+  ? await import('shared/table-dev.js')
+  : await import('shared/table.js');
 async function loadToolip() {
   await import('shared/tooltip.js');
 }
@@ -78,6 +79,9 @@ export class ManageUsers extends HTMLElement {
     this.querySelectorAll('[dynamic]').forEach((ele) => {
       ele.textContent = this.getConstants(ele.dynamicKey());
     });
+    this.querySelectorAll('[language]').forEach((ele) =>
+      ele.setAttribute('language', this.language)
+    );
   }
 
   onSwitchMode = () => {
@@ -99,13 +103,19 @@ export class ManageUsers extends HTMLElement {
 
   getSessionsTable = () => {
     return (
-      <Table
+      <ldod-table
         id="sessions-list-table"
         classes="table table-responsive-sm table-striped table-bordered"
         headers={constants.sessionListHeaders}
-        data={usersData().sessionList}
-        constants={(key) => this.getConstants(key)}
-      />
+        data={usersData().sessionList.map((row) => ({
+          ...row,
+          search: Object.values(row).reduce((prev, curr) => {
+            return prev.concat(String(curr), ',');
+          }, ''),
+        }))}
+        language={this.language}
+        constants={constants}
+        data-searchkey="sessionId"></ldod-table>
     );
   };
 

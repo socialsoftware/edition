@@ -1,12 +1,13 @@
 import { changeActiveRequest, removeUserRequest } from '@src/apiRequests.js';
 import edit from '@src/resources/icons/edit-primary.svg';
 import trash from '@src/resources/icons/trash.svg';
-import { Table } from 'shared/table.js';
 import { setUser, usersData } from '../ManageUsers';
 import constants from '../resources/constants.js';
 import UpdateModal from './UpdateUserModal.jsx';
 import UptadeUserForm from './UpdateUserForm.jsx';
-
+const { Table } = import.meta.env.DEV
+  ? await import('shared/table-dev.js')
+  : await import('shared/table.js');
 const manageUsers = () => document.querySelector('manage-users');
 const getLanguage = () => manageUsers().language;
 
@@ -115,7 +116,7 @@ export default () => {
     <div>
       <UpdateModal />
       <div id="userList" class="row">
-        <Table
+        <ldod-table
           id="users-list-table"
           classes="table table-responsive-sm table-striped table-bordered"
           headers={constants.usersListHeaders}
@@ -128,9 +129,13 @@ export default () => {
             ),
             active: getUsersListActive(user.active, user.externalId),
             actions: getUsersListActions(user.externalId),
+            search: Object.values(user).reduce((prev, curr) => {
+              return prev.concat(String(curr), ',');
+            }, ''),
           }))}
-          constants={(key) => getConstants(key)}
-        />
+          language={getLanguage()}
+          constants={constants}
+          data-searchkey="externalId"></ldod-table>
       </div>
     </div>
   );

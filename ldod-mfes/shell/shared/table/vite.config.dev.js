@@ -7,12 +7,9 @@ export default defineConfig({
     lib: {
       entry: 'table.js',
       formats: ['es'],
-      fileName: 'table',
+      fileName: 'table-dev',
     },
     emptyOutDir: false,
-    rollupOptions: {
-      external: ['shared/vanilla-jsx.js'],
-    },
   },
   esbuild: {
     jsxFactory: 'createElement',
