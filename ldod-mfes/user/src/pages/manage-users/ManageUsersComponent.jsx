@@ -7,6 +7,7 @@ import constants from './resources/constants.js';
 import.meta.env.DEV
   ? await import('shared/table-dev.js')
   : await import('shared/table.js');
+
 async function loadToolip() {
   await import('shared/tooltip.js');
 }
