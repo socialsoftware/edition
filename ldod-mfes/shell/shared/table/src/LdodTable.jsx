@@ -3,9 +3,19 @@ import tableStyle from './table.css?inline';
 export class LdodTable extends HTMLElement {
   constructor() {
     super();
+    this.lastIndex = 0;
   }
+
   get classes() {
     return this.getAttribute('classes');
+  }
+
+  get isFullyLoaded() {
+    return this.lastIndex === this.data.length;
+  }
+
+  get interval() {
+    return this.data.length < 20 ? this.data.length : 20;
   }
 
   get language() {
@@ -15,6 +25,15 @@ export class LdodTable extends HTMLElement {
   get searchKey() {
     return this.dataset.searchkey;
   }
+
+  get numberOfRows() {}
+
+  get targetToObserve() {
+    let rows = this.querySelectorAll('table>tbody>tr');
+    let nrOfTr = rows.length;
+    return rows[nrOfTr * 0.75];
+  }
+
   static get observedAttributes() {
     return ['language'];
   }
@@ -36,9 +55,37 @@ export class LdodTable extends HTMLElement {
   connectedCallback() {
     this.appendChild(<style>{tableStyle}</style>);
     this.render();
+    if (!this.isFullyLoaded) this.addObserver();
   }
 
   disconnectedCallback() {}
+
+  obsCallback = ([entry], observer) => {
+    if (entry.intersectionRatio === 1) {
+      observer.unobserve(entry.target);
+      this.addRows();
+      if (!this.isFullyLoaded) observer.observe(this.targetToObserve);
+    }
+  };
+
+  addObserver() {
+    const obs = new IntersectionObserver(this.obsCallback, {
+      threshold: 1.0,
+    });
+    obs.observe(this.targetToObserve);
+    this.observer = obs;
+    return obs;
+  }
+
+  addRows = (end) => {
+    const newRows = this.getRows(
+      this.lastIndex,
+      end ?? this.lastIndex + this.interval
+    );
+    newRows.forEach((row) =>
+      this.querySelector('table>tbody').appendChild(row)
+    );
+  };
 
   loadSearchStyle() {
     import('./tools.css?inline').then((style) => {
@@ -47,6 +94,11 @@ export class LdodTable extends HTMLElement {
   }
 
   handleSearchInput = ({ target }) => {
+    if (!this.isFullyLoaded) {
+      this.observer.disconnect();
+      this.addRows(this.data.length);
+    }
+
     const searchTerm = target.value;
     const result = this.data
       .filter((item) =>
@@ -71,6 +123,21 @@ export class LdodTable extends HTMLElement {
     );
   }
 
+  getRows(start, end) {
+    return this.data.slice(start, end).map((entry) => {
+      this.lastIndex += 1;
+      return (
+        <tr searched id={entry[this.searchKey]}>
+          {this.headers.map((key) => (
+            <td>
+              {typeof entry[key] === 'function' ? entry[key]() : entry[key]}
+            </td>
+          ))}
+        </tr>
+      );
+    });
+  }
+
   getTable() {
     return (
       <>
@@ -87,25 +154,12 @@ export class LdodTable extends HTMLElement {
               ))}
             </tr>
           </thead>
-          <tbody>
-            {this.data.map((entry) => {
-              return (
-                <tr searched id={entry[this.searchKey]}>
-                  {this.headers.map((key) => (
-                    <td>
-                      {typeof entry[key] === 'function'
-                        ? entry[key]()
-                        : entry[key]}
-                    </td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
+          <tbody>{this.getRows(0, this.interval)}</tbody>
         </table>
       </>
     );
   }
 }
+
 !customElements.get('ldod-table') &&
   customElements.define('ldod-table', LdodTable);
