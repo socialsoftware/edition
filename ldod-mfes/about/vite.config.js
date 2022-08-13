@@ -7,21 +7,12 @@ export default defineConfig(({ mode }) => {
       target: 'es2022',
       outDir: 'build',
       lib: {
-        entry: 'src/user.js',
+        entry: 'src/index.js',
         formats: ['es'],
         fileName: 'user',
       },
       rollupOptions: {
-        external: [
-          'shared/store.js',
-          'shared/vanilla-jsx.js',
-          'shared/router.js',
-          'shared/fetcher.js',
-          'shared/modal.js',
-          'shared/table.js',
-          'shared/tooltip.js',
-          'shared/utils.js',
-        ],
+        external: ['shared/vanilla-jsx.js', 'shared/router.js'],
       },
     },
     esbuild: {

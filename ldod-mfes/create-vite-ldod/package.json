@@ -1,6 +1,6 @@
 {
     "type": "module",
-    "name": "create-app-js",
+    "name": "create-vite-ldod",
     "version": "1.0.0",
     "main": "index.js",
     "license": "MIT",

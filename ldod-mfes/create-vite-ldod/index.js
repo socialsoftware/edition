@@ -3,9 +3,9 @@
 'use strict';
 
 import { spawnSync, execSync } from 'child_process';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import fs from 'node:fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import fs from 'fs';
 
 const templatesDir = `${path.dirname(
   fileURLToPath(import.meta.url)
@@ -29,8 +29,6 @@ const hasOption = (index) => index !== -1;
 const args = process.argv.slice(2);
 const appNameIndex = getArrayIndex(args, '-d');
 const appName = hasOption(appNameIndex) && args[appNameIndex + 1];
-const portIndex = getArrayIndex(args, '-p');
-const port = hasOption(portIndex) ? args[portIndex + 1] : undefined;
 
 // directory name is mandatory
 if (!appName) throw new Error('Invalid directory name');
@@ -46,25 +44,21 @@ process.on('SIGINT', () => undo());
 const packageJson = {
   name: `${appName}`,
   version: '1.0.0',
-  main: 'index.js',
   license: 'MIT',
-  scripts: {
-    test: 'yarn transpile && jest',
-    start: `trap 'kill 0' SIGNINT; babel src -w -d build & serve -C -l ${
-      port ? port : 5000
-    }`,
-    transpile: 'babel src -d transpiled-src',
-    build: `if [ -d build ]; then rm -r build;fi && yarn transpile && rollup -c`,
-    pack: `yarn build && ./scripts/pack.sh ${appName}`,
-    publish: `yarn run pack && ./scripts/publish.sh ${appName} ${appName}.js  @./dist/${appName}.tgz`,
-    unpublish: `./scripts/unpublish.sh ${appName}`,
-  },
+  private: true,
+  type: 'module',
+  entry: 'index.js',
 
-  jest: {
-    moduleNameMapper: {
-      '^shared/(.*)$': '<rootDir>/node_modules/shared/dist/$1',
-    },
+  scripts: {
+    dev: 'vite',
+    build: 'vite build',
+    'build-dev': 'vite --config vite.config.dev.js build',
+    prepreview: 'vite --config vite.config.dev.js build',
+    preview: 'vite --config vite.config.dev.js preview',
+    pack: `yarn build && ./scripts/pack.sh ${appName}`,
+    'publish-dev': `yarn run pack && ./scripts/publish.sh ${appName} ${appName}.js @./dist/${appName}.tgz $npm_package_config_dev`,
   },
+  devDependencies: {},
 };
 
 try {
@@ -92,6 +86,7 @@ fs.readdirSync(scriptsDir).forEach((script) => {
 
 fs.readdirSync(templatesDir).forEach((file) => {
   console.log(`generating ${file}`);
+
   fs.cpSync(`${templatesDir}/${file}`, `${process.cwd()}/${appName}/${file}`, {
     recursive: true,
   });
@@ -101,13 +96,8 @@ console.log('generating package.json');
 try {
   fs.writeFileSync(`${appName}/package.json`, JSON.stringify(packageJson));
   console.log('installing dependencies');
-  execSync(
-    `yarn add -D  serve @babel/core @babel/cli @babel/preset-react @babel/preset-env babel-jest rollup rollup-plugin-terser @rollup/plugin-dynamic-import-vars @rollup/plugin-dynamic-import-vars rollup-plugin-import-assert jest jest-environment-jsdom @types/jest acorn-import-assertions`,
-    { cwd }
-  );
+  execSync('yarn add -D vite', { cwd });
   execSync('yarn install', { cwd });
-  execSync('yarn link "shared"', { cwd });
-  execSync('yarn transpile', { cwd });
 } catch (error) {
   console.error(error.toString());
   undo();

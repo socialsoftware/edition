@@ -1,0 +1,23 @@
+{
+    "name": "about",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "dev": "babel src/jsx-components -w -d src/jsx-transpiled",
+        "build": "if [ -d public ]; then rm -r public;fi && rollup -c && cp -r css public",
+        "start": "serve -C -l 3004"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.17.10",
+        "@babel/core": "^7.18.5",
+        "@babel/plugin-transform-react-jsx": "^7.17.12",
+        "@babel/preset-env": "^7.18.2",
+        "@babel/preset-react": "^7.17.12",
+        "@rollup/plugin-babel": "^5.3.1",
+        "@rollup/plugin-dynamic-import-vars": "^1.4.3",
+        "rollup": "^2.75.6",
+        "rollup-plugin-terser": "^7.0.2",
+        "serve": "^13.0.2"
+    }
+}

@@ -5,24 +5,7 @@ export default defineConfig(({ mode }) => {
   return {
     build: {
       target: 'es2022',
-      outDir: 'build',
-      lib: {
-        entry: 'src/user.js',
-        formats: ['es'],
-        fileName: 'user',
-      },
-      rollupOptions: {
-        external: [
-          'shared/store.js',
-          'shared/vanilla-jsx.js',
-          'shared/router.js',
-          'shared/fetcher.js',
-          'shared/modal.js',
-          'shared/table.js',
-          'shared/tooltip.js',
-          'shared/utils.js',
-        ],
-      },
+      outDir: 'build-dev',
     },
     esbuild: {
       jsxFactory: 'createElement',
