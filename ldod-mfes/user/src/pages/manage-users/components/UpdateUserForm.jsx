@@ -9,69 +9,97 @@ export default () => {
   return (
     <div>
       <form role="form" class="form">
-        <div class="form-control form-flex">
-          <label data-key="firstName">{getConstants('firstName')}</label>
+        <div class="form-floating">
           <input
+            id="firstname"
+            class="form-control"
             key="firstname"
             type="text"
             autoComplete="first-name"
             name="firstName"
             value={user()?.firstName}
           />
+          <label data-key="firstName">{getConstants('firstName')}</label>
         </div>
-        <div class="form-control form-flex">
-          <label data-key="lastName">{getConstants('lastName')}</label>
+        <div class="form-floating">
           <input
+            id="lastname"
+            class="form-control"
             key="lastname"
             type="text"
             name="lastName"
             value={user()?.lastName}
           />
+          <label data-key="lastName">{getConstants('lastName')}</label>
         </div>
-        <div class="form-control form-flex">
+        <div class="form-floating">
           <input type="hidden" value={user()?.userName} name="oldUsername" />
-          <label data-key="userName">{getConstants('userName')}</label>
           <input
+            class="form-control"
+            id="username"
             key="userName"
             type="text"
             name="newUsername"
             value={user()?.userName}
           />
+          <label for="username" data-key="userName">
+            {getConstants('userName')}
+          </label>
         </div>
-        <div class="form-control form-flex">
-          <label data-key="email">{getConstants('email')}</label>
-          <input key="email" type="text" name="email" value={user()?.email} />
+        <div class="form-floating">
+          <input
+            id="email"
+            class="form-control"
+            key="email"
+            type="text"
+            name="email"
+            value={user()?.email}
+          />
+          <label for="email" data-key="email">
+            {getConstants('email')}
+          </label>
         </div>
-        <div class="form-control form-flex">
-          <label data-key="user">{getConstants('user')}</label>
+        <div class="form-floating">
+          <input
+            id="newPassword"
+            class="form-control"
+            key="newPassword"
+            type="text"
+            name="newPassword"
+            placeholder={getConstants('newPassword')}
+          />
+          <label for="newPassoword" data-key="newPassword">
+            {getConstants('newPassword')}
+          </label>
+        </div>
+        <div class="form-flex">
           <div>
-            <label class="switch">
-              <input name="role_user" type="checkbox" />
-              <span class="slider round"></span>
-            </label>
+            <label data-key="user">{getConstants('user')}</label>
+            <div>
+              <label class="switch">
+                <input name="role_user" type="checkbox" />
+                <span class="slider round"></span>
+              </label>
+            </div>
           </div>
-        </div>
-        <div class="form-control form-flex">
-          <label data-key="admin">{getConstants('admin')}</label>
           <div>
-            <label class="switch">
-              <input name="role_admin" type="checkbox" />
-              <span class="slider round"></span>
-            </label>
+            <label data-key="admin">{getConstants('admin')}</label>
+            <div>
+              <label class="switch">
+                <input name="role_admin" type="checkbox" />
+                <span class="slider round"></span>
+              </label>
+            </div>
           </div>
-        </div>
-        <div class="form-control form-flex">
-          <label data-key="enabled">{getConstants('enabled')}</label>
           <div>
-            <label class="switch">
-              <input name="enabled" type="checkbox" />
-              <span class="slider round"></span>
-            </label>
+            <label data-key="enabled">{getConstants('enabled')}</label>
+            <div>
+              <label class="switch">
+                <input name="enabled" type="checkbox" />
+                <span class="slider round"></span>
+              </label>
+            </div>
           </div>
-        </div>
-        <div class="form-control form-flex">
-          <label data-key="newPassword">{getConstants('newPassword')}</label>
-          <input key="newPassword" type="text" name="newPassword" />
         </div>
       </form>
     </div>

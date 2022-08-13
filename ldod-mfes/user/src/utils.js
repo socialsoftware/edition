@@ -1,13 +1,13 @@
 export function setInvalidFor(input, message) {
-  const formControl = input.parentElement;
-  const small = formControl.querySelector('small');
-  formControl.className = 'form-control invalid';
+  const formFloating = input.parentElement;
+  const small = formFloating.querySelector('small');
+  formFloating.className = 'form-floating invalid';
   small.innerText = message;
 }
 
 export function setValidFor(input) {
-  const formControl = input.parentElement;
-  formControl.className = 'form-control valid';
+  const formFloating = input.parentElement;
+  formFloating.className = 'form-floating valid';
 }
 
 export function capitalizeFirstLetter(word) {

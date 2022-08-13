@@ -194,8 +194,10 @@ export class SignUp extends HTMLElement {
         <div class="row">
           <form onSubmit={this.handleSubmit} role="form" class="form">
             <div class="col-md-offset-4 col-md-4">
-              <div class="form-control">
+              <div class="form-floating">
                 <input
+                  id="firstname"
+                  class="form-control"
                   key="firstname"
                   type="text"
                   autoComplete="first-name"
@@ -207,14 +209,17 @@ export class SignUp extends HTMLElement {
                   placeholder={this.getConstants('firstname')}
                   title={this.firstname.message()}
                 />
+                <label for="firstname">{this.getConstants('firstname')}</label>
                 <img src={check} class="icon-validation valid" />
                 <img src={exclamation} class="icon-validation invalid" />
                 <small key="req-alphabetic"></small>
               </div>
             </div>
             <div class="col-md-offset-4 col-md-4">
-              <div class="form-control">
+              <div class="form-floating">
                 <input
+                  id="lastname"
+                  class="form-control"
                   key="lastname"
                   type="text"
                   autoComplete="family-name"
@@ -226,14 +231,18 @@ export class SignUp extends HTMLElement {
                   placeholder={this.getConstants('lastname')}
                   title={this.lastname.message()}
                 />
+                <label for="lastname">{this.getConstants('lastname')}</label>
+
                 <img src={check} class="icon-validation valid" />
                 <img src={exclamation} class="icon-validation invalid" />
                 <small key="req-alphabetic"></small>
               </div>
             </div>
             <div class="col-md-offset-4 col-md-4">
-              <div class="form-control">
+              <div class="form-floating">
                 <input
+                  id="username"
+                  class="form-control"
                   key="username"
                   type="text"
                   autoComplete="username"
@@ -245,14 +254,17 @@ export class SignUp extends HTMLElement {
                   placeholder={this.getConstants('username')}
                   title={this.username.message()}
                 />
+                <label for="username">{this.getConstants('username')}</label>
                 <img src={check} class="icon-validation valid" />
                 <img src={exclamation} class="icon-validation invalid" />
                 <small key="req-alphanumeric"></small>
               </div>
             </div>
             <div class="col-md-offset-4 col-md-4">
-              <div class="form-control">
+              <div class="form-floating">
                 <input
+                  id="password"
+                  class="form-control"
                   key="password"
                   type="password"
                   autoComplete="current-password"
@@ -264,6 +276,8 @@ export class SignUp extends HTMLElement {
                   placeholder={this.getConstants('password')}
                   title={this.password.message()}
                 />
+                <label for="password">{this.getConstants('password')}</label>
+
                 <img
                   src={eye}
                   alt="eye icon"
@@ -277,8 +291,10 @@ export class SignUp extends HTMLElement {
               </div>
             </div>
             <div class="col-md-offset-4 col-md-4">
-              <div class="form-control">
+              <div class="form-floating">
                 <input
+                  id="email"
+                  class="form-control"
                   key="email"
                   type="text"
                   autoComplete="email"
@@ -290,13 +306,15 @@ export class SignUp extends HTMLElement {
                   placeholder={this.getConstants('email')}
                   title={this.email.message()}
                 />
+                <label for="email">{this.getConstants('email')}</label>
+
                 <img src={check} class="icon-validation valid" />
                 <img src={exclamation} class="icon-validation invalid" />
                 <small key="email-pattern"></small>
               </div>
             </div>
             <div class="col-md-offset-4 col-md-4">
-              <div class="form-control">
+              <div class="form-floating">
                 <input
                   type="checkbox"
                   name="conduct"

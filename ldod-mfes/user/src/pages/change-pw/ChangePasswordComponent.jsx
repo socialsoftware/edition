@@ -140,8 +140,10 @@ export class ChangePassword extends HTMLElement {
               value={this.username}
             />
             <div class="col-md-offset-4 col-md-4">
-              <div class="form-control">
+              <div class="form-floating">
                 <input
+                  id="current"
+                  class="form-control"
                   key="current"
                   name="current"
                   type="password"
@@ -152,6 +154,7 @@ export class ChangePassword extends HTMLElement {
                   }
                   placeholder={this.getConstants('current')}
                 />
+                <label for="current">{this.getConstants('current')}</label>
                 <img
                   src={eye}
                   alt="eye icon"
@@ -165,8 +168,10 @@ export class ChangePassword extends HTMLElement {
               </div>
             </div>
             <div class="col-md-offset-4 col-md-4">
-              <div class="form-control">
+              <div class="form-floating">
                 <input
+                  id="new"
+                  class="form-control"
                   key="new"
                   name="new"
                   type="password"
@@ -175,6 +180,7 @@ export class ChangePassword extends HTMLElement {
                   onKeyUp={({ target: { value } }) => (this.new.value = value)}
                   placeholder={this.getConstants('new')}
                 />
+                <label for="new">{this.getConstants('new')}</label>
                 <img
                   src={eye}
                   alt="eye icon"
@@ -188,8 +194,10 @@ export class ChangePassword extends HTMLElement {
               </div>
             </div>
             <div class="col-md-offset-4 col-md-4">
-              <div class="form-control">
+              <div class="form-floating">
                 <input
+                  id="confirm"
+                  class="form-control"
                   key="confirm"
                   name="confirm"
                   type="password"
@@ -200,6 +208,7 @@ export class ChangePassword extends HTMLElement {
                   value={this.confirm.value}
                   placeholder={this.getConstants('confirm')}
                 />
+                <label for="confirm">{this.getConstants('confirm')}</label>
                 <img
                   src={eye}
                   alt="eye icon"

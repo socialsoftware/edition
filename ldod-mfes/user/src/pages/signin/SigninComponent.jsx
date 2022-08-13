@@ -122,8 +122,10 @@ class SignIn extends HTMLElement {
         <h2 key="signin-title">{this.getConstants('signin-title')}</h2>
         <form role="form" onSubmit={this.handleSubmit} class="form">
           <div class="col-md-offset-4 col-md-4">
-            <div class="form-control">
+            <div class="form-floating">
               <input
+                class="form-control"
+                id="username"
                 key="username"
                 type="text"
                 autoComplete="username"
@@ -133,14 +135,17 @@ class SignIn extends HTMLElement {
                 placeholder={this.getConstants('username')}
                 title={this.getConstants('required')}
               />
+              <label for="username">{this.getConstants('username')}</label>
               <img src={check} class="icon-validation valid" />
               <img src={exclamation} class="icon-validation invalid" />
               <small key="required"></small>
             </div>
           </div>
           <div class="col-md-offset-4 col-md-4">
-            <div class="form-control">
+            <div class="form-floating">
               <input
+                id="password"
+                class="form-control"
                 key="password"
                 type="password"
                 autoComplete="current-password"
@@ -150,6 +155,7 @@ class SignIn extends HTMLElement {
                 placeholder={this.getConstants('password')}
                 title={this.getConstants('required')}
               />
+              <label for="password">{this.getConstants('password')}</label>
               <img
                 src={eye}
                 class="icon"
