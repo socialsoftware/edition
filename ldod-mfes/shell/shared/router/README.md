@@ -4,7 +4,7 @@
 
 ### Usage
 
-#### Declare routes
+#### Declare routes (example with lazy loading)
 
 ```js
 const routes = {
@@ -12,6 +12,16 @@ const routes = {
   '/other-route': async () => await import('./path/to/otherRoute.js'),
   ...
 };
+```
+
+Note: Each route must expose an object according:
+
+```js
+{
+  path: "/path",
+  mount: () => { ... },
+  unMount: () => { ... }
+}
 ```
 
 #### Declare LdodRouter Custom Element
@@ -73,7 +83,7 @@ const routes = {
   ```js
   {
     "route-path": () => {
-      path: "route-path",
+      path: "/route-path",
       mount: () => { ... },
       unMount: () => { ... }
     },
