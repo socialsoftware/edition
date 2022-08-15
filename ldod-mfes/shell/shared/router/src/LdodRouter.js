@@ -177,11 +177,15 @@ const isApiContractNotCompliant = async (route, id) => {
     return complianceWaring('Exposed api must of type "function"', id);
   const api = await route();
   if (
-    !(api.mount && api.unMount) ||
-    !(typeof api.mount === 'function' && typeof api.unMount === 'function')
+    !(api.path && api.mount && api.unMount) ||
+    !(
+      typeof api.path === 'string' &&
+      typeof api.mount === 'function' &&
+      typeof api.unMount === 'function'
+    )
   )
     return complianceWaring(
-      'the api function must expose mount and unMount functions',
+      'the api function must expose the keys "path" as a string, "mount" and "unMount" as functions',
       id
     );
   return false;
