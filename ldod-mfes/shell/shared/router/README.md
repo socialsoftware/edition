@@ -109,6 +109,11 @@ const routes = {
     }
     ```
 
+- shadow
+
+  - Description: Possibility to attach shadow root to custom element
+  - Type: boolean
+
 - language (optional, LdoD application specific)
   - Description: country code alpha-2 lower case (pt, en, es)
   - Type: String

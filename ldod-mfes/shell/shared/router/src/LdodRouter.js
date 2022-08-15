@@ -6,9 +6,8 @@ import {
   removeEndSlash,
 } from './utils';
 export default class LdodRouter extends HTMLElement {
-  constructor(shadow) {
+  constructor() {
     super();
-    if (shadow) this.shadow = shadow;
   }
 
   static get observedAttributes() {
@@ -17,10 +16,6 @@ export default class LdodRouter extends HTMLElement {
 
   get shadow() {
     return this.getAttribute('shadow');
-  }
-
-  set shadow(shadow) {
-    this.setAttribute('shadow', '');
   }
 
   get self() {
