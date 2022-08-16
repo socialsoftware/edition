@@ -106,15 +106,10 @@ export class SignUp extends HTMLElement {
 
   async updateLanguage() {
     await this.setConstants();
-    ['[key]'].forEach((selector) =>
-      this.querySelectorAll(selector).forEach((ele) => {
-        if (ele instanceof HTMLInputElement) {
-          ele.placeholder = this.getConstants(ele.getAttribute('key'));
-          ele.title = this.getState(ele.name).message();
-          return;
-        }
-        ele.innerHTML = this.getConstants(ele.getAttribute('key'));
-      })
+    ['[data-key]'].forEach((selector) =>
+      this.querySelectorAll(selector).forEach(
+        (ele) => (ele.innerHTML = this.getConstants(ele.dataset.key))
+      )
     );
     setState({ language: this.language });
   }
@@ -189,7 +184,7 @@ export class SignUp extends HTMLElement {
     return (
       <>
         <div class="row">
-          <h3 key="register">{this.getConstants('register')}</h3>
+          <h3 data-key="register">{this.getConstants('register')}</h3>
         </div>
         <div class="row">
           <form onSubmit={this.handleSubmit} role="form" class="form">
@@ -198,7 +193,6 @@ export class SignUp extends HTMLElement {
                 <input
                   id="firstname"
                   class="form-control"
-                  key="firstname"
                   type="text"
                   autoComplete="first-name"
                   name="firstname"
@@ -209,10 +203,12 @@ export class SignUp extends HTMLElement {
                   placeholder={this.getConstants('firstname')}
                   title={this.firstname.message()}
                 />
-                <label for="firstname">{this.getConstants('firstname')}</label>
+                <label data-key="firstname" for="firstname">
+                  {this.getConstants('firstname')}
+                </label>
                 <img src={check} class="icon-validation valid" />
                 <img src={exclamation} class="icon-validation invalid" />
-                <small key="req-alphabetic"></small>
+                <small data-key="req-alphabetic"></small>
               </div>
             </div>
             <div class="col-md-offset-4 col-md-4">
@@ -220,7 +216,6 @@ export class SignUp extends HTMLElement {
                 <input
                   id="lastname"
                   class="form-control"
-                  key="lastname"
                   type="text"
                   autoComplete="family-name"
                   name="lastname"
@@ -231,11 +226,13 @@ export class SignUp extends HTMLElement {
                   placeholder={this.getConstants('lastname')}
                   title={this.lastname.message()}
                 />
-                <label for="lastname">{this.getConstants('lastname')}</label>
+                <label data-key="lastname" for="lastname">
+                  {this.getConstants('lastname')}
+                </label>
 
                 <img src={check} class="icon-validation valid" />
                 <img src={exclamation} class="icon-validation invalid" />
-                <small key="req-alphabetic"></small>
+                <small data-key="req-alphabetic"></small>
               </div>
             </div>
             <div class="col-md-offset-4 col-md-4">
@@ -243,7 +240,6 @@ export class SignUp extends HTMLElement {
                 <input
                   id="username"
                   class="form-control"
-                  key="username"
                   type="text"
                   autoComplete="username"
                   name="username"
@@ -254,10 +250,12 @@ export class SignUp extends HTMLElement {
                   placeholder={this.getConstants('username')}
                   title={this.username.message()}
                 />
-                <label for="username">{this.getConstants('username')}</label>
+                <label data-key="username" for="username">
+                  {this.getConstants('username')}
+                </label>
                 <img src={check} class="icon-validation valid" />
                 <img src={exclamation} class="icon-validation invalid" />
-                <small key="req-alphanumeric"></small>
+                <small data-key="req-alphanumeric"></small>
               </div>
             </div>
             <div class="col-md-offset-4 col-md-4">
@@ -265,7 +263,6 @@ export class SignUp extends HTMLElement {
                 <input
                   id="password"
                   class="form-control"
-                  key="password"
                   type="password"
                   autoComplete="current-password"
                   name="password"
@@ -276,7 +273,9 @@ export class SignUp extends HTMLElement {
                   placeholder={this.getConstants('password')}
                   title={this.password.message()}
                 />
-                <label for="password">{this.getConstants('password')}</label>
+                <label data-key="password" for="password">
+                  {this.getConstants('password')}
+                </label>
 
                 <img
                   src={eye}
@@ -287,7 +286,7 @@ export class SignUp extends HTMLElement {
                 />
                 <img src={check} class="icon-validation valid" />
                 <img src={exclamation} class="icon-validation invalid" />
-                <small key="min-6"></small>
+                <small data-key="min-6"></small>
               </div>
             </div>
             <div class="col-md-offset-4 col-md-4">
@@ -295,7 +294,6 @@ export class SignUp extends HTMLElement {
                 <input
                   id="email"
                   class="form-control"
-                  key="email"
                   type="text"
                   autoComplete="email"
                   name="email"
@@ -306,11 +304,13 @@ export class SignUp extends HTMLElement {
                   placeholder={this.getConstants('email')}
                   title={this.email.message()}
                 />
-                <label for="email">{this.getConstants('email')}</label>
+                <label data-key="email" for="email">
+                  {this.getConstants('email')}
+                </label>
 
                 <img src={check} class="icon-validation valid" />
                 <img src={exclamation} class="icon-validation invalid" />
-                <small key="email-pattern"></small>
+                <small data-key="email-pattern"></small>
               </div>
             </div>
             <div class="col-md-offset-4 col-md-4">
@@ -323,16 +323,16 @@ export class SignUp extends HTMLElement {
                     (this.conduct.value = target.checked)
                   }
                 />
-                <span key="conduct">{this.getConstants('conduct')}</span>
+                <span data-key="conduct">{this.getConstants('conduct')}</span>
                 <img src={check} class="icon-validation valid" />
                 <img src={exclamation} class="icon-validation invalid" />
                 <img src={check} class="icon-validation valid" />
                 <img src={exclamation} class="icon-validation invalid" />
-                <small key="conduct-check"></small>
+                <small data-key="conduct-check"></small>
               </div>
             </div>
             <div class="col-sm-12">
-              <button key="register" class="btn btn-primary" type="submit">
+              <button data-key="register" class="btn btn-primary" type="submit">
                 {this.getConstants('register')}
               </button>
             </div>

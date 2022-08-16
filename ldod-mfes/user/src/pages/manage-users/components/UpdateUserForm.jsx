@@ -13,7 +13,6 @@ export default () => {
           <input
             id="firstname"
             class="form-control"
-            key="firstname"
             type="text"
             autoComplete="first-name"
             name="firstName"
@@ -25,7 +24,6 @@ export default () => {
           <input
             id="lastname"
             class="form-control"
-            key="lastname"
             type="text"
             name="lastName"
             value={user()?.lastName}
@@ -37,7 +35,6 @@ export default () => {
           <input
             class="form-control"
             id="username"
-            key="userName"
             type="text"
             name="newUsername"
             value={user()?.userName}
@@ -50,7 +47,6 @@ export default () => {
           <input
             id="email"
             class="form-control"
-            key="email"
             type="text"
             name="email"
             value={user()?.email}
@@ -63,7 +59,6 @@ export default () => {
           <input
             id="newPassword"
             class="form-control"
-            key="newPassword"
             type="text"
             name="newPassword"
             placeholder={getConstants('newPassword')}

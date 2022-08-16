@@ -1,10 +1,7 @@
 import check from '@src/resources/icons/check-circle.svg';
 import exclamation from '@src/resources/icons/exclamation-circle.svg';
 import eye from '@src/resources/icons/eye-solid.svg';
-import facebook from '@src/resources/icons/facebook.svg';
 import google from '@src/resources/icons/google.svg';
-import linkedin from '@src/resources/icons/linkedin.svg';
-import twitter from '@src/resources/icons/twitter.svg';
 import { authRequest } from '@src/apiRequests.js';
 import { socialAuth } from '@src/socialAuth.js';
 import {
@@ -53,15 +50,10 @@ class SignIn extends HTMLElement {
   }
   async updateLanguage() {
     await this.setConstants();
-    ['[key]'].forEach((selector) =>
-      this.querySelectorAll(selector).forEach((ele) => {
-        if (ele instanceof HTMLInputElement) {
-          ele.placeholder = this.getConstants(ele.getAttribute('key'));
-          ele.title = this.getConstants('required');
-          return;
-        }
-        ele.textContent = this.getConstants(ele.getAttribute('key'));
-      })
+    ['[data-key]'].forEach((selector) =>
+      this.querySelectorAll(selector).forEach(
+        (ele) => (ele.textContent = this.getConstants(ele.dataset.key))
+      )
     );
     setState({ language: this.language });
   }
@@ -119,14 +111,13 @@ class SignIn extends HTMLElement {
   getComponent = () => (
     <div class="row">
       <div class="login-form">
-        <h2 key="signin-title">{this.getConstants('signin-title')}</h2>
+        <h2 data-key="signin-title">{this.getConstants('signin-title')}</h2>
         <form role="form" onSubmit={this.handleSubmit} class="form">
           <div class="col-md-offset-4 col-md-4">
             <div class="form-floating">
               <input
                 class="form-control"
                 id="username"
-                key="username"
                 type="text"
                 autoComplete="username"
                 name="username"
@@ -135,10 +126,12 @@ class SignIn extends HTMLElement {
                 placeholder={this.getConstants('username')}
                 title={this.getConstants('required')}
               />
-              <label for="username">{this.getConstants('username')}</label>
+              <label data-key="username" for="username">
+                {this.getConstants('username')}
+              </label>
               <img src={check} class="icon-validation valid" />
               <img src={exclamation} class="icon-validation invalid" />
-              <small key="required"></small>
+              <small data-key="required"></small>
             </div>
           </div>
           <div class="col-md-offset-4 col-md-4">
@@ -146,7 +139,6 @@ class SignIn extends HTMLElement {
               <input
                 id="password"
                 class="form-control"
-                key="password"
                 type="password"
                 autoComplete="current-password"
                 name="password"
@@ -155,7 +147,9 @@ class SignIn extends HTMLElement {
                 placeholder={this.getConstants('password')}
                 title={this.getConstants('required')}
               />
-              <label for="password">{this.getConstants('password')}</label>
+              <label data-key="password" for="password">
+                {this.getConstants('password')}
+              </label>
               <img
                 src={eye}
                 class="icon"
@@ -164,12 +158,12 @@ class SignIn extends HTMLElement {
               />
               <img src={check} class="icon-validation valid" />
               <img src={exclamation} class="icon-validation invalid" />
-              <small key="required"></small>
+              <small data-key="required"></small>
             </div>
           </div>
           <div class="col-md-offset-5 col-md-2">
             <button
-              key="sign-in"
+              data-key="sign-in"
               class="btn btn-primary"
               type="submit"
               style={{ width: '100%' }}>
@@ -198,7 +192,7 @@ class SignIn extends HTMLElement {
         </div>
       </div>
       <div class="row">
-        <a key="signup" is="nav-to" to="/user/signup">
+        <a data-key="signup" is="nav-to" to="/user/signup">
           {this.getConstants('signup') ?? ''}
         </a>
       </div>

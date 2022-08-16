@@ -64,13 +64,9 @@ export class ChangePassword extends HTMLElement {
 
   async updateLanguage() {
     await this.setConstants();
-    ['[key]', '[key],[placeholder]'].forEach((selector) =>
-      this.querySelectorAll(selector).forEach((ele) => {
-        if (ele instanceof HTMLInputElement)
-          return (ele.placeholder = this.getConstants(ele.getAttribute('key')));
-        ele.innerHTML = this.getConstants(ele.getAttribute('key'));
-      })
-    );
+    this.querySelectorAll('[data-key]').forEach((ele) => {
+      ele.innerHTML = this.getConstants(ele.dataset.key);
+    });
     setState({ language: this.language });
   }
 
@@ -129,7 +125,9 @@ export class ChangePassword extends HTMLElement {
     return (
       <>
         <div class="row">
-          <h3 key="change-password">{this.getConstants('change-password')}</h3>
+          <h3 data-key="change-password">
+            {this.getConstants('change-password')}
+          </h3>
         </div>
         <div class="row">
           <form onSubmit={this.handleSubmit} role="form" class="form">
@@ -144,7 +142,6 @@ export class ChangePassword extends HTMLElement {
                 <input
                   id="current"
                   class="form-control"
-                  key="current"
                   name="current"
                   type="password"
                   autoComplete="current-password"
@@ -154,7 +151,9 @@ export class ChangePassword extends HTMLElement {
                   }
                   placeholder={this.getConstants('current')}
                 />
-                <label for="current">{this.getConstants('current')}</label>
+                <label data-key="current" for="current">
+                  {this.getConstants('current')}
+                </label>
                 <img
                   src={eye}
                   alt="eye icon"
@@ -164,7 +163,7 @@ export class ChangePassword extends HTMLElement {
                 />
                 <img src={check} class="icon-validation valid" />
                 <img src={exclamation} class="icon-validation invalid" />
-                <small key="required"></small>
+                <small data-key="required"></small>
               </div>
             </div>
             <div class="col-md-offset-4 col-md-4">
@@ -172,7 +171,6 @@ export class ChangePassword extends HTMLElement {
                 <input
                   id="new"
                   class="form-control"
-                  key="new"
                   name="new"
                   type="password"
                   autoComplete="new-password"
@@ -180,7 +178,9 @@ export class ChangePassword extends HTMLElement {
                   onKeyUp={({ target: { value } }) => (this.new.value = value)}
                   placeholder={this.getConstants('new')}
                 />
-                <label for="new">{this.getConstants('new')}</label>
+                <label data-key="new" for="new">
+                  {this.getConstants('new')}
+                </label>
                 <img
                   src={eye}
                   alt="eye icon"
@@ -190,7 +190,7 @@ export class ChangePassword extends HTMLElement {
                 />
                 <img src={check} class="icon-validation valid" />
                 <img src={exclamation} class="icon-validation invalid" />
-                <small key="minCurrent"></small>
+                <small data-key="minCurrent"></small>
               </div>
             </div>
             <div class="col-md-offset-4 col-md-4">
@@ -198,7 +198,6 @@ export class ChangePassword extends HTMLElement {
                 <input
                   id="confirm"
                   class="form-control"
-                  key="confirm"
                   name="confirm"
                   type="password"
                   autoComplete="new-password"
@@ -208,7 +207,9 @@ export class ChangePassword extends HTMLElement {
                   value={this.confirm.value}
                   placeholder={this.getConstants('confirm')}
                 />
-                <label for="confirm">{this.getConstants('confirm')}</label>
+                <label data-key="confirm" for="confirm">
+                  {this.getConstants('confirm')}
+                </label>
                 <img
                   src={eye}
                   alt="eye icon"
@@ -218,13 +219,13 @@ export class ChangePassword extends HTMLElement {
                 />
                 <img src={check} class="icon-validation valid" />
                 <img src={exclamation} class="icon-validation invalid" />
-                <small key="confirmPattern"></small>
+                <small data-key="confirmPattern"></small>
               </div>
             </div>
 
             <div class="form-group row">
               <div class="col-sm-12">
-                <button key="update" class="btn btn-primary" type="submit">
+                <button data-key="update" class="btn btn-primary" type="submit">
                   {this.getConstants('update')}
                 </button>
               </div>
