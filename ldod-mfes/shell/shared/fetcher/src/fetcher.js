@@ -51,7 +51,7 @@ const request = async (method, url, data, token) => {
 
 export const fetcher = ['get', 'post', 'put', 'delete'].reduce(
   (fetcher, method) => {
-    fetcher[method] = (url, data, token) =>
+    fetcher[method] = (url, data = {}, token) =>
       request(method.toUpperCase(), url, data, token);
     return fetcher;
   },
