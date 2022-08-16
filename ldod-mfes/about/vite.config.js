@@ -7,9 +7,9 @@ export default defineConfig(({ mode }) => {
       target: 'es2022',
       outDir: 'build',
       lib: {
-        entry: 'src/index.js',
+        entry: 'src/about.js',
         formats: ['es'],
-        fileName: 'user',
+        fileName: 'about',
       },
       rollupOptions: {
         external: ['shared/vanilla-jsx.js', 'shared/router.js'],

@@ -221,3 +221,128 @@ describe('Store class instantiation persisted with key object values', () => {
     expect(result.user).toStrictEqual(undefined);
   });
 });
+
+describe('A store with some state is created', () => {
+  let store;
+  let state;
+
+  beforeEach(() => {
+    store = new Store({ first: 'first', second: 'second' });
+    state = undefined;
+  });
+
+  it('when subscribing store without selector full store is used on callback', () => {
+    const unsub = store.subscribe((curr, prev) => {
+      state = { prev, curr };
+    });
+    store.setState({ first: 'new first' });
+    expect(state).toStrictEqual({
+      prev: { first: 'first', second: 'second' },
+      curr: { first: 'new first', second: 'second' },
+    });
+  });
+
+  it('when unsubscribing store without selector no more reactions will happen upon changing state', () => {
+    const unsub = store.subscribe((curr, prev) => {
+      state = { prev, curr };
+    });
+    unsub();
+    store.setState({ first: 'new first' });
+    expect(state).toBeUndefined();
+  });
+
+  it('when subscribing store with selector only the partial state is used on callback', () => {
+    const cb = (currFirst, prevFirst) => {
+      state = { currFirst, prevFirst };
+    };
+    const unsub = store.subscribe(cb, 'first');
+    store.setState({ first: 'new first' });
+
+    expect(state).toStrictEqual({ currFirst: 'new first', prevFirst: 'first' });
+  });
+
+  it('when subscribing to store with selector and another selector is changed no reaction happens', () => {
+    const cb = (currFirst, prevFirst) => {
+      state = { currFirst, prevFirst };
+    };
+    const unsub = store.subscribe(cb, 'first');
+    store.setState({ second: 'new second' });
+
+    expect(state).toBeUndefined();
+  });
+
+  it('when unsubscribing store with selector no reaction happens', () => {
+    const cb = (curr, prev) => {
+      state = { curr, prev };
+    };
+    const unsub = store.subscribe(cb, 'second');
+    unsub();
+    store.setState({ second: 'new second' });
+
+    expect(state).toBeUndefined();
+  });
+
+  it('when subscribing store with multuple selectors the right selector is used on store changed', () => {
+    const cb = (curr, prev) => {
+      state = { ...state, curr };
+    };
+    const unsubOne = store.subscribe(cb, 'first');
+
+    const unsubTwo = store.subscribe(cb, 'second');
+    store.setState({ first: 'one' });
+    store.setState({ second: 'two' });
+
+    expect(state).toStrictEqual({ curr: 'two' });
+  });
+
+  it('when subscribing store with multuple selectors the right selector is used on store changed', () => {
+    const cbOne = (newFirst, oldFirst) => {
+      state = { ...state, newFirst };
+    };
+
+    const cbTwo = (newSecond, oldSecond) => {
+      state = { ...state, newSecond };
+    };
+    const unsubOne = store.subscribe(cbOne, 'first');
+    const unsubTwo = store.subscribe(cbTwo, 'second');
+    store.setState({ first: 'one' });
+    store.setState({ second: 'two' });
+
+    expect(state).toStrictEqual({ newFirst: 'one', newSecond: 'two' });
+  });
+
+  it('when adding two subscribers without selector both are executed', () => {
+    const cbOne = (curr, prev) => {
+      state = { ...state, prev };
+    };
+
+    const cbTwo = (curr, prev) => {
+      state = { ...state, curr };
+    };
+    const unsubOne = store.subscribe(cbOne);
+    const unsubTwo = store.subscribe(cbTwo);
+    store.setState({ first: 'one' });
+    store.setState({ second: 'two' });
+
+    expect(state).toStrictEqual({
+      curr: { first: 'one', second: 'two' },
+      prev: { first: 'one', second: 'second' },
+    });
+  });
+
+  it('when adding two subscribers with selector both are executed', () => {
+    const cbOne = (newFirst, oldFirst) => {
+      state = { ...state, newFirst };
+    };
+
+    const cbTwo = (newFirst, oldFirst) => {
+      state = { ...state, newFirst };
+    };
+    const unsubOne = store.subscribe(cbOne, 'first');
+    const unsubTwo = store.subscribe(cbTwo, 'first');
+    store.setState({ first: 'one' });
+    store.setState({ first: 'two' });
+
+    expect(state).toStrictEqual({ newFirst: 'two' });
+  });
+});

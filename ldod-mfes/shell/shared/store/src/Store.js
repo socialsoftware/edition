@@ -50,19 +50,20 @@ export class Store {
 
   setState(state, replace) {
     if (!state) return;
-    state =
-      typeof state === 'object' || typeof state === 'function'
-        ? state
-        : { state };
-    const nextState = typeof state === 'function' ? state(this.#state) : state;
+    state = checkStateType(state);
+
+    const nextState = this.setNextStateAccordingType(state);
+
     if (!objectsAreEqual(nextState, this.#state)) {
       const previousState = this.#state;
       this.#state = replace ? nextState : { ...this.#state, ...nextState };
+
       if (this.#persist?.storageName && this.#persist?.keys)
         setPartialStorage(
           this.#persist.storageName,
           filterObjectByKeys(this.#state, this.#persist.keys)
         );
+
       Object.keys(nextState).forEach((key) => {
         this.#listenersBySelector
           .get(key)
@@ -70,9 +71,26 @@ export class Store {
             listener(this.#state[key], previousState[key])
           );
       });
+
       this.#listeners.forEach((listener) =>
         listener(this.#state, previousState)
       );
     }
   }
+
+  setNextStateAccordingType(state) {
+    return typeof state === 'function'
+      ? (() => {
+          let newState = state(this.#state);
+          return newState || this.#state;
+        })()
+      : state;
+  }
+}
+function checkStateType(state) {
+  state =
+    typeof state === 'object' || typeof state === 'function'
+      ? state
+      : { state };
+  return state;
 }
