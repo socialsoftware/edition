@@ -10,6 +10,8 @@
 ### Usage
 
 ```jsx
+import 'path/to/shared/table.js';
+
 <ldod-table
   id="table-id"
   classes="table table-striped table-bordered"
@@ -17,7 +19,7 @@
   data={data}
   language="en"
   constants={constants}
-  data-searchkey="externalId"></ldod-table>
+  data-searchkey="externalId"></ldod-table>;
 ```
 
 ### Attributes
