@@ -41,12 +41,7 @@ export class LdodModal extends HTMLElement {
   handleToggleShow = () => {
     const modal = this.shadowRoot.querySelector('div#ldod-modal');
     if (!modal) return;
-    //if (this.hasAttribute('show')) {
-    //  modal.addEventListener('click', (e) => {
-    //    console.log(e.target);
-    //    e.target === modal && this.handleCloseModal();
-    //  });
-    //}
+
     document.body.classList.toggle('modal-open');
     modal.ariaHidden = !this.show;
   };

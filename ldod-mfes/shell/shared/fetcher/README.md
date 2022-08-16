@@ -14,7 +14,6 @@ fetcher.post(url, {data: "some-data"})
 fetcher.put(url, {data: "some-data"}, token)
 
 fetcher.delete(url)
-
 ```
 
 ### Request methods arguments
