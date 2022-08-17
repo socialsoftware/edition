@@ -24,22 +24,21 @@ Note: Each route must expose an object according:
 }
 ```
 
-#### Declare LdodRouter Custom Element
+#### Declare LdodRouter Custom Element and NavTo Anchor Element
 
-```html
+```js
+import 'path/to/shared/dist/router.js';
+
 <ldod-router
   id="routerId"
   base="/base"
   route="/route"
   routes="{routes}"
-  language="en"
-></ldod-router>
-```
+  language="en"></ldod-router>;
 
-#### Declare NavTo Anchor Element
-
-```html
-<a is="nav-to" to="/route"> Go to route </a>
+<a is="nav-to" to="/route">
+  Go to route
+</a>;
 ```
 
 ### Attributes

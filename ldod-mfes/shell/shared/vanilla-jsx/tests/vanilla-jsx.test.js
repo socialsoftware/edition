@@ -135,3 +135,37 @@ test('create a document fragment', () => {
   expect(uut.childNodes.length).toBe(2);
   uut.childNodes.forEach((node) => expect(node).toBeInstanceOf(HTMLDivElement));
 });
+
+test('create a div element that is an extension of a custom HTMLDivElement', () => {
+  class CustomDiv extends HTMLDivElement {
+    constructor() {
+      super();
+    }
+  }
+  customElements.define('custom-div', CustomDiv, { extends: 'div' });
+  const customDiv = createElement('div', {
+    is: 'custom-div',
+    id: 'myDiv',
+    class: 'test test2',
+  });
+  expect(customDiv).toBeInstanceOf(CustomDiv);
+  expect(customDiv.id).toBe('myDiv');
+  expect(customDiv.classList).toContain('test');
+  expect(customDiv.classList).toContain('test2');
+});
+test('create a template element', () => {
+  const div = createElement('div', { id: 'div' });
+  const template = createElement(
+    'template',
+    {
+      id: 'template',
+    },
+    div
+  );
+  expect(template).toBeInstanceOf(HTMLTemplateElement);
+  expect(template.id).toBe('template');
+  expect(template.content).toBeInstanceOf(DocumentFragment);
+  console.log(template.content.firstElementChild);
+  expect(template.content.firstElementChild).toBeInstanceOf(HTMLDivElement);
+  expect(template.content.firstElementChild.id).toBe('div');
+});

@@ -7,6 +7,8 @@
 #### Empty store
 
 ```js
+import { Store } from 'path/to/shared/dist/store.js';
+
 const store = new Store();
 ```
 

@@ -15,14 +15,6 @@ export const createElement = (tag, props, ...children) => {
         );
       }
 
-      if (key === 'style-module') {
-        Object.entries(value).forEach(([key, value]) => {
-          if (elem.classList.contains(key)) elem.classList.remove(key);
-          elem.classList.add(value);
-        });
-        delete props.class;
-      }
-
       if (typeof value === 'function' || typeof value === 'object') {
         return (elem[key] = value);
       }

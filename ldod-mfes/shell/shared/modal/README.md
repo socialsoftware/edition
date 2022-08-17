@@ -6,12 +6,14 @@
 
 ### Usage
 
-```html
+```js
+import 'path/to/shared/dist/modal.js';
+
 <ldod-modal dialog-class="modal-lg" show>
   <div slot="header-slot">Modal Header</div>
   <div slot="body-slot">Modal Body</div>
   <div slot="footer-slot">Modal Footer</div>
-</ldod-modal>
+</ldod-modal>;
 ```
 
 ### Attributes

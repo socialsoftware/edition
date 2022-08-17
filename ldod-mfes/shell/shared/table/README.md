@@ -10,7 +10,7 @@
 ### Usage
 
 ```jsx
-import 'path/to/shared/table.js';
+import 'path/to/shared/dist/table.js';
 
 <ldod-table
   id="table-id"
