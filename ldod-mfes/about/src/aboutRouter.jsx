@@ -6,6 +6,8 @@ const ABOUT_SELECTOR = 'div#aboutContainer';
 
 const routes = {
   '/archive': async () => await import(`./pages/archive/archive.jsx`),
+  '/acknowledgements': async () => await import(`./pages/ack/ack.jsx`),
+  '/articles': async () => await import(`./pages/articles/articles.jsx`),
 };
 
 export const mount = (lang, ref) => {

@@ -1,7 +1,7 @@
 const loadComponent = async (lang) =>
-  (await import(`./components/Archive-${lang}.jsx`)).default();
+  (await import(`./components/Ack-${lang}.jsx`)).default();
 
-export class LdodArchive extends HTMLElement {
+export class LdodAck extends HTMLElement {
   constructor() {
     super();
   }
@@ -32,11 +32,7 @@ export class LdodArchive extends HTMLElement {
   };
 
   wrapper() {
-    return (
-      <>
-        <div id="aboutWrapper" class="ldod-about"></div>
-      </>
-    );
+    return <div id="aboutWrapper" class="ldod-about"></div>;
   }
 
   async render() {
@@ -46,5 +42,4 @@ export class LdodArchive extends HTMLElement {
     );
   }
 }
-!customElements.get('ldod-archive') &&
-  customElements.define('ldod-archive', LdodArchive);
+!customElements.get('ldod-ack') && customElements.define('ldod-ack', LdodAck);

@@ -1,7 +1,7 @@
 const loadComponent = async (lang) =>
-  (await import(`./components/Archive-${lang}.jsx`)).default();
+  (await import(`./components/Articles-${lang}.jsx`)).default();
 
-export class LdodArchive extends HTMLElement {
+export class LdodArticles extends HTMLElement {
   constructor() {
     super();
   }
@@ -46,5 +46,5 @@ export class LdodArchive extends HTMLElement {
     );
   }
 }
-!customElements.get('ldod-archive') &&
-  customElements.define('ldod-archive', LdodArchive);
+!customElements.get('ldod-articles') &&
+  customElements.define('ldod-articles', LdodArticles);
