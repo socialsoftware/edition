@@ -522,3 +522,13 @@ thead td {
 .table-responsive>.table-bordered {
     border: 0;
 }
+
+table a {
+    color: #0c4ef6 !important;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+table a:hover {
+    text-decoration: underline;
+}

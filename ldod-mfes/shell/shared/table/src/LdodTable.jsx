@@ -11,7 +11,7 @@ export class LdodTable extends HTMLElement {
   }
 
   get isFullyLoaded() {
-    return this.lastIndex === this.data.length;
+    return this.data.length < 20 || this.lastIndex === this.data.length;
   }
 
   get interval() {
@@ -56,6 +56,7 @@ export class LdodTable extends HTMLElement {
     this.appendChild(<style>{tableStyle}</style>);
     this.render();
     if (!this.isFullyLoaded) this.addObserver();
+    history.state.searchTerm && this.handleSearchInput();
   }
 
   disconnectedCallback() {}
@@ -93,13 +94,14 @@ export class LdodTable extends HTMLElement {
     });
   }
 
-  handleSearchInput = ({ target }) => {
+  handleSearchInput = () => {
     if (!this.isFullyLoaded) {
       this.observer.disconnect();
       this.addRows(this.data.length);
     }
 
-    const searchTerm = target.value;
+    const searchTerm = this.querySelector('input#searchField').value?.trim();
+    history.replaceState(searchTerm ? { searchTerm } : {}, {});
     const result = this.data
       .filter((item) =>
         item.search?.toLowerCase().includes(searchTerm?.toLowerCase().trim())
@@ -115,10 +117,12 @@ export class LdodTable extends HTMLElement {
   getSearch() {
     return (
       <input
+        id="searchField"
         type="search"
         name="search"
         placeholder="search"
         onInput={this.handleSearchInput}
+        value={history.state.searchTerm ?? ''}
       />
     );
   }
@@ -154,7 +158,13 @@ export class LdodTable extends HTMLElement {
               ))}
             </tr>
           </thead>
-          <tbody>{this.getRows(0, this.interval)}</tbody>
+          {this.data.length ? (
+            <tbody>{this.getRows(0, this.interval)}</tbody>
+          ) : (
+            <tbody>
+              <tr>No records found</tr>
+            </tbody>
+          )}
         </table>
       </>
     );

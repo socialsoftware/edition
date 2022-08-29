@@ -5,7 +5,7 @@ import { setUser, usersData } from '../ManageUsers';
 import constants from '../resources/constants.js';
 import UpdateModal from './UpdateUserModal.jsx';
 import UptadeUserForm from './UpdateUserForm.jsx';
-const { Table } = import.meta.env.DEV
+import.meta.env.DEV
   ? await import('shared/table-dev.js')
   : await import('shared/table.js');
 const manageUsers = () => document.querySelector('manage-users');

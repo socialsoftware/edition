@@ -126,6 +126,7 @@ public class AwareAnnotationFactory {
 
     private boolean validateCriteria(Citation tc, Set<SocialMediaCriteria> criteria) {
         boolean isValid = true;
+
         for (SocialMediaCriteria criterion : criteria) {
             if (criterion instanceof MediaSource) {
                 if (tc instanceof TwitterCitation && !((MediaSource) criterion).getName().equals("Twitter")) {
@@ -135,10 +136,10 @@ public class AwareAnnotationFactory {
                 DateTimeFormatter formatter = DateTimeFormat.forPattern("d-MMM-yyyy");
 
                 // estilo: "16-Aug-2016"
-                String date = tc.getDate().split(" ")[0];
-
+                //String date = tc.getDate().split(" ")[0];
+                LocalDate localDate = org.joda.time.LocalDate.parse(tc.getFormatedDate().toLocalDate().toString());
                 // converter para estilo universal localdate: "2016-08-16"
-                LocalDate localDate = LocalDate.parse(date, formatter);
+                //LocalDate localDate = LocalDate.parse(date, formatter);
 
                 LocalDate beginDate = ((TimeWindow) criterion).getBeginDate();
                 LocalDate endDate = ((TimeWindow) criterion).getEndDate();

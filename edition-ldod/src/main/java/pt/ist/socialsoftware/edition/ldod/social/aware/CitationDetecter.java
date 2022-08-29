@@ -15,6 +15,7 @@ import org.apache.lucene.search.spans.SpanNearQuery;
 import org.apache.lucene.search.spans.SpanQuery;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.NIOFSDirectory;
+import org.joda.time.LocalDateTime;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
@@ -31,6 +32,7 @@ import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -119,10 +121,9 @@ public class CitationDetecter {
 
     @Atomic
     private String getLastFilenameForSource(String source) {
-        String lastFileName = LdoD.getInstance().getLastTwitterID().getLastParsedFile(source) != null
+        return LdoD.getInstance().getLastTwitterID().getLastParsedFile(source) != null
                 ? LdoD.getInstance().getLastTwitterID().getLastParsedFile(source)
                 : "";
-        return lastFileName;
     }
 
     private void fileCitationDetection(File fileEntry) throws IOException {
@@ -168,8 +169,8 @@ public class CitationDetecter {
                     break;
                 }
             } catch (ParseException |
-                    org.apache.lucene.queryparser.classic.ParseException |
-                    org.json.simple.parser.ParseException e) {
+                     org.apache.lucene.queryparser.classic.ParseException |
+                     org.json.simple.parser.ParseException e) {
                 e.printStackTrace();
             }
         }
@@ -249,12 +250,12 @@ public class CitationDetecter {
                         cleanTeeetLocation = removeEmojiAndSymbolFromString(cleanTeeetLocation);
 
                         matcher = pattern.matcher((String) obj.get("country"));
-                        String cleanTeeetCountry = matcher.replaceAll("");
-                        cleanTeeetCountry = removeEmojiAndSymbolFromString(cleanTeeetCountry);
+                        String cleanTweetCountry = matcher.replaceAll("");
+                        cleanTweetCountry = removeEmojiAndSymbolFromString(cleanTweetCountry);
 
                         new TwitterCitation(fragment, (String) obj.get("tweetURL"), (String) obj.get("date"),
                                 d.get(this.TEXT), cleanTweetText, (long) obj.get("tweetID"), cleanTeeetLocation,
-                                cleanTeeetCountry, (String) obj.get("username"), (String) obj.get("profURL"),
+                                cleanTweetCountry, (String) obj.get("username"), (String) obj.get("profURL"),
                                 (String) obj.get("profImg"));
                     }
 

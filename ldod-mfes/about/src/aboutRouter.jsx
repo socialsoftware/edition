@@ -8,6 +8,15 @@ const routes = {
   '/archive': async () => await import(`./pages/archive/archive.jsx`),
   '/acknowledgements': async () => await import(`./pages/ack/ack.jsx`),
   '/articles': async () => await import(`./pages/articles/articles.jsx`),
+  '/book': async () => await import(`./pages/book/book.jsx`),
+  '/conduct': async () => await import(`./pages/conduct/conduct.jsx`),
+  '/copyright': async () => await import(`./pages/copyright/copyright.jsx`),
+  '/encoding': async () => await import('./pages/encoding/encoding.jsx'),
+  '/faq': async () => await import('./pages/faq/faq.jsx'),
+  '/privacy': async () => await import('./pages/privacy/privacy.jsx'),
+  '/team': async () => await import('./pages/team/team.jsx'),
+  '/tutorials': async () => await import('./pages/tutorials/tutorials.jsx'),
+  '/videos': async () => await import('./pages/videos/videos.jsx'),
 };
 
 export const mount = (lang, ref) => {

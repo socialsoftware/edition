@@ -15,7 +15,7 @@ function getUserComponentNotAuthenticated() {
 const getUserComponentAuthenticated = () => {
   return (
     <>
-      <a id="login" class="dropdown-toggle">
+      <a id="loggedIn" class="dropdown-toggle">
         {userFullName()}
         <span class="caret"></span>
       </a>

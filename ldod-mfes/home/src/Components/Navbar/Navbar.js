@@ -5,6 +5,8 @@ import style from '../../../style/navbar.css' assert { type: 'css' };
 import './DropdownMenu.js';
 import './LangMenu.js';
 import { checkUserCompCompliance, isMFEAvailable } from '../../utils.js';
+const isUserCompCompliant =
+  isMFEAvailable('user') && (await checkUserCompCompliance());
 
 const styleSheet = new CSSStyleSheet();
 window.html = String.raw;
@@ -15,9 +17,8 @@ export default class LdodNavbar extends HTMLElement {
   constructor() {
     super();
     const shadow = this.attachShadow({ mode: 'open' });
-    this.constants = undefined;
-    this.user = undefined;
     shadow.adoptedStyleSheets = [styleSheet];
+    this.toggleEvent = this.toggleEvent.bind(this);
   }
 
   static get observedAttributes() {
@@ -44,10 +45,10 @@ export default class LdodNavbar extends HTMLElement {
     styleSheet.replaceSync(style);
     if (!styleSheet.cssRules.length)
       this.shadowRoot.adoptedStyleSheets = [style];
-    this.language = this.language;
     await this.setConstants();
     await this.render();
     this.addDropdownEventListeners();
+    this.addExpandedCollapseEvent();
     this.addEventListener('ldod-login', this.onUserLogin);
     this.addEventListener('ldod-logout', this.onUserLogout);
   }
@@ -102,18 +103,16 @@ export default class LdodNavbar extends HTMLElement {
 
   async render() {
     await this.setInnerHTML();
-    this.shadowRoot
-      .querySelector('.navbar-toggle')
-      .addEventListener('click', this.toggleEvent);
   }
 
   toggleEvent() {
-    const element = this.getRootNode().querySelector('.navbar-collapse');
+    const element = this.shadowRoot.querySelector('.navbar-collapse');
     element.ariaExpanded = element.ariaExpanded === 'true' ? 'false' : 'true';
   }
 
   onUserLogin(e) {
     e.stopPropagation();
+    this.addExpandedCollapseEvent();
     const user = e.detail.user;
     if (user && typeof user === 'object') {
       !this.user && this.addUserEditions(user.selectedVE);
@@ -176,7 +175,7 @@ export default class LdodNavbar extends HTMLElement {
                   ${this.constants['header_title']}
                 </a>
                 <ul class="nav navbar-nav user-component hidden-xs">
-                  ${isMFEAvailable('user') && (await checkUserCompCompliance())
+                  ${isUserCompCompliant
                     ? html`
                         <li
                           class="dropdown"
@@ -192,7 +191,7 @@ export default class LdodNavbar extends HTMLElement {
           <div class="container">
             <div class="navbar-collapse collapse" aria-expanded="false">
               <ul class="nav navbar-nav navbar-nav-flex">
-                ${isMFEAvailable('user') && (await checkUserCompCompliance())
+                ${isUserCompCompliant
                   ? html` <li
                       class="dropdown visible-xs"
                       is="user-component"
@@ -241,6 +240,18 @@ export default class LdodNavbar extends HTMLElement {
 
   getDropdownElements() {
     return this.shadowRoot.querySelectorAll('.dropdown');
+  }
+
+  addExpandedCollapseEvent() {
+    // TODO: user component collapse
+    this.shadowRoot
+      .querySelectorAll(
+        '.navbar-toggle, li.nav-lang a, ul.dropdown-menu a, li.dropdown.visible-xs>a.login'
+      )
+      .forEach((element) => {
+        element.removeEventListener('click', this.toggleEvent);
+        element.addEventListener('click', this.toggleEvent);
+      });
   }
 
   addDropdownEventListeners() {

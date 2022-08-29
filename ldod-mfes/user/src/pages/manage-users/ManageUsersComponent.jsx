@@ -1,5 +1,5 @@
 import { deleteSessionsRequest, switchModeRequest } from '@src/apiRequests.js';
-import editIcon from '@src/resources/icons/edit.svg';
+import style from './manageUsersStyle.css?inline';
 import 'shared/modal.js';
 import UsersTable from './components/UsersListTable.jsx';
 import { usersData } from './ManageUsers.jsx';
@@ -57,6 +57,7 @@ export class ManageUsers extends HTMLElement {
 
   render() {
     this.innerHTML = '';
+    this.appendChild(<style>{style}</style>);
     this.appendChild(this.getComponent());
   }
 
@@ -88,8 +89,9 @@ export class ManageUsers extends HTMLElement {
   onSwitchMode = () => {
     switchModeRequest().then((res) => {
       res && this.setMode(res.ok);
-      this.querySelector('#adminMode>button>span').innerHTML =
-        this.getConstants(`${this.getMode()}Mode`);
+      this.querySelector('span[label]').textContent = this.getConstants(
+        `${this.getMode()}Mode`
+      );
     });
   };
 
@@ -128,9 +130,7 @@ export class ManageUsers extends HTMLElement {
       <div class="container">
         {usersData() && (
           <>
-            <h1
-              class="text-center"
-              style={{ display: 'flex', justifyContent: 'center' }}>
+            <h1 class="text-center flex-center">
               <div data-key="users">{this.getConstants('users')}</div>
               <span>&nbsp;({this.usersLength})</span>
             </h1>
@@ -144,8 +144,8 @@ export class ManageUsers extends HTMLElement {
                 type="button"
                 class="btn btn-danger ellipsis"
                 onClick={this.onSwitchMode}>
-                <img src={editIcon} class="btn-icon" />
-                <span dynamic dynamicKey={() => `${this.getMode()}Mode`}>
+                <span class="icon icon-edit"></span>
+                <span label dynamic dynamicKey={() => `${this.getMode()}Mode`}>
                   {this.getConstants(`${this.getMode()}Mode`)}
                 </span>
               </button>
@@ -161,8 +161,8 @@ export class ManageUsers extends HTMLElement {
                 type="button"
                 class="btn btn-danger ellipsis"
                 onClick={this.onDeleteSessions}>
-                <img src={editIcon} class="btn-icon" />
-                <span data-key="deleteUserSessions">
+                <span class="icon icon-edit"></span>
+                <span label data-key="deleteUserSessions">
                   {this.getConstants('deleteUserSessions')}
                 </span>
               </button>

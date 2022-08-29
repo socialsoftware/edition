@@ -10,15 +10,20 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.stereotype.Service;
 import pt.ist.socialsoftware.edition.ldod.bff.dtos.GoogleIdentityDto;
 import pt.ist.socialsoftware.edition.ldod.bff.dtos.SigninRequestDto;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
+import pt.ist.socialsoftware.edition.ldod.domain.UserConnection;
 import pt.ist.socialsoftware.edition.ldod.dto.JWTAuthenticationDto;
-import pt.ist.socialsoftware.edition.ldod.dto.ldodMfes.SignupDto;
+import pt.ist.socialsoftware.edition.ldod.bff.dtos.SignupDto;
+import pt.ist.socialsoftware.edition.ldod.security.LdoDConnectionRepository;
 import pt.ist.socialsoftware.edition.ldod.security.jwt.GoogleAuthTokenVerifier;
 import pt.ist.socialsoftware.edition.ldod.security.jwt.JWTTokenProvider;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
@@ -26,6 +31,7 @@ import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.Emailer;
 import pt.ist.socialsoftware.edition.ldod.validator.SignupValidator;
 
+import javax.inject.Inject;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -54,6 +60,9 @@ public class UserAuthService {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    TextEncryptor textEncryptor;
 
 
     public JWTAuthenticationDto authenticationService(SigninRequestDto signinRequestDto) throws AuthenticationException {

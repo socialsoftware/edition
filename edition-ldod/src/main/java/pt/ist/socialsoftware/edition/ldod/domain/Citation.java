@@ -15,9 +15,9 @@ public abstract class Citation extends Citation_Base {
 	public void remove() {
 		setFragment(null);
 
-		getAwareAnnotationSet().stream().forEach(aa -> aa.remove());
+		getAwareAnnotationSet().forEach(AwareAnnotation::remove);
 
-		getInfoRangeSet().stream().forEach(infoRange -> infoRange.remove());
+		getInfoRangeSet().forEach(InfoRange::remove);
 
 		deleteDomainObject();
 	}
@@ -34,7 +34,7 @@ public abstract class Citation extends Citation_Base {
 	public abstract int getNumberOfRetweets();
 
 	public LocalDateTime getFormatedDate() {
-		DateTimeFormatter formater = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
-		return LocalDateTime.parse(getDate(), formater);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
+		return LocalDateTime.parse(getDate(), formatter);
 	}
 }

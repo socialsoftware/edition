@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.dto.ldodMfes;
+package pt.ist.socialsoftware.edition.ldod.bff.dtos;
 
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 

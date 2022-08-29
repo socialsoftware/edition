@@ -17,7 +17,7 @@ public class TwitterCitation extends TwitterCitation_Base {
 
 	@Override
 	public void remove() {
-		getTweetSet().stream().forEach(t -> removeTweet(t));
+		getTweetSet().forEach(this::removeTweet);
 
 		super.remove();
 	}

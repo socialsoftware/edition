@@ -34,7 +34,7 @@ export default {
       },
       isMFEAvailable('social') && {
         id: 'general_citations_twitter',
-        route: '/reading/citations',
+        route: '/social/twitter-citations',
       },
     ],
   },
@@ -45,7 +45,7 @@ export default {
       { id: 'fragment_codified', route: '/documents/fragments' },
     ],
   },
-  editions: /* (isMFEAvailable('virtual') || isMFEAvailable('text')) &&*/ {
+  editions: (isMFEAvailable('virtual') || isMFEAvailable('text')) && {
     name: 'header_editions',
     pages: [
       { id: 'general_editor_prado', route: '/edition/acronym/JPC' },
@@ -100,7 +100,7 @@ export default {
       },
       isMFEAvailable('social') && {
         id: 'twitter_manage',
-        route: '/admin/tweets',
+        route: '/social/manage-tweets',
       },
     ],
   },

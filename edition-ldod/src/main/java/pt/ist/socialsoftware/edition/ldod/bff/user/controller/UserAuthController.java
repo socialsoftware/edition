@@ -14,7 +14,7 @@ import pt.ist.socialsoftware.edition.ldod.bff.dtos.SigninRequestDto;
 import pt.ist.socialsoftware.edition.ldod.bff.user.services.UserAuthService;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.dto.JWTAuthenticationDto;
-import pt.ist.socialsoftware.edition.ldod.dto.ldodMfes.SignupDto;
+import pt.ist.socialsoftware.edition.ldod.bff.dtos.SignupDto;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 import javax.servlet.http.HttpServletRequest;

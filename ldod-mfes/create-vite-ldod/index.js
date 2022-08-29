@@ -48,7 +48,10 @@ const packageJson = {
   private: true,
   type: 'module',
   entry: 'index.js',
-
+  config: {
+    docker: 'http://localhost/ldod-mfes',
+    dev: 'http://localhost:9000/ldod-mfes',
+  },
   scripts: {
     dev: 'vite',
     build: 'vite build',

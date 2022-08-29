@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
       lib: {
         entry: 'src/index.js',
         formats: ['es'],
-        fileName: 'user',
+        fileName: 'index',
       },
       rollupOptions: {
         external: ['shared/vanilla-jsx.js', 'shared/router.js'],

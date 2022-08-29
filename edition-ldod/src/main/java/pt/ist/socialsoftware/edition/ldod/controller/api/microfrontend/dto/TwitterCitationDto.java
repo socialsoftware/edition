@@ -24,7 +24,7 @@ public class TwitterCitationDto {
 		this.setXmlId(citation.getFragment().getXmlId());
 		this.setTitle(citation.getFragment().getTitle());
 		this.setSourceLink(citation.getSourceLink());
-		this.setRangeList(citation.getInfoRange().stream().map(InfoRangeDto::new).collect(Collectors.toList()));
+		this.setRangeList(citation.getInfoRangeSet().stream().map(InfoRangeDto::new).collect(Collectors.toList()));
 		this.setAwareSetSize(citation.getAwareAnnotationSet().size());
 		this.setNumberOfRetweets(citation.getNumberOfRetweets());
 		this.setLocation(citation.getLocation());

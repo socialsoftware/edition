@@ -73,7 +73,8 @@ h1 {
     font-size: 36px;
 }
 
-h4 {
+h4,
+h5 {
     font-size: 18px;
 }
 
@@ -81,25 +82,32 @@ h3 {
     font-size: 24px;
 }
 
-.h1,
-.h2,
-.h3,
-.h4,
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5 {
     margin-top: 20px;
     margin-bottom: 10px;
 }
 
-.h1,
-.h3,
-.h4,
 h1,
 h3,
-h4 {
+h4,
+h5 {
     font-weight: 500;
     line-height: 1.1;
     color: inherit;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+}
+
+.ldod-about h5 {
+    font-weight: 600;
+    padding-top: 15px;
 }

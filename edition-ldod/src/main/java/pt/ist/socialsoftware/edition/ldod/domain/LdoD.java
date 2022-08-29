@@ -10,7 +10,7 @@ import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser.SocialMediaService;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
-import pt.ist.socialsoftware.edition.ldod.dto.ldodMfes.SignupDto;
+import pt.ist.socialsoftware.edition.ldod.bff.dtos.SignupDto;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
 
@@ -193,6 +193,7 @@ public class LdoD extends LdoD_Base {
     }
 
     public LdoDUser getUser(String username) {
+        System.out.println(username);
         for (LdoDUser user : getUsersSet()) {
             if (user.getUsername().equals(username)) {
                 return user;
@@ -269,7 +270,7 @@ public class LdoD extends LdoD_Base {
 
             Role userRole = Role.getRole(RoleType.ROLE_USER);
             user.addRoles(userRole);
-
+            System.out.println(user.getSocialMediaId());
             return user;
         } else {
             throw new LdoDDuplicateUsernameException(username);
@@ -282,11 +283,9 @@ public class LdoD extends LdoD_Base {
 
         if (getUser(signupDto.getUsername()) == null) {
             LdoDUser user = new LdoDUser(this, passwordEncoder.encode(signupDto.getPassword()), signupDto);
-            user.setSocialMediaService(signupDto.getSocialMediaService());
-            user.setSocialMediaId(signupDto.getSocialMediaId());
             Role userRole = Role.getRole(RoleType.ROLE_USER);
             user.addRoles(userRole);
-
+            System.out.println(user.getSocialMediaId());
             return user;
         } else {
             throw new LdoDDuplicateUsernameException(signupDto.getUsername());
@@ -374,9 +373,10 @@ public class LdoD extends LdoD_Base {
 
     public Set<TwitterCitation> getAllTwitterCitation() {
         // allTwitterCitations -> all twitter citations in the archive
-        Set<TwitterCitation> allTwitterCitations = getCitationSet().stream().filter(TwitterCitation.class::isInstance)
+        return getCitationSet()
+                .stream()
+                .filter(TwitterCitation.class::isInstance)
                 .map(TwitterCitation.class::cast).collect(Collectors.toSet());
-        return allTwitterCitations;
     }
 
     public TwitterCitation getTwitterCitationByTweetID(long id) {
@@ -447,7 +447,7 @@ public class LdoD extends LdoD_Base {
     @Atomic(mode = TxMode.WRITE)
     public void removeTweets() {
         getLastTwitterID().resetTwitterIDS();
-        getTweetSet().forEach(t -> t.remove());
+        getTweetSet().forEach(Tweet::remove);
     }
 
     @Atomic(mode = TxMode.WRITE)

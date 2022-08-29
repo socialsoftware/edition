@@ -36,10 +36,10 @@ export class LdodAck extends HTMLElement {
   }
 
   async render() {
-    this.querySelector('#aboutWrapper').innerHTML = '';
-    this.querySelector('#aboutWrapper').appendChild(
-      await loadComponent(this.language)
-    );
+    const wrapper = this.querySelector('#aboutWrapper');
+    wrapper.appendChild(<div>{await loadComponent(this.language)}</div>);
+    wrapper.children;
+    wrapper.childNodes.length > 1 && wrapper.firstChild.remove();
   }
 }
 !customElements.get('ldod-ack') && customElements.define('ldod-ack', LdodAck);

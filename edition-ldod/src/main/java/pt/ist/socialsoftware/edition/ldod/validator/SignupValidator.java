@@ -1,7 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.validator;
 
 import org.springframework.stereotype.Component;
-import pt.ist.socialsoftware.edition.ldod.dto.ldodMfes.SignupDto;
+import pt.ist.socialsoftware.edition.ldod.bff.dtos.SignupDto;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 @Component

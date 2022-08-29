@@ -10,7 +10,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.bff.dtos.LdoDUserDto;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
-import pt.ist.socialsoftware.edition.ldod.dto.ldodMfes.SignupDto;
+import pt.ist.socialsoftware.edition.ldod.bff.dtos.SignupDto;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
@@ -112,6 +112,8 @@ public class LdoDUser extends LdoDUser_Base {
         setFirstName(signupDto.getFirstName());
         setLastName(signupDto.getLastName());
         setEmail(signupDto.getEmail());
+        setSocialMediaId(signupDto.getSocialMediaId());
+        setSocialMediaService(signupDto.getSocialMediaService());
     }
 
 
