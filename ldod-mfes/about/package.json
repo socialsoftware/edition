@@ -16,7 +16,10 @@
         "prepreview": "vite --config vite.config.dev.js build",
         "preview": "vite --config vite.config.dev.js preview",
         "pack": "yarn build && ./scripts/pack.sh about",
-        "publish-dev": "yarn run pack && ./scripts/publish.sh about about.js @./dist/about.tgz $npm_package_config_dev"
+        "publish-dev": "yarn run pack && ./scripts/publish.sh about about.js @./dist/about.tgz $npm_package_config_dev",
+        "unpublish-dev": "./scripts/unpublish.sh about $npm_package_config_dev",
+        "publish": "yarn run pack && ./scripts/publish.sh about about.js @./dist/about.tgz $npm_package_config_docker",
+        "unpublish": "./scripts/unpublish.sh about $npm_package_config_docker"
     },
     "devDependencies": {
         "vite": "^3.0.7"

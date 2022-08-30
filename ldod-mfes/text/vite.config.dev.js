@@ -5,20 +5,7 @@ export default defineConfig(({ mode }) => {
   return {
     build: {
       target: 'es2022',
-      outDir: 'build',
-      lib: {
-        entry: 'src/social.js',
-        formats: ['es'],
-        fileName: 'social',
-      },
-      rollupOptions: {
-        external: [
-          'shared/vanilla-jsx.js',
-          'shared/router.js',
-          'shared/table.js',
-          'shared/fetcher.js',
-        ],
-      },
+      outDir: 'build-dev',
     },
     esbuild: {
       jsxFactory: 'createElement',

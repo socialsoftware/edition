@@ -1,6 +1,6 @@
-import Title from '../citations/components/Title.jsx';
-import constants from '../citations/constants.js';
-import CitationsTable from '../citations/components/CitationsTable.jsx';
+import Title from './components/Title.jsx';
+import constants from './constants.js';
+import CitationsTable from './components/CitationsTable.jsx';
 import.meta.env.DEV
   ? await import('shared/table-dev.js')
   : await import('shared/table.js');

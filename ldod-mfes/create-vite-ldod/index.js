@@ -60,6 +60,9 @@ const packageJson = {
     preview: 'vite --config vite.config.dev.js preview',
     pack: `yarn build && ./scripts/pack.sh ${appName}`,
     'publish-dev': `yarn run pack && ./scripts/publish.sh ${appName} ${appName}.js @./dist/${appName}.tgz $npm_package_config_dev`,
+    'unpublish-dev': `./scripts/unpublish.sh ${appName} $npm_package_config_dev`,
+    publish: `yarn run pack && ./scripts/publish.sh ${appName} ${appName}.js @./dist/${appName}.tgz $npm_package_config_docker`,
+    unpublish: `./scripts/unpublish.sh ${appName} $npm_package_config_docker`,
   },
   devDependencies: {},
 };

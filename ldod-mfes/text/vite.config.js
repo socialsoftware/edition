@@ -7,9 +7,9 @@ export default defineConfig(({ mode }) => {
       target: 'es2022',
       outDir: 'build',
       lib: {
-        entry: 'src/social.js',
+        entry: 'src/text.js',
         formats: ['es'],
-        fileName: 'social',
+        fileName: 'text',
       },
       rollupOptions: {
         external: [

@@ -83,11 +83,11 @@ class DropdownMenu extends HTMLLIElement {
   }
 
   setAnchorItemsNames() {
-    this.item?.forEach(({ id, name }) =>
+    this.items?.forEach(({ id, name }) => {
       this.querySelectorAll(`li>a#${id}`).forEach(
         (anchor) => (anchor.textContent = name)
-      )
-    );
+      );
+    });
   }
 
   getDrops() {
