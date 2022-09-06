@@ -44,6 +44,8 @@ export default {
     deleteUserSessions: 'Eliminar sessões de utilizador',
     userMode: 'Modo utilizador',
     adminMode: 'Modo administrador',
+    uploadUsers: 'Carregar Utilizadores',
+    exportUsers: 'Exportar Utilizadores',
   },
   en: {
     TRUE: 'Yes',
@@ -73,6 +75,8 @@ export default {
     deleteUserSessions: 'Delete user sessions',
     userMode: 'User mode',
     adminMode: 'Administrator mode',
+    uploadUsers: 'Upload Users',
+    exportUsers: 'Export Users',
   },
   es: {
     TRUE: 'Sí',
@@ -102,5 +106,7 @@ export default {
     deleteUserSessions: 'Eliminar sesiones de usuario',
     userMode: 'Modo de usuario',
     adminMode: 'Modo administrador',
+    uploadUsers: 'Carregar Usuarios',
+    exportUsers: 'Exportar Usuarios',
   },
 };

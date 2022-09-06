@@ -1,28 +1,31 @@
 package pt.ist.socialsoftware.edition.ldod.bff.user.services;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.bff.dtos.LdoDUserDto;
+import pt.ist.socialsoftware.edition.ldod.bff.user.dtos.LdoDUserDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.SessionDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.UserDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.UserListDto;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.ldod.domain.Role;
+import pt.ist.socialsoftware.edition.ldod.export.UsersXMLExport;
+import pt.ist.socialsoftware.edition.ldod.loaders.UsersXMLImport;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +38,6 @@ public class UserAdminService {
 
     @Autowired
     private UserAuthService userAuthService;
-
 
 
     public void registerTokenService(String token, HttpServletRequest servletRequest) throws MessagingException, LdoDException {
@@ -136,5 +138,18 @@ public class UserAdminService {
         LdoDUser user = FenixFramework.getDomainObject(externalId);
         user.remove();
         return listUsersService();
+    }
+
+    public void loadUsersXMLService(MultipartFile file) throws LdoDLoadException {
+
+        try {
+            new UsersXMLImport().importUsers(file.getInputStream());
+        } catch (IOException e) {
+            throw new LdoDLoadException("FILE_ERROR");
+        }
+    }
+
+    public Map<String, byte[]> exportUsersXMLService() throws IOException {
+        return Collections.singletonMap("xmlData", IOUtils.toByteArray(IOUtils.toInputStream(new UsersXMLExport().export(), "UTF-8")));
     }
 }

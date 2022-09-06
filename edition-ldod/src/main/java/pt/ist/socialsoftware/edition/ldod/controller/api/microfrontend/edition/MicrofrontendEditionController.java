@@ -12,16 +12,17 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/microfrontend/edition")
 public class MicrofrontendEditionController {
 
     @GetMapping(value = "/user/{username}")
-    public Optional<UserContributionsDto> getUserContributions(@PathVariable String username) {
-        return LdoD.getInstance()
-                .getOptionalUser(username)
-                .map(UserContributionsDto::new);
+    public UserContributionsDto getUserContributions(@PathVariable String username) {
+        return Stream
+                .of(LdoD.getInstance().getUser(username))
+                .map(UserContributionsDto::new).findFirst().orElse(null);
     }
 
     @GetMapping(value = "/acronym/{acronym}")

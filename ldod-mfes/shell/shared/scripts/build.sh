@@ -1,6 +1,6 @@
 #! /bin/sh
 
-dirs="store utils router vanilla-jsx fetcher modal tooltip table"
+dirs="store utils router vanilla-jsx fetcher modal tooltip table buttons"
 
 rm -r dist
 

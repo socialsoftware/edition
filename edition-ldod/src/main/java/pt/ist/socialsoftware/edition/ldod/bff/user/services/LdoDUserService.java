@@ -7,7 +7,7 @@ import org.springframework.validation.BindingResult;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDto;
-import pt.ist.socialsoftware.edition.ldod.bff.dtos.SignupDto;
+import pt.ist.socialsoftware.edition.ldod.bff.user.dtos.SignupDto;
 import pt.ist.socialsoftware.edition.ldod.forms.ChangePasswordForm;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;

@@ -8,9 +8,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.bff.user.dtos.SignupDto;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser.SocialMediaService;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
-import pt.ist.socialsoftware.edition.ldod.bff.dtos.SignupDto;
 import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
 
@@ -193,13 +193,10 @@ public class LdoD extends LdoD_Base {
     }
 
     public LdoDUser getUser(String username) {
-        System.out.println(username);
-        for (LdoDUser user : getUsersSet()) {
-            if (user.getUsername().equals(username)) {
-                return user;
-            }
-        }
-        return null;
+        return getUsersSet()
+                .stream()
+                .filter(user -> user.getUsername().equals(username))
+                .findFirst().orElse(null);
     }
 
     public Fragment getFragmentByXmlId(String target) {
@@ -307,6 +304,13 @@ public class LdoD extends LdoD_Base {
                 accessToken, secret, refreshToken, expireTime);
     }
 
+    @Atomic(mode = TxMode.WRITE)
+    public void createUserConnection(SignupDto signupDto) {
+
+        new UserConnection(this, signupDto.getUsername(), signupDto.getProviderId(), signupDto.getSocialMediaId(), signupDto.getRank(),
+                signupDto.getDisplayName(), "", "", "", "", "", signupDto.getExpireTime());
+    }
+
     public void removeOutdatedUnconfirmedUsers() {
         DateTime now = DateTime.now();
         getTokenSet().stream().filter(t -> t.getExpireTimeDateTime().isBefore(now)).map(t -> t.getUser())
@@ -318,7 +322,7 @@ public class LdoD extends LdoD_Base {
     }
 
     public Set<SourceInter> getFragmentRepresentatives() {
-        return getFragmentsSet().stream().map(f -> f.getRepresentativeSourceInter()).collect(Collectors.toSet());
+        return getFragmentsSet().stream().map(Fragment::getRepresentativeSourceInter).collect(Collectors.toSet());
     }
 
     public VirtualEdition getArchiveEdition() {

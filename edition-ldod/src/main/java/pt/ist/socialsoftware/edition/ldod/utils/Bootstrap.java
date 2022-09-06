@@ -103,7 +103,7 @@ public class Bootstrap implements WebApplicationInitializer {
         for (File file : files) {
             LoadTEIFragments teiImport = new LoadTEIFragments();
             try {
-                teiImport.loadFragmentsStepByStep(new FileInputStream(file));
+                teiImport.loadFragmentsStepByStep(new FileInputStream(file), new ArrayList<>());
             } catch (FileNotFoundException e) {
                 throw new LdoDException("Failed to load virtual fragment");
             }

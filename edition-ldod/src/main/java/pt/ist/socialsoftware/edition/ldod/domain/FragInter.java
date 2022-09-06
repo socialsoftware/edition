@@ -1,135 +1,132 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
+import java.util.*;
+
 public abstract class FragInter extends FragInter_Base implements Comparable<FragInter> {
-	private static Logger logger = LoggerFactory.getLogger(FragInter.class);
+    private static Logger logger = LoggerFactory.getLogger(FragInter.class);
 
-	public String getUrlId() {
-		return getXmlId().replace(".", "_");
-	}
 
-	public void remove() {
-		setFragment(null);
-		setHeteronym(null);
+    public String getUrlId() {
+        return getXmlId().replace(".", "_");
+    }
 
-		if (getLdoDDate() != null) {
-			getLdoDDate().remove();
-		}
+    public void remove() {
+        setFragment(null);
+        setHeteronym(null);
 
-		for (VirtualEditionInter inter : getIsUsedBySet()) {
-			removeIsUsedBy(inter);
-		}
+        if (getLdoDDate() != null) {
+            getLdoDDate().remove();
+        }
 
-		for (RdgText rdg : getRdgSet()) {
-			removeRdg(rdg);
-		}
+        for (VirtualEditionInter inter : getIsUsedBySet()) {
+            removeIsUsedBy(inter);
+        }
 
-		for (LbText lb : getLbTextSet()) {
-			removeLbText(lb);
-		}
+        for (RdgText rdg : getRdgSet()) {
+            removeRdg(rdg);
+        }
 
-		for (PbText pb : getPbTextSet()) {
-			removePbText(pb);
-		}
+        for (LbText lb : getLbTextSet()) {
+            removeLbText(lb);
+        }
 
-		for (AnnexNote annexNote : getAnnexNoteSet()) {
-			annexNote.remove();
-		}
+        for (PbText pb : getPbTextSet()) {
+            removePbText(pb);
+        }
 
-		for (RefText ref : getRefTextSet()) {
-			ref.setFragInter(null);
-		}
+        for (AnnexNote annexNote : getAnnexNoteSet()) {
+            annexNote.remove();
+        }
 
-		// adicionado recentemente, testar
-		getInfoRangeSet().forEach(infoRange -> infoRange.remove());
+        for (RefText ref : getRefTextSet()) {
+            ref.setFragInter(null);
+        }
 
-		deleteDomainObject();
-	}
+        // adicionado recentemente, testar
+        getInfoRangeSet().forEach(infoRange -> infoRange.remove());
 
-	public abstract String getShortName();
+        deleteDomainObject();
+    }
 
-	public abstract int getNumber();
+    public abstract String getShortName();
 
-	public abstract String getTitle();
+    public abstract int getNumber();
 
-	public abstract Edition.EditionType getSourceType();
+    public abstract String getTitle();
 
-	public abstract Edition getEdition();
+    public abstract Edition.EditionType getSourceType();
 
-	public abstract List<FragInter> getListUsed();
+    public abstract Edition getEdition();
 
-	@Override
-	public int compareTo(FragInter other) {
-		if (getSourceType() != other.getSourceType()) {
-			if (getSourceType() == Edition.EditionType.EDITORIAL) {
-				return -1;
-			} else if (getSourceType() == Edition.EditionType.AUTHORIAL) {
-				return 1;
-			} else if (getSourceType() == Edition.EditionType.VIRTUAL
-					&& other.getSourceType() == Edition.EditionType.EDITORIAL) {
-				return 1;
-			} else if (getSourceType() == Edition.EditionType.VIRTUAL
-					&& other.getSourceType() == Edition.EditionType.AUTHORIAL) {
-				return 1;
-			}
-		} else if (getSourceType() == other.getSourceType()) {
-			if (getSourceType() == Edition.EditionType.EDITORIAL) {
-				return ((ExpertEditionInter) this).compareExpertEditionInter((ExpertEditionInter) other);
-			} else if (getSourceType() == Edition.EditionType.VIRTUAL) {
-				return ((VirtualEditionInter) this).compareVirtualEditionInter((VirtualEditionInter) other);
-			} else if (getSourceType() == Edition.EditionType.AUTHORIAL) {
-				return ((SourceInter) this).compareSourceInter((SourceInter) other);
-			}
-		}
-		return 0;
-	}
+    public abstract List<FragInter> getListUsed();
 
-	public abstract boolean belongs2Edition(Edition edition);
+    @Override
+    public int compareTo(FragInter other) {
+        if (getSourceType() != other.getSourceType()) {
+            if (getSourceType() == Edition.EditionType.EDITORIAL) {
+                return -1;
+            } else if (getSourceType() == Edition.EditionType.AUTHORIAL) {
+                return 1;
+            } else if (getSourceType() == Edition.EditionType.VIRTUAL
+                    && other.getSourceType() == Edition.EditionType.EDITORIAL) {
+                return 1;
+            } else if (getSourceType() == Edition.EditionType.VIRTUAL
+                    && other.getSourceType() == Edition.EditionType.AUTHORIAL) {
+                return 1;
+            }
+        } else if (getSourceType() == other.getSourceType()) {
+            if (getSourceType() == Edition.EditionType.EDITORIAL) {
+                return ((ExpertEditionInter) this).compareExpertEditionInter((ExpertEditionInter) other);
+            } else if (getSourceType() == Edition.EditionType.VIRTUAL) {
+                return ((VirtualEditionInter) this).compareVirtualEditionInter((VirtualEditionInter) other);
+            } else if (getSourceType() == Edition.EditionType.AUTHORIAL) {
+                return ((SourceInter) this).compareSourceInter((SourceInter) other);
+            }
+        }
+        return 0;
+    }
 
-	public abstract FragInter getLastUsed();
+    public abstract boolean belongs2Edition(Edition edition);
 
-	public abstract String getReference();
+    public abstract FragInter getLastUsed();
 
-	public List<AnnexNote> getSortedAnnexNote() {
-		List<AnnexNote> results = new ArrayList<>(getAnnexNoteSet());
+    public abstract String getReference();
 
-		Collections.sort(results);
+    public List<AnnexNote> getSortedAnnexNote() {
+        List<AnnexNote> results = new ArrayList<>(getAnnexNoteSet());
 
-		return results;
-	}
+        Collections.sort(results);
 
-	// solução a funcionar
-	public abstract Set<HumanAnnotation> getAllDepthHumanAnnotations();
+        return results;
+    }
 
-	// tentativa de suporte de ambas as anotações
-	public abstract Set<Annotation> getAllDepthAnnotations();
+    // solução a funcionar
+    public abstract Set<HumanAnnotation> getAllDepthHumanAnnotations();
 
-	public abstract Set<Tag> getAllDepthTags();
+    // tentativa de suporte de ambas as anotações
+    public abstract Set<Annotation> getAllDepthAnnotations();
 
-	public abstract Set<Category> getAllDepthCategories();
+    public abstract Set<Tag> getAllDepthTags();
 
-	public abstract int getUsesDepth();
+    public abstract Set<Category> getAllDepthCategories();
 
-	public Set<VirtualEditionInter> getIsUsedByDepthSet() {
-		Set<VirtualEditionInter> isUsedBy = new HashSet<>(getIsUsedBySet());
-		for (VirtualEditionInter inter : getIsUsedBySet()) {
-			isUsedBy.addAll(inter.getIsUsedByDepthSet());
-		}
-		return isUsedBy;
-	}
+    public abstract int getUsesDepth();
 
-	public long getNumberOfTwitterCitationsSince(LocalDateTime editionBeginDateTime) {
-		return getInfoRangeSet().stream().map(ir -> ir.getCitation())
-				.filter(cit -> cit.getFormatedDate().isAfter(editionBeginDateTime)).count();
-	}
+    public Set<VirtualEditionInter> getIsUsedByDepthSet() {
+        Set<VirtualEditionInter> isUsedBy = new HashSet<>(getIsUsedBySet());
+        for (VirtualEditionInter inter : getIsUsedBySet()) {
+            isUsedBy.addAll(inter.getIsUsedByDepthSet());
+        }
+        return isUsedBy;
+    }
+
+    public long getNumberOfTwitterCitationsSince(LocalDateTime editionBeginDateTime) {
+        return getInfoRangeSet().stream().map(ir -> ir.getCitation())
+                .filter(cit -> cit.getFormatedDate().isAfter(editionBeginDateTime)).count();
+    }
 
 }

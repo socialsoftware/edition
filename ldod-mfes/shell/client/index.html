@@ -63,7 +63,14 @@
 </head>
 
 <body class="ldod-default">
-
+    <ldod-modal id="success" dialog-class="modal-success">
+        <span slot="header-slot">Info</span>
+        <div slot="body-slot"></div>
+    </ldod-modal>
+    <ldod-modal id="error" dialog-class="modal-danger">
+        <span slot="header-slot">Error</span>
+        <div slot="body-slot"></div>
+    </ldod-modal>
     <ldod-navbar token="false"></ldod-navbar>
     <ldod-loading id="shell-loading"></ldod-loading>
     <div id="root"></div>

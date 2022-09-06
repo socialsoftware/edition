@@ -3,7 +3,6 @@ package pt.ist.socialsoftware.edition.ldod.security;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.social.connect.*;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser_Base;
 import pt.ist.socialsoftware.edition.ldod.domain.UserConnection_Base;
 
 import java.util.Collections;
@@ -38,15 +37,6 @@ public class LdoDUsersConnectionRepository implements UsersConnectionRepository 
                         && uc.getProviderUserId().equals(key.getProviderUserId()))
                 .map(UserConnection_Base::getUserId).collect(Collectors.toList());
 
-        if (localUserIds.size() == 0) {
-            localUserIds = LdoD.getInstance().getUsersSet()
-                    .stream()
-                    .filter(ldoDUser -> ldoDUser.getSocialMediaService() != null && ldoDUser.getSocialMediaService().toString().toLowerCase().equals(key.getProviderId())
-                            && ldoDUser.getSocialMediaId() != null && ldoDUser.getSocialMediaId().equals(key.getProviderUserId()))
-                    .map(LdoDUser_Base::getUsername)
-                    .collect(Collectors.toList());
-        }
-
 
         if (localUserIds.size() == 0 && connectionSignUp != null) {
             String newUserId = connectionSignUp.execute(connection);
@@ -62,7 +52,7 @@ public class LdoDUsersConnectionRepository implements UsersConnectionRepository 
     public Set<String> findUserIdsConnectedTo(String providerId, Set<String> providerUserIds) {
         return LdoD.getInstance().getUserConnectionSet().stream()
                 .filter(uc -> uc.getProviderId().equals(providerId) && providerUserIds.contains(uc.getProviderUserId()))
-                .map(uc -> uc.getUserId()).collect(Collectors.toSet());
+                .map(UserConnection_Base::getUserId).collect(Collectors.toSet());
     }
 
     @Override

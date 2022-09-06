@@ -23,10 +23,6 @@ export class LdodModal extends HTMLElement {
     return this.getAttribute('dialog-class');
   }
 
-  get templateContent() {
-    return this.getElementsByTagName('template')[0].content.cloneNode(true);
-  }
-
   static get observedAttributes() {
     return ['show'];
   }
@@ -63,7 +59,7 @@ export class LdodModal extends HTMLElement {
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">
-              <slot name="header-slot">Modal Title</slot>
+              <slot name="header-slot"></slot>
             </h5>
             <button
               type="button"

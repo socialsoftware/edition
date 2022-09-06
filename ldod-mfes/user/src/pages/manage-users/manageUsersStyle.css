@@ -1,3 +1,18 @@
+div.subject[show] {
+    display: block;
+}
+
+div.subject:not([show]) {
+    display: none;
+}
+
+.upload-export-users {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 30px -15px;
+}
+
 span.icon {
     float: left;
     margin-top: 3px;

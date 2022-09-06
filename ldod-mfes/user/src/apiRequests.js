@@ -58,10 +58,14 @@ export const getUsersList = async () => {
 };
 
 export const switchModeRequest = async () =>
-  await fetcher.post(`${HOST}/admin/user/switch`);
+  await fetcher.post(`${HOST}/admin/user/switch`, null, getState().token);
 
 export const deleteSessionsRequest = async () =>
-  await fetcher.post(`${HOST}/admin/user/sessions-delete`);
+  await fetcher.post(
+    `${HOST}/admin/user/sessions-delete`,
+    null,
+    getState().token
+  );
 
 export const changeActiveRequest = async (externalId) =>
   await fetcher.post(`${HOST}/admin/user/active/${externalId}`);

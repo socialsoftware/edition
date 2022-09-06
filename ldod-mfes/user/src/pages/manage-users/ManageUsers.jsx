@@ -15,6 +15,7 @@ const mount = async (lang, ref) => {
   getUsersList().then((data) => {
     setUsersData(data);
     const manageUsers = document.querySelector(`${ref}>manage-users`);
+    manageUsers.usersData = data;
     manageUsers.setAttribute('data', '');
   });
   document

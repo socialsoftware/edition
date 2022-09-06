@@ -19,8 +19,7 @@ public class LdoDSocialUserDetailsService implements SocialUserDetailsService {
 
 	@Override
 	public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException, DataAccessException {
-		LdoDUserDetails ldoDUserDetails = this.ldoDUserDetailsService.loadUserByUsername(userId);
-		return ldoDUserDetails;
+		return this.ldoDUserDetailsService.loadUserByUsername(userId);
 	}
 
 }

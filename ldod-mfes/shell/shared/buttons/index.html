@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buttons</title>
+</head>
+
+<body>
+    <div id="root">
+
+        <ldod-export title="Export All Fragments" file-prefix="exported-file" data-url="http://localhost:8000/api/text/admin/export-all" method="GET"></ldod-export>
+
+        <ldod-upload title="Upload Fragment" data-url="http://localhost:8000/api/text/admin/upload-fragment"></ldod-upload>
+
+        <ldod-upload multiple title="Upload Fragment" data-url="http://localhost:8000/api/text/admin/upload-fragments"></ldod-upload>
+    </div>
+    <script src="index.js" type="module"></script>
+</body>
+
+</html>

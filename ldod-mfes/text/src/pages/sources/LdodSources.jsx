@@ -1,4 +1,4 @@
-export class LdodSourceList extends HTMLElement {
+export class LdodSources extends HTMLElement {
   constructor() {
     super();
   }
@@ -7,5 +7,5 @@ export class LdodSourceList extends HTMLElement {
   attributeChangedCallback() {}
   disconnectedCallback() {}
 }
-!customElements.get('ldod-source-list') &&
-  customElements.define('ldod-source-list', LdodSourceList);
+!customElements.get('ldod-sources') &&
+  customElements.define('ldod-sources', LdodSources);

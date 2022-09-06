@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.bff.dtos;
+package pt.ist.socialsoftware.edition.ldod.bff.user.dtos;
 
 import com.google.api.client.json.webtoken.JsonWebToken.Payload;
 

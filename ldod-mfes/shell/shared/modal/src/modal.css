@@ -14,6 +14,24 @@
     outline: 0;
 }
 
+.modal-success>.modal-content,
+.modal-success>.modal-content>.modal-header,
+.modal-success>.modal-content>.modal-body,
+.modal-success>.modal-content>.modal-footer {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border-color: #d1e7dd;
+}
+
+.modal-danger>.modal-content,
+.modal-danger>.modal-content>.modal-header,
+.modal-danger>.modal-content>.modal-body,
+.modal-danger>.modal-content>.modal-footer {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f8d7da;
+}
+
 .modal-open {
     overflow: hidden;
 }

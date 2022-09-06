@@ -41,7 +41,7 @@ export default {
   documents: isMFEAvailable('text') && {
     name: 'header_documents',
     pages: [
-      { id: 'authorial_source', route: '/text/source-list' },
+      { id: 'authorial_source', route: '/text/sources' },
       { id: 'fragment_codified', route: '/text/fragments' },
     ],
   },

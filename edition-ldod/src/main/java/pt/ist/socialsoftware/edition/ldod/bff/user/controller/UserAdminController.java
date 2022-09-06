@@ -7,15 +7,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import pt.ist.socialsoftware.edition.ldod.bff.dtos.MainResponseDto;
-import pt.ist.socialsoftware.edition.ldod.bff.dtos.LdoDUserDto;
+import pt.ist.socialsoftware.edition.ldod.bff.user.dtos.LdoDUserDto;
 import pt.ist.socialsoftware.edition.ldod.bff.user.services.UserAdminService;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.UserListDto;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @RestController
 //@Secured({ "ROLE_ADMIN "})
@@ -82,12 +85,30 @@ public class UserAdminController {
         return ResponseEntity.status(HttpStatus.OK).body(service.removeUserService(externalId));
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/upload-users")
+    public ResponseEntity<?> loadUsersXML(@RequestParam("file") MultipartFile file)
+            throws LdoDLoadException {
+        try {
+            service.loadUsersXMLService(file);
+        } catch (LdoDLoadException ex) {
+            return getResponse(HttpStatus.BAD_REQUEST, false, ex.getMessage());
+        }
+        return getResponse(HttpStatus.OK, true, "USERS_LOADED");
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/export-users")
+    public ResponseEntity<?> exportUsers() throws IOException {
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(service.exportUsersXMLService());
+        } catch (IOException ex) {
+            return getResponse(HttpStatus.BAD_REQUEST, false, ex.getMessage());
+        }
+    }
+
     private ResponseEntity<MainResponseDto> getResponse(HttpStatus status, boolean ok, String message) {
         return ResponseEntity
                 .status(status)
-                .body(new MainResponseDto
-                        .AuthResponseDtoBuilder(ok)
-                        .message(message)
-                        .build());
+                .body(new MainResponseDto(ok, message));
     }
 }

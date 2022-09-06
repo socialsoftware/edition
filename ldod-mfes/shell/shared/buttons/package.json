@@ -1,0 +1,15 @@
+{
+    "name": "buttons",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "devDependencies": {
+        "terser": "^5.14.2",
+        "vite": "^3.1.0"
+    }
+}

@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +39,7 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 
 	@Override
 	public void remove() {
-		getDimensionsSet().stream().forEach(d -> d.remove());
+		getDimensionsSet().forEach(Dimensions::remove);
 
 		for (HandNote handNote : getHandNoteSet()) {
 			handNote.remove();
@@ -52,7 +53,7 @@ public class ManuscriptSource extends ManuscriptSource_Base {
 	}
 
 	public List<Dimensions> getSortedDimensions() {
-		return getDimensionsSet().stream().sorted((d1, d2) -> d1.getPosition() - d2.getPosition())
+		return getDimensionsSet().stream().sorted(Comparator.comparingInt(Dimensions_Base::getPosition))
 				.collect(Collectors.toList());
 	}
 

@@ -5,7 +5,7 @@ export const isDev = () => import.meta.env.DEV;
 const TEXT_SELECTOR = 'div#textContainer';
 
 const routes = {
-  '/source-list': async () => await import('./pages/sourceList/sourceList.jsx'),
+  '/sources': async () => await import('./pages/sources/sources.jsx'),
   '/fragments': async () => await import('./pages/fragments/fragments.jsx'),
 };
 

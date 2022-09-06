@@ -40,15 +40,15 @@ public abstract class Edition extends pt.ist.socialsoftware.edition.ldod.domain.
 
 	@Override
 	public void setAcronym(String acronym) {
-		if (getAcronym() != null && !getAcronym().toUpperCase().equals(acronym.toUpperCase()) || getAcronym() == null) {
+		if (getAcronym() != null && !getAcronym().equalsIgnoreCase(acronym) || getAcronym() == null) {
 			for (ExpertEdition edition : LdoD.getInstance().getExpertEditionsSet()) {
-				if (acronym.toUpperCase().equals(edition.getAcronym().toUpperCase())) {
-					throw new LdoDDuplicateAcronymException();
+				if (acronym.equalsIgnoreCase(edition.getAcronym())) {
+					throw new LdoDDuplicateAcronymException(String.format("DUPLICATE_ACRONYM %s", acronym));
 				}
 			}
 
 			for (VirtualEdition edition : LdoD.getInstance().getVirtualEditionsSet()) {
-				if (edition.getAcronym() != null && acronym.toUpperCase().equals(edition.getAcronym().toUpperCase())) {
+				if (edition.getAcronym() != null && acronym.equalsIgnoreCase(edition.getAcronym())) {
 					throw new LdoDDuplicateAcronymException();
 				}
 			}

@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.bff.text.dtos.UploadFragmentDto;
 import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.*;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
@@ -81,20 +82,19 @@ public class MicrofrontendAdminController {
             return new ResponseEntity<>("Deve escolher um ficheiro", HttpStatus.CONFLICT);
         }
 
-        LoadTEIFragments loader = new LoadTEIFragments();
+        List<UploadFragmentDto> uploadFragmentDtoList;
+
         try {
-            message = loader.loadFragmentsAtOnce(file.getInputStream());
+            uploadFragmentDtoList = new LoadTEIFragments().loadFragmentsAtOnce(file.getInputStream());
         } catch (IOException e) {
             return new ResponseEntity<>("Problemas com o ficheiro, tipo ou formato", HttpStatus.CONFLICT);
         } catch (LdoDException ldodE) {
             return new ResponseEntity<>(ldodE.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
-        if (message == null) {
-            return new ResponseEntity<>("Fragmento carregado", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Erro", HttpStatus.CONFLICT);
-        }
+        String loadedResult = getLoadedResult(uploadFragmentDtoList);
+        String unloadedResult = getUnloadedResult(uploadFragmentDtoList);
+        return new ResponseEntity<>(String.format("%s <br> %s", loadedResult, unloadedResult), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/load/fragmentsStepByStep")
@@ -104,22 +104,57 @@ public class MicrofrontendAdminController {
         if (files == null) {
             return new ResponseEntity<>("Deve escolher um ficheiro", HttpStatus.CONFLICT);
         }
-
-        LoadTEIFragments loader = new LoadTEIFragments();
-
-        String list = "";
-        int total = 0;
+        List<UploadFragmentDto> uploadFragmentDtoList = new ArrayList<>();
         for (MultipartFile file : files) {
             try {
-                list = list + loader.loadFragmentsStepByStep(file.getInputStream());
-                total++;
+                new LoadTEIFragments().loadFragmentsStepByStep(file.getInputStream(), uploadFragmentDtoList);
+
             } catch (IOException e) {
                 return new ResponseEntity<>("Problemas com o ficheiro, tipo ou formato", HttpStatus.CONFLICT);
             } catch (LdoDException ldodE) {
                 return new ResponseEntity<>(ldodE.getMessage(), HttpStatus.CONFLICT);
             }
         }
-        return new ResponseEntity<>("Fragmentos carregados: " + total + "<br>" + list, HttpStatus.OK);
+        String loadedResult = getLoadedResult(uploadFragmentDtoList);
+        String unloadedResult = getUnloadedResult(uploadFragmentDtoList);
+        return new ResponseEntity<>(String.format("%s <br> %s", loadedResult, unloadedResult), HttpStatus.OK);
+    }
+
+    private String getUnloadedResult(List<UploadFragmentDto> uploadFragsList) {
+
+        List<UploadFragmentDto> notUploadedFragmentsList = uploadFragsList.stream()
+                .filter(uploadFragmentDto -> !uploadFragmentDto.isUploaded())
+                .collect(Collectors.toList());
+
+        String unloadedString = String.format("<br>Not uploaded fragments: %d", notUploadedFragmentsList.size());
+        return !notUploadedFragmentsList.isEmpty()
+                ? uploadFragsList
+                .stream()
+                .map(uploadFragmentDto -> String.format("<br>%s", uploadFragmentDto.toString()))
+                .reduce(unloadedString, (result, unLoadedFrag) -> String.format("%s %s", result, unLoadedFrag))
+                : "";
+    }
+
+
+    private String getLoadedResult(List<UploadFragmentDto> uploadFragsList) {
+
+        List<UploadFragmentDto> uploadedFragmentsList = uploadFragsList.stream()
+                .filter(UploadFragmentDto::isUploaded)
+                .collect(Collectors.toList());
+
+        String loadedString = String.format("Uploaded fragments: %d", uploadedFragmentsList.size());
+
+        return uploadedFragmentsList
+                .stream()
+                .map(uploadFragmentDto -> String.format("<br>%s", uploadFragmentDto.toString()))
+                .reduce(loadedString, (result, loadedFrag) -> String.format("%s %s", result, loadedFrag)).concat("<br>");
+    }
+
+    private Map<String, List<UploadFragmentDto>> getUploadFragmentsMap() {
+        Map<String, List<UploadFragmentDto>> uploadFragmentsMap = new HashMap<>();
+        uploadFragmentsMap.put("loaded", new ArrayList<>());
+        uploadFragmentsMap.put("unloaded", new ArrayList<>());
+        return uploadFragmentsMap;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/load/users")

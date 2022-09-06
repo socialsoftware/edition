@@ -32,11 +32,11 @@ document
   .addEventListener('click', clearMessage);
 
 document.querySelectorAll('button.lang').forEach((btn) => {
-  btn.addEventListener('click', () =>
+  btn.addEventListener('click', () => {
     document.querySelectorAll('[language]').forEach((ele) => {
       ele.setAttribute('language', btn.id);
-    })
-  );
+    });
+  });
 });
 
 function clearMessage() {

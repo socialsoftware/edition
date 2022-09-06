@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.bff.dtos;
+package pt.ist.socialsoftware.edition.ldod.bff.user.dtos;
 
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 
@@ -9,11 +9,12 @@ public class SignupDto {
     private String username;
     private String password;
     private String email;
-    private boolean conduct ;
+    private boolean conduct;
     private String socialMediaId;
     private String socialMediaService;
 
-    public SignupDto() {}
+    public SignupDto() {
+    }
 
     public String getFirstName() {
         return firstName;
@@ -65,6 +66,22 @@ public class SignupDto {
 
     public String getSocialMediaId() {
         return socialMediaId;
+    }
+
+    public String getProviderId() {
+        return "google";
+    }
+
+    public Long getExpireTime() {
+        return 0L;
+    }
+
+    public String getDisplayName() {
+        return String.format("%s %s", this.firstName, this.lastName);
+    }
+
+    public int getRank() {
+        return 1;
     }
 
     public void setSocialMediaId(String socialMediaId) {

@@ -1,9 +1,13 @@
-import { deleteSessionsRequest, switchModeRequest } from '@src/apiRequests.js';
 import style from './manageUsersStyle.css?inline';
 import 'shared/modal.js';
 import UsersTable from './components/UsersListTable.jsx';
-import { usersData } from './ManageUsers.jsx';
 import constants from './resources/constants.js';
+import UsersTitle from './components/UsersTitle';
+import AdminModeButton from './components/AdminModeButton';
+import DeleteSessionsButton from './components/DeleteSessionsButton';
+import SessionsListTable from './components/SessionsListTable';
+import 'shared/buttons.js';
+
 import.meta.env.DEV
   ? await import('shared/table-dev.js')
   : await import('shared/table.js');
@@ -16,6 +20,7 @@ export class ManageUsers extends HTMLElement {
   constructor() {
     super();
   }
+
   static get observedAttributes() {
     return ['data', 'language'];
   }
@@ -25,15 +30,15 @@ export class ManageUsers extends HTMLElement {
   }
 
   get usersLength() {
-    return usersData() ? usersData().userList.length : 'loading';
+    return this.usersData ? this.usersData.userList.length : 'loading';
   }
 
   getMode() {
-    return usersData().ldoDAdmin ? 'admin' : 'user';
+    return this.usersData.ldoDAdmin ? 'admin' : 'user';
   }
 
   setMode(mode) {
-    usersData().ldoDAdmin = mode;
+    this.usersData.ldoDAdmin = mode;
   }
 
   getConstants(key) {
@@ -73,6 +78,8 @@ export class ManageUsers extends HTMLElement {
 
   handleChangeLanguage() {
     this.querySelectorAll('[data-key').forEach((ele) => {
+      ele.hasAttribute('title') &&
+        ele.setAttribute('title', this.getConstants(ele.dataset.key));
       ele.textContent = this.getConstants(ele.dataset.key);
     });
     this.querySelectorAll('[data-tooltipkey]').forEach((ele) => {
@@ -86,96 +93,63 @@ export class ManageUsers extends HTMLElement {
     );
   }
 
-  onSwitchMode = () => {
-    switchModeRequest().then((res) => {
-      res && this.setMode(res.ok);
-      this.querySelector('span[label]').textContent = this.getConstants(
-        `${this.getMode()}Mode`
-      );
-    });
-  };
-
-  onDeleteSessions = () => {
-    deleteSessionsRequest().then((data) => {
-      usersData().sessionList = data.sessionList;
-      this.querySelector('div#sessions-list').replaceChildren(
-        this.getSessionsTable()
-      );
-    });
-  };
-
-  getSessionsTable = () => {
-    return (
-      <ldod-table
-        id="sessions-list-table"
-        classes="table table-responsive-sm table-striped table-bordered"
-        headers={constants.sessionListHeaders}
-        data={usersData().sessionList.map((row) => ({
-          ...row,
-          search: Object.values(row).reduce((prev, curr) => {
-            return prev.concat(String(curr), ',');
-          }, ''),
-        }))}
-        language={this.language}
-        constants={constants}
-        data-searchkey="sessionId"></ldod-table>
-    );
-  };
-
   updateUsersLength = () =>
     (this.querySelector('h1>span').innerHTML = `&nbsp;(${this.usersLength})`);
+
+  handleSwitch = (e) => {
+    this.querySelectorAll('div.subject').forEach((ele) => {
+      ele.toggleAttribute('show');
+    });
+
+    e.target.textContent = `Switch to ${
+      this.querySelector('div.subject:not([show])').id
+    }`;
+  };
 
   getComponent() {
     return (
       <div class="container">
-        {usersData() && (
+        {this.usersData && (
           <>
-            <h1 class="text-center flex-center">
-              <div data-key="users">{this.getConstants('users')}</div>
-              <span>&nbsp;({this.usersLength})</span>
-            </h1>
-            <UsersTable />
-            <h1 class="text-center" data-key="sessions">
-              {this.getConstants('sessions')}
-            </h1>
-            <div id="adminMode" class="row btn-row">
-              <button
-                tooltip-ref="switch-button"
-                type="button"
-                class="btn btn-danger ellipsis"
-                onClick={this.onSwitchMode}>
-                <span class="icon icon-edit"></span>
-                <span label dynamic dynamicKey={() => `${this.getMode()}Mode`}>
-                  {this.getConstants(`${this.getMode()}Mode`)}
-                </span>
-              </button>
-              <ldod-tooltip
-                placement="top"
-                data-ref="[tooltip-ref='switch-button']"
-                data-tooltipkey="changeLdodMode"
-                content={this.getConstants('changeLdodMode')}></ldod-tooltip>
+            <button
+              class="btn btn-secondary"
+              type="button"
+              onClick={this.handleSwitch}>
+              Switch to sessions
+            </button>
+            <div id="users" class="subject" show>
+              <UsersTitle node={this} title={this.getConstants('users')} />
+              <div class="upload-export-users">
+                <ldod-upload
+                  data-key="uploadUsers"
+                  title={this.getConstants('uploadUsers')}
+                  data-url={`${
+                    import.meta.env.VITE_HOST
+                  }/admin/user/upload-users`}></ldod-upload>
+                <ldod-export
+                  file-prefix="users"
+                  data-key="exportUsers"
+                  title={this.getConstants('exportUsers')}
+                  data-url={`${
+                    import.meta.env.VITE_HOST
+                  }/admin/user/export-users`}></ldod-export>
+              </div>
+              <UsersTable />
             </div>
-            <div id="deleteSessions" class="row btn-row">
-              <button
-                tooltip-ref="delete-sessions-button"
-                type="button"
-                class="btn btn-danger ellipsis"
-                onClick={this.onDeleteSessions}>
-                <span class="icon icon-edit"></span>
-                <span label data-key="deleteUserSessions">
-                  {this.getConstants('deleteUserSessions')}
-                </span>
-              </button>
-              <ldod-tooltip
-                placement="top"
-                data-ref="[tooltip-ref='delete-sessions-button']"
-                data-tooltipkey="deleteUserSessions"
-                content={this.getConstants(
-                  'deleteUserSessions'
-                )}></ldod-tooltip>
-            </div>
-            <div id="sessions-list" class="row">
-              {this.getSessionsTable()}
+            <div id="sessions" class="subject">
+              <h1 class="text-center" data-key="sessions">
+                {this.getConstants('sessions')}
+              </h1>
+              <AdminModeButton
+                node={this}
+                buttonLabel={this.getConstants(`${this.getMode()}Mode`)}
+                tooltipContent={this.getConstants('changeLdodMode')}
+              />
+              <DeleteSessionsButton
+                node={this}
+                content={this.getConstants('deleteUserSessions')}
+              />
+              <SessionsListTable node={this} />
             </div>
           </>
         )}

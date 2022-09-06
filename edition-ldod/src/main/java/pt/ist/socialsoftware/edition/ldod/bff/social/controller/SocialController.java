@@ -4,6 +4,8 @@ package pt.ist.socialsoftware.edition.ldod.bff.social.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,8 +26,8 @@ public class SocialController {
     private static final Logger logger = LoggerFactory.getLogger(LdoDUserController.class);
 
     @RequestMapping(method = RequestMethod.GET, value = "/twitter-citations")
-    public List<CitationDto> listCitations() {
-        return service.getCitationsList();
+    public ResponseEntity<List<CitationDto>> getCitationsList() {
+        return ResponseEntity.status(HttpStatus.OK).body(service.getCitationsList());
     }
 
 
