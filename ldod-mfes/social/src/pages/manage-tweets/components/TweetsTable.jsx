@@ -2,15 +2,6 @@ import InfoRangesTable from './InfoRangesTable.jsx';
 import { getTableData } from './tableData.jsx';
 
 export default ({ node, tableInfo, constants }) => {
-  const infoRangesHeaders = [
-    'xmlId',
-    'text',
-    'quote',
-    'start',
-    'end',
-    'startOffset',
-    'endOffset',
-  ];
   return (
     <>
       <p

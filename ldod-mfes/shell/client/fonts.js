@@ -73,8 +73,8 @@
     window.dispatchEvent(new Event('fonts-loaded'));
   };
 
-  window.addEventListener('mousemove', loader);
+  window.addEventListener('pointermove', loader);
   window.addEventListener('fonts-loaded', () =>
-    this.removeEventListener('mousemove', loader)
+    this.removeEventListener('pointermove', loader)
   );
 })();

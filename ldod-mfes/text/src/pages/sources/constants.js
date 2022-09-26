@@ -1,0 +1,98 @@
+export default {
+  headers: [
+    'docs',
+    'transcription',
+    'date',
+    'type',
+    'ldodLabel',
+    'dimensions',
+    'fac',
+  ],
+  pt: {
+    interSources: (value) => `Testemunhos (${value})`,
+    docs: 'Documentos',
+    transcription: 'Transcrição',
+    type: 'Tipo',
+    date: 'Data',
+    ldodLabel: 'Marca LdoD',
+    hadLdoDLabel: (bool) => `${Boolean(bool) ? 'Sim' : 'Não'}`,
+    dimensions: 'Dimensões',
+    fac: 'Facsimiles',
+    printed: 'Impresso',
+    manuscript: 'Manuscrito',
+    typescript: 'Datiloscrito',
+    title: 'Título',
+    handNote: 'Manuscript',
+    typeNote: 'Datiloscrito',
+    docsTooltip: 'Documentos',
+    transcriptionTooltip:
+      'Transcrição topográfica feita pela equipa do Arquivo LdoD',
+    dateTooltip: 'Data inscrita ou atribuída ao fragmento',
+    typeTooltip:
+      'Descreve o tipo de documento como manuscrito, datiloscrito ou impresso',
+    ldodLabelTooltip:
+      'Marcação explícita feita por Fernando Pessoa de que o documento pertence ao LdoD',
+    dimensionsTooltip: 'Descreve as dimensões dos testemunhos',
+    facTooltip: 'Imagem dos documentos originais',
+    titleTooltip:
+      'Fac-símiles dos documentos originais de Fernando Pessoa (manuscritos, datiloscritos ou impressos)',
+  },
+  en: {
+    interSources: (value) => `Witnesses (${value})`,
+    docs: 'Documents',
+    transcription: 'Transcription',
+    type: 'Type',
+    date: 'Date',
+    ldodLabel: 'LdoD Mark',
+    hadLdoDLabel: (bool) => `${Boolean(bool) ? 'Yes' : 'No'}`,
+    dimensions: 'Dimensions',
+    fac: 'Facsimiles',
+    printed: 'Printed',
+    manuscript: 'Manuscript',
+    typescript: 'Typescript',
+    title: 'Title',
+    handNote: 'Manuscript',
+    typeNote: 'Datiloscrito',
+    docsTooltip: 'Documents',
+    transcriptionTooltip:
+      'Topographic transcription made by the LdoD Archive team',
+    dateTooltip: 'Date inscribed or ascribed to the fragment',
+    typeTooltip:
+      'Describes the type of document as manuscript, typescript or printed',
+    ldodLabelTooltip:
+      'Explicit marking by Fernando Pessoa stating that the document belongs to the LdoD',
+    dimensionsTooltip: 'Describes the dimensions of the witnesses',
+    facTooltip: 'Image of original documents',
+    titleTooltip:
+      'Facsimiles of original documents by Fernando Pessoa (handwritten, typewritten or printed)',
+  },
+  es: {
+    interSources: (value) => `Testimonios (${value})`,
+    docs: 'Documentos',
+    transcription: 'Transcripción',
+    type: 'Tipo',
+    date: 'Fecha',
+    ldodLabel: 'Marca LdoD',
+    hadLdoDLabel: (bool) => `${Boolean(bool) ? 'Si' : 'No'}`,
+    dimensions: 'Dimensiones',
+    printed: 'Impreso',
+    manuscript: 'Manuscrito',
+    typescript: 'Mecanografiado',
+    title: 'Título',
+    handNote: 'Manuscrito',
+    typeNote: 'Mecanografiado',
+    fac: 'Facsimiles',
+    docsTooltip: 'Documentos',
+    transcriptionTooltip:
+      'Transcripción topográfica realizada por el equipo del Archivo LdoD',
+    dateTooltip: 'Fecha inscrita o atribuida al fragmento',
+    typeTooltip:
+      'Describe el tipo de documento como manuscrito, mecanografiado o impreso',
+    ldodLabelTooltip:
+      'Marcación explícita hecha por Fernando Pessoa para señalar que el documento pertenece al LdoD',
+    dimensionsTooltip: 'Describe las dimensiones de los testimonios',
+    facTooltip: 'Imagen de los documentos originales',
+    titleTooltip:
+      'Facsímiles de los documentos originales de Fernando Pessoa (manuscritos, mecanografiados o impresos)',
+  },
+};

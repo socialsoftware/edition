@@ -1,21 +1,29 @@
 import { switchModeRequest } from '@src/apiRequests.js';
 
 export default ({ node, buttonLabel, tooltipContent }) => {
+  const updateClass = () =>
+    node.getMode() === 'admin'
+      ? 'btn btn-danger ellipsis'
+      : 'btn btn-success ellipsis';
+
   const onSwitchMode = () => {
     switchModeRequest().then((res) => {
       res && node.setMode(res.ok);
-      node.querySelector('span[label]').textContent = node.getConstants(
+      const button = node.querySelector('button#user-switchModeButton');
+      button.querySelector('span[label]').textContent = node.getConstants(
         `${node.getMode()}Mode`
       );
+      button.setAttribute('class', updateClass());
     });
   };
 
   return (
     <div id="adminMode" class="row btn-row">
       <button
+        id="user-switchModeButton"
         tooltip-ref="switch-button"
         type="button"
-        class="btn btn-danger ellipsis"
+        class={updateClass()}
         onClick={onSwitchMode}>
         <span class="icon icon-edit"></span>
         <span label dynamic dynamicKey={() => `${node.getMode()}Mode`}>

@@ -3,10 +3,6 @@ ldod-manage-tweets {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-table#tweetsTable td {
-    vertical-align: baseline;
-}
-
 table#tweetsTable>thead {
     position: sticky;
     top: 0;
@@ -34,9 +30,6 @@ table#tweetsTable {
 @media (min-width: 992px) {
     .container {
         width: 970px;
-    }
-    .ldod-about {
-        margin: 0 15%;
     }
 }
 

@@ -19,6 +19,8 @@ export const createElement = (tag, props, ...children) => {
         return (elem[key] = value);
       }
 
+      if (typeof value === 'boolean') return elem.toggleAttribute(key, value);
+
       elem.setAttribute(key, value?.toString());
     });
 

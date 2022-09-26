@@ -23,7 +23,7 @@ export default class LdodRouter extends HTMLElement {
   }
 
   get location() {
-    return removeEndSlash(location.pathname.toLowerCase());
+    return removeEndSlash(location.pathname);
   }
 
   get route() {
@@ -57,23 +57,24 @@ export default class LdodRouter extends HTMLElement {
   getFullPath = (path) =>
     removeEndSlash(`/${this.base}/${path ?? ''}`.replace(/\/\/+/g, '/'));
 
+  normalizePath = (pathname) =>
+    isSlash(this.routerPathname)
+      ? pathname
+      : addEndSlash(pathname)
+          .replace(`${this.routerPathname}/`, '/')
+          .replace(/\/\/+/g, '/');
+
   isPathActive = (path) => {
     if (!this.active) return false;
-    const transform = (pathname) =>
-      isSlash(this.routerPathname)
-        ? pathname
-        : addEndSlash(pathname)
-            .replace(`${this.routerPathname}/`, '/')
-            .replace(/\/\/+/g, '/');
-    let target = PATH_REGEX.exec(transform(path)).at(0);
-    let current = removeEndSlash(transform(this.active.path));
+    let target = PATH_REGEX.exec(this.normalizePath(path)).at(0);
+    let current = removeEndSlash(this.normalizePath(this.active.path));
     return current === target;
   };
 
   isFromThisRouter = (path) => {
     if (!this.route) return true;
     const target = this.base ? path.replace(this.base, '') : path;
-    return PATH_REGEX.exec(target).at(0) === this.route;
+    return target.startsWith(this.route);
   };
 
   async connectedCallback() {
@@ -148,10 +149,30 @@ export default class LdodRouter extends HTMLElement {
         : Object.entries(this.routes).find(([path, api]) => {
             return this.location.startsWith(path) && api;
           })?.[1];
-
     if (!targetPath) targetPath = this.fallback;
+    if (typeof targetPath === 'function') {
+      this.processPathVariables(targetPath);
+    }
     return targetPath;
   }
+
+  processPathVariables = async (api) => {
+    const subPaths = (await api()).path.split('/');
+    const newHistoryState = subPaths.reduce(
+      (state, subPath, index) => {
+        if (subPath.startsWith(':')) {
+          const key = subPath.replace(':', '');
+          const value = addStartSlash(
+            this.location.replace(this.routerPathname, '')
+          ).split('/')[index];
+          return { ...state, [key]: value };
+        }
+        return state;
+      },
+      { ...history.state }
+    );
+    if (newHistoryState) history.replaceState(newHistoryState, '');
+  };
 
   async appendMFE(route) {
     if (!route) return;

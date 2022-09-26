@@ -1,10 +1,12 @@
 export default ({ headers, data }) => {
+  console.log(headers);
+  console.log(data);
   return (
     <table class="table table-stripped table-condensed table-bordered">
       <thead>
         <tr>
           {headers.map((header) => (
-            <td style={{ textTransform: 'capitalize' }}>{header}</td>
+            <th style={{ textTransform: 'capitalize' }}>{header}</th>
           ))}
         </tr>
       </thead>

@@ -1,26 +1,20 @@
 import './ManageUsersComponent.jsx';
 import { getUsersList } from '@src/apiRequests.js';
 
-const useState = (initial) => {
-  let state = initial;
-  const getState = () => state;
-  const setState = (newState) => (state = newState);
-  return [getState, setState];
+export const loadAndAssignUsers = (node) => {
+  getUsersList().then((data) => {
+    node.toggleAttribute('data', false);
+    node.usersData = data;
+    node.toggleAttribute('data', true);
+  });
 };
 
-export const [usersData, setUsersData] = useState();
-export const [user, setUser] = useState();
-
 const mount = async (lang, ref) => {
-  getUsersList().then((data) => {
-    setUsersData(data);
-    const manageUsers = document.querySelector(`${ref}>manage-users`);
-    manageUsers.usersData = data;
-    manageUsers.setAttribute('data', '');
-  });
   document
     .querySelector(ref)
     .appendChild(<manage-users language={lang}></manage-users>);
+  const node = document.querySelector(`${ref}>manage-users`);
+  loadAndAssignUsers(node);
 };
 const unMount = () => document.querySelector('manage-users')?.remove();
 

@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.bff.text.dtos.inter;
+package pt.ist.socialsoftware.edition.ldod.bff.text.dtos;
 
 import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
 import pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType;
@@ -6,19 +6,18 @@ import pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ManuscriptSourceDto extends SourceInterDto {
+public class ManuscriptSourceDto extends SourceDto {
     private String identification;
     private String form;
     private String material;
     private Integer columns;
 
-    private final String sourceType = SourceType.MANUSCRIPT.name();
-    private List<String> handNoteMediumList;
-    private List<String> typeNoteMediumList;
+    private final String sourceType = SourceType.MANUSCRIPT.getDesc();
+    private List<HandNoteDto> handNoteList;
+    private List<TypeNoteDto> typeNoteList;
     private Boolean hadLdoDLabel;
     private List<String> dimensionList;
     private String notes;
-
 
     public ManuscriptSourceDto(ManuscriptSource source) {
         super(source);
@@ -26,8 +25,8 @@ public class ManuscriptSourceDto extends SourceInterDto {
         setForm(source.getForm().name());
         setMaterial(source.getMaterial().name());
         setColumns(source.getColumns());
-        setHandNoteMediumList(source);
-        setTypeNoteMediumList(source);
+        setHandNoteList(source);
+        setTypeNoteList(source);
         setHadLdoDLabel(source);
         setDimensionDtoList(source);
         setNotes(source.getNotes());
@@ -51,12 +50,18 @@ public class ManuscriptSourceDto extends SourceInterDto {
         this.columns = columns;
     }
 
-    public void setHandNoteMediumList(ManuscriptSource source) {
-        this.handNoteMediumList = source.getHandNoteSet().stream().map(handNote -> handNote.getMedium().name()).collect(Collectors.toList());
+    public void setHandNoteList(ManuscriptSource source) {
+        this.handNoteList = source.getHandNoteSet()
+                .stream()
+                .map(HandNoteDto::new)
+                .collect(Collectors.toList());
     }
 
-    public void setTypeNoteMediumList(ManuscriptSource source) {
-        this.typeNoteMediumList = source.getTypeNoteSet().stream().map(typeNote -> typeNote.getMedium().name()).collect(Collectors.toList());
+    public void setTypeNoteList(ManuscriptSource source) {
+        this.typeNoteList = source.getTypeNoteSet()
+                .stream()
+                .map(TypeNoteDto::new)
+                .collect(Collectors.toList());
     }
 
     public void setHadLdoDLabel(ManuscriptSource source) {
@@ -87,12 +92,12 @@ public class ManuscriptSourceDto extends SourceInterDto {
         return sourceType;
     }
 
-    public List<String> getHandNoteMediumList() {
-        return handNoteMediumList;
+    public List<HandNoteDto> getHandNoteList() {
+        return handNoteList;
     }
 
-    public List<String> getTypeNoteMediumList() {
-        return typeNoteMediumList;
+    public List<TypeNoteDto> getTypeNoteList() {
+        return typeNoteList;
     }
 
     public Boolean getHadLdoDLabel() {

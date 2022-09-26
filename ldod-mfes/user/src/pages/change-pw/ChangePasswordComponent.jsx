@@ -158,8 +158,8 @@ export class ChangePassword extends HTMLElement {
                   src={eye}
                   alt="eye icon"
                   class="icon"
-                  onMouseDown={this.revealPassword}
-                  onMouseUp={this.hidePassword}
+                  onPointerDown={this.revealPassword}
+                  onPointerUp={this.hidePassword}
                 />
                 <img src={check} class="icon-validation valid" />
                 <img src={exclamation} class="icon-validation invalid" />
@@ -185,8 +185,8 @@ export class ChangePassword extends HTMLElement {
                   src={eye}
                   alt="eye icon"
                   class="icon"
-                  onMouseDown={this.revealPassword}
-                  onMouseUp={this.hidePassword}
+                  onPointerDown={this.revealPassword}
+                  onPointerUp={this.hidePassword}
                 />
                 <img src={check} class="icon-validation valid" />
                 <img src={exclamation} class="icon-validation invalid" />
@@ -214,8 +214,8 @@ export class ChangePassword extends HTMLElement {
                   src={eye}
                   alt="eye icon"
                   class="icon"
-                  onMouseDown={this.revealPassword}
-                  onMouseUp={this.hidePassword}
+                  onPointerDown={this.revealPassword}
+                  onPointerUp={this.hidePassword}
                 />
                 <img src={check} class="icon-validation valid" />
                 <img src={exclamation} class="icon-validation invalid" />

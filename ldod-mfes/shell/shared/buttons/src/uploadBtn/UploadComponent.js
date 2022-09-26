@@ -21,7 +21,7 @@ export default ({ node, isMultiple }) => {
       </div>
     </form>
   `);
-
+  if (node.width) form.querySelector('div').style.width = node.width;
   form.onsubmit = node.handleSubmit;
   form.oninput = node.handleInput;
 

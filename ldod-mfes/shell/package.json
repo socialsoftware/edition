@@ -8,7 +8,7 @@
         "prebuild": "yarn --cwd client install && yarn --cwd shared install",
         "build": "yarn --cwd client build && yarn --cwd shared build",
         "dev": "yarn install && yarn build && nodemon -r dotenv/config server/src/server.js dotenv_config_path=.env.dev",
-        "docker": "yarn build && node -r dotenv/config server/src/server.js dotenv_config_path=.env"
+        "docker": "yarn install && yarn build && node -r dotenv/config server/src/server.js dotenv_config_path=.env"
     },
     "_moduleAliases": {
         "shared": "server/static/shared/"

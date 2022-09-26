@@ -1,7 +1,6 @@
 import { changeActiveRequest, removeUserRequest } from '@src/apiRequests.js';
 import edit from '@src/resources/icons/edit-primary.svg';
 import trash from '@src/resources/icons/trash.svg';
-import { setUser, usersData } from '../ManageUsers';
 import constants from '../resources/constants.js';
 import UpdateModal from './UpdateUserModal.jsx';
 import UptadeUserForm from './UpdateUserForm.jsx';
@@ -17,7 +16,7 @@ function getConstants(key) {
 
 const onChangeActive = async (externalId) => {
   const res = await changeActiveRequest(externalId);
-  usersData().userList.forEach((user) => {
+  manageUsers().usersData.userList.forEach((user) => {
     if (user.externalId === externalId) {
       user.active = res.ok;
       return;
@@ -33,23 +32,22 @@ const replaceActive = (active, id) => {
 
 const onDeleteUser = async ({ target }) => {
   const res = await removeUserRequest(target.dataset.id);
-  usersData().userList = res.userList;
-  let node = target.parentNode;
-  while (node.tagName !== 'TR') node = node.parentNode;
-  node.remove();
+  manageUsers().usersData.userList = res.userList;
+  let targetParent = target.parentNode;
+  while (targetParent.tagName !== 'TR') targetParent = targetParent.parentNode;
+  targetParent.remove();
   document.querySelector('manage-users').updateUsersLength();
 };
 
 const onEditUser = async ({ target }) => {
-  const user = usersData().userList.find(
+  const user = manageUsers().usersData.userList.find(
     ({ externalId }) => externalId === target.dataset.id
   );
-  setUser(user);
   const modal = document.querySelector('manage-users ldod-modal');
   modal.toggleAttribute('show');
   const bodySlot = modal.querySelector("div[slot='body-slot']");
   bodySlot.innerHTML = '';
-  bodySlot.appendChild(<UptadeUserForm />);
+  bodySlot.appendChild(<UptadeUserForm user={user} />);
   bodySlot.querySelectorAll("input[type='checkbox']").forEach((input) => {
     input.checked = input.name.startsWith('role')
       ? user?.listOfRoles.includes(input.name.toUpperCase())
@@ -111,16 +109,18 @@ const getUsersListActions = (id) => {
   );
 };
 
-export default () => {
+export default ({ node }) => {
+  const usersData = node.usersData;
+  const language = node.language;
   return (
     <div>
       <UpdateModal />
       <div id="userList" class="row">
         <ldod-table
-          id="users-list-table"
+          id="user-usersListTable"
           classes="table table-responsive-sm table-striped table-bordered"
           headers={constants.usersListHeaders}
-          data={usersData().userList.map((user) => ({
+          data={usersData.userList.map((user) => ({
             ...user,
             enabled: (
               <div data-key={String(user.enabled).toUpperCase()}>
@@ -133,7 +133,7 @@ export default () => {
               return prev.concat(String(curr), ',');
             }, ''),
           }))}
-          language={getLanguage()}
+          language={language}
           constants={constants}
           data-searchkey="externalId"></ldod-table>
       </div>

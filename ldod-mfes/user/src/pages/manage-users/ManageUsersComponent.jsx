@@ -7,6 +7,7 @@ import AdminModeButton from './components/AdminModeButton';
 import DeleteSessionsButton from './components/DeleteSessionsButton';
 import SessionsListTable from './components/SessionsListTable';
 import 'shared/buttons.js';
+import { loadAndAssignUsers } from './ManageUsers';
 
 import.meta.env.DEV
   ? await import('shared/table-dev.js')
@@ -49,21 +50,34 @@ export class ManageUsers extends HTMLElement {
     this.render();
   }
 
+  handleUsersUpload = ({ detail }) =>
+    detail.message === 'Users uploaded' && loadAndAssignUsers(this);
+
   attributeChangedCallback(name, oldV, newV) {
     this.handlers[name](oldV, newV);
   }
   disconnectedCallback() {}
 
   addEventListeners() {
+    this.addEventListener('ldod-message', this.handleUsersUpload);
     this.querySelectorAll('[tooltip-ref]').forEach((tooltipped) => {
-      tooltipped.parentNode.addEventListener('mouseover', loadToolip);
+      tooltipped.parentNode.addEventListener('pointerenter', loadToolip);
     });
+    this.addEventListener('ldod-table-searched', this.updateUsersListTitle);
   }
+
+  updateUsersListTitle = (e) => {
+    if (e.detail.id === 'user-usersListTable')
+      this.querySelector(
+        'h1#title span'
+      ).innerHTML = `&nbsp;(${e.detail.size})`;
+  };
 
   render() {
     this.innerHTML = '';
     this.appendChild(<style>{style}</style>);
     this.appendChild(this.getComponent());
+    this.addEventListeners();
   }
 
   handlers = {
@@ -71,8 +85,7 @@ export class ManageUsers extends HTMLElement {
       if (oldV && newV !== oldV) this.handleChangeLanguage();
     },
     data: () => {
-      this.render();
-      this.addEventListeners();
+      this.hasAttribute('data') && this.render();
     },
   };
 
@@ -92,9 +105,6 @@ export class ManageUsers extends HTMLElement {
       ele.setAttribute('language', this.language)
     );
   }
-
-  updateUsersLength = () =>
-    (this.querySelector('h1>span').innerHTML = `&nbsp;(${this.usersLength})`);
 
   handleSwitch = (e) => {
     this.querySelectorAll('div.subject').forEach((ele) => {
@@ -134,7 +144,7 @@ export class ManageUsers extends HTMLElement {
                     import.meta.env.VITE_HOST
                   }/admin/user/export-users`}></ldod-export>
               </div>
-              <UsersTable />
+              <UsersTable node={this} />
             </div>
             <div id="sessions" class="subject">
               <h1 class="text-center" data-key="sessions">

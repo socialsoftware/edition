@@ -32,6 +32,11 @@ const routes = {
     mount: 'somethingToAdd',
     unMount: 'somethingToRemove',
   }),
+  '/variable-path': () => ({
+    path: '/variable-path/:id',
+    mount: mocks.mountVariablePath,
+    unMount: mocks.unMountVariablePath,
+  }),
 };
 
 const index = () => ({
@@ -66,12 +71,19 @@ beforeEach(() => {
   router.setAttribute('language', 'pt');
   router.index = index;
   uut = [];
+
   history.pushState = (data, free, url) => {
     location.pathname = url;
   };
+
+  history.replaceState = (data, unused) => {
+    history.state = data;
+  };
+
   window.onpopstate = () => {
     history.back();
   };
+
   mocks = {
     mountPath1: jest.fn(() => uut.push('path1')),
     unMountPath1: jest.fn(() => uut.push('unMountPath1')),
@@ -89,6 +101,8 @@ beforeEach(() => {
     unMountSubPath: jest.fn(() => uut.push('unMountSubPath')),
     mountNotFound: jest.fn(() => uut.push('not-found')),
     unMountNotFound: jest.fn(() => uut.push('unMountNotFound')),
+    mountVariablePath: jest.fn(() => uut.push('variablePath')),
+    unMountVariablePath: jest.fn(() => uut.push('unMountVariablePath')),
   };
 });
 
@@ -474,3 +488,20 @@ function dispatchPopState() {
   history.pushState(null, null, '/');
   window.dispatchEvent(new Event('popstate'));
 }
+
+test('when a router with a variable path route "/variable-path/:id" the route is appended and the variable is stored on history state as key value pair object ', async () => {
+  location.pathname = '/';
+  router.routes = routes;
+  document.body.appendChild(router);
+  await new Promise((r) => setTimeout(r, 1));
+
+  window.dispatchEvent(
+    new CustomEvent('ldod-url-changed', {
+      detail: { path: '/variable-path/some-id' },
+    })
+  );
+  await new Promise((r) => setTimeout(r, 1));
+
+  expect(uut.length).toBe(3);
+  expect(uut).toEqual(['/', 'unMountPath', 'variablePath']);
+});

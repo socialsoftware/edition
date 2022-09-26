@@ -1,5 +1,5 @@
 import tooltipStyle from './tooltip.css?inline';
-import { dom } from '../../dist/utils.js';
+import { dom, parseHTML } from '../../dist/utils.js';
 import { createPopper } from '@popperjs/core/dist/esm/popper';
 window.html = String.raw;
 
@@ -11,7 +11,7 @@ const getStyle = () =>
   );
 const getInner = () =>
   dom(html`
-    <div id="tooltip" role="tooltip">
+    <div id="tooltip" role="tooltip" dark>
       <div id="arrow" data-popper-arrow></div>
       <span id="content"></span>
     </div>
@@ -34,6 +34,15 @@ export class LdodTooltip extends HTMLElement {
 
   get placement() {
     return this.getAttribute('placement') ?? 'bottom';
+  }
+
+  isLightTheme() {
+    return this.hasAttribute('light');
+  }
+
+  setLightTheme() {
+    this.tooltip.toggleAttribute('dark', false);
+    this.tooltip.toggleAttribute('light', true);
   }
 
   get options() {
@@ -68,6 +77,8 @@ export class LdodTooltip extends HTMLElement {
   }
 
   render() {
+    this.isLightTheme() && this.setLightTheme();
+    this.tooltip.style.maxWidth = this.getAttribute('width');
     this.tooltip.querySelector('#content').textContent = this.content;
   }
 

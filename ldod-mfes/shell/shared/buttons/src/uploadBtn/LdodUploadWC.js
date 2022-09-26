@@ -2,6 +2,7 @@ import style from '../style.css?inline';
 import UploadComponent from './UploadComponent.js';
 import { xmlFileFetcher } from '@dist/fetcher.js';
 import { parseHTML } from '@dist/utils.js';
+import { dispatchCustomEvent } from '../utils';
 window.html = String.raw;
 
 export class LdodUpload extends HTMLElement {
@@ -25,10 +26,11 @@ export class LdodUpload extends HTMLElement {
   }
 
   get isMultiple() {
-    console.log(this.hasAttribute('multiple'));
     return this.hasAttribute('multiple');
   }
-
+  get width() {
+    return this.getAttribute('width') ?? '';
+  }
   connectedCallback() {
     this.render();
   }
@@ -47,8 +49,28 @@ export class LdodUpload extends HTMLElement {
       method: 'POST',
       body: formData,
     });
-    // TODO Perform some action with the response
-    console.log(res);
+
+    if (res.ok !== undefined) {
+      return dispatchCustomEvent(
+        this,
+        { message: res?.message },
+        {
+          type: res.ok ? 'message' : 'error',
+          bubbles: true,
+          composed: true,
+        }
+      );
+    }
+
+    return dispatchCustomEvent(
+      this,
+      { data: res },
+      {
+        type: 'file-uploaded',
+        bubbles: true,
+        composed: true,
+      }
+    );
   };
 
   handleInput = (e) => {

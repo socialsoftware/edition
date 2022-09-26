@@ -10,12 +10,13 @@
 
 <body>
     <div id="root">
-
         <ldod-export title="Export All Fragments" file-prefix="exported-file" data-url="http://localhost:8000/api/text/admin/export-all" method="GET"></ldod-export>
-
         <ldod-upload title="Upload Fragment" data-url="http://localhost:8000/api/text/admin/upload-fragment"></ldod-upload>
-
         <ldod-upload multiple title="Upload Fragment" data-url="http://localhost:8000/api/text/admin/upload-fragments"></ldod-upload>
+        <ldod-button class="btn btn-success" type="button" title="Success"></ldod-button>
+        <ldod-button class="btn btn-secondary" type="button" title="Secondary"></ldod-button>
+        <ldod-button class="btn btn-outline-primary" type="button" title="Outline"></ldod-button>
+
     </div>
     <script src="index.js" type="module"></script>
 </body>

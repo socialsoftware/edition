@@ -10,12 +10,12 @@ export const getTableData = (citations) => {
     'startOffset',
     'endOffset',
   ];
-  const data = citations?.map((row) => {
+  return citations?.map((row) => {
     return {
       tweetId: row.sourceLink.split('/')[5],
       date: row.data.replace('.', ''),
       fragment: (
-        <a is="nav-to" to={`/fragments/fragment/${row.xmlId}`}>
+        <a is="nav-to" to={`/text/fragment/${row.xmlId}`}>
           {row.title}
         </a>
       ),
@@ -34,18 +34,7 @@ export const getTableData = (citations) => {
       username: row.username,
       profile: row.userProfileURL,
       image: row.userImageURL,
-    };
-  });
-
-  return data.map((entry) => {
-    return {
-      ...entry,
-      search: Object.values(entry).reduce((prev, curr) => {
-        return prev.concat(
-          curr instanceof Node ? curr.outerHTML : curr.toString(),
-          ','
-        );
-      }, ''),
+      search: JSON.stringify(row),
     };
   });
 };

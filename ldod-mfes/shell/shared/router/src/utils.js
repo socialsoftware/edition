@@ -26,3 +26,12 @@ export const removeStartSlash = (path) => {
 };
 
 export const removeSlashes = (path) => removeStartSlash(removeEndSlash(path));
+
+export const navigateTo = (path, ref = window) =>
+  ref.dispatchEvent(
+    new CustomEvent('ldod-url-changed', {
+      detail: { path },
+      bubbles: true,
+      composed: true,
+    })
+  );

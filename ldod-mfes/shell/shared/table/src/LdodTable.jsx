@@ -10,12 +10,20 @@ export class LdodTable extends HTMLElement {
     return this.getAttribute('classes');
   }
 
+  get visibleRows() {
+    return +(this.dataset.rows ?? 20);
+  }
+
   get isFullyLoaded() {
-    return this.data.length < 20 || this.lastIndex === this.data.length;
+    return (
+      this.data.length < this.visibleRows || this.lastIndex === this.data.length
+    );
   }
 
   get interval() {
-    return this.data.length < 20 ? this.data.length : 20;
+    return this.data.length < this.visibleRows
+      ? this.data.length
+      : this.visibleRows;
   }
 
   get language() {
@@ -31,7 +39,7 @@ export class LdodTable extends HTMLElement {
   get targetToObserve() {
     let rows = this.querySelectorAll('table>tbody>tr');
     let nrOfTr = rows.length;
-    return rows[nrOfTr * 0.75];
+    return rows[Math.floor(nrOfTr * 0.75)];
   }
 
   static get observedAttributes() {
@@ -39,15 +47,18 @@ export class LdodTable extends HTMLElement {
   }
 
   getConstants(key) {
-    return this.constants[this.language][key];
+    return this.language
+      ? this.constants[this.language][key]
+      : this.constants[key];
   }
+
   render() {
     this.appendChild(this.getTable());
   }
   attributeChangedCallback(name, oldV, newV) {
-    if (name === 'language' && oldV && oldV !== newV) {
+    if (oldV && oldV !== newV) {
       this.querySelectorAll('[data-key]').forEach((ele) => {
-        ele.textContent = this.getConstants(ele.dataset.key);
+        ele.firstChild.textContent = this.getConstants(ele.dataset.key);
       });
     }
   }
@@ -56,13 +67,13 @@ export class LdodTable extends HTMLElement {
     this.appendChild(<style>{tableStyle}</style>);
     this.render();
     if (!this.isFullyLoaded) this.addObserver();
-    history.state.searchTerm && this.handleSearchInput();
+    history.state?.searchTerm && this.handleSearchInput();
   }
 
   disconnectedCallback() {}
 
   obsCallback = ([entry], observer) => {
-    if (entry.intersectionRatio === 1) {
+    if (entry.intersectionRatio > 0) {
       observer.unobserve(entry.target);
       this.addRows();
       if (!this.isFullyLoaded) observer.observe(this.targetToObserve);
@@ -70,9 +81,7 @@ export class LdodTable extends HTMLElement {
   };
 
   addObserver() {
-    const obs = new IntersectionObserver(this.obsCallback, {
-      threshold: 1.0,
-    });
+    const obs = new IntersectionObserver(this.obsCallback);
     obs.observe(this.targetToObserve);
     this.observer = obs;
     return obs;
@@ -85,6 +94,9 @@ export class LdodTable extends HTMLElement {
     );
     newRows.forEach((row) =>
       this.querySelector('table>tbody').appendChild(row)
+    );
+    this.dispatchEvent(
+      new CustomEvent('ldod-table-increased', { composed: true, bubbles: true })
     );
   };
 
@@ -103,8 +115,8 @@ export class LdodTable extends HTMLElement {
     const searchTerm = this.querySelector('input#searchField').value?.trim();
     history.replaceState(searchTerm ? { searchTerm } : {}, {});
     const result = this.data
-      .filter((item) =>
-        item.search?.toLowerCase().includes(searchTerm?.toLowerCase().trim())
+      .filter((row) =>
+        row.search?.toLowerCase().includes(searchTerm?.toLowerCase().trim())
       )
       .map((row) => row[this.dataset.searchkey]);
     this.querySelectorAll('tbody>tr').forEach((row) => {
@@ -112,6 +124,14 @@ export class LdodTable extends HTMLElement {
         return row.toggleAttribute('searched', false);
       row.toggleAttribute('searched', true);
     });
+
+    this.dispatchEvent(
+      new CustomEvent('ldod-table-searched', {
+        detail: { id: this.id, size: result.length },
+        bubbles: true,
+        composed: true,
+      })
+    );
   };
 
   getSearch() {
@@ -122,21 +142,24 @@ export class LdodTable extends HTMLElement {
         name="search"
         placeholder="search"
         onInput={this.handleSearchInput}
-        value={history.state.searchTerm ?? ''}
+        value={history.state?.searchTerm ?? ''}
       />
     );
   }
 
   getRows(start, end) {
-    return this.data.slice(start, end).map((entry) => {
+    return this.data.slice(start, end).map((row) => {
       this.lastIndex += 1;
+      let entry = row.data && typeof row.data === 'function' ? row.data() : row;
       return (
-        <tr searched id={entry[this.searchKey]}>
-          {this.headers.map((key) => (
-            <td>
-              {typeof entry[key] === 'function' ? entry[key]() : entry[key]}
-            </td>
-          ))}
+        <tr searched id={row[this.searchKey]}>
+          {this.headers.map((key) => {
+            return (
+              <td>
+                {typeof entry[key] === 'function' ? entry[key]() : entry[key]}
+              </td>
+            );
+          })}
         </tr>
       );
     });
@@ -150,22 +173,28 @@ export class LdodTable extends HTMLElement {
           {this.loadSearchStyle()}
           {this.searchKey && this.getSearch()}
         </div>
-        <table id={this.id} class={this.classes}>
-          <thead>
-            <tr>
-              {this.headers.map((key) => (
-                <td data-key={key}>{this.getConstants(key)}</td>
-              ))}
-            </tr>
-          </thead>
-          {this.data.length ? (
-            <tbody>{this.getRows(0, this.interval)}</tbody>
-          ) : (
-            <tbody>
-              <tr>No records found</tr>
-            </tbody>
-          )}
-        </table>
+        <div class="table-container">
+          <div class="table-body">
+            <table id={this.id} class={this.classes}>
+              <thead>
+                <tr>
+                  {this.headers.map((key) => (
+                    <th class="th-inner" data-key={key}>
+                      {this.getConstants(key)}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              {this.data.length ? (
+                <tbody>{this.getRows(0, this.interval)}</tbody>
+              ) : (
+                <tbody>
+                  <tr>No records found</tr>
+                </tbody>
+              )}
+            </table>
+          </div>
+        </div>
       </>
     );
   }

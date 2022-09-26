@@ -33,3 +33,19 @@ span[label] {
     display: flex;
     justify-content: center;
 }
+
+table#user-usersListTable>thead>tr>th:nth-child(1),
+table#user-usersListTable>thead>tr>th:nth-child(2),
+table#user-usersListTable>thead>tr>th:nth-child(3) {
+    text-align: start;
+}
+
+table#user-usersListTable>tbody>tr>td:nth-child(4),
+table#user-usersListTable>tbody>tr>td:nth-child(5),
+table#user-usersListTable>tbody>tr>td:nth-child(6) {
+    text-align: center;
+}
+
+table#user-sessionsListTable th {
+    text-align: start;
+}

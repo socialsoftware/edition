@@ -46,11 +46,9 @@ export default {
   general_classificationGame: 'Classification Game',
 
   header_admin: 'Admin',
-  load: 'Load fragments',
-  general_export: 'Export fragments',
-  fragment_delete: 'Delete fragments',
-  user_manage: 'Manage users',
-  virtual_editions_manage: 'Manage Virtual Editions',
-  twitter_manage: 'Manage Tweets',
+  fragments_management: 'Manage Fragments',
+  user_management: 'Manage users',
+  virtual_editions_management: 'Manage Virtual Editions',
+  tweets_management: 'Manage Tweets',
   error: 'Something went wrong. Try again later',
 };

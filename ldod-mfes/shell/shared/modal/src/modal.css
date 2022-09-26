@@ -248,4 +248,6 @@ label {
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     padding: 1rem;
+    max-height: 70vh;
+    overflow-y: auto;
 }

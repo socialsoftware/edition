@@ -1,5 +1,4 @@
 import constants from '../resources/constants.js';
-import { usersData } from '../ManageUsers';
 import { updateUserRequest } from '@src/apiRequests.js';
 
 const getManageUsers = () => document.querySelector('manage-users');
@@ -7,6 +6,8 @@ function getConstants(key) {
   return constants[getManageUsers().language][key];
 }
 const onSaveChanges = async () => {
+  const usersData = getManageUsers().usersData;
+
   const userUpdated = Array.from(
     document.querySelector('ldod-modal form')
   ).reduce((prev, { name, value, type, checked }) => {
@@ -19,8 +20,9 @@ const onSaveChanges = async () => {
     prev[name] = value;
     return prev;
   }, {});
+
   updateUserRequest(userUpdated).then((data) => {
-    usersData().userList = data.userList;
+    usersData.userList = data.userList;
     getManageUsers().toggleAttribute('show');
     getManageUsers().render();
   });

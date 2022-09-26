@@ -46,11 +46,9 @@ export default {
   general_classificationGame: 'Juego de Clasificación',
 
   header_admin: 'Admin',
-  load: 'Carregar fragmentos',
-  general_export: 'Exportar fragmentos',
-  fragment_delete: 'Apagar fragmentos',
-  user_manage: 'Gerir utilizadores',
-  virtual_editions_manage: 'Gerir Edições Virtuais',
-  twitter_manage: 'Gerir Tweets',
+  fragments_management: 'Administrar Fragmentos',
+  user_management: 'Administrar Usuarios',
+  virtual_editions_management: 'Administrar Ediciones Virtuales',
+  tweets_management: 'Administrar Tweets',
   error: 'Algo salió mal. Vuelve a intentarlo más tarde',
 };

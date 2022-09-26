@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => {
           'shared/router.js',
           'shared/table.js',
           'shared/fetcher.js',
+          'shared/utils.js',
         ],
       },
     },

@@ -1,0 +1,16 @@
+div#ldodEditionWrapper {
+    width: 50%;
+    margin: auto;
+}
+
+.ldod-default .div-link img:nth-child(2) {
+    display: none;
+}
+
+.ldod-default .div-link:hover img:nth-child(2) {
+    display: inline;
+}
+
+.ldod-default .div-link:hover img:nth-child(1) {
+    display: none;
+}

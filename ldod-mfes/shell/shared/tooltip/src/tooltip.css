@@ -1,11 +1,23 @@
 #tooltip {
-    background: #333;
-    color: white;
-    font-weight: bold;
     padding: 4px 8px;
     font-size: 13px;
     border-radius: 4px;
     display: none;
+    text-align: justify;
+    z-index: 1060;
+}
+
+[dark] {
+    font-weight: bold;
+    background: #333;
+    color: white;
+}
+
+[light] {
+    font-weight: normal;
+    background-color: #fff;
+    color: black;
+    border: 1px solid lightgrey;
 }
 
 #tooltip[data-show] {
@@ -18,6 +30,7 @@
     width: 8px;
     height: 8px;
     background: inherit;
+    border: inherit;
 }
 
 #arrow {
@@ -30,18 +43,30 @@
     transform: rotate(45deg);
 }
 
-#tooltip[data-popper-placement^='top']>#arrow {
+#tooltip[data-popper-placement='top'] #arrow {
     bottom: -4px;
 }
 
-#tooltip[data-popper-placement^='bottom']>#arrow {
+#tooltip[data-popper-placement='bottom'] #arrow {
     top: -4px;
 }
 
-#tooltip[data-popper-placement^='left']>#arrow {
+#tooltip[data-popper-placement='left'] #arrow {
     right: -4px;
 }
 
-#tooltip[data-popper-placement^='right']>#arrow {
+#tooltip[data-popper-placement='right'] #arrow {
     left: -4px;
+}
+
+#tooltip[light][data-popper-placement='top'] #arrow {
+    bottom: -6px;
+    border-top: none;
+    border-left: none;
+}
+
+#tooltip[light][data-popper-placement='bottom'] #arrow {
+    top: -6px;
+    border-bottom: none;
+    border-right: none;
 }

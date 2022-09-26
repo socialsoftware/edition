@@ -26,12 +26,12 @@ const boxes = [
   isMFEAvailable('reading') && { mod: 'reading', path: '/reading', index: 1 },
   isMFEAvailable('text') && {
     mod: 'documents',
-    path: '/source/list',
+    path: '/text/fragments',
     index: 2,
   },
   (isMFEAvailable('text') || isMFEAvailable('virutal')) && {
     mod: 'editions',
-    path: '/edition',
+    path: '/text/edition',
     index: 3,
   },
   isMFEAvailable('search') && {
@@ -41,7 +41,7 @@ const boxes = [
   },
   isMFEAvailable('virtual') && {
     mod: 'virtual',
-    path: '/virtualeditions',
+    path: '/virtual/virtualeditions',
     index: 5,
   },
 ].filter(Boolean);

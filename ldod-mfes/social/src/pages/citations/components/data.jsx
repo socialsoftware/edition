@@ -1,7 +1,7 @@
 const getStringDate = (value) => (value < 10 ? `0${value}` : value);
 
 export const getTableData = (citations) => {
-  const data = citations?.map((row) => {
+  return citations?.map((row) => {
     return {
       tweetId: row.sourceLink.split('/')[5],
       date: `${getStringDate(row.formattedDate[2])}-${getStringDate(
@@ -10,7 +10,7 @@ export const getTableData = (citations) => {
         row.formattedDate[3]
       )}:${getStringDate(row.formattedDate[4])}`,
       fragment: (
-        <a is="nav-to" to={`/fragments/fragment/${row.xmlId}`}>
+        <a is="nav-to" to={`/text/fragment/${row.xmlId}`}>
           {row.title}
         </a>
       ),
@@ -27,15 +27,7 @@ export const getTableData = (citations) => {
           {row.username}
         </a>
       ),
-    };
-  });
-
-  return data.map((entry) => {
-    return {
-      ...entry,
-      search: Object.values(entry).reduce((prev, curr) => {
-        return prev.concat(String(curr), ',');
-      }, ''),
+      search: JSON.stringify(row),
     };
   });
 };

@@ -1,11 +1,10 @@
-import { user } from '../ManageUsers';
 import constants from '../resources/constants.js';
 
 function getConstants(key) {
   return constants[document.querySelector('manage-users').language][key];
 }
 
-export default () => {
+export default ({ user }) => {
   return (
     <div>
       <form role="form" class="form">
@@ -16,7 +15,7 @@ export default () => {
             type="text"
             autoComplete="first-name"
             name="firstName"
-            value={user()?.firstName}
+            value={user?.firstName}
           />
           <label data-key="firstName">{getConstants('firstName')}</label>
         </div>
@@ -26,18 +25,18 @@ export default () => {
             class="form-control"
             type="text"
             name="lastName"
-            value={user()?.lastName}
+            value={user?.lastName}
           />
           <label data-key="lastName">{getConstants('lastName')}</label>
         </div>
         <div class="form-floating">
-          <input type="hidden" value={user()?.userName} name="oldUsername" />
+          <input type="hidden" value={user?.userName} name="oldUsername" />
           <input
             class="form-control"
             id="username"
             type="text"
             name="newUsername"
-            value={user()?.userName}
+            value={user?.userName}
           />
           <label for="username" data-key="userName">
             {getConstants('userName')}
@@ -49,7 +48,7 @@ export default () => {
             class="form-control"
             type="text"
             name="email"
-            value={user()?.email}
+            value={user?.email}
           />
           <label for="email" data-key="email">
             {getConstants('email')}

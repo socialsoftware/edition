@@ -45,16 +45,31 @@ export default {
       { id: 'fragment_codified', route: '/text/fragments' },
     ],
   },
-  editions: (isMFEAvailable('virtual') || isMFEAvailable('text')) && {
+  editions: {
     name: 'header_editions',
     pages: [
-      { id: 'general_editor_prado', route: '/edition/acronym/JPC' },
-      { id: 'general_editor_cunha', route: '/edition/acronym/TSC' },
-      { id: 'general_editor_zenith', route: '/edition/acronym/RZ' },
-      { id: 'general_editor_pizarro', route: '/edition/acronym/JP' },
-      { clazz: 'divider' },
-      { id: 'header_title', route: '/edition/acronym/LdoD-Arquivo' },
-      { clazz: 'divider' },
+      isMFEAvailable('text') && {
+        id: 'general_editor_prado',
+        route: '/text/edition/acronym/JPC',
+      },
+      isMFEAvailable('text') && {
+        id: 'general_editor_cunha',
+        route: '/text/edition/acronym/TSC',
+      },
+      isMFEAvailable('text') && {
+        id: 'general_editor_zenith',
+        route: '/text/edition/acronym/RZ',
+      },
+      isMFEAvailable('text') && {
+        id: 'general_editor_pizarro',
+        route: '/text/edition/acronym/JP',
+      },
+      isMFEAvailable('virtual') && { clazz: 'divider' },
+      isMFEAvailable('virtual') && {
+        id: 'header_title',
+        route: '/edition/acronym/LdoD-Arquivo',
+      },
+      isMFEAvailable('virtual') && { clazz: 'divider' },
     ],
   },
   search: isMFEAvailable('search') && {
@@ -81,25 +96,20 @@ export default {
   admin: {
     name: 'header_admin',
     pages: [
-      isMFEAvailable('text') && { id: 'load', route: '/admin/loadForm' },
       isMFEAvailable('text') && {
-        id: 'general_export',
-        route: '/admin/exportForm',
-      },
-      isMFEAvailable('text') && {
-        id: 'fragment_delete',
-        route: '/admin/fragment/list',
+        id: 'fragments_management',
+        route: '/text/manage-fragments',
       },
       isMFEAvailable('user') && {
-        id: 'user_manage',
+        id: 'user_management',
         route: '/user/manage-users',
       },
       isMFEAvailable('virtual') && {
-        id: 'virtual_editions_manage',
-        route: '/admin/virtual/list',
+        id: 'virtual_editions_management',
+        route: '/virtual/manage-virutal-editions',
       },
       isMFEAvailable('social') && {
-        id: 'twitter_manage',
+        id: 'tweets_management',
         route: '/social/manage-tweets',
       },
     ],

@@ -2,8 +2,17 @@ import style from '../style.css?inline';
 import ExportComponent from './ExportComponent.js';
 import { xmlFileFetcher } from '@dist/fetcher.js';
 import { parseHTML } from '@dist/utils.js';
+import { dispatchCustomEvent } from '../utils';
 window.html = String.raw;
 
+function base64Decoder(str) {
+  return decodeURIComponent(
+    atob(str)
+      .split('')
+      .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+      .join('')
+  );
+}
 export class LdodExport extends HTMLElement {
   constructor() {
     super();
@@ -24,6 +33,10 @@ export class LdodExport extends HTMLElement {
     return this.getAttribute('title');
   }
 
+  get width() {
+    return this.getAttribute('width') ?? '';
+  }
+
   get filePrefix() {
     return this.getAttribute('file-prefix');
   }
@@ -41,15 +54,28 @@ export class LdodExport extends HTMLElement {
   }
 
   handleSubmit = async (e) => {
+    console.log(this.body);
     e.preventDefault();
     const res = await xmlFileFetcher({
       url: this.dataset.url,
       method: this.method,
-      body: this.method === 'POST' && this.dataset.body,
+      body: this.method === 'POST' && JSON.stringify(this.body),
       headers: [{ 'Content-Type': 'application/json' }],
     });
 
-    const array = [atob(res.xmlData)];
+    if (!res.xmlData && res.ok !== undefined) {
+      return dispatchCustomEvent(
+        this,
+        { message: res?.message },
+        {
+          type: res.ok ? 'message' : 'error',
+          bubbles: true,
+          composed: true,
+        }
+      );
+    }
+
+    const array = [base64Decoder(res.xmlData)];
     const blob = new Blob(array, { type: 'application/xml' });
     const a = document.createElement('a');
     a.href = window.URL.createObjectURL(blob);

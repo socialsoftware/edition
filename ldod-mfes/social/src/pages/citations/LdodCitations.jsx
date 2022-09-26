@@ -29,6 +29,7 @@ export class LdodCitations extends HTMLElement {
 
   connectedCallback() {
     this.render();
+    this.addEventListeners();
   }
 
   attributeChangedCallback(name, oldV, newV) {
@@ -49,6 +50,17 @@ export class LdodCitations extends HTMLElement {
         );
       }
     },
+  };
+
+  addEventListeners = () => {
+    this.addEventListener('ldod-table-searched', this.updateTitle);
+  };
+
+  updateTitle = ({ detail }) => {
+    this.querySelector('h3#title').firstChild.textContent = this.getConstants(
+      'title',
+      detail.size
+    );
   };
 
   render() {

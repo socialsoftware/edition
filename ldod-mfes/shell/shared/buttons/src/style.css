@@ -48,6 +48,8 @@ button {
 }
 
 [type='button'],
+[type='reset'],
+[type='submit'],
 button {
     -webkit-appearance: button;
 }
@@ -71,6 +73,16 @@ input[type='file']::file-selector-button,
     font-size: 1rem;
     border-radius: 0.25rem;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 0.2rem;
+}
+
+.btn:hover {
+    color: #212529;
 }
 
 .btn:disabled,
@@ -109,19 +121,85 @@ input[type='file']::file-selector-button:hover {
     border-color: #0d6efd;
 }
 
-.btn:hover {
-    color: #212529;
-}
-
 .btn-primary:hover {
     color: #fff;
     background-color: #0b5ed7;
     border-color: #0a58ca;
 }
 
+.btn-outline-primary {
+    color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-outline-primary:disabled {
+    color: #fff;
+    border-color: #0d6efd;
+}
+
+.btn-outline-primary:hover {
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:disabled {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    color: #fff;
+    background-color: #bb2d3b;
+    border-color: #b02a37;
+}
+
 [type='button']:not(:disabled),
 button:not(:disabled) {
     cursor: pointer;
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-secondary:disabled {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    color: #fff;
+    background-color: #5c636a;
+    border-color: #565e64;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #198754;
+    border-color: #198754;
+}
+
+.btn-success:disabled {
+    color: #fff;
+    background-color: #198754;
+    border-color: #198754;
+}
+
+.btn-success:hover {
+    color: #fff;
+    background-color: #157347;
+    border-color: #146c43;
 }
 
 .input-group .btn {
@@ -133,6 +211,12 @@ button:not(:disabled) {
     margin-left: -1px;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+}
+
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 span.icon {

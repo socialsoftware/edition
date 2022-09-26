@@ -1,0 +1,195 @@
+ldod-sources,
+ldod-fragments ldod-manage-fragments {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
+}
+
+@media (min-width: 768px) {
+    .container {
+        width: 750px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        width: 970px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 1170px;
+    }
+}
+
+.text-center {
+    text-align: center;
+}
+
+h3,
+h4,
+h5 {
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit;
+}
+
+h3 {
+    font-size: 24px;
+}
+
+h4 {
+    font-size: 18px;
+}
+
+h5 {
+    font-size: 14px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+span.icon {
+    float: left;
+    margin-top: 3px;
+    margin-left: 35%;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+
+span.icon-flex {
+    margin: auto 0;
+    margin-left: 8px;
+    height: 15px;
+    width: 15px;
+    cursor: pointer;
+}
+
+span.icon-info {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%23c6c8ca' d='M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-144c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32z'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 15px;
+}
+
+span.icon-info:hover {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%230d6efd' d='M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-144c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32z'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 15px;
+}
+
+span.icon-eye {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'%3E%3Cpath fill='%230C4EF6' d='M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 15px;
+}
+
+span.icon-xmark {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512'%3E%3Cpath fill='%23dc3545' d='M310.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L160 210.7 54.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L114.7 256 9.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 301.3 265.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L205.3 256 310.6 150.6z'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 15px;
+}
+
+span.icon-dark-export {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'%3E%3Cpath fill='%23333' d='M32 64C32 28.7 60.7 0 96 0H256V128c0 17.7 14.3 32 32 32H416V288H248c-13.3 0-24 10.7-24 24s10.7 24 24 24H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V64zM416 336V288H526.1l-39-39c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l80 80c9.4 9.4 9.4 24.6 0 33.9l-80 80c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l39-39H416zm0-208H288V0L416 128z'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 100%;
+}
+
+span.icon-checked {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%23198754' d='M470.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L192 338.7 425.4 105.4c12.5-12.5 32.8-12.5 45.3 0z'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 15px;
+}
+
+tr[selected] {
+    background-color: rgb(168, 168, 168);
+}
+
+tr:not([selected]) {
+    background-color: transparent;
+}
+
+tr[selected] span.icon-dark-export,
+tr:not([selected]) span.icon-checked {
+    display: none;
+}
+
+tr:not([selected]) span.icon-dark-export,
+tr[selected] span.icon-checked {
+    display: initial;
+}
+
+table#manageFragmentsTable>thead>tr>th:nth-child(3),
+table#manageFragmentsTable>thead>tr>th:nth-child(4) {
+    width: 25px;
+}
+
+table#encodedFragsTable th,
+table#interSourcesTable>thead>tr>th:nth-child(1),
+table#interSourcesTable>thead>tr>th:nth-child(2),
+table#interSourcesTable>thead>tr>th:nth-child(7) {
+    text-align: start;
+}
+
+table#interSourcesTable>tbody>tr>td:nth-child(3),
+table#interSourcesTable>tbody>tr>td:nth-child(4),
+table#interSourcesTable>tbody>tr>td:nth-child(5),
+table#interSourcesTable>tbody>tr>td:nth-child(6) {
+    text-align: center;
+}
+
+table#expertEditionTable tr>th:nth-child(2),
+table#expertEditionTable tr>th:nth-child(7) {
+    text-align: start;
+}
+
+table#expertEditionTable tr>td:nth-child(1),
+table#expertEditionTable tr>td:nth-child(3),
+table#expertEditionTable tr>td:nth-child(4),
+table#expertEditionTable tr>td:nth-child(5),
+table#expertEditionTable tr>td:nth-child(6) {
+    text-align: center;
+}
+
+table#manageFragmentsTable tr>td:first-child,
+table#manageFragmentsTable th[data-key='remove'],
+table#manageFragmentsTable th[data-key='export'] {
+    text-align: center;
+}
+
+.export-row {
+    display: flex;
+    justify-content: space-between;
+    flex-flow: column;
+    margin: 25px 0;
+    gap: 25px;
+}
+
+.buttons-column {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+div#removeAllContainer {
+    margin: 25px;
+}
+
+thead>tr>th[data-key='export'] {
+    cursor: pointer;
+}
+
+thead>tr>th[data-key='export']:hover {
+    background-color: rgb(168, 168, 168);
+    cursor: pointer;
+}
+
+small {
+    font-size: 85%;
+}

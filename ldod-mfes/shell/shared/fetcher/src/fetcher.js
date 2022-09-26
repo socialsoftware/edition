@@ -13,6 +13,21 @@ const handleLoading = (isLoading) =>
 
 const getStorageToken = () => getPartialStorage('ldod-store', ['token'])?.token;
 
+const fetchRequest = async (url, options) => {
+  try {
+    const res = await fetch(url, options);
+    handleLoading(false);
+    if (res.status === 401) return Promise.reject({ message: 'unauthorized' });
+    if (res.status === 403)
+      return handleError({ message: 'Not authorized to access this resource' });
+    return await res.json();
+  } catch (error) {
+    console.log('FETCH ERROR: ', error);
+    handleLoading(false);
+    handleError({ message: 'Something went wrong' });
+  }
+};
+
 const request = async (method, url, data, token) => {
   handleLoading(true);
   const options = {};
@@ -32,18 +47,7 @@ const request = async (method, url, data, token) => {
   options.method = method;
   if (data) options.body = JSON.stringify(data);
 
-  try {
-    const res = await fetch(url, options);
-    handleLoading(false);
-    if (res.status === 401) return Promise.reject({ message: 'unauthorized' });
-    if (res.status === 403)
-      return handleError({ message: 'Not authorized to access this resource' });
-    return await res.json();
-  } catch (error) {
-    console.log('FETCH ERROR: ', error);
-    handleLoading(false);
-    handleError({ message: 'Something went wrong' });
-  }
+  return await fetchRequest(url, options);
 };
 
 export const fetcher = ['get', 'post', 'put', 'delete'].reduce(
@@ -74,14 +78,5 @@ export const xmlFileFetcher = async ({
   );
   options.method = method;
   if (body) options.body = body;
-
-  try {
-    const res = await fetch(url, options);
-    handleLoading(false);
-    return await res.json();
-  } catch (error) {
-    console.log('FETCH ERROR: ', error);
-    handleLoading(false);
-    handleError({ message: 'Something went wrong' });
-  }
+  return await fetchRequest(url, options);
 };

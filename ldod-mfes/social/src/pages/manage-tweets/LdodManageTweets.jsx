@@ -31,7 +31,7 @@ export class LdodManageTweets extends HTMLElement {
     return this.querySelector('div#manageTweetsWrapper');
   }
 
-  getConstant(key, ...args) {
+  getConstants(key, ...args) {
     const constant = constants[this.language][key];
     return args.length ? constant(...args) : constant;
   }
@@ -42,6 +42,7 @@ export class LdodManageTweets extends HTMLElement {
   connectedCallback() {
     this.appendChild(<div id="manageTweetsWrapper"></div>);
     this.render();
+    this.addEventListeners();
   }
 
   attributeChangedCallback(name, oldV, newV) {
@@ -49,23 +50,30 @@ export class LdodManageTweets extends HTMLElement {
   }
 
   handleChangeAttribute = {
-    data: () => {
-      this.render();
-    },
-    language: (oldV, newV) => {
-      if (oldV && oldV !== newV) {
-        this.querySelectorAll('[data-key]').forEach(
-          (node) =>
-            (node.firstChild.textContent = node.dataset.args
-              ? this.getConstant(
-                  node.dataset.key,
-                  JSON.parse(node.dataset.args)
-                )
-              : this.getConstant(node.dataset.key))
-        );
-      }
-    },
+    data: () => this.render(),
+    language: (oldV, newV) =>
+      oldV && oldV !== newV && this.handleChangedLanguage(),
   };
+
+  addEventListeners = () => {
+    this.addEventListener('ldod-table-searched', this.updateTitle);
+  };
+
+  updateTitle = ({ detail }) => {
+    this.querySelector('h3#title').firstChild.textContent = this.getConstants(
+      'title',
+      detail.size
+    );
+  };
+
+  handleChangedLanguage() {
+    this.querySelectorAll('[data-key]').forEach(
+      (node) =>
+        (node.firstChild.textContent = node.dataset.args
+          ? this.getConstants(node.dataset.key, JSON.parse(node.dataset.args))
+          : this.getConstants(node.dataset.key))
+    );
+  }
 
   getTableInfoArgs() {
     const cits = this.numberOfCitations;
@@ -79,18 +87,18 @@ export class LdodManageTweets extends HTMLElement {
     this.wrapper.appendChild(
       <>
         <Title
-          title={this.getConstant('title', this.numberOfCitations)}
+          title={this.getConstants('title', this.numberOfCitations)}
           numberOfCitations={this.numberOfCitations}
         />
         <Buttons
-          generate={this.getConstant('generate')}
-          remove={this.getConstant('remove', this.numberOfTweets)}
+          generate={this.getConstants('generate')}
+          remove={this.getConstants('remove', this.numberOfTweets)}
           node={this}
         />
 
         <TweetsTable
           node={this}
-          tableInfo={this.getConstant('tableInfo', this.getTableInfoArgs())}
+          tableInfo={this.getConstants('tableInfo', this.getTableInfoArgs())}
           constants={constants}
         />
       </>

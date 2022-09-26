@@ -13,17 +13,17 @@ const onLanguage = ({ detail: { language } }) => {
 
 window.addEventListener('ldod-language', onLanguage);
 
-const handleErrorMessage = (e) => {
+const handleErrorMessage = ({ detail }) => {
   const modal = document.querySelector('body.ldod-default>ldod-modal#error');
   const body = modal.querySelector('div[slot="body-slot"]');
-  body.textContent = e.detail.message;
+  body.innerHTML = detail.message;
   modal.toggleAttribute('show', true);
 };
 
-const handleInfoMessage = (e) => {
+const handleInfoMessage = ({ detail }) => {
   const modal = document.querySelector('body.ldod-default>ldod-modal#success');
   const body = modal.querySelector('div[slot="body-slot"]');
-  body.textContent = e.detail.message;
+  body.innerHTML = detail.message;
   modal.toggleAttribute('show', true);
 };
 
