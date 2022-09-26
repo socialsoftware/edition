@@ -140,12 +140,14 @@ public class UserAdminService {
         return listUsersService();
     }
 
-    public void loadUsersXMLService(MultipartFile file) throws LdoDLoadException {
+    public void uploadUsersXMLService(MultipartFile file) throws LdoDLoadException {
 
         try {
             new UsersXMLImport().importUsers(file.getInputStream());
+        } catch (LdoDLoadException e) {
+            throw new LdoDException(String.format("%s %s", e.getMessage(), file.getOriginalFilename()));
         } catch (IOException e) {
-            throw new LdoDLoadException("FILE_ERROR");
+            throw new LdoDException(String.format("Invalid file %s", file.getOriginalFilename()));
         }
     }
 

@@ -1,4 +1,4 @@
-package pt.ist.socialsoftware.edition.ldod.bff.text.dtos.inter;
+package pt.ist.socialsoftware.edition.ldod.bff.text.dtos;
 
 import pt.ist.socialsoftware.edition.ldod.domain.HandNote;
 import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;

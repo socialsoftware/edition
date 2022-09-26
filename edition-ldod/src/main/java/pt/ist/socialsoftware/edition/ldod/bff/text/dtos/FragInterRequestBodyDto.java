@@ -4,17 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FragInterRequestBodyDto {
-    private ArrayList<String> selectedVE;
-    private boolean diff;
-    private boolean del;
-    private boolean ins;
-    private boolean sub;
-    private boolean note;
-    private boolean fac;
-    private boolean line;
-    private boolean align;
-    private String pbText;
-    private List<String> inters;
+    private boolean diff = false;
+    private boolean del = false;
+    private boolean ins = true;
+    private boolean sub = false;
+    private boolean note = true;
+    private boolean fac = false;
+    private boolean line = false;
+    private boolean align = false;
+    private String pbText = null;
+    private List<String> inters = new ArrayList<>();
 
     public FragInterRequestBodyDto() {
     }
@@ -25,14 +24,6 @@ public class FragInterRequestBodyDto {
 
     public void setInters(List<String> inters) {
         this.inters = inters;
-    }
-
-    public ArrayList<String> getSelectedVE() {
-        return selectedVE;
-    }
-
-    public void setSelectedVE(ArrayList<String> selectedVE) {
-        this.selectedVE = selectedVE;
     }
 
     public boolean isDiff() {

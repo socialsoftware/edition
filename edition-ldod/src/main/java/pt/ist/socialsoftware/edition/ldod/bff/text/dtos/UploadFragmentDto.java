@@ -13,18 +13,12 @@ public class UploadFragmentDto {
 
     private boolean overwritten = false;
 
-    public UploadFragmentDto(String xmlId, String title, boolean uploaded, boolean overwritten) {
-        this.xmlId = xmlId;
-        this.title = title;
-        this.uploaded = uploaded;
-        this.overwritten = overwritten;
-    }
-
-    public UploadFragmentDto(Fragment fragment) {
+    public UploadFragmentDto(Fragment fragment, boolean uploaded, boolean overwritten) {
         this.externalId = fragment.getExternalId();
         this.xmlId = fragment.getXmlId();
         this.title = fragment.getTitle();
-        this.uploaded = false;
+        this.overwritten = overwritten;
+        this.uploaded = uploaded;
     }
 
     public String getXmlId() {

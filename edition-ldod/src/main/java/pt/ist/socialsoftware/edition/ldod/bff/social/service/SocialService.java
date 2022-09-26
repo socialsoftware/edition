@@ -7,6 +7,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.TwitterCitation;
 import pt.ist.socialsoftware.edition.ldod.social.aware.AwareAnnotationFactory;
 import pt.ist.socialsoftware.edition.ldod.social.aware.CitationDetecter;
+import pt.ist.socialsoftware.edition.ldod.social.aware.FetchCitationsFromTwitter;
 import pt.ist.socialsoftware.edition.ldod.social.aware.TweetFactory;
 
 import java.io.IOException;
@@ -17,6 +18,8 @@ import java.util.stream.Collectors;
 @Service
 public class SocialService {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
+
+    private final AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
 
     public List<CitationDto> getCitationsList() {
         return LdoD.getInstance()
@@ -36,7 +39,8 @@ public class SocialService {
     private List<TwitterCitation> getTwitterCitationsListSortedByData() {
         return LdoD.getInstance()
                 .getAllTwitterCitation()
-                .stream().sorted((c1, c2) -> java.time.LocalDateTime.parse(c2.getDate(), formatter).compareTo(java.time.LocalDateTime.parse(c1.getDate(), formatter)))
+                .stream()
+                .sorted((c1, c2) -> java.time.LocalDateTime.parse(c2.getDate(), formatter).compareTo(java.time.LocalDateTime.parse(c1.getDate(), formatter)))
                 .collect(Collectors.toList());
 
     }
@@ -49,19 +53,12 @@ public class SocialService {
 
 
     public TweetListDto generateCitations() throws IOException {
-
-        CitationDetecter detecter = new CitationDetecter();
-        detecter.detect();
-
-        TweetFactory tweetFactory = new TweetFactory();
-        tweetFactory.create();
-
-        AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
+        FetchCitationsFromTwitter fetch = new FetchCitationsFromTwitter();
+        fetch.fetch();
+        new CitationDetecter().detect();
+        new TweetFactory().create();
         awareFactory.generate();
-
         LdoD.dailyRegenerateTwitterCitationEdition();
-
-        // Repeat to update edition
         awareFactory.generate();
 
         return this.getTweetsToManage();

@@ -79,7 +79,7 @@ public class TextAdminController {
     public ResponseEntity<MainResponseDto> deleteAllFragments() {
         logger.debug("deleteAll fragments");
         service.removeFragments();
-        return ResponseEntity.status(HttpStatus.OK).body(getResponseDto(true, "FRAGMENTS_DELETED"));
+        return ResponseEntity.status(HttpStatus.OK).body(getResponseDto(true, "Fragments deleted"));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/export-fragments")

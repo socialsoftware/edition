@@ -40,14 +40,13 @@ public class ExpertEditionTEIExport {
         Element rootElement = generateCorpus();
         generateCorpusHeader(rootElement);
 
-        Fragment fragment;
-
-        fragmentMap.forEach((key, value) -> {
-            this.fragInterSelectedSet = value;
-            generateFragment(rootElement, key, value);
+        fragmentMap.forEach((fragment, fragInterSet) -> {
+            this.fragInterSelectedSet = fragInterSet;
+            generateFragment(rootElement, fragment, this.fragInterSelectedSet);
         });
 
     }
+
 
     private Element generateCorpus() {
         this.jdomDoc = new Document();
@@ -191,135 +190,113 @@ public class ExpertEditionTEIExport {
 
         // generate HeaderSources
 
-        ManuscriptSource manuscript = null;
+        fragment.getSourcesSet().forEach(source -> {
+            if (source instanceof ManuscriptSource) generateSource((ManuscriptSource) source, listBibl2);
+        });
 
-        Element msDescElement = null;
-        Element msIdentifierElement = null;
+        // TODO generateSource for printedSource
+    }
 
-        Element settlementElement = null;
-        Element repositoryElement = null;
-        Element idnoElement = null;
-        Element altIdentifierElement = null;
-        Element idnoAltElement = null;
+    private void generateSource(PrintedSource manuscript, Element listBibl2) {
+    }
 
-        Element physDescElement = null;
-        Element objectDescElement = null;
-        Element supportDescElement = null;
-        Element layoutDescElement = null;
-        Element layoutElement = null;
+    private void generateSource(ManuscriptSource manuscript, Element listBibl2) {
+        Element msDescElement = new Element("msDesc", this.xmlns);
 
-        Element handDescElement = null;
-        Element pElement = null;
-        Element additionsElement = null;
-        Element bindingDescElement = null;
-        Element bindingElement = null;
+        Attribute idms = new Attribute("id", manuscript.getXmlId(), Namespace.XML_NAMESPACE);
+        msDescElement.setAttribute(idms);
 
-        Element historyElement = null;
-        Element originElement = null;
-        Element origdateElement = null;
+        Element msIdentifierElement = new Element("msIdentifier", this.xmlns);
+        Element physDescElement = new Element("physDesc", this.xmlns);
 
-        for (Source source : fragment.getSourcesSet()) {
+        msDescElement.addContent(msIdentifierElement);
+        msDescElement.addContent(physDescElement);
 
-            // TODO: outros tipos de fontes
-            manuscript = (ManuscriptSource) source;
+        Element settlementElement = new Element("settlement", this.xmlns);
+        settlementElement.addContent(manuscript.getSettlement());
+        msIdentifierElement.addContent(settlementElement);
 
-            msDescElement = new Element("msDesc", this.xmlns);
+        Element repositoryElement = new Element("repository", this.xmlns);
+        repositoryElement.addContent(manuscript.getRepository());
+        msIdentifierElement.addContent(repositoryElement);
 
-            Attribute idms = new Attribute("id", manuscript.getXmlId(), Namespace.XML_NAMESPACE);
-            msDescElement.setAttribute(idms);
+        Element idnoElement = new Element("idno", this.xmlns);
+        idnoElement.addContent(manuscript.getIdno());
+        msIdentifierElement.addContent(idnoElement);
 
-            msIdentifierElement = new Element("msIdentifier", this.xmlns);
-            physDescElement = new Element("physDesc", this.xmlns);
+        Element altIdentifierElement = new Element("altIdentifier", this.xmlns);
+        altIdentifierElement.setAttribute("type", "SC");
+        msIdentifierElement.addContent(altIdentifierElement);
 
-            msDescElement.addContent(msIdentifierElement);
-            msDescElement.addContent(physDescElement);
+        Element idnoAltElement = new Element("idno", this.xmlns);
+        idnoAltElement.addContent(manuscript.getName());
+        altIdentifierElement.addContent(idnoAltElement);
 
-            settlementElement = new Element("settlement", this.xmlns);
-            settlementElement.addContent(manuscript.getSettlement());
-            msIdentifierElement.addContent(settlementElement);
+        // physDesc // TODO: strings
+        Element objectDescElement = new Element("objectDesc", this.xmlns);
+        objectDescElement.setAttribute("form", manuscript.getForm().toString().toLowerCase());
+        physDescElement.addContent(objectDescElement);
 
-            repositoryElement = new Element("repository", this.xmlns);
-            repositoryElement.addContent(manuscript.getRepository());
-            msIdentifierElement.addContent(repositoryElement);
+        Element supportDescElement = new Element("supportDesc", this.xmlns);
+        supportDescElement.setAttribute("material", manuscript.getMaterial().name().toLowerCase());
+        objectDescElement.addContent(supportDescElement);
 
-            idnoElement = new Element("idno", this.xmlns);
-            idnoElement.addContent(manuscript.getIdno());
-            msIdentifierElement.addContent(idnoElement);
+        Element layoutDescElement = new Element("layoutDesc", this.xmlns);
+        objectDescElement.addContent(layoutDescElement);
 
-            altIdentifierElement = new Element("altIdentifier", this.xmlns);
-            altIdentifierElement.setAttribute("type", "SC");
-            msIdentifierElement.addContent(altIdentifierElement);
+        Element layoutElement = new Element("layout", this.xmlns);
+        layoutElement.setAttribute("columns", Integer.toString(manuscript.getColumns()));
+        layoutDescElement.addContent(layoutElement);
 
-            idnoAltElement = new Element("idno", this.xmlns);
-            idnoAltElement.addContent(source.getName());
-            altIdentifierElement.addContent(idnoAltElement);
+        Element handDescElement = new Element("handDesc", this.xmlns);
+        physDescElement.addContent(handDescElement);
 
-            // physDesc // TODO: strings
-            objectDescElement = new Element("objectDesc", this.xmlns);
-            objectDescElement.setAttribute("form", manuscript.getForm().toString().toLowerCase());
-            physDescElement.addContent(objectDescElement);
+        Element pElement = new Element("p", this.xmlns);
+        pElement.addContent(manuscript.getNotes());
+        handDescElement.addContent(pElement);
 
-            supportDescElement = new Element("supportDesc", this.xmlns);
-            supportDescElement.setAttribute("material", manuscript.getMaterial().name().toLowerCase());
-            objectDescElement.addContent(supportDescElement);
+        Element additionsElement = new Element("additions", this.xmlns);
 
-            layoutDescElement = new Element("layoutDesc", this.xmlns);
-            objectDescElement.addContent(layoutDescElement);
+        if (manuscript.getHasLdoDLabel()) {
+            additionsElement.addContent("LdoD");
+        }
+        physDescElement.addContent(additionsElement);
 
-            layoutElement = new Element("layout", this.xmlns);
-            layoutElement.setAttribute("columns", Integer.toString(manuscript.getColumns()));
-            layoutDescElement.addContent(layoutElement);
+        Element bindingDescElement = new Element("bindingDesc", this.xmlns);
+        physDescElement.addContent(bindingDescElement);
 
-            handDescElement = new Element("handDesc", this.xmlns);
-            physDescElement.addContent(handDescElement);
+        Element bindingElement = new Element("binding", this.xmlns);
+        bindingDescElement.addContent(bindingElement);
 
-            pElement = new Element("p", this.xmlns);
-            pElement.addContent(manuscript.getNotes());
-            handDescElement.addContent(pElement);
+        // TODO: to update
+        pElement = new Element("p", this.xmlns);
+        // pElement.addContent(manuscript.getNotes());
+        bindingElement.addContent(pElement);
 
-            additionsElement = new Element("additions", this.xmlns);
+        if (manuscript.getLdoDDate() != null) {
+            Element historyElement = new Element("history", this.xmlns);
+            msDescElement.addContent(historyElement);
 
-            if (manuscript.getHasLdoDLabel()) {
-                additionsElement.addContent("LdoD");
-            }
-            physDescElement.addContent(additionsElement);
+            Element originElement = new Element("origin", this.xmlns);
+            historyElement.addContent(originElement);
 
-            bindingDescElement = new Element("bindingDesc", this.xmlns);
-            physDescElement.addContent(bindingDescElement);
+            String date = manuscript.getLdoDDate().print();
 
-            bindingElement = new Element("binding", this.xmlns);
-            bindingDescElement.addContent(bindingElement);
+            Element origdateElement = new Element("origDate", this.xmlns);
+            origdateElement.setAttribute("when", date);
 
-            // TODO: to update
-            pElement = new Element("p", this.xmlns);
-            // pElement.addContent(manuscript.getNotes());
-            bindingElement.addContent(pElement);
-
-            if (manuscript.getLdoDDate() != null) {
-                historyElement = new Element("history", this.xmlns);
-                msDescElement.addContent(historyElement);
-
-                originElement = new Element("origin", this.xmlns);
-                historyElement.addContent(originElement);
-
-                String date = manuscript.getLdoDDate().print();
-
-                origdateElement = new Element("origDate", this.xmlns);
-                origdateElement.setAttribute("when", date);
-
-                if (manuscript.getLdoDDate() != null) {
-                    origdateElement.setAttribute("precision", manuscript.getLdoDDate().getPrecision().getDesc());
-                }
-
-                origdateElement.addContent(date);
-                originElement.addContent(origdateElement);
+            if (manuscript.getLdoDDate().getPrecision() != null) {
+                origdateElement.setAttribute("precision", manuscript.getLdoDDate().getPrecision().getDesc());
             }
 
-            listBibl2.addContent(msDescElement);
-
+            origdateElement.addContent(date);
+            originElement.addContent(origdateElement);
         }
 
+        listBibl2.addContent(msDescElement);
+
     }
+
 
     private void generateWitnesses(Fragment fragment, Element rootElement) {
 
@@ -568,6 +545,7 @@ public class ExpertEditionTEIExport {
         AppText app = (AppText) fragment.getTextPortion();
         RdgText rdg = (RdgText) app.getFirstChildText();
 
+
         if (rdg.getFirstChildText() instanceof ParagraphText) {
             this.writer.visit((ParagraphText) rdg.getFirstChildText());
         } else if (rdg.getFirstChildText() instanceof PbText) {
@@ -582,6 +560,7 @@ public class ExpertEditionTEIExport {
     }
 
     public String updateTeiHeader(String xml) {
+
         String header = "";
         String result = "";
         Resource resource = new ClassPathResource("teiCorpusHeader.xml");
@@ -594,7 +573,9 @@ public class ExpertEditionTEIExport {
             e.printStackTrace();
         }
 
-        result = xml.subSequence(0, xml.indexOf("<teiHeader")) + header + "\n" + xml.substring(xml.indexOf("<TEI"));
+        int teiIndex = xml.indexOf("<TEI");
+
+        result = xml.subSequence(0, xml.indexOf("<teiHeader")) + header + "\n" + (teiIndex != -1 ? xml.substring(teiIndex) : "");
 
         return result;
     }

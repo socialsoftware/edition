@@ -29,6 +29,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class LoadTEIFragments {
     private static org.slf4j.Logger logger = LoggerFactory.getLogger(LoadTEIFragments.class);
@@ -55,9 +56,9 @@ public class LoadTEIFragments {
         this.directIdMap.put(xmlID, list);
     }
 
+
     private List<Object> getObjectDirectIdMap(String xmlID) {
-        List<Object> objects = this.directIdMap.get(xmlID);
-        return objects;
+        return this.directIdMap.get(xmlID);
     }
 
     private List<Object> getObjectDirectIdsMap(String[] listXmlId) {
@@ -163,7 +164,7 @@ public class LoadTEIFragments {
                         .filter(fragment -> fragment.getXmlId().equals(xmlId))
                         .findFirst();
                 loadFragment(title, xmlId);
-                uploadFrags.add(new UploadFragmentDto(xmlId, title, true, oldFrag.isPresent()));
+                uploadFrags.add(new UploadFragmentDto(LdoD.getInstance().getFragmentByXmlId(xmlId), true, oldFrag.isPresent()));
                 oldFrag.ifPresent(Fragment::remove);
 
             } catch (LdoDLoadException e) {
@@ -200,13 +201,13 @@ public class LoadTEIFragments {
             boolean exists = ldoD.getFragmentsSet().stream().anyMatch(fragment -> fragment.getXmlId().equals(xmlId));
 
             if (exists) {
-                uploadFrags.add(new UploadFragmentDto(xmlId, title, false, false));
+                uploadFrags.add(new UploadFragmentDto(LdoD.getInstance().getFragmentByXmlId(xmlId), false, false));
                 continue;
             }
 
             try {
                 atomicLoadFragment(title, xmlId);
-                uploadFrags.add(new UploadFragmentDto(xmlId, title, true, false));
+                uploadFrags.add(new UploadFragmentDto(LdoD.getInstance().getFragmentByXmlId(xmlId), true, false));
             } catch (LdoDLoadException e) {
                 throw new LdoDLoadException("[" + title + "(" + xmlId + ")]: " + e.getMessage());
             }
@@ -429,25 +430,19 @@ public class LoadTEIFragments {
     }
 
     private void loadAlt(Element element, TextPortion parent) {
-        // get targets
-        String[] targetList = getTarget(element);
 
-        List<SegText> segTextList = new ArrayList<>();
-        for (String xmlId : targetList) {
-            List<Object> listSegTextList = getObjectDirectIdMap(xmlId.substring(1));
-            if (listSegTextList == null) {
-                throw new LdoDLoadException(
-                        "Não está declarado xml:id associado a um identicador target do elemento alt. Valor="
-                                + xmlId.substring(1));
-            }
-            SegText segText = (SegText) listSegTextList.get(0);
-            if (segText == null) {
-                throw new LdoDLoadException(
-                        "Não há elemento seg associado a um identicador target do elemento alt. Valor="
-                                + xmlId.substring(1));
-            }
-            segTextList.add(segText);
-        }
+        // get targets
+        List<SegText> segTextList = Arrays
+                .stream(getTarget(element))
+                .map(target -> {
+                    SegText segText = (SegText) getObjectDirectIdMap(target.substring(1)).get(0);
+                    if (segText == null) throw new LdoDLoadException(
+                            "Não está declarado xml:id associado a um identicador target do elemento alt. Valor="
+                                    + target);
+                    return segText;
+                })
+                .collect(Collectors.toList());
+
 
         // get mode
         AltMode altMode = getAltMode(element);

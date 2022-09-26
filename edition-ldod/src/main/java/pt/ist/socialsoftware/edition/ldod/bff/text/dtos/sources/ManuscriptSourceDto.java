@@ -1,54 +1,28 @@
-package pt.ist.socialsoftware.edition.ldod.bff.text.dtos;
+package pt.ist.socialsoftware.edition.ldod.bff.text.dtos.sources;
 
+import pt.ist.socialsoftware.edition.ldod.bff.text.dtos.HandNoteDto;
+import pt.ist.socialsoftware.edition.ldod.bff.text.dtos.TypeNoteDto;
+import pt.ist.socialsoftware.edition.ldod.bff.text.dtos.inter.SourceInterDto;
 import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
-import pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ManuscriptSourceDto extends SourceDto {
-    private String identification;
-    private String form;
-    private String material;
-    private Integer columns;
 
-    private final String sourceType = SourceType.MANUSCRIPT.getDesc();
     private List<HandNoteDto> handNoteList;
     private List<TypeNoteDto> typeNoteList;
     private Boolean hadLdoDLabel;
     private List<String> dimensionList;
-    private String notes;
 
-    public ManuscriptSourceDto(ManuscriptSource source) {
-        super(source);
-        setIdentification(source.getIdno());
-        setForm(source.getForm().name());
-        setMaterial(source.getMaterial().name());
-        setColumns(source.getColumns());
+    public ManuscriptSourceDto(ManuscriptSource source, List<SourceInterDto> sourceIntersList) {
+        super(source, sourceIntersList);
         setHandNoteList(source);
         setTypeNoteList(source);
         setHadLdoDLabel(source);
         setDimensionDtoList(source);
-        setNotes(source.getNotes());
     }
 
-    public void setIdentification(String identification) {
-        this.identification = identification;
-    }
-
-
-    public void setForm(String form) {
-        this.form = form;
-    }
-
-
-    public void setMaterial(String material) {
-        this.material = material;
-    }
-
-    public void setColumns(Integer columns) {
-        this.columns = columns;
-    }
 
     public void setHandNoteList(ManuscriptSource source) {
         this.handNoteList = source.getHandNoteSet()
@@ -72,25 +46,6 @@ public class ManuscriptSourceDto extends SourceDto {
         this.dimensionList = source.getSortedDimensions().stream().map(dimensions -> String.format("%.1fcm X %.1fcm", dimensions.getHeight(), dimensions.getWidth())).collect(Collectors.toList());
     }
 
-    public String getIdentification() {
-        return this.identification;
-    }
-
-    public String getForm() {
-        return form;
-    }
-
-    public String getMaterial() {
-        return material;
-    }
-
-    public Integer getColumns() {
-        return columns;
-    }
-
-    public String getSourceType() {
-        return sourceType;
-    }
 
     public List<HandNoteDto> getHandNoteList() {
         return handNoteList;
@@ -108,12 +63,5 @@ public class ManuscriptSourceDto extends SourceDto {
         return dimensionList;
     }
 
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
 
 }

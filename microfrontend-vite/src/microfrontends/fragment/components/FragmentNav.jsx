@@ -9,13 +9,13 @@ import {
   getVirtualsInter,
   resetCheckboxesState,
   setAuthorialsInter,
-  setVirtualsInter
+  setVirtualsInter,
 } from '../fragmentStore';
 import FragmentNavTable from './FragmentNavTable';
 
 export default ({ messages, fragmentNavData }) => {
   const navigate = useNavigate();
-  const currentUrlId  = useParams()?.urlid;
+  const currentUrlId = useParams()?.urlid;
 
   const {
     fragmentXmlId,
@@ -33,7 +33,6 @@ export default ({ messages, fragmentNavData }) => {
     e.preventDefault();
     isEditorial(state) && resetCheckboxesState();
     setAuthorialsInter(id);
-    console.log(currentUrlId);
     urlId !== currentUrlId &&
       navigate(`/${currentPath}/inter/${urlId}`, { state });
   };
@@ -75,8 +74,7 @@ export default ({ messages, fragmentNavData }) => {
             className="btn-group"
             id="baseinter"
             data-toggle="checkbox"
-            style={{ width: '100%' }}
-          >
+            style={{ width: '100%' }}>
             <h5 className="text-center">{messages['witnesses']}</h5>
             <div className="text-center" style={{ paddingTop: '8px' }}>
               {sources?.map(({ shortName, urlId, externalId }, index) => (
@@ -101,8 +99,7 @@ export default ({ messages, fragmentNavData }) => {
                           goToAuthorials(e, externalId, urlId, {
                             type: 'AUTHORIAL',
                           })
-                        }
-                      >
+                        }>
                         {shortName}
                       </a>,
                       '',
@@ -128,8 +125,7 @@ export default ({ messages, fragmentNavData }) => {
               <span
                 data-tip=""
                 data-for="expert-info-tooltip"
-                className="glyphicon glyphicon-info-sign gray-color"
-              ></span>
+                className="glyphicon glyphicon-info-sign gray-color"></span>
             </h5>
             {expertEditions?.map(({ acronym, editor, inter }, index) => (
               <div key={index} className="text-center">
@@ -157,8 +153,7 @@ export default ({ messages, fragmentNavData }) => {
                               type: 'EDITORIAL',
                               prevNext: 'prev',
                             })
-                          }
-                        >
+                          }>
                           <span className="glyphicon glyphicon-chevron-left"></span>
                         </a>,
                         <a
@@ -166,18 +161,16 @@ export default ({ messages, fragmentNavData }) => {
                             goToAuthorials(e, externalId, urlId, {
                               type: 'EDITORIAL',
                             })
-                          }
-                        >
+                          }>
                           {number}
                         </a>,
                         <a
                           onClick={(e) =>
                             goToAuthorials(e, externalId, urlId, {
                               type: 'EDITORIAL',
-                              prevNext: 'prev',
+                              prevNext: 'next',
                             })
-                          }
-                        >
+                          }>
                           <span className="glyphicon glyphicon-chevron-right"></span>
                         </a>,
                         '',
@@ -204,8 +197,7 @@ export default ({ messages, fragmentNavData }) => {
             <span
               data-tip=""
               data-for="virtual-info-tooltip"
-              className="glyphicon glyphicon-info-sign gray-color"
-            ></span>
+              className="glyphicon glyphicon-info-sign gray-color"></span>
           </h5>
           {virtualEditions?.map(({ acronym, inter }, index) => (
             <div key={index} className="text-center">
@@ -232,8 +224,7 @@ export default ({ messages, fragmentNavData }) => {
                           type: 'VIRTUAL',
                           prevNext: 'prev',
                         })
-                      }
-                    >
+                      }>
                       <span className="glyphicon glyphicon-chevron-left"></span>
                     </a>,
                     <a
@@ -241,8 +232,7 @@ export default ({ messages, fragmentNavData }) => {
                         goToVirtuals(e, externalId, urlId, {
                           type: 'VIRTUAL',
                         })
-                      }
-                    >
+                      }>
                       {number}
                     </a>,
                     <a
@@ -251,8 +241,7 @@ export default ({ messages, fragmentNavData }) => {
                           type: 'VIRTUAL',
                           prevNext: 'next',
                         })
-                      }
-                    >
+                      }>
                       <span className="glyphicon glyphicon-chevron-right"></span>
                     </a>,
                     '',

@@ -39,12 +39,12 @@ public class TextAdminService {
 
     public MainResponseDto loadTEICorpusService(MultipartFile file) {
         if (isFileConsistent(file))
-            return getResponseDto(false, "INVALID_FILE");
+            return getResponseDto(false, "Invalid file");
         try {
             new LoadTEICorpus().loadTEICorpus(file.getInputStream());
-            return getResponseDto(true, "CORPUS_LOADED");
+            return getResponseDto(true, "Corpus Loaded");
         } catch (IOException e) {
-            return getResponseDto(false, "INVALID_FILE");
+            return getResponseDto(false, "Invalid File");
         } catch (LdoDException ldodE) {
             return getResponseDto(false, ldodE.getMessage());
         }
@@ -57,7 +57,7 @@ public class TextAdminService {
 
     public List<UploadFragmentDto> uploadTEIFragments(MultipartFile[] files) {
         if (!isFileConsistent(files))
-            throw new LdoDException("INVALID_FILES");
+            throw new LdoDException("Invalid files");
 
         List<UploadFragmentDto> uploadFragmentDtoList = new ArrayList<>();
 
@@ -73,7 +73,7 @@ public class TextAdminService {
 
     public List<UploadFragmentDto> uploadOrOverwriteTEIFragment(MultipartFile file) {
         if (isFileConsistent(file))
-            throw new LdoDException("INVALID_FILE");
+            throw new LdoDException("Invalid file");
         try {
             return new LoadTEIFragments().loadFragmentsAtOnce(file.getInputStream());
 
@@ -83,7 +83,10 @@ public class TextAdminService {
     }
 
     public List<UploadFragmentDto> getFragmentsSet() {
-        return LdoD.getInstance().getFragmentsSet().stream().map(UploadFragmentDto::new).collect(Collectors.toList());
+        return LdoD.getInstance().getFragmentsSet()
+                .stream()
+                .map(fragment -> new UploadFragmentDto(fragment, false, false))
+                .collect(Collectors.toList());
     }
 
     public MainResponseDto removeFragment(String externalId) {
@@ -106,13 +109,11 @@ public class TextAdminService {
                         .filter(inter -> inter.getSourceType() != Edition.EditionType.VIRTUAL)
                         .collect(Collectors.toSet())));
 
+
         ExpertEditionTEIExport teiGenerator = new ExpertEditionTEIExport();
         teiGenerator.generate(FragsIntersToExport);
-
-
         try {
             return Collections.singletonMap("xmlData", IOUtils.toByteArray(IOUtils.toInputStream(teiGenerator.getXMLResult(), "UTF-8")));
-
         } catch (IOException ex) {
             throw new LdoDException("IOError writing file to output stream");
         }
@@ -124,11 +125,12 @@ public class TextAdminService {
 
     public Map<String, byte[]> exportRandomFrags() {
         int size = LdoD.getInstance().getFragmentsSet().size();
-        return exportFragments(
+        if (size >= 3) return exportFragments(
                 IntStream.of(new Random().ints(3, 0, size).toArray())
                         .mapToObj(index -> new ArrayList<>(LdoD.getInstance().getFragmentsSet()).get(index))
                         .map(AbstractDomainObject::getExternalId)
                         .collect(Collectors.toList()));
+        throw new LdoDException("Not enough Fragments");
     }
 
     public void removeFragments() {

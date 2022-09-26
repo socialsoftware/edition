@@ -34,6 +34,7 @@ public class MicrofrontendFragmentController {
     }
 
 
+
     @RequestMapping(method = RequestMethod.POST, value = "/virtual/{xmlId}/NoUser")
     public FragmentBodyDto getVirtualFragment(@PathVariable String xmlId, @RequestBody ArrayList<String> selectedVE) {
         Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
@@ -418,7 +419,7 @@ public class MicrofrontendFragmentController {
         List<FragInter> inters = new ArrayList<>();
         if (intersID != null) {
             for (String interID : intersID) {
-                FragInter inter = (FragInter) FenixFramework.getDomainObject(interID);
+                FragInter inter = FenixFramework.getDomainObject(interID);
                 if (inter != null) {
                     inters.add(inter);
                 }

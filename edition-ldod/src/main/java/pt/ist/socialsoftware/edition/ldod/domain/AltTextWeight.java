@@ -13,6 +13,7 @@ public class AltTextWeight extends AltTextWeight_Base {
 		setWeight(weight);
 	}
 
+
 	public void remove() {
 		setSegText(null);
 		setAltText(null);

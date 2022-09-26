@@ -8,7 +8,6 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathExpression;
 import org.jdom2.xpath.XPathFactory;
 import org.joda.time.LocalDate;
-import org.springframework.dao.DuplicateKeyException;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
@@ -20,6 +19,7 @@ import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Optional;
 
 public class UsersXMLImport {
 
@@ -41,8 +41,7 @@ public class UsersXMLImport {
         }
 
         if (doc == null) {
-            LdoDLoadException ex = new LdoDLoadException("Ficheiro inexistente ou sem formato TEI");
-            throw ex;
+            throw new LdoDLoadException("Ficheiro inexistente ou sem formato TEI");
         }
 
         processImport(doc);
@@ -67,7 +66,7 @@ public class UsersXMLImport {
     public void processImport(Document doc) {
         LdoD ldoD = LdoD.getInstance();
 
-        if (!isUsersManagementTagPresent(doc)) throw new LdoDLoadException("NO_USERS_MANAGEMENT_PRESENT");
+        if (!isUsersManagementTagPresent(doc)) throw new LdoDLoadException("No <users-management> is present in file");
 
         importUsers(doc, ldoD);
         importUserConnections(doc, ldoD);
@@ -142,11 +141,9 @@ public class UsersXMLImport {
                 expireTime = Long.parseLong(element.getAttributeValue("expireTime"));
             }
 
-            try {
+            if (!Optional.ofNullable(LdoD.getInstance().getUserConnection(userId, providerId, providerUserId)).isPresent()) {
                 new UserConnection(ldoD, userId, providerId, providerUserId, rank, displayName, profileUrl, imageUrl,
                         accessToken, secret, refreshToken, expireTime);
-            } catch (DuplicateKeyException ex) {
-                System.out.printf("skipping %s%n", ex.getMessage());
             }
 
         }
@@ -162,10 +159,14 @@ public class UsersXMLImport {
             boolean authorized = convertToBool(element.getAttributeValue("authorized"));
             String user = element.getAttributeValue("user");
 
-            RegistrationToken registrationToken = new RegistrationToken(token, LdoD.getInstance().getUser(user));
-            registrationToken.setExpireTime(expireTime);
-            registrationToken.setAuthorized(authorized);
+
+            if (!Optional.ofNullable(LdoD.getInstance().getTokenSet(token)).isPresent()) {
+                RegistrationToken registrationToken = new RegistrationToken(token, LdoD.getInstance().getUser(user));
+                registrationToken.setExpireTime(expireTime);
+                registrationToken.setAuthorized(authorized);
+            }
         }
+
     }
 
     private SocialMediaService convertToSocialMediaService(String value) {

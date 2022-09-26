@@ -179,7 +179,7 @@ public class FragmentBodyDto {
         this.setHasAccess(hasAccess);
         if (writer != null) {
             if (inters.size() > 1) {
-                this.setSetTranscriptionSideBySide(inters.stream().map(fragInter -> writer.getTranscription(fragInter)).collect(Collectors.toList()));
+                this.setSetTranscriptionSideBySide(inters.stream().map(writer::getTranscription).collect(Collectors.toList()));
             }
             if (inters.size() > 2) {
                 this.setWriterLineByLine(writer.getTranscriptionLineByLine());
@@ -202,7 +202,7 @@ public class FragmentBodyDto {
             variationsTranscriptions.add(array);
         }
         this.setVariations(variationsTranscriptions);
-        List<VirtualEdition> virtualEditions = selectedVEAcr.stream().map(acr -> instance.getEdition(acr)).filter(e -> e != null).map(VirtualEdition.class::cast).collect(Collectors.toList());
+        List<VirtualEdition> virtualEditions = selectedVEAcr.stream().map(instance::getEdition).filter(Objects::nonNull).map(VirtualEdition.class::cast).collect(Collectors.toList());
         if (inters.size() > 0) {
             this.setVirtualEditionsDto(virtualEditions.stream().map(vEdition -> new VirtualEditionDto(vEdition, fragment, user, inters.get(0))).collect(Collectors.toList()));
         }
@@ -221,7 +221,7 @@ public class FragmentBodyDto {
         this.setHasAccess(hasAccess);
         if (writer != null) {
             if (inters.size() > 1) {
-                this.setSetTranscriptionSideBySide(inters.stream().map(fragInter -> writer.getTranscription(fragInter)).collect(Collectors.toList()));
+                this.setSetTranscriptionSideBySide(inters.stream().map(writer::getTranscription).collect(Collectors.toList()));
             }
             if (inters.size() > 2) {
                 this.setWriterLineByLine(writer.getTranscriptionLineByLine());

@@ -86,14 +86,14 @@ public class UserAdminController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload-users")
-    public ResponseEntity<?> loadUsersXML(@RequestParam("file") MultipartFile file)
+    public ResponseEntity<?> uploadUsersXML(@RequestParam("file") MultipartFile file)
             throws LdoDLoadException {
         try {
-            service.loadUsersXMLService(file);
-        } catch (LdoDLoadException ex) {
+            service.uploadUsersXMLService(file);
+        } catch (LdoDException ex) {
             return getResponse(HttpStatus.BAD_REQUEST, false, ex.getMessage());
         }
-        return getResponse(HttpStatus.OK, true, "USERS_LOADED");
+        return getResponse(HttpStatus.OK, true, "Users uploaded");
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/export-users")
@@ -101,7 +101,7 @@ public class UserAdminController {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(service.exportUsersXMLService());
-        } catch (IOException ex) {
+        } catch (IOException | LdoDException ex) {
             return getResponse(HttpStatus.BAD_REQUEST, false, ex.getMessage());
         }
     }

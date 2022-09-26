@@ -1,55 +1,57 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import pt.ist.socialsoftware.edition.ldod.domain.Source_Base;
-
 public abstract class Source extends Source_Base implements Comparable<Source> {
 
-	public enum SourceType {
-		MANUSCRIPT("manuscript"), PRINTED("printed");
+    public enum SourceType {
+        MANUSCRIPT("manuscript"), PRINTED("printed");
 
-		private final String desc;
+        private final String desc;
 
-		SourceType(String desc) {
-			this.desc = desc;
-		}
+        SourceType(String desc) {
+            this.desc = desc;
+        }
 
-		public String getDesc() {
-			return desc;
-		}
-	};
+        public String getDesc() {
+            return desc;
+        }
+    }
 
-	public Source() {
-		setHeteronym(NullHeteronym.getNullHeteronym());
-	}
+    ;
 
-	public String getName() {
-		return getAltIdentifier();
-	}
+    public Source() {
+        setHeteronym(NullHeteronym.getNullHeteronym());
+    }
 
-	public void remove() {
-		setHeteronym(null);
-		setFragment(null);
+    public String getName() {
+        return getAltIdentifier();
+    }
 
-		if (getLdoDDate() != null) {
-			getLdoDDate().remove();
-		}
+    public void remove() {
+        setHeteronym(null);
+        setFragment(null);
 
-		// A source may not have a facsimile ???? - need to be checked with
-		// encoders
-		if (getFacsimile() != null) {
-			getFacsimile().remove();
-		}
+        if (getLdoDDate() != null) {
+            getLdoDDate().remove();
+        }
 
-		for (SourceInter inter : getSourceIntersSet()) {
-			removeSourceInters(inter);
-		}
+        // A source may not have a facsimile ???? - need to be checked with
+        // encoders
+        if (getFacsimile() != null) {
+            getFacsimile().remove();
+        }
 
-		deleteDomainObject();
-	}
+        for (SourceInter inter : getSourceIntersSet()) {
+            removeSourceInters(inter);
+        }
 
-	@Override
-	public int compareTo(Source other) {
-		return getName().compareTo(other.getName());
-	}
+        deleteDomainObject();
+    }
+
+    @Override
+    public int compareTo(Source other) {
+        return getName().compareTo(other.getName());
+    }
+
+
 
 }

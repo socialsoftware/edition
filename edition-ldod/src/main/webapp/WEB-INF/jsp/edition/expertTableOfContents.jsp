@@ -39,6 +39,7 @@
 				title="<spring:message code="tableofcontents.tt.heteronym" />"><spring:message
 						code="general.heteronym" /></span></th>
 		</tr>
+	</thead>
 	<tbody>
 		<c:forEach var="interp" items='${edition.sortedInterps}'>
 			<c:if
