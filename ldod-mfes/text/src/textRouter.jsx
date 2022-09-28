@@ -4,8 +4,6 @@ import style from './style.css?inline';
 export const isDev = () => import.meta.env.DEV;
 const TEXT_SELECTOR = 'div#textContainer';
 
-let textRouter;
-
 const routes = {
   '/manage-fragments': async () =>
     await import('./pages/management/manageFragments.jsx'),
@@ -24,18 +22,17 @@ export const unMount = () => {
 };
 
 export const TextRouter = ({ language }) => {
-  textRouter = (
-    <ldod-router
-      id="text-router"
-      base={isDev() ? '' : import.meta.env.VITE_BASE}
-      route="/text"
-      routes={routes}
-      language={language}></ldod-router>
-  );
   return (
     <div id="textContainer">
       <style>{style}</style>
-      <div class="container">{textRouter}</div>
+      <div class="container">
+        <ldod-router
+          id="text-router"
+          base={isDev() ? '' : import.meta.env.VITE_BASE}
+          route="/text"
+          routes={routes}
+          language={language}></ldod-router>
+      </div>
     </div>
   );
 };

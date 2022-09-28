@@ -103,6 +103,9 @@ export class LdodFragment extends HTMLElement {
           </div>
           <div id="navigation">
             <TextNavigation node={this} />
+            <virtual-navigation
+              language={this.language}
+              fragment={this.xmlId}></virtual-navigation>
           </div>
         </div>
       </>
@@ -152,6 +155,10 @@ export class LdodFragment extends HTMLElement {
   };
 
   handleChangedLanguage = () => {
+    this.querySelector('virtual-navigation').setAttribute(
+      'language',
+      this.language
+    );
     this.querySelectorAll('[data-key]').forEach(
       (node) =>
         (node.firstChild.textContent = this.getConstants(node.dataset.key))
@@ -174,7 +181,6 @@ export class LdodFragment extends HTMLElement {
   };
 
   handleTranscriptionCheckboxChange = async () => {
-    console.log(this.transcriptionCheckboxes);
     this.updateTranscriptCheckboxesValue();
     const data = await updateFragmentInter(
       this.xmlId,

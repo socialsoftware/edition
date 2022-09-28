@@ -102,6 +102,7 @@ export default ({ node }) => {
           )}
         </div>
       ))}
+      <br />
     </>
   );
 };

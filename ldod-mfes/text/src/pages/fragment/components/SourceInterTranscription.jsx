@@ -1,7 +1,7 @@
 import { dom } from 'shared/utils.js';
 import Viewer from './Viewer';
 
-export default ({ node, inter, clazz, key }) => {
+export default ({ node, inter }) => {
   return (
     <>
       <div
@@ -14,11 +14,7 @@ export default ({ node, inter, clazz, key }) => {
           <Viewer surfaceList={inter.surfaceDetailsList} />
         )}
         <div class="well authorialStyle" id="transcriptionContainer">
-          {clazz ? (
-            <p class={clazz}>{dom(node.data.transcriptions[key])}</p>
-          ) : (
-            dom(node.data.transcriptions[0])
-          )}
+          {dom(node.data.transcriptions[0])}
         </div>
       </div>
     </>

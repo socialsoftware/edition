@@ -1,6 +1,6 @@
 import Checkboxes from './Checkboxes';
+import { dom } from 'shared/utils.js';
 import { isSingleAndSourceInter } from '../utils';
-import SourceInterTranscription from './SourceInterTranscription';
 import Title from './Title';
 import { getSourceInter } from '../../fragments/components/sourceInter';
 import VariationsTable from './VariationsTable';
@@ -18,12 +18,11 @@ export default ({ node, inters }) => {
           return isSingleAndSourceInter([inter]) ? (
             <div class="text-sideBySideWrapper">
               <Title title={node.data.title} />
-              <SourceInterTranscription
-                node={node}
-                inter={inter}
-                clazz={getAlignClass(node)}
-                key={key}
-              />
+              <div class="well authorialStyle" id="transcriptionContainer">
+                <p class={getAlignClass(node)}>
+                  {dom(node.data.transcriptions[key])}
+                </p>
+              </div>
             </div>
           ) : (
             <div class="text-sideBySideWrapper">

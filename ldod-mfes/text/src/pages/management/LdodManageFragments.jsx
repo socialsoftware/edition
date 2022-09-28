@@ -3,9 +3,13 @@ import Title from './components/Title.jsx';
 import constants from './constants.js';
 import { dispatchCustomEvent } from '@src/utils.js';
 import { removeFragmentById, removeAllFragments } from '@src/apiRequests';
-import 'shared/buttons.js';
+import { ldodButton, exportButton, uploadButton } from 'shared/buttons.js';
 import UploadButtons from './components/uploadButtons.jsx';
 import ExportButtons from './components/exportButtons.jsx';
+
+exportButton();
+uploadButton();
+ldodButton();
 
 async function loadToolip() {
   await import('shared/tooltip.js');

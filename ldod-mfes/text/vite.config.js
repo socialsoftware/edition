@@ -18,6 +18,7 @@ export default defineConfig(({ mode }) => {
           'shared/table.js',
           'shared/fetcher.js',
           'shared/utils.js',
+          'shared/tooltip.js',
         ],
       },
     },
@@ -32,6 +33,10 @@ export default defineConfig(({ mode }) => {
         {
           find: 'shared/',
           replacement: `${env.VITE_NODE_HOST}/shared/`,
+        },
+        {
+          find: 'virtual/',
+          replacement: `${env.VITE_NODE_HOST}/virtual/`,
         },
         {
           find: '@src/',
