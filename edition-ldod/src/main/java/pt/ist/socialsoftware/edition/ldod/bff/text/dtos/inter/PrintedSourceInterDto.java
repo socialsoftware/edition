@@ -9,7 +9,6 @@ import java.util.List;
 
 public class PrintedSourceInterDto extends SourceInterDto {
     private String journal;
-    private String number;
     private Integer startPage;
     private Integer endPage;
     private String pubPlace;
@@ -22,14 +21,11 @@ public class PrintedSourceInterDto extends SourceInterDto {
         super(inter, surfaceDtoList);
         PrintedSource source = (PrintedSource) inter.getSource();
         setTitle(inter.getFragment().getTitle());
-        setNumber(source.getIssue());
         setJournal(source.getJournal());
         setStartPage(source.getStartPage());
         setEndPage(source.getEndPage());
         setPubPlace(source.getPubPlace());
     }
-
-
 
 
     public String getJournal() {
@@ -40,13 +36,7 @@ public class PrintedSourceInterDto extends SourceInterDto {
         this.journal = journal;
     }
 
-    public String getNumber() {
-        return number;
-    }
 
-    public void setNumber(String number) {
-        this.number = number;
-    }
 
     public Integer getStartPage() {
         return startPage;

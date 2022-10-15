@@ -1,6 +1,7 @@
-export default ({ exportAll, exportSelected, exportRandom, node }) => {
-  const HOST = import.meta.env.VITE_HOST;
+import('shared/buttons.js').then(({ exportButton }) => exportButton());
+const HOST = import.meta.env.VITE_HOST;
 
+export default ({ exportAll, exportSelected, exportRandom, node }) => {
   return (
     <div class="export-row">
       <ldod-export

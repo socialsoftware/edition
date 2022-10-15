@@ -13,6 +13,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.export.ExpertEditionTEIExport;
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEICorpus;
 import pt.ist.socialsoftware.edition.ldod.loaders.LoadTEIFragments;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.Message;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 import java.io.IOException;
@@ -39,12 +40,12 @@ public class TextAdminService {
 
     public MainResponseDto loadTEICorpusService(MultipartFile file) {
         if (isFileConsistent(file))
-            return getResponseDto(false, "Invalid file");
+            return getResponseDto(false, String.format(Message.INVALID_FILE.getLabel(), file.getName()));
         try {
             new LoadTEICorpus().loadTEICorpus(file.getInputStream());
-            return getResponseDto(true, "Corpus Loaded");
+            return getResponseDto(true, String.format(Message.TEI_CORPUS_LOADED.getLabel(), file.getName()));
         } catch (IOException e) {
-            return getResponseDto(false, "Invalid File");
+            return getResponseDto(false, String.format(Message.INVALID_FILE.getLabel(), file.getName()));
         } catch (LdoDException ldodE) {
             return getResponseDto(false, ldodE.getMessage());
         }

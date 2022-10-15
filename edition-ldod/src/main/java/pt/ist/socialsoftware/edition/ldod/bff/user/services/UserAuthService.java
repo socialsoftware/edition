@@ -63,7 +63,6 @@ public class UserAuthService {
     public JWTAuthenticationDto authenticationService(SigninRequestDto signinRequestDto) throws AuthenticationException {
         UsernamePasswordAuthenticationToken user = new UsernamePasswordAuthenticationToken(signinRequestDto.getUsername(), signinRequestDto.getPassword());
         Authentication auth = this.authenticationManager.authenticate(user);
-        SecurityContextHolder.getContext().setAuthentication(auth);
         LdoD.getInstance().getUser(signinRequestDto.getUsername()).setLogin(LocalDate.now());
         return new JWTAuthenticationDto(this.tokenProvider.generateToken(auth));
     }

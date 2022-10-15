@@ -5,14 +5,14 @@ import { parseHTML } from '@dist/utils.js';
 import { dispatchCustomEvent } from '../utils';
 window.html = String.raw;
 
-function base64Decoder(str) {
-  return decodeURIComponent(
-    atob(str)
+function base64ToBuffer(data) {
+  return new Uint8Array(
+    atob(data)
       .split('')
-      .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-      .join('')
-  );
+      .map((c) => c.charCodeAt(0))
+  ).buffer;
 }
+
 export class LdodExport extends HTMLElement {
   constructor() {
     super();
@@ -41,6 +41,10 @@ export class LdodExport extends HTMLElement {
     return this.getAttribute('file-prefix');
   }
 
+  get fileType() {
+    return this.getAttribute('file-type');
+  }
+
   get method() {
     return this.getAttribute('method') || 'GET';
   }
@@ -54,7 +58,6 @@ export class LdodExport extends HTMLElement {
   }
 
   handleSubmit = async (e) => {
-    console.log(this.body);
     e.preventDefault();
     const res = await xmlFileFetcher({
       url: this.dataset.url,
@@ -75,13 +78,15 @@ export class LdodExport extends HTMLElement {
       );
     }
 
-    const array = [base64Decoder(res.xmlData)];
-    const blob = new Blob(array, { type: 'application/xml' });
+    const blob = new Blob([base64ToBuffer(res.xmlData)], {
+      type: `application/${this.fileType || 'xml'}`,
+    });
+
     const a = document.createElement('a');
     a.href = window.URL.createObjectURL(blob);
     a.download = `${this.filePrefix}-${new Date().getFullYear()}-${
       new Date().getMonth() + 1
-    }-${new Date().getDate()}.xml`;
+    }-${new Date().getDate()}.${this.fileType || 'xml'}`;
     a.click();
   };
 

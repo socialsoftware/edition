@@ -6,18 +6,40 @@ import pt.ist.socialsoftware.edition.ldod.domain.LdoDDate;
 public abstract class FragInterDto {
 
     private String externalId;
-
     private String title;
     private String xmlId;
     private String urlId;
     private String date = null;
     private String precision;
+    private String shortName;
+    private int number;
+
+
+    public FragInterDto() {
+    }
 
     public FragInterDto(FragInter fragInter) {
         setExternalId(fragInter.getExternalId());
         setXmlId(fragInter.getFragment().getXmlId());
         setUrlId(fragInter.getUrlId());
         setDate(fragInter.getLdoDDate());
+        setNumber(fragInter.getNumber());
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
 
     public String getTitle() {
@@ -70,4 +92,6 @@ public abstract class FragInterDto {
     public String getPrecision() {
         return precision;
     }
+
+
 }

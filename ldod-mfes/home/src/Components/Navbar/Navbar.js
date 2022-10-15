@@ -19,6 +19,8 @@ export default class LdodNavbar extends HTMLElement {
     const shadow = this.attachShadow({ mode: 'open' });
     shadow.adoptedStyleSheets = [styleSheet];
     this.toggleEvent = this.toggleEvent.bind(this);
+    this.defaultSelectedVE = ['LdoD-Twitter', 'LdoD-Mallet'];
+    this.selectedVE = this.defaultSelectedVE;
   }
 
   static get observedAttributes() {
@@ -37,6 +39,10 @@ export default class LdodNavbar extends HTMLElement {
     return this.getAttribute('token');
   }
 
+  get editions() {
+    return this.shadowRoot.querySelector('li#editions');
+  }
+
   isAdmin() {
     return this.user && this.user.roles.includes('ROLE_ADMIN');
   }
@@ -51,11 +57,13 @@ export default class LdodNavbar extends HTMLElement {
     this.addExpandedCollapseEvent();
     this.addEventListener('ldod-login', this.onUserLogin);
     this.addEventListener('ldod-logout', this.onUserLogout);
+    window.addEventListener('ldod-selectedVE', this.addSelectedVE);
   }
 
   disconnectedCallback() {
     this.removeEventListener('ldod-login', this.onUserLogin);
     this.addEventListener('ldod-logout', this.onUserLogout);
+    window.removeEventListener('ldod-selectedVE', this.addSelectedVE);
   }
 
   async attributeChangedCallback(name, oldValue, newValue) {
@@ -103,6 +111,7 @@ export default class LdodNavbar extends HTMLElement {
 
   async render() {
     await this.setInnerHTML();
+    this.addEditions();
   }
 
   toggleEvent() {
@@ -115,7 +124,10 @@ export default class LdodNavbar extends HTMLElement {
     this.addExpandedCollapseEvent();
     const user = e.detail.user;
     if (user && typeof user === 'object') {
-      !this.user && this.addUserEditions(user.selectedVE);
+      if (!this.user) {
+        this.selectedVE = user.selectedVE || [];
+        this.updateVE();
+      }
       this.setAdminVisibility();
       this.user = user;
     }
@@ -124,8 +136,10 @@ export default class LdodNavbar extends HTMLElement {
   onUserLogout(e) {
     e.stopPropagation();
     this.user && this.setAdminVisibility(true);
-    this.user && this.removeUserEditions();
+    this.user && this.removeEditions();
     this.user = undefined;
+    this.selectedVE = this.defaultSelectedVE;
+    this.updateVE();
   }
 
   setAdminVisibility(hide = !this.isAdmin()) {
@@ -133,14 +147,24 @@ export default class LdodNavbar extends HTMLElement {
     if (admin) admin.ariaHidden = hide;
   }
 
-  addUserEditions(selectedVE) {
-    const editions = this.shadowRoot.querySelector('li#editions');
-    editions && editions.addSelectedEditions(selectedVE);
+  addSelectedVE = ({ detail: edition }) => {
+    this.selectedVE = edition.selected
+      ? [...this.selectedVE, edition.name]
+      : this.selectedVE.filter((acr) => acr !== edition.name);
+    this.updateVE();
+  };
+
+  updateVE() {
+    this.removeEditions();
+    this.addEditions();
   }
 
-  removeUserEditions() {
-    const editions = this.shadowRoot.querySelector('li#editions');
-    editions && editions.removeSelectedEditions();
+  addEditions() {
+    this.editions?.addSelectedEditions(this.selectedVE);
+  }
+
+  removeEditions() {
+    this.editions?.removeSelectedEditions();
   }
 
   getHeaders(selector) {
@@ -229,12 +253,9 @@ export default class LdodNavbar extends HTMLElement {
   }
 
   getItems(pages) {
-    return pages.filter(Boolean).map(({ id, route, link, clazz }) => ({
-      id,
-      name: this.constants[id],
-      route,
-      link,
-      clazz,
+    return pages.filter(Boolean).map((keys) => ({
+      name: this.constants[keys.id] || keys.id,
+      ...keys,
     }));
   }
 

@@ -33,9 +33,12 @@ class DropdownMenu extends HTMLLIElement {
       <ul class="dropdown-menu">
         <div class="dropdown-menu-bg"></div>
         ${this.items?.reduce(
-          (prev, { id, route, link, name, clazz }) =>
+          (prev, { id, route, link, name, clazz, selected }) =>
             prev.concat(html`
-              <li ${clazz ? `class=${clazz}` : ''}>
+              <li
+                ${clazz ? `class=${clazz}` : ''}
+                ${selected ? 'default-selected' : ''}
+              >
                 ${route
                   ? html`<a is="nav-to" to=${route} id=${id ?? ''}
                       >${name ?? ''}</a
@@ -52,27 +55,25 @@ class DropdownMenu extends HTMLLIElement {
   }
 
   addSelectedEditions(editions) {
-    if (this.id !== 'editions') return;
     editions.forEach((edition) => {
-      if (edition !== 'LdoD-Arquivo') {
-        this.querySelector('ul.dropdown-menu').appendChild(
-          parseHTML(html`
-            <li data-selected>
-              <a
-                is="nav-to"
-                to=${`/edition/acronym/${edition}`}
-                id=${edition.toLowerCase()}
-                >${edition}</a
-              >
-            </li>
-          `)
-        );
-      }
+      this.querySelector('ul.dropdown-menu').appendChild(
+        parseHTML(html`
+          <li selected>
+            <a
+              is="nav-to"
+              to=${`/virtual/edition/acronym/${edition}`}
+              id=${edition.toLowerCase()}
+              >${edition}</a
+            >
+          </li>
+        `)
+      );
     });
   }
+
   removeSelectedEditions() {
     if (this.id !== 'editions') return;
-    this.querySelectorAll('li[data-selected]').forEach((node) => node.remove());
+    this.querySelectorAll('li[selected]').forEach((node) => node.remove());
   }
 
   setDropDownMenuName() {

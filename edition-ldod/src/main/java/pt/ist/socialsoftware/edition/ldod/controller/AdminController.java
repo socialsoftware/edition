@@ -23,7 +23,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.export.ExpertEditionTEIExport;
 import pt.ist.socialsoftware.edition.ldod.export.UsersXMLExport;
-import pt.ist.socialsoftware.edition.ldod.export.WriteVirtualEditonsToFile;
+import pt.ist.socialsoftware.edition.ldod.export.WriteVirtualEditionsToFile;
 import pt.ist.socialsoftware.edition.ldod.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.ldod.loaders.*;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
@@ -101,6 +101,7 @@ public class AdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String loadTEIFragmentsAtOnce(RedirectAttributes redirectAttributes,
                                          @RequestParam("file") MultipartFile file) throws LdoDLoadException {
+
 
         if (file == null) {
             redirectAttributes.addFlashAttribute("error", true);
@@ -532,7 +533,7 @@ public class AdminController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/export/virtualeditions")
     public void exportVirtualEditions(HttpServletResponse response) throws IOException {
-        WriteVirtualEditonsToFile write = new WriteVirtualEditonsToFile();
+        WriteVirtualEditionsToFile write = new WriteVirtualEditionsToFile();
         String filename = write.export();
 
         String exportDir = PropertiesManager.getProperties().getProperty("export.dir");

@@ -8,7 +8,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 public class LdoDCreateClassificationGameException extends LdoDException {
 	private static final long serialVersionUID = 1L;
 
-	private List<String> errors = new ArrayList<>();
+	private final List<String> errors;
 	private final String description;
 	private final String interExternalId;
 	private final String date;
@@ -22,6 +22,7 @@ public class LdoDCreateClassificationGameException extends LdoDException {
 		this.interExternalId = interExternalId;
 		this.virtualEdition = virtualEdition;
 	}
+
 
 	public List<String> getErrors() {
 		return this.errors;

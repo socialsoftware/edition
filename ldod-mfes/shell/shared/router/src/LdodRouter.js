@@ -138,7 +138,7 @@ export default class LdodRouter extends HTMLElement {
   async render() {
     let route = this.getRoute();
     if (await isApiContractNotCompliant(route, this.id)) return;
-    if (this.active) await this.removeMFE();
+    await this.removeMFE();
     await this.appendMFE(route);
   }
 
@@ -182,7 +182,7 @@ export default class LdodRouter extends HTMLElement {
   }
 
   async removeMFE() {
-    await this.active.unMount();
+    await this.active?.unMount();
     this.outlet.innerHTML = '';
   }
 }

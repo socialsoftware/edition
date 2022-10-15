@@ -28,7 +28,7 @@ public class LdoDUserDto {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         setRoles(user.getListOfRolesAsStrings());
-        setSelectedVE(user.getPublicEditionList()
+        setSelectedVE(user.getSelectedVirtualEditionsSet()
                 .stream()
                 .map(Edition_Base::getAcronym)
                 .collect(Collectors.toList()));

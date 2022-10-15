@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.bff.text.dtos.inter;
 
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,7 +13,6 @@ public class EditorialInterDto extends FragInterDto {
     private String acronym;
     private String editor;
     private String volume;
-    private String number;
     private Integer startPage;
     private Integer endPage;
     private String notes;
@@ -23,14 +23,19 @@ public class EditorialInterDto extends FragInterDto {
     private String prevUrlId;
 
 
+    public EditorialInterDto(FragInter inter) {
+        super(inter);
+    }
+
     public EditorialInterDto(ExpertEditionInter inter) {
         super(inter);
         setTitle(inter.getTitle());
+        setShortName(inter.getShortName());
         setAcronym(inter.getEdition().getAcronym());
         setHeteronym(inter);
         setEditor(inter.getExpertEdition().getEditor());
         setVolume(inter.getVolume());
-        setNumber(inter.getCompleteNumber());
+        setNumber(inter.getNumber());
         setStartPage(inter.getStartPage());
         setEndPage(inter.getEndPage());
         setNotes(inter.getNotes());
@@ -113,13 +118,6 @@ public class EditorialInterDto extends FragInterDto {
         this.volume = volume;
     }
 
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
 
     public Integer getStartPage() {
         return startPage;
@@ -166,9 +164,28 @@ public class EditorialInterDto extends FragInterDto {
             editorialInterDto = new EditorialInterDto(inter);
         }
 
+        private EditorialInterDtoBuilder(FragInter inter) {
+            editorialInterDto = new EditorialInterDto(inter);
+        }
+
         public static EditorialInterDtoBuilder anEditorialInterDto(ExpertEditionInter inter) {
             return new EditorialInterDtoBuilder(inter);
         }
+
+        public static EditorialInterDtoBuilder anEditorialInterDto(FragInter inter) {
+            return new EditorialInterDtoBuilder(inter);
+        }
+
+        public EditorialInterDtoBuilder shortName(String shortName) {
+            editorialInterDto.setShortName(shortName);
+            return this;
+        }
+
+        public EditorialInterDtoBuilder title(String title) {
+            editorialInterDto.setTitle(title);
+            return this;
+        }
+
 
         public EditorialInterDtoBuilder nextXmlId(String nextXmlId) {
             editorialInterDto.setNextXmlId(nextXmlId);
@@ -194,4 +211,6 @@ public class EditorialInterDto extends FragInterDto {
             return editorialInterDto;
         }
     }
+
+
 }

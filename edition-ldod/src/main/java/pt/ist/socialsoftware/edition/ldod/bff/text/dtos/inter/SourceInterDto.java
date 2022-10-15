@@ -1,20 +1,20 @@
 package pt.ist.socialsoftware.edition.ldod.bff.text.dtos.inter;
 
 import pt.ist.socialsoftware.edition.ldod.bff.text.dtos.SurfaceDto;
+import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.Source;
 import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
 
 import java.util.List;
 
-public abstract class SourceInterDto extends FragInterDto {
+public class SourceInterDto extends FragInterDto {
 
     private String sourceType;
-
     private String heteronym;
-    private String shortName;
     private List<SurfaceDto> surfaceDetailsList;
 
-    public SourceInterDto(SourceInter inter) {
+
+    public SourceInterDto(FragInter inter) {
         super(inter);
     }
 
@@ -26,20 +26,13 @@ public abstract class SourceInterDto extends FragInterDto {
         setSurfaceDetailsList(surfaceDtoList);
     }
 
+
     public String getSourceType() {
         return sourceType;
     }
 
     public void setSourceType(String sourceType) {
         this.sourceType = sourceType;
-    }
-
-    public String getShortName() {
-        return shortName;
-    }
-
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
     }
 
 
@@ -61,4 +54,30 @@ public abstract class SourceInterDto extends FragInterDto {
         this.surfaceDetailsList = surfaceDetailsList;
     }
 
+
+    public static final class SourceInterDtoBuilder {
+        private final SourceInterDto sourceInterDto;
+
+        private SourceInterDtoBuilder(FragInter inter) {
+            sourceInterDto = new SourceInterDto(inter);
+        }
+
+        public static SourceInterDtoBuilder aSourceInterDto(FragInter inter) {
+            return new SourceInterDtoBuilder(inter);
+        }
+
+        public SourceInterDtoBuilder title(String title) {
+            sourceInterDto.setTitle(title);
+            return this;
+        }
+
+        public SourceInterDtoBuilder shortName(String shortName) {
+            sourceInterDto.setShortName(shortName);
+            return this;
+        }
+
+        public SourceInterDto build() {
+            return sourceInterDto;
+        }
+    }
 }

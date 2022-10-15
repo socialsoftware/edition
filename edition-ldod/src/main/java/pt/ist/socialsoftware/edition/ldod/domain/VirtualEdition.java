@@ -87,31 +87,14 @@ public class VirtualEdition extends VirtualEdition_Base {
         }
 
         setLdoD4Virtual(null);
-
-        getClassificationGameSet().stream().forEach(g -> g.remove());
-
+        getClassificationGameSet().forEach(ClassificationGame::remove);
         getTaxonomy().remove();
-
-        getMemberSet().stream().forEach(m -> m.remove());
-
-        getCriteriaSet().stream().forEach(c -> c.remove());
-
-        for (LdoDUser user : getSelectedBySet()) {
-            removeSelectedBy(user);
-        }
-
-        for (Section section : getSectionsSet()) {
-            section.remove();
-        }
-
-        for (VirtualEditionInter inter : getAllDepthVirtualEditionInters()) {
-            inter.remove();
-        }
-
-        for (RecommendationWeights weights : getRecommendationWeightsSet()) {
-            weights.remove();
-        }
-
+        getMemberSet().forEach(Member::remove);
+        getCriteriaSet().forEach(SocialMediaCriteria::remove);
+        getSelectedBySet().forEach(this::removeSelectedBy);
+        getSectionsSet().forEach(Section::remove);
+        getAllDepthVirtualEditionInters().forEach(VirtualEditionInter::remove);
+        getRecommendationWeightsSet().forEach(RecommendationWeights::remove);
         super.remove();
     }
 
@@ -329,22 +312,24 @@ public class VirtualEdition extends VirtualEdition_Base {
     public void updateVirtualEditionInters(String fraginters) {
         // logger.debug("updateVirtualEditionInters fragintters:{}", fraginters);
 
-        List<String> fragInterList = Arrays.stream(fraginters.trim().split(";")).map(item -> item.trim())
-                .filter(item -> !item.equals("")).collect(Collectors.toList());
-        List<String> newFragList = new ArrayList<>();
-        List<String> actualFragList = new ArrayList<>();
+        List<String> fragInterList = Arrays
+                .stream(fraginters.trim().split(";"))
+                .map(String::trim)
+                .filter(item -> !item.equals(""))
+                .collect(Collectors.toList());
 
-        // inicializa lista de frags
-        for (String temp : fragInterList) {
-            FragInter inter = FenixFramework.getDomainObject(temp);
 
-            // logger.debug("updateVirtualEditionInters temp:{} interLastUsed:{}
-            // interTitle:{} interSourceType:{}", temp,
-            // inter.getLastUsed().getExternalId(), inter.getTitle(),
-            // inter.getSourceType());
+        // Frag inter initialization
+        List<String> newFragList = fragInterList
+                .stream()
+                .map(id -> ((FragInter) FenixFramework.getDomainObject(id)).getLastUsed().getExternalId())
+                .collect(Collectors.toList());
 
-            newFragList.add(inter.getLastUsed().getExternalId());
-        }
+        List<String> actualFragList = getAllDepthVirtualEditionInters()
+                .stream()
+                .map(inter -> inter.getLastUsed().getExternalId())
+                .collect(Collectors.toList());
+
 
         String fragVirtualInterId = "";
         // remove os fragmentos que não se encontram na nova lista
@@ -456,19 +441,29 @@ public class VirtualEdition extends VirtualEdition_Base {
         return getPub() || getParticipantSet().contains(LdoDUser.getAuthenticatedUser());
     }
 
+    public boolean checkAccess(LdoDUser user) {
+        return getPub() || getParticipantSet().contains(user);
+    }
+
+    public Optional<VirtualEditionInter> getInterById(String externalId) {
+        return getAllDepthVirtualEditionInters()
+                .stream()
+                .filter(inter -> inter.getExternalId().equals(externalId))
+                .findFirst();
+    }
+
     public List<VirtualEditionInter> getAllDepthVirtualEditionInters() {
-        List<VirtualEditionInter> inters = new ArrayList<>();
-        for (Section section : getSectionsSet()) {
-            inters.addAll(section.getAllDepthVirtualEditionInterSet());
-        }
-        Collections.sort(inters);
-        return inters;
+
+        return getSectionsSet()
+                .stream()
+                .flatMap(section -> section.getAllDepthVirtualEditionInterSet().stream())
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     @Atomic(mode = TxMode.WRITE)
     public Section createSection(String title, int number) {
-        Section section = new Section(this, title, number);
-        return section;
+        return new Section(this, title, number);
     }
 
     public boolean hasMultipleSections() {
@@ -521,7 +516,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 
     @Atomic(mode = TxMode.WRITE)
     public void removeMember(LdoDUser user) {
-        getMemberSet().stream().filter(m -> m.getUser() == user).forEach(m -> m.remove());
+        getMemberSet().stream().filter(m -> m.getUser() == user).forEach(Member::remove);
         removeSelectedBy(user);
     }
 
@@ -531,57 +526,51 @@ public class VirtualEdition extends VirtualEdition_Base {
 
     @Atomic(mode = TxMode.WRITE)
     public void addMember(LdoDUser user, Member.MemberRole role, boolean active) {
-        if (!getMemberSet().stream().filter(m -> m.getUser() == user).findFirst().isPresent()) {
+        if (getMemberSet().stream().noneMatch(m -> m.getUser() == user)) {
             new Member(this, user, role, active);
         }
     }
 
     @Atomic(mode = TxMode.WRITE)
     public void cancelParticipationSubmission(LdoDUser user) {
-        Member member = getMemberSet().stream().filter(m -> !m.getActive() && m.getUser() == user).findFirst()
-                .orElse(null);
-        if (member != null) {
-            member.remove();
-        }
+        getMemberSet().stream().filter(m -> !m.getActive() && m.getUser() == user).findFirst().ifPresent(Member::remove);
     }
 
     @Atomic(mode = TxMode.WRITE)
     public void addApprove(LdoDUser user) {
-        Member member = getMemberSet().stream().filter(m -> !m.getActive() && m.getUser() == user).findFirst()
-                .orElse(null);
-        if (member != null) {
-            member.setActive(true);
-        }
+        getMemberSet().stream().filter(m -> !m.getActive() && m.getUser() == user).findFirst().ifPresent(member -> member.setActive(true));
     }
 
     @Atomic(mode = TxMode.WRITE)
     public void switchRole(LdoDUser user) {
-        Member member = getMemberSet().stream().filter(m -> m.getUser() == user).findFirst().orElse(null);
-        if (member != null) {
-            if (member.getRole().equals(Member.MemberRole.ADMIN)) {
-                member.setRole(Member.MemberRole.MEMBER);
-            } else {
-                member.setRole(Member.MemberRole.ADMIN);
-            }
-        }
+        getMemberSet()
+                .stream()
+                .filter(m -> m.getUser() == user)
+                .findFirst()
+                .ifPresent(member -> {
+                    if (member.getRole().equals(Member.MemberRole.ADMIN))
+                        member.setRole(Member.MemberRole.MEMBER);
+                    else
+                        member.setRole(Member.MemberRole.ADMIN);
+                });
     }
 
     public Set<LdoDUser> getParticipantSet() {
-        return getMemberSet().stream().filter(m -> m.getActive()).map(m -> m.getUser()).collect(Collectors.toSet());
+        return getMemberSet().stream().filter(Member_Base::getActive).map(Member_Base::getUser).collect(Collectors.toSet());
     }
 
     public List<LdoDUser> getParticipantList() {
-        return getParticipantSet().stream().sorted((u1, u2) -> u1.getFirstName().compareTo(u2.getFirstName()))
+        return getParticipantSet().stream().sorted(Comparator.comparing(LdoDUser_Base::getFirstName))
                 .collect(Collectors.toList());
     }
 
     public Set<Member> getActiveMemberSet() {
-        return getMemberSet().stream().filter(m -> m.getActive()).collect(Collectors.toSet());
+        return getMemberSet().stream().filter(Member_Base::getActive).collect(Collectors.toSet());
     }
 
     public Set<LdoDUser> getAdminSet() {
         return getMemberSet().stream().filter(m -> m.getRole().equals(Member.MemberRole.ADMIN) && m.getActive())
-                .map(m -> m.getUser()).collect(Collectors.toSet());
+                .map(Member_Base::getUser).collect(Collectors.toSet());
     }
 
     private Set<Member> getAdminMemberSet() {
@@ -590,7 +579,7 @@ public class VirtualEdition extends VirtualEdition_Base {
     }
 
     public Set<LdoDUser> getPendingSet() {
-        return getMemberSet().stream().filter(m -> !m.getActive()).map(m -> m.getUser()).collect(Collectors.toSet());
+        return getMemberSet().stream().filter(m -> !m.getActive()).map(Member_Base::getUser).collect(Collectors.toSet());
     }
 
     public Set<Member> getPendingMemberSet() {
@@ -598,37 +587,17 @@ public class VirtualEdition extends VirtualEdition_Base {
     }
 
     public boolean canRemoveMember(LdoDUser actor, LdoDUser user) {
-        Member.MemberRole roleActor = getMemberSet().stream().filter(m -> m.getUser() == actor).map(m -> m.getRole())
-                .findFirst().get();
-
-        if (roleActor.equals(Member.MemberRole.ADMIN) && getAdminMemberSet().size() > 1) {
+        if (getMember(actor).getRole().equals(Member.MemberRole.ADMIN)
+                && (getAdminMemberSet().size() > 1
+                || (getAdminMemberSet().size() == 1 && actor != user)))
             return true;
-        }
-
-        if (roleActor.equals(Member.MemberRole.ADMIN) && getAdminMemberSet().size() == 1 && actor != user) {
-            return true;
-        }
-
-        if (roleActor.equals(Member.MemberRole.MEMBER) && actor == user) {
-            return true;
-        }
-
-        return false;
+        return actor == user;
     }
 
     public boolean canSwitchRole(LdoDUser actor, LdoDUser user) {
-        Member.MemberRole roleActor = getMemberSet().stream().filter(m -> m.getUser() == actor).map(m -> m.getRole())
-                .findFirst().get();
-
-        if (roleActor.equals(Member.MemberRole.ADMIN) && getAdminMemberSet().size() > 1) {
-            return true;
-        }
-
-        if (roleActor.equals(Member.MemberRole.ADMIN) && getAdminMemberSet().size() == 1 && actor != user) {
-            return true;
-        }
-
-        return false;
+        return getMember(actor).getRole().equals(Member.MemberRole.ADMIN)
+                && (getAdminMemberSet().size() > 1
+                || (getAdminMemberSet().size() == 1 && actor != user));
     }
 
     public List<InterIdDistancePairDto> getIntersByDistance(VirtualEditionInter virtualEditionInter, WeightsDto weights) {
@@ -692,7 +661,7 @@ public class VirtualEdition extends VirtualEdition_Base {
 
     public List<String> getAnnotationTextList() {
         return getAnnotationList().stream().filter(a -> a.getText() != null && !a.getText().isEmpty())
-                .map(a -> a.getText()).sorted().collect(Collectors.toList());
+                .map(Annotation::getText).sorted().collect(Collectors.toList());
     }
 
     public boolean isSAVE() {

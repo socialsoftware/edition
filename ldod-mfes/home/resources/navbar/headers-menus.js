@@ -67,7 +67,7 @@ export default {
       isMFEAvailable('virtual') && { clazz: 'divider' },
       isMFEAvailable('virtual') && {
         id: 'header_title',
-        route: '/edition/acronym/LdoD-Arquivo',
+        route: '/virtual/edition/acronym/LdoD-Arquivo',
       },
       isMFEAvailable('virtual') && { clazz: 'divider' },
     ],
@@ -85,7 +85,7 @@ export default {
     pages: [
       isMFEAvailable('virtual') && {
         id: 'header_virtualeditions',
-        route: '/virtual/virtualeditions',
+        route: '/virtual/virtual-editions',
       },
       isMFEAvailable('classification-game') && {
         id: 'general_classificationGame',
@@ -106,7 +106,7 @@ export default {
       },
       isMFEAvailable('virtual') && {
         id: 'virtual_editions_management',
-        route: '/virtual/manage-virutal-editions',
+        route: '/virtual/manage-virtual-editions',
       },
       isMFEAvailable('social') && {
         id: 'tweets_management',

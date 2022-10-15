@@ -6,8 +6,11 @@ import UsersTitle from './components/UsersTitle';
 import AdminModeButton from './components/AdminModeButton';
 import DeleteSessionsButton from './components/DeleteSessionsButton';
 import SessionsListTable from './components/SessionsListTable';
-import 'shared/buttons.js';
+import { exportButton, uploadButton } from 'shared/buttons.js';
 import { loadAndAssignUsers } from './ManageUsers';
+
+exportButton();
+uploadButton();
 
 import.meta.env.DEV
   ? await import('shared/table-dev.js')

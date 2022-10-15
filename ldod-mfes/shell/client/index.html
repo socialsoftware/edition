@@ -52,8 +52,6 @@
             }
         }
     </style>
-    <link rel="preload" as="style" href="/ldod-mfes/style/style.css" onload="this.rel='stylesheet'" />
-
     <script id="importmap" type="importmap">
         { "imports": { "shared/":"/node_modules/shared/dist/" } }
     </script>
@@ -63,11 +61,11 @@
 </head>
 
 <body class="ldod-default" style="padding-bottom: 30px;">
-    <ldod-modal id="success" dialog-class="modal-lg modal-success">
+    <ldod-modal id="success" dialog-class="modal-lg modal-success" z-index="1060">
         <span slot="header-slot">Info</span>
         <div slot="body-slot"></div>
     </ldod-modal>
-    <ldod-modal id="error" dialog-class="modal-lg modal-danger">
+    <ldod-modal id="error" dialog-class="modal-lg modal-danger" z-index="1060">
         <span slot="header-slot">Error</span>
         <div slot="body-slot"></div>
     </ldod-modal>

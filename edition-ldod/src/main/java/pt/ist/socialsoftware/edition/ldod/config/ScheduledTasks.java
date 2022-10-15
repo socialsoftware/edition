@@ -16,7 +16,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGame;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.export.WriteVirtualEditonsToFile;
+import pt.ist.socialsoftware.edition.ldod.export.WriteVirtualEditionsToFile;
 import pt.ist.socialsoftware.edition.ldod.game.classification.GameRunner;
 import pt.ist.socialsoftware.edition.ldod.social.aware.AwareAnnotationFactory;
 import pt.ist.socialsoftware.edition.ldod.social.aware.CitationDetecter;
@@ -84,7 +84,7 @@ public class ScheduledTasks {
 
 	@Scheduled(cron = "0 0 10,18 * * *")
 	public void reportCurrentTime() throws IOException {
-		WriteVirtualEditonsToFile write = new WriteVirtualEditonsToFile();
+		WriteVirtualEditionsToFile write = new WriteVirtualEditionsToFile();
 		write.export();
 	}
 

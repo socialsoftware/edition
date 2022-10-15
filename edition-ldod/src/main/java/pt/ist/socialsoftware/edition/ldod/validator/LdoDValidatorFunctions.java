@@ -2,7 +2,7 @@ package pt.ist.socialsoftware.edition.ldod.validator;
 
 public class LdoDValidatorFunctions {
 	static public Boolean emptyOrWhitespaceString(String value) {
-		return value.trim().equals("") ? true : false;
+		return value.trim().equals("");
 	}
 
 	public static boolean hasBlanks(String value) {

@@ -1,3 +1,3 @@
-import './src/exportBtn/LdodExportWC.js';
-import './src/uploadBtn/LdodUploadWC.js';
-import './src/customBtn/LdodButton.js';
+export const exportButton = () => import('./src/exportBtn/LdodExportWC.js');
+export const uploadButton = () => import('./src/uploadBtn/LdodUploadWC.js');
+export const ldodButton = () => import('./src/customBtn/LdodButton.js');

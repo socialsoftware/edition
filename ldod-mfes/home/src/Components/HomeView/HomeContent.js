@@ -41,7 +41,7 @@ const boxes = [
   },
   isMFEAvailable('virtual') && {
     mod: 'virtual',
-    path: '/virtual/virtualeditions',
+    path: '/virtual/virtual-editions',
     index: 5,
   },
 ].filter(Boolean);

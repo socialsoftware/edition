@@ -9,8 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.bff.user.dtos.LdoDUserDto;
-import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.bff.user.dtos.SignupDto;
+import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
@@ -150,12 +150,11 @@ public class LdoDUser extends LdoDUser_Base {
     }
 
     public RecommendationWeights getRecommendationWeights(VirtualEdition virtualEdition) {
-        for (RecommendationWeights recommendationWeights : getRecommendationWeightsSet()) {
-            if (recommendationWeights.getVirtualEdition() == virtualEdition) {
-                return recommendationWeights;
-            }
-        }
-        return LdoD.getInstance().createRecommendationWeights(this, virtualEdition);
+        return getRecommendationWeightsSet()
+                .stream()
+                .filter(rec -> rec.getVirtualEdition().equals(virtualEdition))
+                .findFirst()
+                .orElse(LdoD.getInstance().createRecommendationWeights(this, virtualEdition));
     }
 
     @Atomic(mode = TxMode.WRITE)

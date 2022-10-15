@@ -1,6 +1,6 @@
 import 'user';
-import './Components/Navbar/Navbar.js';
-import './Components/HomeView/Home.js';
+import './src/Components/Navbar/Navbar.js';
+import './src/Components/HomeView/Home.js';
 
 window.addEventListener('ldod-language', ({ detail: { language } }) =>
   document

@@ -1,7 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.bff.text.controller;
 
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,17 +12,10 @@ import pt.ist.socialsoftware.edition.ldod.bff.dtos.MainResponseDto;
 import pt.ist.socialsoftware.edition.ldod.bff.text.dtos.UploadFragmentDto;
 import pt.ist.socialsoftware.edition.ldod.bff.text.service.TextAdminService;
 import pt.ist.socialsoftware.edition.ldod.bff.user.controller.UserAdminController;
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.export.ExpertEditionTEIExport;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 //@Secured({ "ROLE_ADMIN "})
@@ -34,7 +26,7 @@ public class TextAdminController {
     @Autowired
     TextAdminService service;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/upload-corpus")
+    @PostMapping("/upload-corpus")
     public ResponseEntity<MainResponseDto> loadTEICorpus(@RequestPart(name = "file", required = false) MultipartFile file) {
         logger.debug("upload-corpus file:{}", file);
         return ResponseEntity
@@ -91,7 +83,7 @@ public class TextAdminController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/export-all")
+    @GetMapping("/export-all")
     public ResponseEntity<?> exportAll() {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.exportAllFragments());

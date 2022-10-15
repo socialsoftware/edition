@@ -39,6 +39,7 @@ public class ManuscriptSourceInterDto extends SourceInterDto {
 
     }
 
+
     public String getNotes() {
         return notes;
     }

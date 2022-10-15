@@ -1,0 +1,7 @@
+[popover] {
+    display: none;
+}
+
+[popover][show] {
+    display: block;
+}

@@ -21,7 +21,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.Role.RoleType;
 import pt.ist.socialsoftware.edition.ldod.export.ExpertEditionTEIExport;
 import pt.ist.socialsoftware.edition.ldod.export.UsersXMLExport;
-import pt.ist.socialsoftware.edition.ldod.export.WriteVirtualEditonsToFile;
+import pt.ist.socialsoftware.edition.ldod.export.WriteVirtualEditionsToFile;
 import pt.ist.socialsoftware.edition.ldod.forms.EditUserForm;
 import pt.ist.socialsoftware.edition.ldod.loaders.*;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
@@ -380,7 +380,7 @@ public class MicrofrontendAdminController {
     @RequestMapping(method = RequestMethod.GET, value = "/export/virtualeditions")
     @PreAuthorize("hasPermission('', 'admin')")
     public void exportVirtualEditions(HttpServletResponse response) throws IOException {
-        WriteVirtualEditonsToFile write = new WriteVirtualEditonsToFile();
+        WriteVirtualEditionsToFile write = new WriteVirtualEditionsToFile();
         String filename = write.export();
 
         String exportDir = PropertiesManager.getProperties().getProperty("export.dir");

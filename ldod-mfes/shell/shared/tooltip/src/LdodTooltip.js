@@ -1,5 +1,5 @@
 import tooltipStyle from './tooltip.css?inline';
-import { dom, parseHTML } from '../../dist/utils.js';
+import { dom } from '../../dist/utils.js';
 import { createPopper } from '@popperjs/core/dist/esm/popper';
 window.html = String.raw;
 
@@ -92,19 +92,19 @@ export class LdodTooltip extends HTMLElement {
 
   addEventListeners() {
     ['mouseenter', 'focus'].forEach((event) =>
-      this.element.addEventListener(event, this.show)
+      this.element?.addEventListener(event, this.show)
     );
     ['mouseleave', 'blur'].forEach((event) =>
-      this.element.addEventListener(event, this.hide)
+      this.element?.addEventListener(event, this.hide)
     );
   }
 
   removeEventListeners() {
-    ['mouseenter', 'focus'].forEach((event) =>
-      this.element.removeEventListener(event, this.show)
-    );
+    ['mouseenter', 'focus'].forEach((event) => {
+      this.element?.removeEventListener(event, this.show);
+    });
     ['mouseleave', 'blur'].forEach((event) =>
-      this.element.removeEventListener(event, this.hide)
+      this.element?.removeEventListener(event, this.hide)
     );
   }
 

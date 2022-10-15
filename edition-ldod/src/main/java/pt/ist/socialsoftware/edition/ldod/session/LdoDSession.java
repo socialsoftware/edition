@@ -73,7 +73,7 @@ public class LdoDSession implements Serializable {
 	}
 
 	public void addSelectedVE(VirtualEdition virtualEdition) {
-		String toAddAcr = new String(virtualEdition.getAcronym());
+		String toAddAcr = virtualEdition.getAcronym();
 
 		// do not add the archive virtual edition because it is already
 		// hardcoded in the menu

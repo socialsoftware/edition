@@ -15,6 +15,7 @@ import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.Message;
 import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
 
 import java.io.ByteArrayInputStream;
@@ -22,9 +23,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class VirtualEditionFragmentsTEIImport {
     private static final Logger logger = LoggerFactory.getLogger(VirtualEditionFragmentsTEIImport.class);
@@ -48,8 +47,7 @@ public class VirtualEditionFragmentsTEIImport {
         }
 
         if (doc == null) {
-            LdoDLoadException ex = new LdoDLoadException("Ficheiro inexistente ou sem formato TEI");
-            throw ex;
+            throw new LdoDLoadException("Ficheiro inexistente ou sem formato TEI");
         }
 
         return processImport(doc);
@@ -105,7 +103,12 @@ public class VirtualEditionFragmentsTEIImport {
                         fragment.getFragInterByXmlId(sourceXmlId),
                         Integer.parseInt(wit.getChild("num", this.namespace).getAttributeValue("value")));
 
-                virtualEditionInter.setXmlId(interXmlId.substring(interXmlId.lastIndexOf('.') + 1));
+
+                if (virtualEditionInter == null)
+                    throw new LdoDLoadException(String.format(Message.VIRTUAL_FRAGMENT_ALREADY_IMPORTED.getLabel(), virtualEdition.getXmlId()));
+
+                virtualEditionInter
+                        .setXmlId(interXmlId.substring(interXmlId.lastIndexOf('.') + 1));
             }
         }
     }
@@ -119,11 +122,11 @@ public class VirtualEditionFragmentsTEIImport {
             VirtualEditionInter inter = (VirtualEditionInter) fragment.getFragInterByXmlId(textClass.getAttributeValue("source").substring(1));
 
             for (Element catRef : textClass.getChildren("catRef", this.namespace)) {
-                    importTag(catRef, inter);
+                importTag(catRef, inter);
             }
 
             for (Element note : textClass.getChildren("note", this.namespace)) {
-                    importAnnotation(note, inter);
+                importAnnotation(note, inter);
             }
 
             importClassificationGames(textClass, inter);

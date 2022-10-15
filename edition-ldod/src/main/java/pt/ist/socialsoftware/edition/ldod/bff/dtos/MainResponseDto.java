@@ -20,6 +20,7 @@ public class MainResponseDto {
         return message;
     }
 
+
     public boolean getOk() {
         return ok;
     }
@@ -29,6 +30,7 @@ public class MainResponseDto {
 
         private final boolean ok;
 
+
         public AuthResponseDtoBuilder(boolean ok) {
             this.ok = ok;
         }
@@ -37,6 +39,7 @@ public class MainResponseDto {
             this.message = message;
             return this;
         }
+
 
         public MainResponseDto build() {
             return new MainResponseDto(this);

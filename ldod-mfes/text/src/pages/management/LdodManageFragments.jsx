@@ -3,13 +3,9 @@ import Title from './components/Title.jsx';
 import constants from './constants.js';
 import { dispatchCustomEvent } from '@src/utils.js';
 import { removeFragmentById, removeAllFragments } from '@src/apiRequests';
-import { ldodButton, exportButton, uploadButton } from 'shared/buttons.js';
 import UploadButtons from './components/uploadButtons.jsx';
 import ExportButtons from './components/exportButtons.jsx';
-
-exportButton();
-uploadButton();
-ldodButton();
+import('shared/buttons.js').then(({ ldodButton }) => ldodButton());
 
 async function loadToolip() {
   await import('shared/tooltip.js');
@@ -188,6 +184,7 @@ export class LdodManageFragments extends HTMLElement {
   };
 
   handleRemoveAll = async () => {
+    if (!confirm('Are you sure you want to remove all fragments?')) return;
     const res = await removeAllFragments();
     if (res.ok) this.mutateFragments([]);
     dispatchCustomEvent(

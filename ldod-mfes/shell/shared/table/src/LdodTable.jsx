@@ -16,7 +16,8 @@ export class LdodTable extends HTMLElement {
 
   get isFullyLoaded() {
     return (
-      this.data.length < this.visibleRows || this.lastIndex === this.data.length
+      this.data.length <= this.visibleRows ||
+      this.lastIndex === this.data.length
     );
   }
 
@@ -33,8 +34,6 @@ export class LdodTable extends HTMLElement {
   get searchKey() {
     return this.dataset.searchkey;
   }
-
-  get numberOfRows() {}
 
   get targetToObserve() {
     let rows = this.querySelectorAll('table>tbody>tr');
@@ -66,6 +65,7 @@ export class LdodTable extends HTMLElement {
   connectedCallback() {
     this.appendChild(<style>{tableStyle}</style>);
     this.render();
+
     if (!this.isFullyLoaded) this.addObserver();
     history.state?.searchTerm && this.handleSearchInput();
   }
@@ -178,11 +178,13 @@ export class LdodTable extends HTMLElement {
             <table id={this.id} class={this.classes}>
               <thead>
                 <tr>
-                  {this.headers.map((key) => (
-                    <th class="th-inner" data-key={key}>
-                      {this.getConstants(key)}
-                    </th>
-                  ))}
+                  {this.headers.map((key) => {
+                    return (
+                      <th class="th-inner" data-key={key}>
+                        {this.getConstants(key)}
+                      </th>
+                    );
+                  })}
                 </tr>
               </thead>
               {this.data.length ? (
