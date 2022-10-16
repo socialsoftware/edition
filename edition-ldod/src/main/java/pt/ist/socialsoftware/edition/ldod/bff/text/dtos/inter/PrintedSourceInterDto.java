@@ -20,7 +20,7 @@ public class PrintedSourceInterDto extends SourceInterDto {
     public PrintedSourceInterDto(SourceInter inter, List<SurfaceDto> surfaceDtoList) {
         super(inter, surfaceDtoList);
         PrintedSource source = (PrintedSource) inter.getSource();
-        setTitle(inter.getFragment().getTitle());
+        setTitle(inter.getTitle());
         setJournal(source.getJournal());
         setStartPage(source.getStartPage());
         setEndPage(source.getEndPage());

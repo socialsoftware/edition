@@ -22,6 +22,8 @@ public class EditorialInterDto extends FragInterDto {
     private String nextUrlId;
     private String prevUrlId;
 
+    private String interTitle;
+
 
     public EditorialInterDto(FragInter inter) {
         super(inter);
@@ -135,6 +137,13 @@ public class EditorialInterDto extends FragInterDto {
         this.endPage = endPage;
     }
 
+    public String getInterTitle() {
+        return interTitle;
+    }
+
+    public void setInterTitle(String interTitle) {
+        this.interTitle = interTitle;
+    }
 
     public String getNotes() {
         return notes;
@@ -186,6 +195,10 @@ public class EditorialInterDto extends FragInterDto {
             return this;
         }
 
+        public EditorialInterDtoBuilder interTitle(String title) {
+            editorialInterDto.setInterTitle(title);
+            return this;
+        }
 
         public EditorialInterDtoBuilder nextXmlId(String nextXmlId) {
             editorialInterDto.setNextXmlId(nextXmlId);
@@ -204,6 +217,11 @@ public class EditorialInterDto extends FragInterDto {
 
         public EditorialInterDtoBuilder prevUrlId(String prevUrlId) {
             editorialInterDto.setPrevUrlId(prevUrlId);
+            return this;
+        }
+
+        public EditorialInterDtoBuilder acronym(String acronym) {
+            editorialInterDto.setAcronym(acronym);
             return this;
         }
 

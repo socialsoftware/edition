@@ -1,19 +1,30 @@
-export default () => {
+export default ({ node }) => {
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
-      <input id="term" type="text" name="searchTerm" placeholder="searchFor" />
-      <select name="searchType" id="type">
-        <option value="">completeSearch</option>
-        <option value="">titleSearch</option>
-      </select>
-      <select name="searchSource" id="source">
-        <option value="jpc">jpc</option>
-        <option value="tsc">tsc</option>
-        <option value="jp">jp</option>
-        <option value="rz">rz</option>
-        <option value="witnesses">witnesses</option>
-      </select>
-      <button type="button">search</button>
-    </div>
+    <form onSubmit={node.searchRequest}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+        <input
+          id="term"
+          type="text"
+          name="searchTerm"
+          placeholder="searchFor"
+          required
+        />
+        <select name="searchType" id="type">
+          <option value="" selected>
+            completeSearch
+          </option>
+          <option value="title">titleSearch</option>
+        </select>
+        <select name="searchSource" id="source">
+          <option value="">All</option>
+          <option value="Coelho">jpc</option>
+          <option value="Cunha">tsc</option>
+          <option value="Pizarro">jp</option>
+          <option value="Zenith">rz</option>
+          <option value="BNP">witnesses</option>
+        </select>
+        <button type="submit">search</button>
+      </div>
+    </form>
   );
 };

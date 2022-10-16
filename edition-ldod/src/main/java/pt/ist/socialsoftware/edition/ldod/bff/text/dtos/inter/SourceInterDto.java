@@ -12,7 +12,7 @@ public class SourceInterDto extends FragInterDto {
     private String sourceType;
     private String heteronym;
     private List<SurfaceDto> surfaceDetailsList;
-
+    private String interTitle;
 
     public SourceInterDto(FragInter inter) {
         super(inter);
@@ -26,6 +26,13 @@ public class SourceInterDto extends FragInterDto {
         setSurfaceDetailsList(surfaceDtoList);
     }
 
+    public String getInterTitle() {
+        return interTitle;
+    }
+
+    public void setInterTitle(String interTitle) {
+        this.interTitle = interTitle;
+    }
 
     public String getSourceType() {
         return sourceType;
@@ -68,6 +75,11 @@ public class SourceInterDto extends FragInterDto {
 
         public SourceInterDtoBuilder title(String title) {
             sourceInterDto.setTitle(title);
+            return this;
+        }
+
+        public SourceInterDtoBuilder interTitle(String title) {
+            sourceInterDto.setInterTitle(title);
             return this;
         }
 

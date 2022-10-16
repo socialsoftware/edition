@@ -7,18 +7,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.bff.dtos.MainResponseDto;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.ClassGameDto;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.VirtualEditionLinearBodyDto;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.VirtualEditionsDto;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.service.VirtualService;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
-import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 import java.util.List;
@@ -230,15 +226,14 @@ public class VirtualController {
     @PostMapping("/restricted/manual/{externalId}/mutate")
     @PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
     public ResponseEntity<?> mutateVirtualEdition(
-                                        @PathVariable String externalId, @RequestBody List<String> inters) {
-         try {
+            @PathVariable String externalId, @RequestBody List<String> inters) {
+        try {
             return ResponseEntity.status(HttpStatus.OK).body(virtualService.mutateVirtualEditionInters(externalId, inters));
         } catch (LdoDException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MainResponseDto(false, e.getMessage()));
         }
 
     }
-
 
 
 }
