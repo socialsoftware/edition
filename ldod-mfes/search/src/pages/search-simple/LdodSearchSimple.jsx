@@ -2,20 +2,27 @@ import constants from '../../constants';
 import SearchComponent from './SearchComponent';
 import { simpleSearchRequest } from '../../apiRequests';
 import style from '@src/style.css?inline';
+import SimpleSearchTable from './SimpleSearchTable';
 
 import.meta.env.DEV
   ? await import('shared/table-dev.js')
   : await import('shared/table.js');
 
 export class LdodSearchSimple extends HTMLElement {
-  constructor() {
+  constructor(options) {
     super();
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(<style>{style}</style>);
+    this.mode = options?.isFragmentMode;
+    this.language = options?.language;
   }
 
   static get observedAttributes() {
     return ['language'];
+  }
+
+  set language(lang) {
+    lang && this.setAttribute('language', lang);
   }
 
   get language() {
@@ -30,7 +37,20 @@ export class LdodSearchSimple extends HTMLElement {
     return this.data?.length;
   }
 
-  getConstants(key, args) {
+  get isFragmentMode() {
+    return this.hasAttribute('fragment');
+  }
+
+  set isFragmentMode(mode) {
+    this.toggleAttribute('fragment', mode);
+  }
+  get selectedInters() {
+    return Array.from(this.shadowRoot.querySelectorAll('tr[selected]')).map(
+      (row) => row.id
+    );
+  }
+
+  getConstants(key) {
     return constants(this.numberOfFragments, this.numberOfInters)[
       this.language
     ][key];
@@ -42,9 +62,11 @@ export class LdodSearchSimple extends HTMLElement {
   render() {
     this.shadowRoot.appendChild(
       <>
-        <h3 class="text-center" data-search-key="searchSimple">
-          {this.getConstants('searchSimple')}
-        </h3>
+        {!this.isFragmentMode && (
+          <h3 class="text-center" data-search-key="searchSimple">
+            {this.getConstants('searchSimple')}
+          </h3>
+        )}
         <SearchComponent node={this} />
         <br />
         <br />
@@ -54,50 +76,21 @@ export class LdodSearchSimple extends HTMLElement {
   }
 
   renderTable() {
-    const tableData = () => {
-      return this.data.map((inter) => {
-        return {
-          externalId: inter.externalId,
-          fragments: (
-            <a is="nav-to" to={`/text/fragment/${inter.xmlId}`}>
-              {inter.title}
-            </a>
-          ),
-          interpretations: (
-            <a
-              is="nav-to"
-              to={`/text/fragment/${inter.xmlId}/inter/${inter.urlId}`}>
-              {`${inter.shortName || inter.interTitle} ${
-                inter.acronym ? `(${inter.acronym})` : ''
-              }`}
-            </a>
-          ),
-          search: JSON.stringify(inter),
-        };
-      });
-    };
-
-    this.shadowRoot.querySelector('div#search-tableContainer').replaceWith(
-      <div id="search-tableContainer">
-        <hr />
-        <ldod-table
-          id="search-simpleTable"
-          classes="table table-bordered table-hover"
-          headers={constants().headers}
-          data={tableData()}
-          constants={
-            constants(this.numberOfFragments, this.numberOfInters)[
-              this.language
-            ]
-          }
-          data-searchkey="externalId"></ldod-table>
-      </div>
-    );
+    this.shadowRoot
+      .querySelector('div#search-tableContainer')
+      .replaceWith(<SimpleSearchTable node={this} />);
+    this.addEventListeners();
   }
 
   attributeChangedCallback(name, oldV, newV) {
     this.onChangeAttribute[name](oldV, newV);
   }
+  getSelectedInters = () => {
+    const selected = this.selectedInters;
+    return this.data?.filter(
+      (inter) => selected.indexOf(inter.externalId) !== -1
+    );
+  };
 
   onChangeAttribute = {
     language: (oldV, newV) => {
@@ -112,6 +105,20 @@ export class LdodSearchSimple extends HTMLElement {
   };
 
   disconnectedCallback() {}
+
+  addEventListeners = () => {
+    if (this.isFragmentMode) {
+      this.shadowRoot
+        .querySelectorAll('table#search-simpleTable>tbody>tr')
+        .forEach((row) => {
+          row.addEventListener('click', this.handleRowClick);
+        });
+    }
+  };
+
+  handleRowClick() {
+    this.toggleAttribute('selected');
+  }
 
   searchRequest = async (e) => {
     e.preventDefault();

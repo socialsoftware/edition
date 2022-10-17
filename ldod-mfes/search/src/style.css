@@ -77,6 +77,14 @@ table#search-simpleTable>thead th {
     text-align: start;
 }
 
+table#search-simpleTable>tbody>tr {
+    cursor: cell;
+}
+
+table#search-simpleTable>tbody>tr[selected] {
+    background-color: #ced4da;
+}
+
 .btn {
     display: inline-block;
     font-weight: 400;
@@ -267,4 +275,8 @@ label {
 .form-floating>.form-select {
     height: calc(3.5rem + 2px);
     line-height: 1.25;
+}
+
+div.form-floating {
+    width: 200px;
 }

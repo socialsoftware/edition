@@ -1,6 +1,8 @@
 export default {
   manualHeaders: ['newNumber', 'number', 'title', 'actions', 'useEdition'],
   pt: {
+    addFrags: 'Adicionar Fragmentos',
+    add: 'Adicionar',
     undo: 'Anular',
     newNumber: (
       <span>
@@ -10,6 +12,8 @@ export default {
     ),
   },
   en: {
+    add: 'Add',
+    addFrags: 'Add Fragments',
     undo: 'Undo',
     newNumber: (
       <span>
@@ -19,6 +23,8 @@ export default {
     ),
   },
   es: {
+    add: 'Añadir',
+    addFrags: 'Añadir Fragmentos',
     undo: 'Anular',
     newNumber: (
       <span>

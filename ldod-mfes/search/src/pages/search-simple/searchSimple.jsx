@@ -8,6 +8,6 @@ const mount = async (lang, ref) => {
 
 const unMount = () => document.querySelector('ldod-search-simple')?.remove();
 
-const path = '/search-simple';
+const path = '/simple';
 
 export { mount, unMount, path };

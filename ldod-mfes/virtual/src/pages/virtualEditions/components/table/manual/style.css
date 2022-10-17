@@ -73,3 +73,9 @@ button:disabled {
     pointer-events: none;
     opacity: 0.65;
 }
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}

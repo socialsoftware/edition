@@ -4,8 +4,9 @@ const loadSearch = async () => {
   Search = await import('./SearchRouter');
 };
 
-export const loadSearchSimpleComponent = async () =>
+export const loadSearchService = async (options) => {
   await import('./pages/search-simple/LdodSearchSimple');
+};
 
 export default {
   path: '/search',

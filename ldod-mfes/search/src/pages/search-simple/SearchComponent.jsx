@@ -2,12 +2,18 @@ import constants from '../../constants';
 export default ({ node }) => {
   return (
     <form onSubmit={node.searchRequest}>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '20px',
+          flexWrap: 'wrap',
+        }}>
         <div class="form-floating">
           <input
             id="searchTerm"
             class="form-control"
-            type="text"
+            type="search"
             name="searchTerm"
             required
             placeholder="searchFor"

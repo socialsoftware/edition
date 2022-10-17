@@ -39,6 +39,10 @@ export default defineConfig(({ mode }) => {
           find: '@src/',
           replacement: '/src/',
         },
+        {
+          find: 'search',
+          replacement: `${env.VITE_NODE_HOST}/search/search.js`,
+        },
       ],
     },
   };

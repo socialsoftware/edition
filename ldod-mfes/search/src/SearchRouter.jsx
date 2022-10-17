@@ -5,9 +5,8 @@ export const isDev = () => import.meta.env.DEV;
 const SEARCH_SELECTOR = 'div#searchContainer';
 
 const routes = {
-  '/search-simple': async () =>
-    await import('./pages/search-simple/searchSimple'),
-  '/search-advanced': async () =>
+  '/simple': async () => await import('./pages/search-simple/searchSimple'),
+  '/advanced': async () =>
     await import('./pages/search-advanced/searchAdvanced'),
 };
 

@@ -30,6 +30,10 @@ export class LdodModal extends HTMLElement {
     return this.hasAttribute('show');
   }
 
+  get enableDocOverflow() {
+    return this.hasAttribute('document-overflow');
+  }
+
   get noFooter() {
     return this.hasAttribute('no-footer');
   }
@@ -50,6 +54,7 @@ export class LdodModal extends HTMLElement {
     overflowStyle && document.head.appendChild(overflowStyle);
     this.shadowRoot.append(getStyle(), this.getComponent());
   }
+
   attributeChangedCallback(name, oldV, newV) {
     if (name === 'show') this.handleToggleShow();
   }
@@ -62,8 +67,10 @@ export class LdodModal extends HTMLElement {
     const modal = this.shadowRoot.querySelector('div#ldod-modal');
     if (!modal) return;
 
-    document.body.classList.toggle('modal-open');
-    this.show && this.setPageOverflow();
+    if (!this.enableDocOverflow) {
+      document.body.classList.toggle('modal-open');
+      this.show && this.setPageOverflow();
+    }
 
     modal.ariaHidden = !this.show;
     !this.show && this.onClose();
@@ -74,9 +81,13 @@ export class LdodModal extends HTMLElement {
   };
 
   onClose = () => {
-    this.setPageOverflow(false);
+    !this.enableDocOverflow && this.setPageOverflow(false);
     this.dispatchEvent(
-      new CustomEvent('ldod-modal-close', { bubbles: true, composed: true })
+      new CustomEvent('ldod-modal-close', {
+        detail: { id: this.id },
+        bubbles: true,
+        composed: true,
+      })
     );
   };
 

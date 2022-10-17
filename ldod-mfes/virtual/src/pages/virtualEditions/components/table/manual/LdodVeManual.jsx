@@ -1,8 +1,8 @@
 import constants from '@src/pages/constants';
 import thisConstants from './constants';
 import assistedContants from '../assisted/constants';
-import ManualTable from './ManualTable';
 import style from './style.css?inline';
+import ManualTable, { addTableRow } from './ManualTable';
 import { saveReorderedVEInters } from '@src/apiRequests';
 
 export class LdodVeManual extends HTMLElement {
@@ -47,6 +47,12 @@ export class LdodVeManual extends HTMLElement {
 
   get visibleRows() {
     return this.tableBody.querySelectorAll('tr:not([hidden])');
+  }
+
+  get visibleFragments() {
+    return Array.from(this.visibleRows).map(
+      (row) => this.inters.find((inter) => inter.externalId === row.id).xmlId
+    );
   }
 
   getRowById = (id) => this.tableBody.querySelector(`tr[id="${id}"]`);
@@ -125,6 +131,7 @@ export class LdodVeManual extends HTMLElement {
       </ldod-modal>
     );
   }
+
   renderChanges() {
     this.toggleAttribute('data');
     this.querySelectorAll('tbody>tr>td:nth-child(1)').forEach((cell) => {
@@ -156,11 +163,12 @@ export class LdodVeManual extends HTMLElement {
       this.edition.externalId,
       Array.from(this.visibleRows).map(({ id }) => id)
     );
-    this.onCloseModal();
+    this.onCloseModal({ detail: { id: 'virtual-veManual' } });
     this.updateData(data);
   };
 
-  onCloseModal = () => {
+  onCloseModal = ({ detail }) => {
+    if (detail.id !== 'virtual-veManual') return;
     this.toggleAttribute('show', false);
     this.history = [];
     this.inters = null;
@@ -202,6 +210,31 @@ export class LdodVeManual extends HTMLElement {
     this.renderUndoButton();
   };
 
+  rowAdd = (inter) => {
+    const interData = getInterData(inter);
+    this.inters = [interData, ...this.inters];
+    const rowData = addTableRow(this, interData, 0);
+
+    const tableRow = this.querySelector(
+      'ldod-table#virtual-manualTable'
+    ).getRow(rowData);
+    const newRow = this.tableBody.insertRow(0);
+    tableRow.toggleAttribute('changed');
+    newRow.replaceWith(tableRow);
+    this.updateHistory(
+      inter.externalId,
+      0,
+      null,
+      tableRow.hasAttribute('changed'),
+      false,
+      true
+    );
+    this.addRowDragEventListeners(tableRow);
+    this.updateInters();
+    this.updateIndexCell();
+    this.renderUndoButton();
+  };
+
   rowUpdate = ({ externalId, newIndex, oldIndex, changed }) => {
     let row = this.getRowById(externalId);
     this.updateHistory(
@@ -222,10 +255,19 @@ export class LdodVeManual extends HTMLElement {
     this.renderUndoButton();
   };
 
+  rollbackNewRow = (row) => {
+    this.inters = this.inters.filter((inter) => inter.externalId !== row.id);
+    row.remove();
+    this.updateInters();
+    this.updateIndexCell();
+    this.renderUndoButton();
+  };
+
   stepBack = (change) => {
     if (!change) return;
-    const { externalId, newIndex, oldIndex, changed, hidden } = change;
+    const { externalId, newIndex, oldIndex, changed, hidden, newRow } = change;
     let row = this.getRowById(externalId);
+    if (newRow) return this.rollbackNewRow(row);
     row.toggleAttribute('changed', changed);
     if (!row.hasAttribute('hidden')) {
       this.tableBody.insertBefore(
@@ -241,8 +283,15 @@ export class LdodVeManual extends HTMLElement {
     this.renderUndoButton();
   };
 
-  updateHistory = (externalId, oldIndex, newIndex, changed, hidden) => {
-    this.history.push({ externalId, oldIndex, newIndex, changed, hidden });
+  updateHistory = (externalId, oldIndex, newIndex, changed, hidden, newRow) => {
+    this.history.push({
+      externalId,
+      oldIndex,
+      newIndex,
+      changed,
+      hidden,
+      newRow,
+    });
   };
 
   updateIndexCell = () => {
@@ -329,6 +378,69 @@ export class LdodVeManual extends HTMLElement {
     row.removeEventListener('dragstart', this.onDragStart);
     row.removeEventListener('drop', this.onDrop);
   };
+
+  //Add fragments
+  onAddFragments = (inters) => {
+    const duplicatedFrags = getDuplicatedFrags(this, inters);
+    const fragsToAdd = getFragsToAdd(this, inters);
+    if (duplicatedFrags.length) notifyForDuplicatedFrags(this, duplicatedFrags);
+    fragsToAdd.forEach((frag) => this.rowAdd(frag));
+  };
 }
 !customElements.get('ldod-ve-manual') &&
   customElements.define('ldod-ve-manual', LdodVeManual);
+
+const notifyForDuplicatedFrags = (node, duplicatedFrags) => {
+  node.dispatchEvent(
+    new CustomEvent('ldod-error', {
+      detail: {
+        message: `The following Fragments are duplicated: ${duplicatedFrags.join(
+          ', '
+        )}`,
+      },
+      bubbles: true,
+      composed: true,
+    })
+  );
+};
+
+const getDuplicatedFrags = (node, inters) => {
+  return [
+    ...new Set(
+      inters
+        .filter(
+          (inter) =>
+            node.visibleFragments.includes(inter.xmlId) ||
+            inters.filter(({ xmlId }) => xmlId === inter.xmlId).length > 1
+        )
+        .map((inter) => `<br />${inter.xmlId} - ${inter.title}`)
+    ),
+  ];
+};
+
+const getFragsToAdd = (node, inters) => {
+  return [
+    ...new Set(
+      inters.filter(
+        (inter) =>
+          !node.visibleFragments.includes(inter.xmlId) &&
+          inters.filter(({ xmlId }) => xmlId === inter.xmlId).length === 1
+      )
+    ),
+  ];
+};
+
+const getInterData = (inter) => ({
+  ...inter,
+  number: '',
+  usedList: [
+    {
+      externalId: inter.externalId,
+      xmlId: inter.xmlId,
+      urlId: inter.urlId,
+      shortName: inter.shortName,
+      title: inter.interTitle,
+      number: '',
+    },
+  ],
+});

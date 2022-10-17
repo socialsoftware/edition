@@ -147,22 +147,24 @@ export class LdodTable extends HTMLElement {
     );
   }
 
+  getRow = (row) => {
+    this.lastIndex += 1;
+    let entry = row.data && typeof row.data === 'function' ? row.data() : row;
+    return (
+      <tr searched id={row[this.searchKey]}>
+        {this.headers.map((key) => {
+          return (
+            <td>
+              {typeof entry[key] === 'function' ? entry[key]() : entry[key]}
+            </td>
+          );
+        })}
+      </tr>
+    );
+  };
+
   getRows(start, end) {
-    return this.data.slice(start, end).map((row) => {
-      this.lastIndex += 1;
-      let entry = row.data && typeof row.data === 'function' ? row.data() : row;
-      return (
-        <tr searched id={row[this.searchKey]}>
-          {this.headers.map((key) => {
-            return (
-              <td>
-                {typeof entry[key] === 'function' ? entry[key]() : entry[key]}
-              </td>
-            );
-          })}
-        </tr>
-      );
-    });
+    return this.data.slice(start, end).map(this.getRow);
   }
 
   getTable() {
