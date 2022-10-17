@@ -51,7 +51,8 @@ export class LdodVeManual extends HTMLElement {
 
   get visibleFragments() {
     return Array.from(this.visibleRows).map(
-      (row) => this.inters.find((inter) => inter.externalId === row.id).xmlId
+      (row) =>
+        this.inters.find((inter) => inter.externalId === row.id)?.xmlId || []
     );
   }
 
@@ -295,6 +296,7 @@ export class LdodVeManual extends HTMLElement {
   };
 
   updateIndexCell = () => {
+    console.log(this.visibleRows);
     this.visibleRows.forEach(
       (row, index) => (row.querySelectorAll('td')[0].textContent = index + 1)
     );

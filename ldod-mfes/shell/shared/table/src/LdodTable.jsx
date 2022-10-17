@@ -192,9 +192,7 @@ export class LdodTable extends HTMLElement {
               {this.data.length ? (
                 <tbody>{this.getRows(0, this.interval)}</tbody>
               ) : (
-                <tbody>
-                  <tr>No records found</tr>
-                </tbody>
+                <tbody></tbody>
               )}
             </table>
           </div>
