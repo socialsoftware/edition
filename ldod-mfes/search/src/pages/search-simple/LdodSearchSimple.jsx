@@ -10,7 +10,10 @@ import.meta.env.DEV
 export class LdodSearchSimple extends HTMLElement {
   constructor() {
     super();
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.appendChild(<style>{style}</style>);
   }
+
   static get observedAttributes() {
     return ['language'];
   }
@@ -37,8 +40,7 @@ export class LdodSearchSimple extends HTMLElement {
   }
 
   render() {
-    this.appendChild(<style>{style}</style>);
-    this.appendChild(
+    this.shadowRoot.appendChild(
       <>
         <h3 class="text-center" data-search-key="searchSimple">
           {this.getConstants('searchSimple')}
@@ -75,7 +77,7 @@ export class LdodSearchSimple extends HTMLElement {
       });
     };
 
-    this.querySelector('div#search-tableContainer').replaceWith(
+    this.shadowRoot.querySelector('div#search-tableContainer').replaceWith(
       <div id="search-tableContainer">
         <hr />
         <ldod-table
@@ -101,9 +103,11 @@ export class LdodSearchSimple extends HTMLElement {
     language: (oldV, newV) => {
       oldV &&
         oldV !== newV &&
-        this.querySelectorAll('[data-search-key]').forEach((element) => {
-          element.innerHTML = this.getConstants(element.dataset.searchKey);
-        });
+        this.shadowRoot
+          .querySelectorAll('[data-search-key]')
+          .forEach((element) => {
+            element.innerHTML = this.getConstants(element.dataset.searchKey);
+          });
     },
   };
 

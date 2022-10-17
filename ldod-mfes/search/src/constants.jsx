@@ -1,7 +1,18 @@
 export default (frags, inters) => ({
   headers: ['fragments', 'interpretations'],
+  jpc: 'Jacinto Prado Coelho',
+  tsc: 'Teresa Sobral Cunha',
+  rz: 'Richard Zenith',
+  jp: 'Jerónimo Pizarro',
   pt: {
+    all: 'Todas',
+    witnesses: 'Testemunhos',
     searchSimple: 'Pesquisa Simples',
+    searchFor: 'Pesquisar por...',
+    searchType: 'Tipo de pesquisa',
+    searchSource: 'Tipos de fonte',
+    titleSearch: 'Pesquisa por título',
+    completeSearch: 'Pesquisa completa',
     fragment: 'Fragmento',
     fragments: (
       <div>
@@ -18,7 +29,14 @@ export default (frags, inters) => ({
     ),
   },
   en: {
+    all: 'All',
+    witnesses: 'Witnesses',
     searchSimple: 'Simple Search',
+    searchFor: 'Search for...',
+    searchType: 'Search type',
+    searchSource: 'Source types',
+    titleSearch: 'Search by title',
+    completeSearch: 'Full search',
     fragment: 'Fragment',
     fragments: (
       <div>
@@ -35,7 +53,14 @@ export default (frags, inters) => ({
     ),
   },
   es: {
+    all: 'Todas',
+    witnesses: 'Testimonios',
     searchSimple: 'Búsqueda Sencilla',
+    searchType: 'Tipo de búsqueda',
+    searchSource: 'Tipos de fuente',
+    searchFor: 'Busca por...',
+    titleSearch: 'Búsqueda por título',
+    completeSearch: 'Búsqueda completa',
     fragment: 'Fragmento',
     fragments: (
       <div>
