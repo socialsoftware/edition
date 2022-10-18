@@ -135,12 +135,9 @@ export class LdodVeManual extends HTMLElement {
 
   renderChanges() {
     this.toggleAttribute('data');
-    this.querySelectorAll('tbody>tr>td:nth-child(1)').forEach((cell) => {
-      cell.setAttribute('contenteditable', 'true');
-      cell.onblur = this.handleNewIndex;
-    });
-
-    this.handleTableRowDrag();
+    const rows = this.querySelectorAll('table>tbody>tr');
+    rows.forEach((row) => this.setFirstCellEditable(row));
+    rows.forEach((row) => this.setTableRowsDraggable(row));
   }
 
   renderUndoButton() {
@@ -221,6 +218,7 @@ export class LdodVeManual extends HTMLElement {
     ).getRow(rowData);
     const newRow = this.tableBody.insertRow(0);
     tableRow.toggleAttribute('changed');
+    tableRow.id = inter.externalId;
     newRow.replaceWith(tableRow);
     this.updateHistory(
       inter.externalId,
@@ -230,6 +228,8 @@ export class LdodVeManual extends HTMLElement {
       false,
       true
     );
+    this.setFirstCellEditable(tableRow);
+    this.setTableRowsDraggable(tableRow);
     this.addRowDragEventListeners(tableRow);
     this.updateInters();
     this.updateIndexCell();
@@ -296,7 +296,6 @@ export class LdodVeManual extends HTMLElement {
   };
 
   updateIndexCell = () => {
-    console.log(this.visibleRows);
     this.visibleRows.forEach(
       (row, index) => (row.querySelectorAll('td')[0].textContent = index + 1)
     );
@@ -332,11 +331,15 @@ export class LdodVeManual extends HTMLElement {
 
   // Drag feature
 
-  handleTableRowDrag = () => {
-    this.querySelectorAll('table>tbody>tr').forEach((row) => {
-      row.setAttribute('draggable', 'true');
-      this.addRowDragEventListeners(row);
-    });
+  setFirstCellEditable = (row) => {
+    const cell = row.querySelector('td:nth-child(1)');
+    cell.setAttribute('contenteditable', 'true');
+    cell.onblur = this.handleNewIndex;
+  };
+
+  setTableRowsDraggable = (row) => {
+    row.setAttribute('draggable', 'true');
+    this.addRowDragEventListeners(row);
   };
 
   onDragOver = (e) => {
