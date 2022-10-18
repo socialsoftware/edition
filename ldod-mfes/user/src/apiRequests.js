@@ -5,31 +5,30 @@ import { navigateTo } from 'shared/router.js';
 
 const HOST = import.meta.env.VITE_HOST;
 
-export const authRequest = async (data) => {
+/*export const authRequest = async (data) => {
   await fetcher.post(`${HOST}/auth/sign-in`, data).then((res) => {
     if (res.message)
       eventEmiter('ldod-error', { detail: { message: res.message } });
     login(res.accessToken);
   });
-};
+};*/
 
-export const userRequest = async (token) => {
-  await fetcher
-    .get(`${HOST}/user`, null, token)
-    .then((user) => setUser(user))
-    .catch((error) => error.message === 'unauthorized' && logout());
-};
+export const newAuthRequest = async (data) =>
+  await fetcher.post(`${HOST}/auth/sign-in`, data);
+
+export const userRequest = async (token) =>
+  await fetcher.get(`${HOST}/user`, null, token);
 
 export const signupRequest = async (data) =>
   await fetcher.post(`${HOST}/auth/sign-up`, data);
 
-export const socialAuthRequest = async (path, data) =>
+export const socialAuthRequest = async (path, data, loginCB) =>
   fetcher.post(`${HOST}/auth/${path}`, data).then((response) => {
     if (isFormState(response)) {
       navigateTo('/user/signup', this, response);
       return Promise.resolve({ message: 'googleAssociation' });
     }
-    isAccessToken(response) && login(response.accessToken);
+    isAccessToken(response) && loginCB(response.accessToken);
   });
 
 export const tokenConfirmRequest = async (path) =>
@@ -85,20 +84,29 @@ function isAccessToken(response) {
 function isFormState(response) {
   return Object?.keys(response).some((key) => key === 'socialId');
 }
-
-export function login(token) {
+/*
+function login(token, node) {
   if (!token) return logout();
   setState({ token });
-  eventEmiter('ldod-token', { detail: { token } });
+  eventEmiter(
+    'ldod-token',
+    {
+      detail: { token },
+      bubbles: true,
+      composed: true,
+    },
+    node
+  );
 }
 
-export function logout() {
+function logout() {
   setState({ token: '', user: '' });
   eventEmiter('ldod-logout');
   navigateTo('/user/signin');
 }
 
-export function setUser(user) {
+function setUser(user) {
   setState({ user });
   eventEmiter('ldod-login', { detail: { user } });
 }
+*/

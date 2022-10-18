@@ -1,5 +1,4 @@
 import { getPartialStorage, Store } from 'shared/store.js';
-import { navigateTo } from 'shared/router.js';
 import { userRequest } from './apiRequests';
 const storage = getPartialStorage('ldod-store', ['token', 'language']);
 
@@ -15,8 +14,8 @@ export const setState = (state) => store.setState(state);
 export const userFullName = () =>
   `${getState().user.firstName} ${getState().user.lastName}`;
 
-const unsub = store.subscribe(async (curr, prev) => {
-  if (prev.token !== curr.token && curr.token) {
+/*store.subscribe(async (curr, prev) => {
+  if (curr.token && prev.token !== curr.token) {
     await userRequest(curr.token);
     if (
       location.pathname.endsWith('signin') ||
@@ -24,9 +23,12 @@ const unsub = store.subscribe(async (curr, prev) => {
     )
       navigateTo('/');
   }
-});
+});*/
 
-setState({ token: storage?.token });
+if (storage?.token) {
+  setState({ token: storage?.token });
+  userRequest(getState().token).then((user) => setState({ user }));
+}
 
 export const registerInstance = () => {
   setState({ index: getState().index + 1 });

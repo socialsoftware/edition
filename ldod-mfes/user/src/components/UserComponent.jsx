@@ -1,46 +1,40 @@
 import { registerInstance, getState, userFullName } from '@src/store.js';
 import { loadConstants } from '@src/utils.js';
-import { logout } from '@src/apiRequests';
+import { navigateTo } from 'shared/router.js';
+import { setState } from '../store';
+import { loginEvent, logoutEvent } from '../utils';
 
-function getUserComponentNotAuthenticated() {
-  return (
-    <a
-      is="nav-to"
-      id="login"
-      class="login update-language"
-      to="/user/signin"></a>
-  );
-}
+const NotAuthComponent = () => (
+  <a is="nav-to" id="login" class="login update-language" to="/user/signin"></a>
+);
 
-const getUserComponentAuthenticated = () => {
-  return (
-    <>
-      <a id="loggedIn" class="dropdown-toggle">
-        {userFullName()}
-        <span class="caret"></span>
-      </a>
-      <ul class="dropdown-menu">
-        <li>
-          <a class="update-language" id="logout"></a>
-        </li>
-        <li>
-          <a
-            is="nav-to"
-            class="update-language"
-            id="change-password"
-            to="/user/change-password"></a>
-        </li>
-      </ul>
-    </>
-  );
-};
+const AuthComponent = () => (
+  <>
+    <a id="loggedIn" class="dropdown-toggle">
+      {userFullName()}
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a class="update-language" id="logout"></a>
+      </li>
+      <li>
+        <a
+          is="nav-to"
+          class="update-language"
+          id="change-password"
+          to="/user/change-password"></a>
+      </li>
+    </ul>
+  </>
+);
 
 export class UserComponent extends HTMLLIElement {
-  constructor() {
+  constructor(language) {
     super();
+    if (language) this.language = language;
     this.onUserLogout = this.onUserLogout.bind(this);
     this.onUserLogin = this.onUserLogin.bind(this);
-
     this.id = `user-component-${registerInstance()}`;
   }
   get language() {
@@ -58,7 +52,10 @@ export class UserComponent extends HTMLLIElement {
   async connectedCallback() {
     await this.setConstants();
     this.render();
-    if (getState().user) this.onUserLogin();
+    if (getState().user) {
+      this.onUserLogin();
+      this.dispatchEvent(loginEvent(getState().user));
+    }
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -78,8 +75,8 @@ export class UserComponent extends HTMLLIElement {
 
   render() {
     getState().user
-      ? this.appendChild(getUserComponentAuthenticated())
-      : this.appendChild(getUserComponentNotAuthenticated());
+      ? this.appendChild(<AuthComponent />)
+      : this.appendChild(<NotAuthComponent />);
     this.updateLanguage();
     this.addListeners();
   }
@@ -114,24 +111,26 @@ export class UserComponent extends HTMLLIElement {
 
   onUserLogin() {
     this.updateComponent();
-    import.meta.env.PROD &&
-      this.dispatchEvent(
-        new CustomEvent('ldod-login', {
-          bubbles: true,
-          composed: true,
-          detail: { user: getState().user },
-        })
-      );
+    /* import.meta.env.PROD &&
+    this.dispatchEvent(
+      new CustomEvent('ldod-login', {
+        bubbles: true,
+        composed: true,
+        detail: { user: getState().user },
+      })
+    );
+    );*/
   }
+
   onUserLogout() {
     this.updateComponent();
-    import.meta.env.PROD &&
+    /*  import.meta.env.PROD &&
       this.dispatchEvent(
         new CustomEvent('ldod-logout', {
           composed: true,
           bubbles: true,
         })
-      );
+      );*/
   }
 
   async updateLanguage() {
@@ -141,11 +140,17 @@ export class UserComponent extends HTMLLIElement {
     );
   }
 
+  logout = () => {
+    setState({ token: '', user: '' });
+    this.dispatchEvent(logoutEvent);
+    navigateTo('/');
+  };
+
   handlers(id) {
     return {
       logout: {
         id: 'logout',
-        handler: () => logout(),
+        handler: () => this.logout(),
       },
       password: {
         id: 'password',

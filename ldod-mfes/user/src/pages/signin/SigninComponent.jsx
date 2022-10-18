@@ -2,7 +2,6 @@ import check from '@src/resources/icons/check-circle.svg';
 import exclamation from '@src/resources/icons/exclamation-circle.svg';
 import eye from '@src/resources/icons/eye-solid.svg';
 import google from '@src/resources/icons/google.svg';
-import { authRequest } from '@src/apiRequests.js';
 import { socialAuth } from '@src/socialAuth.js';
 import {
   setInvalidFor,
@@ -12,6 +11,8 @@ import {
 } from '@src/utils';
 import { setState, getState } from '@src/store';
 import { navigateTo } from 'shared/router.js';
+import { newAuthRequest, userRequest } from '../../apiRequests';
+import { eventEmiter, loginEvent, logoutEvent, tokenEvent } from '../../utils';
 
 class SignIn extends HTMLElement {
   constructor() {
@@ -34,6 +35,7 @@ class SignIn extends HTMLElement {
     await this.setConstants();
     this.appendChild(this.getComponent());
   }
+
   attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'language' && oldValue && newValue !== oldValue) {
       this.updateLanguage();
@@ -48,6 +50,7 @@ class SignIn extends HTMLElement {
   getConstants(key) {
     return this.constants[key];
   }
+
   async updateLanguage() {
     await this.setConstants();
     ['[data-key]'].forEach((selector) =>
@@ -66,7 +69,7 @@ class SignIn extends HTMLElement {
   }
 
   clearStyleInputs() {
-    this.querySelectorAll('.form-control').forEach((div) =>
+    this.querySelectorAll('.valid').forEach((div) =>
       div.classList.remove('valid')
     );
   }
@@ -82,21 +85,58 @@ class SignIn extends HTMLElement {
     });
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     this.checkInputs();
-    if (this.isValid) {
-      authRequest({
+    if (this.isValid)
+      await newAuthRequest({
         username: this.username,
         password: this.password,
-      }).catch((error) => {
-        console.log(error);
-        setState({ token: '' });
-      });
-    }
+      })
+        .then((res) => {
+          if (res.accessToken) this.onAuthSuccess(res.accessToken);
+          if (res.message && res.ok === false) this.onAuthFail(res.message);
+        })
+        .catch((error) => this.onAuthFail(error?.message));
     this.clearStyleInputs();
     this.clearDataInputs();
     this.isValid = true;
+  };
+
+  login = () =>
+    userRequest(getState().token)
+      .then((user) => {
+        setState({ user });
+        this.dispatchEvent(loginEvent(user));
+        location.pathname.endsWith('/user/signin') && navigateTo('/');
+      })
+      .catch((error) => error.message === 'unauthorized' && this.logout());
+
+  onAuthSuccess = (token) => {
+    if (!token) return this.logout();
+    if (token !== getState().token) setState({ token });
+    this.dispatchEvent(tokenEvent(token));
+    this.login();
+  };
+
+  logout = () => {
+    setState({ token: '', user: '' });
+    this.dispatchEvent(logoutEvent);
+    navigateTo('/');
+  };
+
+  onAuthFail = (message) => {
+    message &&
+      eventEmiter(
+        'ldod-error',
+        {
+          detail: { message },
+          bubbles: true,
+          composed: true,
+        },
+        this
+      );
+    setState({ token: '' });
   };
 
   revealPassword = ({ target }) => {
@@ -172,17 +212,12 @@ class SignIn extends HTMLElement {
           </div>
         </form>
         <div style={{ padding: '4px 16px' }}>
-          {[
-            //     ['twitter', twitter],
-            ['google', google],
-            //   ['facebook', facebook],
-            // ['linkedin', linkedin],
-          ].map(([provider, src]) => (
+          {[['google', google]].map(([provider, src]) => (
             <div class="col-md-offset-5 col-md-2">
               <button
                 class={`btn btn-outline-primary social ${provider}`}
                 type="button"
-                onClick={() => socialAuth(provider, this.constants)}
+                onClick={() => socialAuth(provider, this)}
                 style={{ width: '100%' }}>
                 <img src={src} class="social-icon" />
                 {capitalizeFirstLetter(provider)}

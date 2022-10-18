@@ -131,7 +131,6 @@ export class SignUp extends HTMLElement {
         .then(({ ok, message }) => {
           if (ok) {
             emitMessageEvent(this.getConstants(message));
-            console.log('test');
             this.clearDataInputs();
             return navigateTo('/user/signin');
           }

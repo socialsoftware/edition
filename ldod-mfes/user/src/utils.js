@@ -26,5 +26,22 @@ export function eventEmiter(eventName, options = {}, emiter = window) {
   const event = new CustomEvent(eventName, options);
   emiter.dispatchEvent(event);
 }
+export const logoutEvent = new CustomEvent('ldod-logout', {
+  composed: true,
+  bubbles: true,
+});
 
+export const tokenEvent = (token) =>
+  new CustomEvent('ldod-token', {
+    detail: { token },
+    bubbles: true,
+    composed: true,
+  });
+
+export const loginEvent = (user) =>
+  new CustomEvent('ldod-login', {
+    detail: { user },
+    bubbles: true,
+    composed: true,
+  });
 export const isDev = () => import.meta.env.DEV;
