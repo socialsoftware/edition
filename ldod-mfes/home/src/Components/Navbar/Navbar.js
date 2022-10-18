@@ -43,9 +43,7 @@ export default class LdodNavbar extends HTMLElement {
     return this.shadowRoot.querySelector('li#editions');
   }
 
-  isAdmin() {
-    return this.user && this.user.roles.includes('ROLE_ADMIN');
-  }
+  isAdmin = () => this.user && this.user.roles.includes('ROLE_ADMIN');
 
   async connectedCallback() {
     styleSheet.replaceSync(style);
@@ -55,14 +53,14 @@ export default class LdodNavbar extends HTMLElement {
     await this.render();
     this.addDropdownEventListeners();
     this.addExpandedCollapseEvent();
-    this.addEventListener('ldod-login', this.onUserLogin);
-    this.addEventListener('ldod-logout', this.onUserLogout);
+    window.addEventListener('ldod-login', this.onUserLogin);
+    window.addEventListener('ldod-logout', this.onUserLogout);
     window.addEventListener('ldod-selectedVE', this.addSelectedVE);
   }
 
   disconnectedCallback() {
-    this.removeEventListener('ldod-login', this.onUserLogin);
-    this.addEventListener('ldod-logout', this.onUserLogout);
+    window.removeEventListener('ldod-login', this.onUserLogin);
+    window.addEventListener('ldod-logout', this.onUserLogout);
     window.removeEventListener('ldod-selectedVE', this.addSelectedVE);
   }
 
@@ -119,8 +117,8 @@ export default class LdodNavbar extends HTMLElement {
     element.ariaExpanded = element.ariaExpanded === 'true' ? 'false' : 'true';
   }
 
-  onUserLogin(e) {
-    e.stopPropagation();
+  onUserLogin = (e) => {
+    //e.stopPropagation();
     this.addExpandedCollapseEvent();
     const user = e.detail.user;
     if (user && typeof user === 'object') {
@@ -128,24 +126,24 @@ export default class LdodNavbar extends HTMLElement {
         this.selectedVE = user.selectedVE || [];
         this.updateVE();
       }
-      this.setAdminVisibility();
       this.user = user;
+      this.setAdminVisibility();
     }
-  }
+  };
 
-  onUserLogout(e) {
-    e.stopPropagation();
+  onUserLogout = (e) => {
+    //  e.stopPropagation();
     this.user && this.setAdminVisibility(true);
     this.user && this.removeEditions();
     this.user = undefined;
     this.selectedVE = this.defaultSelectedVE;
     this.updateVE();
-  }
+  };
 
-  setAdminVisibility(hide = !this.isAdmin()) {
+  setAdminVisibility = (hide = !this.isAdmin()) => {
     const admin = this.shadowRoot.querySelector('li#admin[is=dropdown-menu]');
     if (admin) admin.ariaHidden = hide;
-  }
+  };
 
   addSelectedVE = ({ detail: edition }) => {
     this.selectedVE = edition.selected
