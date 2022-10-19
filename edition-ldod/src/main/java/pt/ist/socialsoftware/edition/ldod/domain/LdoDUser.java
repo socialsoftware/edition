@@ -70,25 +70,19 @@ public class LdoDUser extends LdoDUser_Base {
 
     @Atomic(mode = TxMode.WRITE)
     public void remove() {
-        getMemberSet().stream().forEach(m -> m.remove());
-        getSelectedVirtualEditionsSet().stream().forEach(ve -> removeSelectedVirtualEditions(ve));
-        getTagSet().stream().forEach(ut -> ut.remove());
-        getAnnotationSet().stream().forEach(a -> a.remove());
-        getRecommendationWeightsSet().stream().forEach(rw -> rw.remove());
-
+        System.out.printf("removing user %s \n", this.getUsername());
+        getMemberSet().forEach(Member::remove);
+        getSelectedVirtualEditionsSet().forEach(this::removeSelectedVirtualEditions);
+        getTagSet().forEach(Tag::remove);
+        getAnnotationSet().forEach(Annotation::remove);
+        getRecommendationWeightsSet().forEach(RecommendationWeights::remove);
         getLdoD().getUserConnectionSet().stream().filter(uc -> uc.getUserId().equals(getUsername()))
-                .forEach(uc -> uc.remove());
-        if (getToken() != null) {
-            getToken().remove();
-        }
-        getRolesSet().stream().forEach(r -> removeRoles(r));
+                .forEach(UserConnection::remove);
+        if (getToken() != null) getToken().remove();
+        getRolesSet().forEach(this::removeRoles);
         setLdoD(null);
-
-        if (getPlayer() != null) {
-            getPlayer().remove();
-        }
-        getResponsibleForGamesSet().stream().forEach(g -> g.remove());
-
+        if (getPlayer() != null) getPlayer().remove();
+        getResponsibleForGamesSet().forEach(ClassificationGame::remove);
         deleteDomainObject();
     }
 
@@ -185,11 +179,7 @@ public class LdoDUser extends LdoDUser_Base {
 
     @Atomic(mode = TxMode.WRITE)
     public void switchActive() {
-        if (getActive()) {
-            setActive(false);
-        } else {
-            setActive(true);
-        }
+        setActive(!getActive());
     }
 
     @Atomic(mode = TxMode.WRITE)
@@ -258,14 +248,10 @@ public class LdoDUser extends LdoDUser_Base {
 
     private void changeUsername(String oldUsername, String newUsername) {
         setUsername(newUsername);
-
-        UserConnection userConnection = getLdoD().getUserConnectionSet().stream()
-                .filter(uc -> uc.getUserId().equals(oldUsername)).findFirst().orElse(null);
-
-        if (userConnection != null) {
-            userConnection.setUserId(newUsername);
-        }
-
+        getLdoD().getUserConnectionSet().stream()
+                .filter(uc -> uc.getUserId().equals(oldUsername))
+                .findFirst()
+                .ifPresent(userConnection -> userConnection.setUserId(newUsername));
     }
 
 }

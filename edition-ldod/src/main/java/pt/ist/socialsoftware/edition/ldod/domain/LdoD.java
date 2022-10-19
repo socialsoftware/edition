@@ -305,21 +305,23 @@ public class LdoD extends LdoD_Base {
                                      String displayName, String profileUrl, String imageUrl, String accessToken, String secret,
                                      String refreshToken, Long expireTime) {
 
+
+
         new UserConnection(this, userId, providerId, providerUserId, rank, displayName, profileUrl, imageUrl,
                 accessToken, secret, refreshToken, expireTime);
     }
 
-    @Atomic(mode = TxMode.WRITE)
     public void createUserConnection(SignupDto signupDto) {
-
-        new UserConnection(this, signupDto.getUsername(), signupDto.getProviderId(), signupDto.getSocialMediaId(), signupDto.getRank(),
+        createUserConnection(signupDto.getUsername(), signupDto.getProviderId(), signupDto.getSocialMediaId(), signupDto.getRank(),
                 signupDto.getDisplayName(), "", "", "", "", "", signupDto.getExpireTime());
+
     }
+
 
     public void removeOutdatedUnconfirmedUsers() {
         DateTime now = DateTime.now();
-        getTokenSet().stream().filter(t -> t.getExpireTimeDateTime().isBefore(now)).map(t -> t.getUser())
-                .forEach(u -> u.remove());
+        getTokenSet().stream().filter(t -> t.getExpireTimeDateTime().isBefore(now)).map(RegistrationToken_Base::getUser)
+                .forEach(LdoDUser::remove);
     }
 
     public RegistrationToken getTokenSet(String token) {

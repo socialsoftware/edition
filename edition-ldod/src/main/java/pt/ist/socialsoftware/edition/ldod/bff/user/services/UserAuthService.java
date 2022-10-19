@@ -9,7 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +24,7 @@ import pt.ist.socialsoftware.edition.ldod.security.jwt.GoogleAuthTokenVerifier;
 import pt.ist.socialsoftware.edition.ldod.security.jwt.JWTTokenProvider;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.Message;
 import pt.ist.socialsoftware.edition.ldod.utils.Emailer;
 import pt.ist.socialsoftware.edition.ldod.validator.SignupValidator;
 
@@ -70,10 +71,19 @@ public class UserAuthService {
     public Object googleAuthenticationService(JWTAuthenticationDto tokenDto) throws TokenVerifier.VerificationException, IllegalArgumentException {
         JsonWebToken.Payload payload = googleTokenVerifier.verify(tokenDto.getAccessToken()).getPayload();
         Optional<LdoDUser> user = userService.findUserBySocialId(payload.getSubject());
-        user.ifPresent((ldoDUser) -> ldoDUser.setLogin(LocalDate.now()));
-        return user.isPresent() && user.get().getEnabled()
-                ? new JWTAuthenticationDto(this.tokenProvider.generateToken(user.get().getUsername()))
-                : new GoogleIdentityDto(payload, "google");
+        if (user.isPresent() && user.get().getEnabled()) {
+            user.ifPresent((ldoDUser) -> ldoDUser.setLogin(LocalDate.now()));
+            return new JWTAuthenticationDto(this.tokenProvider.generateToken(user.get().getUsername()));
+        }
+
+        LdoD.getInstance()
+                .getUserConnectionSet()
+                .stream()
+                .filter(userConnection -> userConnection.getProviderUserId().equals(payload.getSubject())).findFirst().ifPresent(conn -> {
+                    throw new UsernameNotFoundException(String.format(Message.USERNAME_NOT_FOUND.getLabel(), conn.getUserId()));
+                });
+
+        return new GoogleIdentityDto(payload, "google");
     }
 
     public void signupService(SignupDto signupDto, HttpServletRequest servletRequest) throws LdoDException, javax.mail.MessagingException {
@@ -92,9 +102,8 @@ public class UserAuthService {
     }
 
     public void createUserConnection(SignupDto signupDto) {
-        if (!signupDto.getSocialMediaId().equals("")) {
+        if (!signupDto.getSocialMediaId().equals(""))
             LdoD.getInstance().createUserConnection(signupDto);
-        }
     }
 
     public void registerTokenService(String token, HttpServletRequest servletRequest) throws MessagingException, LdoDException {

@@ -16,6 +16,7 @@ import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDLoadException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.Message;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class UserAdminController {
         } catch (LdoDException | javax.mail.MessagingException e) {
             return getResponse(HttpStatus.BAD_REQUEST, false, e.getMessage());
         }
-        return getResponse(HttpStatus.OK, true, "tokenAuthorized");
+        return getResponse(HttpStatus.OK, true, Message.TOKEN_AUTHORIZED.getLabel());
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/switch")
@@ -46,14 +47,14 @@ public class UserAdminController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/sessions-delete")
-    public ResponseEntity<UserListDto> deleteUserSessions(@AuthenticationPrincipal LdoDUserDetails currentUser) {
+    public ResponseEntity<?> deleteUserSessions(@AuthenticationPrincipal LdoDUserDetails currentUser) {
         logger.debug("deleteUserSessions");
         return ResponseEntity.status(HttpStatus.OK).body(service.deleteUserSessionsService(currentUser.getUser()));
 
     }
 
     @GetMapping("/list")
-    public ResponseEntity<UserListDto> listUser() {
+    public ResponseEntity<?> listUser() {
         logger.debug("List users");
         return ResponseEntity.status(HttpStatus.OK).body(service.listUserAndSessionsService());
     }
@@ -81,7 +82,7 @@ public class UserAdminController {
 
 
     @RequestMapping(method = RequestMethod.POST, value = "/delete/{externalId}")
-    public ResponseEntity<UserListDto> removeUser(@PathVariable("externalId") String externalId) {
+    public ResponseEntity<?> removeUser(@PathVariable("externalId") String externalId) {
         return ResponseEntity.status(HttpStatus.OK).body(service.removeUserService(externalId));
     }
 

@@ -1,19 +1,68 @@
 package pt.ist.socialsoftware.edition.ldod.bff.user.dtos;
 
+import pt.ist.socialsoftware.edition.ldod.domain.Edition_Base;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 public class LdoDUserDto {
 
+    private String externalId;
     private String oldUsername;
     private String newUsername;
+
+    private String userName;
     private String firstName;
     private String lastName;
     private String email;
     private String newPassword;
+    private String lastLogin;
+    private boolean active;
+
+    private String listOfRoles;
+
+    private List<String> selectedVE;
 
     private boolean user;
     private boolean admin;
     private boolean enabled;
 
     public LdoDUserDto() {
+    }
+
+    public LdoDUserDto(LdoDUser user) {
+        setExternalId(user.getExternalId());
+        setUserName(user.getUsername());
+        setEnabled(user.getEnabled());
+        setActive(user.getActive());
+        setLastLogin(Optional.ofNullable(user.getLastLogin()).isPresent() ? user.getLastLogin().toString() : "");
+        setEmail(user.getEmail());
+        setFirstName(user.getFirstName());
+        setLastName(user.getLastName());
+        setListOfRoles(user.getListOfRolesAsStrings());
+        setSelectedVE(user.getSelectedVirtualEditionsSet()
+                .stream()
+                .map(Edition_Base::getAcronym)
+                .collect(Collectors.toList()));
+
+    }
+
+    public String getExternalId() {
+        return externalId;
+    }
+
+    public String getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(String lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
     }
 
     public String getOldUsername() {
@@ -86,6 +135,38 @@ public class LdoDUserDto {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getListOfRoles() {
+        return listOfRoles;
+    }
+
+    public void setListOfRoles(String listOfRoles) {
+        this.listOfRoles = listOfRoles;
+    }
+
+    public List<String> getSelectedVE() {
+        return selectedVE;
+    }
+
+    public void setSelectedVE(List<String> selectedVE) {
+        this.selectedVE = selectedVE;
     }
 
     @Override

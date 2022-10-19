@@ -26,7 +26,14 @@ public enum Message {
 
     VIRTUAL_INTER_NOT_FOUND("Virtual fragment interpretation not found"),
     EMPTY_DESCRIPTION("Invalid description: empty"),
-    GAME_CAN_NOT_BE_REMOVED("Game can not be removed");
+    GAME_CAN_NOT_BE_REMOVED("Game can not be removed"),
+
+    PASSWORD_CHANGED("Password successfully changed"),
+    TOKEN_AUTHORIZED("User registration has been authorized"),
+    TOKEN_NOT_AUTHORIZED("User registration not authorized"),
+    TOKEN_CONFIRMED("User registration has been confirmed"),
+    BAD_CREDENTIALS("Credentials not valid");
+
 
     private final String label;
 

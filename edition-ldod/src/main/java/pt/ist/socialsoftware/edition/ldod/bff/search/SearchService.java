@@ -23,6 +23,7 @@ public class SearchService {
                         || inter.getTitle().toLowerCase().contains(simpleSearchDto.getSearchTerm().toLowerCase()))
                 .map(fragInter -> fragInter.getSourceType().equals(Edition.EditionType.EDITORIAL)
                         ? EditorialInterDto.EditorialInterDtoBuilder.anEditorialInterDto(fragInter)
+                        .shortName(fragInter.getShortName())
                         .title(fragInter.getFragment().getTitle())
                         .interTitle(fragInter.getTitle())
                         .acronym(((ExpertEdition) fragInter.getEdition()).getEditor())

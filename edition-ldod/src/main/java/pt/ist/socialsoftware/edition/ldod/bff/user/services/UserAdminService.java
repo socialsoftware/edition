@@ -9,9 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.bff.user.dtos.LdoDUserDto;
-import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.SessionDto;
-import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.UserDto;
-import pt.ist.socialsoftware.edition.ldod.controller.api.microfrontend.dto.UserListDto;
+import pt.ist.socialsoftware.edition.ldod.bff.user.dtos.ManageUsersDto;
+import pt.ist.socialsoftware.edition.ldod.bff.user.dtos.SessionDto;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.Role;
@@ -49,7 +48,7 @@ public class UserAdminService {
         return LdoD.getInstance().getAdmin();
     }
 
-    public UserListDto deleteUserSessionsService(LdoDUser user) {
+    public ManageUsersDto deleteUserSessionsService(LdoDUser user) {
 
         Optional<SessionInformation> currentSession = getSessionInformationList()
                 .stream()
@@ -73,33 +72,28 @@ public class UserAdminService {
     }
 
 
-    private UserListDto listUsersService() {
-        return UserListDto
-                .UserListDtoBuilder
-                .anUserListDto()
+    private ManageUsersDto listUsersService() {
+        return ManageUsersDto.ManageUsersDtoBuilder.aManageUsersDto()
                 .userList(
                         LdoD.getInstance()
                                 .getUsersSet()
                                 .stream()
                                 .sorted(Comparator.comparing(u -> u.getFirstName().toLowerCase()))
-                                .map(UserDto::new)
+                                .map(LdoDUserDto::new)
                                 .collect(Collectors.toList()))
                 .build();
     }
 
-    private UserListDto listSessionsService() {
-        return UserListDto.UserListDtoBuilder.anUserListDto().sessionList(getSessionInformationList()
+    private ManageUsersDto listSessionsService() {
+        return ManageUsersDto.ManageUsersDtoBuilder.aManageUsersDto().sessionList(getSessionInformationList()
                 .stream()
                 .sorted(Comparator.comparing(SessionInformation::getLastRequest))
                 .map(SessionDto::new)
                 .collect(Collectors.toList())).build();
     }
 
-    public UserListDto listUserAndSessionsService() {
-        return UserListDto
-                .UserListDtoBuilder
-                .anUserListDto()
-                .ldoDAdmin(LdoD.getInstance().getAdmin())
+    public ManageUsersDto listUserAndSessionsService() {
+        return ManageUsersDto.ManageUsersDtoBuilder.aManageUsersDto().ldoDAdmin(LdoD.getInstance().getAdmin())
                 .userList(listUsersService().getUserList())
                 .sessionList(listSessionsService().getSessionList())
                 .build();
@@ -118,7 +112,7 @@ public class UserAdminService {
                 .build();
     }
 
-    public UserListDto editUserService(LdoDUserDto userEdit) throws LdoDDuplicateUsernameException {
+    public ManageUsersDto editUserService(LdoDUserDto userEdit) throws LdoDDuplicateUsernameException {
         if (!userEdit.getNewUsername().equals(userEdit.getOldUsername())
                 && LdoD.getInstance().getUser(userEdit.getNewUsername()) != null)
             throw new LdoDDuplicateUsernameException(String.format("Duplicated username %s", userEdit.getNewPassword()));
@@ -134,7 +128,7 @@ public class UserAdminService {
         return user.getActive();
     }
 
-    public UserListDto removeUserService(String externalId) {
+    public ManageUsersDto removeUserService(String externalId) {
         LdoDUser user = FenixFramework.getDomainObject(externalId);
         user.remove();
         return listUsersService();

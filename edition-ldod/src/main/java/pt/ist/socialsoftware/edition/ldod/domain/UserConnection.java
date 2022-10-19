@@ -8,7 +8,7 @@ public class UserConnection extends UserConnection_Base {
                           String displayName, String profileUrl, String imageUrl, String accessToken, String secret,
                           String refreshToken, Long expireTime) {
         checkUnique(ldod, userId, providerId, rank);
-
+        System.out.printf("creating user connection: id %s, username %s", providerUserId, userId);
         setLdoD(ldod);
         setUserId(userId);
         setProviderId(providerId);
@@ -24,6 +24,7 @@ public class UserConnection extends UserConnection_Base {
     }
 
     private void checkUnique(LdoD ldod, String userId, String providerId, int rank) {
+
         if (ldod.getUserConnectionSet().stream().anyMatch(
                 uc -> uc.getUserId().equals(userId) && uc.getProviderId().equals(providerId) && (uc.getRank() == rank))) {
             throw new DuplicateKeyException(providerId);
@@ -32,6 +33,7 @@ public class UserConnection extends UserConnection_Base {
     }
 
     public void remove() {
+        System.out.printf("Removing user connection: id %s, username %s", this.getProviderUserId(), this.getUserId());
         setLdoD(null);
         deleteDomainObject();
     }

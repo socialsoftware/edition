@@ -54,6 +54,11 @@ public class RegistrationToken extends RegistrationToken_Base {
     }
 
     public void requestAuthorization(HttpServletRequest request, Emailer emailer) throws MessagingException {
+        System.out.println(request.getContextPath());
+        System.out.println(request.getServerName());
+        System.out.println(request.getServletPath());
+
+
         String recipientAddress = PropertiesManager.getProperties()
                 .getProperty("registration.authorization.email.address");
         String subject = "LdoD - Autorização de Registo";

@@ -8,14 +8,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.MessagingException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.socialsoftware.edition.ldod.bff.dtos.MainResponseDto;
 import pt.ist.socialsoftware.edition.ldod.bff.user.dtos.SigninRequestDto;
+import pt.ist.socialsoftware.edition.ldod.bff.user.dtos.SignupDto;
 import pt.ist.socialsoftware.edition.ldod.bff.user.services.UserAuthService;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.dto.JWTAuthenticationDto;
-import pt.ist.socialsoftware.edition.ldod.bff.user.dtos.SignupDto;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.Message;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -43,12 +45,12 @@ public class UserAuthController {
 
     @PostMapping("/google")
     public ResponseEntity<?> googleAuthenticationController(@RequestBody JWTAuthenticationDto tokenDto) {
-        logger.debug("google auth request {}", tokenDto.toString());
+        logger.debug("google auth request {}", tokenDto);
         try {
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(userAuthService.googleAuthenticationService(tokenDto));
-        } catch (TokenVerifier.VerificationException | IllegalArgumentException e) {
+        } catch (TokenVerifier.VerificationException | IllegalArgumentException | UsernameNotFoundException e) {
             return getResponse(HttpStatus.UNAUTHORIZED, false, e.getMessage());
         }
     }
@@ -76,8 +78,8 @@ public class UserAuthController {
             return getResponse(HttpStatus.UNAUTHORIZED, false, e.getMessage());
         }
         return ldoDUser.isPresent()
-                ? getResponse(HttpStatus.OK, true, "tokenConfirmed")
-                : getResponse(HttpStatus.UNAUTHORIZED, false, "tokenUnauthorized");
+                ? getResponse(HttpStatus.OK, true, Message.TOKEN_CONFIRMED.getLabel())
+                : getResponse(HttpStatus.UNAUTHORIZED, false, Message.TOKEN_NOT_AUTHORIZED.getLabel());
 
     }
 

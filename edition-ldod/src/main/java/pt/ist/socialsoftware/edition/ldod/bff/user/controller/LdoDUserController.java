@@ -14,6 +14,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.dto.LdoDUserDto;
 import pt.ist.socialsoftware.edition.ldod.forms.ChangePasswordForm;
 import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.Message;
 
 import java.util.Optional;
 
@@ -47,10 +48,11 @@ public class LdoDUserController {
         logger.debug("changePassword username:{}", form.getUsername());
         Optional<LdoDUser> user = service.changePasswordService(form, formBinding);
         return user.isPresent()
-                ? getResponse(HttpStatus.OK, true, "passwordChanged")
-                : getResponse(HttpStatus.BAD_REQUEST, false, "badCredentials");
+                ? getResponse(HttpStatus.OK, true, Message.PASSWORD_CHANGED.getLabel())
+                : getResponse(HttpStatus.BAD_REQUEST, false, Message.BAD_CREDENTIALS.getLabel());
 
     }
+
     private ResponseEntity<MainResponseDto> getResponse(HttpStatus status, boolean ok, String message) {
         return ResponseEntity
                 .status(status)
