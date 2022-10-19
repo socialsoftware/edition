@@ -26,8 +26,11 @@ app.use('/ldod-mfes', router);
 router.get('/', sendIndex);
 router.post('/publish', upload.single('file'), publishMFE);
 router.post('/unpublish', unPublishMFE);
-router.get('/', sendLdodVisualIndex);
+router.get('/ldod-visual/', sendLdodVisualIndex);
 router.get('/classification-game/', sendClassificationGameIndex);
+
+app.get('/user/sign-up*', (req, res) => res.redirect(`/ldod-mfes${req.url}`));
+//app.get('/ldod-visual*', (req, res) => res.redirect(`/ldod-mfes${req.url}`));
 
 app.get('*', sendIndex);
 
