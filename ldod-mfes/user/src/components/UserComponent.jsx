@@ -143,7 +143,7 @@ export class UserComponent extends HTMLLIElement {
   logout = () => {
     setState({ token: '', user: '' });
     this.dispatchEvent(logoutEvent);
-    navigateTo('/');
+    navigateTo('/user/signin');
   };
 
   handlers(id) {

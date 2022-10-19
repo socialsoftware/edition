@@ -5,13 +5,12 @@ import {
   PASSWORD_REGEX,
 } from '@src/resources/constants.js';
 import { setInvalidFor, setValidFor, loadConstants } from '@src/utils';
-import check from '@src/resources/icons/check-circle.svg';
-import exclamation from '@src/resources/icons/exclamation-circle.svg';
-import eye from '@src/resources/icons/eye-solid.svg';
+
 import { signupRequest } from '@src/apiRequests';
 import { navigateTo } from 'shared/router.js';
 import { setState } from '@src/store';
-import { emitMessageEvent } from '@src/utils';
+import { errorEvent, messageEvent } from '../../utils';
+import SignupForm from './SignupForm';
 
 export class SignUp extends HTMLElement {
   constructor() {
@@ -90,7 +89,7 @@ export class SignUp extends HTMLElement {
   async connectedCallback() {
     await this.setConstants();
     this.importHistoryState();
-    this.appendChild(this.getComponent());
+    this.appendChild(<SignupForm node={this} />);
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -128,16 +127,16 @@ export class SignUp extends HTMLElement {
         socialMediaId: this.socialId.value,
         socialMediaService: this.socialMedia.value,
       })
-        .then(({ ok, message }) => {
-          if (ok) {
-            emitMessageEvent(this.getConstants(message));
+        .then((res) => {
+          if (res.ok) {
+            this.dispatchEvent(messageEvent(this.getConstants(res.message)));
             this.clearDataInputs();
             return navigateTo('/user/signin');
           }
-          emitMessageEvent(message, 'error');
+          this.dispatchEvent(errorEvent(this.getConstants(res.message)));
         })
-        .catch(({ message }) =>
-          emitMessageEvent(this.getConstants(message), 'error')
+        .catch((error) =>
+          this.dispatchEvent(errorEvent(this.getConstants(error.message)))
         );
       this.clearStyleInputs();
     }
@@ -178,167 +177,5 @@ export class SignUp extends HTMLElement {
     target.parentElement.querySelector('input[name=password]').type =
       'password';
   };
-
-  getComponent() {
-    return (
-      <>
-        <div class="row">
-          <h3 data-key="register">{this.getConstants('register')}</h3>
-        </div>
-        <div class="row">
-          <form onSubmit={this.handleSubmit} role="form" class="form">
-            <div class="col-md-offset-4 col-md-4">
-              <div class="form-floating">
-                <input
-                  id="firstname"
-                  class="form-control"
-                  type="text"
-                  autoComplete="first-name"
-                  name="firstname"
-                  value={this.firstname.value}
-                  onKeyUp={({ target: { value } }) =>
-                    (this.firstname.value = value)
-                  }
-                  placeholder={this.getConstants('firstname')}
-                  title={this.firstname.message()}
-                />
-                <label data-key="firstname" for="firstname">
-                  {this.getConstants('firstname')}
-                </label>
-                <img src={check} class="icon-validation valid" />
-                <img src={exclamation} class="icon-validation invalid" />
-                <small data-key="req-alphabetic"></small>
-              </div>
-            </div>
-            <div class="col-md-offset-4 col-md-4">
-              <div class="form-floating">
-                <input
-                  id="lastname"
-                  class="form-control"
-                  type="text"
-                  autoComplete="family-name"
-                  name="lastname"
-                  value={this.lastname.value}
-                  onKeyUp={({ target: { value } }) =>
-                    (this.lastname.value = value)
-                  }
-                  placeholder={this.getConstants('lastname')}
-                  title={this.lastname.message()}
-                />
-                <label data-key="lastname" for="lastname">
-                  {this.getConstants('lastname')}
-                </label>
-
-                <img src={check} class="icon-validation valid" />
-                <img src={exclamation} class="icon-validation invalid" />
-                <small data-key="req-alphabetic"></small>
-              </div>
-            </div>
-            <div class="col-md-offset-4 col-md-4">
-              <div class="form-floating">
-                <input
-                  id="username"
-                  class="form-control"
-                  type="text"
-                  autoComplete="username"
-                  name="username"
-                  value={this.username.value}
-                  onKeyUp={({ target: { value } }) =>
-                    (this.username.value = value)
-                  }
-                  placeholder={this.getConstants('username')}
-                  title={this.username.message()}
-                />
-                <label data-key="username" for="username">
-                  {this.getConstants('username')}
-                </label>
-                <img src={check} class="icon-validation valid" />
-                <img src={exclamation} class="icon-validation invalid" />
-                <small data-key="req-alphanumeric"></small>
-              </div>
-            </div>
-            <div class="col-md-offset-4 col-md-4">
-              <div class="form-floating">
-                <input
-                  id="password"
-                  class="form-control"
-                  type="password"
-                  autoComplete="current-password"
-                  name="password"
-                  value={this.password.value}
-                  onKeyUp={({ target: { value } }) =>
-                    (this.password.value = value)
-                  }
-                  placeholder={this.getConstants('password')}
-                  title={this.password.message()}
-                />
-                <label data-key="password" for="password">
-                  {this.getConstants('password')}
-                </label>
-
-                <img
-                  src={eye}
-                  alt="eye icon"
-                  class="icon"
-                  onPointerDown={this.revealPassword}
-                  onPointerUp={this.hidePassword}
-                />
-                <img src={check} class="icon-validation valid" />
-                <img src={exclamation} class="icon-validation invalid" />
-                <small data-key="min-6"></small>
-              </div>
-            </div>
-            <div class="col-md-offset-4 col-md-4">
-              <div class="form-floating">
-                <input
-                  id="email"
-                  class="form-control"
-                  type="text"
-                  autoComplete="email"
-                  name="email"
-                  value={this.email.value}
-                  onKeyUp={({ target: { value } }) =>
-                    (this.email.value = value)
-                  }
-                  placeholder={this.getConstants('email')}
-                  title={this.email.message()}
-                />
-                <label data-key="email" for="email">
-                  {this.getConstants('email')}
-                </label>
-
-                <img src={check} class="icon-validation valid" />
-                <img src={exclamation} class="icon-validation invalid" />
-                <small data-key="email-pattern"></small>
-              </div>
-            </div>
-            <div class="col-md-offset-4 col-md-4">
-              <div class="form-floating">
-                <input
-                  type="checkbox"
-                  name="conduct"
-                  value={this.conduct.value}
-                  onChange={({ target }) =>
-                    (this.conduct.value = target.checked)
-                  }
-                />
-                <span data-key="conduct">{this.getConstants('conduct')}</span>
-                <img src={check} class="icon-validation valid" />
-                <img src={exclamation} class="icon-validation invalid" />
-                <img src={check} class="icon-validation valid" />
-                <img src={exclamation} class="icon-validation invalid" />
-                <small data-key="conduct-check"></small>
-              </div>
-            </div>
-            <div class="col-sm-12">
-              <button data-key="register" class="btn btn-primary" type="submit">
-                {this.getConstants('register')}
-              </button>
-            </div>
-          </form>
-        </div>
-      </>
-    );
-  }
 }
 !customElements.get('sign-up') && customElements.define('sign-up', SignUp);

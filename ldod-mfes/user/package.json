@@ -22,6 +22,7 @@
         "test": "vitest run --coverage"
     },
     "devDependencies": {
+        "cypress": "^10.10.0",
         "vite": "^3.0.7"
     }
 }

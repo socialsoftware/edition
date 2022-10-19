@@ -1,16 +1,10 @@
 import { PASSWORD_REGEX } from '@src/resources/constants.js';
-import eye from '@src/resources/icons/eye-solid.svg';
-import check from '@src/resources/icons/check-circle.svg';
-import exclamation from '@src/resources/icons/exclamation-circle.svg';
 import { setState, getState } from '@src/store';
 import { navigateTo } from 'shared/router.js';
 import { changePasswordRequest } from '@src/apiRequests.js';
-import {
-  setInvalidFor,
-  setValidFor,
-  loadConstants,
-  emitMessageEvent,
-} from '@src/utils';
+import { setInvalidFor, setValidFor, loadConstants } from '@src/utils';
+import { errorEvent, messageEvent } from '../../utils';
+import ChangePasswordForm from './ChangePasswordForm';
 
 export class ChangePassword extends HTMLElement {
   constructor() {
@@ -44,7 +38,7 @@ export class ChangePassword extends HTMLElement {
   async connectedCallback() {
     await this.setConstants();
     if (!getState().user) return navigateTo('/user/signin', this);
-    this.appendChild(this.getComponent());
+    this.appendChild(<ChangePasswordForm node={this} />);
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -80,10 +74,13 @@ export class ChangePassword extends HTMLElement {
         newPassword: this.new.value,
         retypedPassword: this.confirm.value,
       })
-        .then((data) => emitMessageEvent(this.getConstants(data.message)))
-        .catch((error) =>
-          emitMessageEvent(this.getConstants(error.message), 'error')
-        );
+        .then((data) => {
+          if (data.ok === false)
+            return this.dispatchEvent(errorEvent(data.message));
+          this.dispatchEvent(messageEvent(data.message));
+          navigateTo('/');
+        })
+        .catch((error) => console.log(error));
       this.clearDataInputs();
       this.clearStyleInputs();
     }
@@ -120,121 +117,6 @@ export class ChangePassword extends HTMLElement {
 
   hidePassword = ({ target }) =>
     (target.parentElement.querySelector('input').type = 'password');
-
-  getComponent() {
-    return (
-      <>
-        <div class="row">
-          <h3 data-key="change-password">
-            {this.getConstants('change-password')}
-          </h3>
-        </div>
-        <div class="row">
-          <form onSubmit={this.handleSubmit} role="form" class="form">
-            <input
-              name="username"
-              autoComplete="username"
-              type="hidden"
-              value={this.username}
-            />
-            <div class="col-md-offset-4 col-md-4">
-              <div class="form-floating">
-                <input
-                  id="current"
-                  class="form-control"
-                  name="current"
-                  type="password"
-                  autoComplete="current-password"
-                  value={this.current.value}
-                  onKeyUp={({ target: { value } }) =>
-                    (this.current.value = value)
-                  }
-                  placeholder={this.getConstants('current')}
-                />
-                <label data-key="current" for="current">
-                  {this.getConstants('current')}
-                </label>
-                <img
-                  src={eye}
-                  alt="eye icon"
-                  class="icon"
-                  onPointerDown={this.revealPassword}
-                  onPointerUp={this.hidePassword}
-                />
-                <img src={check} class="icon-validation valid" />
-                <img src={exclamation} class="icon-validation invalid" />
-                <small data-key="required"></small>
-              </div>
-            </div>
-            <div class="col-md-offset-4 col-md-4">
-              <div class="form-floating">
-                <input
-                  id="new"
-                  class="form-control"
-                  name="new"
-                  type="password"
-                  autoComplete="new-password"
-                  value={this.new.value}
-                  onKeyUp={({ target: { value } }) => (this.new.value = value)}
-                  placeholder={this.getConstants('new')}
-                />
-                <label data-key="new" for="new">
-                  {this.getConstants('new')}
-                </label>
-                <img
-                  src={eye}
-                  alt="eye icon"
-                  class="icon"
-                  onPointerDown={this.revealPassword}
-                  onPointerUp={this.hidePassword}
-                />
-                <img src={check} class="icon-validation valid" />
-                <img src={exclamation} class="icon-validation invalid" />
-                <small data-key="minCurrent"></small>
-              </div>
-            </div>
-            <div class="col-md-offset-4 col-md-4">
-              <div class="form-floating">
-                <input
-                  id="confirm"
-                  class="form-control"
-                  name="confirm"
-                  type="password"
-                  autoComplete="new-password"
-                  onKeyUp={({ target: { value } }) =>
-                    (this.confirm.value = value)
-                  }
-                  value={this.confirm.value}
-                  placeholder={this.getConstants('confirm')}
-                />
-                <label data-key="confirm" for="confirm">
-                  {this.getConstants('confirm')}
-                </label>
-                <img
-                  src={eye}
-                  alt="eye icon"
-                  class="icon"
-                  onPointerDown={this.revealPassword}
-                  onPointerUp={this.hidePassword}
-                />
-                <img src={check} class="icon-validation valid" />
-                <img src={exclamation} class="icon-validation invalid" />
-                <small data-key="confirmPattern"></small>
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <div class="col-sm-12">
-                <button data-key="update" class="btn btn-primary" type="submit">
-                  {this.getConstants('update')}
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </>
-    );
-  }
 }
 !customElements.get('change-password') &&
   customElements.define('change-password', ChangePassword);

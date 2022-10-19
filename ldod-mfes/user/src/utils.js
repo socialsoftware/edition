@@ -44,4 +44,17 @@ export const loginEvent = (user) =>
     bubbles: true,
     composed: true,
   });
+
+export const messageEvent = (message) =>
+  new CustomEvent('ldod-message', {
+    detail: { message },
+    bubbles: true,
+    composed: true,
+  });
+export const errorEvent = (message) =>
+  new CustomEvent('ldod-error', {
+    detail: { message },
+    bubbles: true,
+    composed: true,
+  });
 export const isDev = () => import.meta.env.DEV;

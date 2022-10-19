@@ -37,7 +37,7 @@ const userAuth = new UserComponent(language: String | optional);
 
 or
 
-`<user-component language="pt"></user-component>`
+`<li is="user-component" language="pt" id="user-component-1"></li>`
 
 - Attributes:
 
@@ -95,5 +95,8 @@ or
     - emiter: Bubbled on the DOM tree;
 
   - on logout:
+
     - event name: `ldod-logout`
     - emiter: Bubbled on the DOM tree;
+
+  - Note: It is possible to instantiate more than one user component. The syncronization between them is assured out of the box by component functionality (implemented through custom events);

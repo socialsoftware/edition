@@ -1,13 +1,10 @@
 import style from './manageUsersStyle.css?inline';
 import 'shared/modal.js';
-import UsersTable from './components/UsersListTable.jsx';
 import constants from './resources/constants.js';
-import UsersTitle from './components/UsersTitle';
-import AdminModeButton from './components/AdminModeButton';
-import DeleteSessionsButton from './components/DeleteSessionsButton';
-import SessionsListTable from './components/SessionsListTable';
+
 import { exportButton, uploadButton } from 'shared/buttons.js';
 import { loadAndAssignUsers } from './ManageUsers';
+import ManageUsersTable from './ManageUsersTable';
 
 exportButton();
 uploadButton();
@@ -69,17 +66,17 @@ export class ManageUsers extends HTMLElement {
     this.addEventListener('ldod-table-searched', this.updateUsersListTitle);
   }
 
-  updateUsersListTitle = (e) => {
-    if (e.detail.id === 'user-usersListTable')
-      this.querySelector(
-        'h1#title span'
-      ).innerHTML = `&nbsp;(${e.detail.size})`;
+  updateUsersListTitle = ({ detail }) => {
+    if (detail.id === 'user-usersListTable')
+      this.querySelector('h1#title span').innerHTML = `&nbsp;(${
+        this.querySelectorAll('table#user-usersListTable tr[searched]').length
+      })`;
   };
 
   render() {
     this.innerHTML = '';
     this.appendChild(<style>{style}</style>);
-    this.appendChild(this.getComponent());
+    this.appendChild(<ManageUsersTable node={this} />);
     this.addEventListeners();
   }
 
@@ -118,57 +115,6 @@ export class ManageUsers extends HTMLElement {
       this.querySelector('div.subject:not([show])').id
     }`;
   };
-
-  getComponent() {
-    return (
-      <div class="container">
-        {this.usersData && (
-          <>
-            <button
-              class="btn btn-secondary"
-              type="button"
-              onClick={this.handleSwitch}>
-              Switch to sessions
-            </button>
-            <div id="users" class="subject" show>
-              <UsersTitle node={this} title={this.getConstants('users')} />
-              <div class="upload-export-users">
-                <ldod-upload
-                  data-key="uploadUsers"
-                  title={this.getConstants('uploadUsers')}
-                  data-url={`${
-                    import.meta.env.VITE_HOST
-                  }/admin/user/upload-users`}></ldod-upload>
-                <ldod-export
-                  file-prefix="users"
-                  data-key="exportUsers"
-                  title={this.getConstants('exportUsers')}
-                  data-url={`${
-                    import.meta.env.VITE_HOST
-                  }/admin/user/export-users`}></ldod-export>
-              </div>
-              <UsersTable node={this} />
-            </div>
-            <div id="sessions" class="subject">
-              <h1 class="text-center" data-key="sessions">
-                {this.getConstants('sessions')}
-              </h1>
-              <AdminModeButton
-                node={this}
-                buttonLabel={this.getConstants(`${this.getMode()}Mode`)}
-                tooltipContent={this.getConstants('changeLdodMode')}
-              />
-              <DeleteSessionsButton
-                node={this}
-                content={this.getConstants('deleteUserSessions')}
-              />
-              <SessionsListTable node={this} />
-            </div>
-          </>
-        )}
-      </div>
-    );
-  }
 }
 !customElements.get('manage-users') &&
   customElements.define('manage-users', ManageUsers);

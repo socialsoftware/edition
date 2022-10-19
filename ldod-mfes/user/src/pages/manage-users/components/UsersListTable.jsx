@@ -31,12 +31,15 @@ const replaceActive = (active, id) => {
 };
 
 const onDeleteUser = async ({ target }) => {
+  if (!confirm(`Delete user ${target.dataset.username} ?`)) return;
   const res = await removeUserRequest(target.dataset.id);
   manageUsers().usersData.userList = res.userList;
   let targetParent = target.parentNode;
   while (targetParent.tagName !== 'TR') targetParent = targetParent.parentNode;
   targetParent.remove();
-  document.querySelector('manage-users').updateUsersLength();
+  document
+    .querySelector('manage-users')
+    .updateUsersListTitle({ detail: { id: 'user-usersListTable' } });
 };
 
 const onEditUser = async ({ target }) => {
@@ -76,7 +79,7 @@ const getUsersListActive = (active, id) => {
   );
 };
 
-const getUsersListActions = (id) => {
+const getUsersListActions = (id, username) => {
   return (
     <div class="text-center">
       <img
@@ -91,6 +94,7 @@ const getUsersListActions = (id) => {
         id={`trash-icon-${id}`}
         tooltip-ref={`trash-icon-${id}`}
         data-id={id}
+        data-username={username}
         src={trash}
         class="btn-icon action"
         onClick={onDeleteUser}
@@ -128,7 +132,7 @@ export default ({ node }) => {
               </div>
             ),
             active: getUsersListActive(user.active, user.externalId),
-            actions: getUsersListActions(user.externalId),
+            actions: getUsersListActions(user.externalId, user.userName),
             search: Object.values(user).reduce((prev, curr) => {
               return prev.concat(String(curr), ',');
             }, ''),
