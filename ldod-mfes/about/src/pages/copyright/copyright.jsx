@@ -5,7 +5,9 @@ const mount = (lang, ref) => {
     .querySelector(ref)
     .appendChild(<ldod-copyright language={lang} title></ldod-copyright>);
 };
-const unMount = () => document.querySelector('ldod-copyright')?.remove();
+const unMount = () => {
+  document.querySelector('ldod-copyright')?.remove();
+};
 
 const path = '/copyright';
 export { mount, unMount, path };

@@ -1,3 +1,5 @@
+import { renderInfo } from '../../aboutRouter';
+
 const loadComponent = async (lang) =>
   (await import(`./components/Conduct-${lang}.jsx`)).default();
 
@@ -27,13 +29,16 @@ export class LdodConduct extends HTMLElement {
   async connectedCallback() {
     this.appendChild(this.wrapper());
     await this.render();
+    renderInfo();
   }
 
   attributeChangedCallback(name, oldV, newV) {
     this.handlers[name](oldV, newV);
   }
 
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    renderInfo();
+  }
 
   handlers = {
     language: (oldV, newV) => {

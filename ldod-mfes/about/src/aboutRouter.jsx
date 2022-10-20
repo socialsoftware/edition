@@ -27,6 +27,10 @@ export const unMount = () => {
   document.querySelector(ABOUT_SELECTOR)?.remove();
 };
 
+export const renderInfo = () => {
+  document.querySelector('home-info').toggleAttribute('hidden');
+};
+
 export const AboutRouter = ({ language }) => {
   return (
     <div id="aboutContainer">
@@ -39,7 +43,7 @@ export const AboutRouter = ({ language }) => {
           routes={routes}
           language={language}></ldod-router>
       </div>
-      <home-info language={language} class="language"></home-info>
+      <home-info language={language} class="language" hidden></home-info>
     </div>
   );
 };

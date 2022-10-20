@@ -1,3 +1,5 @@
+import { renderInfo } from '../../aboutRouter';
+
 const loadComponent = async (lang) =>
   (await import(`./components/Ack-${lang}.jsx`)).default();
 
@@ -16,13 +18,16 @@ export class LdodAck extends HTMLElement {
   async connectedCallback() {
     this.appendChild(this.wrapper());
     await this.render();
+    renderInfo();
   }
 
   attributeChangedCallback(name, oldV, newV) {
     this.handlers[name](oldV, newV);
   }
 
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    renderInfo();
+  }
 
   handlers = {
     language: (oldV, newV) => {
