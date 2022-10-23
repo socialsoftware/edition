@@ -1,6 +1,5 @@
 import { getExpertEditionByAcrn } from '@src/apiRequests';
 import { LdodEditionAcrn } from './LdodEditionAcrn';
-let x = 0;
 
 const path = '/acronym/:acrn';
 

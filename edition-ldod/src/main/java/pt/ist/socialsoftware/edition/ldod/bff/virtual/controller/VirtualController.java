@@ -34,6 +34,11 @@ public class VirtualController {
         return ResponseEntity.status(HttpStatus.OK).body(virtualService.getVirtualEditionsList());
     }
 
+    @GetMapping("/virtual-editions/game/{gameExternalId}")
+    public ResponseEntity<?> getVeClassGame(@PathVariable String gameExternalId) {
+        return ResponseEntity.status(HttpStatus.OK).body(virtualService.getVeClassGameDto(gameExternalId));
+    }
+
     @GetMapping("/restricted/virtual-edition/{externalId}")
     @PreAuthorize("hasPermission(#externalId, 'virtualedition.participant')")
     public ResponseEntity<?> getVirtualEdition(@PathVariable String externalId) {

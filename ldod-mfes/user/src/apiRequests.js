@@ -81,29 +81,3 @@ function isAccessToken(response) {
 function isFormState(response) {
   return Object?.keys(response).some((key) => key === 'socialId');
 }
-/*
-function login(token, node) {
-  if (!token) return logout();
-  setState({ token });
-  eventEmiter(
-    'ldod-token',
-    {
-      detail: { token },
-      bubbles: true,
-      composed: true,
-    },
-    node
-  );
-}
-
-function logout() {
-  setState({ token: '', user: '' });
-  eventEmiter('ldod-logout');
-  navigateTo('/user/signin');
-}
-
-function setUser(user) {
-  setState({ user });
-  eventEmiter('ldod-login', { detail: { user } });
-}
-*/

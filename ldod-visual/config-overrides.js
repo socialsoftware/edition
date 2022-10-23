@@ -1,13 +1,6 @@
-const {
-  override,
-  fixBabelImports,
-  addLessLoader,
-
-  setWebpackPublicPath,
-} = require('customize-cra');
+const { override, fixBabelImports, addLessLoader } = require('customize-cra');
 
 module.exports = override(
-  setWebpackPublicPath('ldod-mfes/ldod-visual'),
   fixBabelImports('import', {
     libraryName: 'antd',
     libraryDirectory: 'es',

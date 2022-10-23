@@ -1,9 +1,9 @@
-import { getVirtualEditions } from '../../apiRequests';
-import constants from '../constants';
-import CreateButton from './components/createVE/CreateButton';
-import ManagePopover from './components/table/editionActions/ManagePopover';
-import VETable from './components/table/VETable';
-import Title from './components/Title';
+import { getVirtualEditions } from '@src/apiRequests';
+import constants from '../../constants';
+import CreateButton from '../components/createVE/CreateButton';
+import ManagePopover from '../components/table/editionActions/ManagePopover';
+import VETable from '../components/table/VETable';
+import Title from '../components/Title';
 const loadPopper = () => import('shared/tooltip.js');
 
 import.meta.env.DEV

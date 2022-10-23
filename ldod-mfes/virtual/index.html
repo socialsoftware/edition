@@ -8,11 +8,28 @@
 </head>
 
 <body>
+    <style>
+        #tokenForm>#getTokenButton {
+            background-color: #b02a37;
+        }
+        
+        #tokenForm[auth]>#getTokenButton {
+            background-color: #146c43;
+        }
+    </style>
+    <form id="tokenForm">
+        <input type="text" name="username" value="ars" required/>
+        <input type="password" name="password" value="mar39" required/>
+        <button type="submit" id="getTokenButton">Get Token</button>
+    </form>
+
     <button class="lang" id="pt">PT</button>
     <button class="lang" id="es">ES</button>
     <button class="lang" id="en">EN</button>
     <a is="nav-to" to="/virtual/virtual-editions">Virtual Editions</a>
     <a is="nav-to" to="/virtual/manage-virtual-editions">Manage Virtual Editions</a>
+    <a is="nav-to" to="/virtual/edition/acronym/LdoD-Arquivo">LdoD-Arquivo</a>
+
 
 
     <div id="root"></div>

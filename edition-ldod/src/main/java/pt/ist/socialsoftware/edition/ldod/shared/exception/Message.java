@@ -25,6 +25,7 @@ public enum Message {
     OPERATION_NOT_AUTHORIZED("Operation not authorized"),
 
     VIRTUAL_INTER_NOT_FOUND("Virtual fragment interpretation not found"),
+    GAME_NOT_FOUND("Classification Game not found"),
     EMPTY_DESCRIPTION("Invalid description: empty"),
     GAME_CAN_NOT_BE_REMOVED("Game can not be removed"),
 

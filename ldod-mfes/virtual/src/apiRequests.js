@@ -2,8 +2,8 @@ import { fetcher } from 'shared/fetcher.js';
 
 const HOST = import.meta.env.VITE_HOST;
 
-export const getVirtualEditions = async () =>
-  await fetcher.get(`${HOST}/virtual/virtual-editions`, null);
+export const getVirtualEditions = async (token) =>
+  await fetcher.get(`${HOST}/virtual/virtual-editions`, null, token);
 
 export const createVirtualEdition = async (body) =>
   await fetcher.post(`${HOST}/virtual/restricted/create`, body).then((data) => {
@@ -164,3 +164,24 @@ export const saveReorderedVEInters = async (id, inters) =>
       if (data?.ok === false) return Promise.reject(data);
       return Promise.resolve(data);
     });
+
+export const getVirtualEditionByAcronym = async (acrn) =>
+  await fetcher.get(`${HOST}/virtual/edition/acronym/${acrn}`, null);
+
+export const getVeUser = async (username) =>
+  await fetcher.get(`${HOST}/virtual/edition/user/${username}`, null);
+
+export const getCategoryData = async (acronym, category) =>
+  await fetcher.get(
+    `${HOST}/virtual/edition/acronym/${acronym}/category/${category}`,
+    null
+  );
+
+export const getVeTaxonomy = async (acronym) =>
+  await fetcher.get(
+    `${HOST}/virtual/edition/acronym/${acronym}/taxonomy`,
+    null
+  );
+
+export const getVeGame = async (gameId) =>
+  await fetcher.get(`${HOST}/virtual/virtual-editions/game/${gameId}`, null);

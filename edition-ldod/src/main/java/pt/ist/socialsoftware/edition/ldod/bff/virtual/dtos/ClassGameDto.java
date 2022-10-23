@@ -14,6 +14,7 @@ public class ClassGameDto {
     private String title;
     private String veExternalId;
 
+    private String veTitle;
     private boolean active;
     private String date;
 
@@ -35,6 +36,7 @@ public class ClassGameDto {
         setExternalId(game.getExternalId());
         setDescription(game.getDescription());
         setTitle(game.getVirtualEditionInter().getTitle());
+        setVeTitle(game.getVirtualEdition().getTitle());
         setVeExternalId(game.getVirtualEdition().getExternalId());
         setDate(game.getDateTime().toString("dd/MM/yyyy HH:mm"));
         if (game.getTag() != null) {
@@ -52,6 +54,14 @@ public class ClassGameDto {
 
     }
 
+
+    public String getVeTitle() {
+        return veTitle;
+    }
+
+    public void setVeTitle(String veTitle) {
+        this.veTitle = veTitle;
+    }
 
     public String getVeExternalId() {
         return veExternalId;

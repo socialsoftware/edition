@@ -20,7 +20,8 @@ export default {
 
   general_reading: 'Leitura',
   general_reading_sequences: 'Sequências de Leitura',
-  general_reading_visual: 'Livro Visual',
+  general_reading_visual_external: 'Livro Visual (externo)',
+  general_reading_visual_integrado: 'Livro Visual (integrado)',
   general_citations_twitter: 'Citações no Twitter',
 
   header_documents: 'Documentos',

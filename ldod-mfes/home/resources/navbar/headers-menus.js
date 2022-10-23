@@ -29,9 +29,14 @@ export default {
         route: '/reading',
       },
       isMFEAvailable('ldod-visual') && {
-        id: 'general_reading_visual',
+        id: 'general_reading_visual_external',
         link: `${process.host}/ldod-visual`,
       },
+      isMFEAvailable('ldod-visual') &&
+        isMFEAvailable('visual') && {
+          id: 'general_reading_visual_integrated',
+          route: '/visual',
+        },
       isMFEAvailable('social') && {
         id: 'general_citations_twitter',
         route: '/social/twitter-citations',

@@ -89,7 +89,7 @@ export default class LdodRouter extends HTMLElement {
   }
 
   processRoutes() {
-    if (!this.routes) return;
+    if (!this.routes) return (this.routes = {});
     this.routes = Object.entries(this.routes).reduce((prev, [key, api]) => {
       let path = removeEndSlash(
         `/${this.base}/${this.route}/${key}`.replace(/\/\/+/g, '/')
@@ -142,13 +142,29 @@ export default class LdodRouter extends HTMLElement {
     await this.appendMFE(route);
   }
 
+  isARouteMatch = (path) => {
+    const pathSplit = path.split('/');
+    const locationSplit = this.location.split('/');
+    return pathSplit.every((subpath, index) =>
+      !subpath.startsWith(':') ? locationSplit[index] === subpath : true
+    );
+  };
+
   getRoute() {
     let targetPath =
       this.location === this.routerPathname
         ? this.index
-        : Object.entries(this.routes).find(([path, api]) => {
-            return this.location.startsWith(path) && api;
-          })?.[1];
+        : Object.entries(this.routes)
+            .filter(([path, api]) => this.isARouteMatch(path) && api)
+            .sort(([pathA], [pathB]) => {
+              const locationLength = this.location.split('/').length;
+              const pathAlength = pathA?.split('/').length;
+              const pathBlength = pathB?.split('/').length;
+              return (
+                +(pathBlength === locationLength) -
+                +(pathAlength === locationLength)
+              );
+            })[0]?.[1];
     if (!targetPath) targetPath = this.fallback;
     if (typeof targetPath === 'function') {
       this.processPathVariables(targetPath);

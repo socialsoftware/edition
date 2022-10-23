@@ -1,3 +1,6 @@
+import { fetcher } from 'shared/fetcher.js';
+export let token;
+
 import router from './src/virtual.js';
 router.mount('en', '#root');
 
@@ -8,3 +11,18 @@ document.querySelectorAll('button.lang').forEach((btn) => {
     })
   );
 });
+
+document.querySelector('form#tokenForm').onsubmit = async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const data = Object.fromEntries(new FormData(form));
+  fetcher
+    .post(`${import.meta.env.VITE_HOST}/auth/sign-in`, data)
+    .then((data) => {
+      if (data.accessToken) {
+        token = data.accessToken;
+        form.toggleAttribute('auth', true);
+        form.reset();
+      }
+    });
+};

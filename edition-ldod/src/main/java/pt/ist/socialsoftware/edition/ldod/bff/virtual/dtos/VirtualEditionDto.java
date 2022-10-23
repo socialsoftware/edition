@@ -40,6 +40,8 @@ public class VirtualEditionDto {
 
     private List<VeUserDto> participants;
 
+    private List<VirtualEditionInterDto> virtualEditionInters;
+
 
     public VirtualEditionDto() {
     }
@@ -108,6 +110,14 @@ public class VirtualEditionDto {
 
     public void setBeginDate(String beginDate) {
         this.beginDate = beginDate;
+    }
+
+    public List<VirtualEditionInterDto> getVirtualEditionInters() {
+        return virtualEditionInters;
+    }
+
+    public void setVirtualEditionInters(List<VirtualEditionInterDto> virtualEditionInters) {
+        this.virtualEditionInters = virtualEditionInters;
     }
 
     public String getEndDate() {
@@ -313,6 +323,11 @@ public class VirtualEditionDto {
 
         public VirtualEditionDtoBuilder participants(List<VeUserDto> participants) {
             virtualEditionDto.setParticipants(participants);
+            return this;
+        }
+
+        public VirtualEditionDtoBuilder virtualEditionInters(List<VirtualEditionInterDto> inters) {
+            virtualEditionDto.setVirtualEditionInters(inters);
             return this;
         }
 

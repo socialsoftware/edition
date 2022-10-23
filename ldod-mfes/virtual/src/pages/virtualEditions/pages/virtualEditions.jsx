@@ -23,4 +23,8 @@ const unMount = () => document.querySelector('ldod-virtual-editions')?.remove();
 
 const path = '/virtual-editions';
 
-export { mount, unMount, path };
+export const index = () => ({
+  mount,
+  unMount,
+  path,
+});

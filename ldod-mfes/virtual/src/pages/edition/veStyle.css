@@ -1,0 +1,47 @@
+a {
+    color: #337ab7;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a:focus {
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}
+
+a:focus,
+a:hover {
+    color: #23527c;
+    text-decoration: underline;
+}
+
+div#virtualEditionInfo {
+    padding-top: 20px;
+}
+
+p {
+    margin: 0 0 10px;
+    text-align: justify;
+}
+
+table#virtual-userVeTable>thead>tr>th:nth-child(1),
+table#virtual-userVeTable>thead>tr>th:nth-child(2),
+table#virtual-userVeTable>thead>tr>th:nth-child(3),
+table#virtual-userVeTable>thead>tr>th:nth-child(4),
+table#virtual-categoryVeTable>thead>tr>th:nth-child(1),
+table#virtual-categoryVeTable>thead>tr>th:nth-child(2),
+table#virtual-categoryVeTable>thead>tr>th:nth-child(3),
+table#virtual-categoryVeTable>thead>tr>th:nth-child(4),
+table#virtual-taxonomyVeTable>thead>tr>th:nth-child(1),
+table#virtual-taxonomyVeTable>thead>tr>th:nth-child(2),
+table#virtual-taxonomyVeTable>thead>tr>th:nth-child(3),
+table#virtual-taxonomyVeTable>thead>tr>th:nth-child(4),
+table#virtual-virtualEditionTable>thead>tr>th:nth-child(2),
+table#virtual-virtualEditionTable>thead>tr>th:nth-child(3) {
+    text-align: start;
+}
+
+table#virtual-virtualEditionTable>tbody>tr>td:nth-child(1),
+table#virtual-virtualEditionTable>tbody>tr>td:nth-child(4) {
+    text-align: center;
+}

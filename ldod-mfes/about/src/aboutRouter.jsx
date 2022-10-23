@@ -28,7 +28,7 @@ export const unMount = () => {
 };
 
 export const renderInfo = () => {
-  document.querySelector('home-info').toggleAttribute('hidden');
+  document.querySelector('home-info')?.toggleAttribute('hidden');
 };
 
 export const AboutRouter = ({ language }) => {

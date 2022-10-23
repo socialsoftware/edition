@@ -6,9 +6,10 @@ const VIRTUAL_SELECTOR = 'div#virutalContainer';
 
 const routes = {
   '/virtual-editions': async () =>
-    await import('./pages/virtualEditions/virtualEditions.jsx'),
+    await import('./pages/virtualEditions/virtualEditionsRouter'),
   '/manage-virtual-editions': async () =>
     await import('./pages/manageVE/manageVE.jsx'),
+  '/edition': async () => await import('./pages/edition/editionRouter'),
 };
 
 export const mount = (lang, ref) => {

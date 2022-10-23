@@ -140,6 +140,13 @@ public class VirtualService {
         return edition;
     }
 
+    private ClassificationGame checkCgNotNull(String gameId) {
+        ClassificationGame game = FenixFramework.getDomainObject(gameId);
+        if (game == null)
+            throw new LdoDException(String.format(Message.GAME_NOT_FOUND.getLabel(), gameId));
+        return game;
+    }
+
 
     public VirtualEditionDto approveParticipation(String externalId, String username) {
         VirtualEdition ve = checkVENotNull(externalId);
@@ -349,14 +356,67 @@ public class VirtualService {
                 .forEach(VirtualEditionInter::remove);
 
         inters.forEach(id -> {
-                    int index = inters.indexOf(id) + 1;
-                    if (ve.getAllDepthVirtualEditionInters().stream().map(AbstractDomainObject::getExternalId).noneMatch(extId -> extId.equals(id)))
-                        ve.createVirtualEditionInter(FenixFramework.getDomainObject(id), index);
-                    ve.getInterById(id).ifPresent(inter -> inter.setNumber(index));
-                });
+            int index = inters.indexOf(id) + 1;
+            if (ve.getAllDepthVirtualEditionInters().stream().map(AbstractDomainObject::getExternalId).noneMatch(extId -> extId.equals(id)))
+                ve.createVirtualEditionInter(FenixFramework.getDomainObject(id), index);
+            ve.getInterById(id).ifPresent(inter -> inter.setNumber(index));
+        });
 
         return getEditionForManualSort(externalId);
 
+    }
+
+    public VirtualEditionDto getVirtualEditionByAcronym(String acronym) {
+        VirtualEdition ve = LdoD.getInstance().getVirtualEdition(acronym);
+        VirtualEditionDto veDto = getVeDtoWithParticipants(ve);
+        veDto.setVirtualEditionInters(ve.getAllDepthVirtualEditionInters()
+                .stream()
+                .map(inter -> VirtualEditionInterDto
+                        .VirtualEditionInterDtoBuilder
+                        .aVirtualEditionInterDto(inter)
+                        .categories(inter.getAssignedCategories().stream().map(Category_Base::getName).collect(Collectors.toList()))
+                        .usedList(veUsedList(inter))
+                        .build())
+                .collect(Collectors.toList()));
+        return veDto;
+
+    }
+
+    public VeUserDto getUserVeData(String username) {
+        return new VeUserDto(LdoD.getInstance().getUser(username));
+    }
+
+    public CategoryDto getVirtualEditionCategories(String acronym, String category) {
+        Category cat = LdoD.getInstance().getVirtualEdition(acronym).getTaxonomy().getCategory(category);
+        return CategoryDto
+                .CategoryDtoBuilder
+                .aCategoryDto(cat)
+                .veInters(cat.getSortedInters()
+                        .stream()
+                        .map(inter -> VirtualEditionInterDto
+                                .VirtualEditionInterDtoBuilder
+                                .aVirtualEditionInterDto(inter)
+                                .usedList(inter.getListUsed().stream().map(VirtualEditionInterDto::new).collect(Collectors.toList()))
+                                .users(inter.getContributorSet(cat)
+                                        .stream()
+                                        .map(user -> VeUserDto.VeUserDtoBuilder.aVeUserDto()
+                                                .username(user.getUsername())
+                                                .firstname(user.getFirstName())
+                                                .lastname(user.getLastName())
+                                                .build())
+                                        .collect(Collectors.toList()))
+                                .build())
+                        .collect(Collectors.toList()))
+                .build();
+
+    }
+
+    public TaxonomyDto getVirtualEditionTaxonomy(String acronym) {
+        return new TaxonomyDto(LdoD.getInstance().getVirtualEdition(acronym).getTaxonomy());
+    }
+
+    public VeClassGameDto getVeClassGameDto(String gameId) {
+        return new VeClassGameDto(checkCgNotNull(gameId));
     }
 }
 

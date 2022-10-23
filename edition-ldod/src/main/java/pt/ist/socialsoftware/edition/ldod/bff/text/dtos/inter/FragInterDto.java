@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.bff.text.dtos.inter;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDDate;
 
@@ -12,6 +13,8 @@ public abstract class FragInterDto {
     private String date = null;
     private String precision;
     private String shortName;
+
+    private String editionTitle;
     private int number;
 
 
@@ -19,6 +22,7 @@ public abstract class FragInterDto {
     }
 
     public FragInterDto(FragInter fragInter) {
+        setEditionTitle(StringEscapeUtils.unescapeHtml(fragInter.getEdition().getTitle()));
         setExternalId(fragInter.getExternalId());
         setXmlId(fragInter.getFragment().getXmlId());
         setUrlId(fragInter.getUrlId());
@@ -28,6 +32,14 @@ public abstract class FragInterDto {
 
     public int getNumber() {
         return number;
+    }
+
+    public String getEditionTitle() {
+        return editionTitle;
+    }
+
+    public void setEditionTitle(String editionTitle) {
+        this.editionTitle = editionTitle;
     }
 
     public void setNumber(int number) {

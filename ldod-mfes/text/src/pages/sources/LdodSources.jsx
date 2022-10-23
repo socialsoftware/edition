@@ -92,7 +92,7 @@ export class LdodSources extends HTMLElement {
   updateTitle = ({ detail }) => {
     if (this.ldodTable.isFullyLoaded)
       this.querySelector('h3#title').firstChild.textContent = this.getConstants(
-        'encodedFragments',
+        'interSources',
         detail.size
       );
   };

@@ -9,7 +9,11 @@ public class VirtualEditionInterDto extends FragInterDto {
 
     private List<FragInterDto> usedList;
 
-    public VirtualEditionInterDto(){};
+    private List<String> categories;
+
+    private List<VeUserDto> users;
+
+    private VirtualEditionInterDto(){};
 
     public VirtualEditionInterDto(FragInter inter) {
         super(inter);
@@ -17,6 +21,21 @@ public class VirtualEditionInterDto extends FragInterDto {
         setTitle(inter.getTitle());
     }
 
+    public List<VeUserDto> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<VeUserDto> users) {
+        this.users = users;
+    }
+
+    public List<String> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
+    }
 
     public List<FragInterDto> getUsedList() {
         return usedList;
@@ -44,6 +63,15 @@ public class VirtualEditionInterDto extends FragInterDto {
             return this;
         }
 
+        public VirtualEditionInterDtoBuilder categories(List<String> categories) {
+            virtualEditionInterDto.setCategories(categories);
+            return this;
+        }
+
+        public VirtualEditionInterDtoBuilder users(List<VeUserDto> contributors) {
+            virtualEditionInterDto.setUsers(contributors);
+            return this;
+        }
 
         public VirtualEditionInterDto build() {
             return virtualEditionInterDto;

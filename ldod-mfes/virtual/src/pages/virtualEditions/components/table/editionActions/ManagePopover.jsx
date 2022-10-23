@@ -9,36 +9,39 @@ import style from './manageStyle.css?inline';
 
 const onRemoveVE = async (node) => {
   if (!confirm(`Delete ${node.edition.acronym} ?`)) return;
-  await veAdminDelete(node.edition.externalId)
+  veAdminDelete(node.edition.externalId)
     .then(({ virtualEditions, user }) => {
       node.virtualEditions = virtualEditions;
       node.user = user;
       node.render();
+      node.edition = null;
     })
     .catch((message) => node.dispatchCustomEvent('ldod-error', message));
-  node.edition = null;
 };
 
 const onEditorsModal = async (node) => {
   await import('../editors/LdodVeEditors');
   const element = node.querySelector('ldod-ve-editors');
-  element.edition = await getVirtualEdition(node.edition.externalId).catch(
-    (error) => node.dispatchCustomEvent('ldod-error', error)
-  );
-  element.parent = node;
-  element.toggleAttribute('show');
+  getVirtualEdition(node.edition.externalId)
+    .then((data) => {
+      element.edition = data;
+      element.parent = node;
+      element.toggleAttribute('show');
+    })
+    .catch((error) => node.dispatchCustomEvent('ldod-error', error));
 };
 
 const onGamesModal = async (node) => {
   await import('../games/LdodVeGames');
   const ldodVeGames = node.querySelector('ldod-ve-games');
   ldodVeGames.edition = node.edition;
-  const data = await getEditionGames(node.edition.externalId).catch((error) =>
-    node.dispatchCustomEvent('ldod-error', error)
-  );
-  ldodVeGames.updateData(data);
-  ldodVeGames.parent = node;
-  ldodVeGames.toggleAttribute('show');
+  getEditionGames(node.edition.externalId)
+    .then((data) => {
+      ldodVeGames.updateData(data);
+      ldodVeGames.parent = node;
+      ldodVeGames.toggleAttribute('show');
+    })
+    .catch((error) => node.dispatchCustomEvent('ldod-error', error));
 };
 
 const onEditVe = async (node) => {
@@ -53,23 +56,25 @@ const onAssistModal = async (node) => {
   await import('../assisted/LdodVeAssisted');
   const ldodVeAssisted = node.querySelector('ldod-ve-assisted');
   ldodVeAssisted.edition = node.edition;
-  const data = await getVeIntersWithRecommendation(
-    node.edition.externalId
-  ).catch((error) => node.dispatchCustomEvent('ldod-error', error));
-  ldodVeAssisted.parent = node;
-  ldodVeAssisted.updateData(data);
+  getVeIntersWithRecommendation(node.edition.externalId)
+    .then((data) => {
+      ldodVeAssisted.parent = node;
+      ldodVeAssisted.updateData(data);
+    })
+    .catch((error) => node.dispatchCustomEvent('ldod-error', error));
 };
 
 const onManualModal = async (node) => {
   await import('../manual/LdodVeManual');
   const ldodVeManual = node.querySelector('ldod-ve-manual');
   ldodVeManual.edition = node.edition;
-  const data = await getVeIntersForManual(node.edition.externalId).catch(
-    (error) => node.dispatchCustomEvent('ldod-error', error)
-  );
-  ldodVeManual.parent = node;
-  ldodVeManual.initialInters = Array.from(data);
-  ldodVeManual.updateData(data);
+  getVeIntersForManual(node.edition.externalId)
+    .then((data) => {
+      ldodVeManual.parent = node;
+      ldodVeManual.initialInters = Array.from(data);
+      ldodVeManual.updateData(data);
+    })
+    .catch((error) => node.dispatchCustomEvent('ldod-error', error));
 };
 
 export default (node) => {

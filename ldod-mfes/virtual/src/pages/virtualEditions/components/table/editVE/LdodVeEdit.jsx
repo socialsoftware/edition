@@ -1,5 +1,5 @@
 import 'shared/modal.js';
-import { editVE } from '../../../../../apiRequests';
+import { editVE } from '@src/apiRequests';
 import constants from '../../../../constants';
 import thisConstants from './constants';
 import EditionEditForm from './EditionEditForm';
@@ -81,10 +81,10 @@ export class LdodVeEdit extends HTMLElement {
         this.toggleAttribute('show', false);
       })
       .catch((error) => {
-        if (!error.ok)
+        if (!error?.ok)
           this.dispatchEvent(
             new CustomEvent('ldod-error', {
-              detail: { message: error.message },
+              detail: { message: error?.message },
               bubbles: true,
               composed: true,
             })

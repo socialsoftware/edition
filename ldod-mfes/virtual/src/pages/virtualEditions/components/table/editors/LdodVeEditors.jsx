@@ -3,7 +3,7 @@ import constants from './constants';
 import MembersTable from './MembersTable';
 import style from './editors.css?inline';
 import PendentTable from './PendentTable';
-import { addParticipant } from '../../../../../apiRequests';
+import { addParticipant } from '@src/apiRequests';
 export class LdodVeEditors extends HTMLElement {
   constructor() {
     super();

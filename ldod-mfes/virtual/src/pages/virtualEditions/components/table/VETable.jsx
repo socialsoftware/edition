@@ -18,7 +18,7 @@ const getTableData = (node) => {
         data: () => ({
           acronym: ve.acronym,
           title: (
-            <a is="nav-to" to={`/virtual/acronym/${ve.acronym}`}>
+            <a is="nav-to" to={`/virtual/edition/acronym/${ve.acronym}`}>
               {ve.title}
             </a>
           ),
