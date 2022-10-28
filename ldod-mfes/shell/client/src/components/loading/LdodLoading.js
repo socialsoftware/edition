@@ -7,43 +7,53 @@ const styleSheet = new CSSStyleSheet();
 export class LdodLoading extends HTMLElement {
   constructor() {
     super();
+    this.pendingLoading = 0;
     const shadow = this.attachShadow({ mode: 'open' });
     shadow.adoptedStyleSheets = [styleSheet];
   }
   static get observedAttributes() {}
+  get element() {
+    return this.shadowRoot.querySelector('#shell-loadingOverlay');
+  }
+  get isLoading() {
+    return this.hasAttribute('show');
+  }
+
+  handleLoading = (isLoading) => {
+    if (this.pendingLoading > 1 && isLoading) return;
+    if (this.pendingLoading !== 0 && !isLoading) return;
+    this.toggleVisibility(isLoading);
+  };
+
+  toggleVisibility = (isLoading) => (this.hidden = !isLoading);
 
   connectedCallback() {
     styleSheet.replaceSync(style);
     if (!styleSheet.cssRules.length)
       this.shadowRoot.adoptedStyleSheets = [style];
     this.render();
-    this.addEventListener();
+    this.addEventListeners();
   }
 
-  attributeChangedCallback() {}
   disconnectedCallback() {
     window.removeEventListener('ldod-loading', this.handleLoadingEvent);
   }
 
   render() {
     const loader = parseHTML(
-      html` <div>
-        <div id="overlay" class="overlay-modal" aria-hidden="true">
-          <div class="lds-dual-ring"></div>
-        </div>
+      html` <div id="shell-loadingOverlay">
+        <div class="lds-dual-ring"></div>
       </div>`
     );
     this.shadowRoot.appendChild(loader);
   }
 
-  addEventListener = () => {
+  addEventListeners = () => {
     window.addEventListener('ldod-loading', this.handleLoadingEvent);
   };
 
-  handleLoadingEvent = ({ detail: { isLoading } }) => {
-    this.shadowRoot
-      .querySelector('#overlay')
-      .setAttribute('aria-hidden', String(!isLoading));
+  handleLoadingEvent = ({ detail }) => {
+    this.handleLoading(detail.isLoading);
   };
 }
 
