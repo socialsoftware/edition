@@ -1,14 +1,15 @@
-import { index } from './pages/virtualEditions';
+import { index } from './pages/index/virtualEditions';
 
 const path = '/virtual-editions';
+
 const mount = async (lang, ref) => {
   document
     .querySelector(ref)
     .appendChild(<VirtualEditionsRouter language={lang} />);
 };
-const unMount = () =>
+const unMount = () => {
   document.querySelector('ldod-router#virtualEditions-router')?.remove();
-
+};
 export { path, mount, unMount };
 
 export const isDev = () => import.meta.env.DEV;

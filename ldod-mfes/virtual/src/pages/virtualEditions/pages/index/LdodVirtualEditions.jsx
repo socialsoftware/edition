@@ -1,9 +1,8 @@
 import { getVirtualEditions } from '@src/apiRequests';
-import constants from '../../constants';
-import CreateButton from '../components/createVE/CreateButton';
-import ManagePopover from '../components/table/editionActions/ManagePopover';
-import VETable from '../components/table/VETable';
-import Title from '../components/Title';
+import constants from '../../../constants';
+import CreateButton from '../../components/createVE/CreateButton';
+import VETable from '../../components/table/VETable';
+import Title from '../../components/Title';
 const loadPopper = () => import('shared/tooltip.js');
 
 import.meta.env.DEV
@@ -37,7 +36,7 @@ export class LdodVirtualEditions extends HTMLElement {
 
   connectedCallback() {
     this.appendChild(<div id="virtualEditionsWrapper"></div>);
-    this.render();
+    this.sortVirtualEditions();
     this.addEventListeners();
   }
 
@@ -52,7 +51,7 @@ export class LdodVirtualEditions extends HTMLElement {
     this.wrapper.appendChild(
       <>
         <Title node={this} />
-        <ldod-popover element={ManagePopover(this)}></ldod-popover>
+        <ldod-popover></ldod-popover>
         <CreateButton node={this} />
         <div id="virtual-virtualEditionsContainer">
           <VETable node={this} constants={constants} />
@@ -62,6 +61,7 @@ export class LdodVirtualEditions extends HTMLElement {
         <ldod-ve-edit language={this.language}></ldod-ve-edit>
         <ldod-ve-assisted language={this.language}></ldod-ve-assisted>
         <ldod-ve-manual language={this.language}></ldod-ve-manual>
+        <ldod-ve-taxonomy language={this.language}></ldod-ve-taxonomy>
       </>
     );
   }
@@ -91,8 +91,7 @@ export class LdodVirtualEditions extends HTMLElement {
     const data = await getVirtualEditions();
     this.virtualEditions = data.virtualEditions;
     this.user = data.user;
-    this.veTable.innerHTML = '';
-    this.veTable.appendChild(<VETable node={this} constants={constants} />);
+    this.sortVirtualEditions();
   };
 
   onChangedAttribute = {

@@ -9,6 +9,7 @@ export const loadVirtualComponents = async () =>
 
 export default {
   path: '/virtual',
+
   mount: async (lang, ref) => {
     if (!Virtual) await loadVirtual();
     await Virtual.mount(lang, ref);

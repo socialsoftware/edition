@@ -8,10 +8,15 @@ const LDOD_ARCIVE_ARCHIVE = 'LdoD-Arquivo';
 const isMember = (ve) => ve.member?.active;
 const isPending = (ve) => ve.member?.pending;
 const canBeAdded = (ve) => ve.pub && ve.member?.canBeAdded;
+const isLdodEdition = (ve) => ve.acronym === LDOD_ARCIVE_ARCHIVE;
 
 const getTableData = (node) => {
   return node.virtualEditions
-    .filter((ve) => ve.acronym !== LDOD_ARCIVE_ARCHIVE)
+    .filter(
+      (ve) =>
+        (ve.pub && !isLdodEdition(ve)) ||
+        ve.activeMembers.includes(node.user?.username)
+    )
     .map((ve) => {
       return {
         externalId: ve.externalId,
@@ -33,7 +38,7 @@ const getTableData = (node) => {
 
           actions: (
             <div class="actions-containers">
-              <SelectVEInput node={node} edition={ve} />
+              {!isLdodEdition(ve) && <SelectVEInput node={node} edition={ve} />}
               {isMember(ve) && <ManageVEIcon node={node} edition={ve} />}
               {canBeAdded(ve) && (
                 <SubmitParticipantIcon node={node} edition={ve} />

@@ -77,6 +77,13 @@ const onManualModal = async (node) => {
     .catch((error) => node.dispatchCustomEvent('ldod-error', error));
 };
 
+const onTaxonomy = async (node) => {
+  await import('../taxonomy/LdodVeTaxonomy');
+  const ldodVeTaxonomy = node.querySelector('ldod-ve-taxonomy');
+  ldodVeTaxonomy.parent = node;
+  ldodVeTaxonomy.toggleAttribute('show');
+};
+
 export default (node) => {
   return () => (
     <>
@@ -89,7 +96,7 @@ export default (node) => {
           </a>
         </li>
         <li>
-          <a class="manage-item">
+          <a class="manage-item" onClick={() => onTaxonomy(node)}>
             <span class="icon-popover icon-popover-taxonomy"></span>
             <span data-virtualkey="taxonomy">
               {node.getConstants('taxonomy')}

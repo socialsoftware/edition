@@ -1,5 +1,4 @@
 import { fetcher } from 'shared/fetcher.js';
-export let token;
 
 import router from './src/virtual.js';
 router.mount('en', '#root');
@@ -20,7 +19,7 @@ document.querySelector('form#tokenForm').onsubmit = async (e) => {
     .post(`${import.meta.env.VITE_HOST}/auth/sign-in`, data)
     .then((data) => {
       if (data.accessToken) {
-        token = data.accessToken;
+        window.token = data.accessToken;
         form.toggleAttribute('auth', true);
         form.reset();
       }

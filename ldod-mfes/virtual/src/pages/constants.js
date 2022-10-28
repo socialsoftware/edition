@@ -8,6 +8,7 @@ export default {
     'annotations',
     'remove',
   ],
+  gameTable: ['position', 'username', 'score'],
   JPC: 'Jacinto Prado Coelho',
   RZ: 'Richard Zennith',
   TSC: 'Teresa Sobral Cunha',
@@ -58,6 +59,11 @@ export default {
     manualSort: 'Ordenação Manual',
     assisted: 'Ordenação Assistida',
     edit: 'Editar Edição Virtual',
+    winner: 'Vencendor',
+    category: 'Categoria',
+    position: '#',
+    username: 'Nome de Utilizador',
+    score: 'Pontos',
   },
 
   en: {
@@ -105,6 +111,11 @@ export default {
     manualSort: 'Manual Sort',
     assisted: 'Assisted Sort',
     edit: 'Edit Virtual Edition',
+    winner: 'Winner',
+    category: 'Category',
+    position: '#',
+    username: 'Username',
+    score: 'Points',
   },
   es: {
     acronym: 'Sigla',
@@ -154,5 +165,10 @@ export default {
     manualSort: 'Ordenación Manual',
     assisted: 'Ordenación Asistida',
     edit: 'Editar la edición virtual',
+    winner: 'Ganador',
+    category: 'Categoría',
+    position: '#',
+    username: 'Nombre de usuario	',
+    score: 'Puntos',
   },
 };

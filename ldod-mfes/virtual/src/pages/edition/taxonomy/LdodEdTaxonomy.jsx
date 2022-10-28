@@ -4,7 +4,7 @@ import constants from '../../constants';
 import style from '../veStyle.css?inline';
 import VeTaxonomyComponent from './VeTaxonomyComponent';
 
-export class LdodVeTaxonomy extends HTMLElement {
+export class LdodEdTaxonomy extends HTMLElement {
   constructor(lang) {
     super();
     this.language = lang;
@@ -65,5 +65,5 @@ export class LdodVeTaxonomy extends HTMLElement {
 
   disconnectedCallback() {}
 }
-!customElements.get('ldod-ve-taxonomy') &&
-  customElements.define('ldod-ve-taxonomy', LdodVeTaxonomy);
+!customElements.get('ldod-ede-taxonomy') &&
+  customElements.define('ldod-ed-taxonomy', LdodEdTaxonomy);

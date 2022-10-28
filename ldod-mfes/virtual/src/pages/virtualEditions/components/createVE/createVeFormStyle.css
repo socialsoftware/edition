@@ -30,7 +30,6 @@ input[type='checkbox'] {
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
-    width: 100%;
 }
 
 .form-floating {

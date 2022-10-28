@@ -1,10 +1,10 @@
-import { LdodVeTaxonomy } from './LdodVeTaxonomy';
+import { LdodEdTaxonomy } from './LdodEdTaxonomy';
 
 const mount = async (lang, ref) => {
-  document.querySelector(ref).appendChild(new LdodVeTaxonomy(lang));
+  document.querySelector(ref).appendChild(new LdodEdTaxonomy(lang));
 };
 
-const unMount = () => document.querySelector('ldod-ve-taxonomy')?.remove();
+const unMount = () => document.querySelector('ldod-ed-taxonomy')?.remove();
 
 const path = '/taxonomy/:acrn';
 

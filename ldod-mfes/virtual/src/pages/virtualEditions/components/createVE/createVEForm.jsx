@@ -9,7 +9,7 @@ const onCreateVE = (e, node) => {
     .then(({ virtualEditions, user }) => {
       node.virtualEditions = virtualEditions;
       node.user = user;
-      node.render();
+      node.sortVirtualEditions();
     })
     .catch((message) => node.dispatchCustomEvent('ldod-error', message));
 };

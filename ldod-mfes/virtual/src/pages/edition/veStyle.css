@@ -24,6 +24,19 @@ p {
     text-align: justify;
 }
 
+ldod-table#virtual-veClassGameTable .table-container {
+    border: none !important;
+}
+
+table#virtual-veClassGameTable {
+    border-collapse: collapse !important;
+}
+
+table#virtual-veClassGameTable th {
+    border-top: none !important;
+}
+
+table#virtual-veClassGameTable>thead>tr>th:nth-child(2),
 table#virtual-userVeTable>thead>tr>th:nth-child(1),
 table#virtual-userVeTable>thead>tr>th:nth-child(2),
 table#virtual-userVeTable>thead>tr>th:nth-child(3),
@@ -41,6 +54,8 @@ table#virtual-virtualEditionTable>thead>tr>th:nth-child(3) {
     text-align: start;
 }
 
+table#virtual-veClassGameTable>tbody>tr>td:nth-child(1),
+table#virtual-veClassGameTable>tbody>tr>td:nth-child(3),
 table#virtual-virtualEditionTable>tbody>tr>td:nth-child(1),
 table#virtual-virtualEditionTable>tbody>tr>td:nth-child(4) {
     text-align: center;

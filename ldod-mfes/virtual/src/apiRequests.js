@@ -2,14 +2,16 @@ import { fetcher } from 'shared/fetcher.js';
 
 const HOST = import.meta.env.VITE_HOST;
 
-export const getVirtualEditions = async (token) =>
-  await fetcher.get(`${HOST}/virtual/virtual-editions`, null, token);
+export const getVirtualEditions = async () =>
+  await fetcher.get(`${HOST}/virtual/virtual-editions`, null, window.token);
 
 export const createVirtualEdition = async (body) =>
-  await fetcher.post(`${HOST}/virtual/restricted/create`, body).then((data) => {
-    if (data?.ok === false) return Promise.reject(data);
-    return Promise.resolve(data);
-  });
+  await fetcher
+    .post(`${HOST}/virtual/restricted/create`, body, window.token)
+    .then((data) => {
+      if (data?.ok === false) return Promise.reject(data);
+      return Promise.resolve(data);
+    });
 
 export const getVirtualEditions4Manage = async () =>
   await fetcher.get(`${HOST}/virtual/admin/virtual-editions`, null);

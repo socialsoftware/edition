@@ -1,9 +1,13 @@
+import ManagePopover from './ManagePopover';
+
 const onManageVirtualEdition = (node, edition, target) => {
   node.edition = node.virtualEditions.find(
     ({ externalId }) => externalId === edition.externalId
   );
-  node.querySelector('ldod-popover').target = target;
-  node.querySelector('ldod-popover').toggleAttribute('show');
+  const popover = node.querySelector('ldod-popover');
+  popover.element = ManagePopover(node);
+  popover.target = target;
+  popover.toggleAttribute('show');
 };
 
 export default ({ node, edition }) => {

@@ -1,5 +1,7 @@
 import { getVeGame } from '../../../../apiRequests';
 import constants from '../../../constants';
+import ClassGameComponent from './ClassGameComponent';
+import style from '../../../edition/veStyle.css';
 
 export class LdodVeClassGame extends HTMLElement {
   constructor(lang) {
@@ -30,11 +32,13 @@ export class LdodVeClassGame extends HTMLElement {
 
   async connectedCallback() {
     await this.fetchData();
-    console.log(this.game);
     this.render();
   }
 
-  render = () => {};
+  render = () => {
+    this.appendChild(<style>{style}</style>);
+    this.appendChild(<ClassGameComponent node={this} />);
+  };
 
   attributeChangedCallback(name, oldV, newV) {
     this.onChangeAttribute[name](oldV, newV);
