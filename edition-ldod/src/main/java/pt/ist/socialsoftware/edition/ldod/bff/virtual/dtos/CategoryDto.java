@@ -19,6 +19,8 @@ public class CategoryDto {
 
     private List<FragInterDto> veInters;
 
+    public CategoryDto(){};
+
     public CategoryDto(Category category) {
         setName(category.getName());
         setExternalId(category.getExternalId());

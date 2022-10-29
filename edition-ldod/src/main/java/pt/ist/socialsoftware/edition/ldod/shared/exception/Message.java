@@ -15,9 +15,9 @@ public enum Message {
     VIRTUAL_CORPUS_LOADED("Virtual Corpus file '%s' imported"),
 
     VIRTUAL_EDITION_INVALID("Virtual edition with id '%s' invalid"),
-
     VIRTUAL_FRAGMENT_ALREADY_IMPORTED("Virtual fragment '%s' already uploaded"),
-
+    TAXONOMY_NOT_FOUND("Taxonomy not found"),
+    CATEGORY_NOT_FOUND("Category not found"),
     VIRTUAL_EDITION_NOT_FOUND("Virtual edition with acronym '%s' not found"),
     USER_NOT_FOUND("User not found"),
     USERNAME_NOT_FOUND("User with username '%s' not found"),
@@ -33,6 +33,9 @@ public enum Message {
     TOKEN_AUTHORIZED("User registration has been authorized"),
     TOKEN_NOT_AUTHORIZED("User registration not authorized"),
     TOKEN_CONFIRMED("User registration has been confirmed"),
+
+    FRAGMENT_NOT_ASSOCIATED_OR_CORPUS_NOT_LOADED("No fragment is associated to edition %s or corpus has to be generated"),
+    DUPLICATE_CATEGORY_NAME("Duplicate Category name: '%s'"),
     BAD_CREDENTIALS("Credentials not valid");
 
 

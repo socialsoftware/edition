@@ -138,7 +138,6 @@ export default class LdodRouter extends HTMLElement {
   async render() {
     let route = this.getRoute();
     if (await isApiContractNotCompliant(route, this.id)) return;
-    await this.removeMFE();
     await this.appendMFE(route);
   }
 
@@ -192,9 +191,11 @@ export default class LdodRouter extends HTMLElement {
 
   async appendMFE(route) {
     if (!route) return;
-    const api = await route();
-    this.active = api;
-    await api.mount(this.language, `#${this.outlet.id}`);
+    emitLoading(true);
+    this.active && (await this.removeMFE());
+    this.active = await route();
+    await this.active.mount(this.language, `#${this.outlet.id}`);
+    emitLoading(false);
   }
 
   async removeMFE() {
@@ -227,5 +228,12 @@ const complianceWaring = (message, id) => {
   console.error(`ldod-router#${id}: ${message}`);
   return true;
 };
+
+function emitLoading(isLoading) {
+  return;
+  window.dispatchEvent(
+    new CustomEvent('ldod-loading', { detail: { isLoading } })
+  );
+}
 
 customElements.define('ldod-router', LdodRouter);

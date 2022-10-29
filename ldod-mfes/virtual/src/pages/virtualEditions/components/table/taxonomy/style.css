@@ -122,3 +122,9 @@ span[data-virtual-key] {
 #generatedTopicsContainer {
     margin-top: 20px;
 }
+
+select-pure {
+    --border-color: #ced4da;
+    --dropdown-gap: 5px;
+    --dropdown-items: 10;
+}

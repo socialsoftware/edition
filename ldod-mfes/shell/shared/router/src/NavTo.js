@@ -7,7 +7,7 @@ export default class NavTo extends HTMLAnchorElement {
 
   connectedCallback() {
     if (this.target) {
-      this.href = `/ldod-mfes${this.to}`;
+      this.href = this.to;
       return;
     }
     this.addEventListener('click', this.onclick);

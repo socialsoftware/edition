@@ -41,3 +41,10 @@ export const editCategory = async (categoryId, body) =>
     body,
     window.token
   );
+
+export const extractCategoryFragments = async (categoryId, body) =>
+  await fetcher.post(
+    `${HOST}/restricted/category/${categoryId}/extract`,
+    body,
+    window.token
+  );

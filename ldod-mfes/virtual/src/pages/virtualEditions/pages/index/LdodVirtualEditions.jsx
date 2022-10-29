@@ -4,6 +4,10 @@ import CreateButton from '../../components/createVE/CreateButton';
 import VETable from '../../components/table/VETable';
 import Title from '../../components/Title';
 const loadPopper = () => import('shared/tooltip.js');
+const CreateVeModal = async (node) =>
+  (await import('../../components/createVE/CreateVEModal')).default({
+    node,
+  });
 
 import.meta.env.DEV
   ? await import('shared/table-dev.js')
@@ -118,7 +122,13 @@ export class LdodVirtualEditions extends HTMLElement {
 
   addEventListeners = () => {
     this.wrapper.addEventListener('pointerenter', loadPopper, { once: true });
+    this.wrapper.addEventListener('pointerenter', this.createVeLazyLoad, {
+      once: true,
+    });
   };
+
+  createVeLazyLoad = async () =>
+    this.wrapper.appendChild(await CreateVeModal(this));
 
   dispatchCustomEvent = (event, detail, emmiter = this) => {
     emmiter.dispatchEvent(

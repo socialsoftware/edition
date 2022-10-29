@@ -11,9 +11,27 @@ import {
   getVeTaxonomy,
   mergeCategories,
 } from './taxonomyApiRequests';
-import GenerateTopicsModal from './GenerateTopicsModal';
-import EditCategoryModal from './EditCategoryModal';
 
+const GenerateTopicsModal = async (node, veId) =>
+  (await import('./GenerateTopicsModal')).default({
+    node,
+    veId,
+  });
+
+const EditCategoryModal = async (node, category) =>
+  (await import('./EditCategoryModal')).default({ node, category });
+const ExtractCategoryFragsModal = async (node, category) =>
+  (await import('./ExtractCategoryFragsModal')).default({ node, category });
+
+const computeSelectPureHeight = () => {
+  const selectPure = document.querySelector('select-pure');
+  const height =
+    selectPure.shadowRoot.querySelector('div.select > div.dropdown')
+      .clientHeight + 80;
+  selectPure.parentElement.style.height = selectPure.visible
+    ? `${Math.max(height, 120)}px`
+    : 'auto';
+};
 export class LdodVeTaxonomy extends HTMLElement {
   constructor() {
     super();
@@ -57,6 +75,10 @@ export class LdodVeTaxonomy extends HTMLElement {
     return this.querySelector('ldod-modal#virtual-editCategoryModal');
   }
 
+  get extractCategoryFragsModal() {
+    return this.querySelector('ldod-modal#virtual-extractCategoryFragsModal');
+  }
+
   static get observedAttributes() {
     return ['data', 'show'];
   }
@@ -90,9 +112,6 @@ export class LdodVeTaxonomy extends HTMLElement {
         </div>
       </ldod-modal>
     );
-    this.appendChild(
-      <GenerateTopicsModal node={this} veId={this.taxonomy.veExternalId} />
-    );
     this.renderMergeAndDeleteButtons();
     this.addEventListeners();
   }
@@ -122,6 +141,15 @@ export class LdodVeTaxonomy extends HTMLElement {
 
   addEventListeners = () => {
     this.handleRowsSelection();
+    this.addEventListener('pointerenter', this.generateTopicsModalLazyLoad, {
+      once: true,
+    });
+  };
+
+  generateTopicsModalLazyLoad = async () => {
+    this.appendChild(
+      await GenerateTopicsModal(this, this.taxonomy.veExternalId)
+    );
   };
 
   handleRowsSelection = () => {
@@ -169,6 +197,14 @@ export class LdodVeTaxonomy extends HTMLElement {
     generateTopicsModal: () => {
       this.toggleAttribute('show', true);
     },
+    editCategoryModal: () => {
+      this.editCategoryModal.remove();
+      console.log('on closing edit category name');
+    },
+    extractCategoryFragsModal: () => {
+      document.body.removeEventListener('click', computeSelectPureHeight);
+      this.extractCategoryFragsModal.remove();
+    },
   };
 
   resetState = () => {
@@ -177,6 +213,7 @@ export class LdodVeTaxonomy extends HTMLElement {
   };
 
   onAddCategory = (e) => {
+    o;
     e.preventDefault();
     const body = Object.fromEntries(new FormData(e.target));
     addCategory(this.taxonomy.veExternalId, body)
@@ -185,8 +222,11 @@ export class LdodVeTaxonomy extends HTMLElement {
   };
 
   onDeleteCategories = (id) => {
-    if (!id && this.selectedCategories < 1) return;
-    console.log(id);
+    if (
+      (!id && this.selectedCategories < 1) ||
+      !confirm(`Proceed with deletion ?`)
+    )
+      return;
     deleteCategories(
       this.taxonomy.externalId,
       id ? [id] : this.selectedCategories
@@ -214,9 +254,15 @@ export class LdodVeTaxonomy extends HTMLElement {
       .catch((error) => console.error(error));
   };
 
-  onOpenEditModal = (category) => {
-    this.appendChild(<EditCategoryModal node={this} category={category} />);
+  onOpenEditModal = async (category) => {
+    this.appendChild(await EditCategoryModal(this, category));
     this.editCategoryModal.toggleAttribute('show');
+  };
+
+  onExtractFrags = async (category) => {
+    this.appendChild(await ExtractCategoryFragsModal(this, category));
+    document.body.addEventListener('click', computeSelectPureHeight);
+    this.extractCategoryFragsModal.toggleAttribute('show');
   };
 
   emitLoading = (isLoading) =>

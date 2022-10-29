@@ -27,9 +27,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.VirtualEditionDto.activeComparator;
-import static pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.VirtualEditionDto.pendingComparator;
-
 @Service
 public class VirtualService {
 
@@ -42,9 +39,6 @@ public class VirtualService {
         List<VirtualEditionDto> ves = getVirtualEditions()
                 .stream()
                 .map(this::getVirtualEditionDto)
-                .sorted(pendingComparator)
-                .sorted(activeComparator)
-                .sorted(Comparator.comparing(VirtualEditionDto::isSelected).reversed())
                 .collect(Collectors.toList());
         return new VirtualEditionsDto(ves, getUser());
 
@@ -122,18 +116,18 @@ public class VirtualService {
         return getVirtualEditionDto(edition);
     }
 
-    private LdoDUser checkUserNotNull() {
+    protected LdoDUser checkUserNotNull() {
         if (getUser() == null) throw new LdoDException(Message.USER_NOT_FOUND.getLabel());
         return getUser();
     }
 
-    private LdoDUser checkUserNotNull(String username) {
+    protected LdoDUser checkUserNotNull(String username) {
         LdoDUser user = LdoD.getInstance().getUser(username);
         if (user == null) throw new LdoDException(String.format(Message.USERNAME_NOT_FOUND.getLabel(), username));
         return user;
     }
 
-    private VirtualEdition checkVENotNull(String externalId) {
+    protected VirtualEdition checkVENotNull(String externalId) {
         VirtualEdition edition = FenixFramework.getDomainObject(externalId);
         if (edition == null)
             throw new LdoDException(String.format(Message.VIRTUAL_EDITION_NOT_FOUND.getLabel(), externalId));

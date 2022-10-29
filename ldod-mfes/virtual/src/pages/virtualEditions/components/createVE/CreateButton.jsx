@@ -1,5 +1,3 @@
-import CreateVEModal from './CreateVEModal';
-
 const onCreateVEModal = () =>
   document
     .querySelector('ldod-virtual-editions ldod-modal#virtual-veCreateModal')
@@ -22,7 +20,6 @@ export default ({ node }) => {
           width="300px"
           content={node.getConstants('createVeInfo')}></ldod-tooltip>
       </div>
-      <CreateVEModal node={node} />
     </>
   );
 };

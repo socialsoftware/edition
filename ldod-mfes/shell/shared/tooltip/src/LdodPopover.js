@@ -22,13 +22,14 @@ export class LdodPopover extends HTMLElement {
   }
 
   get options() {
+
     return {
       placement: 'bottom',
       modifiers: [
         {
           name: 'offset',
           options: {
-            offset: [0, 8],
+            offset: [this.dataset.skidding || 0, this.dataset.distance || 8],
           },
         },
       ],

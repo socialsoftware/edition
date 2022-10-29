@@ -1,11 +1,11 @@
 package pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import pt.ist.socialsoftware.edition.ldod.bff.text.dtos.inter.FragInterDto;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
 import pt.ist.socialsoftware.edition.ldod.domain.Taxonomy;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 
-import java.util.Comparator;
 import java.util.List;
 
 public class VirtualEditionDto {
@@ -20,42 +20,25 @@ public class VirtualEditionDto {
     private List<String> pendingMembers;
     private List<String> categories;
     private List<String> annotations;
+
     private VeUserDto member;
     private boolean selected;
-
     private boolean taxonomyOpenManagement;
-
     private boolean taxonomyOpenAnnotation;
-
     private boolean taxonomyOpenVocab;
-
     private String mediaSource;
-
     private String beginDate;
     private String endDate;
     private Integer minFrequency;
     private String countries;
-
     private String synopsis;
-
     private List<VeUserDto> participants;
 
-    private List<VirtualEditionInterDto> virtualEditionInters;
-
+    private List<FragInterDto> virtualEditionInters;
 
     public VirtualEditionDto() {
     }
 
-
-    public static Comparator<VirtualEditionDto> pendingComparator = (ve1, ve2) -> {
-        if (ve1.getMember() == null && ve2.getMember() == null) return 0;
-        return ve1.getMember().isPending() && ve2.getMember().isPending() ? 0 : ve1.getMember().isPending() ? -1 : 1;
-    };
-
-    public static Comparator<VirtualEditionDto> activeComparator = (ve1, ve2) -> {
-        if (ve1.getMember() == null && ve2.getMember() == null) return 0;
-        return ve1.getMember().isActive() && ve2.getMember().isActive() ? 0 : ve1.getMember().isActive() ? -1 : 1;
-    };
 
     public VirtualEditionDto(VirtualEdition virtualEdition) {
         setExternalId(virtualEdition.getExternalId());
@@ -112,11 +95,11 @@ public class VirtualEditionDto {
         this.beginDate = beginDate;
     }
 
-    public List<VirtualEditionInterDto> getVirtualEditionInters() {
+    public List<FragInterDto> getVirtualEditionInters() {
         return virtualEditionInters;
     }
 
-    public void setVirtualEditionInters(List<VirtualEditionInterDto> virtualEditionInters) {
+    public void setVirtualEditionInters(List<FragInterDto> virtualEditionInters) {
         this.virtualEditionInters = virtualEditionInters;
     }
 
@@ -200,7 +183,6 @@ public class VirtualEditionDto {
     public void setActiveMembers(List<String> activeMembers) {
         this.activeMembers = activeMembers;
     }
-
 
     public String getExternalId() {
         return externalId;
@@ -294,7 +276,6 @@ public class VirtualEditionDto {
             return this;
         }
 
-
         public VirtualEditionDtoBuilder pendingMembers(List<String> members) {
             virtualEditionDto.setPendingMembers(members);
             return this;
@@ -326,7 +307,7 @@ public class VirtualEditionDto {
             return this;
         }
 
-        public VirtualEditionDtoBuilder virtualEditionInters(List<VirtualEditionInterDto> inters) {
+        public VirtualEditionDtoBuilder virtualEditionInters(List<FragInterDto> inters) {
             virtualEditionDto.setVirtualEditionInters(inters);
             return this;
         }

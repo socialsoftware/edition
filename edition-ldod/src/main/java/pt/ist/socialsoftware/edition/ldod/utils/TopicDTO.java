@@ -3,6 +3,8 @@ package pt.ist.socialsoftware.edition.ldod.utils;
 import java.util.List;
 
 public class TopicDTO {
+
+	private String externalId;
 	private String name;
 	private List<TopicInterPercentageDTO> inters;
 

@@ -2,7 +2,7 @@ export const MergeButton = ({ node }) => {
   return (
     <div id="mergeCategory">
       <button
-        style={{ height: '100%' }}
+        style={{ height: '100%', width: '200px' }}
         onClick={node.onMergeCategories}
         type="button"
         inactive={node.selectedRows < 2}
@@ -26,7 +26,7 @@ export const DeleteButton = ({ node }) => {
   return (
     <div id="deleteCategory">
       <button
-        style={{ height: '100%' }}
+        style={{ height: '100%', width: '200px' }}
         onClick={() => node.onDeleteCategories()}
         type="button"
         class="btn btn-sm btn-danger"

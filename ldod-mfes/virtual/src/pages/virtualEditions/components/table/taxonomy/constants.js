@@ -39,6 +39,11 @@ export default {
     submit: 'Actualizar',
     name: 'Nome',
     updateCategoryName: 'Actualizar nome da categoria',
+    extractFrags: 'Criar nova Categoria a partir de um conjunto de Fragmentos',
+    multipleFrags: 'Fragmentos (seleção múltipla)',
+    extract: 'Extrair',
+    usedIn: 'Usado em',
+    publicContent: 'Conteúdo Público',
   },
   en: {
     addCategory: 'Add Category',
@@ -77,6 +82,11 @@ export default {
     submit: 'Update',
     name: 'Name',
     updateCategoryName: 'Update category name',
+    extractFrags: 'Create new Category by extracting a set of Fragments',
+    multipleFrags: 'Fragments (multiple selection)',
+    extract: 'Extract',
+    usedIn: 'Used in',
+    publicContent: 'Public Content',
   },
   es: {
     addCategory: 'Añadir Categoría',
@@ -116,5 +126,11 @@ export default {
     submit: 'Actualizar',
     name: 'Nombre',
     updateCategoryName: 'Actualizar el nombre de la categoría',
+    extractFrags:
+      'Crear una nueva Categoría extrayendo un conjunto de Fragmentos',
+    multipleFrags: 'Fragmentos (selección múltiple)',
+    extract: 'Extraer',
+    usedIn: 'Utilizado en',
+    publicContent: 'Contenido público',
   },
 };

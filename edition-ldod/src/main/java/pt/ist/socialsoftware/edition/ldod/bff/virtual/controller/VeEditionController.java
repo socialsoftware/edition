@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pt.ist.socialsoftware.edition.ldod.bff.dtos.MainResponseDto;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.service.VirtualService;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 @RestController
 @RequestMapping("/api/virtual/edition")
@@ -33,9 +35,13 @@ public class VeEditionController {
 
     @GetMapping("/acronym/{acronym}/taxonomy")
     public ResponseEntity<?> getVirtualEditionTaxonomy(@PathVariable String acronym) {
-        return ResponseEntity.status(HttpStatus.OK).body(virtualService.getVirtualEditionTaxonomy(acronym));
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(virtualService.getVirtualEditionTaxonomy(acronym));
+        } catch (
+                LdoDException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MainResponseDto(false, e.getMessage()));
+        }
     }
-
 
 
 }

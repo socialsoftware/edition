@@ -65,7 +65,6 @@ export class LdodTable extends HTMLElement {
   connectedCallback() {
     this.appendChild(<style>{tableStyle}</style>);
     this.render();
-
     if (!this.isFullyLoaded) this.addObserver();
     history.state?.searchTerm && this.handleSearchInput();
   }
@@ -142,7 +141,6 @@ export class LdodTable extends HTMLElement {
         name="search"
         placeholder="search"
         onInput={this.handleSearchInput}
-        value={history.state?.searchTerm ?? ''}
       />
     );
   }

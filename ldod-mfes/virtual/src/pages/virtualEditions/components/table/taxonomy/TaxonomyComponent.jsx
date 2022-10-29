@@ -5,7 +5,7 @@ import TaxonomyTable from './TaxonomyTable';
 const onPublicContent = (target, node) => {
   const popover = node.querySelector('ldod-popover');
   popover.element = () => (
-    <div id="test">
+    <>
       <ul class="drop-menu" style={{ minWidth: `${target.clientWidth}px` }}>
         <li>
           <a
@@ -15,11 +15,37 @@ const onPublicContent = (target, node) => {
             to={`${isDev() ? '' : '/ldod-mfes'}/virtual/edition/acronym/${
               node.taxonomy.veAcronym
             }`}>
-            {node.getConstants('edition')}
+            {node.taxonomy.veAcronym}
           </a>
         </li>
       </ul>
-    </div>
+    </>
+  );
+
+  popover.target = target;
+  popover.toggleAttribute('show');
+};
+
+const onUsedId = (target, node) => {
+  const popover = node.querySelector('ldod-popover');
+  popover.element = () => (
+    <>
+      <ul class="drop-menu" style={{ minWidth: `${target.clientWidth}px` }}>
+        {node.taxonomy.usedIn.map((ed) => (
+          <li>
+            <a
+              target="_blank"
+              class="drop-item"
+              is="nav-to"
+              to={`${
+                isDev() ? '' : '/ldod-mfes'
+              }/virtual/edition/acronym/${ed}`}>
+              {ed}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 
   popover.target = target;
@@ -29,10 +55,33 @@ const onPublicContent = (target, node) => {
 export default ({ node }) => {
   return (
     <div style={{ padding: '20px' }} id="taxonomyComponent">
+      <div class="flex-center" style={{ marginBottom: '10px' }}>
+        <button
+          style={{ width: '200px' }}
+          id="publicContent"
+          class="btn btn-sm btn-secondary"
+          type="button"
+          open-popover
+          onClick={({ target }) => onPublicContent(target, node)}>
+          {node.getConstants('publicContent')}
+        </button>
+        {node.taxonomy.usedIn.length && (
+          <button
+            style={{ width: '200px' }}
+            id="usedIn"
+            class="btn btn-sm btn-secondary"
+            type="button"
+            open-popover
+            onClick={({ target }) => onUsedId(target, node)}>
+            {node.getConstants('usedIn')}
+          </button>
+        )}
+      </div>
       <div id="virtual-categoryActionsContainer" class="flex-center">
         <form onSubmit={node.onAddCategory}>
           <div id="catInputName" class="input-group">
             <input
+              style={{ width: '200px' }}
               required
               id="addCategoryInput"
               name="name"
@@ -43,6 +92,7 @@ export default ({ node }) => {
               aria-describedby="category-add-button"
             />
             <button
+              style={{ width: '200px' }}
               id="addCategory"
               type="submit"
               class="btn btn-sm btn-primary">
@@ -55,6 +105,7 @@ export default ({ node }) => {
         </form>
         <MergeButton node={node} />
         <button
+          style={{ width: '200px' }}
           id="generateTopics"
           type="button"
           class="btn btn-sm btn-primary"
@@ -65,14 +116,6 @@ export default ({ node }) => {
           </span>
         </button>
         <DeleteButton node={node} />
-        <button
-          id="publicContent"
-          class="btn btn-sm btn-secondary"
-          type="button"
-          open-popover
-          onClick={({ target }) => onPublicContent(target, node)}>
-          Public content
-        </button>
       </div>
       {['addCategory', 'generateTopics'].map((id) => (
         <ldod-tooltip

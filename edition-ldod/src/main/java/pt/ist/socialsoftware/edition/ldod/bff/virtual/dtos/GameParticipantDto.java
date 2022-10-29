@@ -5,7 +5,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.ClassificationGameParticipant;
 public class GameParticipantDto {
     private String username;
     private String externalId;
-    private Double score;
+    private double score;
 
     public GameParticipantDto(ClassificationGameParticipant participant){
         setUsername(participant.getPlayer().getUser().getUsername());
@@ -33,11 +33,11 @@ public class GameParticipantDto {
         this.externalId = externalId;
     }
 
-    public Double getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(Double score) {
+    public void setScore(double score) {
         this.score = score;
     }
 }

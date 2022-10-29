@@ -1,212 +1,206 @@
 package pt.ist.socialsoftware.edition.ldod.domain;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicDTO;
-import pt.ist.socialsoftware.edition.ldod.utils.TopicInterPercentageDTO;
 import pt.ist.socialsoftware.edition.ldod.utils.TopicListDTO;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
 public class Taxonomy extends Taxonomy_Base {
-	private static Logger logger = LoggerFactory.getLogger(Taxonomy.class);
+    private static Logger logger = LoggerFactory.getLogger(Taxonomy.class);
 
-	public Taxonomy() {
-		setOpenManagement(false);
-		setOpenVocabulary(true);
-		setOpenAnnotation(false);
-	}
+    public Taxonomy() {
+        setOpenManagement(false);
+        setOpenVocabulary(true);
+        setOpenAnnotation(false);
+    }
 
-	public String getName() {
-		return getEdition().getTitle();
-	}
+    public String getName() {
+        return getEdition().getTitle();
+    }
 
-	@Atomic(mode = TxMode.WRITE)
-	public void remove() {
-		setEdition(null);
+    @Atomic(mode = TxMode.WRITE)
+    public void remove() {
+        setEdition(null);
 
-		for (Category category : getCategoriesSet()) {
-			category.remove();
-		}
+        for (Category category : getCategoriesSet()) {
+            category.remove();
+        }
 
-		deleteDomainObject();
-	}
+        deleteDomainObject();
+    }
 
-	public Set<Tag> getTagSet(VirtualEditionInter inter) {
-		Set<Tag> set = new HashSet<>();
-		for (Tag tag : inter.getTagSet()) {
-			if (tag.getCategory().getTaxonomy() == this) {
-				set.add(tag);
-			}
-		}
-		return set;
-	}
+    public Set<Tag> getTagSet(VirtualEditionInter inter) {
+        Set<Tag> set = new HashSet<>();
+        for (Tag tag : inter.getTagSet()) {
+            if (tag.getCategory().getTaxonomy() == this) {
+                set.add(tag);
+            }
+        }
+        return set;
+    }
 
-	public List<VirtualEditionInter> getSortedFragInter() {
-		Set<VirtualEditionInter> set = new HashSet<>();
-		for (Category category : getCategoriesSet()) {
-			for (Tag tag : category.getTagSet()) {
-				set.add(tag.getInter());
-			}
-		}
-		List<VirtualEditionInter> list = new ArrayList<>(set);
-		Collections.sort(list);
+    public List<VirtualEditionInter> getSortedFragInter() {
+        Set<VirtualEditionInter> set = new HashSet<>();
+        for (Category category : getCategoriesSet()) {
+            for (Tag tag : category.getTagSet()) {
+                set.add(tag.getInter());
+            }
+        }
+        List<VirtualEditionInter> list = new ArrayList<>(set);
+        Collections.sort(list);
 
-		return list;
-	}
+        return list;
+    }
 
-	public List<Category> getSortedCategories() {
-		return getCategoriesSet().stream().sorted((c1, c2) -> c1.getName().compareTo(c2.getName()))
-				.collect(Collectors.toList());
-	}
+    public List<Category> getSortedCategories() {
+        return getCategoriesSet().stream().sorted((c1, c2) -> c1.getName().compareTo(c2.getName()))
+                .collect(Collectors.toList());
+    }
 
-	public List<Tag> getSortedTags(VirtualEdition virtualEdition) {
-		return getCategoriesSet().stream().flatMap(c -> c.getTagSet().stream())
-				.filter(t -> t.getInter().getVirtualEdition() == virtualEdition).distinct().sorted()
-				.collect(Collectors.toList());
-	}
+    public List<Tag> getSortedTags(VirtualEdition virtualEdition) {
+        return getCategoriesSet().stream().flatMap(c -> c.getTagSet().stream())
+                .filter(t -> t.getInter().getVirtualEdition() == virtualEdition).distinct().sorted()
+                .collect(Collectors.toList());
+    }
 
-	public Set<LdoDUser> getTagContributorSet(VirtualEditionInter inter) {
-		Set<LdoDUser> contributors = new HashSet<>();
-		for (Tag tag : getTagSet(inter)) {
-			contributors.add(tag.getContributor());
-		}
-		return contributors;
-	}
+    public Set<LdoDUser> getTagContributorSet(VirtualEditionInter inter) {
+        Set<LdoDUser> contributors = new HashSet<>();
+        for (Tag tag : getTagSet(inter)) {
+            contributors.add(tag.getContributor());
+        }
+        return contributors;
+    }
 
-	public Category getCategory(String name) {
-		for (Category category : getCategoriesSet()) {
-			if (name.equals(category.getName())) {
-				return category;
-			}
-		}
-		return null;
-	}
+    public Category getCategory(String name) {
+        for (Category category : getCategoriesSet()) {
+            if (name.equals(category.getName())) {
+                return category;
+            }
+        }
+        return null;
+    }
 
-	public Category getCategoryByUrlId(String urlId) {
-		for (Category category : getCategoriesSet()) {
-			if (urlId.equals(category.getUrlId())) {
-				return category;
-			}
-		}
-		return null;
-	}
+    public Category getCategoryByUrlId(String urlId) {
+        for (Category category : getCategoriesSet()) {
+            if (urlId.equals(category.getUrlId())) {
+                return category;
+            }
+        }
+        return null;
+    }
 
-	public List<VirtualEdition> getUsedIn() {
-		Set<VirtualEdition> editions = new HashSet<>();
-		for (VirtualEditionInter inter : getEdition().getAllDepthVirtualEditionInters()) {
-			editions.addAll(inter.getUsedIn());
-		}
 
-		editions.remove(getEdition());
+    public List<VirtualEdition> getUsedIn() {
 
-		return editions.stream().sorted((ve1, ve2) -> ve1.getAcronym().compareTo(ve2.getAcronym()))
-				.collect(Collectors.toList());
-	}
 
-	@Atomic(mode = TxMode.WRITE)
-	public Category merge(List<Category> categories) {
+        return getEdition()
+                .getAllDepthVirtualEditionInters()
+                .stream()
+                .flatMap(inter -> inter.getUsedIn().stream())
+                .distinct().filter(ve -> !ve.equals(getEdition()))
+                .sorted(Comparator.comparing(Edition_Base::getAcronym))
+                .collect(Collectors.toList());
 
-		String name = categories.stream().map(c -> c.getName()).collect(Collectors.joining(" "));
+    }
 
-		while (getCategory(name) != null) {
-			name = name + "1";
-		}
+    @Atomic(mode = TxMode.WRITE)
+    public Category merge(List<Category> categories) {
 
-		Category category = new Category().init(this, name);
+        String name = categories.stream().map(c -> c.getName()).collect(Collectors.joining(" "));
 
-		categories.stream().flatMap(c -> c.getTagSet().stream()).forEach(t -> category.addTag(t));
+        while (getCategory(name) != null) {
+            name = name + "1";
+        }
 
-		categories.stream().forEach(c -> c.remove());
+        Category category = new Category().init(this, name);
 
-		return category;
-	}
+        categories.stream().flatMap(c -> c.getTagSet().stream()).forEach(t -> category.addTag(t));
 
-	@Atomic(mode = TxMode.WRITE)
-	public Category extract(Category category, Set<VirtualEditionInter> inters) {
-		String suffix = "_Extracted";
-		String newName = category.getName() + suffix;
-		while (getCategory(newName) != null) {
-			newName = newName + suffix;
-		}
+        categories.stream().forEach(c -> c.remove());
 
-		Category newCategory = new Category().init(this, newName);
+        return category;
+    }
 
-		for (VirtualEditionInter inter : inters) {
-			inter.getTagSet().stream().filter(t -> t.getCategory() == category)
-					.forEach(t -> t.setCategory(newCategory));
-		}
+    @Atomic(mode = TxMode.WRITE)
+    public Category extract(Category category, Set<VirtualEditionInter> inters) {
+        String suffix = "_Extracted";
+        String newName = category.getName() + suffix;
+        while (getCategory(newName) != null) {
+            newName = newName + suffix;
+        }
 
-		return newCategory;
-	}
+        Category newCategory = new Category().init(this, newName);
 
-	public Tag createTag(VirtualEditionInter virtualEditionInter, String categoryName, HumanAnnotation annotation,
-			LdoDUser ldoDUser) {
-		if (!getOpenVocabulary() && getCategory(categoryName) == null) {
-			throw new LdoDException("Tag name does not exist in taxonomy with closed vocabulary");
-		}
-		return new Tag().init(this.getEdition(), virtualEditionInter, categoryName, annotation, ldoDUser);
-	}
+        for (VirtualEditionInter inter : inters) {
+            inter.getTagSet().stream().filter(t -> t.getCategory() == category)
+                    .forEach(t -> t.setCategory(newCategory));
+        }
 
-	@Atomic(mode = TxMode.WRITE)
-	public Category createCategory(String name) {
-		return new Category().init(this, name);
-	}
+        return newCategory;
+    }
 
-	@Atomic(mode = TxMode.WRITE)
-	public void createGeneratedCategories(TopicListDTO topicList) {
-		if (topicList.getTopics() == null) {
-			return;
-		}
 
-		LdoDUser user = LdoD.getInstance().getUser(topicList.getUsername());
+    public Tag createTag(VirtualEditionInter virtualEditionInter, String categoryName, HumanAnnotation annotation,
+                         LdoDUser ldoDUser) {
+        if (!getOpenVocabulary() && getCategory(categoryName) == null) {
+            throw new LdoDException("Tag name does not exist in taxonomy with closed vocabulary");
+        }
+        return new Tag().init(this.getEdition(), virtualEditionInter, categoryName, annotation, ldoDUser);
+    }
 
-		for (TopicDTO topic : topicList.getTopics()) {
-			Category category = new Category();
-			category.init(this, topic.getName());
-			for (TopicInterPercentageDTO topicPercentage : topic.getInters()) {
-				VirtualEditionInter inter = FenixFramework.getDomainObject(topicPercentage.getExternalId());
-				new Tag().init(inter, category, user);
-			}
-		}
+    @Atomic(mode = TxMode.WRITE)
+    public Category createCategory(String name) {
+        return new Category().init(this, name);
+    }
 
-	}
+    public void createGeneratedCategories(TopicListDTO topicList) {
+        if (topicList.getTopics() == null) return;
+        LdoDUser user = LdoD.getInstance().getUser(topicList.getUsername());
+        createGeneratedCategories(topicList.getTopics(), user);
+    }
 
-	@Atomic(mode = TxMode.WRITE)
-	public void delete(List<Category> categories) {
-		categories.stream().forEach(c -> c.remove());
-	}
+    @Atomic(mode = TxMode.WRITE)
+    public void createGeneratedCategories(List<TopicDTO> topicList, LdoDUser user) {
+        topicList.forEach(topic -> {
+            Category category = new Category();
+            category.init(this, topic.getName());
+            topic.getInters().forEach(topicPercentage ->
+                    new Tag().init(FenixFramework.getDomainObject(topicPercentage.getExternalId()), category, user));
+        });
+    }
 
-	@Atomic(mode = TxMode.WRITE)
-	public void edit(boolean openManagement, boolean openVocabulary, boolean openAnnotation) {
-		setOpenManagement(openManagement);
-		setOpenVocabulary(openVocabulary);
-		setOpenAnnotation(openAnnotation);
-	}
+    @Atomic(mode = TxMode.WRITE)
+    public void delete(List<Category> categories) {
+        categories.forEach(Category::remove);
+    }
 
-	public boolean canManipulateAnnotation(LdoDUser user) {
-		if (user != null && getOpenAnnotation()) {
-			return true;
-		} else {
-			return getEdition().getParticipantSet().contains(user);
-		}
-	}
+    @Atomic(mode = TxMode.WRITE)
+    public void edit(boolean openManagement, boolean openVocabulary, boolean openAnnotation) {
+        setOpenManagement(openManagement);
+        setOpenVocabulary(openVocabulary);
+        setOpenAnnotation(openAnnotation);
+    }
 
-	public boolean canManipulateTaxonomy(LdoDUser user) {
-		if (getOpenManagement()) {
-			return getEdition().getParticipantSet().contains(user);
-		} else {
-			return getEdition().getAdminSet().contains(user);
-		}
-	}
+    public boolean canManipulateAnnotation(LdoDUser user) {
+        if (user != null && getOpenAnnotation()) {
+            return true;
+        } else {
+            return getEdition().getParticipantSet().contains(user);
+        }
+    }
+
+    public boolean canManipulateTaxonomy(LdoDUser user) {
+        if (getOpenManagement()) {
+            return getEdition().getParticipantSet().contains(user);
+        } else {
+            return getEdition().getAdminSet().contains(user);
+        }
+    }
 }

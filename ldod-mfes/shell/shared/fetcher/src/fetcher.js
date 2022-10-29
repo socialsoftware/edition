@@ -6,10 +6,11 @@ const handleError = (errorData) => {
   window.dispatchEvent(errorEv);
 };
 
-const handleLoading = (isLoading) =>
+const handleLoading = (isLoading) => {
   window.dispatchEvent(
     new CustomEvent('ldod-loading', { detail: { isLoading } })
   );
+};
 
 const getStorageToken = () => getPartialStorage('ldod-store', ['token'])?.token;
 

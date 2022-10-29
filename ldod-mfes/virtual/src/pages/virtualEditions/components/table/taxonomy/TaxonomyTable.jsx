@@ -28,7 +28,20 @@ export default ({ node }) => {
             )),
             actions: (
               <div class="flex-center">
-                <span id="extractIcon" class="icon icon-unmerge"></span>
+                {cat.veInters.length > 1 && (
+                  <>
+                    <span
+                      id="extractIcon"
+                      class="icon icon-unmerge"
+                      onClick={() => node.onExtractFrags(cat)}></span>
+                    <ldod-tooltip
+                      data-ref={`tr[id='${cat.externalId}'] span#extractIcon`}
+                      data-virtual-tooltip-key="extractIcon"
+                      width="300px"
+                      placement="left"
+                      content={node.getConstants('extractInfo')}></ldod-tooltip>
+                  </>
+                )}
                 <span
                   title="Edit category name"
                   class="icon icon-edit"
@@ -40,12 +53,6 @@ export default ({ node }) => {
                   onClick={() =>
                     node.onDeleteCategories(cat.externalId)
                   }></span>
-                <ldod-tooltip
-                  data-ref={`tr[id='${cat.externalId}'] span#extractIcon`}
-                  data-virtual-tooltip-key="extractIcon"
-                  width="300px"
-                  placement="left"
-                  content={node.getConstants('extractInfo')}></ldod-tooltip>
               </div>
             ),
           }),

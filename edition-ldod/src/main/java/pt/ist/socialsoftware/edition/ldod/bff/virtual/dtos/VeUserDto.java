@@ -34,8 +34,8 @@ public class VeUserDto {
     private Double score;
     private Integer position;
 
-    public VeUserDto(){};
-
+    public VeUserDto() {
+    }
 
     public VeUserDto(LdoDUser user, VirtualEdition ve, LdoDUser actor) {
         setExternalId(user.getExternalId());
@@ -201,6 +201,27 @@ public class VeUserDto {
         this.admin = admin;
     }
 
+    @Override
+    public String toString() {
+        return "VeUserDto{" +
+                "username='" + username + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", externalId='" + externalId + '\'' +
+                ", canSwitchRole=" + canSwitchRole +
+                ", canBeRemoved=" + canBeRemoved +
+                ", pending=" + pending +
+                ", active=" + active +
+                ", admin=" + admin +
+                ", canBeAdded=" + canBeAdded +
+                ", publicVirtualEditions=" + publicVirtualEditions +
+                ", gameDtos=" + gameDtos +
+                ", fragInters=" + fragInters +
+                ", score=" + score +
+                ", position=" + position +
+                '}';
+    }
 
     public Boolean isCanBeAdded() {
         return canBeAdded;

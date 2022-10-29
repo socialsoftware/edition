@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.bff.virtual.controller;
 
+import org.apache.catalina.mapper.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,7 @@ public class VirtualController {
 
     @PostMapping("/restricted/create")
     public ResponseEntity<?> createVirtualEdition(@RequestBody VirtualEditionDto veDto) {
+
         try {
             return ResponseEntity.status(HttpStatus.OK).body(virtualService.createVirtualEdition(veDto));
         } catch (LdoDException ex) {

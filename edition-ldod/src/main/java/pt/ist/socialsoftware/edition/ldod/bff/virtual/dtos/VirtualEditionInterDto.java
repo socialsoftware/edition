@@ -13,7 +13,9 @@ public class VirtualEditionInterDto extends FragInterDto {
 
     private List<VeUserDto> users;
 
-    private VirtualEditionInterDto(){};
+    public VirtualEditionInterDto() {
+        super();
+    };
 
     public VirtualEditionInterDto(FragInter inter) {
         super(inter);

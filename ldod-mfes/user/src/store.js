@@ -16,7 +16,6 @@ export const userFullName = () =>
   `${getState().user.firstName} ${getState().user.lastName}`;
 
 if (storage?.token) {
-  console.log(storage?.token);
   setState({ token: storage?.token });
   userRequest(getState().token)
     .then((user) => setState({ user }))
