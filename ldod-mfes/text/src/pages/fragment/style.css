@@ -16,11 +16,11 @@ div#fragInterContainer {
     justify-content: space-between;
 }
 
-div#transcription {
+div#fragment-transcription-container {
     width: 75%;
 }
 
-div#navigation {
+div#fragment-navigation-container {
     width: 25%;
 }
 
@@ -113,10 +113,10 @@ div.text-fac-transcription {
     div#fragInterContainer {
         display: block;
     }
-    div#transcription {
+    div#fragment-transcription-container {
         width: 100%;
     }
-    div#navigation {
+    div#fragment-navigation-container {
         width: 100%;
     }
     div.text-fac-transcription {

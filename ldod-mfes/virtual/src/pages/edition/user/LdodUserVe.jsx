@@ -1,8 +1,8 @@
 import thisConstants from '../constants';
 import constants from '../../constants';
-import { getVeUser } from '../../../apiRequests';
 import style from '../veStyle.css?inline';
 import UserVeComponent from './UserVeComponent';
+import { getVeUser } from '../apiRequests';
 
 export class LdodUserVe extends HTMLElement {
   constructor(lang) {

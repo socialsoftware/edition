@@ -149,7 +149,7 @@ export class LdodTable extends HTMLElement {
     this.lastIndex += 1;
     let entry = row.data && typeof row.data === 'function' ? row.data() : row;
     return (
-      <tr searched id={row[this.searchKey]}>
+      <tr searched id={row[this.searchKey] || ''}>
         {this.headers.map((key) => {
           return (
             <td>

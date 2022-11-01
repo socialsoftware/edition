@@ -10,6 +10,7 @@ export default defineConfig({
       fileName: 'table-dev',
     },
     emptyOutDir: false,
+    sourcemap: true,
   },
   esbuild: {
     jsxFactory: 'createElement',

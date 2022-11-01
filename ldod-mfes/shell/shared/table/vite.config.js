@@ -10,6 +10,7 @@ export default defineConfig({
       fileName: 'table',
     },
     emptyOutDir: false,
+    sourcemap: true,
     rollupOptions: {
       external: ['shared/vanilla-jsx.js'],
     },

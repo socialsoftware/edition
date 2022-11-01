@@ -6,12 +6,16 @@ export default defineConfig(({ mode }) => {
     build: {
       target: 'es2022',
       outDir: 'build',
+      sourcemap: true,
       lib: {
         entry: 'src/virtual.js',
         formats: ['es'],
         fileName: 'virtual-dev',
       },
       emptyOutDir: false,
+    },
+    rollupOptions: {
+      external: ['search'],
     },
     esbuild: {
       jsxFactory: 'createElement',
@@ -28,6 +32,10 @@ export default defineConfig(({ mode }) => {
         {
           find: '@src/',
           replacement: '/src/',
+        },
+        {
+          find: 'search',
+          replacement: `${env.VITE_NODE_HOST}/search/search.js`,
         },
       ],
     },

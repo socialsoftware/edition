@@ -1,6 +1,6 @@
 import { getFragment } from '@src/apiRequests.js';
 import { LdodFragment } from './LdodFragment.jsx';
-import { getNewInter } from './utils.js';
+import { getNewInter, isVirtualInter } from './utils.js';
 import { isDev } from '../../textRouter.jsx';
 
 const { loadVirtualComponents } = isDev()
@@ -10,7 +10,7 @@ const { loadVirtualComponents } = isDev()
 const mount = async (lang, ref) => {
   const { xmlId, urlId } = history.state;
   const data = xmlId
-    ? urlId
+    ? urlId && !isVirtualInter(urlId)
       ? await getNewInter(xmlId, urlId)
       : await getFragment(xmlId)
     : '';

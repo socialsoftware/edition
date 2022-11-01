@@ -1,4 +1,4 @@
-import { getCategoryData } from '../../../apiRequests';
+import { getCategoryData } from '../apiRequests';
 import thisConstants from '../constants';
 import constants from '../../constants';
 import style from '../veStyle.css?inline';

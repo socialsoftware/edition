@@ -1,11 +1,19 @@
 import { getVirtualEditions } from '@src/apiRequests';
+import {
+  createVirtualEdition,
+  getEditionGames,
+  getVeIntersForManual,
+  getVeIntersWithRecommendation,
+  getVirtualEdition,
+  veAdminDelete,
+} from '@src/restrictedApiRequests';
 import constants from '../../../constants';
-import CreateButton from '../../components/createVE/CreateButton';
-import VETable from '../../components/table/VETable';
-import Title from '../../components/Title';
+import CreateButton from './components/createVE/CreateButton';
+import VETable from './components/VETable';
+import Title from './components/Title';
 const loadPopper = () => import('shared/tooltip.js');
 const CreateVeModal = async (node) =>
-  (await import('../../components/createVE/CreateVEModal')).default({
+  (await import('./components/createVE/CreateVEModal')).default({
     node,
   });
 
@@ -41,7 +49,6 @@ export class LdodVirtualEditions extends HTMLElement {
   connectedCallback() {
     this.appendChild(<div id="virtualEditionsWrapper"></div>);
     this.sortVirtualEditions();
-    this.addEventListeners();
   }
 
   attributeChangedCallback(name, oldV, newV) {
@@ -77,6 +84,7 @@ export class LdodVirtualEditions extends HTMLElement {
       .sort((ed1, ed2) => +ed2.member?.active - +ed1.member?.active)
       .sort((ed1, ed2) => +ed2.selected - +ed1.selected);
     this.render();
+    this.addEventListeners();
   };
 
   updateEdition = (edition) => {
@@ -138,6 +146,97 @@ export class LdodVirtualEditions extends HTMLElement {
         composed: true,
       })
     );
+  };
+
+  //actions
+
+  onCreateVE = (e) => {
+    e.preventDefault();
+    const veDto = Object.fromEntries(new FormData(e.target));
+    createVirtualEdition(veDto)
+      .then(({ virtualEditions, user }) => {
+        this.virtualEditions = virtualEditions;
+        this.user = user;
+        this.sortVirtualEditions();
+      })
+      .catch((message) => this.dispatchCustomEvent('ldod-error', message));
+  };
+
+  onGamesModal = async () => {
+    await import('./components/games/LdodVeGames');
+    const ldodVeGames = this.querySelector('ldod-ve-games');
+    ldodVeGames.edition = this.edition;
+    getEditionGames(this.edition.externalId)
+      .then((data) => {
+        ldodVeGames.updateData(data);
+        ldodVeGames.parent = this;
+        ldodVeGames.toggleAttribute('show');
+      })
+      .catch((error) => this.dispatchCustomEvent('ldod-error', error));
+  };
+
+  onTaxonomy = async () => {
+    await import('./components/taxonomy/LdodVeTaxonomy');
+    const ldodVeTaxonomy = this.querySelector('ldod-ve-taxonomy');
+    ldodVeTaxonomy.parent = this;
+    ldodVeTaxonomy.toggleAttribute('show');
+  };
+
+  onManualModal = async () => {
+    await import('./components/manual/LdodVeManual');
+    const ldodVeManual = this.querySelector('ldod-ve-manual');
+    ldodVeManual.edition = this.edition;
+    getVeIntersForManual(this.edition.externalId)
+      .then((data) => {
+        ldodVeManual.parent = this;
+        ldodVeManual.initialInters = Array.from(data);
+        ldodVeManual.updateData(data);
+      })
+      .catch((error) => this.dispatchCustomEvent('ldod-error', error));
+  };
+
+  onAssistModal = async () => {
+    await import('./components/assisted/LdodVeAssisted');
+    const ldodVeAssisted = this.querySelector('ldod-ve-assisted');
+    ldodVeAssisted.edition = this.edition;
+    getVeIntersWithRecommendation(this.edition.externalId)
+      .then((data) => {
+        ldodVeAssisted.parent = this;
+        ldodVeAssisted.updateData(data);
+      })
+      .catch((error) => this.dispatchCustomEvent('ldod-error', error));
+  };
+
+  onEditorsModal = async () => {
+    await import('./components/editors/LdodVeEditors');
+    const element = this.querySelector('ldod-ve-editors');
+    getVirtualEdition(this.edition.externalId)
+      .then((data) => {
+        element.edition = data;
+        element.parent = this;
+        element.toggleAttribute('show');
+      })
+      .catch((error) => this.dispatchCustomEvent('ldod-error', error));
+  };
+
+  onEditVe = async () => {
+    await import('./components/editVE/LdodVeEdit.jsx');
+    const ldodVeEdit = this.querySelector('ldod-ve-edit');
+    ldodVeEdit.edition = this.edition;
+    ldodVeEdit.parent = this;
+    ldodVeEdit.toggleAttribute('show');
+  };
+
+  onRemoveVE = async () => {
+    if (!confirm(`Delete ${this.edition.acronym} ?`)) return;
+    veAdminDelete(this.edition.externalId)
+      .then(({ virtualEditions, user }) => {
+        this.virtualEditions = virtualEditions;
+        this.user = user;
+        this.sortVirtualEditions();
+        this.edition = null;
+      })
+      .catch((message) => this.dispatchCustomEvent('ldod-error', message));
   };
 }
 !customElements.get('ldod-virtual-editions') &&

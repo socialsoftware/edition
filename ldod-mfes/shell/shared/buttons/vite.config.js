@@ -5,6 +5,7 @@ export default defineConfig({
     target: 'es2022',
     outDir: '../dist',
     emptyOutDir: false,
+    sourcemap: true,
     lib: {
       entry: 'buttons.js',
       formats: ['es'],

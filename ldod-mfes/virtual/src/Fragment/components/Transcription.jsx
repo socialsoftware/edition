@@ -1,0 +1,24 @@
+import { dom } from 'shared/utils.js';
+import Taxonomy from './Taxonomy';
+
+export default ({ node }) => {
+  const inter = node.inter;
+  return (
+    <>
+      <h4>
+        {`${inter.editionTitle} - `}
+        <span data-virtual-key="uses">{node.getConstants('uses')}</span>
+        <span>{` ${inter.usesEditionReference} (${inter.usesReference})`}</span>
+      </h4>
+      <div>
+        <h4 class="text-center">{inter.title}</h4>
+        <div id="virtual-transcription" class="well">
+          {dom(inter.transcription)}
+        </div>
+        <div id="virtual-taxonomy">
+          <Taxonomy node={node} inter={inter} />
+        </div>
+      </div>
+    </>
+  );
+};

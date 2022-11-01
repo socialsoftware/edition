@@ -11,7 +11,7 @@
     },
     "scripts": {
         "dev": "vite",
-        "build": "vite build",
+        "build": "vite build && yarn build-dev",
         "build-dev": "vite --config vite.config.dev.js build",
         "prepreview": "vite --config vite.config.dev.js build",
         "preview": "vite --config vite.config.dev.js preview",

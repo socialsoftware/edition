@@ -50,7 +50,7 @@ export class LdodUpload extends HTMLElement {
       body: formData,
     });
 
-    if (res.ok !== undefined) {
+    if (res?.ok !== undefined) {
       return dispatchCustomEvent(
         this,
         { message: res?.message },

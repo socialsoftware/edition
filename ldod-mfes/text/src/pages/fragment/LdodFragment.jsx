@@ -1,8 +1,5 @@
 import { getFragmentInters, updateFragmentInter } from '../../apiRequests';
-import EditorialInter from './components/EditorialInter';
-import SourceInter from './components/SourceInter';
 import TextNavigation from './components/TextNavigation';
-import Title from './components/Title';
 import constants from './constants';
 import fragmentsConstants from '../fragments/constants';
 import style from './style.css?inline';
@@ -12,9 +9,25 @@ import {
   isSideBySide,
   isSingleAndEditorial,
   isSingleAndSourceInter,
+  isVirtualInter,
 } from './utils';
-import SideBySideTranscriptions from './components/SideBySideTranscriptions';
-import LineByLineTranscriptions from './components/LineByLineTranscriptions';
+const EditorialInter = async ({ node, inter }) =>
+  (await import('./components/EditorialInter')).default({ node, inter });
+
+const SourceInter = async ({ node, inter }) =>
+  (await import('./components/SourceInter')).default({ node, inter });
+
+const SideBySideTranscriptions = async ({ node, inters }) =>
+  (await import('./components/SideBySideTranscriptions')).default({
+    node,
+    inters,
+  });
+
+const LineByLineTranscriptions = async ({ node, inters }) =>
+  (await import('./components/LineByLineTranscriptions')).default({
+    node,
+    inters,
+  });
 
 const loadTooltip = () => import('shared/tooltip.js');
 
@@ -23,20 +36,19 @@ export class LdodFragment extends HTMLElement {
     super();
     this.language = lang;
     this.xmlId = xmlId;
-    this.updateFragmentState(data, urlId);
+    this.updateFragmentState(data, urlId, data.inters);
     this.editorialInters = ['JPC', 'TSC', 'RZ', 'JP'].map(
       (acrn) => data.expertsInterMap[acrn] ?? false
     );
     this.transcriptionCheckboxes = checkBoxes;
+    this.virtualInters = [];
   }
 
-  updateFragmentState = (data, urlId) => {
+  updateFragmentState = (data, urlId, inters) => {
     this.data = data;
     this.urlId = urlId;
     this.inters = new Set(
-      this.hasInters()
-        ? [...data.inters.map(({ externalId }) => externalId)]
-        : []
+      inters?.length ? [...inters.map(({ externalId }) => externalId)] : []
     );
   };
 
@@ -50,6 +62,14 @@ export class LdodFragment extends HTMLElement {
 
   set language(lang) {
     this.setAttribute('language', lang);
+  }
+
+  get navigationContainer() {
+    return this.querySelector('div#fragment-navigation-container');
+  }
+
+  get transcriptionContainer() {
+    return this.querySelector('div#fragment-transcription-container');
   }
 
   hasInters() {
@@ -80,38 +100,89 @@ export class LdodFragment extends HTMLElement {
     this.render();
   }
 
-  render() {
+  async render() {
     this.wrapper.innerHTML = '';
     this.wrapper.appendChild(
       <>
-        <br />
         <div id="fragInterContainer">
-          <div id="transcription">
-            {this.hasInters() && isSingleAndSourceInter(this.data.inters) && (
-              <SourceInter node={this} inter={this.data.inters[0]} />
-            )}
-            {this.hasInters() && isSingleAndEditorial(this.data.inters) && (
-              <EditorialInter node={this} inter={this.data.inters[0]} />
-            )}
-            {this.hasInters() && isSideBySide(this.data) && (
-              <SideBySideTranscriptions node={this} inters={this.data.inters} />
-            )}
-            {this.hasInters() && isLineByLine(this.data) && (
-              <LineByLineTranscriptions node={this} inters={this.data.inters} />
-            )}
-            {!this.hasInters() && <Title title={this.data.title} />}
-          </div>
-          <div id="navigation">
+          <div id="fragment-transcription-container"></div>
+          <div id="fragment-navigation-container">
             <TextNavigation node={this} />
-            <virtual-navigation
-              language={this.language}
-              fragment={this.xmlId}></virtual-navigation>
+            {this.getVirtualNavigation()}
           </div>
         </div>
       </>
     );
+    await this.renderFragmentTranscription();
     this.addEventListeners();
   }
+
+  getVirtualNavigation = () => (
+    <virtual-navigation
+      language={this.language}
+      fragment={this.xmlId}
+      urlId={isVirtualInter(this.urlId) ? this.urlId : ''}></virtual-navigation>
+  );
+
+  renderTextNavigation = () => {
+    this.querySelector('#text-navigation').replaceWith(
+      <TextNavigation node={this} />
+    );
+  };
+
+  renderVirtualNavigation = () => {
+    this.querySelector('virtual-navigation').replaceWith(
+      this.getVirtualNavigation()
+    );
+  };
+
+  renderNavigation = () => {
+    this.navigationContainer.innerHTML = '';
+    this.renderTextNavigation();
+    this.renderVirtualNavigation();
+  };
+
+  renderFragmentTranscription = async () => {
+    this.transcriptionContainer.innerHTML = '';
+    this.transcriptionContainer.appendChild(
+      await this.getFragmentTranscription()
+    );
+  };
+
+  getVirtualTranscription = () => (
+    <virtual-transcription
+      xmlid={this.xmlId}
+      urlid={this.urlId || ''}
+      language={this.language}></virtual-transcription>
+  );
+
+  getFragmentTranscription = async () => {
+    if (!this.hasInters()) {
+      if (this.virtualInters.length) return this.getVirtualTranscription();
+      return <h4 class="text-center">{this.data.title}</h4>;
+    }
+
+    if (isVirtualInter(this.urlId)) return this.getVirtualTranscription();
+
+    if (isSingleAndSourceInter(this.data.inters ?? []))
+      return await SourceInter({ node: this, inter: this.data.inters[0] });
+
+    if (isSingleAndEditorial(this.data.inters ?? []))
+      return await EditorialInter({ node: this, inter: this.data.inters[0] });
+
+    if (isSideBySide(this.data))
+      return await SideBySideTranscriptions({
+        node: this,
+        inters: this.data.inters,
+      });
+
+    if (isLineByLine(this.data))
+      return await LineByLineTranscriptions({
+        node: this,
+        inters: this.data.inters,
+      });
+  };
+
   attributeChangedCallback(name, oldV, newV) {
     this.handeChangedAttribute[name](oldV, newV);
   }
@@ -133,8 +204,9 @@ export class LdodFragment extends HTMLElement {
       : this.inters.add(externalId);
   }
 
-  removeAllInters() {
-    this.selectedInters.clear();
+  clearInters() {
+    this.inters.clear();
+    this.renderTextNavigation();
   }
 
   addEventListeners = () => {
@@ -143,6 +215,18 @@ export class LdodFragment extends HTMLElement {
       .forEach((ele) =>
         ele.parentNode.addEventListener('pointerenter', loadTooltip)
       );
+    this.addEventListener(
+      'ldod-virtual-selected',
+      this.handleVirtualIntersSelection
+    );
+  };
+
+  handleVirtualIntersSelection = async ({ detail }) => {
+    this.clearInters();
+    this.urlId = '';
+    this.virtualInters = detail.inters;
+    if (!this.virtualInters.length) return this.render();
+    await this.renderFragmentTranscription();
   };
 
   updateTranscriptCheckboxesValue = (def) => {
@@ -155,9 +239,8 @@ export class LdodFragment extends HTMLElement {
   };
 
   handleChangedLanguage = () => {
-    this.querySelector('virtual-navigation').setAttribute(
-      'language',
-      this.language
+    this.querySelectorAll('[language]').forEach((ele) =>
+      ele.setAttribute('language', this.language)
     );
     this.querySelectorAll('[data-key]').forEach(
       (node) =>
@@ -170,13 +253,15 @@ export class LdodFragment extends HTMLElement {
 
   handleInterCheckboxChange = async (externalId) => {
     this.addRemoveInter(externalId);
-    if (!this.intersSize()) this.urlId = '';
-    if (this.intersSize() === 1)
-      this.data = await getFragmentInters(this.xmlId, this.getRequestBody());
-    if (this.intersSize() > 1)
+    if (!this.intersSize() || isVirtualInter(this.urlId)) this.urlId = '';
+    if (this.intersSize() >= 1)
       this.data = await getFragmentInters(this.xmlId, this.getRequestBody());
     this.updateTranscriptCheckboxesValue(true);
-    this.updateFragmentState(this.data, this.urlId);
+    this.updateFragmentState(
+      this.data,
+      this.urlId,
+      this.data.inters.filter(({ externalId }) => this.inters.has(externalId))
+    );
     this.render();
   };
 
@@ -187,7 +272,7 @@ export class LdodFragment extends HTMLElement {
       this.urlId,
       this.getRequestBody()
     );
-    this.updateFragmentState(data, this.urlId);
+    this.updateFragmentState(data, this.urlId, data.inters);
     this.render();
   };
 
@@ -202,8 +287,6 @@ export class LdodFragment extends HTMLElement {
       }
     );
   };
-
-  disconnectedCallback() {}
 }
 !customElements.get('ldod-fragment') &&
   customElements.define('ldod-fragment', LdodFragment);

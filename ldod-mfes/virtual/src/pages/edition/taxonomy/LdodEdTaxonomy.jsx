@@ -1,4 +1,4 @@
-import { getVeTaxonomy } from '../../../apiRequests';
+import { getVeTaxonomy } from '../apiRequests';
 import thisConstants from '../constants';
 import constants from '../../constants';
 import style from '../veStyle.css?inline';

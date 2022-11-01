@@ -1,4 +1,4 @@
-import { getVeGame } from '../../../../apiRequests';
+import { getVeGame } from '@src/apiRequests';
 import constants from '../../../constants';
 import ClassGameComponent from './ClassGameComponent';
 import style from '../../../edition/veStyle.css';

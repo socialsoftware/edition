@@ -30,3 +30,5 @@ export const isSideBySide = (data) => data.transcriptions?.length > 1;
 
 export const isLineByLine = (data) =>
   data.transcriptions?.length === 1 && data.inters?.length > 1;
+
+export const isVirtualInter = (urlId) => urlId?.includes('ED_VIRT');

@@ -25,7 +25,7 @@ export const TextRouter = ({ language }) => {
   return (
     <div id="textContainer">
       <style>{style}</style>
-      <div class="container">
+      <div class="container" style={{ marginBottom: '20px' }}>
         <ldod-router
           id="text-router"
           base={isDev() ? '' : import.meta.env.VITE_BASE}

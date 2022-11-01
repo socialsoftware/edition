@@ -1,6 +1,4 @@
 export default ({ headers, data }) => {
-  console.log(headers);
-  console.log(data);
   return (
     <table class="table table-stripped table-condensed table-bordered">
       <thead>

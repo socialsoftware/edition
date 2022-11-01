@@ -53,7 +53,7 @@ const getExpertTableRow = (node, expert) => {
 
 export default ({ node }) => {
   return (
-    <>
+    <div id="text-navigation">
       <h5 data-key="witnesses" class="text-center">
         {node.getConstants('witnesses')}
       </h5>
@@ -103,6 +103,6 @@ export default ({ node }) => {
         </div>
       ))}
       <br />
-    </>
+    </div>
   );
 };

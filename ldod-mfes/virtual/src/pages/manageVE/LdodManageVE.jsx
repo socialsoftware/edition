@@ -1,18 +1,25 @@
-import { deleteVE } from '../../apiRequests';
+import { deleteVE } from './apiRequests';
 import constants from '../constants';
+import VeManageTable from './VeManageTable';
+
 import.meta.env.DEV
   ? await import('shared/table-dev.js')
   : await import('shared/table.js');
-const HOST = import.meta.env.VITE_HOST;
 
 import('shared/buttons.js').then(({ exportButton, uploadButton }) => {
   exportButton();
   uploadButton();
 });
 
+const HOST = import.meta.env.VITE_HOST;
+
 export class LdodManageVE extends HTMLElement {
   constructor() {
     super();
+  }
+
+  get constants() {
+    return constants;
   }
 
   get language() {
@@ -76,33 +83,7 @@ export class LdodManageVE extends HTMLElement {
           </div>
         </div>
         <div>
-          <ldod-table
-            id="virtual-manageVeTable"
-            classes="table table-bordered table-hover"
-            headers={constants.headersManage}
-            data={this.virtualEditions.map((row) => {
-              return {
-                externalId: row.externalId,
-                data: () => ({
-                  acronym: row.acronym,
-                  title: row.title,
-                  editors: row.activeMembers.join(', '),
-                  categories: row.categories.join(', '),
-                  annotations: row.annotations.join(', '),
-                  remove: (
-                    <span
-                      id={row.externalId}
-                      data-acrn={row.acronym}
-                      class="icon icon-trash"
-                      onClick={this.handleRemoveVE}></span>
-                  ),
-                }),
-                search: JSON.stringify(row),
-              };
-            })}
-            constants={constants}
-            language={this.language}
-            data-searchkey="externalId"></ldod-table>
+          <VeManageTable node={this} />
         </div>
       </>
     );
@@ -154,11 +135,13 @@ export class LdodManageVE extends HTMLElement {
       )
     )
       return;
-    this.virtualEditions = await deleteVE(target.id);
-    this.render();
+    deleteVE(target.id)
+      .then((data) => {
+        this.virtualEditions = data || [];
+        this.render();
+      })
+      .catch((error) => console.error(error));
   };
-
-  disconnectedCallback() {}
 }
 
 !customElements.get('ldod-manage-ve') &&

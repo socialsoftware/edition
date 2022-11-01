@@ -1,8 +1,8 @@
-import { getVirtualEditionByAcronym } from '../../../apiRequests';
 import thisConstants from '../constants';
 import constants from '../../constants';
 import VirtualEditionComponent from './VirtualEditionComponent';
 import style from '../veStyle.css?inline';
+import { getVirtualEditionByAcronym } from '../apiRequests';
 
 export class LdodVirtualEdition extends HTMLElement {
   constructor(lang) {

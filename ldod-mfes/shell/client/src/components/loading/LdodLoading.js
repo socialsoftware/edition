@@ -8,6 +8,7 @@ export class LdodLoading extends HTMLElement {
   constructor() {
     super();
     this.pendingLoading = 0;
+    this.hidden = true;
     const shadow = this.attachShadow({ mode: 'open' });
     shadow.adoptedStyleSheets = [styleSheet];
   }
@@ -52,8 +53,8 @@ export class LdodLoading extends HTMLElement {
     window.addEventListener('ldod-loading', this.handleLoadingEvent);
   };
 
-  handleLoadingEvent = ({ detail }) => {
-    this.handleLoading(detail.isLoading);
+  handleLoadingEvent = (e) => {
+    this.handleLoading(e.detail.isLoading);
   };
 }
 

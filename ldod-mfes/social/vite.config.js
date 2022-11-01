@@ -11,6 +11,7 @@ export default defineConfig(({ mode }) => {
         formats: ['es'],
         fileName: 'social',
       },
+      sourcemap: true,
       rollupOptions: {
         external: [
           'shared/vanilla-jsx.js',

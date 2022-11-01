@@ -1,21 +1,24 @@
-import { fetcher } from 'shared/fetcher.js';
+import { selectedInters } from '../virtual';
+import { getVirtualFragmentNavInters } from './apiRequests';
 import Navigation from './components/Navigation';
 import constants from './constants';
-import style from './style.css?inline';
-const HOST = import.meta.env.VITE_HOST;
+const getStyle = async () => (await import('./style.css?inline')).default;
 
 const loadTooltip = () => import('shared/tooltip.js');
-
-const getVirtualFragment = async (xmlId) =>
-  await fetcher.get(`${HOST}/virtual/fragment/${xmlId}`, null);
 
 export class VirtualNavigation extends HTMLElement {
   constructor() {
     super();
+    this.attachShadow({ mode: 'open' });
+    this.selectedInters = [];
   }
 
   get wrapper() {
-    return this.querySelector('div#virtual-navigationWrapper');
+    return this.shadowRoot.querySelector('div#virtual-navigationWrapper');
+  }
+
+  get urlId() {
+    return this.getAttribute('urlId');
   }
 
   get fragment() {
@@ -27,18 +30,35 @@ export class VirtualNavigation extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['language', 'fragment'];
+    return ['language'];
   }
 
   getConstants(key) {
     return constants[this.language][key];
   }
 
-  connectedCallback() {
-    this.appendChild(<style>{style}</style>);
-    this.appendChild(<div id="virtual-navigationWrapper"></div>);
+  updateSelectedInters = () => {
+    if (this.urlId)
+      this.selectedInters.push(
+        Object.values(this.inters)
+          .map(([inter]) => inter)
+          .find((inter) => inter.urlId === this.urlId)?.externalId
+      );
+  };
+
+  async connectedCallback() {
+    this.fragment && (await this.fetchData());
+    this.updateSelectedInters();
+    this.shadowRoot.appendChild(<style>{await getStyle()}</style>);
+    this.shadowRoot.appendChild(<div id="virtual-navigationWrapper"></div>);
     this.render();
   }
+
+  fetchData = async () => {
+    await getVirtualFragmentNavInters(this.fragment, selectedInters)
+      .then((data) => (this.inters = data))
+      .catch((error) => console.error(error));
+  };
 
   render() {
     this.wrapper.innerHTML = '';
@@ -54,36 +74,48 @@ export class VirtualNavigation extends HTMLElement {
     language: (oldV, newV) => {
       oldV && oldV !== newV && this.handleChangedLanguage();
     },
-    fragment: (oldV, newV) => {
-      oldV !== newV && this.handleChangeFragment();
-    },
   };
 
   handleChangedLanguage = () => {
-    this.querySelectorAll('[data-virtualkey]').forEach((node) => {
-      node.firstChild.textContent = this.getConstants(node.dataset.virtualkey);
+    this.shadowRoot.querySelectorAll('[data-virtual-key]').forEach((node) => {
+      node.firstChild.textContent = this.getConstants(node.dataset.virtualKey);
     });
-    this.querySelectorAll('[data-virtualtooltipkey]').forEach((node) =>
-      node.setAttribute(
-        'content',
-        this.getConstants(node.dataset.virtualtooltipkey)
-      )
-    );
+    this.shadowRoot
+      .querySelectorAll('[data-virtual-tooltip-key]')
+      .forEach((node) =>
+        node.setAttribute(
+          'content',
+          this.getConstants(node.dataset.virtualTooltipKey)
+        )
+      );
   };
-
-  handleChangeFragment = async () => {
-    const data = await getVirtualFragment(this.fragment);
-    console.log(data);
-  };
-
-  disconnectedCallback() {}
 
   addEventListeners = () => {
-    this.wrapper
-      .querySelectorAll('[data-virtualtooltipkey]')
-      .forEach((ele) =>
-        ele.parentNode.addEventListener('pointerenter', loadTooltip)
-      );
+    this.wrapper.addEventListener('pointerenter', loadTooltip);
+  };
+
+  onCheckboxChange = ({ target }) => {
+    this.updateInters(target.id);
+    this.dispatchCustomEvent('ldod-virtual-selected', {
+      inters: this.selectedInters,
+    });
+  };
+
+  updateInters = (id) => {
+    this.selectedInters =
+      this.selectedInters.indexOf(id) !== -1
+        ? this.selectedInters.filter((externalId) => externalId !== id)
+        : [...this.selectedInters, id];
+  };
+
+  dispatchCustomEvent = (event, detail, emmiter = this) => {
+    emmiter.dispatchEvent(
+      new CustomEvent(event, {
+        detail,
+        bubbles: true,
+        composed: true,
+      })
+    );
   };
 }
 !customElements.get('virtual-navigation') &&

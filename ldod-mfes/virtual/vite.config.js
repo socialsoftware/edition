@@ -6,6 +6,7 @@ export default defineConfig(({ mode }) => {
     build: {
       target: 'es2022',
       outDir: 'build',
+      sourcemap: true,
       lib: {
         entry: 'src/virtual.js',
         formats: ['es'],

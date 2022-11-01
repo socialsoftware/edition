@@ -66,7 +66,7 @@ export class LdodExport extends HTMLElement {
       headers: [{ 'Content-Type': 'application/json' }],
     });
 
-    if (!res.xmlData && res.ok !== undefined) {
+    if (res && !res.xmlData && res.ok !== undefined) {
       return dispatchCustomEvent(
         this,
         { message: res?.message },

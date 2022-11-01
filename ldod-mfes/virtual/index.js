@@ -1,6 +1,9 @@
 import { fetcher } from 'shared/fetcher.js';
 
-import router from './src/virtual.js';
+import router, { loadVirtualComponents } from './src/virtual.js';
+
+loadVirtualComponents();
+
 router.mount('en', '#root');
 
 document.querySelectorAll('button.lang').forEach((btn) => {
@@ -25,3 +28,16 @@ document.querySelector('form#tokenForm').onsubmit = async (e) => {
       }
     });
 };
+
+document
+  .querySelector('button#fragment-container-button')
+  .addEventListener('click', () => {
+    let isHidden = document.querySelector('div#fragment-container').hidden;
+    document.querySelector('div#fragment-container').hidden = !isHidden;
+  });
+
+document.body.addEventListener('ldod-virtual-selected', ({ detail }) => {
+  console.log(detail);
+  const vt = document.querySelector('virtual-transcription').cloneNode(true);
+  document.querySelector('virtual-transcription').replaceWith(vt);
+});
