@@ -119,10 +119,9 @@ public class VirtualEditionsTEICorpusImport {
                     // if a virtual edition exists with the same name, it is
                     // deleted
                     virtualEdition = ldoD.getVirtualEdition(acronym);
-                    if (virtualEdition != null) {
+                    if (virtualEdition != null)
                         virtualEdition.remove();
-                        virtualEdition = null;
-                    }
+                    
                     virtualEdition = ldoD.createVirtualEdition(owner, acronym, title, date, pub, null);
                     virtualEdition.setSynopsis(synopsis);
                     break;

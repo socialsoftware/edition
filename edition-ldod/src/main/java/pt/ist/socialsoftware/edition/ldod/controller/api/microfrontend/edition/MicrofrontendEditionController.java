@@ -33,16 +33,16 @@ public class MicrofrontendEditionController {
 
     @GetMapping(value = "/expert/acronym/{acronym}")
     @PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
-    public Optional<ExpertEditionListDto> getExpertEditionTableOfContentsByAcronym(@PathVariable String acronym) {
-        return LdoD.getInstance().getOptionalExpertEdition(acronym).map(ExpertEditionListDto::new);
+    public ExpertEditionListDto getExpertEditionTableOfContentsByAcronym(@PathVariable String acronym) {
+        ExpertEdition epEd = LdoD.getInstance().getExpertEdition(acronym);
+        return epEd != null ? new ExpertEditionListDto(epEd) : null;
     }
 
     @GetMapping(value = "/virtual/acronym/{acronym}")
     @PreAuthorize("hasPermission(#acronym, 'editionacronym.public')")
-    public Optional<VirtualEditionListDto> getVirtualEditionTableOfContentsByAcronym(@PathVariable String acronym) {
-        return LdoD.getInstance()
-                .getOptionalVirtualEdition(acronym)
-                .map(e -> new VirtualEditionListDto(e, "deep"));
+    public VirtualEditionListDto getVirtualEditionTableOfContentsByAcronym(@PathVariable String acronym) {
+        VirtualEdition ve = LdoD.getInstance().getVirtualEdition(acronym);
+        return ve != null ? new VirtualEditionListDto(ve, "deep") : null;
     }
 
     @GetMapping(value = "/acronym/{acronym}/taxonomy")

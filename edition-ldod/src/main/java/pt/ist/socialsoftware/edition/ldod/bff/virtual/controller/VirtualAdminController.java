@@ -21,17 +21,19 @@ public class VirtualAdminController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.exportVirtualEditions());
         } catch (LdoDException e) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(new MainResponseDto.AuthResponseDtoBuilder(false).message(e.getMessage()).build());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MainResponseDto(false, e.getMessage()));
         }
     }
 
     @PostMapping("/upload-virtual-corpus")
     public ResponseEntity<MainResponseDto> loadVirtualCorpus(@RequestPart(name = "file", required = false) MultipartFile file) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(service.uploadVirtualCorpus(file));
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(service.uploadVirtualCorpus(file));
+        } catch (LdoDException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MainResponseDto(false, e.getMessage()));
+        }
     }
 
     @PostMapping("/upload-virtual-fragments")

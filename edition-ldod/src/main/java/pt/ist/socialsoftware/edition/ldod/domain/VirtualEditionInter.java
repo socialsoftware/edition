@@ -235,7 +235,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
     }
 
     public List<Category> getAssignedCategories() {
-        return getAllDepthTags().stream().map(t -> t.getCategory()).distinct()
+        return getAllDepthTags().stream().map(Tag_Base::getCategory).distinct()
                 .sorted((c1, c2) -> c1.compareInEditionContext(this.getVirtualEdition(), c2))
                 .collect(Collectors.toList());
     }
@@ -243,20 +243,17 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
     public List<Category> getNonAssignedCategories(LdoDUser user) {
         List<Category> interCategories = getAssignedCategories(user);
 
-        List<Category> categories = getAllDepthCategories().stream().filter(c -> !interCategories.contains(c))
+        return getAllDepthCategories().stream().filter(c -> !interCategories.contains(c))
                 .sorted((c1, c2) -> c1.compareInEditionContext(this.getVirtualEdition(), c2))
                 .collect(Collectors.toList());
-
-        return categories;
     }
 
     public List<Category> getAssignedCategories(LdoDUser user) {
-        List<Category> categories = getAllDepthTags().stream().filter(t -> t.getContributor() == user)
-                .map(t -> t.getCategory()).distinct()
+
+        return getAllDepthTags().stream().filter(t -> t.getContributor() == user)
+                .map(Tag_Base::getCategory).distinct()
                 .sorted((c1, c2) -> c1.compareInEditionContext(this.getVirtualEdition(), c2))
                 .collect(Collectors.toList());
-
-        return categories;
     }
 
     @Override

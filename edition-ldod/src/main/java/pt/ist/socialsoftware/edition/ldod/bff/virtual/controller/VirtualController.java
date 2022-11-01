@@ -1,13 +1,11 @@
 package pt.ist.socialsoftware.edition.ldod.bff.virtual.controller;
 
-import org.apache.catalina.mapper.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.socialsoftware.edition.ldod.bff.dtos.MainResponseDto;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.ClassGameDto;
@@ -15,7 +13,6 @@ import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.VirtualEditionDto;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.VirtualEditionLinearBodyDto;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.VirtualEditionsDto;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.service.VirtualService;
-import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 import java.util.List;
@@ -50,12 +47,6 @@ public class VirtualController {
         }
     }
 
-
-    @GetMapping("/fragment/{xmlId}")
-    public ResponseEntity<?> getFragment(@AuthenticationPrincipal LdoDUserDetails principal, @PathVariable String xmlId) {
-        //TODO ensure proper response to invalid xmlId
-        return ResponseEntity.status(HttpStatus.OK).body(virtualService.getFragmentByXmlId(xmlId, principal));
-    }
 
     @PostMapping("/restricted/create")
     public ResponseEntity<?> createVirtualEdition(@RequestBody VirtualEditionDto veDto) {

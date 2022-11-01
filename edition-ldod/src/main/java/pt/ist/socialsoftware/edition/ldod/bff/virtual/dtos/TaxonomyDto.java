@@ -17,6 +17,8 @@ public class TaxonomyDto {
     private List<String> usedIn;
     private List<CategoryDto> categories;
 
+    public TaxonomyDto(){}
+
     public TaxonomyDto(Taxonomy taxonomy) {
         setExternalId(taxonomy.getExternalId());
         setVeExternalId(taxonomy.getEdition().getExternalId());
@@ -89,5 +91,52 @@ public class TaxonomyDto {
 
     public void setCategories(List<CategoryDto> categories) {
         this.categories = categories;
+    }
+
+
+    public static final class TaxonomyDtoBuilder {
+        private TaxonomyDto taxonomyDto;
+
+        private TaxonomyDtoBuilder() {
+            taxonomyDto = new TaxonomyDto();
+        }
+
+        public static TaxonomyDtoBuilder aTaxonomyDto() {
+            return new TaxonomyDtoBuilder();
+        }
+
+        public TaxonomyDtoBuilder externalId(String externalId) {
+            taxonomyDto.setExternalId(externalId);
+            return this;
+        }
+
+        public TaxonomyDtoBuilder veExternalId(String veExternalId) {
+            taxonomyDto.setVeExternalId(veExternalId);
+            return this;
+        }
+
+        public TaxonomyDtoBuilder veTitle(String veTitle) {
+            taxonomyDto.setVeTitle(veTitle);
+            return this;
+        }
+
+        public TaxonomyDtoBuilder veAcronym(String veAcronym) {
+            taxonomyDto.setVeAcronym(veAcronym);
+            return this;
+        }
+
+        public TaxonomyDtoBuilder usedIn(List<String> usedIn) {
+            taxonomyDto.setUsedIn(usedIn);
+            return this;
+        }
+
+        public TaxonomyDtoBuilder categories(List<CategoryDto> categories) {
+            taxonomyDto.setCategories(categories);
+            return this;
+        }
+
+        public TaxonomyDto build() {
+            return taxonomyDto;
+        }
     }
 }

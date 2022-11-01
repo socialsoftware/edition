@@ -9,18 +9,94 @@ public class VirtualEditionInterDto extends FragInterDto {
 
     private List<FragInterDto> usedList;
 
-    private List<String> categories;
+    private String usesEditionReference;
+
+    private String usesReference;
+
+    private List<?> categories;
 
     private List<VeUserDto> users;
+    private String nextXmlId;
+    private String prevXmlId;
+    private String nextUrlId;
+    private String prevUrlId;
+    private String transcription;
+    private String interTitle;
 
     public VirtualEditionInterDto() {
         super();
-    };
+    }
+
+    ;
 
     public VirtualEditionInterDto(FragInter inter) {
         super(inter);
         setShortName(inter.getShortName());
         setTitle(inter.getTitle());
+    }
+
+    public String getNextXmlId() {
+        return nextXmlId;
+    }
+
+    public String getTranscription() {
+        return transcription;
+    }
+
+    public void setTranscription(String transcription) {
+        this.transcription = transcription;
+    }
+
+    public String getUsesEditionReference() {
+        return usesEditionReference;
+    }
+
+    public void setUsesEditionReference(String usesEditionReference) {
+        this.usesEditionReference = usesEditionReference;
+    }
+
+    public String getUsesReference() {
+        return usesReference;
+    }
+
+    public void setUsesReference(String usesReference) {
+        this.usesReference = usesReference;
+    }
+
+    public void setNextXmlId(String nextXmlId) {
+        this.nextXmlId = nextXmlId;
+    }
+
+    public String getPrevXmlId() {
+        return prevXmlId;
+    }
+
+    public void setPrevXmlId(String prevXmlId) {
+        this.prevXmlId = prevXmlId;
+    }
+
+    public String getNextUrlId() {
+        return nextUrlId;
+    }
+
+    public void setNextUrlId(String nextUrlId) {
+        this.nextUrlId = nextUrlId;
+    }
+
+    public String getPrevUrlId() {
+        return prevUrlId;
+    }
+
+    public void setPrevUrlId(String prevUrlId) {
+        this.prevUrlId = prevUrlId;
+    }
+
+    public String getInterTitle() {
+        return interTitle;
+    }
+
+    public void setInterTitle(String interTitle) {
+        this.interTitle = interTitle;
     }
 
     public List<VeUserDto> getUsers() {
@@ -31,11 +107,11 @@ public class VirtualEditionInterDto extends FragInterDto {
         this.users = users;
     }
 
-    public List<String> getCategories() {
+    public List<?> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<String> categories) {
+    public void setCategories(List<?> categories) {
         this.categories = categories;
     }
 
@@ -65,13 +141,48 @@ public class VirtualEditionInterDto extends FragInterDto {
             return this;
         }
 
-        public VirtualEditionInterDtoBuilder categories(List<String> categories) {
+        public VirtualEditionInterDtoBuilder categories(List<?> categories) {
             virtualEditionInterDto.setCategories(categories);
             return this;
         }
 
         public VirtualEditionInterDtoBuilder users(List<VeUserDto> contributors) {
             virtualEditionInterDto.setUsers(contributors);
+            return this;
+        }
+
+        public VirtualEditionInterDtoBuilder nextXmlId(String nextXmlId) {
+            virtualEditionInterDto.setNextXmlId(nextXmlId);
+            return this;
+        }
+
+        public VirtualEditionInterDtoBuilder prevXmlId(String prevXmlId) {
+            virtualEditionInterDto.setPrevXmlId(prevXmlId);
+            return this;
+        }
+
+        public VirtualEditionInterDtoBuilder nextUrlId(String nextUrlId) {
+            virtualEditionInterDto.setNextUrlId(nextUrlId);
+            return this;
+        }
+
+        public VirtualEditionInterDtoBuilder prevUrlId(String prevUrlId) {
+            virtualEditionInterDto.setPrevUrlId(prevUrlId);
+            return this;
+        }
+
+        public VirtualEditionInterDtoBuilder usesEditionReference(String ref) {
+            virtualEditionInterDto.setUsesEditionReference(ref);
+            return this;
+        }
+
+        public VirtualEditionInterDtoBuilder usesReference(String ref) {
+            virtualEditionInterDto.setUsesReference(ref);
+            return this;
+        }
+
+        public VirtualEditionInterDtoBuilder transcription(String transcription) {
+            virtualEditionInterDto.setTranscription(transcription);
             return this;
         }
 

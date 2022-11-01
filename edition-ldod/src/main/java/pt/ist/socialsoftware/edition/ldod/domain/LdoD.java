@@ -133,18 +133,6 @@ public class LdoD extends LdoD_Base {
         return getExpertEditionsSet().stream().sorted().collect(Collectors.toList());
     }
 
-    public Optional<Edition> getOptionalEdition(String acronym) {
-        return Stream.concat(
-                        getExpertEditionsSet()
-                                .stream()
-                                .map(e -> (Edition) e),
-                        getVirtualEditionsSet()
-                                .stream()
-                                .map(e -> (Edition) e))
-                .filter(edition -> edition.getAcronym().equalsIgnoreCase(acronym))
-                .findFirst();
-    }
-
     public Edition getEdition(String acronym) {
         for (Edition edition : getExpertEditionsSet()) {
             if (edition.getAcronym().equalsIgnoreCase(acronym)) {
@@ -155,21 +143,11 @@ public class LdoD extends LdoD_Base {
         return getVirtualEdition(acronym);
     }
 
-    public Optional<ExpertEdition> getOptionalExpertEdition(String acronym) {
+    public ExpertEdition getExpertEdition(String acronym) {
         return getExpertEditionsSet()
                 .stream()
                 .filter(expertEdition -> expertEdition.getAcronym().equalsIgnoreCase(acronym))
-                .findFirst();
-    }
-
-    public ExpertEdition getExpertEdition(String acronym) {
-        for (ExpertEdition edition : getExpertEditionsSet()) {
-            if (edition.getAcronym().equalsIgnoreCase(acronym)) {
-                return edition;
-            }
-        }
-
-        return null;
+                .findFirst().orElse(null);
     }
 
     public Optional<VirtualEdition> getOptionalVirtualEdition(String acronym) {
@@ -180,20 +158,11 @@ public class LdoD extends LdoD_Base {
     }
 
     public VirtualEdition getVirtualEdition(String acronym) {
-        for (VirtualEdition edition : getVirtualEditionsSet()) {
-            if (edition.getAcronym().equalsIgnoreCase(acronym)) {
-                return edition;
-            }
-        }
-
-        return null;
-    }
-
-    public Optional<LdoDUser> getOptionalUser(String username) {
-        return getUsersSet()
+        return getVirtualEditionsSet()
                 .stream()
-                .filter(user -> user.getUsername().equals(username))
-                .findFirst();
+                .filter(virtualEdition -> virtualEdition.getAcronym().equalsIgnoreCase(acronym))
+                .findFirst()
+                .orElse(null);
     }
 
     public LdoDUser getUser(String username) {
@@ -304,7 +273,6 @@ public class LdoD extends LdoD_Base {
     public void createUserConnection(String userId, String providerId, String providerUserId, int rank,
                                      String displayName, String profileUrl, String imageUrl, String accessToken, String secret,
                                      String refreshToken, Long expireTime) {
-
 
 
         new UserConnection(this, userId, providerId, providerUserId, rank, displayName, profileUrl, imageUrl,

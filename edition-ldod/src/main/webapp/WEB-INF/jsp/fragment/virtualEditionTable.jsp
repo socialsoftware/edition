@@ -23,7 +23,7 @@
 					href="${contextPath}/edition/acronym/${tag.getCategory().getTaxonomy().getEdition().getAcronym()}/category/${tag.getCategory().getUrlId()}">${tag.getCategory().getNameInEditionContext(inter.edition)}</a></td>
 			</tr>
 		</c:forEach>
-		<c:forEach var="annotation" items='${inter. getAllDepthAnnotations()}'>
+		<c:forEach var="annotation" items='${inter.getAllDepthAnnotations()}'>
 			<tr>
 				<td>${annotation.quote}</td>
 				

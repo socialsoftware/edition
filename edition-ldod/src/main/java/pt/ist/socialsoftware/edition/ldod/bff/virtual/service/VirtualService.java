@@ -13,7 +13,6 @@ import pt.ist.socialsoftware.edition.ldod.bff.text.dtos.inter.SourceInterDto;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.*;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
-import pt.ist.socialsoftware.edition.ldod.security.LdoDUserDetails;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateAcronymException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.Message;
@@ -30,10 +29,6 @@ import java.util.stream.Stream;
 @Service
 public class VirtualService {
 
-    public VirtualFragmentDto getFragmentByXmlId(String xmlId, LdoDUserDetails user) {
-        Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
-        return new VirtualFragmentDto(fragment);
-    }
 
     public VirtualEditionsDto getVirtualEditionsList() {
         List<VirtualEditionDto> ves = getVirtualEditions()

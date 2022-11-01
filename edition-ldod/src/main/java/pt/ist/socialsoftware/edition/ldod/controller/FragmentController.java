@@ -124,6 +124,7 @@ public class FragmentController {
 			}
 		}
 
+
 		List<FragInter> inters = new ArrayList<>();
 		inters.add(inter);
 		model.addAttribute("ldoD", LdoD.getInstance());
@@ -238,7 +239,7 @@ public class FragmentController {
 		List<FragInter> inters = new ArrayList<>();
 		if (intersID != null) {
 			for (String interID : intersID) {
-				FragInter inter = (FragInter) FenixFramework.getDomainObject(interID);
+				FragInter inter = FenixFramework.getDomainObject(interID);
 				if (inter != null) {
 					inters.add(inter);
 				}
