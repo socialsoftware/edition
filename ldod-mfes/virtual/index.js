@@ -1,4 +1,5 @@
 import { fetcher } from 'shared/fetcher.js';
+import './src/Fragment/annotator';
 
 import router, { loadVirtualComponents } from './src/virtual.js';
 
@@ -38,6 +39,6 @@ document
 
 document.body.addEventListener('ldod-virtual-selected', ({ detail }) => {
   console.log(detail);
-  const vt = document.querySelector('virtual-transcription').cloneNode(true);
+  const vt = document.querySelector('virtual-transcription').cloneNode();
   document.querySelector('virtual-transcription').replaceWith(vt);
 });

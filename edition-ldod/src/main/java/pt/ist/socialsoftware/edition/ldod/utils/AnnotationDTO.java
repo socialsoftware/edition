@@ -6,6 +6,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 //@JsonIgnoreProperties(ignoreUnknown = true)
 public class AnnotationDTO implements Serializable {
@@ -48,12 +49,7 @@ public class AnnotationDTO implements Serializable {
         setId(annotation.getExternalId());
         setQuote(StringEscapeUtils.unescapeHtml(annotation.getQuote()));
         setUri(annotation.getVirtualEditionInter().getExternalId());
-
-        this.ranges = new ArrayList<>();
-        for (Range range : annotation.getRangeSet()) {
-            this.ranges.add(new RangeJson(range));
-        }
-
+        setRanges(annotation.getRangeSet().stream().map(RangeJson::new).collect(Collectors.toList()));
         setUser(annotation.getUser().getUsername());
 
         // code that supports treatment for Human Annotation

@@ -111,6 +111,7 @@ public class VirtualFragmentService {
                         .canManipulateAnn(taxonomy.canManipulateAnnotation(LdoDUser.getAuthenticatedUser()))
                         .externalId(taxonomy.getExternalId())
                         .build())
+                .annotations(inter.getAllDepthAnnotations().stream().map(AnnotationDto::new).collect(Collectors.toList()))
                 .build();
     }
 

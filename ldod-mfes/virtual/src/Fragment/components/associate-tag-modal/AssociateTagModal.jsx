@@ -43,7 +43,7 @@ const onAutocomplete = (e, node) => {
       externalId: e.target.id,
       name: e.target.value,
     });
-    const option = selectPure(node).append(
+    selectPure(node).append(
       ...assignedCats.map((cat) => (
         <option-pure id={cat.externalId} selected value={cat.name}>
           {cat.name}

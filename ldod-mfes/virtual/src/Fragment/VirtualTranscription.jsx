@@ -8,6 +8,8 @@ import {
 import Transcription from './components/Transcription';
 import VirtualIntersCompare from './components/VirtualIntersCompare';
 import constants from './constants';
+import { highlightAnnotation } from './annotator';
+import { fromRange } from 'xpath-range';
 
 const getStyle = async () => (await import('./style.css?inline')).default;
 const AssociateModal = async (node) =>
@@ -20,11 +22,10 @@ export class VirtualTranscription extends HTMLElement {
     this.inter = undefined;
     this.taxonomy = undefined;
     this.inters = [];
-    this.attachShadow({ mode: 'open' });
     this.constants = constants;
   }
   get wrapper() {
-    return this.shadowRoot.querySelector('div#virtual-transcriptionWrapper');
+    return this.querySelector('div#virtual-transcriptionWrapper');
   }
   get xmlId() {
     return this.getAttribute('xmlid');
@@ -61,6 +62,7 @@ export class VirtualTranscription extends HTMLElement {
       .then((data) => {
         this.inter = data.inter;
         this.taxonomy = data.taxonomy;
+        this.annotations = data.annotations;
       })
       .catch(this.onError);
 
@@ -86,9 +88,22 @@ export class VirtualTranscription extends HTMLElement {
 
   async connectedCallback() {
     await this.fetchData();
-    this.shadowRoot.appendChild(<style>{await getStyle()}</style>);
-    this.shadowRoot.appendChild(<div id="virtual-transcriptionWrapper"></div>);
+    this.appendChild(<style>{await getStyle()}</style>);
+    this.appendChild(<div id="virtual-transcriptionWrapper"></div>);
     this.render();
+
+    this.querySelector('#virtual-transcriptionWrapper').onmouseup = (e) => {
+      const userSelection = window.getSelection();
+      if (!userSelection || userSelection.type === 'Caret') return;
+      const xpath = fromRange(
+        userSelection.getRangeAt(0),
+        this.querySelector('#virtual-transcriptionWrapper')
+      );
+      highlightAnnotation({ ranges: [xpath] }, this);
+    };
+
+    if (this.annotations)
+      this.annotations.forEach((ann) => highlightAnnotation(ann, this));
   }
 
   render() {
@@ -112,7 +127,7 @@ export class VirtualTranscription extends HTMLElement {
     this.shadowRoot
       .querySelectorAll('[language')
       .forEach((node) => node.setAttribute('language', this.language));
-    this.shadowRoot.querySelectorAll('[data-virtual-key]').forEach((node) => {
+    this.querySelectorAll('[data-virtual-key]').forEach((node) => {
       node.firstChild.textContent = this.getConstants(node.dataset.virtualKey);
     });
   };
@@ -130,7 +145,7 @@ export class VirtualTranscription extends HTMLElement {
   };
 
   computeSelectHeight = () => {
-    computeSelectPureHeight(undefined, undefined, 120);
+    computeSelectPureHeight(undefined, undefined, 80);
   };
 
   dissociateTag = async ({ target }) => {

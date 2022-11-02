@@ -99,7 +99,7 @@ caption {
     text-align: left;
 }
 
-.well {
+#virtual-transcription.well {
     min-height: 20px;
     padding: 19px;
     margin-bottom: 20px;
@@ -111,7 +111,7 @@ caption {
     font-family: 'Courier New', Courier, monospace;
 }
 
-hr {
+#virtual-transcription hr {
     box-sizing: content-box;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -120,44 +120,44 @@ hr {
     height: 0;
 }
 
-small {
+#virtual-transcription small {
     font-size: 85%;
 }
 
-p {
+#virtual-transcription p {
     margin: 0 0 10px;
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
-    .text-md-justify {
+    #virtual-transcription .text-md-justify {
         text-align: justify;
     }
 }
 
 @media (min-width: 1200px) {
-    .text-lg-justify {
+    #virtual-transcription .text-lg-justify {
         text-align: justify;
     }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
-    .text-sm-justify {
+    #virtual-transcription .text-sm-justify {
         text-align: justify;
     }
 }
 
 @media (max-width: 767px) {
-    .text-xs-left {
+    #virtual-transcription .text-xs-left {
         text-align: left;
     }
 }
 
-.text-warning {
+#virtual-transcription .text-warning {
     color: #8a6d3b;
 }
 
-abbr[data-original-title],
-abbr[title] {
+#virtual-transcription abbr[data-original-title],
+#virtual-transcription abbr[title] {
     cursor: help;
     border-bottom: 1px dotted #777;
 }
@@ -174,7 +174,11 @@ table#virtual-interTaxonomyTable th {
     border-top: none !important;
 }
 
-.btn {
+table#virtual-intersTaxonomyComparison thead>tr>th {
+    text-align: start;
+}
+
+#virtual-associateButton .btn {
     display: inline-block;
     font-weight: 400;
     line-height: 1.5;
@@ -195,20 +199,20 @@ table#virtual-interTaxonomyTable th {
     max-width: 300px;
 }
 
-.btn-sm {
+#virtual-associateButton .btn-sm {
     padding: 0.25rem 0.5rem;
     font-size: 0.7rem;
     border-radius: 0.2rem;
     line-height: 1;
 }
 
-.btn-primary {
+#virtual-associateButton .btn-primary {
     color: #fff;
     background-color: #0d6efd;
     border-color: #0d6efd;
 }
 
-.btn-primary:hover {
+#virtual-associateButton .btn-primary:hover {
     color: #fff;
     background-color: #0b5ed7;
     border-color: #0a58ca;

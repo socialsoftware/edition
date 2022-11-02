@@ -26,7 +26,7 @@ export default ({ node }) => {
               </h5>
               <ldod-table
                 id="virtual-intersTaxonomyComparison"
-                classes="table table-bordered table-hover"
+                classes="table table-bordered table-hover table-striped"
                 headers={node.constants.taxonomyCompareHeaders}
                 language={node.language}
                 constants={node.constants}

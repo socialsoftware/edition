@@ -3,6 +3,7 @@ input#select-pure-autocomplete {
     border-radius: 0;
     min-height: var(--select-height, 44px);
     padding: 0 10px;
+    width: auto;
 }
 
 select-pure {

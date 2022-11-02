@@ -1,5 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.fragment;
 
+import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.AnnotationDto;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.CategoryDto;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.TaxonomyDto;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.VirtualEditionInterDto;
@@ -10,6 +11,7 @@ public class VirtualFragmentInterDto {
 
     private VirtualEditionInterDto inter;
     private TaxonomyDto taxonomy;
+    private List<AnnotationDto> annotations;
 
     private boolean veOpenVocab;
 
@@ -34,6 +36,13 @@ public class VirtualFragmentInterDto {
         this.taxonomy = taxonomy;
     }
 
+    public List<AnnotationDto> getAnnotations() {
+        return annotations;
+    }
+
+    public void setAnnotations(List<AnnotationDto> annotations) {
+        this.annotations = annotations;
+    }
 
     public static final class VirtualFragmentInterDtoBuilder {
         private final VirtualFragmentInterDto virtualFragmentInterDto;
@@ -53,6 +62,11 @@ public class VirtualFragmentInterDto {
 
         public VirtualFragmentInterDtoBuilder taxonomy(TaxonomyDto taxonomy) {
             virtualFragmentInterDto.setTaxonomy(taxonomy);
+            return this;
+        }
+
+        public VirtualFragmentInterDtoBuilder annotations(List<AnnotationDto> annotations) {
+            virtualFragmentInterDto.setAnnotations(annotations);
             return this;
         }
 
