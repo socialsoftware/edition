@@ -1,5 +1,3 @@
-import { selectedInters } from '../../virtual';
-
 export default ({ node }) => {
   return (
     <>
@@ -18,7 +16,7 @@ export default ({ node }) => {
           width="200px"
           content={node.getConstants('virtualEditionsInfo')}></ldod-tooltip>
       </div>
-      {selectedInters.map((acrn) => {
+      {node.inters.map((inter) => {
         return (
           <div class="text-center">
             {
@@ -29,8 +27,10 @@ export default ({ node }) => {
                   borderCollapse: 'collapse',
                 }}>
                 <caption class="text-center">
-                  <a is="nav-to" to={`/virtual/edition/acronym/${acrn}`}>
-                    {acrn}
+                  <a
+                    is="nav-to"
+                    to={`/virtual/edition/acronym/${inter.acronym}`}>
+                    {inter.acronym}
                   </a>
                 </caption>
                 <thead>
@@ -43,44 +43,70 @@ export default ({ node }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {node.inters[acrn]?.map((edition, i) => (
-                    <tr key={i}>
+                  {inter.canAddInter && inter.member ? (
+                    <tr>
+                      <td></td>
+                      <td></td>
                       <td></td>
                       <td>
-                        <input
-                          name={edition.urlId}
-                          id={edition.externalId}
-                          type="checkbox"
-                          onChange={node.onCheckboxChange}
-                          checked={node.selectedInters.includes(
-                            edition.externalId
-                          )}
-                        />
+                        <button
+                          title={`Add fragment interpretation to ${inter.acronym}`}
+                          type="button"
+                          data-ve-id={inter.veExternalId}
+                          data-inter-id={inter.interExternalId}
+                          class="btn btn-sm btn-primary"
+                          onClick={node.addInterToVe}>
+                          <span
+                            class="icon icon-plus"
+                            style={{
+                              margin: '0',
+                              pointerEvents: 'none',
+                            }}></span>
+                        </button>
                       </td>
-                      <td>
-                        <a
-                          is="nav-to"
-                          to={`/text/fragment/${edition.prevXmlId}/inter/${edition.prevUrlId}`}>
-                          <span class="icon icon-chevron-left"></span>
-                        </a>
-                      </td>
-                      <td>
-                        <a
-                          is="nav-to"
-                          to={`/text/fragment/${edition.xmlId}/inter/${edition.urlId}`}>
-                          {edition.number || '0'}
-                        </a>
-                      </td>
-                      <td>
-                        <a
-                          is="nav-to"
-                          to={`/text/fragment/${edition.nextXmlId}/inter/${edition.nextUrlId}`}>
-                          <span class="icon icon-chevron-right"></span>
-                        </a>
-                      </td>
+                      <td></td>
                       <td></td>
                     </tr>
-                  ))}
+                  ) : (
+                    inter.inters.map((edition, i) => (
+                      <tr key={i}>
+                        <td></td>
+                        <td>
+                          <input
+                            name={edition.urlId}
+                            id={edition.externalId}
+                            type="checkbox"
+                            onChange={node.onCheckboxChange}
+                            checked={node.intersChecked.includes(
+                              edition.externalId
+                            )}
+                          />
+                        </td>
+                        <td>
+                          <a
+                            is="nav-to"
+                            to={`/text/fragment/${edition.prevXmlId}/inter/${edition.prevUrlId}`}>
+                            <span class="icon icon-chevron-left"></span>
+                          </a>
+                        </td>
+                        <td>
+                          <a
+                            is="nav-to"
+                            to={`/text/fragment/${edition.xmlId}/inter/${edition.urlId}`}>
+                            {edition.number || '0'}
+                          </a>
+                        </td>
+                        <td>
+                          <a
+                            is="nav-to"
+                            to={`/text/fragment/${edition.nextXmlId}/inter/${edition.nextUrlId}`}>
+                            <span class="icon icon-chevron-right"></span>
+                          </a>
+                        </td>
+                        <td></td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             }

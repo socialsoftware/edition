@@ -1,5 +1,5 @@
 import { selectedInters } from '../virtual';
-import { getVirtualFragmentNavInters } from './apiRequests';
+import { addInterRequest, getVirtualFragmentNavInters } from './apiRequests';
 import Navigation from './components/Navigation';
 import constants from './constants';
 const getStyle = async () => (await import('./style.css?inline')).default;
@@ -10,7 +10,9 @@ export class VirtualNavigation extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    this.selectedInters = [];
+    this.intersChecked = [];
+    this.veId = '';
+    this.interId = '';
   }
 
   get wrapper() {
@@ -18,7 +20,7 @@ export class VirtualNavigation extends HTMLElement {
   }
 
   get urlId() {
-    return this.getAttribute('urlId');
+    return this.getAttribute('urlid');
   }
 
   get fragment() {
@@ -39,10 +41,11 @@ export class VirtualNavigation extends HTMLElement {
 
   updateSelectedInters = () => {
     if (this.urlId)
-      this.selectedInters.push(
-        Object.values(this.inters)
+      this.intersChecked.push(
+        this.inters
+          .map((obj) => obj.inters)
           .map(([inter]) => inter)
-          .find((inter) => inter.urlId === this.urlId)?.externalId
+          .find((inter) => inter?.urlId === this.urlId)?.externalId
       );
   };
 
@@ -55,7 +58,21 @@ export class VirtualNavigation extends HTMLElement {
   }
 
   fetchData = async () => {
-    await getVirtualFragmentNavInters(this.fragment, selectedInters)
+    await getVirtualFragmentNavInters(this.fragment, {
+      inters: selectedInters,
+      currentInterId:
+        this.intersChecked.length === 1 ? this.intersChecked[0] : null,
+      urlId: this.urlId,
+    })
+      .then((data) => (this.inters = data))
+      .catch((error) => console.error(error));
+  };
+
+  fetchAddInter = async () => {
+    await addInterRequest(this.fragment, this.veId, this.interId, {
+      inters: selectedInters,
+      currentInterId: this.intersChecked.length === 1 && this.intersChecked[0],
+    })
       .then((data) => (this.inters = data))
       .catch((error) => console.error(error));
   };
@@ -94,18 +111,28 @@ export class VirtualNavigation extends HTMLElement {
     this.wrapper.addEventListener('pointerenter', loadTooltip);
   };
 
-  onCheckboxChange = ({ target }) => {
+  onCheckboxChange = async ({ target }) => {
     this.updateInters(target.id);
     this.dispatchCustomEvent('ldod-virtual-selected', {
-      inters: this.selectedInters,
+      inters: this.intersChecked,
     });
+    if (!this.intersChecked.length) return;
+    await this.fetchData();
+    this.render();
   };
 
   updateInters = (id) => {
-    this.selectedInters =
-      this.selectedInters.indexOf(id) !== -1
-        ? this.selectedInters.filter((externalId) => externalId !== id)
-        : [...this.selectedInters, id];
+    this.intersChecked =
+      this.intersChecked.indexOf(id) !== -1
+        ? this.intersChecked.filter((externalId) => externalId !== id)
+        : [...this.intersChecked, id];
+  };
+
+  addInterToVe = async ({ target }) => {
+    this.veId = target.dataset.veId;
+    this.interId = target.dataset.interId;
+    await this.fetchAddInter();
+    this.render();
   };
 
   dispatchCustomEvent = (event, detail, emmiter = this) => {

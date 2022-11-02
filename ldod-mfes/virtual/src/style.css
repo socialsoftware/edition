@@ -177,6 +177,12 @@ td:has(.center-container) {
     border-color: #0d6efd;
 }
 
+.btn-primary:hover {
+    color: #fff;
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
 .btn-secondary {
     color: #fff;
     background-color: #6c757d;
@@ -187,12 +193,6 @@ td:has(.center-container) {
     color: #fff;
     background-color: #5c636a;
     border-color: #565e64;
-}
-
-.btn-primary:hover {
-    color: #fff;
-    background-color: #0b5ed7;
-    border-color: #0a58ca;
 }
 
 .btn-success {

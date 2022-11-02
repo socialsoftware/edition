@@ -4,6 +4,7 @@ import thisConstants from './constants';
 import TaxonomyComponent from './TaxonomyComponent';
 import style from './style.css?inline';
 import { DeleteButton, MergeButton } from './MergeDeleteButtons';
+import { computeSelectPureHeight } from '@src/utils';
 import {
   addCategory,
   addTopics,
@@ -23,15 +24,6 @@ const EditCategoryModal = async (node, category) =>
 const ExtractCategoryFragsModal = async (node, category) =>
   (await import('./ExtractCategoryFragsModal')).default({ node, category });
 
-const computeSelectPureHeight = () => {
-  const selectPure = document.querySelector('select-pure');
-  const height =
-    selectPure.shadowRoot.querySelector('div.select > div.dropdown')
-      .clientHeight + 80;
-  selectPure.parentElement.style.height = selectPure.visible
-    ? `${Math.max(height, 120)}px`
-    : 'auto';
-};
 export class LdodVeTaxonomy extends HTMLElement {
   constructor() {
     super();

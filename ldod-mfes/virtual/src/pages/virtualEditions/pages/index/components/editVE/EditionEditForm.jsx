@@ -87,10 +87,14 @@ export default ({ node }) => {
               name="taxonomyOpenManagement"
               class="form-select"
               value={node.edition.taxonomyOpenManagement}>
-              <option value="true">
+              <option
+                value="true"
+                selected={node.edition.taxonomyOpenManagement}>
                 {node.getConstants('editionMembers')}
               </option>
-              <option value="false">
+              <option
+                value="false"
+                selected={!node.edition.taxonomyOpenManagement}>
                 {node.getConstants('editionManagers')}
               </option>
             </select>
@@ -105,8 +109,14 @@ export default ({ node }) => {
               name="taxonomyOpenAnnotation"
               class="form-select"
               value={node.edition.taxonomyOpenAnnotation}>
-              <option value="true">{node.getConstants('regUsers')}</option>
-              <option value="false">
+              <option
+                value="true"
+                selected={node.edition.taxonomyOpenAnnotation}>
+                {node.getConstants('regUsers')}
+              </option>
+              <option
+                value="false"
+                selected={!node.edition.taxonomyOpenAnnotation}>
                 {node.getConstants('editionMembers')}
               </option>
             </select>
@@ -119,8 +129,12 @@ export default ({ node }) => {
               name="taxonomyOpenVocab"
               class="form-select"
               value={node.edition.taxonomyOpenVocab}>
-              <option value="true">{node.getConstants('open')}</option>
-              <option value="false">{node.getConstants('closed')}</option>
+              <option value="true" selected={node.edition.taxonomyOpenVocab}>
+                {node.getConstants('open')}
+              </option>
+              <option value="false" selected={!node.edition.taxonomyOpenVocab}>
+                {node.getConstants('closed')}
+              </option>
             </select>
             <label for="public">{node.getConstants('vocab')}</label>
           </div>

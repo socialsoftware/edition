@@ -3,6 +3,7 @@ import Taxonomy from './Taxonomy';
 
 export default ({ node }) => {
   const inter = node.inter;
+  const taxonomy = node.taxonomy;
   return (
     <>
       <h4>
@@ -15,6 +16,23 @@ export default ({ node }) => {
         <div id="virtual-transcription" class="well">
           {dom(inter.transcription)}
         </div>
+        {taxonomy.canManipulateAnnotation && (
+          <div style={{ display: 'flex', justifyContent: 'end' }}>
+            <button
+              title={`Associate new category to '${inter.title}' interpretation`}
+              type="button"
+              class="btn btn-sm btn-primary"
+              onClick={node.associateTag}>
+              <span
+                class="icon icon-plus"
+                style={{
+                  margin: '0',
+                  pointerEvents: 'none',
+                }}></span>
+            </button>
+          </div>
+        )}
+
         <div id="virtual-taxonomy">
           <Taxonomy node={node} inter={inter} />
         </div>

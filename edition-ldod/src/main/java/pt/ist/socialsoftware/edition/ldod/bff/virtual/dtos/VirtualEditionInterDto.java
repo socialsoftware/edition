@@ -15,6 +15,8 @@ public class VirtualEditionInterDto extends FragInterDto {
 
     private List<?> categories;
 
+    private List<CategoryDto> notAssignedCategories;
+
     private List<VeUserDto> users;
     private String nextXmlId;
     private String prevXmlId;
@@ -33,6 +35,14 @@ public class VirtualEditionInterDto extends FragInterDto {
         super(inter);
         setShortName(inter.getShortName());
         setTitle(inter.getTitle());
+    }
+
+    public List<CategoryDto> getNotAssignedCategories() {
+        return notAssignedCategories;
+    }
+
+    public void setNotAssignedCategories(List<CategoryDto> notAssignedCategories) {
+        this.notAssignedCategories = notAssignedCategories;
     }
 
     public String getNextXmlId() {
@@ -143,6 +153,11 @@ public class VirtualEditionInterDto extends FragInterDto {
 
         public VirtualEditionInterDtoBuilder categories(List<?> categories) {
             virtualEditionInterDto.setCategories(categories);
+            return this;
+        }
+
+        public VirtualEditionInterDtoBuilder notAssignedCategories(List<CategoryDto> categories) {
+            virtualEditionInterDto.setNotAssignedCategories(categories);
             return this;
         }
 

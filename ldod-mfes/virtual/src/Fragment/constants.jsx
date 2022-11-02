@@ -30,6 +30,8 @@ export default {
     comment: 'Comentário',
     user: 'Utilizador',
     tags: 'Etiquetas',
+    add: 'Adicionar',
+    associate: 'Associar',
   },
   en: {
     virtualEditions: 'Virtual Editions',
@@ -42,6 +44,8 @@ export default {
     comment: 'Comment',
     user: 'User',
     tags: 'Tags',
+    add: 'Add',
+    associate: 'Associate',
   },
   es: {
     virtualEditions: 'Ediciónes Virtuales',
@@ -54,5 +58,7 @@ export default {
     comment: 'Comentario',
     user: 'Usuario',
     tags: 'Etiquetas',
+    add: 'Añadir',
+    associate: 'Asociar',
   },
 };

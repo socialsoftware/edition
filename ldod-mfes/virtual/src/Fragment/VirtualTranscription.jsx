@@ -1,4 +1,7 @@
+import { computeSelectPureHeight } from '../utils';
 import {
+  associateTagsRequest,
+  dissociateTagRequest,
   getVirtualFragmentInter,
   getVirtualFragmentInters,
 } from './apiRequests';
@@ -7,7 +10,10 @@ import VirtualIntersCompare from './components/VirtualIntersCompare';
 import constants from './constants';
 
 const getStyle = async () => (await import('./style.css?inline')).default;
-
+const AssociateModal = async (node) =>
+  (await import('./components/associate-tag-modal/AssociateTagModal')).default({
+    node,
+  });
 export class VirtualTranscription extends HTMLElement {
   constructor() {
     super();
@@ -32,6 +38,10 @@ export class VirtualTranscription extends HTMLElement {
     return this.getAttribute('language');
   }
 
+  get associateTagModal() {
+    return document.body.querySelector('ldod-modal#virtual-associateTagModal');
+  }
+
   static get observedAttributes() {
     return ['language'];
   }
@@ -49,8 +59,8 @@ export class VirtualTranscription extends HTMLElement {
   fetchVirtualFragmentInter = (xmlId, urlId) =>
     getVirtualFragmentInter(xmlId, urlId)
       .then((data) => {
-        this.inter = data.inters?.[0];
-        this.taxonomy = data.taxonomies?.[0];
+        this.inter = data.inter;
+        this.taxonomy = data.taxonomy;
       })
       .catch(this.onError);
 
@@ -82,7 +92,6 @@ export class VirtualTranscription extends HTMLElement {
   }
 
   render() {
-    console.log(this.inters);
     this.wrapper.innerHTML = '';
     this.inter && this.wrapper.appendChild(<Transcription node={this} />);
     this.inters.length &&
@@ -111,6 +120,48 @@ export class VirtualTranscription extends HTMLElement {
   onError = (error) => {
     console.error(error);
     this.dispatchCustomEvent('ldod-error', { message: error?.message });
+  };
+
+  associateTag = async () => {
+    document.body.appendChild(await AssociateModal(this));
+    document.body.addEventListener('click', this.computeSelectHeight);
+    document.body.addEventListener('ldod-modal-close', this.removeModal);
+    this.associateTagModal.toggleAttribute('show', true);
+  };
+
+  computeSelectHeight = () => {
+    computeSelectPureHeight(undefined, undefined, 120);
+  };
+
+  dissociateTag = async ({ target }) => {
+    await dissociateTagRequest(target.dataset.interId, target.dataset.catId)
+      .then((data) => {
+        this.inter = data.inter;
+        this.taxonomy = data.taxonomy;
+      })
+      .catch(this.onError);
+    this.render();
+  };
+
+  onAssociateTags = async () => {
+    const body = [
+      ...new Set(this.associateTagModal.querySelector('select-pure').values),
+    ];
+    await associateTagsRequest(this.inter.externalId, body)
+      .then((data) => {
+        this.inter = data.inter;
+        this.taxonomy = data.taxonomy;
+        this.removeModal();
+        this.render();
+      })
+      .catch(this.onError);
+  };
+
+  removeModal = (e = {}) => {
+    if (e.detail && e.detail.id !== 'virtual-associateTagModal') return;
+    document.body.removeEventListener('click', this.computeSelectHeight);
+    document.body.removeEventListener('ldod-modal-close', this.removeModal);
+    this.associateTagModal.remove();
   };
 
   dispatchCustomEvent = (event, detail, emmiter = this) => {

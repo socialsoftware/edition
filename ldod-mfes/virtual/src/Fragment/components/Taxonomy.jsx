@@ -4,19 +4,33 @@ try {
   await import('shared/table-dev.js');
 }
 
-const getTableData = (inter) => {
+const getTableData = (inter, node) => {
   return inter.categories.map((cat) => ({
     tag: (
-      <a
-        is="nav-to"
-        to={`/virtual/edition/acronym/${cat.veAcronym}/category/${cat.name}`}>
-        {cat.name}
-      </a>
+      <div style={{ display: 'flex', gap: '5px' }}>
+        <a
+          is="nav-to"
+          to={`/virtual/edition/acronym/${cat.veAcronym}/category/${cat.name}`}>
+          {cat.name}
+        </a>
+        {cat.canBeDissociated && (
+          <span
+            style={{ marginLeft: '0' }}
+            data-inter-id={inter.externalId}
+            data-cat-id={cat.externalId}
+            title={`Dissociate category from '${inter.title}' interpretation`}
+            onClick={node.dissociateTag}
+            class="icon icon-erase"></span>
+        )}
+      </div>
     ),
-    user: cat.users.map((user) => (
-      <a
-        is="nav-to"
-        to={`/virtual/edition/user/${user.username}`}>{`${user.firstname} ${user.lastname} (${user.username})`}</a>
+    user: cat.users.map((user, i, arr) => (
+      <>
+        <a
+          is="nav-to"
+          to={`/virtual/edition/user/${user.username}`}>{`${user.firstname} ${user.lastname} (${user.username})`}</a>
+        {i !== arr.length - 1 ? ', ' : ''}
+      </>
     )),
   }));
 };
@@ -27,7 +41,7 @@ export default ({ node, inter }) => {
       id="virtual-interTaxonomyTable"
       classes="table  table-hover"
       headers={node.constants.taxonomyHeaders}
-      data={getTableData(inter)}
+      data={getTableData(inter, node)}
       constants={node.constants.taxonomyHeadersIcons}></ldod-table>
   );
 };

@@ -1,36 +1,41 @@
 package pt.ist.socialsoftware.edition.ldod.bff.virtual.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.*;
+import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.fragment.VirtualFragmentInterCompareDto;
+import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.fragment.VirtualFragmentInterDto;
+import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.fragment.VirtualFragmentNavBodyDto;
+import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.fragment.VirtualFragmentNavDto;
 import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.Message;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class VirtualFragmentService {
 
+    @Autowired
     private VirtualTaxonomyService taxonomyService;
+    @Autowired
+    private VirtualService virtualService;
 
-    public VirtualEditionInterDto dissociate(String fragInterId, String categoryId) {
+    public VirtualFragmentInterDto dissociate(String fragInterId, String categoryId) {
         VirtualEditionInter inter = taxonomyService.checkVeInterNotNull(fragInterId);
         Category category = taxonomyService.checkCatNotNull(categoryId);
         LdoDUser user = LdoDUser.getAuthenticatedUser();
         inter.dissociate(user, category);
-        return new VirtualEditionInterDto(inter);
+        return getFragmentInter(inter.getFragment().getXmlId(), inter.getUrlId());
     }
 
-    public VirtualEditionInterDto associate(String fragInterId, Set<String> categoriesNames) {
+    public VirtualFragmentInterDto associate(String fragInterId, Set<String> categoriesNames) {
         VirtualEditionInter inter = taxonomyService.checkVeInterNotNull(fragInterId);
-        if (categoriesNames.isEmpty()) return new VirtualEditionInterDto(inter);
-        inter.associate(LdoDUser.getAuthenticatedUser(), categoriesNames);
-        return new VirtualEditionInterDto(inter);
+        if (!categoriesNames.isEmpty()) inter.associate(LdoDUser.getAuthenticatedUser(), categoriesNames);
+        return getFragmentInter(inter.getFragment().getXmlId(), inter.getUrlId());
     }
 
     private VirtualEditionInterDto getVeInterDtoWithPrevNext(VirtualEditionInter inter) {
@@ -44,19 +49,31 @@ public class VirtualFragmentService {
                 .build();
     }
 
-    public Map<String, List<VirtualEditionInterDto>> getFragmentInters(String xmlId, List<String> veAcronyms) {
+    public List<VirtualFragmentNavDto> getFragmentInters(String xmlId, VirtualFragmentNavBodyDto body) {
         Fragment frag = LdoD.getInstance().getFragmentByXmlId(xmlId);
-        return veAcronyms
+
+        FragInter inter = body.getCurrentInterId() != null
+                ? FenixFramework.getDomainObject(body.getCurrentInterId())
+                : body.getUrlId() != null ? frag.getFragInterByUrlId(body.getUrlId())
+                : null;
+
+        Collection<String> acronyms = LdoDUser.getAuthenticatedUser() != null
+                ? LdoDUser.getAuthenticatedUser().getSelectedVirtualEditionsSet().stream().map(Edition_Base::getAcronym).collect(Collectors.toSet())
+                : new HashSet<>(body.getInters());
+        acronyms.add(LdoD.getInstance().getArchiveEdition().getAcronym());
+
+        return acronyms
                 .stream()
-                .map(acr -> LdoD.getInstance().getVirtualEdition(acr))
-                .flatMap(ve -> ve.getSortedInter4Frag(frag).stream())
-                .collect(Collectors
-                        .groupingBy(
-                                veInter -> veInter.getEdition().getAcronym(),
-                                Collectors.mapping(this::getVeInterDtoWithPrevNext, Collectors.toList()))
-                );
-
-
+                .sorted(Comparator.comparing(acr -> acr.equals(LdoD.getInstance().getArchiveEdition().getAcronym())))
+                .sorted()
+                .map(acr -> VirtualFragmentNavDto.VirtualFragmentNavDtoBuilder
+                        .aVirtualFragmentNavDto(LdoD.getInstance().getVirtualEdition(acr), inter)
+                        .inters(LdoD.getInstance().getVirtualEdition(acr).getSortedInter4VirtualFrag(frag)
+                                .stream()
+                                .map(this::getVeInterDtoWithPrevNext)
+                                .collect(Collectors.toList()))
+                        .build())
+                .collect(Collectors.toList());
     }
 
 
@@ -64,44 +81,68 @@ public class VirtualFragmentService {
         VirtualEditionInter inter = (VirtualEditionInter) LdoD.getInstance().getFragmentByXmlId(xmlId).getFragInterByUrlId(urlId);
         PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(inter.getLastUsed());
         writer.write(false);
-
+        Taxonomy taxonomy = inter.getVirtualEdition().getTaxonomy();
 
         return VirtualFragmentInterDto.VirtualFragmentInterDtoBuilder.aVirtualFragmentInterDto()
-                .inters(Collections.singletonList(VirtualEditionInterDto.VirtualEditionInterDtoBuilder.aVirtualEditionInterDto(inter)
+                .inter(VirtualEditionInterDto.VirtualEditionInterDtoBuilder.aVirtualEditionInterDto(inter)
                         .usesEditionReference(inter.getListUsed().get(0).getEdition().getReference())
                         .usesReference(inter.getListUsed().get(0).getReference())
+                        .notAssignedCategories(inter.getNonAssignedCategories(LdoDUser.getAuthenticatedUser())
+                                .stream()
+                                .map(cat -> CategoryDto.CategoryDtoBuilder.aCategoryDto(cat)
+                                        .name(cat.getNameInEditionContext(inter.getVirtualEdition()))
+                                        .build())
+                                .collect(Collectors.toList()))
                         .categories(inter.getAssignedCategories()
                                 .stream()
                                 .map(cat -> CategoryDto.CategoryDtoBuilder.aCategoryDto(cat)
+                                        .name(cat.getNameInEditionContext(inter.getVirtualEdition()))
                                         .users(inter.getContributorSet(cat)
                                                 .stream()
                                                 .map(VeUserDto::new)
                                                 .collect(Collectors.toList()))
+                                        .canBeDissociated(inter.getContributorSet(cat).contains(LdoDUser.getAuthenticatedUser()))
                                         .build())
                                 .collect(Collectors.toList()))
                         .transcription(writer.getTranscription())
-                        .build()))
-                .taxonomies(Stream.of(inter
-                                .getVirtualEdition()
-                                .getTaxonomy())
-                        .map(taxonomy -> TaxonomyDto.TaxonomyDtoBuilder.aTaxonomyDto()
-                                .externalId(taxonomy.getExternalId())
-                                .build())
-                        .collect(Collectors.toList()))
+                        .build())
+                .taxonomy(TaxonomyDto.TaxonomyDtoBuilder.aTaxonomyDto()
+                        .openVocab(taxonomy.getOpenVocabulary())
+                        .canManipulateAnn(taxonomy.canManipulateAnnotation(LdoDUser.getAuthenticatedUser()))
+                        .externalId(taxonomy.getExternalId())
+                        .build())
                 .build();
     }
 
-    public List<VirtualInterCompareDto> getVirtualFragmentInters(String xmlId, List<String> ids) {
-        Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+    public List<VirtualFragmentInterCompareDto> getVirtualFragmentInters(String xmlId, List<String> ids) {
         return ids
                 .stream()
                 .map(id -> (VirtualEditionInter) FenixFramework.getDomainObject(id))
-                .map(inter -> new VirtualInterCompareDto(
+                .map(inter -> new VirtualFragmentInterCompareDto(
                         inter.getEdition().getAcronym(),
                         inter.getTagsCompleteInter().stream().map(TagDto::new).collect(Collectors.toList()),
                         inter.getAllDepthAnnotations().stream().map(AnnotationDto::new).collect(Collectors.toList())))
                 .collect(Collectors.toList());
+    }
 
+    protected Object checkObjectNotNull(String externalId) {
+        Object obj = FenixFramework.getDomainObject(externalId);
+        if (obj == null)
+            throw new LdoDException(String.format(Message.ELEMENT_NOT_FOUND.getLabel(), externalId));
+        return obj;
+    }
+
+    public List<VirtualFragmentNavDto> addInterToVe(String xmlId, String veId, String interId, VirtualFragmentNavBodyDto body) {
+
+        VirtualEdition ve = (VirtualEdition) checkObjectNotNull(veId);
+        FragInter inter = (FragInter) checkObjectNotNull(interId);
+
+        VirtualEditionInter addInter = ve.createVirtualEditionInter(inter,
+                ve.getMaxFragNumber() + 1);
+
+        if (addInter == null) throw new LdoDException(Message.OPERATION_NOT_AUTHORIZED.getLabel());
+
+        return getFragmentInters(xmlId, body);
 
     }
 }

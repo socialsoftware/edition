@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 public class CategoryDto {
 
     private String name;
-
     private String externalId;
     private String veAcronym;
     private String veTitle;
     private List<VeUserDto> users;
     private List<VirtualEditionDto> editions;
-
     private List<FragInterDto> veInters;
+
+    private boolean canBeDissociated;
 
     public CategoryDto(){};
 
@@ -27,6 +27,14 @@ public class CategoryDto {
         setVeTitle(StringEscapeUtils.unescapeHtml(category.getTaxonomy().getEdition().getTitle()));
         setVeAcronym(category.getTaxonomy().getEdition().getAcronym());
 
+    }
+
+    public boolean isCanBeDissociated() {
+        return canBeDissociated;
+    }
+
+    public void setCanBeDissociated(boolean canBeDissociated) {
+        this.canBeDissociated = canBeDissociated;
     }
 
     public List<VeUserDto> getUsers() {
@@ -97,6 +105,11 @@ public class CategoryDto {
             return new CategoryDtoBuilder(category);
         }
 
+        public CategoryDtoBuilder name(String name) {
+            categoryDto.setName(name);
+            return this;
+        }
+
         public CategoryDtoBuilder veInters(List<FragInterDto> inters) {
             categoryDto.setVeInters(inters);
             return this;
@@ -104,6 +117,11 @@ public class CategoryDto {
 
         public CategoryDtoBuilder users(List<VeUserDto> users) {
             categoryDto.setUsers(users);
+            return this;
+        }
+
+        public CategoryDtoBuilder canBeDissociated(boolean canBeDissociated){
+            categoryDto.setCanBeDissociated(canBeDissociated);
             return this;
         }
 

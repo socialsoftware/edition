@@ -14,6 +14,10 @@ public class TaxonomyDto {
     private String veTitle;
     private String veAcronym;
 
+    private boolean canManipulateAnnotation;
+
+    private boolean openVocab;
+
     private List<String> usedIn;
     private List<CategoryDto> categories;
 
@@ -51,6 +55,14 @@ public class TaxonomyDto {
 
     public void setUsedIn(List<String> usedIn) {
         this.usedIn = usedIn;
+    }
+
+    public boolean isCanManipulateAnnotation() {
+        return canManipulateAnnotation;
+    }
+
+    public void setCanManipulateAnnotation(boolean canManipulateAnnotation) {
+        this.canManipulateAnnotation = canManipulateAnnotation;
     }
 
     public String getVeAcronym() {
@@ -93,6 +105,13 @@ public class TaxonomyDto {
         this.categories = categories;
     }
 
+    public boolean isOpenVocab() {
+        return openVocab;
+    }
+
+    public void setOpenVocab(boolean openVocab) {
+        this.openVocab = openVocab;
+    }
 
     public static final class TaxonomyDtoBuilder {
         private TaxonomyDto taxonomyDto;
@@ -132,6 +151,15 @@ public class TaxonomyDto {
 
         public TaxonomyDtoBuilder categories(List<CategoryDto> categories) {
             taxonomyDto.setCategories(categories);
+            return this;
+        }
+
+        public TaxonomyDtoBuilder openVocab(boolean openVocab) {
+            taxonomyDto.setOpenVocab(openVocab);
+            return this;
+        }
+        public TaxonomyDtoBuilder canManipulateAnn(boolean canManipulateAnn) {
+            taxonomyDto.setCanManipulateAnnotation(canManipulateAnn);
             return this;
         }
 

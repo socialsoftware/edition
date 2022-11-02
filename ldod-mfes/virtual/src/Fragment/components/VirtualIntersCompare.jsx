@@ -31,7 +31,6 @@ export default ({ node }) => {
                 language={node.language}
                 constants={node.constants}
                 data={rows.map((row) => {
-                  console.log(row);
                   return {
                     quote: row.quote || '---',
                     comment: row.human ? (

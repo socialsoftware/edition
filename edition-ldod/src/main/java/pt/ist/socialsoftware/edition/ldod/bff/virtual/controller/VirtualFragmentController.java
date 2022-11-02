@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pt.ist.socialsoftware.edition.ldod.bff.dtos.MainResponseDto;
+import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.fragment.VirtualFragmentNavBodyDto;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.service.VirtualFragmentService;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
@@ -40,9 +41,9 @@ public class VirtualFragmentController {
 
 
     @PostMapping("/{xmlId}")
-    public ResponseEntity<?> getFragment(@PathVariable String xmlId, @RequestBody List<String> veAcronyms) {
+    public ResponseEntity<?> getFragment(@PathVariable String xmlId, @RequestBody VirtualFragmentNavBodyDto body) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(service.getFragmentInters(xmlId, veAcronyms));
+            return ResponseEntity.status(HttpStatus.OK).body(service.getFragmentInters(xmlId, body));
         } catch (LdoDException e) {
             return ResponseEntity.status(HttpStatus.OK).body(new MainResponseDto(false, e.getMessage()));
         }
@@ -62,6 +63,19 @@ public class VirtualFragmentController {
     public ResponseEntity<?> getVirtualFragmentInters(@PathVariable String xmlId, @RequestBody List<String> ids) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.getVirtualFragmentInters(xmlId, ids));
+        } catch (LdoDException e) {
+            return ResponseEntity.status(HttpStatus.OK).body(new MainResponseDto(false, e.getMessage()));
+        }
+    }
+
+    @PostMapping("/{xmlId}/restricted/add-inter/{veId}/{interId}")
+    @PreAuthorize("hasPermission(#veId, 'virtualedition.participant')")
+    public ResponseEntity<?> addInter(@PathVariable String xmlId,
+                                      @PathVariable String veId,
+                                      @PathVariable String interId,
+                                      @RequestBody VirtualFragmentNavBodyDto body) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.addInterToVe(xmlId, veId, interId, body));
         } catch (LdoDException e) {
             return ResponseEntity.status(HttpStatus.OK).body(new MainResponseDto(false, e.getMessage()));
         }
