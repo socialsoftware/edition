@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.bff.virtual.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.bff.annotations.AnnotationDto;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.*;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.fragment.VirtualFragmentInterCompareDto;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.fragment.VirtualFragmentInterDto;
@@ -21,8 +22,6 @@ public class VirtualFragmentService {
 
     @Autowired
     private VirtualTaxonomyService taxonomyService;
-    @Autowired
-    private VirtualService virtualService;
 
     public VirtualFragmentInterDto dissociate(String fragInterId, String categoryId) {
         VirtualEditionInter inter = taxonomyService.checkVeInterNotNull(fragInterId);
@@ -111,7 +110,6 @@ public class VirtualFragmentService {
                         .canManipulateAnn(taxonomy.canManipulateAnnotation(LdoDUser.getAuthenticatedUser()))
                         .externalId(taxonomy.getExternalId())
                         .build())
-                .annotations(inter.getAllDepthAnnotations().stream().map(AnnotationDto::new).collect(Collectors.toList()))
                 .build();
     }
 
@@ -122,7 +120,7 @@ public class VirtualFragmentService {
                 .map(inter -> new VirtualFragmentInterCompareDto(
                         inter.getEdition().getAcronym(),
                         inter.getTagsCompleteInter().stream().map(TagDto::new).collect(Collectors.toList()),
-                        inter.getAllDepthAnnotations().stream().map(AnnotationDto::new).collect(Collectors.toList())))
+                        inter.getAllDepthAnnotations().stream().map(ann -> new AnnotationDto(ann, LdoDUser.getAuthenticatedUser())).collect(Collectors.toList())))
                 .collect(Collectors.toList());
     }
 

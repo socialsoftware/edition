@@ -51,8 +51,8 @@ export class LdodTable extends HTMLElement {
       : this.constants[key];
   }
 
-  render() {
-    this.appendChild(this.getTable());
+  async render() {
+    this.appendChild(await this.getTable());
   }
   attributeChangedCallback(name, oldV, newV) {
     if (oldV && oldV !== newV) {
@@ -62,14 +62,12 @@ export class LdodTable extends HTMLElement {
     }
   }
 
-  connectedCallback() {
+  async connectedCallback() {
     this.appendChild(<style>{tableStyle}</style>);
-    this.render();
+    await this.render();
     if (!this.isFullyLoaded) this.addObserver();
     history.state?.searchTerm && this.handleSearchInput();
   }
-
-  disconnectedCallback() {}
 
   obsCallback = ([entry], observer) => {
     if (entry.intersectionRatio > 0) {
@@ -99,10 +97,8 @@ export class LdodTable extends HTMLElement {
     );
   };
 
-  loadSearchStyle() {
-    import('./tools.css?inline').then((style) => {
-      this.querySelector('#table-tools>style').innerHTML = style.default;
-    });
+  async loadSearchStyle() {
+    return (await import('./tools.css?inline')).default;
   }
 
   handleSearchInput = () => {
@@ -111,7 +107,9 @@ export class LdodTable extends HTMLElement {
       this.addRows(this.data.length);
     }
 
-    const searchTerm = this.querySelector('input#searchField').value?.trim();
+    const searchTerm = this.querySelector(
+      'input#table-searchField'
+    ).value?.trim();
     history.replaceState(searchTerm ? { searchTerm } : {}, {});
     const result = this.data
       .filter((row) =>
@@ -136,7 +134,7 @@ export class LdodTable extends HTMLElement {
   getSearch() {
     return (
       <input
-        id="searchField"
+        id="table-searchField"
         type="search"
         name="search"
         placeholder="search"
@@ -165,13 +163,16 @@ export class LdodTable extends HTMLElement {
     return this.data.slice(start, end).map(this.getRow);
   }
 
-  getTable() {
+  async getTable() {
     return (
       <>
         <div id="table-tools">
-          <style></style>
-          {this.loadSearchStyle()}
-          {this.searchKey && this.getSearch()}
+          {this.searchKey && (
+            <>
+              <style>{await this.loadSearchStyle()}</style>
+              {this.getSearch()}
+            </>
+          )}
         </div>
         <div class="table-container">
           <div class="table-body">

@@ -1,6 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.fragment;
 
-import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.AnnotationDto;
+import pt.ist.socialsoftware.edition.ldod.bff.annotations.AnnotationDto;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.CategoryDto;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.TaxonomyDto;
 import pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos.VirtualEditionInterDto;

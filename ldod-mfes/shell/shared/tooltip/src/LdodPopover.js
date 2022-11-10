@@ -1,7 +1,6 @@
 import { dom } from '../../dist/utils.js';
 import popoverStyle from './popover.css?inline';
-
-import { createPopper } from '@popperjs/core/dist/esm/popper';
+import { createPopper } from 'shared/popper.js';
 window.html = String.raw;
 
 export class LdodPopover extends HTMLElement {
@@ -22,7 +21,6 @@ export class LdodPopover extends HTMLElement {
   }
 
   get options() {
-
     return {
       placement: 'bottom',
       modifiers: [
@@ -58,13 +56,10 @@ export class LdodPopover extends HTMLElement {
 
   handleChangeAttribute = {
     show: () => {
-      if (this.show) {
-        this.append(...this.getComponent());
-        this.content.toggleAttribute('show');
-        this.update();
-      } else {
-        this.content.remove();
-      }
+      if (!this.show) return this.content.remove();
+      this.append(...this.getComponent());
+      this.content.toggleAttribute('show');
+      this.update();
     },
   };
 

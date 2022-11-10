@@ -4,7 +4,10 @@ import Navigation from './components/Navigation';
 import constants from './constants';
 const getStyle = async () => (await import('./style.css?inline')).default;
 
-const loadTooltip = () => import('shared/tooltip.js');
+const loadTooltip = () =>
+  import.meta.env.DEV
+    ? import('shared/tooltip.dev.js')
+    : import('shared/tooltip.js');
 
 export class VirtualNavigation extends HTMLElement {
   constructor() {
@@ -108,7 +111,7 @@ export class VirtualNavigation extends HTMLElement {
   };
 
   addEventListeners = () => {
-    this.wrapper.addEventListener('pointerenter', loadTooltip);
+    this.wrapper.addEventListener('pointerenter', loadTooltip, { once: true });
   };
 
   onCheckboxChange = async ({ target }) => {

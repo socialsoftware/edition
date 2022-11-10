@@ -1,0 +1,33 @@
+{
+    "name": "annotations",
+    "version": "1.0.0",
+    "license": "MIT",
+    "private": true,
+    "type": "module",
+    "entry": "index.js",
+    "config": {
+        "docker": "http://localhost/ldod-mfes",
+        "dev": "http://localhost:9000/ldod-mfes"
+    },
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build && yarn build-dev",
+        "build-dev": "vite --config vite.config.dev.js build",
+        "prepreview": "vite --config vite.config.dev.js build",
+        "preview": "vite --config vite.config.dev.js preview",
+        "pack": "yarn build && ./scripts/pack.sh annotations",
+        "publish-dev": "yarn run pack && ./scripts/publish.sh annotations annotations.js @./dist/annotations.tgz $npm_package_config_dev",
+        "unpublish-dev": "./scripts/unpublish.sh annotations $npm_package_config_dev",
+        "publish": "yarn run pack && ./scripts/publish.sh annotations annotations.js @./dist/annotations.tgz $npm_package_config_docker",
+        "unpublish": "./scripts/unpublish.sh annotations $npm_package_config_docker"
+    },
+    "devDependencies": {
+        "vite": "^3.2.2"
+    },
+    "dependencies": {
+        "@apache-annotator/dom": "^0.3.0-dev.23",
+        "quill": "^1.3.7",
+        "select-pure": "^2.1.4",
+        "xpath-range": "^1.1.1"
+    }
+}

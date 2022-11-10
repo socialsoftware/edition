@@ -401,7 +401,7 @@ public class FragmentController {
 		HumanAnnotation annotation;
 		if (HumanAnnotation.canCreate(virtualEdition, user)) {
 			annotation = inter.createHumanAnnotation(annotationJson.getQuote(), annotationJson.getText(), user,
-					annotationJson.getRanges(), annotationJson.getTags());
+					annotationJson.getRanges(), annotationJson.getTags(), null);
 
 			annotationJson.setId(annotation.getExternalId());
 
@@ -434,7 +434,7 @@ public class FragmentController {
 		}
 
 		if (annotation.canUpdate(user)) {
-			annotation.update(annotationJson.getText(), annotationJson.getTags());
+			annotation.update(annotationJson.getText(), annotationJson.getTags(),null);
 			return new ResponseEntity<>(new AnnotationDTO(annotation), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

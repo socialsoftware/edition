@@ -21,6 +21,8 @@ export default defineConfig(({ mode }) => {
           'shared/fetcher.js',
           'shared/utils.js',
           'shared/tooltip.js',
+          'shared/popper.js',
+          'shared/select-pure.js',
         ],
       },
     },
@@ -35,6 +37,14 @@ export default defineConfig(({ mode }) => {
         {
           find: 'shared/',
           replacement: `${env.VITE_NODE_HOST}/shared/`,
+        },
+        {
+          find: 'annotations',
+          replacement: `${env.VITE_NODE_HOST}/annotations/annotations.js`,
+        },
+        {
+          find: 'annotations.dev',
+          replacement: `${env.VITE_NODE_HOST}/annotations/annotations.dev.js`,
         },
         {
           find: '@src/',

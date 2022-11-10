@@ -108,7 +108,7 @@ export default ({ node, veId }) => {
         </div>
       </div>
       <div slot="footer-slot">
-        <div style={{ padding: '20px' }}>
+        <div>
           <button
             type="button"
             class="btn btn-primary"

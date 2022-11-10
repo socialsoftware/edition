@@ -572,7 +572,7 @@ public class FragmentTest {
         list.add(rj);
 
         fragInter.createHumanAnnotation("A arte é um esquivar-se a agir", "Interesting", user,
-                list, Arrays.asList("tag1", "tag2"));
+                list, Arrays.asList("tag1", "tag2"), null);
 
     }
 }

@@ -6,7 +6,7 @@ input#select-pure-autocomplete {
     width: auto;
 }
 
-select-pure {
+select-pure#virtual-associateTag {
     --border-color: #ced4da;
     --dropdown-gap: 5px;
     --dropdown-items: 5;

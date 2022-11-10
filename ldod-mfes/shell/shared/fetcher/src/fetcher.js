@@ -1,5 +1,7 @@
 import { getPartialStorage } from '../../store/store.js';
 
+const HOST = 'http://localhost:8000/api';
+
 const handleError = (errorData) => {
   const { message } = errorData;
   const errorEv = new CustomEvent('ldod-error', { detail: { message } });
@@ -32,7 +34,7 @@ const fetchRequest = async (url, options) => {
   }
 };
 
-const request = async (method, url, data, token) => {
+const request = async (method, path, data, token) => {
   handleLoading(true);
   const options = {};
   const accessToken = token ? token : getStorageToken();
@@ -51,7 +53,10 @@ const request = async (method, url, data, token) => {
   options.method = method;
   if (data) options.body = JSON.stringify(data);
 
-  return await fetchRequest(url, options);
+  return await fetchRequest(
+    path.startsWith('/') ? `${HOST}${path}` : path,
+    options
+  );
 };
 
 export const fetcher = ['get', 'post', 'put', 'delete'].reduce(

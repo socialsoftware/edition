@@ -23,7 +23,7 @@ export default class LdodNavbar extends HTMLElement {
     this.selectedVE = this.defaultSelectedVE;
   }
 
-  static get observedAttributes() {
+  static get observedAttributes() {object
     return ['language'];
   }
 

@@ -117,6 +117,7 @@ div.text-fac-transcription {
         width: 100%;
     }
     div#fragment-navigation-container {
+        padding: 20px;
         width: 100%;
     }
     div.text-fac-transcription {

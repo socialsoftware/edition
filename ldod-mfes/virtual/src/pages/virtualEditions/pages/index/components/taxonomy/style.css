@@ -126,5 +126,5 @@ span[data-virtual-key] {
 select-pure {
     --border-color: #ced4da;
     --dropdown-gap: 5px;
-    --dropdown-items: 10;
+    --dropdown-items: 5;
 }

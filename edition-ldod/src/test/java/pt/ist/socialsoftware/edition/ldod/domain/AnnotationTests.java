@@ -54,11 +54,11 @@ public class AnnotationTests extends TestWithFragmentsLoading {
 	@Test
 	@Atomic(mode = TxMode.WRITE)
 	public void update() {
-		doCallRealMethod().when(this.annotation).update(any(), any());
+		doCallRealMethod().when(this.annotation).update(any(), any(), null);
 
 		when(this.annotation.getVirtualEditionInter()).thenReturn(this.inter);
 
-		this.annotation.update("text", new ArrayList<String>());
+		this.annotation.update("text", new ArrayList<String>(), null);
 		verify(this.annotation, times(1)).setText("text");
 		verify(this.annotation, times(1)).getVirtualEditionInter();
 	}

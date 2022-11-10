@@ -5,10 +5,14 @@ export default defineConfig({
     target: 'es2022',
     outDir: '../dist',
     emptyOutDir: false,
+    sourcemap: true,
     lib: {
       entry: 'tooltip.js',
       formats: ['es'],
       fileName: 'tooltip',
+    },
+    rollupOptions: {
+      external: ['shared/popper.js'],
     },
   },
 

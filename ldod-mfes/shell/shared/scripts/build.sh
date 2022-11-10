@@ -1,8 +1,11 @@
 #! /bin/sh
 
-dirs="store utils router vanilla-jsx fetcher modal tooltip table buttons"
+dirs="popper store utils router vanilla-jsx fetcher modal tooltip table buttons"
 
 rm -r dist
+
+cp -rf select-pure dist
+
 
 for dir in $dirs
 do
@@ -11,3 +14,4 @@ do
   yarn build
   cd ..
 done
+

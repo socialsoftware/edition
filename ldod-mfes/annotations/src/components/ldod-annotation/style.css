@@ -1,0 +1,153 @@
+.flex-5 {
+    display: flex;
+    gap: 5px;
+}
+
+.comment {
+    width: 400px;
+    max-width: 100%;
+    font-size: 0.875rem;
+    pointer-events: auto;
+    background-color: rgba(255, 255, 255);
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+    border-radius: 0.25rem;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0.75rem;
+    color: #6c757d;
+    background-color: rgba(255, 255, 255, 0.85);
+    background-clip: padding-box;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-top-left-radius: calc(0.25rem - 1px);
+    border-top-right-radius: calc(0.25rem - 1px);
+}
+
+.comment-body {
+    word-wrap: break-word;
+}
+
+.comment-footer {
+    display: flex;
+    padding: 0 0.75em;
+    justify-content: end;
+    gap: 5px;
+    padding: 0.5rem !important;
+}
+
+.comment-icon {
+    height: 15px;
+    width: 15px;
+}
+
+.comment-trash {
+    cursor: pointer;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%23dc3545' d='M135.2 17.69C140.6 6.848 151.7 0 163.8 0H284.2C296.3 0 307.4 6.848 312.8 17.69L320 32H416C433.7 32 448 46.33 448 64C448 81.67 433.7 96 416 96H32C14.33 96 0 81.67 0 64C0 46.33 14.33 32 32 32H128L135.2 17.69zM31.1 128H416V448C416 483.3 387.3 512 352 512H95.1C60.65 512 31.1 483.3 31.1 448V128zM111.1 208V432C111.1 440.8 119.2 448 127.1 448C136.8 448 143.1 440.8 143.1 432V208C143.1 199.2 136.8 192 127.1 192C119.2 192 111.1 199.2 111.1 208zM207.1 208V432C207.1 440.8 215.2 448 223.1 448C232.8 448 240 440.8 240 432V208C240 199.2 232.8 192 223.1 192C215.2 192 207.1 199.2 207.1 208zM304 208V432C304 440.8 311.2 448 320 448C328.8 448 336 440.8 336 432V208C336 199.2 328.8 192 320 192C311.2 192 304 199.2 304 208z'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 15px;
+}
+
+.comment-user {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath d='M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 13px;
+}
+
+[disabled].comment-btn {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.comment-btn {
+    opacity: 1;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid transparent;
+    border-radius: 0.2rem;
+    line-height: 1;
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.comment-btn:hover {
+    color: #fff;
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+div#content>p#annotation-text {
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+    padding: 0.5em;
+    font-style: italic;
+}
+
+div#content>div.ql-editor>p {
+    cursor: text;
+}
+
+div#content>div.ql-editor:focus {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: 0;
+}
+
+div.ql-tooltip {
+    z-index: 1060;
+}
+
+div#content {
+    border: none;
+    padding: 0.75em;
+}
+
+div.ql-toolbar.ql-snow {
+    border: none;
+}
+
+mark {
+    cursor: auto;
+}
+
+select-pure#annotations-categories {
+    --border-color: #ced4da;
+    --dropdown-gap: 5px;
+    --dropdown-items: 5;
+    --select-height: 44px;
+}
+
+input#select-pure-autocomplete {
+    border: none;
+    border-radius: 0;
+    min-height: var(--select-height, 44px);
+    padding: 0 10px;
+    width: auto;
+    overflow-y: auto;
+}
+
+p#annotation-categories.categories-chipped {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+p#annotation-categories.categories-chipped>span {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #ccc;
+    padding: 0 8px;
+    font-weight: 700;
+    color: #909090;
+}

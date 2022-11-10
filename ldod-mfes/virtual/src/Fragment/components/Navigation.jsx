@@ -50,11 +50,12 @@ export default ({ node }) => {
                       <td></td>
                       <td>
                         <button
-                          title={`Add fragment interpretation to ${inter.acronym}`}
+                          id="virtual-addFragmentInter"
                           type="button"
                           data-ve-id={inter.veExternalId}
                           data-inter-id={inter.interExternalId}
-                          class="btn btn-sm btn-primary"
+                          class="btn btn-primary"
+                          title={`Add fragment interpretation to ${inter.acronym}`}
                           onClick={node.addInterToVe}>
                           <span
                             class="icon icon-plus"

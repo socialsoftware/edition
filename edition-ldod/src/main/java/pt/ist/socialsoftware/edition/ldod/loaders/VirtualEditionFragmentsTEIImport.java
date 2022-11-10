@@ -234,7 +234,7 @@ public class VirtualEditionFragmentsTEIImport {
                 String tag = catRef.getAttributeValue("target").substring(1);
                 tagList.add(tag);
             }
-            inter.createHumanAnnotation(quote, text, this.ldoD.getUser(username), rangeList, tagList);
+            inter.createHumanAnnotation(quote, text, this.ldoD.getUser(username), rangeList, tagList,null);
         }
         //else if (note.getAttributeValue("type").equals("aware")) {
         // do nothing

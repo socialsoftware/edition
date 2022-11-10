@@ -1,6 +1,7 @@
-import tooltipStyle from './tooltip.css?inline';
+import tooltipStyle from '@src/tooltip.css?inline';
 import { dom } from '../../dist/utils.js';
-import { createPopper } from '@popperjs/core/dist/esm/popper';
+import { createPopper } from 'shared/popper.js';
+
 window.html = String.raw;
 
 const getStyle = () =>
@@ -72,7 +73,7 @@ export class LdodTooltip extends HTMLElement {
 
   connectedCallback() {
     this.addEventListeners();
-    this.element.setAttribute('aria-describedby', 'tooltip');
+    this.element?.setAttribute('aria-describedby', 'tooltip');
     this.render();
   }
 

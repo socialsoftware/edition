@@ -138,7 +138,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
 
     @Atomic(mode = TxMode.WRITE)
     public HumanAnnotation createHumanAnnotation(String quote, String text, LdoDUser user, List<RangeJson> rangeList,
-                                                 List<String> tagList) {
+                                                 List<String> tagList, String contents) {
         logger.debug("createHumanAnnotation start:{}, startOffset:{}, end:{}, endOffset:{}",
                 rangeList.get(0).getStart(), rangeList.get(0).getStartOffset(), rangeList.get(0).getEnd(),
                 rangeList.get(0).getEndOffset());
@@ -151,7 +151,7 @@ public class VirtualEditionInter extends VirtualEditionInter_Base {
         // endText = getFragment().getTextPortion().getSimpleText(getLastUsed(),
         // 0, rangeList.get(0).getEndOffset());
 
-        HumanAnnotation annotation = new HumanAnnotation(this, startText, endText, quote, text, user);
+        HumanAnnotation annotation = new HumanAnnotation(this, startText, endText, quote, text, user, contents);
 
         for (RangeJson rangeJson : rangeList) {
             new Range(annotation, rangeJson.getStart(), rangeJson.getStartOffset(), rangeJson.getEnd(),

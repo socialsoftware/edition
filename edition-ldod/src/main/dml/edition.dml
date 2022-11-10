@@ -581,7 +581,9 @@ class Annotation {
 	String text;
 }
 
-class HumanAnnotation extends Annotation;
+class HumanAnnotation extends Annotation {
+    String contents;
+}
 
 class AwareAnnotation extends Annotation;
 

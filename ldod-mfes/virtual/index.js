@@ -1,5 +1,4 @@
 import { fetcher } from 'shared/fetcher.js';
-import './src/Fragment/annotator';
 
 import router, { loadVirtualComponents } from './src/virtual.js';
 

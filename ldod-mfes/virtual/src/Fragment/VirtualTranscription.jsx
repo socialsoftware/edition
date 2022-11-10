@@ -8,14 +8,19 @@ import {
 import Transcription from './components/Transcription';
 import VirtualIntersCompare from './components/VirtualIntersCompare';
 import constants from './constants';
-import { highlightAnnotation } from './annotator';
-import { fromRange } from 'xpath-range';
 
 const getStyle = async () => (await import('./style.css?inline')).default;
 const AssociateModal = async (node) =>
   (await import('./components/associate-tag-modal/AssociateTagModal')).default({
     node,
   });
+
+export const loadAnnotator = async (interId, referenceNode) => {
+  const { annotatorService } = import.meta.env.DEV
+    ? await import('annotations.dev').catch((e) => console.error(e))
+    : await import('annotations').catch((e) => console.error(e));
+  annotatorService({ interId, referenceNode });
+};
 export class VirtualTranscription extends HTMLElement {
   constructor() {
     super();
@@ -91,24 +96,18 @@ export class VirtualTranscription extends HTMLElement {
     this.appendChild(<style>{await getStyle()}</style>);
     this.appendChild(<div id="virtual-transcriptionWrapper"></div>);
     this.render();
-
-    this.querySelector('#virtual-transcriptionWrapper').onmouseup = (e) => {
-      const userSelection = window.getSelection();
-      if (!userSelection || userSelection.type === 'Caret') return;
-      const xpath = fromRange(
-        userSelection.getRangeAt(0),
-        this.querySelector('#virtual-transcriptionWrapper')
-      );
-      highlightAnnotation({ ranges: [xpath] }, this);
-    };
-
-    if (this.annotations)
-      this.annotations.forEach((ann) => highlightAnnotation(ann, this));
   }
 
-  render() {
+  async render() {
     this.wrapper.innerHTML = '';
-    this.inter && this.wrapper.appendChild(<Transcription node={this} />);
+    if (this.inter) {
+      this.wrapper.appendChild(<Transcription node={this} />);
+      await loadAnnotator(
+        this.inter.externalId,
+        this.wrapper.querySelector('div#virtual-nodeReference')
+      );
+    }
+
     this.inters.length &&
       this.wrapper.appendChild(<VirtualIntersCompare node={this} />);
   }

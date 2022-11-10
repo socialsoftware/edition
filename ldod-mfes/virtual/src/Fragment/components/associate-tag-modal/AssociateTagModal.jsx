@@ -1,9 +1,9 @@
-import 'select-pure';
+import 'shared/select-pure.js';
 import 'shared/modal.js';
 import style from './style.css?inline';
 
 const selectPure = (node) =>
-  node.associateTagModal.querySelector('select-pure');
+  node.associateTagModal.querySelector('select-pure#virtual-associateTag');
 
 const onAutocomplete = (e, node) => {
   const nonAssignedCats = node.inter.notAssignedCategories;
@@ -63,7 +63,7 @@ export default ({ node }) => {
       </span>
       <div slot="body-slot">
         <div id="multipleSelectContainer" style={{ padding: '20px' }}>
-          <select-pure name="categories" multiple>
+          <select-pure id="virtual-associateTag" name="categories" multiple>
             <input
               id="select-pure-autocomplete"
               type="text"

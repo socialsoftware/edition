@@ -6,13 +6,12 @@
     padding-bottom: 15px;
 }
 
-input {
+input#table-searchField {
     width: 30%;
     color: #555;
 }
 
-select,
-input {
+input#table-searchField {
     background-color: rgb(255, 255, 255);
     margin: 0;
     display: block;
@@ -30,8 +29,7 @@ input {
     transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
 
-input:focus,
-select:focus {
+input#table-searchField:focus {
     border-color: #777;
     outline: 0;
     -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(102 175 233 / 60%);

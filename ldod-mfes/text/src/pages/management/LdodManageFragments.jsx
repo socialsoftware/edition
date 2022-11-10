@@ -118,9 +118,7 @@ export class LdodManageFragments extends HTMLElement {
     data: () => {
       this.render();
       this.exportHeadElement?.addEventListener('click', this.unselectAll);
-      this.querySelectorAll('[tooltip-ref]').forEach((tooltipped) => {
-        tooltipped.parentNode.addEventListener('pointerenter', loadToolip);
-      });
+      this.wrapper.addEventListener('pointerenter', loadToolip);
     },
   };
 

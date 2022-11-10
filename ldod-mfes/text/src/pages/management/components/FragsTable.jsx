@@ -16,7 +16,7 @@ export default ({ node, constants }) => {
         constants={constants}
         data-searchkey="externalId"></ldod-table>
       <ldod-tooltip
-        data-ref="thead [data-key='export']"
+        data-ref="thead>tr>th[data-key='export']"
         data-tooltipkey="unselectAll"
         placement="top"
         content={node.getConstants('unselectAll')}></ldod-tooltip>

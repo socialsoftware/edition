@@ -1,10 +1,7 @@
-package pt.ist.socialsoftware.edition.ldod.bff.virtual.dtos;
+package pt.ist.socialsoftware.edition.ldod.bff.annotations;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import pt.ist.socialsoftware.edition.ldod.domain.Annotation;
-import pt.ist.socialsoftware.edition.ldod.domain.AwareAnnotation;
-import pt.ist.socialsoftware.edition.ldod.domain.HumanAnnotation;
-import pt.ist.socialsoftware.edition.ldod.utils.PermissionDTO;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.utils.RangeJson;
 
 import java.util.List;
@@ -24,12 +21,17 @@ public class AnnotationDto {
     private String country;
     private String date;
     private String username;
-    private List<TagDto> tags;
+    private List<String> tagList;
     private List<RangeJson> ranges;
-    private PermissionDTO permissions;
 
+    private String contents;
+    private boolean canBeRead;
+    private boolean canBeUpdated;
 
-    public AnnotationDto(Annotation annotation) {
+    public AnnotationDto() {
+    }
+
+    public AnnotationDto(Annotation annotation, LdoDUser user) {
         setUri(annotation.getVirtualEditionInter().getExternalId());
         setExternalId(annotation.getExternalId());
         setHuman(annotation.isHumanAnnotation());
@@ -38,14 +40,45 @@ public class AnnotationDto {
         setRanges(annotation.getRangeSet().stream().map(RangeJson::new).collect(Collectors.toList()));
         if (isHuman()) {
             setText(StringEscapeUtils.unescapeHtml(annotation.getText()));
-            setTags(((HumanAnnotation) annotation).getTagSet().stream().map(TagDto::new).collect(Collectors.toList()));
-            setPermissions(new PermissionDTO(annotation.getVirtualEditionInter().getVirtualEdition(), annotation.getUser()));
+            setTagList(((HumanAnnotation) annotation).getTagSet()
+                    .stream()
+                    .map(t -> t.getCategory().getNameInEditionContext(annotation.getVirtualEditionInter().getVirtualEdition()))
+                    .collect(Collectors.toList()));
+            VirtualEdition ve = annotation.getVirtualEditionInter().getVirtualEdition();
+            setCanBeRead(ve.getPub() || (user != null && ve.getParticipantSet().contains((user))));
+            setCanBeUpdated(user != null && ve.getParticipantSet().contains(user));
+            setContents(((HumanAnnotation) annotation).getContents());
+
         } else {
             setDate(((AwareAnnotation) annotation).getDate());
             setSourceLink(((AwareAnnotation) annotation).getSourceLink());
             setProfileURL(((AwareAnnotation) annotation).getProfileURL());
             setCountry(((AwareAnnotation) annotation).getCountry());
         }
+    }
+
+    public boolean isCanBeRead() {
+        return canBeRead;
+    }
+
+    public void setCanBeRead(boolean canBeRead) {
+        this.canBeRead = canBeRead;
+    }
+
+    public boolean isCanBeUpdated() {
+        return canBeUpdated;
+    }
+
+    public void setCanBeUpdated(boolean canBeUpdated) {
+        this.canBeUpdated = canBeUpdated;
+    }
+
+    public String getContents() {
+        return contents;
+    }
+
+    public void setContents(String contents) {
+        this.contents = contents;
     }
 
     public String getUri() {
@@ -80,12 +113,12 @@ public class AnnotationDto {
         this.date = date;
     }
 
-    public List<TagDto> getTags() {
-        return tags;
+    public List<String> getTagList() {
+        return tagList;
     }
 
-    public void setTags(List<TagDto> tags) {
-        this.tags = tags;
+    public void setTagList(List<String> tagList) {
+        this.tagList = tagList;
     }
 
     public String getUsername() {
@@ -145,11 +178,4 @@ public class AnnotationDto {
         this.ranges = ranges;
     }
 
-    public PermissionDTO getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(PermissionDTO permissions) {
-        this.permissions = permissions;
-    }
 }
