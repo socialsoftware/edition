@@ -1,39 +1,3 @@
-* {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-.container {
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
-    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    line-height: 1.42857143;
-    color: #333;
-    background-color: #fff;
-}
-
-@media (min-width: 768px) {
-    .container {
-        width: 750px;
-    }
-}
-
-@media (min-width: 992px) {
-    .container {
-        width: 970px;
-    }
-}
-
-@media (min-width: 1200px) {
-    .container {
-        width: 1170px;
-    }
-}
-
 .text-center {
     text-align: center;
 }
@@ -151,11 +115,6 @@ label {
 }
 
 .form-floating>.form-control {
-    height: calc(3.5rem + 2px);
-    line-height: 1.25;
-}
-
-.form-floating>.form-control {
     padding: 1rem 0.75rem;
 }
 
@@ -166,7 +125,6 @@ label {
 
 .form-floating>.form-control:focus~label,
 .form-floating>.form-control:not(:placeholder-shown)~label,
-.form-floating>.form-control-plaintext~label,
 .form-floating>.form-select~label {
     opacity: 0.65;
     transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
@@ -254,8 +212,7 @@ label {
     color: transparent;
 }
 
-.form-floating>.form-control::placeholder,
-.form-floating>.form-control-plaintext::placeholder {
+.form-floating>.form-control::placeholder {
     color: transparent;
 }
 
@@ -266,12 +223,6 @@ label {
 }
 
 .form-floating>.form-control,
-.form-floating>.form-control-plaintext {
-    padding: 1rem 0.75rem;
-}
-
-.form-floating>.form-control,
-.form-floating>.form-control-plaintext,
 .form-floating>.form-select {
     height: calc(3.5rem + 2px);
     line-height: 1.25;

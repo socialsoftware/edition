@@ -1,0 +1,73 @@
+div#main {
+    margin-top: 50px;
+    max-width: 400px;
+}
+
+div#options {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+form[is='criteria-form'] div#criteria-container,
+form[is='criteria-form'] div#criteria-form {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+form[is='criteria-form'] div#criteria-container {
+    justify-content: space-between;
+}
+
+.form-select {
+    font-size: 14px !important;
+}
+
+span.icon {
+    pointer-events: none;
+}
+
+span.icon-minus {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath d='M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z'/%3E%3C/svg%3E") no-repeat center;
+    background-size: 15px;
+}
+
+span.icon-plus {
+    background: var(--main-plus-url);
+    background-size: 15px;
+}
+
+span.icon-plus:hover {
+    background: var(--main-plus-url);
+    background-size: 15px;
+}
+
+button {
+    border: 1px solid #ced4da !important;
+}
+
+button#add-criteria {
+    --main-plus-url: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath d='M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z'/%3E%3C/svg%3E") no-repeat center;
+}
+
+button#add-criteria:hover {
+    --main-plus-url: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath fill='%23fff' d='M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z'/%3E%3C/svg%3E") no-repeat center;
+}
+
+button#remove-criteria {
+    max-height: 58px;
+}
+
+div#actions {
+    gap: '10px';
+    display: flex;
+    justify-content: space-between;
+}
+
+div#date-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
