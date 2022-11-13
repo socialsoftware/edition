@@ -1,5 +1,5 @@
-import Heteronym from './heteronym';
-import DateSelect from './date';
+import Heteronym from './heteronymWebComp';
+import DateSelect from './dateWebComp';
 
 const onChangeEdition = (target, form) => {
   form.querySelectorAll('heteronym-select, date-select').forEach((node) => {

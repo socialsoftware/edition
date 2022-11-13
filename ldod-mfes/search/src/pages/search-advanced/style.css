@@ -71,3 +71,8 @@ div#date-wrapper {
     flex-direction: column;
     gap: 10px;
 }
+
+div#wrapper {
+    display: flex;
+    gap: 10px;
+}

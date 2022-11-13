@@ -65,12 +65,9 @@ export class LdodSearchAdvanced extends HTMLElement {
         </div>
         <hr></hr>
         <div id="actions">
-          <button
-            class="btn btn-outline-secondary"
-            data-search-key="search"
-            onClick={this.onSearch}>
+          <button class="btn btn-outline-secondary" onClick={this.onSearch}>
             <span class="icon icon-magnifying-glass"></span>
-            {this.getConstants('search')}
+            <span data-search-key="search">{this.getConstants('search')}</span>
           </button>
           <button
             class="btn btn-outline-secondary"

@@ -98,6 +98,7 @@ export class CriteriaForm extends HTMLFormElement {
     --this.root.sequentialId;
     console.debug(this.root.sequentialId);
     this.remove();
+    date;
   };
 }
 !customElements.get('criteria-form') &&
