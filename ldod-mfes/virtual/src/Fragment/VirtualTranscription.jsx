@@ -48,6 +48,12 @@ export class VirtualTranscription extends HTMLElement {
     return document.body.querySelector('ldod-modal#virtual-associateTagModal');
   }
 
+  get associateTagModalSelect() {
+    return this.associateTagModal.querySelector(
+      'select-pure#virtual-associateTag'
+    );
+  }
+
   static get observedAttributes() {
     return ['language'];
   }
@@ -144,7 +150,7 @@ export class VirtualTranscription extends HTMLElement {
   };
 
   computeSelectHeight = () => {
-    computeSelectPureHeight(undefined, undefined, 80);
+    computeSelectPureHeight(this.associateTagModalSelect, 80);
   };
 
   dissociateTag = async ({ target }) => {

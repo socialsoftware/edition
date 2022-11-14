@@ -2,8 +2,9 @@ import style from '@src/style.css?inline';
 import thisStyle from './style.css?inline';
 
 import constants from './constants';
-import { getAdvSearchDto } from '../../apiRequests';
-import './components/CriteriaForm';
+import { advancedSearch, getAdvSearchDto } from '../../apiRequests';
+import './CriteriaForm';
+import AdvancedSearchTableResult from './components/AdvancedSearchTableResult';
 
 export class LdodSearchAdvanced extends HTMLElement {
   constructor() {
@@ -11,10 +12,15 @@ export class LdodSearchAdvanced extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.constants = constants;
     this.sequentialId = 1;
+    this.mode = 'and';
   }
 
   get language() {
     return this.getAttribute('language');
+  }
+
+  get resultTable() {
+    return this.shadowRoot.querySelector('ldod-table#search-advanced');
   }
 
   static get observedAttributes() {
@@ -22,7 +28,7 @@ export class LdodSearchAdvanced extends HTMLElement {
   }
 
   getConstants(key) {
-    return this.constants[this.language][key];
+    return constants(this.fragsNumber, this.intersNumber)[this.language][key];
   }
 
   CriteriaForm = () => <form is="criteria-form" root={this}></form>;
@@ -51,7 +57,10 @@ export class LdodSearchAdvanced extends HTMLElement {
           {this.getConstants('advancedSearch')}
         </h3>
         <div id="main">
-          <select class="form-select" name="mode">
+          <select
+            class="form-select"
+            name="mode"
+            onChange={({ target }) => (this.mode = target.value)}>
             <option value="and" data-search-key="criteriaAnd">
               {this.getConstants('criteriaAnd')}
             </option>
@@ -97,18 +106,56 @@ export class LdodSearchAdvanced extends HTMLElement {
 
   onLanguage = () => {
     this.shadowRoot.querySelectorAll('[data-search-key]').forEach((element) => {
-      element.firstChild.textContent = this.getConstants(
-        element.dataset.searchKey
-      );
+      element.firstChild.textContent =
+        this.getConstants(element.dataset.searchKey) ||
+        element.dataset.searchKey;
     });
   };
 
-  onSearch = () => {
-    console.log(this.shadowRoot.querySelectorAll('form'));
-    this.shadowRoot.querySelectorAll('form').forEach((form) => {
-      const formData = Object.fromEntries(new FormData(form));
-      console.log(formData);
-    });
+  wrapDate = (body) => {
+    let begin = body.begin;
+    let end = body.end;
+    let option = body.option;
+    body = { ...body, date: { type: 'date', option, begin, end } };
+    delete body.begin, delete body.end, delete body.option;
+    return body;
+  };
+
+  wrapHeteronym = (body) => {
+    let heteronym = body.heteronym;
+    delete body.heteronym;
+    body = { ...body, heteronym: { type: 'heteronym', heteronym } };
+    return body;
+  };
+
+  wrapDateAndHeteronymElements = (body) => {
+    if (body.type === 'date' || body.type === 'heteronym') return body;
+    if (Object.keys(body).includes('option')) body = this.wrapDate(body);
+    if (Object.keys(body).includes('heteronym'))
+      body = this.wrapHeteronym(body);
+    return body;
+  };
+
+  onSearch = async () => {
+    const forms = Array.from(this.shadowRoot.querySelectorAll('form'));
+    if (forms.some((form) => !form.reportValidity())) return;
+    let body = forms.map((form) =>
+      this.wrapDateAndHeteronymElements(Object.fromEntries(new FormData(form)))
+    );
+    advancedSearch({ options: body, mode: this.mode })
+      .then((data) => {
+        this.inters = data;
+        this.criteriaNumber = body.map((c, i) => i);
+        this.fragsNumber = new Set(data.map((frag) => frag.xmlId)).size;
+        this.intersNumber = data.length;
+        this.renderTableResult();
+      })
+      .catch((error) => console.log(error));
+  };
+
+  renderTableResult = () => {
+    this.resultTable && this.resultTable.remove();
+    this.shadowRoot.appendChild(<AdvancedSearchTableResult root={this} />);
   };
 
   disconnectedCallback() {}

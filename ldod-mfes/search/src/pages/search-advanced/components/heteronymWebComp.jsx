@@ -32,7 +32,14 @@ export default class HeteronymSelect extends HTMLElement {
             {this.root.getConstants('all')}
           </option>
           {this.heteronyms?.map((heteronym) => {
-            return <option value={heteronym.xmlId}>{heteronym.name}</option>;
+            let name = heteronym.xmlId
+              ? heteronym.name
+              : this.root.getConstants(heteronym.name);
+            return (
+              <option data-search-key={heteronym.name} value={heteronym.xmlId}>
+                {name}
+              </option>
+            );
           })}
         </select>
         <label data-search-key="heteronym">

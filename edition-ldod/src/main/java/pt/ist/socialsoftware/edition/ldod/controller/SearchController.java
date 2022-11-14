@@ -1,10 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -23,19 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import pt.ist.socialsoftware.edition.ldod.domain.Edition;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
-import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.domain.Heteronym;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoDUser;
-import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource;
+import pt.ist.socialsoftware.edition.ldod.domain.*;
 import pt.ist.socialsoftware.edition.ldod.domain.ManuscriptSource.Medium;
-import pt.ist.socialsoftware.edition.ldod.domain.Source;
 import pt.ist.socialsoftware.edition.ldod.domain.Source.SourceType;
-import pt.ist.socialsoftware.edition.ldod.domain.SourceInter;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEdition;
 import pt.ist.socialsoftware.edition.ldod.search.json.AuthoralJson;
 import pt.ist.socialsoftware.edition.ldod.search.json.DatesJson;
 import pt.ist.socialsoftware.edition.ldod.search.json.EditionJson;
@@ -378,7 +364,7 @@ public class SearchController {
   @RequestMapping(value = "/getVirtualEditions")
   @ResponseBody
   public Map<String, String> getVirtualEditions(Model model) {
-    Stream<VirtualEdition> virtualEditionStream = LdoD.getInstance().getVirtualEditionsSet().stream().filter(virtualEdition -> virtualEdition.getPub());
+    Stream<VirtualEdition> virtualEditionStream = LdoD.getInstance().getVirtualEditionsSet().stream().filter(Edition_Base::getPub);
 
     LdoDUser user = LdoDUser.getAuthenticatedUser();
     if (user != null) {

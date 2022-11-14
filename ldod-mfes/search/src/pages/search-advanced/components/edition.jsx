@@ -14,10 +14,10 @@ export default ({ root, form }) => {
     <>
       <div class="form-floating">
         <select name="inclusion" class="form-select">
-          <option value="includedIn" data-search-key="includedIn">
+          <option value="in" data-search-key="includedIn">
             {root.getConstants('includedIn')}
           </option>
-          <option value="excludedFrom" data-search-key="excludedFrom">
+          <option value="out" data-search-key="excludedFrom">
             {root.getConstants('excludedFrom')}
           </option>
         </select>

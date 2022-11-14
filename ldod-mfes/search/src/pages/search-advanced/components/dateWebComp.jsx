@@ -26,14 +26,14 @@ export default class DateSelect extends HTMLElement {
     this.wrapper.innerHTML = '';
     this.wrapper.appendChild(
       <div class="form-floating">
-        <select name="date" class="form-select" onChange={this.onDateChange}>
-          <option value="all" data-search-key="all">
+        <select name="option" class="form-select" onChange={this.onDateChange}>
+          <option value="all" data-search-key="all" selected>
             {this.root.getConstants('all')}
           </option>
           <option value="dated" data-search-key="dated">
             {this.root.getConstants('dated')}
           </option>
-          <option value="" data-search-key="notDated">
+          <option value="undated" data-search-key="notDated">
             {this.root.getConstants('notDated')}
           </option>
         </select>
@@ -51,7 +51,7 @@ export default class DateSelect extends HTMLElement {
             id="begin-date-input"
             class="form-control"
             type="number"
-            name="beginDate"
+            name="begin"
             min={this.beginDate}
             max={this.endDate}
             onChange={this.onBeginDateChange}
@@ -68,7 +68,7 @@ export default class DateSelect extends HTMLElement {
             style={{ height: 'auto', width: '175px' }}
             class="form-control"
             type="number"
-            name="endDate"
+            name="end"
             min={this.beginDate}
             max={this.endDate}
             onChange={this.onEndDateChange}

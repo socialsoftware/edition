@@ -7,3 +7,6 @@ export const simpleSearchRequest = async (searchBody) =>
 
 export const getAdvSearchDto = async () =>
   await fetcher.get(`${HOST}/search/advanced-search`, null);
+
+export const advancedSearch = async (body) =>
+  await fetcher.post(`${HOST}/search/advanced-search`, body);

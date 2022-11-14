@@ -26,6 +26,7 @@ export default ({ node, category }) => {
       <div slot="body-slot">
         <div id="multipleSelectContainer" style={{ padding: '20px' }}>
           <select-pure
+            id="virtual-extractCatModal"
             name="fragments"
             multiple
             default-label={node.getConstants('multipleFrags')}>

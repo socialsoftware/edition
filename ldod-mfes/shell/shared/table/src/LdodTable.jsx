@@ -46,9 +46,10 @@ export class LdodTable extends HTMLElement {
   }
 
   getConstants(key) {
-    return this.language
+    const constant = this.language
       ? this.constants[this.language][key]
       : this.constants[key];
+    return constant || key;
   }
 
   async render() {

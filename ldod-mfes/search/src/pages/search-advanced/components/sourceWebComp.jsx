@@ -30,19 +30,19 @@ export default class SourceSelect extends HTMLElement {
     this.wrapper.appendChild(
       <>
         <div class="form-floating">
-          <select name="ldodLabel" class="form-select">
+          <select name="hasLdoDMark" class="form-select">
             <option value="all" data-search-key="all">
               {this.root.getConstants('all')}
             </option>
-            <option value={true} data-search-key="withLdodLabel">
+            <option value="true" data-search-key="withLdodLabel">
               {this.root.getConstants('withLdodLabel')}
             </option>
-            <option value={false} data-search-key="withoutLdodLabel">
+            <option value="false" data-search-key="withoutLdodLabel">
               {this.root.getConstants('withoutLdodLabel')}
             </option>
           </select>
-          <label data-search-key="ldodLabel">
-            {this.root.getConstants('ldodLabel')}
+          <label data-search-key="hasLdoDMark">
+            {this.root.getConstants('hasLdoDMark')}
           </label>
         </div>
         {this.getDateForm()}

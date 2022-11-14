@@ -25,7 +25,7 @@ export const SearchRouter = ({ language }) => {
   return (
     <div id="searchContainer">
       <style>{style}</style>
-      <div class="container">
+      <div class="container" style={{ marginBottom: '40px' }}>
         <ldod-router
           id="search-router"
           base={isDev() ? '' : import.meta.env.VITE_BASE}

@@ -21,6 +21,7 @@ const GenerateTopicsModal = async (node, veId) =>
 
 const EditCategoryModal = async (node, category) =>
   (await import('./EditCategoryModal')).default({ node, category });
+
 const ExtractCategoryFragsModal = async (node, category) =>
   (await import('./ExtractCategoryFragsModal')).default({ node, category });
 
@@ -194,7 +195,7 @@ export class LdodVeTaxonomy extends HTMLElement {
       console.log('on closing edit category name');
     },
     extractCategoryFragsModal: () => {
-      document.body.removeEventListener('click', computeSelectPureHeight);
+      document.body.removeEventListener('click', this.computeSelectHeight);
       this.extractCategoryFragsModal.remove();
     },
   };
@@ -252,8 +253,15 @@ export class LdodVeTaxonomy extends HTMLElement {
 
   onExtractFrags = async (category) => {
     this.appendChild(await ExtractCategoryFragsModal(this, category));
-    document.body.addEventListener('click', computeSelectPureHeight);
+    document.body.addEventListener('click', this.computeSelectHeight);
     this.extractCategoryFragsModal.toggleAttribute('show');
+  };
+
+  computeSelectHeight = () => {
+    console.log(this.querySelector('select-pure#virtual-extractCatModal'));
+    computeSelectPureHeight(
+      this.querySelector('select-pure#virtual-extractCatModal')
+    );
   };
 
   emitLoading = (isLoading) =>

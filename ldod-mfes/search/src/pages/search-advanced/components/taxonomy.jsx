@@ -2,15 +2,13 @@ export default ({ root, form }) => {
   return (
     <div class="form-floating">
       <input
-        name="taxonomies"
+        name="tags"
         type="search"
         class="form-control"
         placeholder="taxonomies"
         required
       />
-      <label data-search-key="taxonomies">
-        {root.getConstants('taxonomies')}
-      </label>
+      <label data-search-key="taxonomy">{root.getConstants('taxonomy')}</label>
     </div>
   );
 };

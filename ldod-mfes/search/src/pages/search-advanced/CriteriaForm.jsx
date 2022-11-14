@@ -1,14 +1,14 @@
 const importCriteriaForm = async (name) =>
-  (await import(`./${name}.jsx`)).default;
+  (await import(`./components/${name}.jsx`)).default;
 
 const searchTypeList = [
   'edition',
   'manuscript',
-  'typescript',
-  'published',
+  'dactiloscript',
+  'publication',
   'heteronym',
-  'taxonomies',
-  'virtualEditions',
+  'taxonomy',
+  'virtualedition',
   'date',
   'text',
 ];
@@ -41,7 +41,8 @@ export class CriteriaForm extends HTMLFormElement {
         <div id="criteria-container">
           <div class="form-floating">
             <select
-              name="criteriaType"
+              required
+              name="type"
               class="form-select"
               onChange={this.onChangeCriteria}>
               <option selected></option>
@@ -96,9 +97,7 @@ export class CriteriaForm extends HTMLFormElement {
 
   onRemoveCriteria = () => {
     --this.root.sequentialId;
-    console.debug(this.root.sequentialId);
     this.remove();
-    date;
   };
 }
 !customElements.get('criteria-form') &&

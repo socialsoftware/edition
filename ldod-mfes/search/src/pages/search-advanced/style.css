@@ -64,6 +64,7 @@ div#actions {
     gap: '10px';
     display: flex;
     justify-content: space-between;
+    margin-bottom: 20px;
 }
 
 div#date-wrapper {
@@ -75,4 +76,22 @@ div#date-wrapper {
 div#wrapper {
     display: flex;
     gap: 10px;
+}
+
+table#search-advanced>thead th:nth-child(1),
+table#search-advanced>thead th:nth-child(2) {
+    text-align: start;
+}
+
+table#search-advanced>tbody td {
+    text-align: center;
+}
+
+table#search-advanced>tbody td:nth-child(1),
+table#search-advanced>tbody td:nth-child(2) {
+    text-align: start;
+}
+
+table#search-advanced>tbody>tr {
+    cursor: cell;
 }
