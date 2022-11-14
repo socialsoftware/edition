@@ -16,7 +16,7 @@ window.addEventListener('ldod-language', onLanguage);
 const handleErrorMessage = ({ detail }) => {
   const modal = document.querySelector('body.ldod-default>ldod-modal#error');
   const body = modal.querySelector('div[slot="body-slot"]');
-  body.innerHTML = detail.message || 'Something went wrong';
+  body.innerHTML = detail?.message || 'Something went wrong';
   modal.toggleAttribute('show', true);
 };
 

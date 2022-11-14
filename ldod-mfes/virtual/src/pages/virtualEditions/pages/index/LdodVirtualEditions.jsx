@@ -159,7 +159,11 @@ export class LdodVirtualEditions extends HTMLElement {
         this.user = user;
         this.sortVirtualEditions();
       })
-      .catch((message) => this.dispatchCustomEvent('ldod-error', message));
+      .catch((error) => {
+        this.dispatchCustomEvent('ldod-error', {
+          message: error?.message || '',
+        });
+      });
   };
 
   onGamesModal = async () => {
@@ -214,7 +218,8 @@ export class LdodVirtualEditions extends HTMLElement {
       .then((data) => {
         element.edition = data;
         element.parent = this;
-        element.toggleAttribute('show');
+        element.toggleAtt;
+        ribute('show');
       })
       .catch((error) => this.dispatchCustomEvent('ldod-error', error));
   };

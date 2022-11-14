@@ -192,7 +192,6 @@ export class LdodVeTaxonomy extends HTMLElement {
     },
     editCategoryModal: () => {
       this.editCategoryModal.remove();
-      console.log('on closing edit category name');
     },
     extractCategoryFragsModal: () => {
       document.body.removeEventListener('click', this.computeSelectHeight);
@@ -258,7 +257,6 @@ export class LdodVeTaxonomy extends HTMLElement {
   };
 
   computeSelectHeight = () => {
-    console.log(this.querySelector('select-pure#virtual-extractCatModal'));
     computeSelectPureHeight(
       this.querySelector('select-pure#virtual-extractCatModal')
     );

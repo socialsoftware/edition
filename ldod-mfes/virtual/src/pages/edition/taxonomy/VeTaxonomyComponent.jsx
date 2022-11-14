@@ -4,7 +4,6 @@ import.meta.env.DEV
 
 export default ({ node }) => {
   const data = node.taxonomy;
-  console.log(data);
   return (
     <div>
       <h3 class="text-center">
