@@ -15,9 +15,11 @@ const loadModules = async () => {
   if (!Quill) Quill = (await import('quill/dist/quill.min.js')).default;
 };
 
-const onAutocomplete = (e, node) => {
-  const assignedCats = node.annotation.data.tagList;
-  const nonAssignedCats = node.categories.filter(
+const anyTagIsEqual = (tags, tag) => tags.some((t) => t === tag);
+
+const onAutocomplete = (e, root) => {
+  const assignedCats = root.annotation.data.tagList;
+  const nonAssignedCats = root.categories.filter(
     (cat) => !assignedCats.includes(cat)
   );
   const target = e.target;
@@ -26,7 +28,7 @@ const onAutocomplete = (e, node) => {
     cat.toLowerCase().startsWith(target.value.toLowerCase())
   );
 
-  Array.from(node.tagMultipleSelect.querySelectorAll('option-pure')).forEach(
+  Array.from(root.tagMultipleSelect.querySelectorAll('option-pure')).forEach(
     (option) => {
       if (
         option.hasAttribute('selected') ||
@@ -37,20 +39,24 @@ const onAutocomplete = (e, node) => {
     }
   );
 
-  if (e.key === 'Enter' && !matches.length && node.openVocab) {
-    node.tagMultipleSelect.shadowRoot
+  if (
+    e.key === 'Enter' &&
+    !anyTagIsEqual(matches, target.value) &&
+    root.openVocab
+  ) {
+    root.tagMultipleSelect.shadowRoot
       .querySelectorAll('div.multi-selected-wrapper span.multi-selected')
       .forEach((span) => span.remove());
 
-    node.tagMultipleSelect
+    root.tagMultipleSelect
       .querySelectorAll('option-pure[selected]')
       .forEach((option) => option.remove());
 
     !assignedCats.includes(e.target.value) && assignedCats.push(e.target.value);
-    !node.categories.includes(e.target.value) &&
-      node.categories.push(e.target.value);
+    !root.categories.includes(e.target.value) &&
+      root.categories.push(e.target.value);
 
-    node.tagMultipleSelect.append(
+    root.tagMultipleSelect.append(
       ...assignedCats.map((cat) => (
         <option-pure selected value={cat}>
           {cat}
