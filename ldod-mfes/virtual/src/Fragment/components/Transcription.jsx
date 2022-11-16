@@ -37,11 +37,10 @@ export default ({ node }) => {
               </button>
             </div>
           )}
-
-          <div id="virtual-taxonomy">
-            <Taxonomy node={node} inter={inter} />
-          </div>
         </div>
+      </div>
+      <div id="virtual-taxonomy">
+        <Taxonomy node={node} inter={inter} />
       </div>
     </>
   );

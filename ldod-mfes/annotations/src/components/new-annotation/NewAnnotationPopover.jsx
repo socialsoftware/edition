@@ -93,7 +93,6 @@ export class NewAnnPopover extends HTMLElement {
 
   handleNewAnnotation = async (e) => {
     e.stopPropagation();
-
     const selection = document.getSelection();
 
     if (!selection.type === 'Range' || selection.isCollapsed)
