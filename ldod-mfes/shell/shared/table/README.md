@@ -38,7 +38,7 @@ import 'path/to/shared/dist/table.js';
 
 - data
 
-  - Type: Array of objects
+  - Type: Array of objects or funtion than returns the array of objects (better for huge tables and rows with a lot of content)
   - Descriptions: Object keys have to match headers keys
 
 - language
