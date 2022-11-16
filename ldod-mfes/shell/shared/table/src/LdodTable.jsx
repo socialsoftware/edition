@@ -52,9 +52,10 @@ export class LdodTable extends HTMLElement {
     return constant || key;
   }
 
-  async render() {
-    this.appendChild(await this.getTable());
+  render() {
+    this.appendChild(this.getTable());
   }
+
   attributeChangedCallback(name, oldV, newV) {
     if (oldV && oldV !== newV) {
       this.querySelectorAll('[data-key]').forEach((ele) => {
@@ -63,9 +64,9 @@ export class LdodTable extends HTMLElement {
     }
   }
 
-  async connectedCallback() {
+  connectedCallback() {
     this.appendChild(<style>{tableStyle}</style>);
-    await this.render();
+    this.render();
     if (!this.isFullyLoaded) this.addObserver();
     history.state?.searchTerm && this.handleSearchInput();
   }
@@ -98,8 +99,10 @@ export class LdodTable extends HTMLElement {
     );
   };
 
-  async loadSearchStyle() {
-    return (await import('./tools.css?inline')).default;
+  loadSearchStyle() {
+    import('./tools.css?inline').then((style) => {
+      this.querySelector('#table-tools>style').innerHTML = style.default;
+    });
   }
 
   handleSearchInput = () => {
@@ -164,16 +167,13 @@ export class LdodTable extends HTMLElement {
     return this.data.slice(start, end).map(this.getRow);
   }
 
-  async getTable() {
+  getTable() {
     return (
       <>
         <div id="table-tools">
-          {this.searchKey && (
-            <>
-              <style>{await this.loadSearchStyle()}</style>
-              {this.getSearch()}
-            </>
-          )}
+          <style></style>
+          {this.loadSearchStyle()}
+          {this.searchKey && this.getSearch()}
         </div>
         <div class="table-container">
           <div class="table-body">

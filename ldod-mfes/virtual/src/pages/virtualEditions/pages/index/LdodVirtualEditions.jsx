@@ -218,8 +218,7 @@ export class LdodVirtualEditions extends HTMLElement {
       .then((data) => {
         element.edition = data;
         element.parent = this;
-        element.toggleAtt;
-        ribute('show');
+        element.toggleAttribute('show');
       })
       .catch((error) => this.dispatchCustomEvent('ldod-error', error));
   };
