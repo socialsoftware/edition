@@ -38,8 +38,22 @@ import 'path/to/shared/dist/table.js';
 
 - data
 
-  - Type: Array of objects or funtion than returns the array of objects (better for huge tables and rows with a lot of content)
+  - Type: Array of objects or can encapsulate a funtion on key data than returns the array of objects (better for huge tables and rows with a lot of content)
   - Descriptions: Object keys have to match headers keys
+
+```js
+{
+  name: 'Anastácio',
+  age: 30,
+}
+
+{
+  data: () => ({
+    name: 'Anastácio',
+    age: 30,
+  })
+}
+```
 
 - language
   - Type: String
