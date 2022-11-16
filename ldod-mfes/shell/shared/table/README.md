@@ -46,7 +46,7 @@ import 'path/to/shared/dist/table.js';
   name: 'Anastácio',
   age: 30,
 }
-
+or
 {
   data: () => ({
     name: 'Anastácio',
