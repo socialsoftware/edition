@@ -33,6 +33,10 @@ export class LdodVeManual extends HTMLElement {
     return this.querySelector('ldod-modal');
   }
 
+  get table() {
+    return this.querySelector('ldod-table#virtual-manualTable');
+  }
+
   get intersId() {
     return this.inters.map(({ externalId }) => externalId);
   }
@@ -135,7 +139,7 @@ export class LdodVeManual extends HTMLElement {
 
   renderChanges() {
     this.toggleAttribute('data');
-    const rows = this.querySelectorAll('table>tbody>tr');
+    const rows = this.table.allRows;
     rows.forEach((row) => this.setFirstCellEditable(row));
     rows.forEach((row) => this.setTableRowsDraggable(row));
   }
@@ -173,7 +177,7 @@ export class LdodVeManual extends HTMLElement {
     this.initialInters = null;
     this.innerHTML = '';
   };
-  updateData = (inters, changedId) => {
+  updateData = (inters) => {
     if (inters) this.inters = inters;
     this.renderChanges();
   };

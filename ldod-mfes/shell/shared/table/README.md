@@ -39,7 +39,12 @@ import 'path/to/shared/dist/table.js';
 - data
 
   - Type: Array of objects
-  - Descriptions: Object keys have to match headers keys
+  - Description: Object keys have to match headers keys
+
+- data-rows
+  Type: String or Number
+  Default: 20
+  Description: number of visible rows pretended
 
 - language
   - Type: String
@@ -75,3 +80,26 @@ const constants = {
   - Description:
     - Activates search functionality on table;
     - Property from data objects (unique) which by it is possible to indentify each of the rows for search purposes
+
+### Properties
+
+allRows - returns an array with all tr elements
+
+searchedRows - returns an arrays with all tr elements that has `searched` attribute
+
+unSearchedRows - returns the oppostie of the above property.
+
+### Events
+
+`ldod-table-searched` emitted when a searched action is performed. It passes the following data on detail object:
+
+```js
+{
+  id: String, // id of the ldod-table
+  size: Number, // number of matched rows
+}
+```
+
+`ldod-table-increased` emitted when new rows are added to the table (scroll down action)
+
+Note: both events have the options `composed` and `bubbles` to true

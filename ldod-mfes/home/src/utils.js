@@ -10,6 +10,5 @@ export const checkUserCompCompliance = async () => {
     let userComponentElement = new userComponent();
     isCompliant = userComponentElement instanceof HTMLLIElement;
   });
-
   return isCompliant;
 };

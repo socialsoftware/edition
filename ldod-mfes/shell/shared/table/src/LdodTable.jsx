@@ -10,21 +10,21 @@ export class LdodTable extends HTMLElement {
     return this.getAttribute('classes');
   }
 
-  get visibleRows() {
+  get numberOfVisibleRows() {
     return +(this.dataset.rows ?? 20);
   }
 
   get isFullyLoaded() {
     return (
-      this.data.length <= this.visibleRows ||
+      this.data.length <= this.numberOfVisibleRows ||
       this.lastIndex === this.data.length
     );
   }
 
   get interval() {
-    return this.data.length < this.visibleRows
+    return this.data.length < this.numberOfVisibleRows
       ? this.data.length
-      : this.visibleRows;
+      : this.numberOfVisibleRows;
   }
 
   get language() {
@@ -45,7 +45,18 @@ export class LdodTable extends HTMLElement {
     return ['language'];
   }
 
+  get searchedRows() {
+    return this.allRows.filter((row) => row.hasAttribute('searched'));
+  }
+  get unSearchedRows() {
+    return this.allRows.filter((row) => !row.hasAttribute('searched'));
+  }
+  get allRows() {
+    return Array.from(this.querySelectorAll('table>tbody>tr'));
+  }
+
   getConstants(key) {
+    if (!this.constants) return key;
     const constant = this.language
       ? this.constants[this.language][key]
       : this.constants[key];
@@ -111,15 +122,24 @@ export class LdodTable extends HTMLElement {
       this.addRows(this.data.length);
     }
 
-    const searchTerm = this.querySelector(
-      'input#table-searchField'
-    ).value?.trim();
+    const searchTerm = this.querySelector('input#table-searchField')
+      .value?.trim()
+      .toLowerCase()
+      .toString();
+
     history.replaceState(searchTerm ? { searchTerm } : {}, {});
-    const result = this.data
-      .filter((row) =>
-        row.search?.toLowerCase().includes(searchTerm?.toLowerCase().trim())
-      )
-      .map((row) => row[this.dataset.searchkey]);
+    const result = searchTerm
+      ? this.data
+          .filter((row) => {
+            const search =
+              typeof row.search === 'string'
+                ? row.search.toLowerCase()
+                : row.search.toString().toLowerCase();
+            return search.includes(searchTerm);
+          })
+          .map((row) => row[this.dataset.searchkey].toString())
+      : this.data.map((row) => row[this.dataset.searchkey].toString());
+
     this.querySelectorAll('tbody>tr').forEach((row) => {
       if (result.indexOf(row.id) === -1)
         return row.toggleAttribute('searched', false);
@@ -172,7 +192,7 @@ export class LdodTable extends HTMLElement {
       <>
         <div id="table-tools">
           <style></style>
-          {this.loadSearchStyle()}
+          {this.searchKey && this.loadSearchStyle()}
           {this.searchKey && this.getSearch()}
         </div>
         <div class="table-container">

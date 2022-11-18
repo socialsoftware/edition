@@ -1,4 +1,4 @@
-import { renderInfo } from '../../aboutRouter';
+import { hideHomeInfo, showHomeInfo } from '../../aboutRouter';
 
 const loadComponent = async (lang) =>
   (await import(`./components/Privacy-${lang}.jsx`)).default();
@@ -23,7 +23,7 @@ export class LdodPrivacy extends HTMLElement {
   async connectedCallback() {
     this.appendChild(this.wrapper());
     await this.render();
-    renderInfo();
+    showHomeInfo();
   }
 
   attributeChangedCallback(name, oldV, newV) {
@@ -31,7 +31,7 @@ export class LdodPrivacy extends HTMLElement {
   }
 
   disconnectedCallback() {
-    renderInfo();
+    hideHomeInfo();
   }
 
   handlers = {

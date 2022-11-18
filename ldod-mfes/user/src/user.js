@@ -1,7 +1,7 @@
-await import('./store.js').catch((e) => console.error(e));
-await import('@src/components/UserComponent.jsx').catch((e) =>
-  console.error(e)
-);
+if (typeof window === 'object') {
+  await import('./store.js');
+  await import('@src/components/UserComponent');
+}
 
 let User;
 const loadUser = async () => {

@@ -129,9 +129,9 @@ export class VirtualTranscription extends HTMLElement {
   };
 
   handleChangedLanguage = () => {
-    this.shadowRoot
-      .querySelectorAll('[language')
-      .forEach((node) => node.setAttribute('language', this.language));
+    this.querySelectorAll('[language]').forEach((node) =>
+      node.setAttribute('language', this.language)
+    );
     this.querySelectorAll('[data-virtual-key]').forEach((node) => {
       node.firstChild.textContent = this.getConstants(node.dataset.virtualKey);
     });

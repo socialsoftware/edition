@@ -7,6 +7,16 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 
+const getArrayIndex = (arr, flag) => Array.from(arr).indexOf(flag);
+const hasOption = (index) => index !== -1;
+const undo = () =>
+  fs.rmSync(path.resolve(process.cwd(), appName), {
+    recursive: true,
+    force: true,
+  });
+
+process.on('SIGINT', () => undo());
+
 const templatesDir = `${path.dirname(
   fileURLToPath(import.meta.url)
 )}/templates`;
@@ -22,9 +32,6 @@ const scriptsDir = `${path.dirname(fileURLToPath(import.meta.url))}/scripts`;
   }
 })();
 
-const getArrayIndex = (arr, flag) => Array.from(arr).indexOf(flag);
-const hasOption = (index) => index !== -1;
-
 // checking options
 const args = process.argv.slice(2);
 const appNameIndex = getArrayIndex(args, '-d');
@@ -33,13 +40,12 @@ const appName = hasOption(appNameIndex) && args[appNameIndex + 1];
 // directory name is mandatory
 if (!appName) throw new Error('Invalid directory name');
 
-const undo = () =>
-  fs.rmSync(path.resolve(process.cwd(), appName), {
-    recursive: true,
-    force: true,
-  });
-
-process.on('SIGINT', () => undo());
+// and it should unique on the directory
+try {
+  fs.readdirSync(`${process.cwd()}/${appName}`);
+  console.error(`A directory named ${appName} already exists.`);
+  process.exit(1);
+} catch (error) {}
 
 const packageJson = {
   name: `${appName}`,
@@ -66,12 +72,6 @@ const packageJson = {
   },
   devDependencies: {},
 };
-
-try {
-  fs.readdirSync(`${process.cwd()}/${appName}`);
-  console.error(`A directory named ${appName} already exists.`);
-  process.exit(1);
-} catch (error) {}
 
 spawnSync('mkdir', [appName]);
 const cwd = `${appName}/`;

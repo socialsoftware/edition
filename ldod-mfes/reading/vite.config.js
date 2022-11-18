@@ -6,10 +6,11 @@ export default defineConfig(({ mode }) => {
     build: {
       target: 'es2022',
       outDir: 'build',
+      sourcemap: 'true',
       lib: {
-        entry: 'src/index.js',
+        entry: 'src/reading.js',
         formats: ['es'],
-        fileName: 'index',
+        fileName: 'reading',
       },
       rollupOptions: {
         external: ['shared/vanilla-jsx.js', 'shared/router.js'],

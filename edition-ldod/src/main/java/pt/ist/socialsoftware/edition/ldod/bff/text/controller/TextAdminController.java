@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pt.ist.socialsoftware.edition.ldod.bff.dtos.MainResponseDto;
@@ -18,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-//@Secured({ "ROLE_ADMIN "})
+@Secured({"ROLE_ADMIN"})
 @RequestMapping("/api/text/admin/")
 public class TextAdminController {
 

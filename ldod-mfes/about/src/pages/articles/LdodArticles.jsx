@@ -1,4 +1,4 @@
-import { renderInfo } from '../../aboutRouter';
+import { hideHomeInfo, showHomeInfo } from '../../aboutRouter';
 
 const loadComponent = async (lang) =>
   (await import(`./components/Articles-${lang}.jsx`)).default();
@@ -18,7 +18,7 @@ export class LdodArticles extends HTMLElement {
   async connectedCallback() {
     this.appendChild(this.wrapper());
     await this.render();
-    renderInfo();
+    showHomeInfo();
   }
 
   attributeChangedCallback(name, oldV, newV) {
@@ -26,7 +26,7 @@ export class LdodArticles extends HTMLElement {
   }
 
   disconnectedCallback() {
-    renderInfo();
+    hideHomeInfo();
   }
 
   handlers = {

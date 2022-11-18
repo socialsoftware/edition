@@ -3,6 +3,8 @@ package pt.ist.socialsoftware.edition.ldod.bff.virtual.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pt.ist.socialsoftware.edition.ldod.bff.dtos.MainResponseDto;
@@ -10,6 +12,7 @@ import pt.ist.socialsoftware.edition.ldod.bff.virtual.service.VirtualAdminServic
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 @RestController
+@Secured({"ROLE_ADMIN"})
 @RequestMapping("/api/virtual/admin")
 public class VirtualAdminController {
 

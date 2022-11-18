@@ -3,6 +3,8 @@ import style from './style.css?inline';
 import { isDev } from './utils.js';
 
 const ABOUT_SELECTOR = 'div#aboutContainer';
+const getContainer = () => document.querySelector(ABOUT_SELECTOR);
+const getHomeInfo = () => getContainer().querySelector('home-info');
 
 const routes = {
   '/archive': async () => await import(`./pages/archive/archive.jsx`),
@@ -24,11 +26,15 @@ export const mount = (lang, ref) => {
 };
 
 export const unMount = () => {
-  document.querySelector(ABOUT_SELECTOR)?.remove();
+  getContainer()?.remove();
 };
 
-export const renderInfo = () => {
-  document.querySelector('home-info')?.toggleAttribute('hidden');
+export const showHomeInfo = () => {
+  getHomeInfo().hidden = false;
+};
+
+export const hideHomeInfo = () => {
+  getHomeInfo().hidden = true;
 };
 
 export const AboutRouter = ({ language }) => {

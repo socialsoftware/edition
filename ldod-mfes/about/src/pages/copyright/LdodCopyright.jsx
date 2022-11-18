@@ -1,4 +1,4 @@
-import { renderInfo } from '../../aboutRouter';
+import { hideHomeInfo, showHomeInfo } from '../../aboutRouter';
 
 const loadComponent = async (lang) =>
   (await import(`./components/Copyright-${lang}.jsx`)).default();
@@ -23,7 +23,7 @@ export class LdodCopyright extends HTMLElement {
   async connectedCallback() {
     this.appendChild(this.wrapper());
     await this.render();
-    renderInfo();
+    showHomeInfo();
   }
 
   attributeChangedCallback(name, oldV, newV) {
@@ -31,7 +31,7 @@ export class LdodCopyright extends HTMLElement {
   }
 
   disconnectedCallback() {
-    renderInfo();
+    hideHomeInfo();
   }
 
   handlers = {

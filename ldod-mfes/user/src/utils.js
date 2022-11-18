@@ -26,10 +26,12 @@ export function eventEmiter(eventName, options = {}, emiter = window) {
   const event = new CustomEvent(eventName, options);
   emiter.dispatchEvent(event);
 }
-export const logoutEvent = new CustomEvent('ldod-logout', {
-  composed: true,
-  bubbles: true,
-});
+export const logoutEvent = (detail) =>
+  new CustomEvent('ldod-logout', {
+    detail,
+    composed: true,
+    bubbles: true,
+  });
 
 export const tokenEvent = (token) =>
   new CustomEvent('ldod-token', {

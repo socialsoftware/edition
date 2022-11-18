@@ -1,4 +1,5 @@
-import { renderInfo } from '../../aboutRouter';
+import { hideHomeInfo, showHomeInfo } from '../../aboutRouter';
+
 import image from './LiterarySimulation_BookCover.webp';
 
 const loadComponent = async (lang) =>
@@ -19,7 +20,7 @@ export class LdodBook extends HTMLElement {
   async connectedCallback() {
     this.appendChild(this.wrapper());
     await this.render();
-    renderInfo();
+    showHomeInfo();
   }
 
   attributeChangedCallback(name, oldV, newV) {
@@ -27,7 +28,7 @@ export class LdodBook extends HTMLElement {
   }
 
   disconnectedCallback() {
-    renderInfo;
+    hideHomeInfo();
   }
 
   handlers = {

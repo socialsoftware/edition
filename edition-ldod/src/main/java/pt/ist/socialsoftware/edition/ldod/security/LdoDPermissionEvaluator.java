@@ -18,6 +18,9 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
     public static final String PARTICIPANT = "participant";
     public static final String PUBLIC = "public";
     public static final String ANNOTATION = "annotation";
+    public static final String ANNOTATION_UPDATE = "annotation-update";
+    public static final String ANNOTATION_DELETE = "annotation-delete";
+
     public static final String TAXONOMY = "taxonomy";
     private static final String LOGGED = "logged";
 
@@ -37,6 +40,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 
         VirtualEdition virtualEdition = null;
         LdoDUser user = null;
+        HumanAnnotation annotation = null;
         if (targetDomainObject instanceof String) {
             switch (permissions[0]) {
                 case "edition":
@@ -87,8 +91,18 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
                 case "user":
                     user = LdoD.getInstance().getUser((String) targetDomainObject);
                     break;
+                case "annotation":
+                    annotation = FenixFramework.getDomainObject((String) targetDomainObject);
+                    break;
                 default:
                     assert false;
+            }
+
+            if (annotation != null && loggedUser != null) {
+                if (permissions[1].equals((ANNOTATION_UPDATE)))
+                    hasPermission = annotation.canUpdate(loggedUser);
+                if (permissions[1].equals((ANNOTATION_DELETE)))
+                    hasPermission = annotation.canDelete(loggedUser);
             }
 
             if (virtualEdition == null) {

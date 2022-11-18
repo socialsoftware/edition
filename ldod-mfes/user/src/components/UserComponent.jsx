@@ -68,8 +68,9 @@ export class UserComponent extends HTMLLIElement {
     this.removeListeners();
   }
 
-  setConstants = async () =>
-    (this.constants = await loadConstants(this.language));
+  setConstants = async () => {
+    this.constants = await loadConstants(this.language);
+  };
 
   getConstants = (key) => this.constants[key];
 
@@ -111,26 +112,11 @@ export class UserComponent extends HTMLLIElement {
 
   onUserLogin() {
     this.updateComponent();
-    /* import.meta.env.PROD &&
-    this.dispatchEvent(
-      new CustomEvent('ldod-login', {
-        bubbles: true,
-        composed: true,
-        detail: { user: getState().user },
-      })
-    );
-    );*/
   }
 
-  onUserLogout() {
+  onUserLogout({ detail }) {
+    this.logout();
     this.updateComponent();
-    /*  import.meta.env.PROD &&
-      this.dispatchEvent(
-        new CustomEvent('ldod-logout', {
-          composed: true,
-          bubbles: true,
-        })
-      );*/
   }
 
   async updateLanguage() {
@@ -141,8 +127,9 @@ export class UserComponent extends HTMLLIElement {
   }
 
   logout = () => {
+    if (!(getState().user && getState().token)) return;
     setState({ token: '', user: '' });
-    this.dispatchEvent(logoutEvent);
+    this.dispatchEvent(logoutEvent({ emiter: this }));
     navigateTo('/user/signin');
   };
 

@@ -2,6 +2,13 @@ import { getPartialStorage } from '../../store/store.js';
 
 const HOST = 'http://localhost:8000/api';
 
+const logOutEvent = (token) =>
+  new CustomEvent('ldod-logout', {
+    detail: { token },
+    bubbles: true,
+    composed: true,
+  });
+
 const handleError = (errorData) => {
   const { message } = errorData;
   const errorEv = new CustomEvent('ldod-error', { detail: { message } });
@@ -38,6 +45,7 @@ const request = async (method, path, data, token) => {
   handleLoading(true);
   const options = {};
   const accessToken = token ? token : getStorageToken();
+  if (!accessToken) window.dispatchEvent(logOutEvent());
 
   options.headers = new Headers();
   options.headers.append(

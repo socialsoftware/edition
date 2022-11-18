@@ -5,9 +5,9 @@ export default defineConfig(({ mode }) => {
   return {
     build: {
       target: 'es2022',
-      outDir: 'build-dev',
+      outDir: 'build.dev',
     },
-    esbuild: {
+    esbuild: 
       jsxFactory: 'createElement',
       jsxFragment: 'createFragment',
       jsxInject:

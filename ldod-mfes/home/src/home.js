@@ -1,6 +1,7 @@
-await import('./Components/Navbar/Navbar.js').catch((error) => {
-  if (error.code && error.code !== 'ERR_MODULE_NOT_FOUND') throw error;
-});
+if (typeof window === 'object') {
+  import('./Components/Navbar/Navbar.js');
+  import('./Components/HomeView/HomeInfo.js');
+}
 
 let Home;
 

@@ -5,11 +5,12 @@ import style from '../../../style/navbar.css' assert { type: 'css' };
 import './DropdownMenu.js';
 import './LangMenu.js';
 import { checkUserCompCompliance, isMFEAvailable } from '../../utils.js';
-const isUserCompCompliant =
+const isUserCompCompliant = async () =>
   isMFEAvailable('user') && (await checkUserCompCompliance());
 
 const styleSheet = new CSSStyleSheet();
 window.html = String.raw;
+
 const loadConstants = async (lang) =>
   (await import(`../../../resources/navbar/constants-${lang}.js`)).default;
 
@@ -23,7 +24,7 @@ export default class LdodNavbar extends HTMLElement {
     this.selectedVE = this.defaultSelectedVE;
   }
 
-  static get observedAttributes() {object
+  static get observedAttributes() {
     return ['language'];
   }
 
@@ -118,7 +119,6 @@ export default class LdodNavbar extends HTMLElement {
   }
 
   onUserLogin = (e) => {
-    //e.stopPropagation();
     this.addExpandedCollapseEvent();
     const user = e.detail.user;
     if (user && typeof user === 'object') {
@@ -132,7 +132,6 @@ export default class LdodNavbar extends HTMLElement {
   };
 
   onUserLogout = (e) => {
-    //  e.stopPropagation();
     this.user && this.setAdminVisibility(true);
     this.user && this.removeEditions();
     this.user = undefined;
@@ -197,7 +196,7 @@ export default class LdodNavbar extends HTMLElement {
                   ${this.constants['header_title']}
                 </a>
                 <ul class="nav navbar-nav user-component hidden-xs">
-                  ${isUserCompCompliant
+                  ${(await isUserCompCompliant())
                     ? html`
                         <li
                           class="dropdown"
@@ -213,7 +212,7 @@ export default class LdodNavbar extends HTMLElement {
           <div class="container">
             <div class="navbar-collapse collapse" aria-expanded="false">
               <ul class="nav navbar-nav navbar-nav-flex">
-                ${isUserCompCompliant
+                ${(await isUserCompCompliant())
                   ? html` <li
                       class="dropdown visible-xs"
                       is="user-component"

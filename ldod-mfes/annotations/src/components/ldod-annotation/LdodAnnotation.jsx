@@ -52,9 +52,9 @@ const onAutocomplete = (e, root) => {
       .querySelectorAll('option-pure[selected]')
       .forEach((option) => option.remove());
 
-    !assignedCats.includes(e.target.value) && assignedCats.push(e.target.value);
-    !root.categories.includes(e.target.value) &&
-      root.categories.push(e.target.value);
+    !assignedCats.includes(target.value) && assignedCats.push(target.value);
+    !root.categories.includes(target.value) &&
+      root.categories.push(target.value);
 
     root.tagMultipleSelect.append(
       ...assignedCats.map((cat) => (
