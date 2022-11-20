@@ -38,13 +38,27 @@ import 'path/to/shared/dist/table.js';
 
 - data
 
-  - Type: Array of objects
+  - Type: Array of objects or can encapsulate a funtion on key data than returns the array of objects (better for huge tables and rows with a lot of content)
   - Description: Object keys have to match headers keys
 
 - data-rows
   Type: String or Number
   Default: 20
   Description: number of visible rows pretended
+
+```js
+{
+  name: 'Anastácio',
+  age: 30,
+}
+or
+{
+  data: () => ({
+    name: 'Anastácio',
+    age: 30,
+  })
+}
+```
 
 - language
   - Type: String
