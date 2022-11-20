@@ -143,7 +143,8 @@ a {
   color: #fc1b27;
 }
 
-.reading-inter {
+.reading-text h1 a {
+  color: black;
 }
 
 .reading-inter-current {

@@ -54,7 +54,7 @@ export default (language, constants) => {
         <a
           is="nav-to"
           ${isMFEAvailable('text')
-            ? html`to="/reading/fragment/${xmlId}/inter/${urlId}`
+            ? html`to="/reading/fragment/${xmlId}/inter/${urlId}"`
             : ''}
           class="home-frag-link"
         >

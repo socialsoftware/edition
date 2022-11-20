@@ -1,6 +1,7 @@
 package pt.ist.socialsoftware.edition.ldod.bff.reading;
 
 import org.springframework.stereotype.Service;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.socialsoftware.edition.ldod.bff.reading.dto.ExpertEditionDto;
 import pt.ist.socialsoftware.edition.ldod.bff.reading.dto.ReadingExpertEditionDto;
 import pt.ist.socialsoftware.edition.ldod.bff.reading.dto.RecommendedInterDto;
@@ -11,6 +12,8 @@ import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
 import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
 import pt.ist.socialsoftware.edition.ldod.generators.PlainHtmlWriter4OneInter;
 import pt.ist.socialsoftware.edition.ldod.recommendation.ReadingRecommendation;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.Message;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,12 +28,16 @@ public class ReadingService {
     }
 
 
-    public ReadingExpertEditionDto getExpertEditionInterByAcronym(String acronym,
-                                                                  String xmlId,
-                                                                  String urlId,
-                                                                  ReadingRecommendation recommendation) {
+    public ReadingExpertEditionDto getExpertEditionInterByAcronym(
+            String xmlId,
+            String urlId,
+            ReadingRecommendation recommendation) {
+
         Fragment fragment = LdoD.getInstance().getFragmentByXmlId(xmlId);
+        if (fragment == null) throw new LdoDException(String.format(Message.ELEMENT_NOT_FOUND.getLabel(), xmlId));
+
         ExpertEditionInter editionInter = (ExpertEditionInter) fragment.getFragInterByUrlId(urlId);
+        String acronym = editionInter.getEdition().getAcronym();
         PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(fragment.getFragInterByUrlId(urlId));
         writer.write(false);
 
@@ -53,7 +60,7 @@ public class ReadingService {
                 recommendation,
                 new RecommendedInterDto(editionInter),
                 recommendation.getPrevRecommendation() != null ? new RecommendedInterDto(recommendation.getPrevRecommendation()) : null
-                );
+        );
     }
 
     private List<RecommendedInterDto> getRecommendedInters(String editionInterId, ReadingRecommendation recommendation) {
@@ -79,6 +86,12 @@ public class ReadingService {
                 .build();
     }
 
+    private Object checkObjectNotNull(String externalId) {
+        Object obj = FenixFramework.getDomainObject(externalId);
+        if (obj == null)
+            throw new LdoDException(String.format(Message.ELEMENT_NOT_FOUND.getLabel(), externalId));
+        return obj;
+    }
 
 }
 

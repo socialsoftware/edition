@@ -57,7 +57,7 @@ export class LdodReading extends HTMLElement {
                 <h4>
                   <a
                     is="nav-to"
-                    to={`/reading/${edition.acronym}/fragment/${edition.xmlId}/inter/${edition.urlId}`}>
+                    to={`/reading/fragment/${edition.xmlId}/inter/${edition.urlId}`}>
                     {edition.editor}
                   </a>
                 </h4>
@@ -65,7 +65,7 @@ export class LdodReading extends HTMLElement {
                   class="icon icon-arrow-right"
                   onClick={() =>
                     navigateTo(
-                      `/reading/${edition.acronym}/fragment/${edition.xmlId}/inter/${edition.urlId}`,
+                      `/reading/fragment/${edition.xmlId}/inter/${edition.urlId}`,
                       this
                     )
                   }></span>

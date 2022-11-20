@@ -9,7 +9,9 @@ export default ({ node, inter }) => {
       <Checkboxes node={node} checkboxes={['diff']} />
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <Title title={node.data.title} />
-        <a is="nav-to" to={`reading/${node.xmlId}/inter/${inter.urlId}`}>
+        <a
+          is="nav-to"
+          to={`/reading/fragment/${node.xmlId}/inter/${inter.urlId}`}>
           <span style={{ marginTop: '25px' }} class="icon icon-eye"></span>
         </a>
       </div>

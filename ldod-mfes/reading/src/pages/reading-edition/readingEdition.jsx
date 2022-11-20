@@ -2,8 +2,8 @@ import { getExpertEditionInter } from '../../apiRequests';
 import './LdodReadingEdition';
 
 const mount = async (lang, ref) => {
-  const { acrn, xmlId, urlId } = history.state;
-  getExpertEditionInter(acrn, xmlId, urlId)
+  const { xmlId, urlId } = history.state;
+  getExpertEditionInter(xmlId, urlId)
     .then((data) => LdodReadingEdition.updateData(data))
     .catch((e) => console.error(e));
   const LdodReadingEdition = document
@@ -13,6 +13,6 @@ const mount = async (lang, ref) => {
 
 const unMount = () => document.querySelector('ldod-reading-edition')?.remove();
 
-const path = '/:acrn/fragment/:xmlId/inter/:urlId';
+const path = '/fragment/:xmlId/inter/:urlId';
 
 export { mount, unMount, path };

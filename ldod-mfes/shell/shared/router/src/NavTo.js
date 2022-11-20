@@ -5,7 +5,12 @@ export default class NavTo extends HTMLAnchorElement {
     return toAttr;
   }
 
+  get mfe() {
+    return this.to.split('/')[1];
+  }
+
   connectedCallback() {
+    this.checkIfMfesIsPublished();
     if (this.target) {
       this.href = this.to;
       return;
@@ -28,6 +33,11 @@ export default class NavTo extends HTMLAnchorElement {
       })
     );
   }
+
+  checkIfMfesIsPublished = () => {
+    if (!this.to || !this.mfe) return;
+    if (!window.mfes?.includes(this.mfe)) this.hidden = true;
+  };
 }
 
 customElements.define('nav-to', NavTo, { extends: 'a' });

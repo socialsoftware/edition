@@ -3,9 +3,10 @@ package pt.ist.socialsoftware.edition.ldod.bff.reading;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.social.linkedin.api.Recommendation;
 import org.springframework.web.bind.annotation.*;
+import pt.ist.socialsoftware.edition.ldod.bff.dtos.MainResponseDto;
 import pt.ist.socialsoftware.edition.ldod.recommendation.ReadingRecommendation;
+import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 
 @RestController
@@ -23,15 +24,21 @@ public class MfeReadingController {
                 .body(service.getExpertEditions());
     }
 
-    @PostMapping("/{acronym}/fragment/{xmlId}/inter/{urlId}")
-    public ResponseEntity<?> getExpertEditionInterByAcronym(@PathVariable String acronym,
-                                                            @PathVariable String xmlId,
-                                                            @PathVariable String urlId,
-                                                            @RequestBody ReadingRecommendation recommendation
+    @PostMapping("/fragment/{xmlId}/inter/{urlId}")
+    public ResponseEntity<?> getExpertEditionInterByAcronym(
+            @PathVariable String xmlId,
+            @PathVariable String urlId,
+            @RequestBody ReadingRecommendation recommendation
     ) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(service.getExpertEditionInterByAcronym(acronym, xmlId, urlId, recommendation));
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(service.getExpertEditionInterByAcronym(xmlId, urlId, recommendation));
+        } catch (LdoDException e) {
+            return ResponseEntity.status(HttpStatus.OK).body(new MainResponseDto(false, e.getMessage()));
+        }
+
+
     }
 
 

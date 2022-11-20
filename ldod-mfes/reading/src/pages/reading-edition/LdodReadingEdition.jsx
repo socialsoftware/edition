@@ -57,7 +57,7 @@ export class LdodReadingEdition extends HTMLElement {
                   <h4>
                     <a
                       is="nav-to"
-                      to={`/reading/${edition.acronym}/fragment/${edition.xmlId}/inter/${edition.urlId}`}>
+                      to={`/reading/fragment/${edition.xmlId}/inter/${edition.urlId}`}>
                       {edition.editor}
                     </a>
                   </h4>
@@ -67,7 +67,7 @@ export class LdodReadingEdition extends HTMLElement {
                         <h2>
                           <a
                             is="nav-to"
-                            to={`/reading/${edition.acronym}/fragment/${inter.xmlId}/inter/${inter.urlId}`}>
+                            to={`/reading/fragment/${inter.xmlId}/inter/${inter.urlId}`}>
                             {inter.number}
                           </a>
                         </h2>
@@ -76,7 +76,7 @@ export class LdodReadingEdition extends HTMLElement {
                             class="icon icon-arrow-left"
                             onClick={() =>
                               navigateTo(
-                                `/reading/${edition.acronym}/fragment/${inter.prevXmlId}/inter/${inter.prevUrlId}`,
+                                `/reading/fragment/${inter.prevXmlId}/inter/${inter.prevUrlId}`,
                                 this
                               )
                             }></span>
@@ -84,7 +84,7 @@ export class LdodReadingEdition extends HTMLElement {
                             class="icon icon-arrow-right"
                             onClick={() =>
                               navigateTo(
-                                `/reading/${edition.acronym}/fragment/${inter.nextXmlId}/inter/${inter.nextUrlId}`,
+                                `/reading/fragment/${inter.nextXmlId}/inter/${inter.nextUrlId}`,
                                 this
                               )
                             }></span>
@@ -98,7 +98,13 @@ export class LdodReadingEdition extends HTMLElement {
                   <div
                     class="reading-text"
                     style={{ gridColumn: `${index + 2}/${index + 9}` }}>
-                    <h1>{edition.transcriptTitle}</h1>
+                    <h1>
+                      <a
+                        is="nav-to"
+                        to={`/text/fragment/${this.currentInter.xmlId}/inter/${this.currentInter.urlId}`}>
+                        {edition.transcriptTitle}
+                      </a>
+                    </h1>
                     <div class="reading-transcript">{dom(transcript)}</div>
                   </div>
                 )}
@@ -115,7 +121,7 @@ export class LdodReadingEdition extends HTMLElement {
             <div class="reading-inter-current">
               <a
                 is="nav-to"
-                to={`/reading/${this.currentInter.acronym}/fragment/${this.currentInter.xmlId}/inter/${this.currentInter.urlId}`}>
+                to={`/reading/fragment/${this.currentInter.xmlId}/inter/${this.currentInter.urlId}`}>
                 <h3>{this.currentInter.acronym}</h3>
                 <h2>{this.currentInter.number}</h2>
               </a>
@@ -127,7 +133,7 @@ export class LdodReadingEdition extends HTMLElement {
               <div class="reading-inter">
                 <a
                   is="nav-to"
-                  to={`/reading/${this.prevInter.acronym}/fragment/${this.prevInter.xmlId}/inter/${this.prevInter.urlId}`}>
+                  to={`/reading/fragment/${this.prevInter.xmlId}/inter/${this.prevInter.urlId}`}>
                   <h3>{this.prevInter.acronym}</h3>
                   <h2>{this.prevInter.number}</h2>
                 </a>
@@ -135,7 +141,7 @@ export class LdodReadingEdition extends HTMLElement {
                   class="icon icon-arrow-left"
                   onClick={() =>
                     navigateTo(
-                      `/reading/${recomm.acronym}/fragment/${recomm.xmlId}/inter/${recomm.urlId}`,
+                      `/reading/fragment/${recomm.xmlId}/inter/${recomm.urlId}`,
                       this
                     )
                   }></span>
@@ -147,7 +153,7 @@ export class LdodReadingEdition extends HTMLElement {
                 <div class="reading-inter">
                   <a
                     is="nav-to"
-                    to={`/reading/${recomm.acronym}/fragment/${recomm.xmlId}/inter/${recomm.urlId}`}>
+                    to={`/reading/fragment/${recomm.xmlId}/inter/${recomm.urlId}`}>
                     <h3>{recomm.acronym}</h3>
                     <h2>{recomm.number}</h2>
                   </a>
@@ -155,7 +161,7 @@ export class LdodReadingEdition extends HTMLElement {
                     class="icon icon-arrow-right"
                     onClick={() =>
                       navigateTo(
-                        `/reading/${recomm.acronym}/fragment/${recomm.xmlId}/inter/${recomm.urlId}`,
+                        `/reading/fragment/${recomm.xmlId}/inter/${recomm.urlId}`,
                         this
                       )
                     }></span>
@@ -176,7 +182,7 @@ export class LdodReadingEdition extends HTMLElement {
     this.prevInter = data.prevInter;
     readingStore.setState((state) => ({
       ...state,
-      read: data.read,
+      read: data.read || state.read,
     }));
     this.render();
   }
@@ -210,7 +216,7 @@ export class LdodReadingEdition extends HTMLElement {
   onRecommendationSubmit = () => {
     this.recommendationModal.toggleAttribute('show');
     navigateTo(
-      `/reading/${this.currentInter.acronym}/fragment/${this.currentInter.xmlId}/inter/${this.currentInter.urlId}`,
+      `/reading/fragment/${this.currentInter.xmlId}/inter/${this.currentInter.urlId}`,
       this
     );
   };
