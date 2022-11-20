@@ -1,10 +1,14 @@
 import 'shared/router.js';
 import { index } from './pages/index';
+import './store';
 import style from './style.css?inline';
 
 const READING_SELECTOR = 'div#readingContainer';
 
-const routes = {};
+const routes = {
+  '/:acrn/fragment/:xmlId/inter/:urlId': async () =>
+    await import('./pages/reading-edition/readingEdition'),
+};
 
 const isDev = () => import.meta.env.DEV;
 

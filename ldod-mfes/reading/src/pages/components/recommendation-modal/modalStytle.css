@@ -1,0 +1,80 @@
+ldod-modal h3 {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 34px;
+  font-family: 'League-Gothic';
+  text-transform: uppercase;
+  margin-top: 40px;
+  margin-bottom: 15px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.criterias-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.criterias-wrapper > div {
+  display: grid;
+  text-align: center;
+  font-family: 'Work-Sans';
+  font-size: 15px;
+  font-weight: 500;
+}
+
+@media (width >= 992px) {
+  .criterias-wrapper > div {
+    width: 20%;
+  }
+}
+
+@media (width < 992px) {
+  .criterias-wrapper > div {
+    width: 95%;
+  }
+}
+
+input[type='range'] {
+  width: 100%;
+}
+
+.btn {
+  cursor: pointer;
+  border-radius: 5px;
+  height: 35px;
+  background-color: transparent;
+  border: 1px solid transparent;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  font-size: 15px;
+  width: 75px;
+  margin: 5px;
+}
+
+.btn:hover {
+  background-color: #ccc;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+.btn-danger:hover {
+  background-color: #bb2d3b;
+  border-color: #bb2d3b;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+  border-color: #0b5ed7;
+  background-color: #0b5ed7;
+}

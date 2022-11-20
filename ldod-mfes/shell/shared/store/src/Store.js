@@ -51,19 +51,18 @@ export class Store {
   setState(state, replace) {
     if (!state) return;
     state = checkStateType(state);
-
     const nextState = this.setNextStateAccordingType(state);
 
     if (!objectsAreEqual(nextState, this.#state)) {
       const previousState = this.#state;
       this.#state = replace ? nextState : { ...this.#state, ...nextState };
 
-      if (this.#persist?.storageName && this.#persist?.keys)
+      if (this.#persist?.storageName && this.#persist?.keys) {
         setPartialStorage(
           this.#persist.storageName,
           filterObjectByKeys(this.#state, this.#persist.keys)
         );
-
+      }
       Object.keys(nextState).forEach((key) => {
         this.#listenersBySelector
           .get(key)

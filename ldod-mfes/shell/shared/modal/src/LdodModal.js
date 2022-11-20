@@ -102,10 +102,7 @@ export class LdodModal extends HTMLElement {
     >
       <div class=${`"modal-dialog ${this.dialogClass}"`}>
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-              <slot name="header-slot"></slot>
-            </h5>
+          <div id="modal-close-button">
             <button
               type="button"
               class="btn-close"
@@ -113,6 +110,11 @@ export class LdodModal extends HTMLElement {
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
+          </div>
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              <slot name="header-slot"></slot>
+            </h5>
           </div>
           <div class="modal-body">
             <slot name="body-slot"></slot>

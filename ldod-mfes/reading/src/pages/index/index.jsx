@@ -2,17 +2,17 @@ import { getStartReading } from '../../apiRequests';
 import './LdodReading';
 
 const mount = async (lang, ref) => {
-  getStartReading().then((data) => {
-    console.log(reading);
-  }).catch;
-  var reading = document
+  getStartReading()
+    .then((data) => LdodReading.updateData(data))
+    .catch((e) => console.error(e));
+  const LdodReading = document
     .querySelector(ref)
     .appendChild(<ldod-reading language={lang}></ldod-reading>);
 };
 
 const unMount = () => document.querySelector('ldod-reading')?.remove();
 
-const path = '';
+const path = '/';
 
 export const index = () => ({
   mount,

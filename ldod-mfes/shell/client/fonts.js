@@ -30,6 +30,13 @@
       display: 'swap',
     },
     {
+      family: 'League-Gothic-Condensed',
+      src: `url('${URL}/league-gothic/LeagueGothic-CondensedRegular.otf') format('truetype')`,
+      style: 'normal',
+      weight: 400,
+      display: 'swap',
+    },
+    {
       family: 'Work-Sans',
       src: `url('${URL}/work-sans/WorkSans-SemiBold.ttf') format('truetype')`,
       style: 'normal',

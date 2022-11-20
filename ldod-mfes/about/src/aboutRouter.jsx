@@ -21,16 +21,16 @@ const routes = {
   '/videos': async () => await import('./pages/videos/videos.jsx'),
 };
 
-export const mount = (lang, ref) => {
+export const mount = async (lang, ref) => {
   document.querySelector(ref).appendChild(<AboutRouter language={lang} />);
 };
 
-export const unMount = () => {
+export const unMount = async () => {
   getContainer()?.remove();
 };
 
 export const showHomeInfo = () => {
-  getHomeInfo().hidden = false;
+  setTimeout(() => (getHomeInfo().hidden = false), 1);
 };
 
 export const hideHomeInfo = () => {

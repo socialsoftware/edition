@@ -19,6 +19,7 @@ export class LdodAck extends HTMLElement {
     this.appendChild(this.wrapper());
     await this.render();
     showHomeInfo();
+    console.log('1');
   }
 
   attributeChangedCallback(name, oldV, newV) {

@@ -15,6 +15,7 @@ public class ExpertEditionDto {
     private String urlId;
 
     private String transcript;
+    private String transcriptTitle;
 
     private List<EditorialInterDto> editorialInters;
 
@@ -23,8 +24,16 @@ public class ExpertEditionDto {
         setExternalId(expertEdition.getExternalId());
         setAcronym(expertEdition.getAcronym());
         setEditor(expertEdition.getEditor());
-        setXmlId(expertEdition.getXmlId());
+        setXmlId(expertEdition.getFirstInterpretation().getFragment().getXmlId());
         setUrlId(expertEdition.getFirstInterpretation().getUrlId());
+    }
+
+    public String getTranscriptTitle() {
+        return transcriptTitle;
+    }
+
+    public void setTranscriptTitle(String transcriptTitle) {
+        this.transcriptTitle = transcriptTitle;
     }
 
     public String getExternalId() {
@@ -100,7 +109,12 @@ public class ExpertEditionDto {
             return this;
         }
 
-        public ExpertEditionDtoBuilder transcription(String transcription) {
+        public ExpertEditionDtoBuilder transcriptTitle(String transcriptTitle) {
+            expertEditionDto.setTranscriptTitle(transcriptTitle);
+            return this;
+        }
+
+        public ExpertEditionDtoBuilder transcript(String transcription) {
             expertEditionDto.setTranscript(transcription);
             return this;
         }

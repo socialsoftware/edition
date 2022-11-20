@@ -1,4 +1,4 @@
-import { hideHomeInfo, renderInfo, showHomeInfo } from '../../aboutRouter';
+import { hideHomeInfo, showHomeInfo } from '../../aboutRouter';
 
 const loadComponent = async (lang) =>
   (await import(`./components/Encoding-${lang}.jsx`)).default();

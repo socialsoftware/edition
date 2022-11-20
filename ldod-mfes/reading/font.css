@@ -1,0 +1,72 @@
+@font-face {
+  font-family: 'Work-Sans';
+  src: url('./fonts/work-sans/WorkSans-ExtraBold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space-Mono';
+  src: url('./fonts/space-mono/SpaceMono-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space-Mono';
+  src: url('./fonts/space-mono/SpaceMono-Bold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'League-Gothic';
+  src: url('./fonts/league-gothic/LeagueGothic-Regular.otf') format('truetype');
+  font-style: normal;
+  font-weight: regular;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'League-Gothic-Condensed';
+  src: url('./fonts/league-gothic/LeagueGothic-CondensedRegular.otf')
+    format('truetype');
+  font-style: normal;
+  font-weight: regular;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ultra';
+  src: url('./fonts/ultra/Ultra-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: regular;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space-Mono';
+  src: url('./fonts/space-mono/SpaceMono-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: regular;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Work-Sans';
+  src: url('./fonts/work-sans/WorkSans-SemiBold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Work-Sans';
+  src: url('/fonts/work-sans/WorkSans-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}

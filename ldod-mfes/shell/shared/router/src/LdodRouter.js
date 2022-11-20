@@ -191,11 +191,9 @@ export default class LdodRouter extends HTMLElement {
 
   async appendMFE(route) {
     if (!route) return;
-    emitLoading(true);
     this.active && (await this.removeMFE());
     this.active = await route();
     await this.active.mount(this.language, `#${this.outlet.id}`);
-    emitLoading(false);
   }
 
   async removeMFE() {
@@ -228,12 +226,5 @@ const complianceWaring = (message, id) => {
   console.error(`ldod-router#${id}: ${message}`);
   return true;
 };
-
-function emitLoading(isLoading) {
-  return;
-  window.dispatchEvent(
-    new CustomEvent('ldod-loading', { detail: { isLoading } })
-  );
-}
 
 customElements.define('ldod-router', LdodRouter);

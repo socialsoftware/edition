@@ -13,7 +13,11 @@ export default defineConfig(({ mode }) => {
         fileName: 'reading',
       },
       rollupOptions: {
-        external: ['shared/vanilla-jsx.js', 'shared/router.js'],
+        external: [
+          'shared/vanilla-jsx.js',
+          'shared/router.js',
+          'shared/popper.js',
+        ],
       },
     },
     esbuild: {

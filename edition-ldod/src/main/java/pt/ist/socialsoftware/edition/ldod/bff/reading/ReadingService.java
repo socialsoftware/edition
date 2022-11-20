@@ -39,22 +39,30 @@ public class ReadingService {
                 .map(edition -> ExpertEditionDto
                         .ExpertEditionDtoBuilder
                         .anExpertEditionDto(edition)
-                        .transcription(edition.getAcronym().equals(acronym) ? writer.getTranscription() : null)
+                        .transcriptTitle(edition.getAcronym().equals(acronym) ? editionInter.getTitle() : null)
+                        .transcript(edition.getAcronym().equals(acronym) ? writer.getTranscription() : null)
                         .editorialInters(edition.getSortedInter4Frag(fragment)
                                 .stream()
                                 .map(this::getEditorialInterDto)
                                 .collect(Collectors.toList())
                         ).build())
                 .collect(Collectors.toList());
-        return new ReadingExpertEditionDto(editions, getRecommendedInters(editionInter.getExternalId(), recommendation));
+        return new ReadingExpertEditionDto(
+                editions,
+                getRecommendedInters(editionInter.getExternalId(), recommendation),
+                recommendation,
+                new RecommendedInterDto(editionInter),
+                recommendation.getPrevRecommendation() != null ? new RecommendedInterDto(recommendation.getPrevRecommendation()) : null
+                );
     }
 
-    private List<RecommendedInterDto> getRecommendedInters(String interExternalId, ReadingRecommendation recommendation) {
-        return recommendation
-                .getNextRecommendations(interExternalId)
-                .stream()
-                .map(RecommendedInterDto::new)
-                .collect(Collectors.toList());
+    private List<RecommendedInterDto> getRecommendedInters(String editionInterId, ReadingRecommendation recommendation) {
+        return
+                recommendation
+                        .getNextRecommendations(editionInterId)
+                        .stream()
+                        .map(RecommendedInterDto::new)
+                        .collect(Collectors.toList());
     }
 
     private EditorialInterDto getEditorialInterDto(ExpertEditionInter inter) {
