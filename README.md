@@ -47,7 +47,7 @@ docker-compose build
 docker-compose up
 ```
 
-### Publish or Unpublish MFE at one go
+### Publish or Unpublish MFEs at one go
 
 ```sh
 cd ldod-mfes

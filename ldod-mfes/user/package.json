@@ -1,28 +1,28 @@
 {
-    "name": "user",
-    "private": true,
-    "version": "0.0.0",
-    "type": "module",
-    "entry": "index.js",
-    "config": {
-        "docker": "http://localhost/ldod-mfes",
-        "dev": "http://localhost:9000/ldod-mfes"
-    },
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "build-dev": "vite --config vite.config.dev.js build",
-        "prepreview": "vite --config vite.config.dev.js build",
-        "preview": "vite --config vite.config.dev.js preview",
-        "pack": "yarn build && ./scripts/pack.sh user",
-        "publish-dev": "yarn run pack && ./scripts/publish.sh user user.js @./dist/user.tgz $npm_package_config_dev",
-        "unpublish-dev": "./scripts/unpublish.sh user $npm_package_config_dev",
-        "publish": "yarn run pack && ./scripts/publish.sh user user.js @./dist/user.tgz $npm_package_config_docker",
-        "unpublish": "./scripts/unpublish.sh user $npm_package_config_docker",
-        "test": "vitest run --coverage"
-    },
-    "devDependencies": {
-        "cypress": "^10.10.0",
-        "vite": "^3.0.7"
-    }
+  "name": "user",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "entry": "index.js",
+  "config": {
+    "docker": "http://localhost:8080/ldod-mfes",
+    "dev": "http://localhost:9000/ldod-mfes"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build-dev": "vite --config vite.config.dev.js build",
+    "prepreview": "vite --config vite.config.dev.js build",
+    "preview": "vite --config vite.config.dev.js preview",
+    "pack": "yarn build && ./scripts/pack.sh user",
+    "publish-dev": "yarn run pack && ./scripts/publish.sh user user.js @./dist/user.tgz $npm_package_config_dev",
+    "unpublish-dev": "./scripts/unpublish.sh user $npm_package_config_dev",
+    "publish": "yarn run pack && ./scripts/publish.sh user user.js @./dist/user.tgz $npm_package_config_docker",
+    "unpublish": "./scripts/unpublish.sh user $npm_package_config_docker",
+    "test": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "cypress": "^10.10.0",
+    "vite": "^3.0.7"
+  }
 }
