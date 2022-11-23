@@ -15,7 +15,7 @@ export class Annotation {
   constructor(data, refNode) {
     this.data = { ...defaultAnnotation, ...data };
     this.id = data.externalId;
-    this.xPathRange = data.ranges[0];
+    this.xPathRange = data.ranges?.[0] || data.xPathRange;
     this.refNode = refNode;
   }
 

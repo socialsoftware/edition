@@ -41,7 +41,6 @@ export default {
     updateCategoryName: 'Actualizar nome da categoria',
     extractFrags: 'Criar nova Categoria a partir de um conjunto de Fragmentos',
     multipleFrags: 'Fragmentos (seleção múltipla)',
-    extract: 'Extrair',
     usedIn: 'Usado em',
     publicContent: 'Conteúdo Público',
   },
@@ -84,7 +83,6 @@ export default {
     updateCategoryName: 'Update category name',
     extractFrags: 'Create new Category by extracting a set of Fragments',
     multipleFrags: 'Fragments (multiple selection)',
-    extract: 'Extract',
     usedIn: 'Used in',
     publicContent: 'Public Content',
   },
@@ -129,7 +127,6 @@ export default {
     extractFrags:
       'Crear una nueva Categoría extrayendo un conjunto de Fragmentos',
     multipleFrags: 'Fragmentos (selección múltiple)',
-    extract: 'Extraer',
     usedIn: 'Utilizado en',
     publicContent: 'Contenido público',
   },

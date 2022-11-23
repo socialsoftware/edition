@@ -69,7 +69,6 @@ export class LdodConduct extends HTMLElement {
         {await loadComponent(this.language)}
       </div>
     );
-    wrapper.children;
     wrapper.childNodes.length > 1 && wrapper.firstChild.remove();
   }
 }

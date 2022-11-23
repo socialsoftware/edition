@@ -1,7 +1,5 @@
-import { isMFEAvailable } from '../../src/utils.js';
-
 export default {
-  about: isMFEAvailable('about') && {
+  about: {
     name: 'header_about',
     pages: [
       { id: 'header_title', route: '/about/archive' },
@@ -19,31 +17,29 @@ export default {
       { id: 'header_copyright', route: '/about/copyright' },
     ],
   },
-  reading: (isMFEAvailable('social') ||
-    isMFEAvailable('reading') ||
-    isMFEAvailable('ldod-visual')) && {
+  reading: {
     name: 'general_reading',
     pages: [
-      isMFEAvailable('reading') && {
+      {
         id: 'general_reading_sequences',
         route: '/reading',
       },
-      isMFEAvailable('ldod-visual') && {
+      {
         id: 'general_reading_visual_external',
         link: `${process.host}/ldod-visual`,
       },
-      isMFEAvailable('ldod-visual') &&
-        isMFEAvailable('visual') && {
-          id: 'general_reading_visual_integrated',
-          route: '/visual',
-        },
-      isMFEAvailable('social') && {
+      {
+        id: 'general_reading_visual_integrated',
+        route: '/visual',
+      },
+      {
         id: 'general_citations_twitter',
         route: '/social/twitter-citations',
       },
     ],
   },
-  documents: isMFEAvailable('text') && {
+
+  documents: {
     name: 'header_documents',
     pages: [
       { id: 'authorial_source', route: '/text/sources' },
@@ -53,46 +49,45 @@ export default {
   editions: {
     name: 'header_editions',
     pages: [
-      isMFEAvailable('text') && {
+      {
         id: 'general_editor_prado',
         route: '/text/edition/acronym/JPC',
       },
-      isMFEAvailable('text') && {
+      {
         id: 'general_editor_cunha',
         route: '/text/edition/acronym/TSC',
       },
-      isMFEAvailable('text') && {
+      {
         id: 'general_editor_zenith',
         route: '/text/edition/acronym/RZ',
       },
-      isMFEAvailable('text') && {
+      {
         id: 'general_editor_pizarro',
         route: '/text/edition/acronym/JP',
       },
-      isMFEAvailable('virtual') && { clazz: 'divider' },
-      isMFEAvailable('virtual') && {
+      { clazz: 'divider' },
+      {
         id: 'header_title',
         route: '/virtual/edition/acronym/LdoD-Arquivo',
       },
-      isMFEAvailable('virtual') && { clazz: 'divider' },
+      { clazz: 'divider' },
     ],
   },
-  search: isMFEAvailable('search') && {
+  search: {
     name: 'header_search',
     pages: [
       { id: 'header_search_simple', route: '/search/simple' },
       { id: 'header_search_advanced', route: '/search/advanced' },
     ],
   },
-  virtual: (isMFEAvailable('virtual') ||
-    isMFEAvailable('classification-game')) && {
+  virtual: {
     name: 'header_virtual',
     pages: [
-      isMFEAvailable('virtual') && {
+      {
         id: 'header_virtualeditions',
         route: '/virtual/virtual-editions',
       },
-      isMFEAvailable('classification-game') && {
+      {
         id: 'general_classificationGame',
         route: '/virtual/classificationGames',
       },
@@ -101,19 +96,19 @@ export default {
   admin: {
     name: 'header_admin',
     pages: [
-      isMFEAvailable('text') && {
+      {
         id: 'fragments_management',
         route: '/text/manage-fragments',
       },
-      isMFEAvailable('user') && {
+      {
         id: 'user_management',
         route: '/user/manage-users',
       },
-      isMFEAvailable('virtual') && {
+      {
         id: 'virtual_editions_management',
         route: '/virtual/manage-virtual-editions',
       },
-      isMFEAvailable('social') && {
+      {
         id: 'tweets_management',
         route: '/social/manage-tweets',
       },

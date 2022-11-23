@@ -25,5 +25,3 @@ export const useState = (initial) => {
   const setState = (newState) => (state = newState);
   return [getState, setState];
 };
-
-document.appendChild;

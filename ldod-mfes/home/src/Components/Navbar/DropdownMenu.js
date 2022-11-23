@@ -22,8 +22,6 @@ class DropdownMenu extends HTMLLIElement {
     this.setAnchorItemsNames();
   }
 
-  disconnectedCallback() {}
-
   render() {
     this.classList.add('dropdown');
     this.innerHTML = html`
@@ -40,10 +38,11 @@ class DropdownMenu extends HTMLLIElement {
                 ${selected ? 'default-selected' : ''}
               >
                 ${route
-                  ? html`<a is="nav-to" to=${route} id=${id ?? ''}
+                  ? `<a is="nav-to" to=${route} id=${id ?? ''}
                       >${name ?? ''}</a
                     >`
-                  : link
+                  : ''}
+                ${link
                   ? html`<a href=${link} target="_blank" id=${id}>${name}</a>`
                   : ''}
               </li>

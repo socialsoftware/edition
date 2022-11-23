@@ -49,7 +49,6 @@ export class LdodBook extends HTMLElement {
   async render() {
     const wrapper = this.querySelector('#aboutWrapper');
     wrapper.appendChild(<div>{await loadComponent(this.language)}</div>);
-    wrapper.children;
     wrapper.childNodes.length > 1 && wrapper.firstChild.remove();
   }
 }

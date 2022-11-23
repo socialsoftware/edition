@@ -32,7 +32,11 @@ src/main/resources/configuration.properties
 *.iml
 opt/
 
+.scannerwork/
 
+tech-hetero
+
+sonar-project.properties
 secrete.properties
 specific.properties
 fenix-framework.properties

@@ -25,7 +25,6 @@ export class HomeInfo extends HTMLElement {
     await this.setConstants();
     this.render();
   }
-  disconnectedCallback() {}
   async attributeChangedCallback(name, oldV, newV) {
     if (oldV && oldV !== newV) {
       await this.setConstants();

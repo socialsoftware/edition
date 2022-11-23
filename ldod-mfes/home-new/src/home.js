@@ -1,17 +1,17 @@
-let mfe;
+let home;
 
 const loadMfe = async () => {
   // load mfe component
 };
 
 export default {
-  path: '/mfe-path',
+  path: '/home-new',
   mount: async (lang, ref) => {
-    if (!mfe) await loadMfe();
+    if (!home) await loadMfe();
     // mfe mount call
   },
   unMount: async () => {
-    if (!mfe) await loadMfe();
+    if (!home) await loadMfe();
     // mfe unMount call
   },
 };

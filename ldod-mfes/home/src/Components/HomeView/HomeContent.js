@@ -45,6 +45,32 @@ const boxes = [
     index: 5,
   },
 ].filter(Boolean);
+
+const boxGroup = (module, path, index, version, language) => {
+  const key = `0${index}`;
+  return html` ${key !== '01' ? '<hr class="line-points" />' : ''}
+    <a is="nav-to" to="${path}">
+      <div class="div-link">
+        <img
+          id="${module}"
+          version=${version}
+          key="${key}"
+          class="not-hover"
+          src=${boxUrl(version, key, language)}
+          alt="${module}"
+        />
+        <img
+          id="${module}"
+          version=${version}
+          key="${key}"
+          class="hover"
+          src=${boxUrlH(version, key, language)}
+          alt="${module}"
+        />
+      </div>
+    </a>`;
+};
+
 export default (language, constants) => {
   const xmlId = excerpt.path.split('/')[0];
   const urlId = excerpt.path.split('/')[2];
@@ -85,29 +111,4 @@ export default (language, constants) => {
       <home-info language=${language} class="language"></home-info>
     </div>
   `);
-};
-
-const boxGroup = (module, path, index, version, language) => {
-  const key = `0${index}`;
-  return html` ${key !== '01' ? html`<hr class="line-points" />` : ''}
-    <a is="nav-to" to="${path}">
-      <div class="div-link">
-        <img
-          id="${module}"
-          version=${version}
-          key="${key}"
-          class="not-hover"
-          src=${boxUrl(version, key, language)}
-          alt="${module}"
-        />
-        <img
-          id="${module}"
-          version=${version}
-          key="${key}"
-          class="hover"
-          src=${boxUrlH(version, key, language)}
-          alt="${module}"
-        />
-      </div>
-    </a>`;
 };

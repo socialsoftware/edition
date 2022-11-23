@@ -33,8 +33,6 @@ export default class HomeMFE extends HTMLElement {
     this.render();
   }
 
-  disconnectedCallback() {}
-
   languageUpdate = () =>
     this.shadowRoot
       .querySelectorAll('.language')

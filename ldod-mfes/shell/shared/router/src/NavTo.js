@@ -35,8 +35,8 @@ export default class NavTo extends HTMLAnchorElement {
   }
 
   checkIfMfesIsPublished = () => {
-    if (!this.to || !this.mfe) return;
-    if (!window.mfes?.includes(this.mfe)) this.hidden = true;
+    if (!this.to || !this.mfe || this.target) return;
+    if (!window.mfes?.includes(this.mfe)) this.style.display = 'none';
   };
 }
 

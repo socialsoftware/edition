@@ -1,0 +1,16 @@
+{
+  "name": "bootstrap",
+  "version": "1.0.0",
+  "description": "shared bootstrap module",
+  "main": "bootstrap.js",
+  "license": "MIT",
+  "type":"module",
+  "scripts": {
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "bootstrap": "^5.2.3",
+    "sass": "^1.56.1",
+    "vite": "^3.2.4"
+  }
+}

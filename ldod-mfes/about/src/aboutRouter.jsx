@@ -4,7 +4,7 @@ import { isDev } from './utils.js';
 
 const ABOUT_SELECTOR = 'div#aboutContainer';
 const getContainer = () => document.querySelector(ABOUT_SELECTOR);
-const getHomeInfo = () => getContainer().querySelector('home-info');
+const getHomeInfo = () => getContainer()?.querySelector('home-info');
 
 const routes = {
   '/archive': async () => await import(`./pages/archive/archive.jsx`),
@@ -34,7 +34,7 @@ export const showHomeInfo = () => {
 };
 
 export const hideHomeInfo = () => {
-  getHomeInfo().hidden = true;
+  getHomeInfo() && (getHomeInfo().hidden = true);
 };
 
 export const AboutRouter = ({ language }) => {

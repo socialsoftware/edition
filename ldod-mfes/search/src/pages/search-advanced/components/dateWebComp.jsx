@@ -125,4 +125,3 @@ export default class DateSelect extends HTMLElement {
 
 !customElements.get('date-select') &&
   customElements.define('date-select', DateSelect);
-HTMLElement;

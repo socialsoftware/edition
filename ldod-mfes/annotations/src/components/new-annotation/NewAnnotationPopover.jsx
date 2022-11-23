@@ -95,7 +95,7 @@ export class NewAnnPopover extends HTMLElement {
     e.stopPropagation();
     const selection = document.getSelection();
 
-    if (!selection.type === 'Range' || selection.isCollapsed)
+    if (selection.type !== 'Range' || selection.isCollapsed)
       return this.hidePopover();
 
     const currentQuote = selection.toString();
@@ -110,7 +110,7 @@ export class NewAnnPopover extends HTMLElement {
     this.selectionXPath = fromRange(range, this.refNode);
 
     // rerender annotations
-    processExistingAnnotations();
+    processExistingAnnotations(annotationsList);
 
     this.updatePopper(e);
   };

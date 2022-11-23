@@ -1,6 +1,9 @@
 import { defineConfig, loadEnv } from 'vite';
+import path from 'path';
+
 
 export default defineConfig(({ mode }) => {
+  
   const env = loadEnv(mode, process.cwd(), '');
   return {
     build: {
@@ -21,8 +24,12 @@ export default defineConfig(({ mode }) => {
           replacement: `${env.VITE_NODE_HOST}/shared/`,
         },
         {
-          find: '@src/',
-          replacement: '/src/',
+          find: '@src',
+          replacement: path.resolve(__dirname, 'src'),
+        },
+        {
+          find: '@bootstrap',
+          replacement: path.resolve(__dirname, 'node_modules/bootstrap'),
         },
       ],
     },

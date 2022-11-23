@@ -19,7 +19,6 @@ export class LdodAck extends HTMLElement {
     this.appendChild(this.wrapper());
     await this.render();
     showHomeInfo();
-    console.log('1');
   }
 
   attributeChangedCallback(name, oldV, newV) {
@@ -44,7 +43,6 @@ export class LdodAck extends HTMLElement {
   async render() {
     const wrapper = this.querySelector('#aboutWrapper');
     wrapper.appendChild(<div>{await loadComponent(this.language)}</div>);
-    wrapper.children;
     wrapper.childNodes.length > 1 && wrapper.firstChild.remove();
   }
 }

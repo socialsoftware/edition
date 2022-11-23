@@ -1,4 +1,5 @@
 import { defineConfig, loadEnv } from 'vite';
+import path from 'path';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
@@ -8,12 +9,12 @@ export default defineConfig(({ mode }) => {
       outDir: 'build',
       sourcemap: true,
       lib: {
-        entry: 'src/mfeEntry.js',
+        entry: 'src/home.js',
         formats: ['es'],
-        fileName: 'mfeEntry',
+        fileName: 'home-new',
       },
       rollupOptions: {
-        external: ['shared/vanilla-jsx.js', 'shared/router.js'],
+        external: ['shared/vanilla-jsx.js', 'shared/router.js', '@popperjs/core', 'bootstrap'],
       },
     },
     esbuild: {
@@ -29,8 +30,12 @@ export default defineConfig(({ mode }) => {
           replacement: `${env.VITE_NODE_HOST}/shared/`,
         },
         {
-          find: '@src/',
-          replacement: '/src/',
+          find: '@src',
+          replacement: path.resolve(__dirname, 'src'),
+        },
+        {
+          find: '@bootstrap',
+          replacement: path.resolve(__dirname, 'node_modules/bootstrap'),
         },
       ],
     },

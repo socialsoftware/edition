@@ -53,4 +53,3 @@ export default class SourceSelect extends HTMLElement {
 
 !customElements.get('source-select') &&
   customElements.define('source-select', SourceSelect);
-HTMLElement;

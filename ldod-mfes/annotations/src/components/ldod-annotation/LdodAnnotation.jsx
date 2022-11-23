@@ -33,8 +33,10 @@ const onAutocomplete = (e, root) => {
       if (
         option.hasAttribute('selected') ||
         matches.includes(option.getAttribute('value'))
-      )
-        return (option.hidden = false);
+      ) {
+        option.hidden = false;
+        return;
+      }
       option.hidden = true;
     }
   );
@@ -63,7 +65,6 @@ const onAutocomplete = (e, root) => {
         </option-pure>
       ))
     );
-    return;
   }
 };
 
@@ -161,7 +162,7 @@ export class LdodAnnotation extends HTMLElement {
         </div>
         <div comment-body class="comment-body">
           <div id="content">
-            {!this.annotation.data.human && <p>{this.annotation.data.text}</p>}
+            {!this.annotation?.data.human && <p>{this.annotation.data.text}</p>}
           </div>
         </div>
         <div comment-footer class="comment-footer">
@@ -257,7 +258,6 @@ export class LdodAnnotation extends HTMLElement {
       modules: { toolbar: [['bold', 'italic', 'underline', 'link', 'clean']] },
       placeholder: 'Notes ...',
     });
-    let human = this.annotation?.data.human;
     let contents = this.annotation?.data.contents;
 
     contents
@@ -372,7 +372,7 @@ export class LdodAnnotation extends HTMLElement {
 
   onRemove = async () => {
     if (this.annotation.data.uri) {
-      const data = await deleteAnnotation(this.interId, this.annotation.id)
+      await deleteAnnotation(this.interId, this.annotation.id)
         .then(this.onSuccess)
         .catch(this.onError);
     }

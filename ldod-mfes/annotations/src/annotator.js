@@ -1,5 +1,4 @@
 import { fetchAnnotations } from './apiRequests';
-import './components/ldod-annotation/LdodAnnotation';
 import { NewAnnPopover } from './components/new-annotation/NewAnnotationPopover';
 import { LdodAnnotation } from './components/ldod-annotation/LdodAnnotation';
 import { Annotation } from './Annotation';

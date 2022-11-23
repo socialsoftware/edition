@@ -99,11 +99,15 @@ export class LdodReadingEdition extends HTMLElement {
                     class="reading-text"
                     style={{ gridColumn: `${index + 2}/${index + 9}` }}>
                     <h1>
-                      <a
-                        is="nav-to"
-                        to={`/text/fragment/${this.currentInter.xmlId}/inter/${this.currentInter.urlId}`}>
-                        {edition.transcriptTitle}
-                      </a>
+                      {window.mfes?.includes('text') ? (
+                        <a
+                          is="nav-to"
+                          to={`/text/fragment/${this.currentInter.xmlId}/inter/${this.currentInter.urlId}`}>
+                          {edition.transcriptTitle}
+                        </a>
+                      ) : (
+                        edition.transcriptTitle
+                      )}
                     </h1>
                     <div class="reading-transcript">{dom(transcript)}</div>
                   </div>
@@ -141,7 +145,7 @@ export class LdodReadingEdition extends HTMLElement {
                   class="icon icon-arrow-left"
                   onClick={() =>
                     navigateTo(
-                      `/reading/fragment/${recomm.xmlId}/inter/${recomm.urlId}`,
+                      `/reading/fragment/${this.prevInter.xmlId}/inter/${this.prevInter.urlId}`,
                       this
                     )
                   }></span>

@@ -1,6 +1,6 @@
 export const isMFEAvailable = (mfe) => {
   if (!window.mfes) return true;
-  return window.mfes.indexOf(mfe) !== -1 && true;
+  return window.mfes.indexOf(mfe) !== -1;
 };
 
 export const checkUserCompCompliance = async () => {
