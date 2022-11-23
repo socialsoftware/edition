@@ -13,7 +13,6 @@ importmap.json
 mfes.json
 **/static/**
 static
-.env
 
 target
 
