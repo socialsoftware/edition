@@ -20,7 +20,12 @@ public class VeEditionController {
 
     @GetMapping("/acronym/{acronym}")
     public ResponseEntity<?> getVirtualEdition(@PathVariable String acronym) {
-        return ResponseEntity.status(HttpStatus.OK).body(virtualService.getVirtualEditionByAcronym(acronym));
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(virtualService.getVirtualEditionByAcronym(acronym));
+        } catch (
+                LdoDException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MainResponseDto(false, e.getMessage()));
+        }
     }
 
     @GetMapping("/user/{username}")

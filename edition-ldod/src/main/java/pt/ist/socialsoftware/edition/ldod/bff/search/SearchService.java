@@ -80,12 +80,16 @@ public class SearchService {
                         getFragIntersStream().map(inter -> inter.getLdoDDate().getDate().getYear())
                 ).sorted()
                 .collect(Collectors.toList());
-        return new AdvancedDatesDto(dates.get(0).toString(), dates.get(dates.size() - 1).toString());
+        return dates.isEmpty()
+                ? null
+                : new AdvancedDatesDto(dates.get(0).toString(), dates.get(dates.size() - 1).toString());
     }
 
     private AdvancedPublicationDto getPublicationsDate() {
         List<Integer> publicationsYears = this.getPublicationsYearsSorted();
-        return new AdvancedPublicationDto(
+        return publicationsYears.isEmpty()
+                ? null
+                : new AdvancedPublicationDto(
                 publicationsYears.get(0).toString(),
                 publicationsYears.get(publicationsYears.size() - 1).toString());
     }
@@ -135,7 +139,9 @@ public class SearchService {
                 .map(source -> source.getLdoDDate().getDate().getYear())
                 .sorted()
                 .collect(Collectors.toList());
-        return new AdvancedManDto(manuscriptDates.get(0).toString(), manuscriptDates.get(manuscriptDates.size() - 1).toString());
+        return manuscriptDates.isEmpty()
+                ? null
+                : new AdvancedManDto(manuscriptDates.get(0).toString(), manuscriptDates.get(manuscriptDates.size() - 1).toString());
     }
 
     private AdvancedTypeDto getTypescriptDates() {
@@ -144,7 +150,9 @@ public class SearchService {
                 .map(source -> source.getLdoDDate().getDate().getYear())
                 .sorted()
                 .collect(Collectors.toList());
-        return new AdvancedTypeDto(typescriptDates.get(0).toString(), typescriptDates.get(typescriptDates.size() - 1).toString());
+        return typescriptDates.isEmpty()
+                ? null
+                : new AdvancedTypeDto(typescriptDates.get(0).toString(), typescriptDates.get(typescriptDates.size() - 1).toString());
     }
 
     private List<AdvancedVeDto> getVirtualEditions() {

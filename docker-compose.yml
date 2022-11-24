@@ -25,7 +25,7 @@ services:
       - mysql-db
     network_mode: host
     environment:
-      dbAlias: jdbc:mysql//mysql-db:3307/edition?useSSL=false&useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;
+      dbAlias: jdbc:mysql//localhost:3307/edition?useSSL=false&useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;
       dbUsername: raimundo
       dbPassword: raimundo
 

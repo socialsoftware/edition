@@ -25,31 +25,22 @@ public class TextService {
 
 
     public List<FragmentDto> getFragments() {
-        return LdoD.getInstance()
-                .getFragmentsSet()
-                .stream()
-                .map(fragment -> new FragmentDto(fragment, getExpertsMap(fragment), getFragmentSortedInterSources(fragment)))
-                .collect(Collectors.toList());
+        return LdoD.getInstance().getFragmentsSet().stream().map(fragment -> new FragmentDto(fragment, getExpertsMap(fragment), getFragmentSortedInterSources(fragment))).collect(Collectors.toList());
     }
 
 
     public List<SourceDto> getSources() {
-        return LdoD.getInstance()
-                .getFragmentsSet()
-                .stream()
-                .flatMap(fragment -> fragment.getSourcesSet().stream()).sorted()
-                .map(source -> isManuscript(source)
-                        ? new ManuscriptSourceDto((ManuscriptSource) source, getSourceInters(source))
-                        : new SourceDto(source, getSourceInters(source)))
-                .collect(Collectors.toList());
+        return LdoD.getInstance().getFragmentsSet().stream().flatMap(fragment -> fragment.getSourcesSet().stream()).sorted().map(source -> isManuscript(source) ? new ManuscriptSourceDto((ManuscriptSource) source, getSourceInters(source)) : new SourceDto(source, getSourceInters(source))).collect(Collectors.toList());
     }
 
     public List<EditorialInterDto> getEditionByAcrn(String acronym) {
-        return LdoD.getInstance().getExpertEdition(acronym)
-                .getSortedInterps()
+        ExpertEdition expertEdition = LdoD.getInstance().getExpertEdition(acronym);
+        return expertEdition != null
+                ? LdoD.getInstance().getExpertEdition(acronym).getSortedInterps()
                 .stream()
                 .map(fragInter -> new EditorialInterDto((ExpertEditionInter) fragInter))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList())
+                : new ArrayList<>();
     }
 
 
@@ -58,7 +49,7 @@ public class TextService {
         return new FragmentDto(fragment, getExpertsMapWithPrevNex(fragment), getFragmentSortedInterSources(fragment));
     }
 
-    public FragmentDto getFragmentInter(String xmlId, String urlId,FragInterRequestBodyDto bodyDto) {
+    public FragmentDto getFragmentInter(String xmlId, String urlId, FragInterRequestBodyDto bodyDto) {
         Fragment fragment = getFragment(xmlId);
         FragInter fragInter = getFragInter(urlId, fragment);
         return getFragmentDto4OneInter(bodyDto, fragment, fragInter);
@@ -72,35 +63,19 @@ public class TextService {
 
 
     }
+
     private FragmentDto getFragmentDto4OneInter(FragInterRequestBodyDto bodyDto, Fragment fragment, FragInter fragInter) {
         PlainHtmlWriter4OneInter writer = getPlainHtmlWriter4OneInter(fragInter, bodyDto);
-        return FragmentDto.FragmentDtoBuilder.aFragmentDto(
-                        fragment,
-                        getExpertsMapWithPrevNex(fragment),
-                        getFragmentSortedInterSources(fragment))
-                .inters(Collections.singletonList(getSpecificFragInterClass(fragInter)))
-                .transcription(Collections.singletonList(writer.getTranscription()))
-                .build();
+        return FragmentDto.FragmentDtoBuilder.aFragmentDto(fragment, getExpertsMapWithPrevNex(fragment), getFragmentSortedInterSources(fragment)).inters(Collections.singletonList(getSpecificFragInterClass(fragInter))).transcription(Collections.singletonList(writer.getTranscription())).build();
     }
 
     public FragmentDto getFragmentInters(String xmlId, FragInterRequestBodyDto bodyDto, List<String> selectedInters) {
         Fragment fragment = getFragment(xmlId);
 
-        List<FragInter> fragInters = selectedInters
-                .stream()
-                .map(s -> (FragInter) FenixFramework.getDomainObject(s))
-                .collect(Collectors.toList());
+        List<FragInter> fragInters = selectedInters.stream().map(s -> (FragInter) FenixFramework.getDomainObject(s)).collect(Collectors.toList());
         HtmlWriter2CompInters writer = getPlainHtmlWriter2CompInters(fragInters, bodyDto);
 
-        return FragmentDto
-                .FragmentDtoBuilder
-                .aFragmentDto(fragment, getExpertsMapWithPrevNex(fragment), getFragmentSortedInterSources(fragment))
-                .inters(fragInters.stream().map(this::getSpecificFragInterClass).collect(Collectors.toList()))
-                .transcription(writer.getLineByLine()
-                        ? Collections.singletonList(writer.getTranscriptionLineByLine())
-                        : fragInters.stream().map(writer::getTranscription).collect(Collectors.toList()))
-                .variations(getVariations(fragInters, fragment))
-                .build();
+        return FragmentDto.FragmentDtoBuilder.aFragmentDto(fragment, getExpertsMapWithPrevNex(fragment), getFragmentSortedInterSources(fragment)).inters(fragInters.stream().map(this::getSpecificFragInterClass).collect(Collectors.toList())).transcription(writer.getLineByLine() ? Collections.singletonList(writer.getTranscriptionLineByLine()) : fragInters.stream().map(writer::getTranscription).collect(Collectors.toList())).variations(getVariations(fragInters, fragment)).build();
 
     }
 
@@ -109,17 +84,12 @@ public class TextService {
         List<AppText> apps = new ArrayList<>();
         fragment.getTextPortion().putAppTextWithVariations(apps, inters);
         Collections.reverse(apps);
-        return apps.stream()
-                .map(appText -> inters
-                        .stream()
-                        .map(inter -> variations.get(inter).getAppTranscription(appText)).collect(Collectors.toList()))
-                .collect(Collectors.toList());
+        return apps.stream().map(appText -> inters.stream().map(inter -> variations.get(inter).getAppTranscription(appText)).collect(Collectors.toList())).collect(Collectors.toList());
     }
 
     private PlainHtmlWriter4OneInter getPlainHtmlWriter4OneInter(FragInter fragInter, FragInterRequestBodyDto body) {
         PlainHtmlWriter4OneInter writer = new PlainHtmlWriter4OneInter(fragInter.getLastUsed());
-        if (fragInter.getSourceType().equals(Edition.EditionType.EDITORIAL))
-            writeSingleEditorialInter(writer, body);
+        if (fragInter.getSourceType().equals(Edition.EditionType.EDITORIAL)) writeSingleEditorialInter(writer, body);
         else writeSingleSourceInter(writer, body);
         return writer;
     }
@@ -135,14 +105,7 @@ public class TextService {
     }
 
     private void writeSingleSourceInter(PlainHtmlWriter4OneInter writer, FragInterRequestBodyDto body) {
-        writer.write(
-                body.isDiff(),
-                body.isDel(),
-                body.isIns(),
-                body.isSub(),
-                body.isNote(),
-                body.isFac(),
-                FenixFramework.getDomainObject(body.getPbText()));
+        writer.write(body.isDiff(), body.isDel(), body.isIns(), body.isSub(), body.isNote(), body.isFac(), FenixFramework.getDomainObject(body.getPbText()));
     }
 
     private boolean isManuscript(Source source) {
@@ -158,69 +121,40 @@ public class TextService {
     }
 
     private List<SourceInterDto> getSourceInters(Source source) {
-        return source.getSourceIntersSet()
-                .stream()
-                .map(sourceInter -> isManuscript(sourceInter.getSource())
-                        ? new ManuscriptSourceInterDto(sourceInter)
-                        : new PrintedSourceInterDto(sourceInter))
-                .collect(Collectors.toList());
+        return source.getSourceIntersSet().stream().map(sourceInter -> isManuscript(sourceInter.getSource()) ? new ManuscriptSourceInterDto(sourceInter) : new PrintedSourceInterDto(sourceInter)).collect(Collectors.toList());
     }
 
     private List<SourceInterDto> getFragmentSortedInterSources(Fragment fragment) {
-        return fragment.getSortedSourceInter()
-                .stream()
-                .map(sourceInter -> isManuscript(sourceInter.getSource())
-                        ? new ManuscriptSourceInterDto(sourceInter, getSurfaceDtoList(sourceInter))
-                        : new PrintedSourceInterDto(sourceInter, getSurfaceDtoList(sourceInter)))
-                .collect(Collectors.toList());
+        return fragment.getSortedSourceInter().stream().map(sourceInter -> isManuscript(sourceInter.getSource()) ? new ManuscriptSourceInterDto(sourceInter, getSurfaceDtoList(sourceInter)) : new PrintedSourceInterDto(sourceInter, getSurfaceDtoList(sourceInter))).collect(Collectors.toList());
     }
 
 
     private Map<String, List<EditorialInterDto>> getExpertsMap(Fragment fragment) {
-        return fragment.getExpertEditionInterSet()
-                .stream()
-                .collect(Collectors.groupingBy(
-                        inter -> inter.getEdition().getAcronym(),
-                        Collectors.mapping(EditorialInterDto::new, Collectors.toList())));
+        return fragment.getExpertEditionInterSet().stream().collect(Collectors.groupingBy(inter -> inter.getEdition().getAcronym(), Collectors.mapping(EditorialInterDto::new, Collectors.toList())));
     }
 
     private Map<String, List<EditorialInterDto>> getExpertsMapWithPrevNex(Fragment fragment) {
-        return fragment.getExpertEditionInterSet()
-                .stream()
-                .collect(Collectors.groupingBy(
-                        inter -> inter.getEdition().getAcronym(),
-                        Collectors.mapping(this::getEditorialInterDto, Collectors.toList())));
+        return fragment.getExpertEditionInterSet().stream().collect(Collectors.groupingBy(inter -> inter.getEdition().getAcronym(), Collectors.mapping(this::getEditorialInterDto, Collectors.toList())));
     }
 
 
     private EditorialInterDto getEditorialInterDto(ExpertEditionInter expertEditionInter) {
         ExpertEditionInter prev = (ExpertEditionInter) expertEditionInter.getEdition().getPrevNumberInter(expertEditionInter, expertEditionInter.getNumber());
         ExpertEditionInter next = (ExpertEditionInter) expertEditionInter.getEdition().getNextNumberInter(expertEditionInter, expertEditionInter.getNumber());
-        return EditorialInterDto.EditorialInterDtoBuilder.anEditorialInterDto(expertEditionInter)
-                .prevXmlId(prev.getFragment().getXmlId())
-                .prevUrlId(prev.getUrlId())
-                .nextXmlId(next.getFragment().getXmlId())
-                .nextUrlId(next.getUrlId())
-                .build();
+        return EditorialInterDto.EditorialInterDtoBuilder.anEditorialInterDto(expertEditionInter).prevXmlId(prev.getFragment().getXmlId()).prevUrlId(prev.getUrlId()).nextXmlId(next.getFragment().getXmlId()).nextUrlId(next.getUrlId()).build();
     }
 
     private List<SurfaceDto> getSurfaceDtoList(SourceInter inter) {
-        return inter.getSource().getFacsimile().getSurfaces()
-                .stream().map(SurfaceDto::new)
-                .collect(Collectors.toList());
+        return inter.getSource().getFacsimile().getSurfaces().stream().map(SurfaceDto::new).collect(Collectors.toList());
     }
 
     private SourceInterDto getSpecificSourceInterClass(SourceInter inter, List<SurfaceDto> surfaceDtoList) {
-        return isManuscript(inter.getSource())
-                ? new ManuscriptSourceInterDto(inter, surfaceDtoList)
-                : new PrintedSourceInterDto(inter, surfaceDtoList);
+        return isManuscript(inter.getSource()) ? new ManuscriptSourceInterDto(inter, surfaceDtoList) : new PrintedSourceInterDto(inter, surfaceDtoList);
     }
 
 
     private FragInterDto getSpecificFragInterClass(FragInter inter) {
-        return inter instanceof SourceInter
-                ? getSpecificSourceInterClass(((SourceInter) inter), getSurfaceDtoList((SourceInter) inter))
-                : new EditorialInterDto((ExpertEditionInter) inter);
+        return inter instanceof SourceInter ? getSpecificSourceInterClass(((SourceInter) inter), getSurfaceDtoList((SourceInter) inter)) : new EditorialInterDto((ExpertEditionInter) inter);
     }
 
 

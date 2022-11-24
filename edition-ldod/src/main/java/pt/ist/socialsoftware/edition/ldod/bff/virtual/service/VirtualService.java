@@ -129,6 +129,13 @@ public class VirtualService {
         return edition;
     }
 
+    protected VirtualEdition checkVeByAcronymNotNull(String acronym) {
+        VirtualEdition edition = LdoD.getInstance().getVirtualEdition(acronym);
+        if (edition == null)
+            throw new LdoDException(String.format(Message.VIRTUAL_EDITION_NOT_FOUND.getLabel(), acronym));
+        return edition;
+    }
+
     private ClassificationGame checkCgNotNull(String gameId) {
         ClassificationGame game = FenixFramework.getDomainObject(gameId);
         if (game == null)
@@ -356,7 +363,7 @@ public class VirtualService {
     }
 
     public VirtualEditionDto getVirtualEditionByAcronym(String acronym) {
-        VirtualEdition ve = LdoD.getInstance().getVirtualEdition(acronym);
+        VirtualEdition ve = checkVeByAcronymNotNull(acronym);
         VirtualEditionDto veDto = getVeDtoWithParticipants(ve);
         veDto.setVirtualEditionInters(ve.getAllDepthVirtualEditionInters()
                 .stream()
