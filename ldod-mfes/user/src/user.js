@@ -1,8 +1,7 @@
 if (typeof window === 'object') {
-  await import('./store.js');
+  await import('./store');
   await import('@src/components/UserComponent');
 }
-
 let User;
 
 const loadUser = async () => {
@@ -14,8 +13,6 @@ export const userReferences = {
   signin: '/user/signin',
   signup: '/user/signup',
   password: '/user/change-password',
-  auth: '/user/sign-up-authorization',
-  conf: '/sign-up-confirmation',
 };
 
 export default {

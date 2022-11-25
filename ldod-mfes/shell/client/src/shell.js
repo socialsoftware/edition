@@ -19,9 +19,12 @@ router.fallback = NotFound;
 
 delete modules['shared/'];
 
+console.log(await import('user'));
+
 const routes = await Object.keys(modules).reduce(async (acc, name) => {
   try {
-    const api = (await import(name))?.default ?? '';
+    const api = (await import(name)).default;
+
     const path = api.path;
     if (path === '/') {
       router.index = () => api;
@@ -33,7 +36,6 @@ const routes = await Object.keys(modules).reduce(async (acc, name) => {
   }
   return await acc;
 }, Promise.resolve({}));
-
 router.routes = routes;
 
 document.getElementById('root').append(router);

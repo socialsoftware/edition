@@ -33,12 +33,12 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: [
         {
-          find: 'shared/',
-          replacement: `${env.VITE_NODE_HOST}/shared/`,
+          find: 'shared',
+          replacement: `${env.VITE_NODE_HOST}/shared`,
         },
         {
-          find: '@src/',
-          replacement: '/src/',
+          find: '@src',
+          replacement: '/src',
         },
       ],
     },

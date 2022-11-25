@@ -1,8 +1,7 @@
 import { fetcher } from 'shared/fetcher.js';
-import { getState, setState } from './store';
-import { emitMessageEvent, eventEmiter } from './utils';
+import { getState } from './store';
+import { emitMessageEvent } from './utils';
 import { navigateTo } from 'shared/router.js';
-import { userReferences } from './user';
 
 const HOST = import.meta.env.VITE_HOST;
 
@@ -26,7 +25,7 @@ export const signupRequest = async (data) =>
 export const socialAuthRequest = async (path, data, loginCB) =>
   fetcher.post(`${HOST}/auth/${path}`, data).then((response) => {
     if (isFormState(response)) {
-      navigateTo(userReferences.signup, this, response);
+      navigateTo('/user/signup', this, response);
       return Promise.resolve({ message: 'googleAssociation' });
     }
     isAccessToken(response) && loginCB(response.accessToken);
