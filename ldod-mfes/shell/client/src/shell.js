@@ -19,8 +19,6 @@ router.fallback = NotFound;
 
 delete modules['shared/'];
 
-console.log(await import('user'));
-
 const routes = await Object.keys(modules).reduce(async (acc, name) => {
   try {
     const api = (await import(name)).default;
