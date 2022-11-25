@@ -23,6 +23,7 @@ export default defineConfig(({ mode }) => {
           'shared/tooltip.js',
           'shared/popper.js',
           'shared/select-pure.js',
+          'text',
         ],
       },
     },

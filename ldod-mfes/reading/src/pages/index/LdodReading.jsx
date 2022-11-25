@@ -2,6 +2,7 @@ import constants from '../../constants';
 import RecommendationModal from '../components/recommendation-modal/RecommendationModal';
 import style from '../style.css?inline';
 import { navigateTo } from 'shared/router.js';
+import { readingReferences } from '../../reading';
 
 const loadPopper = () =>
   import.meta.env.DEV
@@ -57,7 +58,10 @@ export class LdodReading extends HTMLElement {
                 <h4>
                   <a
                     is="nav-to"
-                    to={`/reading/fragment/${edition.xmlId}/inter/${edition.urlId}`}>
+                    to={readingReferences.editionInterPath(
+                      edition.xmlId,
+                      edition.urlId
+                    )}>
                     {edition.editor}
                   </a>
                 </h4>
@@ -65,7 +69,10 @@ export class LdodReading extends HTMLElement {
                   class="icon icon-arrow-right"
                   onClick={() =>
                     navigateTo(
-                      `/reading/fragment/${edition.xmlId}/inter/${edition.urlId}`,
+                      readingReferences.editionInterPath(
+                        edition.xmlId,
+                        edition.urlId
+                      ),
                       this
                     )
                   }></span>

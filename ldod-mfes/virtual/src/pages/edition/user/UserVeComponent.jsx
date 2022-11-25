@@ -1,3 +1,6 @@
+import { text } from '../../../externalDeps';
+import { virtualReferences } from '../../../virtual';
+
 import.meta.env.DEV
   ? await import('shared/table-dev.js')
   : await import('shared/table.js');
@@ -17,7 +20,7 @@ export default ({ node }) => {
           {node.veUser.publicVirtualEditions.map(
             ({ acronym, title }, index) => (
               <>
-                <a is="nav-to" to={`/virtual/edition/acronym/${acronym}`}>
+                <a is="nav-to" to={virtualReferences.virtualEdition(acronym)}>
                   {title}
                 </a>
                 {index === node.veUser.publicVirtualEditions.length - 1
@@ -38,7 +41,10 @@ export default ({ node }) => {
                 <>
                   <a
                     is="nav-to"
-                    to={`/virtual/virtual-editions/${game.veExternalId}/game/${game.externalId}`}>
+                    to={virtualReferences.game(
+                      game.veExternalId,
+                      game.externalId
+                    )}>
                     {`${game.veTitle} - ${game.title}`}
                   </a>
                   {index === node.veUser.gameDtos.length - 1 ? '' : ', '}
@@ -82,14 +88,14 @@ export default ({ node }) => {
               title: (
                 <a
                   is="nav-to"
-                  to={`/text/fragment/${inter.xmlId}/inter/${inter.urlId}`}>
+                  to={text.fragmentInter(inter.xmlId, inter.urlId)}>
                   {inter.title}
                 </a>
               ),
               edition: (
                 <a
                   is="nav-to"
-                  to={`/virtual/edition/acronym/${inter.shortName}`}>
+                  to={virtualReferences.virtualEdition(inter.shortName)}>
                   {inter.shortName}
                 </a>
               ),
@@ -97,7 +103,7 @@ export default ({ node }) => {
                 <>
                   <a
                     is="nav-to"
-                    to={`/virtual/edition/acronym/${inter.shortName}/category/${cat}`}>
+                    to={virtualReferences.category(inter.shortName, cat)}>
                     {cat}
                   </a>
                   {index === arr.length - 1 ? '' : ', '}
@@ -108,7 +114,7 @@ export default ({ node }) => {
                   <span>{'-> '}</span>
                   <a
                     is="nav-to"
-                    to={`/text/fragment/${frag.xmlId}/inter/${frag.urlId}`}>
+                    to={text.fragmentInter(frag.xmlId, frag.urlId)}>
                     {frag.shortName}
                   </a>
                 </>

@@ -1,5 +1,6 @@
 import { navigateTo } from 'shared/router.js';
 import { tokenConfirmRequest } from '../apiRequests.js';
+import { userReferences } from '../user.js';
 import { emitMessageEvent } from '../utils.js';
 
 const mount = async (lang, ref) => {
@@ -14,7 +15,7 @@ const mount = async (lang, ref) => {
       console.error(error);
       error && emitMessageEvent(error.message, 'error');
     });
-  navigateTo('/user/signin');
+  navigateTo(userReferences.signin);
 };
 const unMount = () => console.info('unmount');
 

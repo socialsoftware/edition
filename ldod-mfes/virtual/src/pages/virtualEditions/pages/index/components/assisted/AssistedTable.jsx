@@ -1,4 +1,6 @@
 import { setLinearVE } from '@src/restrictedApiRequests';
+import { text } from '../../../../../../externalDeps';
+import { isDev } from '../../../../../../virtualRouter';
 
 const initialProperties = [
   { type: 'heteronym', weight: '0' },
@@ -50,7 +52,10 @@ const getTableData = (node) => {
         <a
           target="_blank"
           is="nav-to"
-          to={`/text/fragment/${useInter.xmlId}/inter/${useInter.urlId}`}>
+          to={`${isDev() ? '' : '/ldod-mfes'}${text.fragmentInter(
+            useInter.xmlId,
+            useInter.urlId
+          )}`}>
           {`-> ${useInter.shortName}`}
         </a>
       ),

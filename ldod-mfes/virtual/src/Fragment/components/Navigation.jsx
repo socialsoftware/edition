@@ -1,3 +1,6 @@
+import { text } from '../../externalDeps';
+import { virtualReferences } from '../../virtual';
+
 export default ({ node }) => {
   return (
     <>
@@ -29,7 +32,7 @@ export default ({ node }) => {
                 <caption class="text-center">
                   <a
                     is="nav-to"
-                    to={`/virtual/edition/acronym/${inter.acronym}`}>
+                    to={virtualReferences.virtualEdition(inter.acronym)}>
                     {inter.acronym}
                   </a>
                 </caption>
@@ -86,21 +89,30 @@ export default ({ node }) => {
                         <td>
                           <a
                             is="nav-to"
-                            to={`/text/fragment/${edition.prevXmlId}/inter/${edition.prevUrlId}`}>
+                            to={text.fragmentInter(
+                              edition.prevXmlId,
+                              edition.prevUrlId
+                            )}>
                             <span class="icon icon-chevron-left"></span>
                           </a>
                         </td>
                         <td>
                           <a
                             is="nav-to"
-                            to={`/text/fragment/${edition.xmlId}/inter/${edition.urlId}`}>
+                            to={text.fragmentInter(
+                              edition.xmlId,
+                              edition.urlId
+                            )}>
                             {edition.number || '0'}
                           </a>
                         </td>
                         <td>
                           <a
                             is="nav-to"
-                            to={`/text/fragment/${edition.nextXmlId}/inter/${edition.nextUrlId}`}>
+                            to={text.fragmentInter(
+                              edition.nextXmlId,
+                              edition.nextUrlId
+                            )}>
                             <span class="icon icon-chevron-right"></span>
                           </a>
                         </td>

@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: false,
     },
     rollupOptions: {
-      external: ['search', 'annotations'],
+      external: ['search', 'annotations', 'text'],
     },
     esbuild: {
       jsxFactory: 'createElement',
@@ -41,6 +41,11 @@ export default defineConfig(({ mode }) => {
           find: 'annotations',
           replacement: `${env.VITE_NODE_HOST}/annotations/annotations.js`,
         },
+        {
+          find: 'text',
+          replacement: `${env.VITE_NODE_HOST}/text/text.js`,
+        },
+
         {
           find: 'annotations.dev',
           replacement: `${env.VITE_NODE_HOST}/annotations/annotations.dev.js`,

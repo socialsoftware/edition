@@ -11,6 +11,7 @@ import { navigateTo } from 'shared/router.js';
 import { setState } from '@src/store';
 import { errorEvent, messageEvent } from '../../utils';
 import SignupForm from './SignupForm';
+import { userReferences } from '../../user';
 
 export class SignUp extends HTMLElement {
   constructor() {
@@ -131,7 +132,7 @@ export class SignUp extends HTMLElement {
           if (res.ok) {
             this.dispatchEvent(messageEvent(this.getConstants(res.message)));
             this.clearDataInputs();
-            return navigateTo('/user/signin');
+            return navigateTo(userReferences.signin);
           }
           this.dispatchEvent(errorEvent(this.getConstants(res.message)));
         })

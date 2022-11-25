@@ -4,6 +4,8 @@ import { dom } from 'shared/utils.js';
 import { navigateTo } from 'shared/router.js';
 import { readingStore } from '../../store';
 import RecommendationModal from '../components/recommendation-modal/RecommendationModal';
+import { readingReferences } from '../../reading';
+import { text } from '../../externalDeps';
 
 const loadPopper = () =>
   import.meta.env.DEV
@@ -57,7 +59,10 @@ export class LdodReadingEdition extends HTMLElement {
                   <h4>
                     <a
                       is="nav-to"
-                      to={`/reading/fragment/${edition.xmlId}/inter/${edition.urlId}`}>
+                      to={readingReferences.editionInterPath(
+                        edition.xmlId,
+                        edition.urlId
+                      )}>
                       {edition.editor}
                     </a>
                   </h4>
@@ -67,7 +72,10 @@ export class LdodReadingEdition extends HTMLElement {
                         <h2>
                           <a
                             is="nav-to"
-                            to={`/reading/fragment/${inter.xmlId}/inter/${inter.urlId}`}>
+                            to={readingReferences.editionInterPath(
+                              inter.xmlId,
+                              inter.urlId
+                            )}>
                             {inter.number}
                           </a>
                         </h2>
@@ -76,7 +84,10 @@ export class LdodReadingEdition extends HTMLElement {
                             class="icon icon-arrow-left"
                             onClick={() =>
                               navigateTo(
-                                `/reading/fragment/${inter.prevXmlId}/inter/${inter.prevUrlId}`,
+                                readingReferences.editionInterPath(
+                                  inter.prevXmlId,
+                                  inter.prevUrlId
+                                ),
                                 this
                               )
                             }></span>
@@ -84,7 +95,10 @@ export class LdodReadingEdition extends HTMLElement {
                             class="icon icon-arrow-right"
                             onClick={() =>
                               navigateTo(
-                                `/reading/fragment/${inter.nextXmlId}/inter/${inter.nextUrlId}`,
+                                readingReferences.editionInterPath(
+                                  inter.nextXmlId,
+                                  inter.nextUrlId
+                                ),
                                 this
                               )
                             }></span>
@@ -102,7 +116,10 @@ export class LdodReadingEdition extends HTMLElement {
                       {window.mfes?.includes('text') ? (
                         <a
                           is="nav-to"
-                          to={`/text/fragment/${this.currentInter.xmlId}/inter/${this.currentInter.urlId}`}>
+                          to={text.fragmentInter?.(
+                            edition.xmlId,
+                            edition.urlId
+                          )}>
                           {edition.transcriptTitle}
                         </a>
                       ) : (
@@ -125,7 +142,10 @@ export class LdodReadingEdition extends HTMLElement {
             <div class="reading-inter-current">
               <a
                 is="nav-to"
-                to={`/reading/fragment/${this.currentInter.xmlId}/inter/${this.currentInter.urlId}`}>
+                to={readingReferences.editionInterPath(
+                  this.currentInter.xmlId,
+                  this.currentInter.urlId
+                )}>
                 <h3>{this.currentInter.acronym}</h3>
                 <h2>{this.currentInter.number}</h2>
               </a>
@@ -137,7 +157,10 @@ export class LdodReadingEdition extends HTMLElement {
               <div class="reading-inter">
                 <a
                   is="nav-to"
-                  to={`/reading/fragment/${this.prevInter.xmlId}/inter/${this.prevInter.urlId}`}>
+                  to={readingReferences.editionInterPath(
+                    this.prevInter.xmlId,
+                    this.prevInter.urlId
+                  )}>
                   <h3>{this.prevInter.acronym}</h3>
                   <h2>{this.prevInter.number}</h2>
                 </a>
@@ -145,7 +168,10 @@ export class LdodReadingEdition extends HTMLElement {
                   class="icon icon-arrow-left"
                   onClick={() =>
                     navigateTo(
-                      `/reading/fragment/${this.prevInter.xmlId}/inter/${this.prevInter.urlId}`,
+                      readingReferences.editionInterPath(
+                        this.prevInter.xmlId,
+                        this.prevInter.urlId
+                      ),
                       this
                     )
                   }></span>
@@ -157,7 +183,10 @@ export class LdodReadingEdition extends HTMLElement {
                 <div class="reading-inter">
                   <a
                     is="nav-to"
-                    to={`/reading/fragment/${recomm.xmlId}/inter/${recomm.urlId}`}>
+                    to={readingReferences.editionInterPath(
+                      recomm.xmlId,
+                      recomm.urlId
+                    )}>
                     <h3>{recomm.acronym}</h3>
                     <h2>{recomm.number}</h2>
                   </a>
@@ -165,7 +194,10 @@ export class LdodReadingEdition extends HTMLElement {
                     class="icon icon-arrow-right"
                     onClick={() =>
                       navigateTo(
-                        `/reading/fragment/${recomm.xmlId}/inter/${recomm.urlId}`,
+                        readingReferences.editionInterPath(
+                          recomm.xmlId,
+                          recomm.urlId
+                        ),
                         this
                       )
                     }></span>
@@ -220,7 +252,10 @@ export class LdodReadingEdition extends HTMLElement {
   onRecommendationSubmit = () => {
     this.recommendationModal.toggleAttribute('show');
     navigateTo(
-      `/reading/fragment/${this.currentInter.xmlId}/inter/${this.currentInter.urlId}`,
+      readingReferences.editionInterPath(
+        this.currentInter.xmlId,
+        this.currentInter.urlId
+      ),
       this
     );
   };

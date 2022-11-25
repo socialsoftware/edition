@@ -1,3 +1,6 @@
+import { text } from '../../../../../../externalDeps';
+import { virtualReferences } from '../../../../../../virtual';
+
 export default ({ node }) => {
   return (
     <ldod-table
@@ -13,7 +16,7 @@ export default ({ node }) => {
             category: (
               <a
                 is="nav-to"
-                to={`/virtual/edition/acronym/${cat.veAcronym}/category/${cat.name}`}>
+                to={virtualReferences.category(cat.veAcronym, cat.name)}>
                 {cat.name}
               </a>
             ),
@@ -21,7 +24,7 @@ export default ({ node }) => {
               <div>
                 <a
                   is="nav-to"
-                  to={`/text/fragment/${inter.xmlId}/inter/${inter.urlId}`}>
+                  to={text.fragmentInter(inter.xmlId, inter.urlId)}>
                   {inter.title}
                 </a>
               </div>

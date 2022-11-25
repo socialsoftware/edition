@@ -1,3 +1,5 @@
+import { virtualReferences } from '../../virtual';
+
 try {
   await import('shared/table.js');
 } catch (error) {
@@ -8,9 +10,7 @@ const getTableData = (inter, node) => {
   return inter.categories.map((cat) => ({
     tag: (
       <div style={{ display: 'flex', gap: '5px' }}>
-        <a
-          is="nav-to"
-          to={`/virtual/edition/acronym/${cat.veAcronym}/category/${cat.name}`}>
+        <a is="nav-to" to={virtualReferences.category(cat.veAcronym, cat.name)}>
           {cat.name}
         </a>
         {cat.canBeDissociated && (
@@ -28,7 +28,9 @@ const getTableData = (inter, node) => {
       <>
         <a
           is="nav-to"
-          to={`/virtual/edition/user/${user.username}`}>{`${user.firstname} ${user.lastname} (${user.username})`}</a>
+          to={virtualReferences.user(
+            user.username
+          )}>{`${user.firstname} ${user.lastname} (${user.username})`}</a>
         {i !== arr.length - 1 ? ', ' : ''}
       </>
     )),

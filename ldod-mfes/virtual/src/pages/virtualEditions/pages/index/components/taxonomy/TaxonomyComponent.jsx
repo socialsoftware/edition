@@ -1,4 +1,5 @@
 import { isDev } from '@src/virtualRouter';
+import { virtualReferences } from '../../../../../../virtual';
 import { DeleteButton, MergeButton } from './MergeDeleteButtons';
 import TaxonomyTable from './TaxonomyTable';
 
@@ -12,9 +13,9 @@ const onPublicContent = (target, node) => {
             target="_blank"
             class="drop-item"
             is="nav-to"
-            to={`${isDev() ? '' : '/ldod-mfes'}/virtual/edition/acronym/${
-              node.taxonomy.veAcronym
-            }`}>
+            to={`${
+              isDev() ? '' : '/ldod-mfes'
+            }${virtualReferences.virtualEdition(node.taxonomy.veAcronym)}`}>
             {node.taxonomy.veAcronym}
           </a>
         </li>
@@ -39,7 +40,7 @@ const onUsedIn = (target, node) => {
               is="nav-to"
               to={`${
                 isDev() ? '' : '/ldod-mfes'
-              }/virtual/edition/acronym/${ed}`}>
+              }${virtualReferences.virtualEdition(ed)}`}>
               {ed}
             </a>
           </li>

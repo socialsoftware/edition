@@ -1,3 +1,4 @@
+import { virtualReferences } from '../../../../../virtual';
 import CancelParticipantIcon from './editionActions/CancelParticipantIcon';
 import ManageVEIcon from './editionActions/ManageVEIcon';
 import SelectVEInput from './editionActions/SelectVEInput';
@@ -23,7 +24,7 @@ const getTableData = (node) => {
         data: () => ({
           acronym: ve.acronym,
           title: (
-            <a is="nav-to" to={`/virtual/edition/acronym/${ve.acronym}`}>
+            <a is="nav-to" to={virtualReferences.virtualEdition(ve.acronym)}>
               {ve.title}
             </a>
           ),

@@ -1,6 +1,8 @@
-const getTag = (acrn, urldId, name) => (
+import { virtualReferences } from '../../virtual';
+
+const getTag = (acrn, urlId, name) => (
   <div>
-    <a is="nav-to" to={`/virtual/edition/acronym/${acrn}/category/${urldId}`}>
+    <a is="nav-to" to={virtualReferences.category(acrn, urlId)}>
       {name}
     </a>
   </div>
@@ -54,9 +56,7 @@ export default ({ node }) => {
                       '---'
                     ),
                     user: (
-                      <a
-                        is="nav-to"
-                        to={`/virtual/edition/user/${row.username}`}>
+                      <a is="nav-to" to={virtualReferences.user(row.username)}>
                         {row.username}
                       </a>
                     ),

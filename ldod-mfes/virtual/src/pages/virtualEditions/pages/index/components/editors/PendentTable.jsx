@@ -1,4 +1,5 @@
 import { approveParticipant } from '@src/restrictedApiRequests';
+import { virtualReferences } from '../../../../../../virtual';
 import constants from './constants';
 const isAdmin = (node) => node.edition?.member?.admin;
 
@@ -14,7 +15,7 @@ const getTableData = (node) => {
       return {
         externalId: participant.externalId,
         username: (
-          <a is="nav-to" to={`/virtual/edition/user/${participant.username}`}>
+          <a is="nav-to" to={virtualReferences.user(participant.username)}>
             {participant.username}
           </a>
         ),

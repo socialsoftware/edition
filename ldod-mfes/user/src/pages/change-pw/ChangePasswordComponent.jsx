@@ -5,6 +5,7 @@ import { changePasswordRequest } from '@src/apiRequests.js';
 import { setInvalidFor, setValidFor, loadConstants } from '@src/utils';
 import { errorEvent, messageEvent } from '../../utils';
 import ChangePasswordForm from './ChangePasswordForm';
+import { userReferences } from '../../user';
 
 export class ChangePassword extends HTMLElement {
   constructor() {
@@ -37,7 +38,7 @@ export class ChangePassword extends HTMLElement {
 
   async connectedCallback() {
     await this.setConstants();
-    if (!getState().user) return navigateTo('/user/signin', this);
+    if (!getState().user) return navigateTo(userReferences.signin, this);
     this.appendChild(<ChangePasswordForm node={this} />);
   }
 

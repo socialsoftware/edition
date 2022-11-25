@@ -1,3 +1,6 @@
+import { text } from '../../../externalDeps';
+import { virtualReferences } from '../../../virtual';
+
 import.meta.env.DEV
   ? await import('shared/table-dev.js')
   : await import('shared/table.js');
@@ -17,7 +20,9 @@ export default ({ node }) => {
           </strong>
           <span>: </span>
           {
-            <a is="nav-to" to={`/virtual/edition/acronym/${data.veAcronym}`}>
+            <a
+              is="nav-to"
+              to={virtualReferences.virtualEdition(data.veAcronym)}>
               {data.veTitle}
             </a>
           }
@@ -41,7 +46,7 @@ export default ({ node }) => {
               category: (
                 <a
                   is="nav-to"
-                  to={`/virtual/edition/acronym/${inter.veAcronym}/category/${inter.name}`}>
+                  to={virtualReferences.category(inter.veAcronym, inter.name)}>
                   {inter.name}
                 </a>
               ),
@@ -50,14 +55,16 @@ export default ({ node }) => {
                 <div>
                   <a
                     is="nav-to"
-                    to={`/virtual/edition/user/${user.username}`}>{`${user.firstname} ${user.lastname} (${user.username})`}</a>
+                    to={virtualReferences.user(
+                      user.username
+                    )}>{`${user.firstname} ${user.lastname} (${user.username})`}</a>
                 </div>
               )),
               editions: inter.editions.map((edition) => (
                 <div>
                   <a
                     is="nav-to"
-                    to={`/virtual/edition/acronym/${edition.acronym}`}>
+                    to={virtualReferences.virtualEdition(edition.acronym)}>
                     {edition.title}
                   </a>
                 </div>
@@ -66,7 +73,7 @@ export default ({ node }) => {
                 <div>
                   <a
                     is="nav-to"
-                    to={`/text/fragment/${inter.xmlId}/inter/${inter.urlId}`}>
+                    to={text.fragmentInter(inter.xmlId, inter.urlId)}>
                     {inter.title}
                   </a>
                 </div>

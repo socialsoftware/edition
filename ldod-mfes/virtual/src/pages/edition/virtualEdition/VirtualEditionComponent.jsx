@@ -1,3 +1,6 @@
+import { text } from '../../../externalDeps';
+import { virtualReferences } from '../../../virtual';
+
 import.meta.env.DEV
   ? await import('shared/table-dev.js')
   : await import('shared/table.js');
@@ -21,7 +24,9 @@ export default ({ node }) => {
             <>
               <a
                 is="nav-to"
-                to={`/virtual/edition/user/${editor.username}`}>{`${editor.firstname} ${editor.lastname}`}</a>
+                to={virtualReferences.user(
+                  editor.username
+                )}>{`${editor.firstname} ${editor.lastname}`}</a>
               {index === node.participants.length - 1 ? '' : ', '}
             </>
           ))}
@@ -31,7 +36,7 @@ export default ({ node }) => {
             {node.getConstants('synopse')}
           </strong>
           <span>: </span>
-          {node?.virtualEdition.synopsis}
+          {node.virtualEdition?.synopsis}
         </p>
         <p id="taxonomy">
           <strong data-virtual-key="taxonomy">
@@ -40,12 +45,12 @@ export default ({ node }) => {
           <span>: </span>
           <a
             is="nav-to"
-            to={`/virtual/edition/acronym/${node?.virtualEdition.acronym}/taxonomy`}>
-            {node?.virtualEdition.title}
+            to={virtualReferences.taxonomy(node.virtualEdition?.acronym)}>
+            {node.virtualEdition?.title}
           </a>
         </p>
         <p id="fragments">
-          <strong>{node?.virtualEdition.virtualEditionInters.length} </strong>
+          <strong>{node.virtualEdition?.virtualEditionInters.length} </strong>
           <strong data-virtual-key="fragments">
             {node.getConstants('fragments')}
           </strong>
@@ -64,7 +69,7 @@ export default ({ node }) => {
               title: (
                 <a
                   is="nav-to"
-                  to={`/text/fragment/${inter.xmlId}/inter/${inter.urlId}`}>
+                  to={text.fragmentInter(inter.xmlId, inter.urlId)}>
                   {inter.title}
                 </a>
               ),
@@ -72,7 +77,7 @@ export default ({ node }) => {
                 <div>
                   <a
                     is="nav-to"
-                    to={`/virtual/edition/acronym/${inter.shortName}/category/${cat}`}>
+                    to={virtualReferences.category(inter.shortName, cat)}>
                     {cat}
                   </a>
                 </div>
@@ -82,7 +87,7 @@ export default ({ node }) => {
                   <span>{'-> '}</span>
                   <a
                     is="nav-to"
-                    to={`/text/fragment/${frag.xmlId}/inter/${frag.urlId}`}>
+                    to={text.fragmentInter(frag.xmlId, frag.urlId)}>
                     {frag.shortName}
                   </a>
                 </>

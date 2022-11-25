@@ -1,4 +1,5 @@
 import { removeClassGame } from '@src/restrictedApiRequests';
+import { virtualReferences } from '../../../../../../virtual';
 import constants from './constants';
 
 const onRemove = async (id, gameId, node) => {
@@ -18,7 +19,10 @@ const getTableData = (node) => {
               class={!game.active ? 'success icon icon-asteris' : ''}></span>
             <a
               is="nav-to"
-              to={`/virtual/${game.veExternalId}/classificationGame/${game.externalId}`}></a>
+              to={virtualReferences.game(
+                game.veExternalId,
+                game.externalId
+              )}></a>
             {game.title}
           </>
         ),
@@ -29,7 +33,7 @@ const getTableData = (node) => {
         category: game.category,
         players: game.players.map((player) => {
           return (
-            <a is="nav-to" to={`/virtual/edition/user/${player.username}`}>
+            <a is="nav-to" to={virtualReferences.user(player.username)}>
               {player.firstname} ${player.lastname}
             </a>
           );

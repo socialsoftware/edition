@@ -2,10 +2,15 @@ import { registerInstance, getState, userFullName } from '@src/store.js';
 import { loadConstants } from '@src/utils.js';
 import { navigateTo } from 'shared/router.js';
 import { setState } from '../store';
+import { userReferences } from '../user';
 import { loginEvent, logoutEvent } from '../utils';
 
 const NotAuthComponent = () => (
-  <a is="nav-to" id="login" class="login update-language" to="/user/signin"></a>
+  <a
+    is="nav-to"
+    id="login"
+    class="login update-language"
+    to={userReferences.signin}></a>
 );
 
 const AuthComponent = () => (
@@ -23,7 +28,7 @@ const AuthComponent = () => (
           is="nav-to"
           class="update-language"
           id="change-password"
-          to="/user/change-password"></a>
+          to={userReferences.password}></a>
       </li>
     </ul>
   </>
@@ -130,7 +135,7 @@ export class UserComponent extends HTMLLIElement {
     if (!(getState().user && getState().token)) return;
     setState({ token: '', user: '' });
     this.dispatchEvent(logoutEvent({ emiter: this }));
-    navigateTo('/user/signin');
+    navigateTo(userReferences.signin);
   };
 
   handlers(id) {

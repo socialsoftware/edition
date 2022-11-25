@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => {
         fileName: 'search',
       },
       rollupOptions: {
-        external: ['shared/vanilla-jsx.js', 'shared/router.js'],
+        external: ['shared/vanilla-jsx.js', 'shared/router.js', 'text'],
       },
     },
     esbuild: {

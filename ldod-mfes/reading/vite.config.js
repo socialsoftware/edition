@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => {
           'shared/vanilla-jsx.js',
           'shared/router.js',
           'shared/popper.js',
+          'text',
         ],
       },
     },

@@ -1,3 +1,6 @@
+import { text } from '../../../externalDeps';
+import { virtualReferences } from '../../../virtual';
+
 import.meta.env.DEV
   ? await import('shared/table-dev.js')
   : await import('shared/table.js');
@@ -18,14 +21,14 @@ export default ({ node }) => {
           {
             <a
               is="nav-to"
-              to={`/virtual/edition/acronym/${node.category?.veAcronym}/taxonomy`}>
+              to={virtualReferences.taxonomy(node.category?.veAcronym)}>
               {node.category?.veTitle}
             </a>
           }
         </p>
 
         <p id="fragments">
-          <strong>{node.category.veInters.length || '0'} </strong>
+          <strong>{node.category?.veInters.length || '0'} </strong>
           <strong data-virtual-key="fragments">
             {node.getConstants('fragments')}
           </strong>
@@ -44,21 +47,23 @@ export default ({ node }) => {
               title: (
                 <a
                   is="nav-to"
-                  to={`/text/fragment/${inter.xmlId}/inter/${inter.urlId}`}>
+                  to={text.fragmentInter(inter.xmlId, inter.urlId)}>
                   {inter.title}
                 </a>
               ),
               virtualEdition: (
                 <a
                   is="nav-to"
-                  to={`/virtual/edition/acronym/${inter.shortName}`}>
+                  to={virtualReferences.virtualEdition(inter.shortName)}>
                   {inter.editionTitle}
                 </a>
               ),
               user: users.map((user) => (
                 <a
                   is="nav-to"
-                  to={`/virtual/edition/user/${user.username}`}>{`${user.firstname} ${user.lastname} (${user.username})`}</a>
+                  to={virtualReferences.user(
+                    user.username
+                  )}>{`${user.firstname} ${user.lastname} (${user.username})`}</a>
               )),
 
               useEdition: (
@@ -66,7 +71,7 @@ export default ({ node }) => {
                   <span>{'-> '}</span>
                   <a
                     is="nav-to"
-                    to={`/text/fragment/${frag.xmlId}/inter/${frag.urlId}`}>
+                    to={text.fragmentInter(frag.xmlId, frag.urlId)}>
                     {frag.shortName}
                   </a>
                 </>

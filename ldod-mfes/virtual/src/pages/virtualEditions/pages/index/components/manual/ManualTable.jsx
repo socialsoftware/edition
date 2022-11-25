@@ -1,3 +1,5 @@
+import { text } from '../../../../../../externalDeps';
+import { isDev } from '../../../../../../virtualRouter';
 import AddFragments from './AddFragments';
 
 let searchLoaded;
@@ -89,7 +91,10 @@ export const addTableRow = (node, inter, index) => {
       <a
         target="_blank"
         is="nav-to"
-        to={`/text/fragment/${useInter.xmlId}/inter/${useInter.urlId}`}>
+        to={`${isDev() ? '' : '/ldod-mfes'}${text.fragmentInter(
+          useInter.xmlId,
+          useInter.urlId
+        )}`}>
         {`-> ${useInter.shortName}`}
       </a>
     ),
