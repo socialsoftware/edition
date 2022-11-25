@@ -1,3 +1,6 @@
+import { reading } from '@src/externalDeps';
+import { textReferences } from '@src/text';
+
 export const getTableData = (node) => {
   return node.data?.map((frag) => {
     return {
@@ -5,14 +8,14 @@ export const getTableData = (node) => {
       data: () => ({
         number: +frag.number,
         title: (
-          <a is="nav-to" to={`/text/fragment/${frag.xmlId}`}>
+          <a is="nav-to" to={textReferences.fragment(frag.xmlId)}>
             {frag.title}
           </a>
         ),
         reading: (
           <a
             is="nav-to"
-            to={`/reading/fragment/${frag.xmlId}/inter/${frag.urlId}`}>
+            to={reading.editionInterPath?.(frag.xmlId, frag.urlId)}>
             <span class="icon icon-eye"></span>
           </a>
         ),

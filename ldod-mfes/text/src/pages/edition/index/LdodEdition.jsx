@@ -43,11 +43,8 @@ export class LdodEdition extends HTMLElement {
           {this.getConstants('editions')}
         </h3>
         <p>&nbsp;</p>
-        {editions.map(({ acronym, padding, filename }) => (
-          <a
-            is="nav-to"
-            to={`/text/edition/acronym/${acronym}`}
-            class="ldod-default">
+        {editions.map(({ padding, filename, path }) => (
+          <a is="nav-to" to={path} class="ldod-default">
             <div class="div-link">
               <img
                 src={this.getImageUrl(filename)}

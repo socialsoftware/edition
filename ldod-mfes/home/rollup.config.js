@@ -17,5 +17,9 @@ export default {
     },
   ],
   acornInjectPlugins: [importAssertions],
-  plugins: [importAssertionsPlugin(), dynamicImportVars(), sourcemaps()],
+  plugins: [
+    sourcemaps(),
+    importAssertionsPlugin(),
+    dynamicImportVars({ exclude: ['./src/externalDeps.js'] }),
+  ],
 };

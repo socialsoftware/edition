@@ -1,27 +1,29 @@
+import { textReferences } from '@src/text';
+import { virtual } from '@src/externalDeps';
 export const editions = [
   {
     filename: 'JPC',
-    acronym: 'JPC',
+    path: textReferences.edition('JPC'),
     padding: '5px',
   },
   {
     filename: 'TSC',
-    acronym: 'TSC',
+    path: textReferences.edition('TSC'),
     padding: '5px',
   },
   {
     filename: 'RZ',
-    acronym: 'RZ',
+    path: textReferences.edition('RZ'),
     padding: '5px',
   },
   {
     filename: 'JP',
-    acronym: 'JP',
+    path: textReferences.edition('JP'),
     padding: '10px',
   },
   {
     filename: 'ALdod',
-    acronym: 'LdoD-Arquivo',
+    path: virtual.virtualEdition?.('LdoD-Arquivo'),
     padding: '5px',
   },
 ];

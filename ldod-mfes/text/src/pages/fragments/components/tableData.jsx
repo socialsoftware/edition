@@ -1,3 +1,4 @@
+import { textReferences } from '../../../text.js';
 import { getExpertEdition } from './expertEdition.jsx';
 import { getSourceInter } from './sourceInter.jsx';
 
@@ -7,7 +8,7 @@ export const getTableData = (node) => {
       externalId: frag.externalId,
       data: () => ({
         title: (
-          <a is="nav-to" to={`/text/fragment/${frag.xmlId}`}>
+          <a is="nav-to" to={textReferences.fragment(frag.xmlId)}>
             {frag.title}
           </a>
         ),

@@ -1,3 +1,5 @@
+import { textReferences } from '@src/text';
+
 let imageViewer;
 const loadPswp = async () => {
   imageViewer = (await import('@src/common/imageViewer')).imageViewer;
@@ -12,7 +14,7 @@ export const getTableData = (node) => {
       data: () => ({
         docs: source.name,
         transcription: source.sourceIntersList?.map(({ xmlId, urlId }) => (
-          <a is="nav-to" to={`/text/fragment/${xmlId}/inter/${urlId}`}>
+          <a is="nav-to" to={textReferences.fragmentInter(xmlId, urlId)}>
             {source.title}
           </a>
         )),

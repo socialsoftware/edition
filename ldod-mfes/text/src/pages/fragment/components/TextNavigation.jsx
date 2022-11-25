@@ -1,3 +1,4 @@
+import { textReferences } from '@src/text';
 import TextNavigationTable from './TextNavigationTable';
 window.html = String.raw;
 
@@ -12,7 +13,7 @@ const getSourceTableRow = (node, { externalId, xmlId, urlId, shortName }) => {
         onChange={() => node.handleInterCheckboxChange(externalId, urlId)}
         checked={node.inters.has(externalId)}
       />,
-      <a is="nav-to" to={`/text/fragment/${xmlId}/inter/${urlId}`}>
+      <a is="nav-to" to={textReferences.fragmentInter(xmlId, urlId)}>
         {shortName}
       </a>,
       '',
@@ -35,15 +36,17 @@ const getExpertTableRow = (node, expert) => {
     />,
     <a
       is="nav-to"
-      to={`/text/fragment/${expert.prevXmlId}/inter/${expert.prevUrlId}`}>
+      to={textReferences.fragmentInter(expert.prevXmlId, expert.prevUrlId)}>
       <span class="icon icon-chevron-left"></span>
     </a>,
-    <a is="nav-to" to={`/text/fragment/${expert.xmlId}/inter/${expert.urlId}`}>
+    <a
+      is="nav-to"
+      to={textReferences.fragmentInter(expert.xmlId, expert.urlId)}>
       {expert.number}
     </a>,
     <a
       is="nav-to"
-      to={`/text/fragment/${expert.nextXmlId}/inter/${expert.nextUrlId}`}>
+      to={textReferences.fragmentInter(expert.nextXmlId, expert.nextUrlId)}>
       <span class="icon icon-chevron-right"></span>
     </a>,
     '',

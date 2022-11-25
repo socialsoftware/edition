@@ -1,4 +1,6 @@
 import { dom } from 'shared/utils.js';
+import { processFragmentAnchor } from '../../../utils';
+
 const getPage = (startPage, endPage) =>
   startPage
     ? endPage !== startPage
@@ -74,7 +76,7 @@ export const getExpertEdition = (inters, node) => {
         {annexNote && (
           <>
             <strong data-key="nota">{node.getConstants('nota')}</strong>
-            {dom(annexNote)}
+            {processFragmentAnchor(dom(annexNote))}
             <br />
           </>
         )}

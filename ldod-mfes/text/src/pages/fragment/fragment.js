@@ -3,9 +3,10 @@ import { LdodFragment } from './LdodFragment.jsx';
 import { getNewInter, isVirtualInter } from './utils.js';
 import { isDev } from '../../textRouter.jsx';
 
-const { loadVirtualComponents } = isDev()
-  ? await import('virtual/virtual-dev.js')
-  : await import('virtual/virtual.js');
+const virtual =
+  window?.mfes.includes('virtual') && isDev()
+    ? await import('virtual/virtual-dev.js').catch((e) => console.error(e))
+    : await import('virtual').catch((e) => console.error(e));
 
 const mount = async (lang, ref) => {
   const { xmlId, urlId } = history.state;
@@ -18,7 +19,7 @@ const mount = async (lang, ref) => {
     .querySelector(ref)
     .appendChild(new LdodFragment(lang, data, xmlId, urlId));
 
-  await loadVirtualComponents();
+  await virtual?.loadVirtualComponents();
 };
 
 const unMount = () => document.querySelector('ldod-fragment')?.remove();

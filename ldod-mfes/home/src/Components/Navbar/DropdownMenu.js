@@ -1,4 +1,5 @@
 import { parseHTML } from 'shared/utils.js';
+import { virtual } from '../../externalDeps.js';
 
 class DropdownMenu extends HTMLLIElement {
   static get observedAttributes() {
@@ -60,7 +61,7 @@ class DropdownMenu extends HTMLLIElement {
           <li selected>
             <a
               is="nav-to"
-              to=${`/virtual/edition/acronym/${edition}`}
+              to="${virtual.virtualEdition?.(edition) || ''}"
               id=${edition.toLowerCase()}
               >${edition}</a
             >

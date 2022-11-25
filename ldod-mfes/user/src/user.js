@@ -4,8 +4,13 @@ if (typeof window === 'object') {
 }
 
 let User;
+
 const loadUser = async () => {
   User = await import('./userRouter.jsx');
+};
+
+export const userReferences = {
+  manageUsers: '/user/manage-users',
 };
 
 export default {

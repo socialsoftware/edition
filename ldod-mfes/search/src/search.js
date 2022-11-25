@@ -8,6 +8,11 @@ export const loadSearchService = async (options) => {
   await import('./pages/search-simple/LdodSearchSimple');
 };
 
+export const searchReferences = {
+  simple: '/search/simple',
+  advanced: '/search/advanced',
+};
+
 export default {
   path: '/search',
 

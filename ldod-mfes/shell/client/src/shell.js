@@ -23,7 +23,10 @@ const routes = await Object.keys(modules).reduce(async (acc, name) => {
   try {
     const api = (await import(name))?.default ?? '';
     const path = api.path;
-    if (path === '/') return (router.index = () => api);
+    if (path === '/') {
+      router.index = () => api;
+      return await acc;
+    }
     if (path) (await acc)[path] = () => api;
   } catch (error) {
     console.error(error);

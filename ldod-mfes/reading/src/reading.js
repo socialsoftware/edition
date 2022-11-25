@@ -1,5 +1,11 @@
 let Reading;
 
+export const readingReferences = {
+  index: '/reading',
+  editionInterPath: (xmlId, urlId) =>
+    `/reading/fragment/${xmlId}/inter/${urlId}`,
+};
+
 const loadReading = async () => {
   Reading = await import('./readingRouter');
 };

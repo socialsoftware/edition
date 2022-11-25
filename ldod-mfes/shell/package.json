@@ -1,28 +1,36 @@
 {
-    "name": "shell",
-    "version": "1.0.0",
-    "main": "server/src/server.js",
-    "license": "MIT",
-    "type": "module",
-    "scripts": {
-        "prebuild": "yarn --cwd client install && yarn --cwd shared install",
-        "build": "yarn --cwd client build && yarn --cwd shared build",
-        "dev": "yarn install && yarn build && nodemon -r dotenv/config server/src/server.js dotenv_config_path=.env.dev",
-        "docker": "yarn install && yarn build && node -r dotenv/config server/src/server.js dotenv_config_path=.env"
-    },
-    "_moduleAliases": {
-        "shared": "server/static/shared/"
-    },
-    "dependencies": {
-        "async-express-decorator": "^1.1.0",
-        "clear-module": "^4.1.2",
-        "cors": "^2.8.5",
-        "dotenv": "^16.0.1",
-        "express": "^4.18.1",
-        "module-alias": "^2.2.2",
-        "multer": "^1.4.5-lts.1",
-        "node-html-parser": "^5.3.3",
-        "nodemon": "^2.0.18",
-        "tar": "^6.1.11"
-    }
+  "name": "shell",
+  "version": "1.0.0",
+  "main": "server/src/server.js",
+  "license": "MIT",
+  "type": "module",
+  "nodemonConfig": {
+    "ignore": [
+      "static/*",
+      "importmap.json",
+      "mfes.json"
+    ]
+  },
+  "scripts": {
+    "prebuild": "yarn --cwd client install && yarn --cwd shared install",
+    "build": "yarn --cwd client build && yarn --cwd shared build",
+    "dev": "yarn install && yarn build && nodemon -r dotenv/config server/src/server.js dotenv_config_path=.env.dev",
+    "docker": "yarn install && yarn build && forever -c 'node -r dotenv/config' server/src/server.js dotenv_config_path=.env"
+  },
+  "_moduleAliases": {
+    "shared": "server/static/shared/"
+  },
+  "dependencies": {
+    "async-express-decorator": "^1.1.0",
+    "clear-module": "^4.1.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "forever": "^4.0.3",
+    "module-alias": "^2.2.2",
+    "multer": "^1.4.5-lts.1",
+    "node-html-parser": "^5.3.3",
+    "nodemon": "^2.0.18",
+    "tar": "^6.1.11"
+  }
 }

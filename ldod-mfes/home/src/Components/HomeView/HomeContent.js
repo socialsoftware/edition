@@ -1,6 +1,6 @@
 import { excerpts } from '../../../resources/home/constants/excerpts.js';
 import { parseHTML } from 'shared/utils.js';
-import { isMFEAvailable } from '../../utils.js';
+import { text, reading, search, virtual } from '../../externalDeps.js';
 
 const random = parseInt(Math.random() * 2) + 1;
 const path = import.meta.url.includes('src') ? '../../../' : '';
@@ -23,25 +23,29 @@ export const boxUrlH = (version, key, lang) =>
 const excerpt = excerpts[parseInt(Math.random() * excerpts.length)];
 
 const boxes = [
-  isMFEAvailable('reading') && { mod: 'reading', path: '/reading', index: 1 },
-  isMFEAvailable('text') && {
+  reading && {
+    mod: 'reading',
+    path: reading.index,
+    index: 1,
+  },
+  text && {
     mod: 'documents',
-    path: '/text/fragments',
+    path: text.fragments,
     index: 2,
   },
-  (isMFEAvailable('text') || isMFEAvailable('virutal')) && {
+  text && {
     mod: 'editions',
-    path: '/text/edition',
+    path: text.editions,
     index: 3,
   },
-  isMFEAvailable('search') && {
+  search && {
     mod: 'search',
-    path: '/search/simple',
+    path: search?.simple,
     index: 4,
   },
-  isMFEAvailable('virtual') && {
+  virtual && {
     mod: 'virtual',
-    path: '/virtual/virtual-editions',
+    path: virtual?.virtualEditions,
     index: 5,
   },
 ].filter(Boolean);
@@ -79,19 +83,18 @@ export default (language, constants) => {
       <div class="container ldod-default">
         <a
           is="nav-to"
-          ${isMFEAvailable('text')
-            ? html`to="/reading/fragment/${xmlId}/inter/${urlId}"`
-            : ''}
+          to="${reading.editionInterPath?.(xmlId, urlId)}"
           class="home-frag-link"
         >
           <div class="raw col-xs-12 frag-excerpt">
             <span class="frag-number font-egyptian">${excerpt.number}</span>
             <span class="frag-editor font-condensed">${excerpt.editor}</span>
           </div>
+          <div class="frag-excerpt-text font-grotesque">
+            <p>${excerpt.text}</p>
+          </div>
         </a>
-        <div class="frag-excerpt-text font-grotesque">
-          <p>${excerpt.text}</p>
-        </div>
+
         <hr class="line-points" />
         <div class="about font-monospace">
           <p id="about" class="update-language">${constants.about}</p>

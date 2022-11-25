@@ -3,6 +3,11 @@ const loadSocial = async () => {
   Social = await import('./socialRouter.jsx');
 };
 
+export const socialReferences = {
+  twitterCitations: '/social/twitter-citations',
+  manageTweets: '/social/manage-tweets',
+};
+
 export default {
   path: '/social',
   mount: async (lang, ref) => {

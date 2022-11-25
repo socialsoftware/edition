@@ -15,7 +15,7 @@ beforeEach(() => {
 
   Object.defineProperty(uut, 'publishedMfes', {
     get() {
-      return ['path'];
+      return ['path', '/'];
     },
   });
 });
@@ -105,6 +105,13 @@ test('when the nav-to is appended with a  invalid "to" attribute value the eleme
   window.document.appendChild(uut);
   const display = uut.style.display;
   expect(display).toBe('none');
+});
+
+test('when the nav-to is appended with a "to" attribute value corresnponding to the root', () => {
+  uut.setAttribute('to', '/');
+  window.document.appendChild(uut);
+  const display = uut.style.display;
+  expect(display).toBe('');
 });
 
 test('when the nav-to is appended with a target attribute the element is not hidden', () => {

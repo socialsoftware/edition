@@ -1,3 +1,5 @@
+import { textReferences } from '@src/text';
+
 export default ({ colsWidth, data, tbWidth, author }) => {
   return (
     <table
@@ -5,7 +7,7 @@ export default ({ colsWidth, data, tbWidth, author }) => {
       style={{ borderSpacing: '0', borderCollapse: 'collapse' }}>
       {author && (
         <caption class="text-center">
-          <a is="nav-to" to={`/text/edition/acronym/${author.acronym}`}>
+          <a is="nav-to" to={textReferences.edition(author.acronym)}>
             {author.editor}
           </a>
         </caption>

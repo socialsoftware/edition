@@ -9,6 +9,12 @@ export const loadVirtualComponents = async () => {
   await import('./Fragment/VirtualTranscription');
 };
 
+export const virtualReferences = {
+  virtualEditions: '/virtual/virtual-editions',
+  virtualEdition: (acrn) => `/virtual/edition/acronym/${acrn}`,
+  manageVirtualEditions: '/virtual/manage-virtual-editions',
+};
+
 export default {
   path: '/virtual',
 
@@ -23,10 +29,11 @@ export default {
 };
 
 export let selectedInters = ['LdoD-Arquivo', 'LdoD-Mallet', 'LdoD-Twitter'];
-(async () => {
+
+if (typeof window === 'object') {
   window.addEventListener('ldod-selectedVE', ({ detail }) => {
     selectedInters = detail.selected
       ? [...selectedInters, detail.name]
       : selectedInters.filter((ed) => ed !== detail.name);
   });
-})().catch((error) => error);
+}

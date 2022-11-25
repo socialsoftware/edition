@@ -19,6 +19,7 @@ const routes = {
   '/team': async () => await import('./pages/team/team.jsx'),
   '/tutorials': async () => await import('./pages/tutorials/tutorials.jsx'),
   '/videos': async () => await import('./pages/videos/videos.jsx'),
+  '/contact': async () => await import('./pages/contact/contact.jsx'),
 };
 
 export const mount = async (lang, ref) => {

@@ -6,7 +6,7 @@ export default class NavTo extends HTMLAnchorElement {
   }
 
   get mfe() {
-    return this.to?.split('/')[1];
+    return this.to === '/' ? this.to : this.to?.split('/')[1];
   }
 
   get hasTo() {
@@ -14,7 +14,7 @@ export default class NavTo extends HTMLAnchorElement {
   }
 
   get publishedMfes() {
-    return window.mfes || [];
+    return [...window.mfes, '/'];
   }
 
   connectedCallback() {

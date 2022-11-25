@@ -1,3 +1,4 @@
+import { text } from '../../../externalDeps';
 import InfoRangesTable from './InfoRangesTable';
 
 export const getTableData = (citations) => {
@@ -15,7 +16,7 @@ export const getTableData = (citations) => {
       tweetId: row.sourceLink.split('/')[5],
       date: row.data.replace('.', ''),
       fragment: (
-        <a is="nav-to" to={`/text/fragment/${row.xmlId}`}>
+        <a is="nav-to" to={text.fragment?.(row.xmlId)}>
           {row.title}
         </a>
       ),

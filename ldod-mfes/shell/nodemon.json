@@ -1,3 +1,0 @@
-{
-    "ignore": ["static/*", "importmap.json", "mfes.json"]
-}
