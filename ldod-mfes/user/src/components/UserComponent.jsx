@@ -2,7 +2,7 @@ import { registerInstance, getState, userFullName } from '@src/store.js';
 import { loadConstants } from '@src/utils.js';
 import { navigateTo } from 'shared/router.js';
 import { setState } from '../store';
-import { userReferences } from '../user';
+import { userReferences } from '../apiRequests';
 import { loginEvent, logoutEvent } from '../utils';
 
 const NotAuthComponent = () => (

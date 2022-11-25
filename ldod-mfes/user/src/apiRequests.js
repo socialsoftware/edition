@@ -5,13 +5,12 @@ import { navigateTo } from 'shared/router.js';
 
 const HOST = import.meta.env.VITE_HOST;
 
-/*export const authRequest = async (data) => {
-  await fetcher.post(`${HOST}/auth/sign-in`, data).then((res) => {
-    if (res.message)
-      eventEmiter('ldod-error', { detail: { message: res.message } });
-    login(res.accessToken);
-  });
-};*/
+export const userReferences = {
+  manageUsers: '/user/manage-users',
+  signin: '/user/signin',
+  signup: '/user/signup',
+  password: '/user/change-password',
+};
 
 export const newAuthRequest = async (data) =>
   await fetcher.post(`${HOST}/auth/sign-in`, data);
@@ -25,7 +24,7 @@ export const signupRequest = async (data) =>
 export const socialAuthRequest = async (path, data, loginCB) =>
   fetcher.post(`${HOST}/auth/${path}`, data).then((response) => {
     if (isFormState(response)) {
-      navigateTo('/user/signup', this, response);
+      navigateTo(userReferences.signup, this, response);
       return Promise.resolve({ message: 'googleAssociation' });
     }
     isAccessToken(response) && loginCB(response.accessToken);
