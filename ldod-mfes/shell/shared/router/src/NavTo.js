@@ -6,7 +6,15 @@ export default class NavTo extends HTMLAnchorElement {
   }
 
   get mfe() {
-    return this.to.split('/')[1];
+    return this.to?.split('/')[1];
+  }
+
+  get hasTo() {
+    return this.hasAttribute('to');
+  }
+
+  get publishedMfes() {
+    return window.mfes || [];
   }
 
   connectedCallback() {
@@ -35,8 +43,8 @@ export default class NavTo extends HTMLAnchorElement {
   }
 
   checkIfMfesIsPublished = () => {
-    if (!this.to || !this.mfe || this.target) return;
-    if (!window.mfes?.includes(this.mfe)) this.style.display = 'none';
+    if (this.target || !this.hasTo) return;
+    if (!this.publishedMfes.includes(this.mfe)) this.style.display = 'none';
   };
 }
 
