@@ -342,8 +342,9 @@ export class LdodAnnotation extends HTMLElement {
   // API requests
 
   onSuccess = (data) => {
-    updateFetchedData(data);
-    this.hideNow();
+    //updateFetchedData(data);
+    //this.hideNow();
+    this.dispatchAnnotationEvent();
   };
 
   onError = (error) => {
@@ -363,13 +364,10 @@ export class LdodAnnotation extends HTMLElement {
       await createAnnotation(this.interId, this.annotation.data)
         .then(this.onSuccess)
         .catch(this.onError);
-    setTimeout(() => {
-      this.dispatchCustomEvent('ldod-annotation');
-    }, 50);
   };
 
   updateAnnotation = async (annotation) => {
-    updateAnnotation(annotation.id, annotation.data)
+    await updateAnnotation(annotation.id, annotation.data)
       .then(this.onSuccess)
       .catch(this.onError);
   };
@@ -380,19 +378,12 @@ export class LdodAnnotation extends HTMLElement {
         .then(this.onSuccess)
         .catch(this.onError);
     }
-    this.hideNow();
-    this.annotation.destroyAndnormalizeCommonAncestor();
-    document
-      .querySelectorAll(`ldod-annotation[id='${this.id}']`)
-      .forEach((element) => element.remove());
   };
 
-  dispatchCustomEvent = (event, detail, emmiter = this) => {
-    emmiter.dispatchEvent(
-      new CustomEvent(event, {
-        detail,
+  dispatchAnnotationEvent = () => {
+    this.dispatchEvent(
+      new CustomEvent('ldod-annotation', {
         bubbles: true,
-        composed: true,
       })
     );
   };
