@@ -102,6 +102,7 @@ export class VirtualTranscription extends HTMLElement {
     this.appendChild(<style>{await getStyle()}</style>);
     this.appendChild(<div id="virtual-transcriptionWrapper"></div>);
     this.render();
+    this.addEventListeners();
   }
 
   async render() {
@@ -116,6 +117,13 @@ export class VirtualTranscription extends HTMLElement {
 
     this.inters.length &&
       this.wrapper.appendChild(<VirtualIntersCompare node={this} />);
+  }
+
+  addEventListeners() {
+    this.addEventListener('ldod-annotation', async () => {
+      await this.fetchData();
+      this.render();
+    });
   }
 
   attributeChangedCallback(name, oldV, newV) {
@@ -165,7 +173,7 @@ export class VirtualTranscription extends HTMLElement {
 
   onAssociateTags = async () => {
     const body = [
-      ...new Set(this.associateTagModal.querySelector('select-pure').values),
+      ...new Set(this.associateTagModal?.querySelector('select-pure').values),
     ];
     await associateTagsRequest(this.inter.externalId, body)
       .then((data) => {
@@ -181,7 +189,7 @@ export class VirtualTranscription extends HTMLElement {
     if (e.detail && e.detail.id !== 'virtual-associateTagModal') return;
     document.body.removeEventListener('click', this.computeSelectHeight);
     document.body.removeEventListener('ldod-modal-close', this.removeModal);
-    this.associateTagModal.remove();
+    this.associateTagModal?.remove();
   };
 
   dispatchCustomEvent = (event, detail, emmiter = this) => {

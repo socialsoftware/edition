@@ -1,1 +1,0 @@
-lighthouse http://localhost:9000  --only-categories performance --output=csv --output-path=./report.csv --save-assets
