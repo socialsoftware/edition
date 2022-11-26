@@ -9,6 +9,7 @@ export const addProcessScript = () => {
     parse(`<script id="process">
   window.process = {
     host: "${process.env.HOST}",
+    apiHost: "${process.env.API_HOST}"
   };
 </script>`);
   let indexHTML = getIndexHtml();
