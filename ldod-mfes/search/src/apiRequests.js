@@ -1,12 +1,12 @@
 import { fetcher } from 'shared/fetcher.js';
 
-const HOST = import.meta.env.VITE_HOST;
+const PATH = '/search';
 
 export const simpleSearchRequest = async (searchBody) =>
-  await fetcher.post(`${HOST}/search/simple-search`, searchBody);
+  await fetcher.post(`${PATH}/simple-search`, searchBody);
 
 export const getAdvSearchDto = async () =>
-  await fetcher.get(`${HOST}/search/advanced-search`, null);
+  await fetcher.get(`${PATH}/advanced-search`, null);
 
 export const advancedSearch = async (body) =>
-  await fetcher.post(`${HOST}/search/advanced-search`, body);
+  await fetcher.post(`${PATH}/advanced-search`, body);

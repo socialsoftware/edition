@@ -1,15 +1,17 @@
 import { fetcher } from 'shared/fetcher.js';
 import { getState } from './store';
 
-const READING_HOST = `${import.meta.env.VITE_HOST}/reading`;
+const PATH = '/reading';
 
 export async function getStartReading() {
-  return await fetcher.get(READING_HOST, null);
+  return await fetcher.get(PATH, null);
 }
 
 export async function getExpertEditionInter(xmlId, urlId) {
-  return await fetcher.post(
-    `${READING_HOST}/fragment/${xmlId}/inter/${urlId}`,
-    getState()
-  );
+  return await fetcher
+    .post(`${PATH}/fragment/${xmlId}/inter/${urlId}`, getState())
+    .then((res) => {
+      if (res.ok === false) return Promise.reject({ message: res.message });
+      return Promise.resolve(res);
+    });
 }

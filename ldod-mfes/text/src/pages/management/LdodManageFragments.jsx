@@ -144,9 +144,9 @@ export class LdodManageFragments extends HTMLElement {
     const p = document.createElement('p').outerHTML;
 
     data.forEach((fragment) => {
-      const { externalId, uploaded, overwritten } = fragment;
+      const { xmlId, uploaded, overwritten } = fragment;
       if (uploaded) {
-        overwritten && this.removeFragment(externalId);
+        if (overwritten) this.removeFragmentByXmlId(xmlId);
         this.mutateFragments(this.addFragment(fragment));
       }
     });
@@ -195,7 +195,7 @@ export class LdodManageFragments extends HTMLElement {
   handleRemoveFragment = async ({ target }) => {
     const id = target.dataset.id;
     const res = await removeFragmentById(target.dataset.id);
-    if (res.ok) return this.mutateFragments(this.removeFragment(id));
+    if (res.ok) return this.mutateFragments(this.removeFragmentById(id));
     dispatchCustomEvent(
       this,
       { message: res.message },
@@ -203,8 +203,12 @@ export class LdodManageFragments extends HTMLElement {
     );
   };
 
-  removeFragment(id) {
+  removeFragmentById(id) {
     return this.fragments.filter((frag) => frag.externalId !== id);
+  }
+
+  removeFragmentByXmlId(xmlId) {
+    this.fragments = this.fragments.filter((frag) => frag.xmlId !== xmlId);
   }
 
   addFragment(fragment) {

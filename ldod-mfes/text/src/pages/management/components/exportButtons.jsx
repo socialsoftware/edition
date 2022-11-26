@@ -1,5 +1,5 @@
 import('shared/buttons.js').then(({ exportButton }) => exportButton());
-const HOST = import.meta.env.VITE_HOST;
+const PATH = '/text/admin';
 
 export default ({ exportAll, exportSelected, exportRandom, node }) => {
   return (
@@ -9,7 +9,7 @@ export default ({ exportAll, exportSelected, exportRandom, node }) => {
         data-buttonkey="exportAll"
         title={exportAll}
         file-prefix="exported-file"
-        data-url={`${HOST}/text/admin/export-all`}
+        data-url={`${PATH}/export-all`}
         method="GET"></ldod-export>
       <ldod-export
         id="exportSelected"
@@ -17,7 +17,7 @@ export default ({ exportAll, exportSelected, exportRandom, node }) => {
         data-buttonkey="exportSelected"
         title={exportSelected}
         file-prefix="exported-file"
-        data-url={`${HOST}/text/admin/export-fragments`}
+        data-url={`${PATH}/export-fragments`}
         method="POST"
         body={[]}></ldod-export>
       <ldod-export
@@ -25,7 +25,7 @@ export default ({ exportAll, exportSelected, exportRandom, node }) => {
         data-buttonkey="exportRandom"
         title={exportRandom}
         file-prefix="exported-file"
-        data-url={`${HOST}/text/admin/export-random`}
+        data-url={`${PATH}/export-random`}
         method="GET"></ldod-export>
     </div>
   );

@@ -1,4 +1,4 @@
-import { deleteVE } from './apiRequests';
+import { deleteVE, getVirtualEditions4Manage } from './apiRequests';
 import constants from '../constants';
 import VeManageTable from './VeManageTable';
 
@@ -10,8 +10,6 @@ import('shared/buttons.js').then(({ exportButton, uploadButton }) => {
   exportButton();
   uploadButton();
 });
-
-const HOST = import.meta.env.VITE_HOST;
 
 export class LdodManageVE extends HTMLElement {
   constructor() {
@@ -34,6 +32,10 @@ export class LdodManageVE extends HTMLElement {
     );
   }
 
+  get table() {
+    return this.querySelector('#virtual-manageVeTable');
+  }
+
   static get observedAttributes() {
     return ['language'];
   }
@@ -45,9 +47,13 @@ export class LdodManageVE extends HTMLElement {
 
   connectedCallback() {
     this.appendChild(this.wrapper);
-    this.render();
     this.addEventListeners();
   }
+
+  updateData = (data) => {
+    this.virtualEditions = data;
+    this.render();
+  };
 
   render() {
     this.wrapper.innerHTML = '';
@@ -63,13 +69,13 @@ export class LdodManageVE extends HTMLElement {
               width="600px"
               data-virtual-button-key="uploadVeCorpus"
               title={this.getConstants('uploadVeCorpus')}
-              data-url={`${HOST}/virtual/admin/upload-virtual-corpus`}></ldod-upload>
+              data-url={`/virtual/admin/upload-virtual-corpus`}></ldod-upload>
             <ldod-upload
               width="600px"
               data-virtual-button-key="uploadVeFragments"
               multiple
               title={this.getConstants('uploadVeFragments')}
-              data-url={`${HOST}/virtual/admin/upload-virtual-fragments`}></ldod-upload>
+              data-url={`/virtual/admin/upload-virtual-fragments`}></ldod-upload>
           </div>
           <div class="flex-column">
             <ldod-export
@@ -78,7 +84,7 @@ export class LdodManageVE extends HTMLElement {
               data-virtual-button-key="exportVe"
               title={this.getConstants('exportVe')}
               file-prefix="VirtualEditionsFragments"
-              data-url={`${HOST}/virtual/admin/export-virtual-editions`}
+              data-url={`/virtual/admin/export-virtual-editions`}
               method="GET"></ldod-export>
           </div>
         </div>
@@ -121,7 +127,14 @@ export class LdodManageVE extends HTMLElement {
   };
 
   addEventListeners = () => {
+    this.addEventListener('ldod-file-uploaded', this.handleFileUploaded);
     this.addEventListener('ldod-table-searched', this.updateTitle);
+  };
+
+  handleFileUploaded = () => {
+    getVirtualEditions4Manage()
+      .then((data) => this.updateData(data))
+      .catch((error) => console.error(error));
   };
 
   updateTitle = ({ detail }) => {
@@ -129,12 +142,10 @@ export class LdodManageVE extends HTMLElement {
   };
 
   handleRemoveVE = async ({ target }) => {
-    if (
-      !confirm(
-        `Are you sure you want to remove the Virtual Edition ${target.dataset.acrn} ?`
-      )
-    )
-      return;
+    const isToBeRemoved = confirm(
+      `Are you sure you want to remove the Virtual Edition ${target.dataset.acrn} ?`
+    );
+    if (!isToBeRemoved) return;
     deleteVE(target.id)
       .then((data) => {
         this.virtualEditions = data || [];

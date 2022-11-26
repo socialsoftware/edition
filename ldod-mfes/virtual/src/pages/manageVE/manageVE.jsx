@@ -3,16 +3,14 @@ import './LdodManageVE.jsx';
 
 const mount = async (lang, ref) => {
   getVirtualEditions4Manage()
-    .then((data) =>
-      document
-        .querySelector(ref)
-        .appendChild(
-          <ldod-manage-ve
-            language={lang}
-            virtualEditions={data || []}></ldod-manage-ve>
-        )
-    )
+    .then((data) => manageVe.updateData(data))
     .catch((error) => console.error(error));
+
+  const manageVe = document
+    .querySelector(ref)
+    .appendChild(
+      <ldod-manage-ve language={lang} virtualEditions={[]}></ldod-manage-ve>
+    );
 };
 
 const unMount = () => document.querySelector('ldod-manage-ve')?.remove();

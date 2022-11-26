@@ -69,7 +69,7 @@ export class LdodExport extends HTMLElement {
     if (res && !res.xmlData && res.ok !== undefined) {
       return dispatchCustomEvent(
         this,
-        { message: res?.message },
+        { message: res.message },
         {
           type: res.ok ? 'message' : 'error',
           bubbles: true,
@@ -78,7 +78,7 @@ export class LdodExport extends HTMLElement {
       );
     }
 
-    const blob = new Blob([base64ToBuffer(res.xmlData)], {
+    const blob = new Blob([base64ToBuffer(res?.xmlData)], {
       type: `application/${this.fileType || 'xml'}`,
     });
 

@@ -60,11 +60,7 @@ const request = async (method, path, data, token) => {
   options.headers.append('Access-Control-Allow-Origin', '*');
   options.method = method;
   if (data) options.body = JSON.stringify(data);
-
-  return await fetchRequest(
-    path.startsWith('/') ? `${HOST}${path}` : path,
-    options
-  );
+  return await fetchRequest(HOST.concat(path), options);
 };
 
 export const fetcher = ['get', 'post', 'put', 'delete'].reduce(
@@ -95,5 +91,5 @@ export const xmlFileFetcher = async ({
   );
   options.method = method;
   if (body) options.body = body;
-  return await fetchRequest(url, options);
+  return await fetchRequest(HOST.concat(url), options);
 };

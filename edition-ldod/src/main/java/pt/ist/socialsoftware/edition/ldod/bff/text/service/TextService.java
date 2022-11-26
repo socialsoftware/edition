@@ -145,7 +145,8 @@ public class TextService {
     }
 
     private List<SurfaceDto> getSurfaceDtoList(SourceInter inter) {
-        return inter.getSource().getFacsimile().getSurfaces().stream().map(SurfaceDto::new).collect(Collectors.toList());
+        Facsimile fac = inter.getSource().getFacsimile();
+        return fac != null ? fac.getSurfaces().stream().map(SurfaceDto::new).collect(Collectors.toList()) : null;
     }
 
     private SourceInterDto getSpecificSourceInterClass(SourceInter inter, List<SurfaceDto> surfaceDtoList) {

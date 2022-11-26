@@ -3,8 +3,6 @@ import { getState } from './store';
 import { emitMessageEvent } from './utils';
 import { navigateTo } from 'shared/router.js';
 
-const HOST = import.meta.env.VITE_HOST;
-
 export const userReferences = {
   manageUsers: '/user/manage-users',
   signin: '/user/signin',
@@ -13,16 +11,16 @@ export const userReferences = {
 };
 
 export const newAuthRequest = async (data) =>
-  await fetcher.post(`${HOST}/auth/sign-in`, data);
+  await fetcher.post(`/auth/sign-in`, data);
 
 export const userRequest = async (token) =>
-  await fetcher.get(`${HOST}/user`, null, token);
+  await fetcher.get(`/user`, null, token);
 
 export const signupRequest = async (data) =>
-  await fetcher.post(`${HOST}/auth/sign-up`, data);
+  await fetcher.post(`/auth/sign-up`, data);
 
 export const socialAuthRequest = async (path, data, loginCB) =>
-  fetcher.post(`${HOST}/auth/${path}`, data).then((response) => {
+  fetcher.post(`/auth/${path}`, data).then((response) => {
     if (isFormState(response)) {
       navigateTo(userReferences.signup, this, response);
       return Promise.resolve({ message: 'googleAssociation' });
@@ -31,45 +29,41 @@ export const socialAuthRequest = async (path, data, loginCB) =>
   });
 
 export const tokenConfirmRequest = async (path) =>
-  await fetcher.get(`${HOST}/auth${path}`, null);
+  await fetcher.get(`/auth${path}`, null);
 
 export const tokenAuthRequest = async (path) => {
   if (import.meta.env.PROD && !getState().token) {
     emitMessageEvent('Not authorized to access resource', 'error');
     return navigateTo('/');
   }
-  return await fetcher.get(`${HOST}/admin/user${path}`, null, getState().token);
+  return await fetcher.get(`/admin/user${path}`, null, getState().token);
 };
 
 export const changePasswordRequest = async (data) =>
-  fetcher.post(`${HOST}/user/change-password`, data, getState().token);
+  fetcher.post(`/user/change-password`, data, getState().token);
 
 export const getUsersList = async () => {
   if (!getState().token) {
     emitMessageEvent('Not authorized to access resource', 'error');
     return navigateTo('/');
   }
-  return await fetcher.get(`${HOST}/admin/user/list`, null, getState().token);
+  return await fetcher.get(`/admin/user/list`, null, getState().token);
 };
 
 export const switchModeRequest = async () =>
-  await fetcher.post(`${HOST}/admin/user/switch`, null, getState().token);
+  await fetcher.post(`/admin/user/switch`, null, getState().token);
 
 export const deleteSessionsRequest = async () =>
-  await fetcher.post(
-    `${HOST}/admin/user/sessions-delete`,
-    null,
-    getState().token
-  );
+  await fetcher.post(`/admin/user/sessions-delete`, null, getState().token);
 
 export const changeActiveRequest = async (externalId) =>
-  await fetcher.post(`${HOST}/admin/user/active/${externalId}`);
+  await fetcher.post(`/admin/user/active/${externalId}`);
 
 export const removeUserRequest = async (externalId) =>
-  await fetcher.post(`${HOST}/admin/user/delete/${externalId}`);
+  await fetcher.post(`/admin/user/delete/${externalId}`);
 
 export const updateUserRequest = async (data) =>
-  await fetcher.post(`${HOST}/admin/user/edit`, data);
+  await fetcher.post(`/admin/user/edit`, data);
 
 function isAccessToken(response) {
   return Object.keys(response).some(

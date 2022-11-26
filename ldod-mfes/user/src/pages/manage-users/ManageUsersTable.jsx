@@ -4,8 +4,6 @@ import AdminModeButton from './components/AdminModeButton';
 import DeleteSessionsButton from './components/DeleteSessionsButton';
 import SessionsListTable from './components/SessionsListTable';
 
-const HOST = import.meta.env.VITE_HOST;
-
 export default ({ node }) => {
   return (
     <div class="container">
@@ -23,12 +21,12 @@ export default ({ node }) => {
               <ldod-upload
                 data-key="uploadUsers"
                 title={node.getConstants('uploadUsers')}
-                data-url={`${HOST}/admin/user/upload-users`}></ldod-upload>
+                data-url={`/admin/user/upload-users`}></ldod-upload>
               <ldod-export
                 file-prefix="users"
                 data-key="exportUsers"
                 title={node.getConstants('exportUsers')}
-                data-url={`${HOST}/admin/user/export-users`}></ldod-export>
+                data-url={`/admin/user/export-users`}></ldod-export>
             </div>
             <UsersTable node={node} />
           </div>

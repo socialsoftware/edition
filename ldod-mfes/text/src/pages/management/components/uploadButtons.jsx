@@ -1,5 +1,5 @@
 import('shared/buttons.js').then(({ uploadButton }) => uploadButton());
-const HOST = import.meta.env.VITE_HOST;
+const PATH = '/text/admin';
 
 export default ({ uploadSingle, uploadMultiple, uploadCorpus }) => {
   //onUpload
@@ -9,18 +9,18 @@ export default ({ uploadSingle, uploadMultiple, uploadCorpus }) => {
         width="600px"
         data-buttonkey="uploadCorpus"
         title={uploadCorpus}
-        data-url={`${HOST}/text/admin/upload-corpus`}></ldod-upload>
+        data-url={`${PATH}/upload-corpus`}></ldod-upload>
       <ldod-upload
         width="600px"
         data-buttonkey="uploadSingle"
         title={uploadSingle}
-        data-url={`${HOST}/text/admin/upload-fragment`}></ldod-upload>
+        data-url={`${PATH}/upload-fragment`}></ldod-upload>
       <ldod-upload
         width="600px"
         multiple
         data-buttonkey="uploadMultiple"
         title={uploadMultiple}
-        data-url={`${HOST}/text/admin/upload-fragments`}></ldod-upload>
+        data-url={`${PATH}/upload-fragments`}></ldod-upload>
     </div>
   );
 };

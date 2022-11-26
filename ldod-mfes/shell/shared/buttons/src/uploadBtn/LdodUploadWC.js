@@ -51,9 +51,9 @@ export class LdodUpload extends HTMLElement {
     });
 
     if (res?.ok !== undefined) {
-      return dispatchCustomEvent(
+      dispatchCustomEvent(
         this,
-        { message: res?.message },
+        { message: res.message },
         {
           type: res.ok ? 'message' : 'error',
           bubbles: true,
@@ -62,15 +62,16 @@ export class LdodUpload extends HTMLElement {
       );
     }
 
-    return dispatchCustomEvent(
-      this,
-      { data: res },
-      {
-        type: 'file-uploaded',
-        bubbles: true,
-        composed: true,
-      }
-    );
+    if (!res?.ok || res.ok)
+      dispatchCustomEvent(
+        this,
+        { data: res },
+        {
+          type: 'file-uploaded',
+          bubbles: true,
+          composed: true,
+        }
+      );
   };
 
   handleInput = (e) => {
