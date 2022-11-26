@@ -24,6 +24,10 @@ services:
     depends_on:
       - mysql-db
     network_mode: host
+    environment:
+      dbAlias: jdbc:mysql//localhost:3307/edition?useSSL=false&useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;
+      dbUsername: raimundo
+      dbPassword: raimundo
 
     volumes:
       - /opt/ldod/corpus/:/opt/ldod/corpus
@@ -36,11 +40,7 @@ services:
       - /opt/ldod/indexer/:/opt/ldod/indexer/
       - /opt/ldod/tests/:/opt/ldod/tests/
       - /opt/ldod/social/aware/:/opt/ldod/social/aware/
-    environment:
-      SPRING_APPLICATION_JSON: '{
-        "dbAlias": "jdbc:mysql//localhost:3307/edition?useSSL=false&useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull",
-        "dbUsername": "raimundo",
-        "dbPassword": "raimundo"}'
+
   ldod-mfes-server:
     build: ./ldod-mfes/shell/
     restart: on-failure

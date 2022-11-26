@@ -26,7 +26,7 @@ Replace PATH according the environment
 
 ### Apply the procedure above for the fenix-framework.properties
 
-- Replace the dbUsername and dbPassword according the configuration on the mysql-db service in docker-compose.yml
+- Replace the dbAlias, dbUsername and dbPassword according the configuration on the mysql-db service in docker-compose.yml
 
 ### Contact the administrator to obtain the secrete.properties
 

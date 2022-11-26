@@ -1,5 +1,6 @@
 import { getPartialStorage } from '../../store/store.js';
-const HOST = window.process?.apiHost;
+
+const HOST = window.process?.apiHost || 'http://localhost:8000/api';
 
 const logOutEvent = (token) =>
   new CustomEvent('ldod-logout', {
