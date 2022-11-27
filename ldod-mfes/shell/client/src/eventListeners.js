@@ -6,6 +6,7 @@ const onToken = ({ detail: token }) => store.setState(token);
 window.addEventListener('ldod-token', onToken);
 
 window.addEventListener('ldod-logout', () => {
+  console.log('object');
   onToken({ detail: { token: undefined } });
 });
 const onLanguage = ({ detail: { language } }) => {

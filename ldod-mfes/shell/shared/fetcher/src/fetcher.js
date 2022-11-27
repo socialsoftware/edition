@@ -2,24 +2,17 @@ import { getPartialStorage } from '../../store/store.js';
 
 const HOST = window.process?.apiHost || 'http://localhost:8000/api';
 
-const logOutEvent = (token) =>
-  new CustomEvent('ldod-logout', {
-    detail: { token },
-    bubbles: true,
-    composed: true,
-  });
+const customEvent = (type, detail) => new CustomEvent(type, { detail });
+const dispatchCustomEvent = (event) => window.dispatchEvent(event);
 
-const handleError = (errorData) => {
-  const { message } = errorData;
-  const errorEv = new CustomEvent('ldod-error', { detail: { message } });
-  window.dispatchEvent(errorEv);
-};
+const handleLoading = (isLoading) =>
+  dispatchCustomEvent(customEvent('ldod-loading', { isLoading }));
 
-const handleLoading = (isLoading) => {
-  window.dispatchEvent(
-    new CustomEvent('ldod-loading', { detail: { isLoading } })
-  );
-};
+const handleLogout = (token) =>
+  dispatchCustomEvent(customEvent('ldod-logout', { token }));
+
+const handleError = (message) =>
+  dispatchCustomEvent(customEvent('ldod-error', { message }));
 
 const getStorageToken = () => getPartialStorage('ldod-store', ['token'])?.token;
 
@@ -27,17 +20,20 @@ const fetchRequest = async (url, options) => {
   try {
     const res = await fetch(url, options);
     handleLoading(false);
-    if (res.status === 401) return Promise.reject({ message: 'unauthorized' });
+    if (res.status === 401) {
+      handleLogout();
+      return Promise.reject({ message: 'unauthorized' });
+    }
     if (res.status === 403) {
-      handleError({ message: 'Not authorized to access this resource' });
+      handleError('Not authorized to access this resource');
       return Promise.reject();
     }
 
     return await res.json();
   } catch (error) {
-    console.log('FETCH ERROR: ', error);
+    console.error('FETCH ERROR: ', error);
     handleLoading(false);
-    handleError({ message: 'Something went wrong' });
+    handleError('Something went wrong');
   }
 };
 
@@ -45,7 +41,7 @@ const request = async (method, path, data, token) => {
   handleLoading(true);
   const options = {};
   const accessToken = token ? token : getStorageToken();
-  if (!accessToken) window.dispatchEvent(logOutEvent());
+  if (!accessToken) handleLogout();
 
   options.headers = new Headers();
   options.headers.append(
