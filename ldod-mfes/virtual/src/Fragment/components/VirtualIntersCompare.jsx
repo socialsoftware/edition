@@ -33,6 +33,7 @@ export default ({ node }) => {
                 language={node.language}
                 constants={node.constants}
                 data={rows.map((row) => {
+                  console.log(row);
                   return {
                     quote: row.quote || '---',
                     comment: row.human ? (
@@ -66,6 +67,10 @@ export default ({ node }) => {
                         )
                       : row.acronym
                       ? getTag(row.acronym, row.urlId, row.name)
+                      : row.tagList?.length
+                      ? row.tagList.map((tag) =>
+                          getTag(inter.acronym, tag, tag)
+                        )
                       : '---',
                   };
                 })}></ldod-table>

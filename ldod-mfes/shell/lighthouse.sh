@@ -1,2 +1,2 @@
 lighthouse http://localhost:8080/fragments  --only-categories performance --preset=desktop  --view 
-lighthouse http://localhost:8080/ldod-mfes/text/fragments  --only-categories performance --preset=desktop  --view 
+lighthouse http://localhost:8080/ldod-mfes/text/fragments  --only-categories performance --preset=desktop --view --screenEmulation.width=1920 --screenEmulation.height=1080
