@@ -44,10 +44,8 @@ const request = async (method, path, data, token) => {
   if (!accessToken) handleLogout();
 
   options.headers = new Headers();
-  options.headers.append(
-    'Authorization',
-    accessToken ? `Bearer ${accessToken}` : ''
-  );
+  accessToken &&
+    options.headers.append('Authorization', `Bearer ${accessToken}`);
 
   if (data && typeof data !== 'object')
     throw new Error('Data must be an Object');
@@ -79,7 +77,7 @@ export const xmlFileFetcher = async ({
   const options = {};
   const accessToken = token ? token : getStorageToken();
   options.headers = new Headers();
-  options.headers.set('Authorization', accessToken && '');
+  accessToken && options.headers.set('Authorization', accessToken);
   headers.forEach((header) =>
     Object.entries(header).forEach(([key, value]) => {
       options.headers.set(key, value);
