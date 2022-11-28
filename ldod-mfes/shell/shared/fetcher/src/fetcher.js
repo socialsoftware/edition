@@ -24,8 +24,8 @@ const fetchRequest = async (url, options) => {
       handleLogout();
       return Promise.reject({ message: 'unauthorized' });
     }
-    if (res.status === 403) {
-      handleError('Not authorized to access this resource');
+    if (res.status === 403 || res.status === 404) {
+      handleError(res.message || 'Not authorized to access this resource');
       return Promise.reject();
     }
 

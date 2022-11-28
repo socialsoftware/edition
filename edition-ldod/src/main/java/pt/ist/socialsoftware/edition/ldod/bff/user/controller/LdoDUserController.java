@@ -31,7 +31,7 @@ public class LdoDUserController {
         logger.debug("getCurrentUser {}", currentUser == null ? "null" : currentUser.getUsername());
         return currentUser != null
                 ? ResponseEntity.status(HttpStatus.OK).body(service.getUserService(currentUser))
-                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MainResponseDto(false, "userUnauthorized"));
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MainResponseDto(false, Message.USER_NOT_FOUND.getLabel()));
     }
 
     @GetMapping(value = "/{username}")
