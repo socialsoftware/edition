@@ -1,4 +1,5 @@
 import tableStyle from './table.css?inline';
+import toolsStyle from './tools.css?inline';
 
 export class LdodTable extends HTMLElement {
   constructor() {
@@ -191,9 +192,12 @@ export class LdodTable extends HTMLElement {
     return (
       <>
         <div id="table-tools">
-          <style></style>
-          {this.searchKey && this.loadSearchStyle()}
-          {this.searchKey && this.getSearch()}
+          {this.searchKey && (
+            <>
+              <style>{toolsStyle}</style>
+              {this.getSearch()}
+            </>
+          )}
         </div>
         <div class="table-container">
           <div class="table-body">
