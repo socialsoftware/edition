@@ -43,7 +43,6 @@ public class AnnotationService {
         veInter.createHumanAnnotation(annDto.getQuote(), annDto.getText(), user,
                 annDto.getRanges(), annDto.getTagList(), annDto.getContents());
         return getAnnotations(veExternalId);
-
     }
 
     public AnnotationsDto updateAnnotation(AnnotationDto annDto, String externalId) {

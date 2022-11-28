@@ -52,6 +52,10 @@ const request = async (method, path, data, token) => {
 
   options.headers.append('Content-Type', 'application/json');
   options.headers.append('Access-Control-Allow-Origin', '*');
+
+  if (path.includes('restricted') || path.includes('admin'))
+    options.headers.append('Cache-Control', 'private');
+
   options.method = method;
   if (data) options.body = JSON.stringify(data);
   return await fetchRequest(HOST.concat(path), options);
