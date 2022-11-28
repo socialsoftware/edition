@@ -1,3 +1,4 @@
+import { parseHTML } from 'shared/utils.js';
 export default ({ root, form }) => {
   return (
     <div id="wrapper">
@@ -20,7 +21,7 @@ export default ({ root, form }) => {
             {root.getConstants('all')}
           </option>
           {root.data.virtualEditions.map((ve) => (
-            <option value={ve.veAcronym}>{ve.title}</option>
+            <option value={ve.veAcronym}>{parseHTML(ve.title)}</option>
           ))}
         </select>
         <label data-search-key="virtualEdition">

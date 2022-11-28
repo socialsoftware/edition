@@ -76,7 +76,7 @@ export class LdodReadingEdition extends HTMLElement {
                               inter.xmlId,
                               inter.urlId
                             )}>
-                            {inter.number}
+                            {`${inter.number}`}
                           </a>
                         </h2>
                         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
@@ -147,7 +147,7 @@ export class LdodReadingEdition extends HTMLElement {
                   this.currentInter.urlId
                 )}>
                 <h3>{this.currentInter.acronym}</h3>
-                <h2>{this.currentInter.number}</h2>
+                <h2>{`${this.currentInter.number}`}</h2>
               </a>
               <span
                 id="reading-recommendationTooltip"
@@ -162,7 +162,7 @@ export class LdodReadingEdition extends HTMLElement {
                     this.prevInter.urlId
                   )}>
                   <h3>{this.prevInter.acronym}</h3>
-                  <h2>{this.prevInter.number}</h2>
+                  <h2>{`${this.prevInter.number}`}</h2>
                 </a>
                 <span
                   class="icon icon-arrow-left"
@@ -188,7 +188,7 @@ export class LdodReadingEdition extends HTMLElement {
                       recomm.urlId
                     )}>
                     <h3>{recomm.acronym}</h3>
-                    <h2>{recomm.number}</h2>
+                    <h2>{`${recomm.number}`}</h2>
                   </a>
                   <span
                     class="icon icon-arrow-right"

@@ -155,17 +155,22 @@ public class SearchService {
                 : new AdvancedTypeDto(typescriptDates.get(0).toString(), typescriptDates.get(typescriptDates.size() - 1).toString());
     }
 
-    private List<AdvancedVeDto> getVirtualEditions() {
-        return LdoDUser.getAuthenticatedUser() != null
-                ? LdoD.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser().getUsername())
-                .stream()
-                .map(AdvancedVeDto::new)
-                .collect(Collectors.toList())
-                : LdoD.getInstance().getVirtualEditionsSet()
+    private Stream<AdvancedVeDto> getPubVirtualEditions() {
+        return LdoD.getInstance().getVirtualEditionsSet()
                 .stream()
                 .filter(Edition_Base::getPub)
-                .map(AdvancedVeDto::new)
-                .collect(Collectors.toList());
+                .map(AdvancedVeDto::new);
+    }
+
+    private List<AdvancedVeDto> getVirtualEditions() {
+        return LdoDUser.getAuthenticatedUser() != null
+                ? Stream.concat(
+                        LdoD.getInstance().getVirtualEditions4User(LdoDUser.getAuthenticatedUser().getUsername())
+                                .stream()
+                                .map(AdvancedVeDto::new),
+                        getPubVirtualEditions())
+                .collect(Collectors.toList())
+                : getPubVirtualEditions().collect(Collectors.toList());
 
     }
 
