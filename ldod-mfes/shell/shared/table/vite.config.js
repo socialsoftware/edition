@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: false,
       sourcemap: true,
       rollupOptions: {
-        external: ['shared/vanilla-jsx.js'],
+        external: ['shared/vanilla-jsx.js', 'shared/utils.js'],
       },
     },
     esbuild: {

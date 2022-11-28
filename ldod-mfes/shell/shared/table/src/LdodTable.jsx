@@ -1,7 +1,6 @@
 import tableStyle from './table.css?inline';
 import toolsStyle from './tools.css?inline';
-
-const sleep = async (ms) => new Promise((r) => setTimeout(r, ms));
+import { sleep } from 'shared/utils.js';
 
 export class LdodTable extends HTMLElement {
   constructor() {

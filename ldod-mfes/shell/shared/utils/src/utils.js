@@ -14,3 +14,4 @@ export const useState = (initial) => {
   const setState = (newState) => (state = newState);
   return [getState, setState];
 };
+export const sleep = async (ms) => new Promise((r) => setTimeout(r, ms));
