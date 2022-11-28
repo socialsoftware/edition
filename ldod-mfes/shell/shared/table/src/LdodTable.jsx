@@ -1,6 +1,8 @@
 import tableStyle from './table.css?inline';
 import toolsStyle from './tools.css?inline';
 
+const sleep = async (ms) => new Promise((r) => setTimeout(r, ms));
+
 export class LdodTable extends HTMLElement {
   constructor() {
     super();
@@ -106,9 +108,7 @@ export class LdodTable extends HTMLElement {
     newRows.forEach((row) =>
       this.querySelector('table>tbody').appendChild(row)
     );
-    this.dispatchEvent(
-      new CustomEvent('ldod-table-increased', { composed: true, bubbles: true })
-    );
+    this.dispatchCustomEvent('ldod-table-increased');
   };
 
   loadSearchStyle() {
@@ -117,7 +117,12 @@ export class LdodTable extends HTMLElement {
     });
   }
 
-  handleSearchInput = () => {
+  handleSearchInput = async () => {
+    if (this.isSearching) return;
+    this.isSearching = true;
+    this.dispatchCustomEvent('ldod-loading', { isLoading: true });
+    await sleep(10);
+
     if (!this.isFullyLoaded) {
       this.observer.disconnect();
       this.addRows(this.data.length);
@@ -147,13 +152,12 @@ export class LdodTable extends HTMLElement {
       row.toggleAttribute('searched', true);
     });
 
-    this.dispatchEvent(
-      new CustomEvent('ldod-table-searched', {
-        detail: { id: this.id, size: result.length },
-        bubbles: true,
-        composed: true,
-      })
-    );
+    this.dispatchCustomEvent('ldod-table-searched', {
+      id: this.id,
+      size: result.length,
+    });
+    this.dispatchCustomEvent('ldod-loading', { isLoading: false });
+    this.isSearching = false;
   };
 
   getSearch() {
@@ -224,6 +228,12 @@ export class LdodTable extends HTMLElement {
       </>
     );
   }
+
+  dispatchCustomEvent = (event, detail) => {
+    this.dispatchEvent(
+      new CustomEvent(event, { detail, bubbles: true, composed: true })
+    );
+  };
 }
 
 !customElements.get('ldod-table') &&
