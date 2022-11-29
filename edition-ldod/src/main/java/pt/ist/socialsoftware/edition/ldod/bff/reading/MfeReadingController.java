@@ -37,8 +37,6 @@ public class MfeReadingController {
         } catch (LdoDException e) {
             return ResponseEntity.status(HttpStatus.OK).body(new MainResponseDto(false, e.getMessage()));
         }
-
-
     }
 
 

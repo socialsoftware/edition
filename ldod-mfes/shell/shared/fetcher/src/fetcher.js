@@ -29,6 +29,8 @@ const fetchRequest = async (url, options) => {
       return Promise.reject();
     }
 
+    if (!res.ok) return Promise.reject();
+
     return await res.json();
   } catch (error) {
     console.error('FETCH ERROR: ', error);

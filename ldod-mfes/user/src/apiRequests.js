@@ -16,7 +16,7 @@ export const newAuthRequest = async (data) =>
 export const userRequest = async (token) =>
   await fetcher.get(`/user`, null, token).then((res) => {
     if (res.ok === false) return Promise.reject(res);
-    Promise.resolve(res);
+    return Promise.resolve(res);
   });
 
 export const signupRequest = async (data) =>
