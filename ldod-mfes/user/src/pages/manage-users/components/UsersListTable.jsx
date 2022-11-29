@@ -118,7 +118,7 @@ export default ({ node }) => {
   const language = node.language;
   return (
     <div>
-      <UpdateModal />
+      <UpdateModal node={node} />
       <div id="userList" class="row">
         <ldod-table
           id="user-usersListTable"

@@ -5,8 +5,8 @@ const getManageUsers = () => document.querySelector('manage-users');
 function getConstants(key) {
   return constants[getManageUsers().language][key];
 }
-const onSaveChanges = async () => {
-  const usersData = getManageUsers().usersData;
+const onSaveChanges = async (rootElement) => {
+  const usersData = rootElement.usersData;
 
   const userUpdated = Array.from(
     document.querySelector('ldod-modal form')
@@ -23,14 +23,16 @@ const onSaveChanges = async () => {
 
   updateUserRequest(userUpdated).then((data) => {
     usersData.userList = data.userList;
-    getManageUsers().toggleAttribute('show');
-    getManageUsers().render();
+    rootElement
+      .querySelector('ldod-modal#user-updateUserModal')
+      .toggleAttribute('show');
+    rootElement.render();
   });
 };
 
-export default () => {
+export default ({ node }) => {
   return (
-    <ldod-modal dialog-class="modal-lg">
+    <ldod-modal dialog-class="modal-lg" id="user-updateUserModal">
       <span data-key="editUserHeader" slot="header-slot">
         {getConstants('editUserHeader')}
       </span>
@@ -38,7 +40,7 @@ export default () => {
       <div slot="footer-slot">
         <button
           class="btn btn-primary"
-          onClick={onSaveChanges}
+          onClick={() => onSaveChanges(node)}
           data-key="update">
           {getConstants('update')}
         </button>
