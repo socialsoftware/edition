@@ -11,7 +11,6 @@ export async function getExpertEditionInter(xmlId, urlId) {
   return await fetcher
     .post(`${PATH}/fragment/${xmlId}/inter/${urlId}`, getState())
     .then((res) => {
-      console.log(res);
       if (!res || res.ok === false) {
         resetReadingStore();
         return Promise.reject({ message: res?.message });
