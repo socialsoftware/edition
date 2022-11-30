@@ -1,6 +1,6 @@
 import 'shared/router.js';
 import style from './style.css?inline';
-import { isDev } from './utils.js';
+import { isDev, sleep } from './utils.js';
 
 const ABOUT_SELECTOR = 'div#aboutContainer';
 const getContainer = () => document.querySelector(ABOUT_SELECTOR);
@@ -31,7 +31,7 @@ export const unMount = async () => {
 };
 
 export const showHomeInfo = () => {
-  setTimeout(() => (getHomeInfo().hidden = false), 1);
+  sleep(10).then(() => (getHomeInfo().hidden = false));
 };
 
 export const hideHomeInfo = () => {

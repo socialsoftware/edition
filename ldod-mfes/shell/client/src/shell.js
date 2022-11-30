@@ -19,19 +19,16 @@ router.fallback = NotFound;
 
 delete modules['shared/'];
 
-const routes = await Object.keys(modules).reduce(async (acc, name) => {
-  try {
-    const api = (await import(name)).default;
-    const path = api.path;
-    if (path === '/') {
-      router.index = () => api;
-      return await acc;
-    }
-    if (path) (await acc)[path] = () => api;
-  } catch (error) {
-    console.error(error);
-  }
-  return await acc;
+const routes = await Object.keys(modules).reduce(async (prev, mfeName) => {
+  await import(mfeName)
+    .then(async (mod) => {
+      const api = mod.default;
+      const mfePath = api.path;
+      if (mfePath === '/') router.index = () => api;
+      else (await prev)[mfePath] = () => api;
+    })
+    .catch((e) => console.error(e));
+  return prev;
 }, Promise.resolve({}));
 
 router.routes = routes;

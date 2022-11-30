@@ -49,7 +49,7 @@ const request = async (method, path, data, token) => {
     throw new Error('Data must be an Object');
 
   options.headers = new Headers();
-  options.headers.append('Authorization', `Bearer ${accessToken}`);
+  options.headers.append('Authorization', `Bearer ${accessToken || ''}`);
   options.headers.append('Content-Type', 'application/json');
   options.headers.append('Access-Control-Allow-Origin', '*');
 
