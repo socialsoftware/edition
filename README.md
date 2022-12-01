@@ -5,8 +5,6 @@
 - [git](https://git-scm.com/)
 - [docker](https://www.docker.com/)
 - [docker-compose](https://docs.docker.com/compose/install/)
-- [Maven](https://maven.apache.org/)
-- [Node](https://nodejs.org/en/)
 - Internet connection
 
 ### Clone git rep
@@ -38,14 +36,14 @@ docker-compose up --build
 
 ### Publish or Unpublish one MFE at a time
 
-By default all MFEs will be published. To publish or unpublish MFEs use the following commands inside the ldod-mfes directory:
+By default all MFEs will be published. To publish or unpublish MFEs, use the following commands inside the ldod-mfes directory:
 
 ```sh
 yarn run publish --prefix <mfe directory name> #yarn run publish --prefix about
 ```
 
 ```sh
-yarn run unpublish --prefix <mfe directory name> #yarn run publish --prefix virtual
+yarn run unpublish --prefix <mfe directory name> #yarn run unpublish --prefix virtual
 ```
 
 #### Note: The docker containers are sharing the host network so you must ensure the following ports availability:
