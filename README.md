@@ -30,50 +30,22 @@ Replace PATH according the environment
 
 ### Contact the administrator to obtain the secrete.properties
 
-### Compile edition-ldod
-
-```sh
-cd edition-ldod
-mvn clean install -DskipTests -P war
-```
-
 ### Build and run services
 
 ```sh
-docker-compose build
-```
-
-```sh
-docker-compose up
-```
-
-### Publish or Unpublish MFEs at one go
-
-```sh
-cd ldod-mfes
-npm run install
-```
-
-```sh
-sh scripts/publish-all.sh
-```
-
-```sh
-sh scripts/unpublish-all.sh
+docker-compose up --build
 ```
 
 ### Publish or Unpublish one MFE at a time
 
+By default all MFEs will be published. To publish or unpublish MFEs use the following commands inside the ldod-mfes directory:
+
 ```sh
-cd ldod-mfes/<mfe>
+yarn run publish --prefix <mfe directory name> #yarn run publish --prefix about
 ```
 
 ```sh
-yarn run publish
-```
-
-```sh
-yarn run unpublish
+yarn run unpublish --prefix <mfe directory name> #yarn run publish --prefix virtual
 ```
 
 #### Note: The docker containers are sharing the host network so you must ensure the following ports availability:

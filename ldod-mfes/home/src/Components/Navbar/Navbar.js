@@ -1,4 +1,3 @@
-import 'shared/router.js';
 import { parseHTML } from 'shared/utils.js';
 import headers from '../../../resources/navbar/headers-menus.js';
 import style from '../../../style/navbar.css' assert { type: 'css' };

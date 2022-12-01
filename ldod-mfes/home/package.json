@@ -18,15 +18,17 @@
     "unpublish": "./scripts/unpublish.sh home $npm_package_config_docker"
   },
   "devDependencies": {
+    "@rollup/plugin-alias": "^4.0.2",
     "@rollup/plugin-dynamic-import-vars": "^1.4.3",
     "acorn-import-assertions": "^1.8.0",
     "node-html-parser": "^5.3.3",
     "rollup": "^2.75.6",
     "rollup-plugin-import-assert": "^2.1.0",
     "rollup-plugin-terser": "^7.0.2",
-    "serve": "^14.0.1"
+    "serve": "^14.0.1",
+    "rollup-plugin-sourcemaps": "^0.6.3"
   },
   "dependencies": {
-    "rollup-plugin-sourcemaps": "^0.6.3"
+    "shared": "file:../shell/shared"
   }
 }

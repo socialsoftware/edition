@@ -7,17 +7,18 @@ if (typeof window === 'object') {
 let User;
 
 const loadUser = async () => {
+  if (User) return;
   User = await import('./userRouter.jsx');
 };
 
 export default {
   path: '/user',
   mount: async (lang, ref) => {
-    if (!User) await loadUser();
+    await loadUser();
     await User.mount(lang, ref);
   },
   unMount: async () => {
-    if (!User) await loadUser();
+    await loadUser();
     await User.unMount();
   },
 };

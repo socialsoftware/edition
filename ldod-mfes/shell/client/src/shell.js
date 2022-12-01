@@ -24,8 +24,11 @@ const routes = await Object.keys(modules).reduce(async (prev, mfeName) => {
     .then(async (mod) => {
       const api = mod.default;
       const mfePath = api.path;
-      if (mfePath === '/') router.index = () => api;
-      else (await prev)[mfePath] = () => api;
+      if (mfePath === '/') {
+        router.index = () => api;
+        return;
+      }
+      if (mfePath) (await prev)[mfePath] = () => api;
     })
     .catch((e) => console.error(e));
   return prev;

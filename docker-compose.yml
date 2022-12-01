@@ -8,9 +8,9 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: 'edition'
-      MYSQL_USER: 'raimundo'
-      MYSQL_PASSWORD: 'raimundo'
-      MYSQL_ROOT_PASSWORD: 'raimundo'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: ''
+      MYSQL_ROOT_PASSWORD: ''
       MYSQL_TCP_PORT: 3307
 
     network_mode: host
@@ -26,8 +26,8 @@ services:
     network_mode: host
     environment:
       dbAlias: jdbc:mysql//localhost:3307/edition?useSSL=false&useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;
-      dbUsername: raimundo
-      dbPassword: raimundo
+      dbUsername:
+      dbPassword:
 
     volumes:
       - /opt/ldod/corpus/:/opt/ldod/corpus
@@ -42,9 +42,9 @@ services:
       - /opt/ldod/social/aware/:/opt/ldod/social/aware/
 
   ldod-mfes-server:
-    build: ./ldod-mfes/shell/
+    build: ./ldod-mfes
     restart: on-failure
-    command: npm run docker
+    command: npm run docker --prefix shell && sh scripts/publish-all.sh
     network_mode: host
 
 volumes:

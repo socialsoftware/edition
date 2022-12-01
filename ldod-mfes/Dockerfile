@@ -1,5 +1,4 @@
 FROM node:18.4-alpine
-WORKDIR /shell
+WORKDIR /opt
 COPY . .
-RUN yarn install
 EXPOSE 9000
