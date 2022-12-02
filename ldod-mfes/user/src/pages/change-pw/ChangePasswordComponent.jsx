@@ -5,7 +5,7 @@ import { changePasswordRequest } from '@src/apiRequests.js';
 import { setInvalidFor, setValidFor, loadConstants } from '@src/utils';
 import { errorEvent, messageEvent } from '../../utils';
 import ChangePasswordForm from './ChangePasswordForm';
-import { userReferences } from '../../user';
+import { userReferences } from '../../userReferences';
 
 export class ChangePassword extends HTMLElement {
   constructor() {

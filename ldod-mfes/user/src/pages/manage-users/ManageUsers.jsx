@@ -1,13 +1,4 @@
-import './ManageUsersComponent.jsx';
-import { getUsersList } from '@src/apiRequests.js';
-
-export const loadAndAssignUsers = (node) => {
-  getUsersList().then((data) => {
-    node.toggleAttribute('data', false);
-    node.usersData = data;
-    node.toggleAttribute('data', true);
-  });
-};
+import { loadAndAssignUsers } from './ManageUsersComponent.jsx';
 
 const mount = async (lang, ref) => {
   document

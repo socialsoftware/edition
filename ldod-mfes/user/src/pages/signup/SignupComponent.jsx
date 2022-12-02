@@ -11,7 +11,7 @@ import { navigateTo } from 'shared/router.js';
 import { setState } from '@src/store';
 import { errorEvent, messageEvent } from '../../utils';
 import SignupForm from './SignupForm';
-import { userReferences } from '../../user';
+import { userReferences } from '../../userReferences';
 
 export class SignUp extends HTMLElement {
   constructor() {

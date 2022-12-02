@@ -1,6 +1,6 @@
 import { navigateTo } from 'shared/router.js';
 import { tokenConfirmRequest } from '../apiRequests.js';
-import { userReferences } from '../user.js';
+import { userReferences } from '../userReferences';
 import { emitMessageEvent } from '../utils.js';
 
 const mount = async (lang, ref) => {

@@ -1,23 +1,26 @@
 import { fetcher } from 'shared/fetcher.js';
-import { getState } from './store';
-import { emitMessageEvent } from './utils';
+import { getState, setState, storage } from './store';
+import { emitMessageEvent, tokenEvent } from './utils';
 import { navigateTo } from 'shared/router.js';
 
-export const userReferences = {
-  manageUsers: '/user/manage-users',
-  signin: '/user/signin',
-  signup: '/user/signup',
-  password: '/user/change-password',
-};
+if (storage?.token) {
+  userRequest(getState().token)
+    .then((user) => setState({ user }))
+    .catch((error) => {
+      console.error(error);
+      window.dispatchEvent(tokenEvent());
+    });
+}
 
 export const newAuthRequest = async (data) =>
   await fetcher.post(`/auth/sign-in`, data);
 
-export const userRequest = async (token) =>
-  await fetcher.get(`/user`, null, token).then((res) => {
+export async function userRequest(token) {
+  return await fetcher.get(`/user`, null, token).then((res) => {
     if (res.ok === false) return Promise.reject(res);
     return Promise.resolve(res);
   });
+}
 
 export const signupRequest = async (data) =>
   await fetcher.post(`/auth/sign-up`, data);

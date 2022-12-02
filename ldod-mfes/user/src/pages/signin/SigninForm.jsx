@@ -3,7 +3,7 @@ import exclamation from '@src/resources/icons/exclamation-circle.svg';
 import eye from '@src/resources/icons/eye-solid.svg';
 import google from '@src/resources/icons/google.svg';
 import { socialAuth } from '@src/socialAuth.js';
-import { userReferences } from '../../user';
+import { userReferences } from '../../userReferences';
 import { capitalizeFirstLetter } from '../../utils';
 
 export default ({ node }) => {

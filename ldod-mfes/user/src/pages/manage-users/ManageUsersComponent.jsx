@@ -1,10 +1,9 @@
 import style from './manageUsersStyle.css?inline';
 import 'shared/modal.js';
 import constants from './resources/constants.js';
-
 import { exportButton, uploadButton } from 'shared/buttons.js';
-import { loadAndAssignUsers } from './ManageUsers';
 import ManageUsersTable from './ManageUsersTable';
+import { getUsersList } from '../../apiRequests';
 
 exportButton();
 uploadButton();
@@ -12,6 +11,14 @@ uploadButton();
 import.meta.env.DEV
   ? await import('shared/table-dev.js')
   : await import('shared/table.js');
+
+export const loadAndAssignUsers = (node) => {
+  getUsersList().then((data) => {
+    node.toggleAttribute('data', false);
+    node.usersData = data;
+    node.toggleAttribute('data', true);
+  });
+};
 
 async function loadToolip() {
   await import('shared/tooltip.js');

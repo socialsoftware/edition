@@ -2,7 +2,7 @@ export let userReferences;
 if (typeof window === 'object') {
   await import('./store');
   await import('@src/components/UserComponent');
-  userReferences = (await import('./apiRequests')).userReferences;
+  userReferences = (await import('./userReferences')).userReferences;
 }
 let User;
 
