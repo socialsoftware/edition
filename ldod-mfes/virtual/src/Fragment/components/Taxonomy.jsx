@@ -1,4 +1,4 @@
-import { virtualReferences } from '../../virtual';
+import { virtualReferences } from '../../virtualReferences';
 
 try {
   await import('shared/table.js');

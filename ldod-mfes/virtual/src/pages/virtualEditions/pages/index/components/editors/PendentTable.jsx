@@ -1,5 +1,5 @@
 import { approveParticipant } from '@src/restrictedApiRequests';
-import { virtualReferences } from '../../../../../../virtual';
+import { virtualReferences } from '@src/virtualReferences';
 import constants from './constants';
 const isAdmin = (node) => node.edition?.member?.admin;
 

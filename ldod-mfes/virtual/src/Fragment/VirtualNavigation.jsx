@@ -1,4 +1,4 @@
-import { selectedInters } from '../virtual';
+import { selectedInters } from '../selectedInters';
 import { addInterRequest, getVirtualFragmentNavInters } from './apiRequests';
 import Navigation from './components/Navigation';
 import constants from './constants';

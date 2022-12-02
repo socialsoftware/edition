@@ -6,3 +6,4 @@ export const computeSelectPureHeight = (selectPure, delta = 80) => {
     ? `${Math.max(height, 120)}px`
     : 'auto';
 };
+export const isDev = () => import.meta.env.DEV;

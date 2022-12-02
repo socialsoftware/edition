@@ -1,4 +1,4 @@
-import { virtualReferences } from '../../virtual';
+import { virtualReferences } from '../../virtualReferences';
 
 const getTag = (acrn, urlId, name) => (
   <div>

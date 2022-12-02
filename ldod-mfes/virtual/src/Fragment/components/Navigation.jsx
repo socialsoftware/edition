@@ -1,5 +1,5 @@
 import { text } from '../../externalDeps';
-import { virtualReferences } from '../../virtual';
+import { virtualReferences } from '../../virtualReferences';
 
 export default ({ node }) => {
   return (

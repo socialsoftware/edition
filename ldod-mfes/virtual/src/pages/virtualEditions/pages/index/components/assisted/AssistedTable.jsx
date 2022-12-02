@@ -1,6 +1,6 @@
 import { setLinearVE } from '@src/restrictedApiRequests';
-import { text } from '../../../../../../externalDeps';
-import { isDev } from '../../../../../../virtualRouter';
+import { text } from '@src/externalDeps';
+import { isDev } from '@src/utils';
 
 const initialProperties = [
   { type: 'heteronym', weight: '0' },

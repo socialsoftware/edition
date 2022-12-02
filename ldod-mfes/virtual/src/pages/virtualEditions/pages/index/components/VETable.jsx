@@ -1,4 +1,4 @@
-import { virtualReferences } from '../../../../../virtual';
+import { virtualReferences } from '@src/virtualReferences';
 import CancelParticipantIcon from './editionActions/CancelParticipantIcon';
 import ManageVEIcon from './editionActions/ManageVEIcon';
 import SelectVEInput from './editionActions/SelectVEInput';

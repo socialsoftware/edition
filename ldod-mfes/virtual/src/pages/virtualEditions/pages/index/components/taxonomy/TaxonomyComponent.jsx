@@ -1,5 +1,5 @@
-import { isDev } from '@src/virtualRouter';
-import { virtualReferences } from '../../../../../../virtual';
+import { isDev } from '@src/utils';
+import { virtualReferences } from '@src/virtualReferences';
 import { DeleteButton, MergeButton } from './MergeDeleteButtons';
 import TaxonomyTable from './TaxonomyTable';
 

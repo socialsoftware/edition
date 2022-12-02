@@ -1,5 +1,5 @@
-import { text } from '../../../../../../externalDeps';
-import { virtualReferences } from '../../../../../../virtual';
+import { text } from '@src/externalDeps';
+import { virtualReferences } from '@src/virtualReferences';
 
 export default ({ node }) => {
   return (

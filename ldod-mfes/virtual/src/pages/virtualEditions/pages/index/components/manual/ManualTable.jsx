@@ -1,5 +1,5 @@
-import { text } from '../../../../../../externalDeps';
-import { isDev } from '../../../../../../virtualRouter';
+import { text } from '@src/externalDeps';
+import { isDev } from '@src/utils';
 import AddFragments from './AddFragments';
 
 let searchLoaded;
