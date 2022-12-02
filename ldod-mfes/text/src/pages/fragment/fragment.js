@@ -1,7 +1,7 @@
 import { getFragment } from '@src/apiRequests.js';
 import { LdodFragment } from './LdodFragment.jsx';
 import { getNewInter, isVirtualInter } from './utils.js';
-import { isDev } from '../../textRouter.jsx';
+import { isDev } from '@src/utils';
 
 const virtual =
   window?.mfes.includes('virtual') && isDev()

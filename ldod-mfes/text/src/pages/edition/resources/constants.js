@@ -1,4 +1,4 @@
-import { textReferences } from '@src/text';
+import { textReferences } from '@src/textReferences';
 import { virtual } from '@src/externalDeps';
 export const editions = [
   {

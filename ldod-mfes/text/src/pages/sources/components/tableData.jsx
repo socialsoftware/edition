@@ -1,4 +1,4 @@
-import { textReferences } from '@src/text';
+import { textReferences } from '@src/textReferences';
 
 let imageViewer;
 const loadPswp = async () => {

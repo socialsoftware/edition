@@ -1,4 +1,4 @@
-import { textReferences } from '../../../text.js';
+import { textReferences } from '@src/textReferences';
 import { getExpertEdition } from './expertEdition.jsx';
 import { getSourceInter } from './sourceInter.jsx';
 

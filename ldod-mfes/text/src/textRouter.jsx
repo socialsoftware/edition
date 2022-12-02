@@ -1,7 +1,6 @@
 import 'shared/router.js';
 import style from './style.css?inline';
 
-export const isDev = () => import.meta.env.DEV;
 const TEXT_SELECTOR = 'div#textContainer';
 
 const routes = {

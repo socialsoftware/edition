@@ -15,7 +15,7 @@
     "build-dev": "vite --config vite.config.dev.js build",
     "prepreview": "vite --config vite.config.dev.js build",
     "preview": "vite --config vite.config.dev.js preview",
-    "pack": "yarn build && ./scripts/pack.sh text",
+    "pack": "yarn build && sh ./scripts/pack.sh text",
     "publish-dev": "yarn run pack && ./scripts/publish.sh text text.js @./dist/text.tgz $npm_package_config_dev",
     "unpublish-dev": "./scripts/unpublish.sh text $npm_package_config_dev",
     "publish": "yarn run pack && ./scripts/publish.sh text text.js @./dist/text.tgz $npm_package_config_docker",
