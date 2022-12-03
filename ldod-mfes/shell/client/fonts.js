@@ -3,11 +3,12 @@
   const fonts = [
     {
       family: 'Work-Sans',
-      src: `url('${URL}/work-sans/WorkSans-ExtraBold.ttf') format('truetype')`,
+      src: `url('${URL}/WorkSans-VariableFont_wght.ttf') format('truetype')`,
       style: 'normal',
-      weight: 800,
-      display: 'swap',
+      weight: '200 800',
+      display: 'optional',
     },
+
     {
       family: 'Space-Mono',
       src: `url('${URL}/space-mono/SpaceMono-Bold.ttf') format('truetype')`,
@@ -36,30 +37,10 @@
       weight: 400,
       display: 'swap',
     },
-    {
-      family: 'Work-Sans',
-      src: `url('${URL}/work-sans/WorkSans-SemiBold.ttf') format('truetype')`,
-      style: 'normal',
-      weight: 600,
-      display: 'swap',
-    },
+
     {
       family: 'Space-Mono',
       src: `url('${URL}/space-mono/SpaceMono-Regular.ttf') format('truetype')`,
-      style: 'normal',
-      weight: 400,
-      display: 'swap',
-    },
-    {
-      family: 'Work-Sans',
-      src: `url('${URL}/work-sans/WorkSans-Medium.ttf') format('truetype')`,
-      style: 'normal',
-      weight: 500,
-      display: 'swap',
-    },
-    {
-      family: 'Work-Sans',
-      src: `url('${URL}/work-sans/WorkSans-Regular.ttf') format('truetype')`,
       style: 'normal',
       weight: 400,
       display: 'swap',
@@ -75,7 +56,7 @@
       font
         .load()
         .then((loaded) => document.fonts.add(loaded))
-        .catch((e) => console.log(e.message));
+        .catch((e) => console.log(e));
     });
     window.dispatchEvent(new Event('fonts-loaded'));
   };

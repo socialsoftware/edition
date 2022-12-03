@@ -140,7 +140,7 @@ export default class LdodNavbar extends HTMLElement {
 
   setAdminVisibility = (hide = !this.isAdmin()) => {
     const admin = this.shadowRoot.querySelector('li#admin[is=dropdown-menu]');
-    if (admin) admin.ariaHidden = hide;
+    if (admin) admin.setAttribute('aria-hidden', hide);
   };
 
   addSelectedVE = ({ detail: edition }) => {

@@ -1,6 +1,7 @@
 export let userReferences;
 if (typeof window === 'object') {
   await import('./store');
+  await import('./bootstrap');
   await import('@src/components/UserComponent');
   userReferences = (await import('./userReferences')).userReferences;
 }

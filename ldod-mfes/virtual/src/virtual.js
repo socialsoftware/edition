@@ -1,3 +1,4 @@
+export { virtualReferences } from './virtualReferences';
 import './selectedInters';
 
 let Virtual;

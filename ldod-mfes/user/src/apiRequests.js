@@ -1,16 +1,7 @@
 import { fetcher } from 'shared/fetcher.js';
-import { getState, setState, storage } from './store';
-import { emitMessageEvent, tokenEvent } from './utils';
+import { getState } from './store';
+import { emitMessageEvent } from './utils';
 import { navigateTo } from 'shared/router.js';
-
-if (storage?.token) {
-  userRequest(getState().token)
-    .then((user) => setState({ user }))
-    .catch((error) => {
-      console.error(error);
-      window.dispatchEvent(tokenEvent());
-    });
-}
 
 export const newAuthRequest = async (data) =>
   await fetcher.post(`/auth/sign-in`, data);

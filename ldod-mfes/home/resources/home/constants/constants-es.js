@@ -2,6 +2,7 @@ export default {
   about:
     'El Archivo LdoD es un archivo digital colaborativo del Libro del desasosiego de Fernando Pessoa. Contiene imágenes de los documentos originales, nuevas transcripciones de estos documentos y transcripciones de cuatro ediciones de la obra. Además de la lectura y la comparación de las transcripciones, el Archivo LdoD permite a los usuarios colaborar en la creación de ediciones virtuales del Libro del desasosiego.',
   info: html`<img
+      loading="lazy"
       class="hidden-xs"
       src=${new URL(
         import.meta.url.includes('resources')
@@ -13,6 +14,7 @@ export default {
       alt="logos"
     />
     <img
+      loading="lazy"
       class="visible-xs-inline"
       src=${new URL(
         import.meta.url.includes('resources')

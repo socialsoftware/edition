@@ -56,6 +56,7 @@ const boxGroup = (module, path, index, version, language) => {
     <a is="nav-to" to="${path}">
       <div class="div-link">
         <img
+          loading="lazy"
           id="${module}"
           version=${version}
           key="${key}"
@@ -64,6 +65,7 @@ const boxGroup = (module, path, index, version, language) => {
           alt="${module}"
         />
         <img
+          loading="lazy"
           id="${module}"
           version=${version}
           key="${key}"

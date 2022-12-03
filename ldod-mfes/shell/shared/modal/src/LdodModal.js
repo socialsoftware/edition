@@ -71,8 +71,7 @@ export class LdodModal extends HTMLElement {
       document.body.classList.toggle('modal-open');
       this.show && this.setPageOverflow();
     }
-
-    modal.ariaHidden = !this.show;
+    modal.setAttribute('aria-hidden', !this.show);
     !this.show && this.onClose();
   };
 

@@ -1,6 +1,6 @@
 #! /bin/sh
 
-dirs="popper store utils router vanilla-jsx fetcher modal tooltip table buttons bootstrap"
+dirs="popper store utils router vanilla-jsx fetcher modal tooltip table buttons"
 
 rm -r dist
 

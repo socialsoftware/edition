@@ -20,20 +20,12 @@ const fetchRequest = async (url, options) => {
   try {
     const res = await fetch(url, options);
     handleLoading(false);
-    if (res.status === 401) {
-      handleLogout();
-      return Promise.reject({ message: 'unauthorized' });
-    }
-    if (res.status === 403 || res.status === 404) {
-      handleError(res.message || 'Not authorized to access this resource');
-      return Promise.reject();
-    }
-
-    if (!res.ok) return Promise.reject();
-
-    return await res.json();
+    if (res.ok) return await res.json();
+    if (res.status === 401) handleLogout();
+    handleError(res.message || 'Not authorized to access this resource');
+    return Promise.reject();
   } catch (error) {
-    console.error('FETCH ERROR: ', error);
+    console.error('FETCH ERROR: ', error.stack);
     handleLoading(false);
     handleError('Something went wrong');
   }

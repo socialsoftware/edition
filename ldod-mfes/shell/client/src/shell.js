@@ -3,6 +3,10 @@ import './eventListeners.js';
 import './components/loading/LdodLoading.js';
 import NotFound from './components/not-found/NotFound.js';
 
+/**
+ *
+ * @returns {String}
+ */
 const getLanguage = () => store.getState().language;
 
 const modules = JSON.parse(
@@ -37,9 +41,14 @@ const routes = await Object.keys(modules).reduce(async (prev, mfeName) => {
 router.routes = routes;
 document.getElementById('root').append(router);
 
-const updateLanguage = (newV, oldV) => {
-  if (newV.language !== oldV.language) {
-    router.language = newV.language;
+/**
+ *
+ * @param {string} newState
+ * @param {string} currentState
+ */
+const updateLanguage = (newState, currentState) => {
+  if (newState.language !== currentState.language) {
+    router.language = newState.language;
   }
 };
 const unsub = store.subscribe(updateLanguage);

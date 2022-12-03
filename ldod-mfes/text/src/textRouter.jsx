@@ -1,5 +1,6 @@
 import 'shared/router.js';
 import style from './style.css?inline';
+import { isDev } from './utils';
 
 const TEXT_SELECTOR = 'div#textContainer';
 

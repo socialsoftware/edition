@@ -1,7 +1,0 @@
-node_modules
-dist
-build
-nodemon.json
-server/static
-server/importmap.json
-server/mfes.json
