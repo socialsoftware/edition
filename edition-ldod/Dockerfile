@@ -1,6 +1,5 @@
 # Multistage dockerfile to take advantage of caching
 FROM maven:3.6.3-jdk-11-slim as DEPS
-
 WORKDIR /opt
 COPY pom.xml /opt
 RUN mvn dependency:go-offline

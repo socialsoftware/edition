@@ -42,10 +42,9 @@ services:
       - /opt/ldod/social/aware/:/opt/ldod/social/aware/
 
   ldod-mfes-server:
-    build: ./ldod-mfes
+    build: ./ldod-mfes/shell
     restart: on-failure
-    command: npm run docker --prefix shell && sh scripts/publish-all.sh
+    command: yarn docker
     network_mode: host
-
 volumes:
   my-db:

@@ -34,9 +34,9 @@ Replace PATH according the environment
 docker-compose up --build
 ```
 
-### Publish or Unpublish one MFE at a time
+### Publish or Unpublish MFEs
 
-By default all MFEs will be published. To publish or unpublish MFEs, use the following commands inside the ldod-mfes directory:
+To publish or unpublish MFEs, use the following commands inside the ldod-mfes directory:
 
 ```sh
 yarn run publish --prefix <mfe directory name> #yarn run publish --prefix about

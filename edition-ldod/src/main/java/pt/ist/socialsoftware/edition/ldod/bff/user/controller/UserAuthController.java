@@ -38,7 +38,7 @@ public class UserAuthController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(userAuthService.authenticationService(signinRequestDto));
         } catch (AuthenticationException e) {
-            return getResponse(HttpStatus.UNAUTHORIZED, false, e.getMessage());
+            return getResponse(HttpStatus.UNAUTHORIZED, false, Message.BAD_CREDENTIALS.getLabel());
         }
     }
 
@@ -51,7 +51,7 @@ public class UserAuthController {
                     .status(HttpStatus.OK)
                     .body(userAuthService.googleAuthenticationService(tokenDto));
         } catch (TokenVerifier.VerificationException | IllegalArgumentException | UsernameNotFoundException e) {
-            return getResponse(HttpStatus.UNAUTHORIZED, false, e.getMessage());
+            return getResponse(HttpStatus.UNAUTHORIZED, false, Message.BAD_CREDENTIALS.getLabel());
         }
     }
 
