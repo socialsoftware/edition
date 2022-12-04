@@ -9,6 +9,7 @@
     "dev": "http://localhost:9000/ldod-mfes"
   },
   "scripts": {
+    "astro:build": "astro build",
     "build": "if [ -d build ]; then rm -r build;fi &&  rollup -c && cp -r resources build",
     "start": "node ./scripts/process.js $npm_package_config_dev && serve -C -l 3001",
     "pack": "yarn build && sh scripts/pack.sh home",
@@ -24,9 +25,9 @@
     "node-html-parser": "^5.3.3",
     "rollup": "^2.75.6",
     "rollup-plugin-import-assert": "^2.1.0",
+    "rollup-plugin-sourcemaps": "^0.6.3",
     "rollup-plugin-terser": "^7.0.2",
-    "serve": "^14.0.1",
-    "rollup-plugin-sourcemaps": "^0.6.3"
+    "serve": "^14.0.1"
   },
   "dependencies": {
     "shared": "file:../shell/shared"

@@ -55,3 +55,12 @@ yarn run unpublish --prefix <mfe directory name> #yarn run unpublish --prefix vi
 - The mfes ldod version is served on `http://localhost:8080/ldod-mfes`
 
 - The edition-ldod original version is served on `http://localhost:8080`
+
+### Browser compatibility
+
+- IE not supported
+- Chrome version 89 or higher
+- Firefox version 108 or higher
+- Safari to be tested
+- Opera version 76 or higher
+- Edge version 89 or higher

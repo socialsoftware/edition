@@ -61,8 +61,8 @@ export default class LdodRouter extends HTMLElement {
     isSlash(this.routerPathname)
       ? pathname
       : addEndSlash(pathname)
-          .replace(`${this.routerPathname}/`, '/')
-          .replace(/\/\/+/g, '/');
+        .replace(`${this.routerPathname}/`, '/')
+        .replace(/\/\/+/g, '/');
 
   isPathActive = (path) => {
     if (!this.active) return false;
@@ -154,16 +154,16 @@ export default class LdodRouter extends HTMLElement {
       this.location === this.routerPathname
         ? this.index
         : Object.entries(this.routes)
-            .filter(([path, api]) => this.isARouteMatch(path) && api)
-            .sort(([pathA], [pathB]) => {
-              const locationLength = this.location.split('/').length;
-              const pathAlength = pathA?.split('/').length;
-              const pathBlength = pathB?.split('/').length;
-              return (
-                +(pathBlength === locationLength) -
-                +(pathAlength === locationLength)
-              );
-            })[0]?.[1];
+          .filter(([path, api]) => this.isARouteMatch(path) && api)
+          .sort(([pathA], [pathB]) => {
+            const locationLength = this.location.split('/').length;
+            const pathAlength = pathA?.split('/').length;
+            const pathBlength = pathB?.split('/').length;
+            return (
+              +(pathBlength === locationLength) -
+              +(pathAlength === locationLength)
+            );
+          })[0]?.[1];
     if (!targetPath) targetPath = this.fallback;
     if (typeof targetPath === 'function') {
       this.processPathVariables(targetPath);
