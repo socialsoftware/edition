@@ -1,5 +1,6 @@
 export { virtualReferences } from './virtualReferences';
 import './selectedInters';
+import { virtualReferences } from './virtualReferences';
 
 let Virtual;
 
@@ -14,7 +15,7 @@ export const loadVirtualComponents = async () => {
 
 export default {
   path: '/virtual',
-
+  references: virtualReferences,
   mount: async (lang, ref) => {
     if (!Virtual) await loadVirtual();
     await Virtual.mount(lang, ref);

@@ -1,3 +1,5 @@
+import references from './references';
+
 let Search;
 
 const loadSearch = async () => {
@@ -8,14 +10,11 @@ export const loadSearchService = async (options) => {
   await import('./pages/search-simple/LdodSearchSimple');
 };
 
-export const searchReferences = {
-  simple: '/search/simple',
-  advanced: '/search/advanced',
-};
+
 
 export default {
   path: '/search',
-
+  references,
   mount: async (lang, ref) => {
     if (!Search) await loadSearch();
     await Search.mount(lang, ref);

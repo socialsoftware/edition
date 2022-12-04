@@ -13,41 +13,42 @@
             font-size: 15px;
             line-height: 1.5;
         }
-        
+
         body {
             margin: 0;
             padding-top: 190px;
         }
-        
+
         .container {
             padding-right: 15px;
             padding-left: 15px;
             margin-right: auto;
             margin-left: auto;
         }
-        
+
         @media (max-width: 767px) {
             body {
                 padding-top: 100px;
             }
         }
-        
+
         @media (min-width: 768px) {
             .container {
                 width: 720px;
             }
         }
-        
+
         @media (min-width: 992px) {
             .container {
                 width: 940px;
             }
         }
-        
+
         @media (min-width: 1200px) {
             .container {
                 width: 1140px;
             }
+
             body {
                 padding-top: 150px;
             }
@@ -56,6 +57,7 @@
     <script id="importmap" type="importmap">
         { "imports": { "shared/":"/node_modules/shared/dist/" } }
     </script>
+    <script src="/ldod-mfes/references.js"></script>
     <title>LdoD Shell MFE</title>
 </head>
 
@@ -71,8 +73,8 @@
     <ldod-navbar token="false"></ldod-navbar>
     <ldod-loading id="shell-loading"></ldod-loading>
     <div id="root"></div>
-     <script type="module" src="/ldod-mfes/shell.js"></script> 
-   <script src="/ldod-mfes/fonts.js" defer async>
+    <script type="module" src="/ldod-mfes/shell.js"></script>
+    <script src="/ldod-mfes/fonts.js" defer async>
     </script>
 </body>
 

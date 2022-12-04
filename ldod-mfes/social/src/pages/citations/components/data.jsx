@@ -1,4 +1,4 @@
-import { text } from '../../../externalDeps';
+import { textReferences } from '../../../externalDeps';
 
 const getStringDate = (value) => (value < 10 ? `0${value}` : value);
 
@@ -12,7 +12,7 @@ export const getTableData = (citations) => {
         row.formattedDate[3]
       )}:${getStringDate(row.formattedDate[4])}`,
       fragment: (
-        <a is="nav-to" to={text.fragment?.(row.xmlId)}>
+        <a is="nav-to" to={textReferences.fragment?.(row.xmlId)}>
           {row.title}
         </a>
       ),

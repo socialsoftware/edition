@@ -4,8 +4,8 @@ import { dom } from 'shared/utils.js';
 import { navigateTo } from 'shared/router.js';
 import { readingStore } from '../../store';
 import RecommendationModal from '../components/recommendation-modal/RecommendationModal';
-import { readingReferences } from '../../reading';
-import { text } from '../../externalDeps';
+import readingReferences from '../../references';
+import { textReferences } from '../../externalDeps';
 
 const loadPopper = () =>
   import.meta.env.DEV
@@ -116,7 +116,7 @@ export class LdodReadingEdition extends HTMLElement {
                       {window.mfes?.includes('text') ? (
                         <a
                           is="nav-to"
-                          to={text.fragmentInter?.(
+                          to={textReferences.fragmentInter?.(
                             edition.xmlId,
                             edition.urlId
                           )}>

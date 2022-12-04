@@ -1,4 +1,4 @@
-import { textReferences } from '@src/textReferences';
+import textReferences from '@src/references';
 
 export default ({ colsWidth, data, tbWidth, author }) => {
   return (

@@ -1,6 +1,6 @@
 import { excerpts } from '../../../resources/home/constants/excerpts.js';
 import { parseHTML } from 'shared/utils.js';
-import { text, reading, search, virtual } from '../../externalDeps.js';
+import { textReferences, readingReferences, searchReferences, virtualReferences } from '../../externalDeps.js';
 
 const random = parseInt(Math.random() * 2) + 1;
 const path = import.meta.url.includes('src') ? '../../../' : '';
@@ -23,29 +23,29 @@ export const boxUrlH = (version, key, lang) =>
 const excerpt = excerpts[parseInt(Math.random() * excerpts.length)];
 
 const boxes = [
-  reading && {
+  readingReferences && {
     mod: 'reading',
-    path: reading.index,
+    path: readingReferences.index(),
     index: 1,
   },
-  text && {
+  textReferences && {
     mod: 'documents',
-    path: text.fragments,
+    path: textReferences?.fragments(),
     index: 2,
   },
-  text && {
+  textReferences && {
     mod: 'editions',
-    path: text.editions,
+    path: textReferences?.editions(),
     index: 3,
   },
-  search && {
+  searchReferences && {
     mod: 'search',
-    path: search?.simple,
+    path: references?.search.simple(),
     index: 4,
   },
-  virtual && {
+  virtualReferences && {
     mod: 'virtual',
-    path: virtual?.virtualEditions,
+    path: virtualReferences?.virtualEditions,
     index: 5,
   },
 ].filter(Boolean);
@@ -85,7 +85,7 @@ export default (language, constants) => {
       <div class="container ldod-default">
         <a
           is="nav-to"
-          to="${reading.editionInterPath?.(xmlId, urlId)}"
+          to="${readingReferences.editionInterPath?.(xmlId, urlId)}"
           class="home-frag-link"
         >
           <div class="raw col-xs-12 frag-excerpt">
@@ -104,13 +104,13 @@ export default (language, constants) => {
         <hr class="line-x" style="background: url(${getUrl()})  repeat-x 0 0" />
         <div class="menu-boxes hidden-xs col-xs-12">
           ${boxes.reduce((prev, { mod, path, index }) => {
-            return prev.concat(boxGroup(mod, path, index, 'D', language));
-          }, '')}
+    return prev.concat(boxGroup(mod, path, index, 'D', language));
+  }, '')}
         </div>
         <div class="menu-boxes visible-xs-inline col-xs-12">
           ${boxes.reduce((prev, { mod, path, index }) => {
-            return prev.concat(boxGroup(mod, path, index, 'M', language));
-          }, '')}
+    return prev.concat(boxGroup(mod, path, index, 'M', language));
+  }, '')}
         </div>
       </div>
       <home-info language=${language} class="language"></home-info>

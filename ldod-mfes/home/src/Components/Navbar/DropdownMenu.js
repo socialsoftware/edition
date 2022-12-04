@@ -1,5 +1,5 @@
 import { parseHTML } from 'shared/utils.js';
-import { virtual } from '../../externalDeps.js';
+import { virtualReferences } from '../../externalDeps.js';
 
 class DropdownMenu extends HTMLLIElement {
   static get observedAttributes() {
@@ -32,24 +32,24 @@ class DropdownMenu extends HTMLLIElement {
       <ul class="dropdown-menu">
         <div class="dropdown-menu-bg"></div>
         ${this.items?.reduce(
-          (prev, { id, route, link, name, clazz, selected }) =>
-            prev.concat(html`
+      (prev, { id, route, link, name, clazz, selected }) =>
+        prev.concat(html`
               <li
                 ${clazz ? `class=${clazz}` : ''}
                 ${selected ? 'default-selected' : ''}
               >
                 ${route
-                  ? `<a is="nav-to" to=${route} id=${id ?? ''}
+            ? `<a is="nav-to" to=${route} id=${id ?? ''}
                       >${name ?? ''}</a
                     >`
-                  : ''}
+            : ''}
                 ${link
-                  ? html`<a href=${link} target="_blank" id=${id}>${name}</a>`
-                  : ''}
+            ? html`<a href=${link} target="_blank" id=${id}>${name}</a>`
+            : ''}
               </li>
             `),
-          ''
-        )}
+      ''
+    )}
       </ul>
     `;
   }
@@ -61,7 +61,7 @@ class DropdownMenu extends HTMLLIElement {
           <li selected>
             <a
               is="nav-to"
-              to="${virtual.virtualEdition?.(edition) || ''}"
+              to="${virtualReferences.virtualEdition?.(edition) || ''}"
               id=${edition.toLowerCase()}
               >${edition}</a
             >

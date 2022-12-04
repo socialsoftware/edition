@@ -1,10 +1,5 @@
+import references from './references';
 let Reading;
-
-export const readingReferences = {
-  index: '/reading',
-  editionInterPath: (xmlId, urlId) =>
-    `/reading/fragment/${xmlId}/inter/${urlId}`,
-};
 
 const loadReading = async () => {
   Reading = await import('./readingRouter');
@@ -12,6 +7,7 @@ const loadReading = async () => {
 
 export default {
   path: '/reading',
+  references,
   mount: async (lang, ref) => {
     if (!Reading) await loadReading();
     await Reading.mount(lang, ref);

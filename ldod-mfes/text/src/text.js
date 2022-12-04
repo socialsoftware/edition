@@ -1,5 +1,4 @@
-export { textReferences } from './textReferences';
-
+import textReferences from './references';
 let Text;
 
 const loadText = async () => {
@@ -8,6 +7,7 @@ const loadText = async () => {
 
 export default {
   path: '/text',
+  references: textReferences,
   mount: async (lang, ref) => {
     if (!Text) await loadText();
     await Text.mount(lang, ref);

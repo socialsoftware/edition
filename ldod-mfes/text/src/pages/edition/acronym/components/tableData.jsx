@@ -1,5 +1,5 @@
 import { reading } from '@src/externalDeps';
-import { textReferences } from '@src/textReferences';
+import textReferences from '@src/references';
 
 export const getTableData = (node) => {
   return node.data?.map((frag) => {

@@ -7,7 +7,7 @@ export const checkUserCompCompliance = async () => {
   let isCompliant;
   await import('user').then(() => {
     let userComponent = customElements.get('user-component');
-    let userComponentElement = new userComponent();
+    let userComponentElement = userComponent && new userComponent();
     isCompliant = userComponentElement instanceof HTMLLIElement;
   });
   return isCompliant;

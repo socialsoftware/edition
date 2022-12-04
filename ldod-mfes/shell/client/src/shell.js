@@ -1,3 +1,4 @@
+import 'shared/router.js';
 import { store } from './store.js';
 import './eventListeners.js';
 import './components/loading/LdodLoading.js';

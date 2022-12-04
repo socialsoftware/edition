@@ -2,7 +2,7 @@ import constants from '../../constants';
 import RecommendationModal from '../components/recommendation-modal/RecommendationModal';
 import style from '../style.css?inline';
 import { navigateTo } from 'shared/router.js';
-import { readingReferences } from '../../reading';
+import readingReferences from '../../references';
 
 const loadPopper = () =>
   import.meta.env.DEV

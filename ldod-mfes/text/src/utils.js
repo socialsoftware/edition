@@ -1,4 +1,4 @@
-import { textReferences } from './textReferences';
+import textReferences from './references';
 export const isDev = () => import.meta.env.DEV;
 
 export function dispatchCustomEvent(

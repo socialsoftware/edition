@@ -1,15 +1,11 @@
-import { isMFEAvailable } from './utils';
 
-const onError = (e) => console.error(e);
 
-const loader = async (mfeName) =>
-  isMFEAvailable(mfeName) &&
-  (await import(mfeName).catch(onError))[`${mfeName}References`];
-
-export const reading = await loader('reading');
-export const text = await loader('text');
-export const search = await loader('search');
-export const virtual = await loader('virtual');
-export const about = await loader('about');
-export const social = await loader('social');
-export const user = await loader('user');
+console.time("import");
+export const textReferences = window?.references?.text;
+export const readingReferences = window?.references?.reading;
+export const searchReferences = window?.references?.search;
+export const virtualReferences = window?.references?.virtual;
+export const aboutReferences = window?.references?.about;
+export const socialReferences = window?.references?.social;
+export const userReferences = window?.references?.user;
+console.timeEnd("import");

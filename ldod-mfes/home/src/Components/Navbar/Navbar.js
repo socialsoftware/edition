@@ -4,6 +4,7 @@ import style from '../../../style/navbar.css' assert { type: 'css' };
 import './DropdownMenu.js';
 import './LangMenu.js';
 import { checkUserCompCompliance, isMFEAvailable } from '../../utils.js';
+
 const isUserCompCompliant = async () =>
   isMFEAvailable('user') && (await checkUserCompCompliance());
 
@@ -196,14 +197,14 @@ export default class LdodNavbar extends HTMLElement {
                 </a>
                 <ul class="nav navbar-nav user-component hidden-xs">
                   ${(await isUserCompCompliant())
-                    ? html`
+          ? html`
                         <li
                           class="dropdown"
                           is="user-component"
                           language=${this.language}
                         ></li>
                       `
-                    : ''}
+          : ''}
                 </ul>
               </div>
             </div>
@@ -212,12 +213,12 @@ export default class LdodNavbar extends HTMLElement {
             <div class="navbar-collapse collapse" aria-expanded="false">
               <ul class="nav navbar-nav navbar-nav-flex">
                 ${(await isUserCompCompliant())
-                  ? html` <li
+          ? html` <li
                       class="dropdown visible-xs"
                       is="user-component"
                       language=${this.language}
                     ></li>`
-                  : ''}
+          : ''}
                 <li is="lang-menu" language=${this.language}></li>
               </ul>
             </div>

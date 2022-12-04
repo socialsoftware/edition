@@ -15,7 +15,7 @@ const mount = async (lang, ref) => {
       console.error(error);
       error && emitMessageEvent(error.message, 'error');
     });
-  navigateTo(userReferences.signin);
+  navigateTo(userReferences.signin());
 };
 const unMount = () => console.info('unmount');
 

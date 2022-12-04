@@ -99,7 +99,7 @@ export class SignUp extends HTMLElement {
     }
   }
 
-  disconnectedCallback() {}
+  disconnectedCallback() { }
 
   setConstants = async () =>
     (this.constants = await loadConstants(this.language));
@@ -132,7 +132,7 @@ export class SignUp extends HTMLElement {
           if (res.ok) {
             this.dispatchEvent(messageEvent(this.getConstants(res.message)));
             this.clearDataInputs();
-            return navigateTo(userReferences.signin);
+            return navigateTo(userReferences.signin());
           }
           this.dispatchEvent(errorEvent(this.getConstants(res.message)));
         })

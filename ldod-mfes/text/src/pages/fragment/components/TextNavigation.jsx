@@ -1,4 +1,4 @@
-import { textReferences } from '@src/textReferences';
+import textReferences from '@src/references';
 import TextNavigationTable from './TextNavigationTable';
 window.html = String.raw;
 

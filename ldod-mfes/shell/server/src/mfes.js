@@ -16,6 +16,7 @@ const saveMfes = (mfes) => {
 };
 
 export const addToMfes = async (name) => {
+
   let mfes = new Set(loadMfes());
   name && mfes.add(name);
   saveAndUpdateHTML(JSON.stringify(Array.from(mfes).filter(Boolean)));
@@ -30,6 +31,7 @@ export const removeFromMfes = (name) => {
 function saveAndUpdateHTML(mfes) {
   saveMfes(mfes);
   updateMfes(mfes);
+  global.globalMfes = mfes;
 }
 
 const updateMfes = (mfes) => {

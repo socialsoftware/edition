@@ -3,6 +3,7 @@ import { addToImportmaps, removeFromImportmaps } from './importmaps.js';
 import { addToMfes, removeFromMfes } from './mfes.js';
 import { gamePath, staticPath, visualPath } from './constants.js';
 import { isMainThread, Worker } from 'worker_threads';
+import { processReferences } from './mfesReferences.js';
 
 const sendIndex = (req, res) => res.send(getIndexHtml());
 
@@ -41,7 +42,7 @@ const publishMFE = async (req, res) => {
         name !== entry ? `/${process.env.BASE}/${id}/${entry}` : `/${entry}`,
     });
   await addToMfes(id);
-
+  global.globalReferences = await processReferences();
   return res.sendStatus(200);
 };
 const unPublishMFE = async (req, res) => {
@@ -49,6 +50,7 @@ const unPublishMFE = async (req, res) => {
   removeStaticAssets({ name: id });
   removeFromImportmaps({ name });
   removeFromMfes(id);
+  await processReferences();
   return res.sendStatus(200);
 };
 

@@ -1,4 +1,4 @@
-import { textReferences } from '@src/textReferences';
+import textReferences from '@src/references';
 
 let imageViewer;
 const loadPswp = async () => {
@@ -58,13 +58,13 @@ export const getTableData = (node) => {
         dimensions:
           isManuscript(source.sourceType) && source.dimensionList?.length
             ? source.dimensionList?.map((dim) => {
-                return (
-                  <>
-                    {dim}
-                    <br />
-                  </>
-                );
-              })
+              return (
+                <>
+                  {dim}
+                  <br />
+                </>
+              );
+            })
             : '',
         fac: source.surfaceList?.length ? (
           <div

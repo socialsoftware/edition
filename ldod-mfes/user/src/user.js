@@ -1,11 +1,12 @@
-export let userReferences;
+import { userReferences } from './userReferences';
+let User;
+
 if (typeof window === 'object') {
   await import('./store');
   await import('./bootstrap');
   await import('@src/components/UserComponent');
-  userReferences = (await import('./userReferences')).userReferences;
 }
-let User;
+
 
 const loadUser = async () => {
   if (User) return;
@@ -14,6 +15,7 @@ const loadUser = async () => {
 
 export default {
   path: '/user',
+  references: userReferences,
   mount: async (lang, ref) => {
     await loadUser();
     await User.mount(lang, ref);

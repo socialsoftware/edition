@@ -86,7 +86,7 @@ export default ({ node }) => {
         </div>
       </div>
       <div class="row">
-        <a data-key="signup" is="nav-to" to={userReferences.signup}>
+        <a data-key="signup" is="nav-to" to={userReferences.signup()}>
           {node.getConstants('signup') ?? ''}
         </a>
       </div>
