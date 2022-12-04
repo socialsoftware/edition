@@ -1,10 +1,6 @@
 import 'shared/router.js';
 import style from './style.css?inline';
-import { isDev, sleep } from './utils.js';
-
-const ABOUT_SELECTOR = 'div#aboutContainer';
-const getContainer = () => document.querySelector(ABOUT_SELECTOR);
-const getHomeInfo = () => getContainer()?.querySelector('home-info');
+import { isDev, sleep, getContainer } from './utils.js';
 
 const routes = {
   '/archive': async () => await import(`./pages/archive/archive.jsx`),
@@ -30,13 +26,6 @@ export const unMount = async () => {
   getContainer()?.remove();
 };
 
-export const showHomeInfo = () => {
-  sleep(10).then(() => (getHomeInfo().hidden = false));
-};
-
-export const hideHomeInfo = () => {
-  getHomeInfo() && (getHomeInfo().hidden = true);
-};
 
 export const AboutRouter = ({ language }) => {
   return (

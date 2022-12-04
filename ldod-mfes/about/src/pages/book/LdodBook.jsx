@@ -1,5 +1,4 @@
-import { hideHomeInfo, showHomeInfo } from '../../aboutRouter';
-
+import { hideHomeInfo, showHomeInfo } from '@src/homeInfo';
 import image from './LiterarySimulation_BookCover.webp';
 
 const loadComponent = async (lang) =>

@@ -1,5 +1,4 @@
-import { hideHomeInfo, showHomeInfo } from '../../aboutRouter';
-
+import { hideHomeInfo, showHomeInfo } from '@src/homeInfo';
 const title = {
   en: 'Contact Us',
   es: 'Contacto',

@@ -1,5 +1,4 @@
-import { hideHomeInfo, showHomeInfo } from '../../aboutRouter';
-
+import { hideHomeInfo, showHomeInfo } from '@src/homeInfo';
 const loadComponent = async (lang) =>
   (await import(`./components/Team-${lang}.jsx`)).default();
 
