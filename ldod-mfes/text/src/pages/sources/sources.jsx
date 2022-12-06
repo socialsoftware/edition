@@ -1,16 +1,13 @@
-import { useState } from 'shared/utils.js';
-import { getInterSources } from '@src/apiRequests.js';
+import { dataProxy } from '../../apiRequests.js';
 import './LdodSources.jsx';
 
-export const [getSources, setSources] = useState();
 
 const mount = async (lang, ref) => {
-  document
+
+  const ldodInterSources = document
     .querySelector(ref)
     .appendChild(<ldod-sources language={lang}></ldod-sources>);
-  const ldodInterSources = document.querySelector(`${ref}>ldod-sources`);
-  if (!getSources()) setSources(await getInterSources());
-  ldodInterSources.interSources = getSources();
+  ldodInterSources.interSources = await dataProxy.sources;
   ldodInterSources.toggleAttribute('data', true);
 };
 

@@ -1,5 +1,5 @@
-import { textReferences } from '../../../externalDeps';
-import InfoRangesTable from './InfoRangesTable';
+import { textReferences } from '../../../external-deps';
+import InfoRangesTable from './info-ranges-table';
 
 export const getTableData = (citations) => {
   const infoRangesHeaders = [

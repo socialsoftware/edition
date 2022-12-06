@@ -1,9 +1,8 @@
 import style from '../style.css?inline';
-import UploadComponent from './UploadComponent.js';
-import { xmlFileFetcher } from '@dist/fetcher.js';
-import { parseHTML } from '@dist/utils.js';
+import UploadComponent from './ldod-upload.js';
+import { xmlFileFetcher } from 'shared/fetcher.js';
+import { parseHTML } from 'shared/utils.js';
 import { dispatchCustomEvent } from '../utils';
-window.html = String.raw;
 
 export class LdodUpload extends HTMLElement {
   constructor() {
@@ -96,7 +95,7 @@ export class LdodUpload extends HTMLElement {
     },
   };
 
-  disconnectedCallback() {}
+  disconnectedCallback() { }
 }
 !customElements.get('ldod-upload') &&
   customElements.define('ldod-upload', LdodUpload);

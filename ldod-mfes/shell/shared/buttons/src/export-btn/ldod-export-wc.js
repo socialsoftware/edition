@@ -1,9 +1,8 @@
 import style from '../style.css?inline';
-import ExportComponent from './ExportComponent.js';
-import { xmlFileFetcher } from '@dist/fetcher.js';
-import { parseHTML } from '@dist/utils.js';
+import ExportComponent from './ldod-export.js';
+import { xmlFileFetcher } from 'shared/fetcher.js';
+import { parseHTML } from 'shared/utils.js';
 import { dispatchCustomEvent } from '../utils';
-window.html = String.raw;
 
 function base64ToBuffer(data) {
   return new Uint8Array(
@@ -84,9 +83,8 @@ export class LdodExport extends HTMLElement {
 
     const a = document.createElement('a');
     a.href = window.URL.createObjectURL(blob);
-    a.download = `${this.filePrefix}-${new Date().getFullYear()}-${
-      new Date().getMonth() + 1
-    }-${new Date().getDate()}.${this.fileType || 'xml'}`;
+    a.download = `${this.filePrefix}-${new Date().getFullYear()}-${new Date().getMonth() + 1
+      }-${new Date().getDate()}.${this.fileType || 'xml'}`;
     a.click();
   };
 
@@ -102,7 +100,7 @@ export class LdodExport extends HTMLElement {
     },
   };
 
-  disconnectedCallback() {}
+  disconnectedCallback() { }
 }
 !customElements.get('ldod-export') &&
   customElements.define('ldod-export', LdodExport);

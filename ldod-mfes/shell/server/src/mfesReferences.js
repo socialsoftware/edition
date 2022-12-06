@@ -1,9 +1,10 @@
 import { staticPath } from "./constants.js";
 import fs from "fs"
+import { loadMfes } from "./mfes.js";
 
 export async function processReferences() {
-  let mfes = global.globalMfes;
-  const references = await JSON.parse(mfes).reduce(async (refs, mfe) => {
+  let mfes = loadMfes();
+  const references = await mfes.reduce(async (refs, mfe) => {
     let result = await refs;
     const entryPoint = `${staticPath}/${mfe}/${mfe}.js`;
     const api = (await import(entryPoint).catch(e => { }))
@@ -29,5 +30,5 @@ export async function processReferences() {
         }
       }`)
 
-  return await references;
+  global.globalReferences = await references;
 }

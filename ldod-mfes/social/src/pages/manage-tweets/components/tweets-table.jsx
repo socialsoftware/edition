@@ -1,5 +1,4 @@
-import InfoRangesTable from './InfoRangesTable.jsx';
-import { getTableData } from './tableData.jsx';
+import { getTableData } from './table-data.jsx';
 
 export default ({ node, tableInfo, constants }) => {
   return (

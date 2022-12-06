@@ -1,5 +1,5 @@
-import { parseHTML } from '@dist/utils.js';
-window.html = String.raw;
+import { parseHTML } from 'shared/utils.js';
+import { html } from '../utils';
 
 export default ({ node, isMultiple }) => {
   const form = parseHTML(html`

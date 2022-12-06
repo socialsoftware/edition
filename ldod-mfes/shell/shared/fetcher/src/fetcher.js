@@ -1,18 +1,13 @@
 import { getPartialStorage } from '../../store/store.js';
+import { errorEvent, logoutEvent, loadingEvent } from 'shared/ldod-events.js';
+import { navigateTo } from "shared/router.js"
 
 const HOST = window.process?.apiHost || 'http://localhost:8000/api';
 
-const customEvent = (type, detail) => new CustomEvent(type, { detail });
-const dispatchCustomEvent = (event) => window.dispatchEvent(event);
+const handleLoading = (isLoading) => window.dispatchEvent(loadingEvent(isLoading));
+const handleLogout = (token) => window.dispatchEvent(logoutEvent(token))
+const handleError = (message) => window.dispatchEvent(errorEvent(message))
 
-const handleLoading = (isLoading) =>
-  dispatchCustomEvent(customEvent('ldod-loading', { isLoading }));
-
-const handleLogout = (token) =>
-  dispatchCustomEvent(customEvent('ldod-logout', { token }));
-
-const handleError = (message) =>
-  dispatchCustomEvent(customEvent('ldod-error', { message }));
 
 const getStorageToken = () => getPartialStorage('ldod-store', ['token'])?.token;
 
@@ -28,6 +23,7 @@ const fetchRequest = async (url, options) => {
     console.error('FETCH ERROR: ', error.stack);
     handleLoading(false);
     handleError('Something went wrong');
+    navigateTo("/");
   }
 };
 

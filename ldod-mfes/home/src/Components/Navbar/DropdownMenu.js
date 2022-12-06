@@ -61,7 +61,7 @@ class DropdownMenu extends HTMLLIElement {
           <li selected>
             <a
               is="nav-to"
-              to="${virtualReferences.virtualEdition?.(edition) || ''}"
+              to="${virtualReferences?.virtualEdition?.(edition) || ''}"
               id=${edition.toLowerCase()}
               >${edition}</a
             >

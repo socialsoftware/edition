@@ -3,21 +3,34 @@ import { fetcher } from 'shared/fetcher.js';
 const PATH = '/text';
 const ADMIN_PATH = '/text/admin';
 
-export const getInterSources = async () =>
-  await fetcher.get(`${PATH}/sources`, null);
+export const API = {
+  fragments: async () => await fetcher.get(`${PATH}/fragments`, null),
+  sources: async () => await fetcher.get(`${PATH}/sources`, null),
+  adminFragments: async () => await fetcher.get(`${ADMIN_PATH}/fragments`, null),
+};
+const data = {};
 
-export const getFragments = async () =>
-  await fetcher.get(`${PATH}/fragments`, null);
+const handler = {
 
-export const getAdminFragments = async () =>
-  await fetcher.get(`${ADMIN_PATH}/fragments`, null);
+  get: async (target, prop) => {
+    if (prop === 'reset') {
+      return Reflect.ownKeys(target).forEach((key) => delete target[key]);
+    }
+    if (!target[prop]) target[prop] = await API[prop]();
+    return target[prop];
+  },
+};
+export const dataProxy = new Proxy(data, handler);
 
-export const removeFragmentById = async (id) =>
-  await fetcher.post(`${ADMIN_PATH}/fragment-delete/${id}`, null);
+export const removeFragmentById = async (id) => {
+  dataProxy.reset;
+  return await fetcher.post(`${ADMIN_PATH}/fragment-delete/${id}`, null);
+};
 
-export const removeAllFragments = async () =>
+export const removeAllFragments = async () => {
+  dataProxy.reset;
   await fetcher.post(`${ADMIN_PATH}/fragments-delete-all`, null);
-
+};
 export const getExpertEditionByAcrn = async (acrn) =>
   await fetcher.get(`${PATH}/acronym/${acrn}`, null);
 

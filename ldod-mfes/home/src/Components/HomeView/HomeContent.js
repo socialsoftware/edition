@@ -25,7 +25,7 @@ const excerpt = excerpts[parseInt(Math.random() * excerpts.length)];
 const boxes = [
   readingReferences && {
     mod: 'reading',
-    path: readingReferences.index(),
+    path: readingReferences?.index(),
     index: 1,
   },
   textReferences && {
@@ -40,12 +40,12 @@ const boxes = [
   },
   searchReferences && {
     mod: 'search',
-    path: references?.search.simple(),
+    path: searchReferences?.simple(),
     index: 4,
   },
   virtualReferences && {
     mod: 'virtual',
-    path: virtualReferences?.virtualEditions,
+    path: virtualReferences?.virtualEditions(),
     index: 5,
   },
 ].filter(Boolean);
@@ -85,7 +85,7 @@ export default (language, constants) => {
       <div class="container ldod-default">
         <a
           is="nav-to"
-          to="${readingReferences.editionInterPath?.(xmlId, urlId)}"
+          to="${readingReferences?.editionInterPath?.(xmlId, urlId)}"
           class="home-frag-link"
         >
           <div class="raw col-xs-12 frag-excerpt">

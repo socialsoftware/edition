@@ -3,6 +3,7 @@ export const parseHTML = (html) => {
   return doc.body.firstChild ?? doc.head.firstChild;
 };
 
+
 export const dom = (html) =>
   document.createRange().createContextualFragment(html);
 

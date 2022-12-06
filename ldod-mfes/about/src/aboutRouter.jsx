@@ -1,6 +1,6 @@
 import 'shared/router.js';
 import style from './style.css?inline';
-import { isDev, sleep, getContainer } from './utils.js';
+import { isDev, getContainer } from './utils.js';
 
 const routes = {
   '/archive': async () => await import(`./pages/archive/archive.jsx`),

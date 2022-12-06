@@ -8,7 +8,7 @@ const routes = {
   '/twitter-citations': async () =>
     await import('./pages/citations/citations.jsx'),
   '/manage-tweets': async () =>
-    await import('./pages/manage-tweets/manageTweets.jsx'),
+    await import('./pages/manage-tweets/manage-tweets.jsx'),
 };
 
 export const mount = (lang, ref) => {

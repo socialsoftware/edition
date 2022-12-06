@@ -42,7 +42,7 @@ const publishMFE = async (req, res) => {
         name !== entry ? `/${process.env.BASE}/${id}/${entry}` : `/${entry}`,
     });
   await addToMfes(id);
-  global.globalReferences = await processReferences();
+  await processReferences();
   return res.sendStatus(200);
 };
 const unPublishMFE = async (req, res) => {

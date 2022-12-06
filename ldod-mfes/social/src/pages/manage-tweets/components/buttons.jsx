@@ -1,4 +1,4 @@
-import { generateCitations, removeTweets } from '@src/apiRequests.js';
+import { generateCitations, removeTweets } from '@src/api-requests.js';
 
 export default ({ generate, remove, node }) => {
   const handleGenerateCitations = async () => {

@@ -3,7 +3,7 @@ import { parse } from 'node-html-parser';
 import { mfesPath, htmlPath } from './constants.js';
 import { getIndexHtml } from './static.js';
 
-const loadMfes = () => {
+export const loadMfes = () => {
   try {
     return JSON.parse(fs.readFileSync(mfesPath).toString());
   } catch (error) {

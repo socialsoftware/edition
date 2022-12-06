@@ -1,16 +1,13 @@
-import { useState } from 'shared/utils.js';
-import { getFragments } from '@src/apiRequests.js';
+
+import { dataProxy } from '@src/apiRequests.js';
 import './LdodFragments.jsx';
 
-export const [getFrags, setFrags] = useState();
 
 const mount = async (lang, ref) => {
-  document
+  const encodedFragments = document
     .querySelector(ref)
     .appendChild(<ldod-fragments language={lang}></ldod-fragments>);
-  const encodedFragments = document.querySelector(`${ref}>ldod-fragments`);
-  if (!getFrags()) setFrags(await getFragments());
-  encodedFragments.fragments = getFrags();
+  encodedFragments.fragments = await dataProxy.fragments;
   encodedFragments.toggleAttribute('data', true);
 };
 

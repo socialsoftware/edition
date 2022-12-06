@@ -1,12 +1,6 @@
-import { getTweetsToManage } from '@src/apiRequests.js';
-import './LdodManageTweets.jsx';
+import './ldod-manage-tweets.jsx';
 
 const mount = (lang, ref) => {
-  getTweetsToManage().then((data) => {
-    const manageTweets = document.querySelector(`${ref}>ldod-manage-tweets`);
-    manageTweets.tweets = data;
-    manageTweets.toggleAttribute('data');
-  });
   document
     .querySelector(ref)
     .appendChild(<ldod-manage-tweets language={lang}></ldod-manage-tweets>);

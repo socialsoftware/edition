@@ -1,3 +1,6 @@
+export { sleep } from 'shared/utils.js';
+export { loadingEvent } from "shared/ldod-events.js";
+
 export const PATH_REGEX = /^\/[^/]*/;
 export const isSlash = (path) => path === '/';
 

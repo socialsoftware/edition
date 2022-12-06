@@ -1,6 +1,7 @@
-import Buttons from './components/Buttons.jsx';
-import Title from './components/Title.jsx';
-import TweetsTable from './components/TweetsTable.jsx';
+import { dataProxy } from '../../api-requests.js';
+import Buttons from './components/buttons.jsx';
+import Title from './components/title.jsx';
+import TweetsTable from './components/tweets-table.jsx';
 import constants from './constants.js';
 import.meta.env.DEV
   ? await import('shared/table-dev.js')
@@ -16,7 +17,7 @@ export class LdodManageTweets extends HTMLElement {
   }
 
   get numberOfCitations() {
-    return this.tweets?.twitterCitations.length;
+    return this.tweets.twitterCitations?.length;
   }
 
   get numberOfCitationsWithInfoRanges() {
@@ -39,7 +40,9 @@ export class LdodManageTweets extends HTMLElement {
     return ['data', 'language'];
   }
 
-  connectedCallback() {
+  async connectedCallback() {
+    this.tweets = await dataProxy.manageCitations;
+    if (!this.tweets) return;
     this.appendChild(<div id="manageTweetsWrapper"></div>);
     this.render();
     this.addEventListeners();
@@ -50,7 +53,6 @@ export class LdodManageTweets extends HTMLElement {
   }
 
   handleChangeAttribute = {
-    data: () => this.render(),
     language: (oldV, newV) =>
       oldV && oldV !== newV && this.handleChangedLanguage(),
   };
@@ -69,9 +71,9 @@ export class LdodManageTweets extends HTMLElement {
   handleChangedLanguage() {
     this.querySelectorAll('[data-key]').forEach(
       (node) =>
-        (node.firstChild.textContent = node.dataset.args
-          ? this.getConstants(node.dataset.key, JSON.parse(node.dataset.args))
-          : this.getConstants(node.dataset.key))
+      (node.firstChild.textContent = node.dataset.args
+        ? this.getConstants(node.dataset.key, JSON.parse(node.dataset.args))
+        : this.getConstants(node.dataset.key))
     );
   }
 
@@ -82,7 +84,6 @@ export class LdodManageTweets extends HTMLElement {
   }
 
   render() {
-    if (!this.tweets) return;
     this.wrapper.innerHTML = '';
     this.wrapper.appendChild(
       <>

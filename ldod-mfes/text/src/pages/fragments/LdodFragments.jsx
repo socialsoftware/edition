@@ -96,9 +96,9 @@ export class LdodFragments extends HTMLElement {
       return (node.firstChild.textContent =
         node.dataset.args || node.hasAttribute('data-args')
           ? this.getConstants(
-              node.dataset.key,
-              JSON.parse(node.dataset.args || node.hasAttribute('data-args'))
-            )
+            node.dataset.key,
+            JSON.parse(node.dataset.args || node.hasAttribute('data-args'))
+          )
           : this.getConstants(node.dataset.key));
     });
   };

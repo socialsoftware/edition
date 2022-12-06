@@ -12,7 +12,7 @@ export class LdodLoading extends HTMLElement {
     const shadow = this.attachShadow({ mode: 'open' });
     shadow.adoptedStyleSheets = [styleSheet];
   }
-  static get observedAttributes() {}
+  static get observedAttributes() { }
   get element() {
     return this.shadowRoot.querySelector('#shell-loadingOverlay');
   }
@@ -54,7 +54,9 @@ export class LdodLoading extends HTMLElement {
   };
 
   handleLoadingEvent = (e) => {
-    this.handleLoading(e.detail.isLoading);
+    const isLoading = e.detail.isLoading;
+    this.pendingLoading = isLoading ? ++this.pendingLoading : this.pendingLoading > 0 ? --this.pendingLoading : 0
+    this.handleLoading(isLoading);
   };
 }
 

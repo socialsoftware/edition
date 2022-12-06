@@ -4,10 +4,7 @@ import './eventListeners.js';
 import './components/loading/LdodLoading.js';
 import NotFound from './components/not-found/NotFound.js';
 
-/**
- *
- * @returns {String}
- */
+
 const getLanguage = () => store.getState().language;
 
 const modules = JSON.parse(

@@ -1,5 +1,5 @@
 {
-  "name": "fetcher",
+  "name": "ldod-events",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -7,10 +7,9 @@
   "scripts": {
     "build": "rollup -c"
   },
-  "devDependencies": {
+  "dependencies": {
     "rollup": "^3.6.0",
-    "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-sourcemaps": "^0.6.3"
-  },
-  "dependencies": {}
+    "rollup-plugin-sourcemaps": "^0.6.3",
+    "rollup-plugin-terser": "^7.0.2"
+  }
 }

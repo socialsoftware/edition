@@ -1,4 +1,4 @@
-import { textReferences } from '../../../externalDeps';
+import { textReferences } from '../../../external-deps';
 
 const getStringDate = (value) => (value < 10 ? `0${value}` : value);
 

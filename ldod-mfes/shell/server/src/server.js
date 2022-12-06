@@ -11,6 +11,7 @@ import {
   sendLdodVisualIndex,
   unPublishMFE,
 } from './endpoints.js';
+import { processReferences } from './mfesReferences.js';
 
 const upload = multer({ dest: staticPath });
 const app = express();
@@ -39,6 +40,8 @@ app.use((err, req, res, next) => {
 });
 
 const port = process.env.PORT || 9000;
+
+await processReferences();
 
 app.listen(port, () => {
   console.log(`Server running at port ${port}.`);

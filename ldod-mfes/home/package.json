@@ -9,7 +9,6 @@
     "dev": "http://localhost:9000/ldod-mfes"
   },
   "scripts": {
-    "astro:build": "astro build",
     "build": "if [ -d build ]; then rm -r build;fi &&  rollup -c && cp -r resources build",
     "start": "node ./scripts/process.js $npm_package_config_dev && serve -C -l 3001",
     "pack": "yarn build && sh scripts/pack.sh home",

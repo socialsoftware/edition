@@ -1,7 +1,7 @@
 import references from './references.js';
 let Social;
 const loadSocial = async () => {
-  Social = await import('./socialRouter.jsx');
+  Social = await import('./social-router.jsx');
 };
 
 export default {

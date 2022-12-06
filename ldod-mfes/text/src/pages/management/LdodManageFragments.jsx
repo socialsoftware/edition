@@ -5,6 +5,7 @@ import { dispatchCustomEvent } from '@src/utils.js';
 import { removeFragmentById, removeAllFragments } from '@src/apiRequests';
 import UploadButtons from './components/uploadButtons.jsx';
 import ExportButtons from './components/exportButtons.jsx';
+import { dataProxy } from '../../apiRequests.js';
 import('shared/buttons.js').then(({ ldodButton }) => ldodButton());
 
 async function loadToolip() {
@@ -52,14 +53,14 @@ export class LdodManageFragments extends HTMLElement {
     return args.length ? constant(...args) : constant;
   }
 
-  connectedCallback() {
+  async connectedCallback() {
+    this.fragments = await dataProxy.adminFragments;
     this.appendChild(<div id="manageFragmentsWrapper"></div>);
     this.render();
     this.addEventListeners();
   }
 
   render() {
-    if (!this.hasAttribute('data')) return;
     this.wrapper.innerHTML = '';
     this.wrapper.appendChild(
       <>
@@ -156,18 +157,16 @@ export class LdodManageFragments extends HTMLElement {
 
     const uploadedFragsResult = uploadedFrags.reduce(
       (accumulated, { xmlId, title, overwritten }) => {
-        return `${accumulated}${nl}[${xmlId}(${title})]${
-          overwritten ? ' (overwritten)' : ''
-        }`;
+        return `${accumulated}${nl}[${xmlId}(${title})]${overwritten ? ' (overwritten)' : ''
+          }`;
       },
       `New uploaded fragments: ${uploadedFrags.length}`
     );
 
     const notUploadedFragsResult = notUploadedFrags.reduce(
       (accumulated, { xmlId, title, overwritten }) => {
-        return `${accumulated}${nl}[${xmlId}(${title})]${
-          overwritten ? ' (overwritten)' : ''
-        }`;
+        return `${accumulated}${nl}[${xmlId}(${title})]${overwritten ? ' (overwritten)' : ''
+          }`;
       },
       `\nAlready uploaded fragments: ${notUploadedFrags.length}`
     );

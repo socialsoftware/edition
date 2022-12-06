@@ -1,5 +1,4 @@
-import { parseHTML } from '@dist/utils.js';
-window.html = String.raw;
+import { parseHTML } from 'shared/utils.js';
 
 export default ({ node }) => {
   const btn = parseHTML(html`

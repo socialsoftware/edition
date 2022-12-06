@@ -4,6 +4,8 @@ import {
   isSlash,
   PATH_REGEX,
   removeEndSlash,
+  sleep,
+  loadingEvent,
 } from './utils';
 export default class LdodRouter extends HTMLElement {
   constructor() {
@@ -138,7 +140,10 @@ export default class LdodRouter extends HTMLElement {
   async render() {
     let route = this.getRoute();
     if (await isApiContractNotCompliant(route, this.id)) return;
+    sleep(10).then(window.dispatchEvent(loadingEvent(true)));
     await this.appendMFE(route);
+    window.dispatchEvent(loadingEvent(false));
+
   }
 
   isARouteMatch = (path) => {
@@ -191,6 +196,7 @@ export default class LdodRouter extends HTMLElement {
 
   async appendMFE(route) {
     if (!route) return;
+
     this.active && (await this.removeMFE());
     this.active = await route();
     await this.active.mount(this.language, `#${this.outlet.id}`);
