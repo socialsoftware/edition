@@ -11,7 +11,7 @@ export default ({ node, inter }) => {
             : 'text-nofac-transcription'
         }>
         {node.transcriptionCheckboxes.fac && (
-          <Viewer surfaceList={inter.surfaceDetailsList} />
+          <Viewer surfaceList={inter.surfaceDetailsList ?? []} />
         )}
         <div class="well authorialStyle" id="transcriptionContainer">
           {dom(node.data.transcriptions[0])}

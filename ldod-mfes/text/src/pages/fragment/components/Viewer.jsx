@@ -25,7 +25,7 @@ const loadOpenSeadragon = async (obj) => {
 
 export default ({ surfaceList }) => {
   const element = (
-    <div id="fac-viewer" style={{ width: '100%', height: '554px' }}></div>
+    <div id="fac-viewer" style={{ height: '554px' }}></div>
   );
   loadOpenSeadragon({
     element,
