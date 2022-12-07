@@ -1,6 +1,6 @@
 import { excerpts } from '../../../resources/home/constants/excerpts.js';
 import { parseHTML } from 'shared/utils.js';
-import { textReferences, readingReferences, searchReferences, virtualReferences } from '../../externalDeps.js';
+import { textReferences, readingReferences, searchReferences, virtualReferences } from '../../external-deps.js';
 
 const random = parseInt(Math.random() * 2) + 1;
 const path = import.meta.url.includes('src') ? '../../../' : '';

@@ -1,9 +1,8 @@
 import 'shared/router.js';
 import { store } from './store.js';
-import './eventListeners.js';
-import './components/loading/LdodLoading.js';
-import NotFound from './components/not-found/NotFound.js';
-
+import './event-listeners.js';
+import './components/ldod-loading.js';
+import NotFound from './components/not-found.js';
 
 const getLanguage = () => store.getState().language;
 
@@ -19,31 +18,28 @@ router.setAttribute('base', '/ldod-mfes');
 router.setAttribute('language', getLanguage());
 router.fallback = NotFound;
 
-delete modules['shared/'];
+window.references = {};
 
-const routes = await Object.keys(modules).reduce(async (prev, mfeName) => {
-  await import(mfeName)
-    .then(async (mod) => {
-      const api = mod.default;
-      const mfePath = api.path;
-      if (mfePath === '/') {
-        router.index = () => api;
-        return;
-      }
-      if (mfePath) (await prev)[mfePath] = () => api;
-    })
-    .catch((e) => console.error(e));
-  return prev;
-}, Promise.resolve({}));
+const routes = await Object.keys(modules)
+  .filter((mod) => mod !== 'shared/' && mod !== "home")
+  .reduce(async (prev, mfeName) => {
+    await import(mfeName)
+      .then(async (mod) => {
+        const api = mod.default;
+        const mfePath = api.path;
+        window.references[mfeName] = api.references;
+        if (mfePath) (await prev)[mfePath] = () => api;
+      })
+      .catch((e) => console.error(e));
+    return prev;
+  }, Promise.resolve({}));
 
 router.routes = routes;
+const homeApi = (await import("home").catch(e => { })).default
+router.index = () => homeApi
+
 document.getElementById('root').append(router);
 
-/**
- *
- * @param {string} newState
- * @param {string} currentState
- */
 const updateLanguage = (newState, currentState) => {
   if (newState.language !== currentState.language) {
     router.language = newState.language;

@@ -1,4 +1,4 @@
-import './LdodManageFragments.jsx';
+import './ldod-manage-fragments.jsx';
 
 const mount = async (lang, ref) => {
   document

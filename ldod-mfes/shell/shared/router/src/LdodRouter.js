@@ -91,7 +91,11 @@ export default class LdodRouter extends HTMLElement {
   }
 
   processRoutes() {
-    if (!this.routes) return (this.routes = {});
+    if (!this.routes) {
+      this.routes = {};
+      return;
+    }
+
     this.routes = Object.entries(this.routes).reduce((prev, [key, api]) => {
       let path = removeEndSlash(
         `/${this.base}/${this.route}/${key}`.replace(/\/\/+/g, '/')
@@ -139,8 +143,8 @@ export default class LdodRouter extends HTMLElement {
 
   async render() {
     let route = this.getRoute();
-    if (await isApiContractNotCompliant(route, this.id)) return;
-    sleep(10).then(window.dispatchEvent(loadingEvent(true)));
+    //if (await isApiContractNotCompliant(route, this.id)) return;
+    sleep(1).then(window.dispatchEvent(loadingEvent(true)));
     await this.appendMFE(route);
     window.dispatchEvent(loadingEvent(false));
 

@@ -1,4 +1,4 @@
-import { getFragmentInters, updateFragmentInter } from '../../apiRequests';
+import { getFragmentInters, updateFragmentInter } from '../../api-requests';
 import TextNavigation from './components/TextNavigation';
 import constants from './constants';
 import fragmentsConstants from '../fragments/constants';

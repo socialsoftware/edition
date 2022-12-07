@@ -1,4 +1,4 @@
-import { getExpertEditionByAcrn } from '@src/apiRequests';
+import { getExpertEditionByAcrn } from '@src/api-requests';
 import { LdodEditionAcrn } from './LdodEditionAcrn';
 
 const path = '/acronym/:acrn';

@@ -1,5 +1,5 @@
 import textReferences from '@src/references';
-import { virtual } from '@src/externalDeps';
+import { virtual } from '@src/external-deps';
 export const editions = [
   {
     filename: 'JPC',

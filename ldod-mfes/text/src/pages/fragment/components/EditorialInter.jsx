@@ -2,7 +2,7 @@ import Checkboxes from './Checkboxes';
 import Title from './Title';
 import { getExpertEdition } from '../../fragments/components/expertEdition';
 import EditorialInterTranscription from './EditorialInterTranscription';
-import { reading } from '@src/externalDeps';
+import { reading } from '@src/external-deps';
 
 export default async ({ node, inter }) => {
   return (

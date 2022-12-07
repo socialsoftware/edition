@@ -6,16 +6,16 @@ const ADMIN_PATH = '/text/admin';
 export const API = {
   fragments: async () => await fetcher.get(`${PATH}/fragments`, null),
   sources: async () => await fetcher.get(`${PATH}/sources`, null),
-  adminFragments: async () => await fetcher.get(`${ADMIN_PATH}/fragments`, null),
+  adminFragments: async () =>
+    await fetcher.get(`${ADMIN_PATH}/fragments`, null),
 };
 const data = {};
 
 const handler = {
-
   get: async (target, prop) => {
-    if (prop === 'reset') {
+    if (prop === 'reset')
       return Reflect.ownKeys(target).forEach((key) => delete target[key]);
-    }
+
     if (!target[prop]) target[prop] = await API[prop]();
     return target[prop];
   },

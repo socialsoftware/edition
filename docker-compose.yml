@@ -1,6 +1,7 @@
 services:
   nginx-reverse-proxy:
     build: ./proxy-server
+    restart: always
     network_mode: host
 
   mysql-db:

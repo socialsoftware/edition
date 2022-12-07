@@ -2,7 +2,7 @@ import textReferences from './references';
 let Text;
 
 const loadText = async () => {
-  Text = await import('./textRouter.jsx');
+  Text = await import('./text-router.jsx');
 };
 
 export default {

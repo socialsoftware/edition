@@ -1,4 +1,4 @@
-import { dataProxy } from '../../apiRequests.js';
+import { dataProxy } from '../../api-requests.js';
 import './LdodSources.jsx';
 
 

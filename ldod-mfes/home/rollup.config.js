@@ -22,7 +22,7 @@ export default {
   plugins: [
     sourcemaps(),
     importAssertionsPlugin(),
-    dynamicImportVars({ exclude: ['./src/externalDeps.js'] }),
+    dynamicImportVars({ exclude: ['./src/external-deps.js'] }),
     alias({
       entries: [
         {

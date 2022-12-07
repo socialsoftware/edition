@@ -1,5 +1,5 @@
 
-import { dataProxy } from '@src/apiRequests.js';
+import { dataProxy } from '@src/api-requests.js';
 import './LdodFragments.jsx';
 
 

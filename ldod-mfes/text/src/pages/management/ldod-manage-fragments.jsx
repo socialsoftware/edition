@@ -2,10 +2,9 @@ import FragsTable from './components/FragsTable.jsx';
 import Title from './components/Title.jsx';
 import constants from './constants.js';
 import { dispatchCustomEvent } from '@src/utils.js';
-import { removeFragmentById, removeAllFragments } from '@src/apiRequests';
+import { removeFragmentById, removeAllFragments, dataProxy } from '@src/api-requests';
 import UploadButtons from './components/uploadButtons.jsx';
 import ExportButtons from './components/exportButtons.jsx';
-import { dataProxy } from '../../apiRequests.js';
 import('shared/buttons.js').then(({ ldodButton }) => ldodButton());
 
 async function loadToolip() {
@@ -141,6 +140,7 @@ export class LdodManageFragments extends HTMLElement {
   };
 
   handleFileUploaded = ({ detail: { data } }) => {
+    dataProxy.reset;
     const nl = document.createElement('br').outerHTML;
     const p = document.createElement('p').outerHTML;
 

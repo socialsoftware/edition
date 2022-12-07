@@ -1,5 +1,5 @@
 import { parseHTML } from 'shared/utils.js';
-import { virtualReferences } from '../../externalDeps.js';
+import { virtualReferences } from '../../external-deps.js';
 
 class DropdownMenu extends HTMLLIElement {
   static get observedAttributes() {

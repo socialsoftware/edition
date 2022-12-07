@@ -1,4 +1,4 @@
-import { reading } from '@src/externalDeps';
+import { reading } from '@src/external-deps';
 import textReferences from '@src/references';
 
 export const getTableData = (node) => {

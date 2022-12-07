@@ -1,4 +1,4 @@
-import { getFragmentInter } from '@src/apiRequests.js';
+import { getFragmentInter } from '@src/api-requests.js';
 
 export const checkBoxes = {
   diff: false,

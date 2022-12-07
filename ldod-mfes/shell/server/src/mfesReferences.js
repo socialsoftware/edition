@@ -17,6 +17,7 @@ export async function processReferences() {
 
 
   fs.writeFileSync(`${staticPath}/references.js`, `
+      console.time("loading refs to window");
       if (typeof window !== "undefined") {
         window.references = {
           ${Object.keys(references).map((key) => {
@@ -28,7 +29,9 @@ export async function processReferences() {
       }`;
   }).join(",\n")}
         }
-      }`)
+      }
+      console.timeEnd("loading refs to window");
+      `)
 
   global.globalReferences = await references;
 }

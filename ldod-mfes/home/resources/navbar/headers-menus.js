@@ -6,7 +6,7 @@ import {
   aboutReferences,
   socialReferences,
   userReferences,
-} from '../../src/externalDeps.js';
+} from '../../src/external-deps.js';
 
 export default {
   about: {
