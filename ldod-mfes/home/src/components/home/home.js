@@ -1,7 +1,7 @@
 window.html = String.raw;
 import { parseHTML } from 'shared/utils.js';
-import './HomeInfo.js';
-import HomeContent, { boxUrl, boxUrlH } from './HomeContent.js';
+import './home-info.js';
+import HomeContent, { boxUrl, boxUrlH } from './home-content.js';
 import style from '../../../style/home.css' assert { type: 'css' };
 const styleSheet = new CSSStyleSheet({});
 

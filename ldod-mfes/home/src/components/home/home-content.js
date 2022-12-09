@@ -25,27 +25,27 @@ const excerpt = excerpts[parseInt(Math.random() * excerpts.length)];
 const boxes = [
   readingReferences && {
     mod: 'reading',
-    path: readingReferences?.index(),
+    path: readingReferences.index?.(),
     index: 1,
   },
   textReferences && {
     mod: 'documents',
-    path: textReferences?.fragments(),
+    path: textReferences.fragments?.(),
     index: 2,
   },
   textReferences && {
     mod: 'editions',
-    path: textReferences?.editions(),
+    path: textReferences.editions?.(),
     index: 3,
   },
   searchReferences && {
     mod: 'search',
-    path: searchReferences?.simple(),
+    path: searchReferences.simple?.(),
     index: 4,
   },
   virtualReferences && {
     mod: 'virtual',
-    path: virtualReferences?.virtualEditions(),
+    path: virtualReferences.virtualEditions?.(),
     index: 5,
   },
 ].filter(Boolean);

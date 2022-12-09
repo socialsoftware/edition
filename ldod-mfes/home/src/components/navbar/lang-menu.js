@@ -1,3 +1,4 @@
+import { ldodEventBus } from "shared/ldod-events.js";
 class LangMenu extends HTMLLIElement {
   constructor() {
     super();
@@ -28,14 +29,7 @@ class LangMenu extends HTMLLIElement {
     const anchors = Array.from(this.parentNode.children);
     anchors.forEach((anchor) => anchor.classList.remove('active'));
     this.classList.add('active');
-    this.getRootNode().host.setAttribute('language', this.id);
-    this.dispatchEvent(
-      new CustomEvent('ldod-language', {
-        detail: { language: this.id },
-        bubbles: true,
-        composed: true,
-      })
-    );
+    ldodEventBus.publish("ldod:language", this.id)
   }
 
   setActive() {

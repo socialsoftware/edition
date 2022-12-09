@@ -9,7 +9,7 @@ import alias from '@rollup/plugin-alias';
 
 export default {
   input: './src/home.js',
-  external: ['shared/utils.js'],
+  external: ['shared/utils.js', "shared/ldod-events.js"],
   output: [
     {
       dir: 'build',

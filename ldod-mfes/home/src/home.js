@@ -1,22 +1,16 @@
+let home;
+
 if (typeof window === 'object') {
-  import('./Components/Navbar/Navbar.js');
-  import('./Components/HomeView/HomeInfo.js');
+  import('./components/navbar/navbar.js');
+  home = await import('./components/home/home.js');
 }
-
-let Home;
-
-const loadHome = async () => {
-  Home = await import('./Components/HomeView/Home.js');
-};
 
 export default {
   path: '/',
   mount: async (lang, ref) => {
-    if (!Home) await loadHome();
-    await Home.mount(lang, ref);
+    await home.mount(lang, ref);
   },
   unMount: async () => {
-    if (!Home) await loadHome();
-    await Home.unMount();
+    await home.unMount();
   },
 };

@@ -1,12 +1,11 @@
 import { parseHTML } from 'shared/utils.js';
 import headers from '../../../resources/navbar/headers-menus.js';
 import style from '../../../style/navbar.css' assert { type: 'css' };
-import './DropdownMenu.js';
-import './LangMenu.js';
-import { checkUserCompCompliance, isMFEAvailable } from '../../utils.js';
+import { ldodEventBus } from 'shared/ldod-events.js';
+import './dropdown-menu.js';
+import './lang-menu.js';
 
-const isUserCompCompliant = async () =>
-  isMFEAvailable('user') && (await checkUserCompCompliance());
+(await import('user').catch((e) => console.error(e)))?.default.bootstrap();
 
 const styleSheet = new CSSStyleSheet();
 window.html = String.raw;
@@ -52,18 +51,30 @@ export default class LdodNavbar extends HTMLElement {
       this.shadowRoot.adoptedStyleSheets = [style];
     await this.setConstants();
     await this.render();
+    this.addEventListeners();
     this.addDropdownEventListeners();
     this.addExpandedCollapseEvent();
-    window.addEventListener('ldod-login', this.onUserLogin);
-    window.addEventListener('ldod-logout', this.onUserLogout);
-    window.addEventListener('ldod-selectedVE', this.addSelectedVE);
   }
 
   disconnectedCallback() {
-    window.removeEventListener('ldod-login', this.onUserLogin);
-    window.addEventListener('ldod-logout', this.onUserLogout);
-    window.removeEventListener('ldod-selectedVE', this.addSelectedVE);
+    this.unsubSelectedVe?.();
+    this.unsubLogout?.();
+    this.unsubLogin?.();
   }
+
+  subscriber = (evt, handler) => {
+    const sub = ldodEventBus.subscribe(evt, handler);
+    return sub.unsubscribe;
+  };
+
+  addEventListeners = () => {
+    this.unsubSelectedVe = this.subscriber(
+      'virtual:selected-ve',
+      this.addSelectedVE
+    );
+    this.unsubLogout = this.subscriber('user:logout', this.onUserLogout);
+    this.unsubLogin = this.subscriber('user:login', this.onUserLogin);
+  };
 
   async attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue === newValue || !newValue || !oldValue) return;
@@ -118,20 +129,17 @@ export default class LdodNavbar extends HTMLElement {
     element.ariaExpanded = element.ariaExpanded === 'true' ? 'false' : 'true';
   }
 
-  onUserLogin = (e) => {
+  onUserLogin = ({ payload }) => {
     this.addExpandedCollapseEvent();
-    const user = e.detail.user;
-    if (user && typeof user === 'object') {
-      if (!this.user) {
-        this.selectedVE = user.selectedVE || [];
-        this.updateVE();
-      }
-      this.user = user;
-      this.setAdminVisibility();
+    if (!this.user) {
+      this.selectedVE = payload.selectedVE;
+      this.updateVE();
     }
+    this.user = payload;
+    this.setAdminVisibility();
   };
 
-  onUserLogout = (e) => {
+  onUserLogout = () => {
     this.user && this.setAdminVisibility(true);
     this.user && this.removeEditions();
     this.user = undefined;
@@ -144,10 +152,10 @@ export default class LdodNavbar extends HTMLElement {
     if (admin) admin.setAttribute('aria-hidden', hide);
   };
 
-  addSelectedVE = ({ detail: edition }) => {
-    this.selectedVE = edition.selected
-      ? [...this.selectedVE, edition.name]
-      : this.selectedVE.filter((acr) => acr !== edition.name);
+  addSelectedVE = ({ payload }) => {
+    this.selectedVE = payload.selected
+      ? [...this.selectedVE, payload.name]
+      : this.selectedVE.filter((acr) => acr !== payload.name);
     this.updateVE();
   };
 
@@ -196,15 +204,11 @@ export default class LdodNavbar extends HTMLElement {
                   ${this.constants['header_title']}
                 </a>
                 <ul class="nav navbar-nav user-component hidden-xs">
-                  ${(await isUserCompCompliant())
-          ? html`
-                        <li
-                          class="dropdown"
-                          is="user-component"
-                          language=${this.language}
-                        ></li>
-                      `
-          : ''}
+                  <li
+                    class="dropdown"
+                    is="user-component"
+                    language=${this.language}
+                  ></li>
                 </ul>
               </div>
             </div>
@@ -212,13 +216,11 @@ export default class LdodNavbar extends HTMLElement {
           <div class="container">
             <div class="navbar-collapse collapse" aria-expanded="false">
               <ul class="nav navbar-nav navbar-nav-flex">
-                ${(await isUserCompCompliant())
-          ? html` <li
-                      class="dropdown visible-xs"
-                      is="user-component"
-                      language=${this.language}
-                    ></li>`
-          : ''}
+                <li
+                  class="dropdown visible-xs"
+                  is="user-component"
+                  language=${this.language}
+                ></li>
                 <li is="lang-menu" language=${this.language}></li>
               </ul>
             </div>
