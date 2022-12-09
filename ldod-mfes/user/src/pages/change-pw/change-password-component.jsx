@@ -1,11 +1,11 @@
 import { PASSWORD_REGEX } from '@src/resources/constants.js';
 import { setState, getState } from '@src/store';
 import { navigateTo } from 'shared/router.js';
-import { changePasswordRequest } from '@src/apiRequests.js';
+import { changePasswordRequest } from '@src/api-requests.js';
 import { setInvalidFor, setValidFor, loadConstants } from '@src/utils';
-import { errorEvent, messageEvent } from '../../utils';
-import ChangePasswordForm from './ChangePasswordForm';
-import { userReferences } from '../../userReferences';
+import ChangePasswordForm from './change-password-form';
+import { userReferences } from '../../user-references';
+import { errorPublisher, messagePublisher } from '../../events-modules';
 
 export class ChangePassword extends HTMLElement {
   constructor() {
@@ -77,8 +77,8 @@ export class ChangePassword extends HTMLElement {
       })
         .then((data) => {
           if (data.ok === false)
-            return this.dispatchEvent(errorEvent(data.message));
-          this.dispatchEvent(messageEvent(data.message));
+            return errorPublisher(data.message);
+          messagePublisher(data.message);
           navigateTo('/');
         })
         .catch((error) => console.log(error));

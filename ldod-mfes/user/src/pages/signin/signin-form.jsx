@@ -2,8 +2,8 @@ import check from '@src/resources/icons/check-circle.svg';
 import exclamation from '@src/resources/icons/exclamation-circle.svg';
 import eye from '@src/resources/icons/eye-solid.svg';
 import google from '@src/resources/icons/google.svg';
-import { socialAuth } from '@src/socialAuth.js';
-import { userReferences } from '../../userReferences';
+import { socialAuth } from '@src/social-auth.js';
+import { userReferences } from '../../user-references';
 import { capitalizeFirstLetter } from '../../utils';
 
 export default ({ node }) => {

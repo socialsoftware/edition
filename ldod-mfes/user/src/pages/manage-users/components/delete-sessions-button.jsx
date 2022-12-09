@@ -1,5 +1,5 @@
-import { deleteSessionsRequest } from '@src/apiRequests.js';
-import SessionsListTable from './SessionsListTable';
+import { deleteSessionsRequest } from '@src/api-requests.js';
+import SessionsListTable from './sessions-list-table';
 
 export default ({ node, content }) => {
   const onDeleteSessions = () => {

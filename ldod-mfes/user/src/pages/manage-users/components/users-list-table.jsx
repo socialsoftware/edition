@@ -1,9 +1,9 @@
-import { changeActiveRequest, removeUserRequest } from '@src/apiRequests.js';
+import { changeActiveRequest, removeUserRequest } from '@src/api-requests.js';
 import edit from '@src/resources/icons/edit-primary.svg';
 import trash from '@src/resources/icons/trash.svg';
 import constants from '../resources/constants.js';
-import UpdateModal from './UpdateUserModal.jsx';
-import UptadeUserForm from './UpdateUserForm.jsx';
+import UpdateModal from './update-user-modal.jsx';
+import UptadeUserForm from './update-user-form.jsx';
 import.meta.env.DEV
   ? await import('shared/table-dev.js')
   : await import('shared/table.js');

@@ -1,4 +1,4 @@
-import './ChangePasswordComponent.jsx';
+import './change-password-component.jsx';
 
 const mount = (lang, ref) => {
   document

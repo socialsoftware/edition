@@ -1,9 +1,9 @@
-import style from './manageUsersStyle.css?inline';
+import style from './manage-users-style.css?inline';
 import 'shared/modal.js';
 import constants from './resources/constants.js';
 import { exportButton, uploadButton } from 'shared/buttons.js';
-import ManageUsersTable from './ManageUsersTable';
-import { getUsersList } from '../../apiRequests';
+import ManageUsersTable from './manage-users-table';
+import { getUsersList } from '../../api-requests';
 
 exportButton();
 uploadButton();
@@ -63,7 +63,7 @@ export class ManageUsers extends HTMLElement {
   attributeChangedCallback(name, oldV, newV) {
     this.handlers[name](oldV, newV);
   }
-  disconnectedCallback() {}
+  disconnectedCallback() { }
 
   addEventListeners() {
     this.addEventListener('ldod-message', this.handleUsersUpload);
@@ -75,9 +75,8 @@ export class ManageUsers extends HTMLElement {
 
   updateUsersListTitle = ({ detail }) => {
     if (detail.id === 'user-usersListTable')
-      this.querySelector('h1#title span').innerHTML = `&nbsp;(${
-        this.querySelectorAll('table#user-usersListTable tr[searched]').length
-      })`;
+      this.querySelector('h1#title span').innerHTML = `&nbsp;(${this.querySelectorAll('table#user-usersListTable tr[searched]').length
+        })`;
   };
 
   render() {
@@ -118,9 +117,8 @@ export class ManageUsers extends HTMLElement {
       ele.toggleAttribute('show');
     });
 
-    e.target.textContent = `Switch to ${
-      this.querySelector('div.subject:not([show])').id
-    }`;
+    e.target.textContent = `Switch to ${this.querySelector('div.subject:not([show])').id
+      }`;
   };
 }
 !customElements.get('manage-users') &&

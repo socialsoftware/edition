@@ -2,43 +2,10 @@ import { registerInstance, getState, userFullName } from '@src/store.js';
 import { loadConstants } from '@src/utils.js';
 import { navigateTo } from 'shared/router.js';
 import { setState } from '../store';
-import { loginEvent, logoutEvent } from '../utils';
-
-export const userReferences = {
-  manageUsers: () => '/user/manage-users',
-  signin: () => '/user/signin',
-  signup: () => '/user/signup',
-  password: () => '/user/change-password',
-};
-
-const NotAuthComponent = () => (
-  <a
-    is="nav-to"
-    id="login"
-    class="login update-language"
-    to={userReferences.signin()}></a>
-);
-
-const AuthComponent = () => (
-  <>
-    <a id="loggedIn" class="dropdown-toggle">
-      {userFullName()}
-      <span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu">
-      <li>
-        <a class="update-language" id="logout"></a>
-      </li>
-      <li>
-        <a
-          is="nav-to"
-          class="update-language"
-          id="change-password"
-          to={userReferences.password()}></a>
-      </li>
-    </ul>
-  </>
-);
+import { userReferences } from '../user-references';
+import { ldodEventBus, loginPublisher, logoutPublisher } from '../events-modules';
+import { AuthComponent } from './auth-component';
+import { NonAuthComponent } from './non-auth-component';
 
 export class UserComponent extends HTMLLIElement {
   constructor(language) {
@@ -65,7 +32,7 @@ export class UserComponent extends HTMLLIElement {
     this.render();
     if (getState().user) {
       this.onUserLogin();
-      this.dispatchEvent(loginEvent(getState().user));
+      loginPublisher(getState().user);
     }
   }
 
@@ -73,10 +40,6 @@ export class UserComponent extends HTMLLIElement {
     if (oldValue && newValue && oldValue !== newValue) {
       name === 'language' && this.updateLanguage(newValue);
     }
-  }
-
-  disconnectedCallback() {
-    this.removeListeners();
   }
 
   setConstants = async () => {
@@ -87,46 +50,28 @@ export class UserComponent extends HTMLLIElement {
 
   render() {
     getState().user
-      ? this.appendChild(<AuthComponent />)
-      : this.appendChild(<NotAuthComponent />);
+      ? this.appendChild(<AuthComponent logoutHandler={this.logoutHandler} />)
+      : this.appendChild(<NonAuthComponent />);
     this.updateLanguage();
     this.addListeners();
   }
 
   updateComponent(e) {
-    this.removeListeners();
+    this.innerHTML = '';
     this.render();
   }
 
   addListeners() {
-    ['logout', 'password'].forEach((id) =>
-      this.querySelector(`#${id}`)?.addEventListener(
-        'click',
-        this.handlers(id).handler
-      )
-    );
-    window.addEventListener('ldod-login', this.onUserLogin);
-    window.addEventListener('ldod-logout', this.onUserLogout);
-  }
-
-  removeListeners() {
-    ['logout', 'password'].forEach((id) =>
-      this.querySelector(`#${id}`)?.removeEventListener(
-        'click',
-        this.handlers(id)?.handler
-      )
-    );
-    this.innerHTML = '';
-    window.removeEventListener('ldod-login', this.onUserLogin);
-    window.removeEventListener('ldod-logout', this.onUserLogout);
+    ldodEventBus.subscribe("user:login", this.onUserLogin)
+    ldodEventBus.subscribe("user:logout", this.onUserLogout)
   }
 
   onUserLogin() {
     this.updateComponent();
   }
 
-  onUserLogout({ detail }) {
-    this.logout();
+  onUserLogout() {
+    this.logoutHandler();
     this.updateComponent();
   }
 
@@ -137,25 +82,13 @@ export class UserComponent extends HTMLLIElement {
     );
   }
 
-  logout = () => {
+  logoutHandler = () => {
     if (!(getState().user && getState().token)) return;
     setState({ token: '', user: '' });
-    this.dispatchEvent(logoutEvent({ emiter: this }));
+    logoutPublisher();
     navigateTo(userReferences.signin());
   };
 
-  handlers(id) {
-    return {
-      logout: {
-        id: 'logout',
-        handler: () => this.logout(),
-      },
-      password: {
-        id: 'password',
-        handler: () => console.log('password changed'),
-      },
-    }[id];
-  }
 }
 
 !customElements.get('user-component') &&

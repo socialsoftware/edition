@@ -1,4 +1,4 @@
-import { switchModeRequest } from '@src/apiRequests.js';
+import { switchModeRequest } from '@src/api-requests.js';
 
 export default ({ node, buttonLabel, tooltipContent }) => {
   const updateClass = () =>

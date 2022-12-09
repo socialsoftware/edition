@@ -5,15 +5,15 @@ import buttons from '@src/resources/buttons.css?inline';
 import { isDev } from './utils.js';
 
 const routes = {
-  '/signin': async () => await import('./pages/signin/Signin.jsx'),
-  '/signup': async () => await import('./pages/signup/Signup.jsx'),
+  '/signin': async () => await import('./pages/signin/signin.jsx'),
+  '/signup': async () => await import('./pages/signup/signup.jsx'),
   '/change-password': async () =>
-    await import('./pages/change-pw/ChangePassword.jsx'),
+    await import('./pages/change-pw/change-password.jsx'),
   '/sign-up-authorization': async () =>
     await import('./pages/authorization.js'),
   '/sign-up-confirmation': async () => await import('./pages/confirmation.js'),
   '/manage-users': async () =>
-    await import('./pages/manage-users/ManageUsers.jsx'),
+    await import('./pages/manage-users/manage-users.jsx'),
 };
 const userMfeSelector = 'div#user-mfe';
 

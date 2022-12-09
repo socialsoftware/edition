@@ -1,4 +1,4 @@
-import './SignupComponent.jsx';
+import './signup-component.jsx';
 
 const mount = (lang, ref) => {
   document.querySelector(ref).appendChild(<sign-up language={lang}></sign-up>);

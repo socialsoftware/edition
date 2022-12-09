@@ -6,12 +6,12 @@ import {
 } from '@src/resources/constants.js';
 import { setInvalidFor, setValidFor, loadConstants } from '@src/utils';
 
-import { signupRequest } from '@src/apiRequests';
+import { signupRequest } from '@src/api-requests';
 import { navigateTo } from 'shared/router.js';
 import { setState } from '@src/store';
-import { errorEvent, messageEvent } from '../../utils';
-import SignupForm from './SignupForm';
-import { userReferences } from '../../userReferences';
+import SignupForm from './signup-form';
+import { userReferences } from '../../user-references';
+import { errorPublisher, messagePublisher } from '../../events-modules';
 
 export class SignUp extends HTMLElement {
   constructor() {
@@ -130,15 +130,13 @@ export class SignUp extends HTMLElement {
       })
         .then((res) => {
           if (res.ok) {
-            this.dispatchEvent(messageEvent(this.getConstants(res.message)));
+            messagePublisher(res.message);
             this.clearDataInputs();
             return navigateTo(userReferences.signin());
           }
-          this.dispatchEvent(errorEvent(this.getConstants(res.message)));
+          errorPublisher(res.message);
         })
-        .catch((error) =>
-          this.dispatchEvent(errorEvent(this.getConstants(error.message)))
-        );
+        .catch((error) => errorPublisher(error.message));
       this.clearStyleInputs();
     }
     this.isValid = true;

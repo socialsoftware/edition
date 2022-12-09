@@ -1,8 +1,8 @@
-import UsersTable from './components/UsersListTable.jsx';
-import UsersTitle from './components/UsersTitle';
-import AdminModeButton from './components/AdminModeButton';
-import DeleteSessionsButton from './components/DeleteSessionsButton';
-import SessionsListTable from './components/SessionsListTable';
+import UsersTable from './components/users-list-table.jsx';
+import UsersTitle from './components/users-title';
+import AdminModeButton from './components/admin-mode-button';
+import DeleteSessionsButton from './components/delete-sessions-button';
+import SessionsListTable from './components/sessions-list-table';
 
 export default ({ node }) => {
   return (

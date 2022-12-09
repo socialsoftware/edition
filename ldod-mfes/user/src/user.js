@@ -1,21 +1,21 @@
-import { userReferences } from './userReferences';
+import { userReferences } from './user-references';
 let User;
 
-if (typeof window === 'object') {
+if (typeof window !== 'undefined') {
+  await import('./events-modules');
   await import('./store');
   await import('./bootstrap');
-  await import('@src/components/UserComponent');
 }
-
 
 const loadUser = async () => {
   if (User) return;
-  User = await import('./userRouter.jsx');
+  User = await import('./user-router.jsx');
 };
 
 export default {
   path: '/user',
   references: userReferences,
+  bootstrap: () => import('./components/UserComponent'),
   mount: async (lang, ref) => {
     await loadUser();
     await User.mount(lang, ref);

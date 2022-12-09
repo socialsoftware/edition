@@ -1,5 +1,5 @@
-import { G_CLIENT_ID } from '../src/resources/constants';
-import { socialAuthRequest } from './apiRequests.js';
+import { G_CLIENT_ID } from './resources/constants';
+import { socialAuthRequest } from './api-requests.js';
 import { emitMessageEvent } from './utils';
 let constants;
 

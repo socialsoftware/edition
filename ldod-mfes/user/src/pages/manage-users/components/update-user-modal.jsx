@@ -1,5 +1,5 @@
 import constants from '../resources/constants.js';
-import { updateUserRequest } from '@src/apiRequests.js';
+import { updateUserRequest } from '@src/api-requests.js';
 
 const getManageUsers = () => document.querySelector('manage-users');
 function getConstants(key) {

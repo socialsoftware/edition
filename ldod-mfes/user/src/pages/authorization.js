@@ -1,5 +1,5 @@
 import { navigateTo } from 'shared/router.js';
-import { tokenAuthRequest } from '../apiRequests.js';
+import { tokenAuthRequest } from '../api-requests.js';
 import { emitMessageEvent } from '../utils.js';
 
 const mount = async (lang, ref) => {

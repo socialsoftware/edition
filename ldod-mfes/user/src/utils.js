@@ -22,41 +22,4 @@ export const emitMessageEvent = (message, type = 'message') =>
 export const loadConstants = async (lang) =>
   (await import(`./resources/messages-${lang}.js`)).default;
 
-export function eventEmiter(eventName, options = {}, emiter = window) {
-  const event = new CustomEvent(eventName, options);
-  emiter.dispatchEvent(event);
-}
-export const logoutEvent = (detail) =>
-  new CustomEvent('ldod-logout', {
-    detail,
-    composed: true,
-    bubbles: true,
-  });
-
-export const tokenEvent = (token) =>
-  new CustomEvent('ldod-token', {
-    detail: { token },
-    bubbles: true,
-    composed: true,
-  });
-
-export const loginEvent = (user) =>
-  new CustomEvent('ldod-login', {
-    detail: { user },
-    bubbles: true,
-    composed: true,
-  });
-
-export const messageEvent = (message) =>
-  new CustomEvent('ldod-message', {
-    detail: { message },
-    bubbles: true,
-    composed: true,
-  });
-export const errorEvent = (message) =>
-  new CustomEvent('ldod-error', {
-    detail: { message },
-    bubbles: true,
-    composed: true,
-  });
 export const isDev = () => import.meta.env.DEV;

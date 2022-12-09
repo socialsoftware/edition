@@ -1,9 +1,9 @@
 import { setInvalidFor, setValidFor, loadConstants } from '@src/utils';
 import { setState, getState } from '@src/store';
 import { navigateTo } from 'shared/router.js';
-import { newAuthRequest, userRequest } from '../../apiRequests';
-import { eventEmiter, loginEvent, logoutEvent, tokenEvent } from '../../utils';
-import SigninForm from './SigninForm';
+import { newAuthRequest, userRequest } from '../../api-requests';
+import SigninForm from './signin-form';
+import { errorPublisher, ldodEventBus, loginPublisher, logoutPublisher, tokenPublisher } from '../../events-modules';
 
 class SignIn extends HTMLElement {
   constructor() {
@@ -33,7 +33,7 @@ class SignIn extends HTMLElement {
     }
   }
 
-  disconnectedCallback() {}
+  disconnectedCallback() { }
 
   setConstants = async () =>
     (this.constants = await loadConstants(this.language));
@@ -98,7 +98,7 @@ class SignIn extends HTMLElement {
     userRequest(getState().token)
       .then((user) => {
         setState({ user });
-        this.dispatchEvent(loginEvent(user));
+        loginPublisher(user);
         location.pathname.endsWith('/user/signin') && navigateTo('/');
       })
       .catch((error) => error.message === 'unauthorized' && this.logout());
@@ -106,27 +106,18 @@ class SignIn extends HTMLElement {
   onAuthSuccess = (token) => {
     if (!token) return this.logout();
     if (token !== getState().token) setState({ token });
-    this.dispatchEvent(tokenEvent(token));
+    tokenPublisher(token)
     this.login();
   };
 
   logout = () => {
     setState({ token: '', user: '' });
-    this.dispatchEvent(logoutEvent);
+    logoutPublisher()
     navigateTo('/');
   };
 
   onAuthFail = (message) => {
-    message &&
-      eventEmiter(
-        'ldod-error',
-        {
-          detail: { message },
-          bubbles: true,
-          composed: true,
-        },
-        this
-      );
+    errorPublisher(message);
     setState({ token: '' });
   };
 

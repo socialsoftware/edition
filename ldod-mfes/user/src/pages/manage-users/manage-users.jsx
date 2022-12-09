@@ -1,4 +1,4 @@
-import { loadAndAssignUsers } from './ManageUsersComponent.jsx';
+import { loadAndAssignUsers } from './manage-users-component.jsx';
 
 const mount = async (lang, ref) => {
   document
