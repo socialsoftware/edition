@@ -1,4 +1,5 @@
 import { parseHTML } from 'shared/utils.js';
+import { ldodEventBus } from 'shared/ldod-events.js';
 import style from './loading-modal.css' assert { type: 'css' };
 window.html = String.raw;
 
@@ -12,7 +13,7 @@ export class LdodLoading extends HTMLElement {
     const shadow = this.attachShadow({ mode: 'open' });
     shadow.adoptedStyleSheets = [styleSheet];
   }
-  static get observedAttributes() { }
+  static get observedAttributes() {}
   get element() {
     return this.shadowRoot.querySelector('#shell-loadingOverlay');
   }
@@ -37,7 +38,7 @@ export class LdodLoading extends HTMLElement {
   }
 
   disconnectedCallback() {
-    window.removeEventListener('ldod-loading', this.handleLoadingEvent);
+    this.unsubLoading?.();
   }
 
   render() {
@@ -50,12 +51,18 @@ export class LdodLoading extends HTMLElement {
   }
 
   addEventListeners = () => {
-    window.addEventListener('ldod-loading', this.handleLoadingEvent);
+    this.unsubLoading = ldodEventBus.subscribe(
+      'ldod:loading',
+      this.handleLoadingEvent
+    ).unsubscribe;
   };
 
-  handleLoadingEvent = (e) => {
-    const isLoading = e.detail.isLoading;
-    this.pendingLoading = isLoading ? ++this.pendingLoading : this.pendingLoading > 0 ? --this.pendingLoading : 0
+  handleLoadingEvent = ({ payload: isLoading }) => {
+    this.pendingLoading = isLoading
+      ? ++this.pendingLoading
+      : this.pendingLoading > 0
+      ? --this.pendingLoading
+      : 0;
     this.handleLoading(isLoading);
   };
 }

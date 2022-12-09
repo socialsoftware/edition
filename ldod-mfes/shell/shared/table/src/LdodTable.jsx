@@ -1,6 +1,7 @@
 import tableStyle from './table.css?inline';
 import toolsStyle from './tools.css?inline';
 import { sleep } from 'shared/utils.js';
+import { loadingPublisher } from './events-module';
 
 export class LdodTable extends HTMLElement {
   constructor() {
@@ -119,7 +120,7 @@ export class LdodTable extends HTMLElement {
   handleSearchInput = async () => {
     if (this.isSearching) return;
     this.isSearching = true;
-    this.dispatchCustomEvent('ldod-loading', { isLoading: true });
+    loadingPublisher(true)
     await sleep(10);
 
     if (!this.isFullyLoaded) {
@@ -135,14 +136,14 @@ export class LdodTable extends HTMLElement {
     history.replaceState(searchTerm ? { searchTerm } : {}, {});
     const result = searchTerm
       ? this.data
-          .filter((row) => {
-            const search =
-              typeof row.search === 'string'
-                ? row.search.toLowerCase()
-                : row.search.toString().toLowerCase();
-            return search.includes(searchTerm);
-          })
-          .map((row) => row[this.dataset.searchkey].toString())
+        .filter((row) => {
+          const search =
+            typeof row.search === 'string'
+              ? row.search.toLowerCase()
+              : row.search.toString().toLowerCase();
+          return search.includes(searchTerm);
+        })
+        .map((row) => row[this.dataset.searchkey].toString())
       : this.data.map((row) => row[this.dataset.searchkey].toString());
 
     this.querySelectorAll('tbody>tr').forEach((row) => {
@@ -155,7 +156,7 @@ export class LdodTable extends HTMLElement {
       id: this.id,
       size: result.length,
     });
-    this.dispatchCustomEvent('ldod-loading', { isLoading: false });
+    loadingPublisher(false)
     this.isSearching = false;
   };
 

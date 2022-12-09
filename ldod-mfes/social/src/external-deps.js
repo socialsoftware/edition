@@ -1,2 +1,2 @@
-export const textReferences = window?.references?.text
+export const textReferences = window?.references?.text || {};
 

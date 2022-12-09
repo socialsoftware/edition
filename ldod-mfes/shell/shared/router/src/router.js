@@ -1,5 +1,5 @@
-import './LdodRouter.js';
-import './NavTo.js';
+import './ldod-router.js';
+import './nav-to.js';
 
 export const navigateTo = (path, emiter = window, state) => {
   emiter.dispatchEvent(

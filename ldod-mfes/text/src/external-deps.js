@@ -1,4 +1,4 @@
 
 
-export const reading = window?.references.reading
-export const virtual = window?.references.virtual
+export const reading = window.references?.reading || {}
+export const virtual = window.references?.virtual || {}

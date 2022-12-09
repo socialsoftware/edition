@@ -1,4 +1,5 @@
 import { parseHTML } from 'shared/utils.js';
+import { html } from '../utils';
 
 export default ({ node }) => {
   const btn = parseHTML(html`

@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "required": ["selected", "name"],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "externalId": { "type": "string" },
+    "selected": {
+      "type": "boolean"
+    }
+  }
+}

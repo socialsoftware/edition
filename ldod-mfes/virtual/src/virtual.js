@@ -1,27 +1,26 @@
-export { virtualReferences } from './virtualReferences';
-import './selectedInters';
-import { virtualReferences } from './virtualReferences';
+export { virtualReferences } from './references';
+import { virtualReferences } from './references';
+import './event-module';
 
-let Virtual;
+let virtual;
 
 const loadVirtual = async () => {
-  Virtual = await import('./virtualRouter.jsx');
-};
-
-export const loadVirtualComponents = async () => {
-  await import('./Fragment/VirtualNavigation');
-  await import('./Fragment/VirtualTranscription');
+  virtual = await import('./virtual-router.jsx');
 };
 
 export default {
   path: '/virtual',
   references: virtualReferences,
   mount: async (lang, ref) => {
-    if (!Virtual) await loadVirtual();
-    await Virtual.mount(lang, ref);
+    if (!virtual) await loadVirtual();
+    await virtual.mount(lang, ref);
   },
   unMount: async () => {
-    if (!Virtual) await loadVirtual();
-    await Virtual.unMount();
+    if (!virtual) await loadVirtual();
+    await virtual.unMount();
+  },
+  bootstrap: () => {
+    import('./fragment/virtual-navigation');
+    import('./fragment/virtual-transcription');
   },
 };

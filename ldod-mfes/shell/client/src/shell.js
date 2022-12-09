@@ -1,8 +1,9 @@
+import 'shared/modal.js';
 import 'shared/router.js';
-import { store } from './store.js';
-import './event-listeners.js';
 import './components/ldod-loading.js';
 import NotFound from './components/not-found.js';
+import './events-module.js';
+import { store } from './store.js';
 
 const getLanguage = () => store.getState().language;
 
@@ -21,7 +22,7 @@ router.fallback = NotFound;
 window.references = {};
 
 const routes = await Object.keys(modules)
-  .filter((mod) => mod !== 'shared/' && mod !== "home")
+  .filter((mod) => mod !== 'shared/' && mod !== 'home')
   .reduce(async (prev, mfeName) => {
     await import(mfeName)
       .then(async (mod) => {
@@ -31,18 +32,23 @@ const routes = await Object.keys(modules)
         if (mfePath) (await prev)[mfePath] = () => api;
       })
       .catch((e) => console.error(e));
-    return prev;
+    return await prev;
   }, Promise.resolve({}));
 
 router.routes = routes;
-const homeApi = (await import("home").catch(e => { })).default
-router.index = () => homeApi
+if (modules['home']) {
+  const homeApi = (await import('home').catch((e) => e)).default;
+  router.index = () => homeApi;
+}
 
-document.getElementById('root').append(router);
+document.getElementById('root').replaceWith(router);
 
 const updateLanguage = (newState, currentState) => {
   if (newState.language !== currentState.language) {
-    router.language = newState.language;
+    document.body
+      .querySelectorAll('[language')
+      .forEach((ele) => ele.setAttribute('language', newState.language));
   }
 };
-const unsub = store.subscribe(updateLanguage);
+
+store.subscribe(updateLanguage);

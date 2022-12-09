@@ -20,7 +20,7 @@ export async function processReferences() {
       console.time("loading refs to window");
       if (typeof window !== "undefined") {
         window.references = {
-          ${Object.keys(references).map((key) => {
+          ${Object.keys(references || []).map((key) => {
     if (!references[key]) return `${key}: ${null}`
     return `${key}: {
         ${Object.entries(references[key]).map(([fnKey, fn]) => {

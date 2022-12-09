@@ -2,7 +2,8 @@ import style from '../style.css?inline';
 import UploadComponent from './ldod-upload.js';
 import { xmlFileFetcher } from 'shared/fetcher.js';
 import { parseHTML } from 'shared/utils.js';
-import { dispatchCustomEvent } from '../utils';
+import { uploadEvent, uploadPublisher } from '../events-module';
+import { html } from '../utils';
 
 export class LdodUpload extends HTMLElement {
   constructor() {
@@ -48,8 +49,10 @@ export class LdodUpload extends HTMLElement {
       method: 'POST',
       body: formData,
     });
+    this.responseData = res;
+    this.dispatchEvent(uploadEvent(this.id, res));
 
-    if (res?.ok !== undefined) {
+    /*if (res?.ok !== undefined) {
       dispatchCustomEvent(
         this,
         { message: res.message },
@@ -71,6 +74,7 @@ export class LdodUpload extends HTMLElement {
           composed: true,
         }
       );
+  };*/
   };
 
   handleInput = (e) => {
@@ -95,7 +99,7 @@ export class LdodUpload extends HTMLElement {
     },
   };
 
-  disconnectedCallback() { }
+  disconnectedCallback() {}
 }
 !customElements.get('ldod-upload') &&
   customElements.define('ldod-upload', LdodUpload);

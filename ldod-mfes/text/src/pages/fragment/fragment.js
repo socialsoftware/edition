@@ -1,12 +1,6 @@
 import { getFragment } from '@src/api-requests.js';
 import { LdodFragment } from './LdodFragment.jsx';
 import { getNewInter, isVirtualInter } from './utils.js';
-import { isDev } from '@src/utils';
-
-const virtual =
-  window?.mfes.includes('virtual') && isDev()
-    ? await import('virtual/virtual-dev.js').catch((e) => console.error(e))
-    : await import('virtual').catch((e) => console.error(e));
 
 const mount = async (lang, ref) => {
   const { xmlId, urlId } = history.state;
@@ -19,7 +13,6 @@ const mount = async (lang, ref) => {
     .querySelector(ref)
     .appendChild(new LdodFragment(lang, data, xmlId, urlId));
 
-  await virtual?.loadVirtualComponents();
 };
 
 const unMount = () => document.querySelector('ldod-fragment')?.remove();

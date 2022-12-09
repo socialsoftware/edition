@@ -3,7 +3,11 @@ import 'shared/modal.js';
 import constants from './resources/constants.js';
 import { exportButton, uploadButton } from 'shared/buttons.js';
 import ManageUsersTable from './manage-users-table';
-import { getUsersList } from '../../api-requests';
+import { getUsersList, removeUserRequest } from '../../api-requests';
+import {
+  errorPublisher,
+  messagePublisher,
+} from '../../events-modules';
 
 exportButton();
 uploadButton();
@@ -11,14 +15,6 @@ uploadButton();
 import.meta.env.DEV
   ? await import('shared/table-dev.js')
   : await import('shared/table.js');
-
-export const loadAndAssignUsers = (node) => {
-  getUsersList().then((data) => {
-    node.toggleAttribute('data', false);
-    node.usersData = data;
-    node.toggleAttribute('data', true);
-  });
-};
 
 async function loadToolip() {
   await import('shared/tooltip.js');
@@ -53,12 +49,27 @@ export class ManageUsers extends HTMLElement {
     return constants[this.language][key];
   }
 
-  connectedCallback() {
-    this.render();
+  getData() {
+    return Promise.resolve(
+      getUsersList()
+        .then((data) => (this.usersData = data))
+        .catch((e) => console.error(e))
+    );
   }
 
-  handleUsersUpload = ({ detail }) =>
-    detail.message === 'Users uploaded' && loadAndAssignUsers(this);
+  connectedCallback() {
+    this.getData().then(() => this.render());
+  }
+
+  handleUsersUpload = (e) => {
+    e.stopPropagation();
+    const payload = e.detail.payload;
+    if (!payload.ok) return errorPublisher(payload.message);
+    this.getData().then(() => {
+      this.render();
+      messagePublisher(payload.message);
+    });
+  };
 
   attributeChangedCallback(name, oldV, newV) {
     this.handlers[name](oldV, newV);
@@ -66,17 +77,23 @@ export class ManageUsers extends HTMLElement {
   disconnectedCallback() { }
 
   addEventListeners() {
-    this.addEventListener('ldod-message', this.handleUsersUpload);
+    this.addEventListener("ldod:file-uploaded", this.handleUsersUpload);
     this.querySelectorAll('[tooltip-ref]').forEach((tooltipped) => {
       tooltipped.parentNode.addEventListener('pointerenter', loadToolip);
     });
-    this.addEventListener('ldod-table-searched', this.updateUsersListTitle);
+    this.addEventListener(
+      'ldod-table-searched',
+      this.updateUsersListTitleOnSearch
+    );
   }
 
-  updateUsersListTitle = ({ detail }) => {
-    if (detail.id === 'user-usersListTable')
-      this.querySelector('h1#title span').innerHTML = `&nbsp;(${this.querySelectorAll('table#user-usersListTable tr[searched]').length
-        })`;
+  updateUsersListTitleOnSearch = ({ detail }) => {
+    if (detail.id === 'user-usersListTable') {
+      const size = this.querySelectorAll(
+        'table#user-usersListTable tr[searched]'
+      ).length;
+      this.querySelector('h1#title span').innerHTML = `&nbsp;(${size})`;
+    }
   };
 
   render() {
@@ -119,6 +136,16 @@ export class ManageUsers extends HTMLElement {
 
     e.target.textContent = `Switch to ${this.querySelector('div.subject:not([show])').id
       }`;
+  };
+
+  onDeleteUser = ({ target }) => {
+    if (!confirm(`Delete user ${target.dataset.username} ?`)) return;
+    removeUserRequest(target.dataset.id)
+      .then((res) => {
+        this.usersData.userList = res.userList;
+        this.render();
+      })
+      .catch((e) => console.error(e));
   };
 }
 !customElements.get('manage-users') &&

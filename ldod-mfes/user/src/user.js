@@ -15,7 +15,7 @@ const loadUser = async () => {
 export default {
   path: '/user',
   references: userReferences,
-  bootstrap: () => import('./components/UserComponent'),
+  bootstrap: () => import('./components/user-component'),
   mount: async (lang, ref) => {
     await loadUser();
     await User.mount(lang, ref);

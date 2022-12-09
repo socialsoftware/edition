@@ -1,5 +1,5 @@
 import { userRequest } from './api-requests';
-import { tokenPublisher } from './events-modules';
+import { logoutPublisher } from './events-modules';
 import { getState, setState, storage } from './store';
 
 if (storage?.token) {
@@ -7,6 +7,6 @@ if (storage?.token) {
     .then((user) => setState({ user }))
     .catch((error) => {
       console.error(error);
-      tokenPublisher('');
+      logoutPublisher('');
     });
 }

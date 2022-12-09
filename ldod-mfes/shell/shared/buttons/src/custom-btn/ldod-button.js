@@ -67,7 +67,7 @@ export class LdodButton extends HTMLElement {
     if (oldV && oldV !== newV) this.button.textContent = newV;
   }
 
-  disconnectedCallback() { }
+  disconnectedCallback() {}
 }
 
 !customElements.get('ldod-button') &&

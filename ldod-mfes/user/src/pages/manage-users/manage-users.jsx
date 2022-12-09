@@ -1,11 +1,8 @@
-import { loadAndAssignUsers } from './manage-users-component.jsx';
-
+import "./manage-users-component"
 const mount = async (lang, ref) => {
   document
     .querySelector(ref)
     .appendChild(<manage-users language={lang}></manage-users>);
-  const node = document.querySelector(`${ref}>manage-users`);
-  loadAndAssignUsers(node);
 };
 const unMount = () => document.querySelector('manage-users')?.remove();
 

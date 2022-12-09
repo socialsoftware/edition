@@ -3,9 +3,11 @@ import userSchema from './user.schema.json';
 ldodEventBus.register('user:logout');
 ldodEventBus.register('user:token', { type: 'string' });
 ldodEventBus.register('user:login', userSchema);
-export const errorPublisher = (message) => ldodEventBus('ldod:error', message);
+
+export const errorPublisher = (message) =>
+  ldodEventBus.publish('ldod:error', message);
 export const messagePublisher = (message) =>
-  ldodEventBus('ldod:message', message);
+  ldodEventBus.publish('ldod:message', message);
 
 export const tokenPublisher = (token) =>
   ldodEventBus.publish('user:token', token);
