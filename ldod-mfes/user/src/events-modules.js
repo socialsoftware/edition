@@ -1,18 +1,15 @@
-import { ldodEventBus } from 'shared/ldod-events.js';
-import userSchema from './user.schema.json';
-ldodEventBus.register('user:logout');
-ldodEventBus.register('user:token', { type: 'string' });
-ldodEventBus.register('user:login', userSchema);
+import { ldodEventPublisher, ldodEventSubscriber } from 'shared/ldod-events.js';
 
-export const errorPublisher = (message) =>
-  ldodEventBus.publish('ldod:error', message);
+export const errorPublisher = (message) => ldodEventPublisher('error', message);
 export const messagePublisher = (message) =>
-  ldodEventBus.publish('ldod:message', message);
+  ldodEventPublisher('message', message);
 
-export const tokenPublisher = (token) =>
-  ldodEventBus.publish('user:token', token);
-export const logoutPublisher = () => ldodEventBus.publish('user:logout');
-export const loginPublisher = (user) =>
-  ldodEventBus.publish('user:login', user);
+export const tokenPublisher = (token) => ldodEventPublisher('token', token);
+export const logoutPublisher = () => ldodEventPublisher('logout');
+export const loginPublisher = (user) => ldodEventPublisher('login', user);
 
-export { ldodEventBus };
+export const loginSubscriber = (handler) =>
+  ldodEventSubscriber('login', handler);
+
+export const logoutSubscriber = (handler) =>
+  ldodEventSubscriber('logout', handler);

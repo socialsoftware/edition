@@ -1,7 +1,8 @@
+import { ldodEventPublisher } from './events-module.js';
 import './ldod-router.js';
 import './nav-to.js';
 
-export const navigateTo = (path, emiter = window, state) => {
+export const navigateToOld = (path, emiter = window, state) => {
   emiter.dispatchEvent(
     new CustomEvent('ldod-url-changed', {
       detail: { path, state },
@@ -9,4 +10,8 @@ export const navigateTo = (path, emiter = window, state) => {
       bubbles: true,
     })
   );
+};
+
+export const navigateTo = (path, state) => {
+  ldodEventPublisher('url-changed', { path, state });
 };

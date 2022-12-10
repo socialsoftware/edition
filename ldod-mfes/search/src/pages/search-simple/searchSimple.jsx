@@ -1,4 +1,4 @@
-import './LdodSearchSimple';
+import './ldod-search-simple';
 
 const mount = async (lang, ref) => {
   document

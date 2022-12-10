@@ -1,9 +1,9 @@
-import { fetchAnnotations } from './apiRequests';
-import { NewAnnPopover } from './components/new-annotation/NewAnnotationPopover';
-import { LdodAnnotation } from './components/ldod-annotation/LdodAnnotation';
-import { Annotation } from './Annotation';
+import { fetchAnnotations } from './api-requests';
+import { NewAnnPopover } from './components/new-annotation/new-annotation-popover';
+import { LdodAnnotation } from './components/ldod-annotation/ldod-annotation';
+import { Annotation } from './annotation';
 import { parseHTML } from 'shared/utils.js';
-window.html = String.raw;
+const html = String.raw;
 
 export let ldodAnnotationComponent;
 export let annotationsList = [];

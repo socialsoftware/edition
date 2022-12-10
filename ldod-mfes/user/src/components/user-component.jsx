@@ -3,7 +3,12 @@ import { loadConstants } from '@src/utils.js';
 import { navigateTo } from 'shared/router.js';
 import { setState } from '../store';
 import { userReferences } from '../user-references';
-import { ldodEventBus, loginPublisher, logoutPublisher } from '../events-modules';
+import {
+  loginPublisher,
+  loginSubscriber,
+  logoutPublisher,
+  logoutSubscriber,
+} from '../events-modules';
 import { AuthComponent } from './auth-component';
 import { NonAuthComponent } from './non-auth-component';
 
@@ -11,8 +16,6 @@ export class UserComponent extends HTMLLIElement {
   constructor(language) {
     super();
     if (language) this.language = language;
-    this.onUserLogout = this.onUserLogout.bind(this);
-    this.onUserLogin = this.onUserLogin.bind(this);
     this.id = `user-component-${registerInstance()}`;
   }
   get language() {
@@ -34,6 +37,12 @@ export class UserComponent extends HTMLLIElement {
       this.onUserLogin();
       loginPublisher(getState().user);
     }
+    this.addListeners();
+  }
+
+  disconnectedCallback() {
+    this.loginUnsub();
+    this.logoutUnsub();
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -53,27 +62,26 @@ export class UserComponent extends HTMLLIElement {
       ? this.appendChild(<AuthComponent logoutHandler={this.logoutHandler} />)
       : this.appendChild(<NonAuthComponent />);
     this.updateLanguage();
-    this.addListeners();
   }
 
-  updateComponent(e) {
+  updateComponent() {
     this.innerHTML = '';
     this.render();
   }
 
   addListeners() {
-    ldodEventBus.subscribe("user:login", this.onUserLogin)
-    ldodEventBus.subscribe("user:logout", this.onUserLogout)
+    this.loginUnsub = loginSubscriber(this.onUserLogin);
+    this.logoutUnsub = logoutSubscriber(this.onUserLogout);
   }
 
-  onUserLogin() {
+  onUserLogin = () => {
     this.updateComponent();
-  }
+  };
 
-  onUserLogout() {
+  onUserLogout = () => {
     this.logoutHandler();
     this.updateComponent();
-  }
+  };
 
   async updateLanguage() {
     await this.setConstants();
@@ -83,12 +91,11 @@ export class UserComponent extends HTMLLIElement {
   }
 
   logoutHandler = () => {
-    navigateTo(userReferences.signin());
     if (!(getState().user || getState().token)) return;
     setState({ token: '', user: '' });
     logoutPublisher();
+    navigateTo(userReferences.signin());
   };
-
 }
 
 !customElements.get('user-component') &&

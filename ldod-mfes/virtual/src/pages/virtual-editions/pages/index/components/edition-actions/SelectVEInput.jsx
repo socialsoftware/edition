@@ -1,5 +1,5 @@
 import { toggleSelectedVE } from '@src/restricted-api-requests';
-import { ldodEventBus, ldodEventPublisher } from '@src/event-module';
+import { ldodEventPublisher } from '@src/event-module';
 
 const onCheckboxChange = async (node, edition, target) => {
   const ed = {
@@ -21,7 +21,7 @@ const onCheckboxChange = async (node, edition, target) => {
 
   if (vEdition) {
     node.updateEdition(vEdition);
-    ldodEventBus.publish('virtual:selected-ve', ed);
+    ldodEventPublisher("selected-ve", ed)
   }
 };
 

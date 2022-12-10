@@ -1,3 +1,5 @@
+import { ldodEventPublisher } from './events-module';
+
 export default class NavTo extends HTMLAnchorElement {
   get to() {
     let toAttr = this.getAttribute('to');
@@ -37,19 +39,22 @@ export default class NavTo extends HTMLAnchorElement {
 
   emitURLEvent() {
     if (!this.to) return;
-    this.dispatchEvent(
+    ldodEventPublisher('url-changed', { path: this.to });
+    /*    this.dispatchEvent(
       new CustomEvent('ldod-url-changed', {
         composed: true,
         bubbles: true,
         detail: { path: this.to },
       })
-    );
+    );*/
   }
 
   checkIfMfesIsPublished = () => {
     if (this.target || !this.hasTo) return;
-    if (this.hasContent) return this.setAttribute('to', '');
-    if (!this.publishedMfes.includes(this.mfe)) this.style.display = 'none';
+    if (!this.publishedMfes.includes(this.mfe)) {
+      if (this.hasContent) return this.setAttribute('to', '');
+      this.style.display = 'none';
+    }
   };
 }
 

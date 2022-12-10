@@ -1,7 +1,7 @@
 import { parseHTML } from 'shared/utils.js';
 import headers from '../../../resources/navbar/headers-menus.js';
 import style from '../../../style/navbar.css' assert { type: 'css' };
-import { ldodEventBus } from 'shared/ldod-events.js';
+import { ldodEventSubscriber } from 'shared/ldod-events.js';
 import './dropdown-menu.js';
 import './lang-menu.js';
 
@@ -62,18 +62,12 @@ export default class LdodNavbar extends HTMLElement {
     this.unsubLogin?.();
   }
 
-  subscriber = (evt, handler) => {
-    const sub = ldodEventBus.subscribe(evt, handler);
-    return sub.unsubscribe;
-  };
+  subscriber = (evt, handler) => ldodEventSubscriber(evt, handler);
 
   addEventListeners = () => {
-    this.unsubSelectedVe = this.subscriber(
-      'virtual:selected-ve',
-      this.addSelectedVE
-    );
-    this.unsubLogout = this.subscriber('user:logout', this.onUserLogout);
-    this.unsubLogin = this.subscriber('user:login', this.onUserLogin);
+    this.unsubSelectedVe = this.subscriber('selected-ve', this.addSelectedVE);
+    this.unsubLogout = this.subscriber('logout', this.onUserLogout);
+    this.unsubLogin = this.subscriber('login', this.onUserLogin);
   };
 
   async attributeChangedCallback(name, oldValue, newValue) {

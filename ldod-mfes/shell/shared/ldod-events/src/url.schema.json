@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {
+    "path": {
+      "type": "string"
+    },
+    "state": {
+      "type": "object"
+    }
+  },
+  "required": ["path"]
+}

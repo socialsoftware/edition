@@ -3,7 +3,7 @@ import { setState, getState } from '@src/store';
 import { navigateTo } from 'shared/router.js';
 import { newAuthRequest, userRequest } from '../../api-requests';
 import SigninForm from './signin-form';
-import { errorPublisher, ldodEventBus, loginPublisher, logoutPublisher, tokenPublisher } from '../../events-modules';
+import { errorPublisher, loginPublisher, logoutPublisher, tokenPublisher } from '../../events-modules';
 
 class SignIn extends HTMLElement {
   constructor() {

@@ -1,6 +1,7 @@
 import { parseHTML } from 'shared/utils.js';
 import { ldodEventBus } from 'shared/ldod-events.js';
 import style from './loading-modal.css' assert { type: 'css' };
+import { sleep } from 'shared/utils.js';
 window.html = String.raw;
 
 const styleSheet = new CSSStyleSheet();
@@ -21,9 +22,10 @@ export class LdodLoading extends HTMLElement {
     return this.hasAttribute('show');
   }
 
-  handleLoading = (isLoading) => {
+  handleLoading = async (isLoading) => {
     if (this.pendingLoading > 1 && isLoading) return;
     if (this.pendingLoading !== 0 && !isLoading) return;
+    !isLoading && (await sleep(10));
     this.toggleVisibility(isLoading);
   };
 

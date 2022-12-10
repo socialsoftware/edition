@@ -1,11 +1,6 @@
 import { ldodEventBus } from 'shared/ldod-events.js';
 import { store } from './store.js';
 
-ldodEventBus.register('ldod:loading', { type: 'boolean' });
-ldodEventBus.register('ldod:language', { type: 'string' });
-ldodEventBus.register('ldod:error', { type: 'string' });
-ldodEventBus.register('ldod:message', { type: 'string' });
-
 function updateModal(id, content, show) {
   const modal = document.body.querySelector(`ldod-modal#${id}`);
   modal.querySelector('div[slot="body-slot"]').innerHTML = content;
@@ -21,7 +16,7 @@ const handlers = {
 };
 
 ldodEventBus.subscribe('ldod:language', handlers.language);
-ldodEventBus.subscribe('user:token', handlers.token);
-ldodEventBus.subscribe('user:logout', handlers.token);
+ldodEventBus.subscribe('ldod:token', handlers.token);
+ldodEventBus.subscribe('ldod:logout', handlers.token);
 ldodEventBus.subscribe('ldod:message', handlers.message);
 ldodEventBus.subscribe('ldod:error', handlers.error);

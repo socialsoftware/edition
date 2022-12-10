@@ -2,7 +2,7 @@ import style from './style.css?inline';
 import { createPopper } from 'shared/popper.js';
 import { fromRange } from 'xpath-range';
 import { annotationsList, processExistingAnnotations } from '../../annotator';
-import { Annotation } from '../../Annotation';
+import { Annotation } from '../../annotation';
 
 const getBoundingClientRect = (x = 0, y = 0) => ({
   width: 0,

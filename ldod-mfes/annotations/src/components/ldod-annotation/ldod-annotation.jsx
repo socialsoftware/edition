@@ -3,7 +3,7 @@ import {
   createAnnotation,
   deleteAnnotation,
   updateAnnotation,
-} from '../../apiRequests';
+} from '../../api-requests';
 import style from './style.css?inline';
 import snowStyle from '/node_modules/quill/dist/quill.snow.css?inline';
 

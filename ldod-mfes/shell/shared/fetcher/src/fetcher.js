@@ -1,16 +1,12 @@
 import { getPartialStorage } from 'shared/store.js';
-import { ldodEventBus } from 'shared/ldod-events.js';
+import { ldodEventPublisher } from 'shared/ldod-events.js';
 import { navigateTo } from 'shared/router.js';
 
 const HOST = window.process?.apiHost || 'http://localhost:8000/api';
 
-function eventPublisher(eventName, payload) {
-  ldodEventBus.publish(`ldod:${eventName}`, payload);
-}
-
-const handleLoading = (isLoading) => eventPublisher('loading', isLoading);
-const handleLogout = () => eventPublisher('logout');
-const handleError = (message) => eventPublisher('error', message);
+const handleLoading = (isLoading) => ldodEventPublisher('loading', isLoading);
+const handleLogout = () => ldodEventPublisher('logout');
+const handleError = (message) => ldodEventPublisher('error', message);
 
 const getStorageToken = () => getPartialStorage('ldod-store', ['token'])?.token;
 

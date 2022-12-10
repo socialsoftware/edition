@@ -1,6 +1,6 @@
 
 import { dataProxy } from '@src/api-requests.js';
-import './LdodFragments.jsx';
+import './ldod-fragments';
 
 
 const mount = async (lang, ref) => {

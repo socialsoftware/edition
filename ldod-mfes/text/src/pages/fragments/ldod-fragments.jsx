@@ -1,6 +1,8 @@
 import FragsTable from './components/FragsTable.jsx';
 import Title from '@src/common/Title.jsx';
 import constants from './constants.js';
+import { loadingPublisher } from '../../events-module.js';
+import { sleep } from "shared/utils.js"
 
 export class LdodFragments extends HTMLElement {
   constructor() {
@@ -91,7 +93,9 @@ export class LdodFragments extends HTMLElement {
       );
   };
 
-  handleChangedLanguage = () => {
+  handleChangedLanguage = async () => {
+    loadingPublisher(true);
+    await sleep(5);
     this.querySelectorAll('[data-key]').forEach((node) => {
       return (node.firstChild.textContent =
         node.dataset.args || node.hasAttribute('data-args')
@@ -101,6 +105,7 @@ export class LdodFragments extends HTMLElement {
           )
           : this.getConstants(node.dataset.key));
     });
+    loadingPublisher(false);
   };
 }
 !customElements.get('ldod-fragments') &&

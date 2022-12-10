@@ -12,6 +12,7 @@ import {
   getVeTaxonomy,
   mergeCategories,
 } from './taxonomy-api-requests';
+import { ldodEventPublisher } from '@src/event-module';
 
 const GenerateTopicsModal = async (node, veId) =>
   (await import('./generate-topics-modal')).default({
@@ -118,7 +119,7 @@ export class LdodVeTaxonomy extends HTMLElement {
       if (this.show) {
         getVeTaxonomy(this.parent.edition.externalId)
           .then(async (data) => {
-            await this.emitLoading(true);
+            this.emitLoading(true);
             this.taxonomy = data;
             this.render();
             this.taxonomyModal?.toggleAttribute('show', this.show);
@@ -126,7 +127,7 @@ export class LdodVeTaxonomy extends HTMLElement {
           })
           .catch((error) => {
             console.error(error);
-            this.parent.dispatchCustomEvent('ldod-error', error);
+            ldodEventPublisher("error", error);
           });
       }
     },
@@ -182,7 +183,7 @@ export class LdodVeTaxonomy extends HTMLElement {
 
   onCloseModal = {
     taxonomyModal: async () => {
-      await this.emitLoading(true);
+      this.emitLoading(true);
       this.toggleAttribute('show', false);
       this.resetState();
       this.emitLoading(false);
@@ -262,17 +263,9 @@ export class LdodVeTaxonomy extends HTMLElement {
     );
   };
 
-  emitLoading = (isLoading) =>
-    new Promise((resolve) => {
-      this.dispatchEvent(
-        new CustomEvent('ldod-loading', {
-          detail: { isLoading },
-          composed: true,
-          bubbles: true,
-        })
-      );
-      setTimeout(() => resolve(), 100);
-    });
+  emitLoading = (isLoading) => {
+    ldodEventPublisher("loading", isLoading)
+  }
 }
 !customElements.get('ldod-ve-taxonomy') &&
   customElements.define('ldod-ve-taxonomy', LdodVeTaxonomy);

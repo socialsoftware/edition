@@ -1,4 +1,4 @@
-import { ldodEventBus } from 'shared/ldod-events.js';
+import { ldodEventPublisher, ldodEventSubscriber } from './events-module';
 import {
   addEndSlash,
   addStartSlash,
@@ -116,12 +116,12 @@ export default class LdodRouter extends HTMLElement {
   }
 
   disconnectedCallback() {
-    window.removeEventListener('ldod-url-changed', this.handleURLChanged);
+    this.unsubURL();
     window.removeEventListener('popstate', this.handlePopstate);
   }
 
   addEventListeners() {
-    window.addEventListener('ldod-url-changed', this.handleURLChanged);
+    this.unsubURL = ldodEventSubscriber('url-changed', this.handleURLChanged);
     window.addEventListener('popstate', this.handlePopstate);
   }
 
@@ -131,7 +131,7 @@ export default class LdodRouter extends HTMLElement {
     this.render();
   };
 
-  handleURLChanged = ({ detail: { path, state } }) => {
+  handleURLChanged = ({ payload: { path, state } }) => {
     if (path && this.isFromThisRouter(path))
       this.navigate(this.getFullPath(path), state);
   };
@@ -140,15 +140,11 @@ export default class LdodRouter extends HTMLElement {
     this.isFromThisRouter(this.location) && this.navigate(this.location);
   };
 
-  eventPublisher(name, payload) {
-    ldodEventBus.publish(`ldod:${name}`, payload);
-  }
-
   async render() {
     let route = await this.getRoute();
-    this.eventPublisher('loading', true);
+    ldodEventPublisher('loading', true);
     await this.appendMFE(route);
-    this.eventPublisher('loading', false);
+    ldodEventPublisher('loading', false);
   }
 
   isARouteMatch = (path) => {

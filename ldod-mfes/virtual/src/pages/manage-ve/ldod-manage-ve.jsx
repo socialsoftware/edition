@@ -1,7 +1,7 @@
 import { deleteVE, getVirtualEditions4Manage } from './api-requests';
 import constants from '../constants';
 import VeManageTable from './ve-manage-table';
-import { ldodEventBus } from '../../event-module';
+import { ldodEventPublisher } from '../../event-module';
 
 import.meta.env.DEV
   ? await import('shared/table-dev.js')
@@ -108,9 +108,9 @@ export class LdodManageVE extends HTMLElement {
         this.querySelectorAll('[data-virtual-key]').forEach((node) => {
           return (node.firstChild.textContent = node.dataset.args
             ? this.getConstants(
-              node.dataset.virtualKey,
-              JSON.parse(node.dataset.args)
-            )
+                node.dataset.virtualKey,
+                JSON.parse(node.dataset.args)
+              )
             : this.getConstants(node.dataset.virtualKey));
         });
         this.querySelectorAll('[data-virtual-tooltip-key]').forEach((ele) => {
@@ -137,11 +137,11 @@ export class LdodManageVE extends HTMLElement {
   handleFileUploaded = (e) => {
     e.stopPropagation();
     const payload = e.detail.payload;
-    if (!payload.ok) return ldodEventBus.publish("ldod:error", payload.message)
+    if (!payload.ok) return ldodEventPublisher('error', payload.message);
     getVirtualEditions4Manage()
       .then((data) => {
-        this.updateData(data)
-        ldodEventBus.publish("ldod:message", payload.message)
+        this.updateData(data);
+        ldodEventPublisher('message', payload.message);
       })
       .catch((error) => console.error(error));
   };

@@ -1,7 +1,8 @@
-import selectedVeSchema from './selecte-ve.schema.json';
 export let selectedInters = ['LdoD-Arquivo', 'LdoD-Mallet', 'LdoD-Twitter'];
 
-export let ldodEventBus;
+export let ldodEventPublisher;
+export let ldodEventSubscriber;
+
 function selectedVeHandler({ payload }) {
   selectedInters = payload.selected
     ? [...selectedInters, payload.name]
@@ -9,11 +10,9 @@ function selectedVeHandler({ payload }) {
 }
 
 if (typeof window !== 'undefined') {
-  ldodEventBus = (await import('shared/ldod-events.js')).ldodEventBus;
-  ldodEventBus.register('virtual:selected-ve', selectedVeSchema);
-  ldodEventBus.subscribe('virtual:selected-ve', selectedVeHandler);
+  await import('shared/ldod-events.js').then((module) => {
+    ldodEventPublisher = module.ldodEventPublisher;
+    ldodEventSubscriber = module.ldodEventSubscriber;
+  });
+  ldodEventSubscriber('selected-ve', selectedVeHandler);
 }
-
-export const ldodEventPublisher = (name, payload) => {
-  ldodEventBus?.publish(`ldod:${name}`, payload);
-};

@@ -1,24 +1,20 @@
 import references from './references';
 
-let Search;
+let search;
+let searchSimple;
 
 const loadSearch = async () => {
-  Search = await import('./SearchRouter');
+  if (!search) search = await import('./SearchRouter');
+  return search;
 };
-
-if (typeof window !== "undefined") {
-  import('./pages/search-simple/LdodSearchSimple');
-}
 
 export default {
   path: '/search',
   references,
-  mount: async (lang, ref) => {
-    if (!Search) await loadSearch();
-    await Search.mount(lang, ref);
-  },
-  unMount: async () => {
-    if (!Search) await loadSearch();
-    await Search.unMount();
+  mount: async (lang, ref) => (await loadSearch()).mount(lang, ref),
+  unMount: async () => (await loadSearch()).unMount(),
+  bootstrap: async () => {
+    if (searchSimple) return;
+    searchSimple = await import('./pages/search-simple/ldod-search-simple');
   },
 };

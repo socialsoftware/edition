@@ -16,9 +16,10 @@ const AssociateModal = async (node) =>
   });
 
 export const loadAnnotator = async (interId, referenceNode) => {
-  const { annotatorService } = import.meta.env.DEV
+  if (!window.mfes.includes("annotations")) return
+  const { annotatorService } = (import.meta.env.DEV
     ? await import('annotations.dev').catch((e) => console.error(e))
-    : await import('annotations').catch((e) => console.error(e));
+    : await import('annotations').catch((e) => console.error(e)));
   annotatorService({ interId, referenceNode });
 };
 export class VirtualTranscription extends HTMLElement {
