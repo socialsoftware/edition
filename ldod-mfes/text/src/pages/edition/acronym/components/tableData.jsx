@@ -1,5 +1,5 @@
-import { reading } from '@src/external-deps';
 import textReferences from '@src/references';
+import { readingExpertEdition } from '../../../../external-deps';
 
 export const getTableData = (node) => {
   return node.data?.map((frag) => {
@@ -13,9 +13,7 @@ export const getTableData = (node) => {
           </a>
         ),
         reading: (
-          <a
-            is="nav-to"
-            to={reading.editionInterPath?.(frag.xmlId, frag.urlId)}>
+          <a is="nav-to" to={readingExpertEdition(frag.xmlId, frag.urlId)}>
             <span class="icon icon-eye"></span>
           </a>
         ),

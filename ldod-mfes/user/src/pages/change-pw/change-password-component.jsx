@@ -38,7 +38,7 @@ export class ChangePassword extends HTMLElement {
 
   async connectedCallback() {
     await this.setConstants();
-    if (!getState().user) return navigateTo(userReferences.signin(), this);
+    if (!getState().user) return navigateTo(userReferences.signin());
     this.appendChild(<ChangePasswordForm node={this} />);
   }
 

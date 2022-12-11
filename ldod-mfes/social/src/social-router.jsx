@@ -2,7 +2,7 @@ import 'shared/router.js';
 import style from './style.css?inline';
 
 export const isDev = () => import.meta.env.DEV;
-const SOCIAL_SELECTOR = 'div#socialContainer';
+const SOCIAL_SELECTOR = 'div#social-container';
 
 const routes = {
   '/twitter-citations': async () =>
@@ -21,7 +21,7 @@ export const unMount = () => {
 
 export const SocialRouter = ({ language }) => {
   return (
-    <div id="socialContainer">
+    <div id="social-container">
       <style>{style}</style>
       <div class="container">
         <ldod-router

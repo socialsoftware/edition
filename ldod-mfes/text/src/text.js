@@ -1,19 +1,14 @@
 import textReferences from './references';
-let Text;
+let text;
 
 const loadText = async () => {
-  Text = await import('./text-router.jsx');
+  if (!text) text = await import('./text-router.jsx');
+  return text;
 };
 
 export default {
   path: '/text',
   references: textReferences,
-  mount: async (lang, ref) => {
-    if (!Text) await loadText();
-    await Text.mount(lang, ref);
-  },
-  unMount: async () => {
-    if (!Text) await loadText();
-    await Text.unMount();
-  },
+  mount: async (lang, ref) => (await loadText()).mount(lang, ref),
+  unMount: async () => (await loadText()).unMount(),
 };

@@ -19,7 +19,7 @@ export const signupRequest = async (data) =>
 export const socialAuthRequest = async (path, data, loginCB) =>
   fetcher.post(`/auth/${path}`, data).then((response) => {
     if (isFormState(response)) {
-      navigateTo(userReferences.signup, this, response);
+      navigateTo(userReferences.signup, response);
       return Promise.resolve({ message: 'googleAssociation' });
     }
     isAccessToken(response) && loginCB(response.accessToken);

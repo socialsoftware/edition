@@ -1,18 +1,13 @@
 import references from './references.js';
-let Social;
+let social;
 const loadSocial = async () => {
-  Social = await import('./social-router.jsx');
+  if (!social) social = await import('./social-router.jsx');
+  return social;
 };
 
 export default {
   path: '/social',
   references,
-  mount: async (lang, ref) => {
-    if (!Social) await loadSocial();
-    await Social.mount(lang, ref);
-  },
-  unMount: async () => {
-    if (!Social) await loadSocial();
-    await Social.unMount();
-  },
+  mount: async (lang, ref) => (await loadSocial()).mount(lang, ref),
+  unMount: async () => (await loadSocial()).unMount(),
 };

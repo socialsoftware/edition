@@ -1,5 +1,5 @@
 import textReferences from '@src/references';
-import { virtual } from '@src/external-deps';
+import { virtualEdition } from '../../../external-deps';
 export const editions = [
   {
     filename: 'JPC',
@@ -23,7 +23,7 @@ export const editions = [
   },
   {
     filename: 'ALdod',
-    path: virtual.virtualEdition?.('LdoD-Arquivo'),
+    path: virtualEdition('LdoD-Arquivo'),
     padding: '5px',
   },
 ];
