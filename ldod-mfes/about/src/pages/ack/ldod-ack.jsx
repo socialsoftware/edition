@@ -1,8 +1,9 @@
-import { hideHomeInfo, showHomeInfo } from '@src/homeInfo';
-const loadComponent = async (lang) =>
-  (await import(`./components/Team-${lang}.jsx`)).default();
+import { hideHomeInfo, showHomeInfo } from '@src/home-info';
 
-export class LdodTeam extends HTMLElement {
+const loadComponent = async (lang) =>
+  (await import(`./components/ack-${lang}.jsx`)).default();
+
+export class LdodAck extends HTMLElement {
   constructor() {
     super();
   }
@@ -10,11 +11,6 @@ export class LdodTeam extends HTMLElement {
   get language() {
     return this.getAttribute('language');
   }
-
-  get title() {
-    return this.getAttribute('title');
-  }
-
   static get observedAttributes() {
     return ['language'];
   }
@@ -41,14 +37,13 @@ export class LdodTeam extends HTMLElement {
   };
 
   wrapper() {
-    return <div id="aboutWrapper" class="ldod-about"></div>;
+    return <div id="about-wrapper" class="ldod-about"></div>;
   }
 
   async render() {
-    const wrapper = this.querySelector('#aboutWrapper');
+    const wrapper = this.querySelector('#about-wrapper');
     wrapper.appendChild(<div>{await loadComponent(this.language)}</div>);
     wrapper.childNodes.length > 1 && wrapper.firstChild.remove();
   }
 }
-!customElements.get('ldod-team') &&
-  customElements.define('ldod-team', LdodTeam);
+!customElements.get('ldod-ack') && customElements.define('ldod-ack', LdodAck);

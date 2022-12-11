@@ -55,13 +55,13 @@ hr {
   box-sizing: content-box;
 }
 
-#aboutWrapper a {
+#about-wrapper a {
   color: #0c4ef6;
   text-decoration: none;
   background-color: transparent;
 }
 
-#aboutWrapper a:hover {
+#about-wrapper a:hover {
   text-decoration: underline;
 }
 

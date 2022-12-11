@@ -1,8 +1,8 @@
-import { hideHomeInfo, showHomeInfo } from '@src/homeInfo';
+import { hideHomeInfo, showHomeInfo } from '@src/home-info';
 const loadComponent = async (lang) =>
-  (await import(`./components/Videos-${lang}.jsx`)).default();
+  (await import(`./components/faq-${lang}.jsx`)).default();
 
-export class LdodVideos extends HTMLElement {
+export class LdodFaq extends HTMLElement {
   constructor() {
     super();
   }
@@ -41,14 +41,13 @@ export class LdodVideos extends HTMLElement {
   };
 
   wrapper() {
-    return <div id="aboutWrapper" class="ldod-about"></div>;
+    return <div id="about-wrapper" class="ldod-about"></div>;
   }
 
   async render() {
-    const wrapper = this.querySelector('#aboutWrapper');
+    const wrapper = this.querySelector('#about-wrapper');
     wrapper.appendChild(<div>{await loadComponent(this.language)}</div>);
     wrapper.childNodes.length > 1 && wrapper.firstChild.remove();
   }
 }
-!customElements.get('ldod-videos') &&
-  customElements.define('ldod-videos', LdodVideos);
+!customElements.get('ldod-faq') && customElements.define('ldod-faq', LdodFaq);

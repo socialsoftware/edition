@@ -1,9 +1,8 @@
-import { hideHomeInfo, showHomeInfo } from '@src/homeInfo';
-
+import { hideHomeInfo, showHomeInfo } from '@src/home-info';
 const loadComponent = async (lang) =>
-  (await import(`./components/Archive-${lang}.jsx`)).default();
+  (await import(`./components/privacy-${lang}.jsx`)).default();
 
-export class LdodArchive extends HTMLElement {
+export class LdodPrivacy extends HTMLElement {
   constructor() {
     super();
   }
@@ -11,6 +10,11 @@ export class LdodArchive extends HTMLElement {
   get language() {
     return this.getAttribute('language');
   }
+
+  get title() {
+    return this.getAttribute('title');
+  }
+
   static get observedAttributes() {
     return ['language'];
   }
@@ -37,18 +41,14 @@ export class LdodArchive extends HTMLElement {
   };
 
   wrapper() {
-    return (
-      <>
-        <div id="aboutWrapper" class="ldod-about"></div>
-      </>
-    );
+    return <div id="about-wrapper" class="ldod-about"></div>;
   }
 
   async render() {
-    const wrapper = this.querySelector('#aboutWrapper');
+    const wrapper = this.querySelector('#about-wrapper');
     wrapper.appendChild(<div>{await loadComponent(this.language)}</div>);
     wrapper.childNodes.length > 1 && wrapper.firstChild.remove();
   }
 }
-!customElements.get('ldod-archive') &&
-  customElements.define('ldod-archive', LdodArchive);
+!customElements.get('ldod-privacy') &&
+  customElements.define('ldod-privacy', LdodPrivacy);

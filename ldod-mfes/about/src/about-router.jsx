@@ -29,7 +29,7 @@ export const unMount = async () => {
 
 export const AboutRouter = ({ language }) => {
   return (
-    <div id="aboutContainer">
+    <div id="about-container">
       <style>{style}</style>
       <div class="container">
         <ldod-router

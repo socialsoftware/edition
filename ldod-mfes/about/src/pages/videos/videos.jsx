@@ -1,4 +1,4 @@
-import './LdodVideos.jsx';
+import './ldod-videos.jsx';
 
 const mount = (lang, ref) => {
   document

@@ -1,4 +1,4 @@
-import './LdodPrivacy.jsx';
+import './ldod-privacy.jsx';
 
 const mount = (lang, ref) => {
   document

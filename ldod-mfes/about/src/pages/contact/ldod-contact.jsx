@@ -1,4 +1,4 @@
-import { hideHomeInfo, showHomeInfo } from '@src/homeInfo';
+import { hideHomeInfo, showHomeInfo } from '@src/home-info';
 const title = {
   en: 'Contact Us',
   es: 'Contacto',
@@ -71,11 +71,11 @@ export class LdodContact extends HTMLElement {
   }
 
   wrapper() {
-    return <div id="aboutWrapper" class="ldod-about"></div>;
+    return <div id="about-wrapper" class="ldod-about"></div>;
   }
 
   render() {
-    const wrapper = this.querySelector('#aboutWrapper');
+    const wrapper = this.querySelector('#about-wrapper');
     wrapper.appendChild(
       <div>
         {this.getTitle()}

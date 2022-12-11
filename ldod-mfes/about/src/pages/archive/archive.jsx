@@ -1,4 +1,4 @@
-import './LdodArchive.jsx';
+import './ldod-archive.jsx';
 
 const mount = (lang, ref) => {
   document

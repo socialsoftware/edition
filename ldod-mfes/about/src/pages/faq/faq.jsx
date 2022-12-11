@@ -1,4 +1,4 @@
-import './LdodFaq.jsx';
+import './ldod-faq.jsx';
 
 const mount = (lang, ref) => {
   document

@@ -1,4 +1,4 @@
-import './LdodEncoding.jsx';
+import './ldod-encoding.jsx';
 
 const mount = (lang, ref) => {
   document

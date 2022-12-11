@@ -1,4 +1,4 @@
-import './LdodCopyright.jsx';
+import './ldod-copyright.jsx';
 
 const mount = (lang, ref) => {
   document

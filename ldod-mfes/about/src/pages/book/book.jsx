@@ -1,4 +1,4 @@
-import './LdodBook.jsx';
+import './ldod-book.jsx';
 
 const mount = (lang, ref) => {
   document

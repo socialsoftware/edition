@@ -1,4 +1,4 @@
-import './LdodContact.jsx';
+import './ldod-contact.jsx';
 
 const mount = (lang, ref) => {
   document

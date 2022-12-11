@@ -1,9 +1,10 @@
-import { hideHomeInfo, showHomeInfo } from '@src/homeInfo';
+import { hideHomeInfo, showHomeInfo } from '@src/home-info';
+import image from './LiterarySimulation_BookCover.webp';
 
 const loadComponent = async (lang) =>
-  (await import(`./components/Articles-${lang}.jsx`)).default();
+  (await import(`./components/Book-${lang}.jsx`)).default({ image });
 
-export class LdodArticles extends HTMLElement {
+export class LdodBook extends HTMLElement {
   constructor() {
     super();
   }
@@ -39,16 +40,16 @@ export class LdodArticles extends HTMLElement {
   wrapper() {
     return (
       <>
-        <div id="aboutWrapper" class="ldod-about"></div>
+        <div id="about-wrapper" class="ldod-about"></div>
       </>
     );
   }
 
   async render() {
-    const wrapper = this.querySelector('#aboutWrapper');
+    const wrapper = this.querySelector('#about-wrapper');
     wrapper.appendChild(<div>{await loadComponent(this.language)}</div>);
     wrapper.childNodes.length > 1 && wrapper.firstChild.remove();
   }
 }
-!customElements.get('ldod-articles') &&
-  customElements.define('ldod-articles', LdodArticles);
+!customElements.get('ldod-book') &&
+  customElements.define('ldod-book', LdodBook);

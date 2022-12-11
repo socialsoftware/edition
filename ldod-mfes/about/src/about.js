@@ -1,20 +1,14 @@
 import references from './references.js';
-let About;
+let about;
 
 const loadAbout = async () => {
-  About = await import('./aboutRouter.jsx');
+  if (!about) about = await import('./about-router.jsx');
+  return about;
 };
 
 export default {
-
   path: '/about',
   references,
-  mount: async (lang, ref) => {
-    if (!About) await loadAbout();
-    await About.mount(lang, ref);
-  },
-  unMount: async () => {
-    if (!About) await loadAbout();
-    await About.unMount();
-  },
+  mount: async (lang, ref) => (await loadAbout()).mount(lang, ref),
+  unMount: async () => (await loadAbout()).unMount(),
 };

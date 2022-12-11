@@ -1,4 +1,4 @@
-import './LdodConduct.jsx';
+import './ldod-conduct.jsx';
 
 const mount = (lang, ref) => {
   document

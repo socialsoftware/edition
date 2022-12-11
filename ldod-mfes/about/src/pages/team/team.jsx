@@ -1,4 +1,4 @@
-import './LdodTeam.jsx';
+import './ldod-team.jsx';
 
 const mount = (lang, ref) => {
   document

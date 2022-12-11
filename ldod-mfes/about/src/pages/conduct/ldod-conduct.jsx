@@ -1,6 +1,6 @@
-import { hideHomeInfo, showHomeInfo } from '@src/homeInfo';
+import { hideHomeInfo, showHomeInfo } from '@src/home-info';
 const loadComponent = async (lang) =>
-  (await import(`./components/Conduct-${lang}.jsx`)).default();
+  (await import(`./components/conduct-${lang}.jsx`)).default();
 
 const conductTitle = {
   en: 'Code of Conduct',
@@ -57,11 +57,11 @@ export class LdodConduct extends HTMLElement {
   }
 
   wrapper() {
-    return <div id="aboutWrapper" class="ldod-about"></div>;
+    return <div id="about-wrapper" class="ldod-about"></div>;
   }
 
   async render() {
-    const wrapper = this.querySelector('#aboutWrapper');
+    const wrapper = this.querySelector('#about-wrapper');
     wrapper.appendChild(
       <div>
         {this.getTitle()}
