@@ -4,7 +4,7 @@ let search;
 let searchSimple;
 
 const loadSearch = async () => {
-  if (!search) search = await import('./SearchRouter');
+  if (!search) search = await import('./search-router');
   return search;
 };
 

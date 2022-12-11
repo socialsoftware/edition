@@ -2,7 +2,7 @@ import style from '@src/style.css?inline';
 import thisStyle from './style.css?inline';
 
 import constants from './constants';
-import { advancedSearch, getAdvSearchDto } from '../../apiRequests';
+import { advancedSearch, getAdvSearchDto } from '../../api-requests';
 import './CriteriaForm';
 import AdvancedSearchTableResult from './components/AdvancedSearchTableResult';
 

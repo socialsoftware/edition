@@ -1,4 +1,4 @@
-import { text } from '../../../externalDeps';
+import { textFrag, textFragInter } from '../../../external-deps';
 import constants from '../constants';
 
 import.meta.env.DEV
@@ -17,12 +17,12 @@ const getTableData = (root) => {
       externalId: inter.externalId,
       data: () => ({
         fragments: (
-          <a is="nav-to" to={text.fragment?.(inter.xmlId)}>
+          <a is="nav-to" to={textFrag(inter.xmlId)}>
             {inter.fragTitle}
           </a>
         ),
         interpretations: (
-          <a is="nav-to" to={text.fragmentInter(inter.xmlId, inter.urlId)}>
+          <a is="nav-to" to={textFragInter(inter.xmlId, inter.urlId)}>
             {inter.title}
           </a>
         ),

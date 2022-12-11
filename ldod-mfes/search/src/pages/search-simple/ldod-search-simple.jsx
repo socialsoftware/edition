@@ -1,6 +1,6 @@
 import constants from '../../constants';
 import SearchComponent from './SearchComponent';
-import { simpleSearchRequest } from '../../apiRequests';
+import { simpleSearchRequest } from '../../api-requests';
 import style from '@src/style.css?inline';
 import SimpleSearchTable from './SimpleSearchTable';
 

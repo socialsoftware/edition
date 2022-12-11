@@ -1,17 +1,17 @@
 import constants from '../../constants';
-import { text } from '../../externalDeps';
+import { textFrag, textFragInter } from '../../external-deps';
 
 const getTableData = (inters) => {
   return inters.map((inter) => {
     return {
       externalId: inter.externalId,
       fragments: (
-        <a is="nav-to" to={text.fragment?.(inter.xmlId)}>
+        <a is="nav-to" to={textFrag(inter.xmlId)}>
           {inter.title}
         </a>
       ),
       interpretations: (
-        <a is="nav-to" to={text.fragmentInter?.(inter.xmlId, inter.urlId)}>
+        <a is="nav-to" to={textFragInter(inter.xmlId, inter.urlId)}>
           {`${
             inter.acronym
               ? `${inter.interTitle} (${inter.acronym})`
