@@ -1,5 +1,5 @@
-import { getStartReading } from '../../apiRequests';
-import './LdodReading';
+import { getStartReading } from '../../api-requests';
+import './ldod-reading';
 
 const mount = async (lang, ref) => {
   getStartReading()

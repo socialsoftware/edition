@@ -3,9 +3,9 @@ import style from '../style.css?inline';
 import { dom } from 'shared/utils.js';
 import { navigateTo } from 'shared/router.js';
 import { readingStore } from '../../store';
-import RecommendationModal from '../components/recommendation-modal/RecommendationModal';
+import RecommendationModal from '../components/recommendation-modal/recommendation-modal';
 import readingReferences from '../../references';
-import { textReferences } from '../../externalDeps';
+import { textFragInter } from '../../external-deps';
 
 const loadPopper = () =>
   import.meta.env.DEV
@@ -87,8 +87,7 @@ export class LdodReadingEdition extends HTMLElement {
                                 readingReferences.editionInterPath(
                                   inter.prevXmlId,
                                   inter.prevUrlId
-                                ),
-                                this
+                                )
                               )
                             }></span>
                           <span
@@ -98,8 +97,7 @@ export class LdodReadingEdition extends HTMLElement {
                                 readingReferences.editionInterPath(
                                   inter.nextXmlId,
                                   inter.nextUrlId
-                                ),
-                                this
+                                )
                               )
                             }></span>
                         </div>
@@ -113,18 +111,12 @@ export class LdodReadingEdition extends HTMLElement {
                     class="reading-text"
                     style={{ gridColumn: `${index + 2}/${index + 9}` }}>
                     <h1>
-                      {window.mfes?.includes('text') ? (
-                        <a
-                          is="nav-to"
-                          to={textReferences.fragmentInter?.(
-                            edition.xmlId,
-                            edition.urlId
-                          )}>
-                          {edition.transcriptTitle}
-                        </a>
-                      ) : (
-                        edition.transcriptTitle
-                      )}
+                      <a
+                        is="nav-to"
+                        content
+                        to={textFragInter(edition.xmlId, edition.urlId)}>
+                        {edition.transcriptTitle}
+                      </a>
                     </h1>
                     <div class="reading-transcript">{dom(transcript)}</div>
                   </div>
@@ -171,8 +163,7 @@ export class LdodReadingEdition extends HTMLElement {
                       readingReferences.editionInterPath(
                         this.prevInter.xmlId,
                         this.prevInter.urlId
-                      ),
-                      this
+                      )
                     )
                   }></span>
               </div>
@@ -197,8 +188,7 @@ export class LdodReadingEdition extends HTMLElement {
                         readingReferences.editionInterPath(
                           recomm.xmlId,
                           recomm.urlId
-                        ),
-                        this
+                        )
                       )
                     }></span>
                 </div>
@@ -255,8 +245,7 @@ export class LdodReadingEdition extends HTMLElement {
       readingReferences.editionInterPath(
         this.currentInter.xmlId,
         this.currentInter.urlId
-      ),
-      this
+      )
     );
   };
 

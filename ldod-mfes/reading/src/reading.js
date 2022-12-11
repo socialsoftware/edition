@@ -1,19 +1,14 @@
 import references from './references';
-let Reading;
+let reading;
 
 const loadReading = async () => {
-  Reading = await import('./readingRouter');
+  if (!reading) reading = await import('./reading-router');
+  return reading;
 };
 
 export default {
   path: '/reading',
   references,
-  mount: async (lang, ref) => {
-    if (!Reading) await loadReading();
-    await Reading.mount(lang, ref);
-  },
-  unMount: async () => {
-    if (!Reading) await loadReading();
-    await Reading.unMount();
-  },
+  mount: async (lang, ref) => (await loadReading()).mount(lang, ref),
+  unMount: async () => (await loadReading()).unMount(),
 };

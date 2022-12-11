@@ -1,6 +1,6 @@
 import 'shared/modal.js';
 import { getState, readingStore, resetReadingStore } from '../../../store';
-import modalStyle from './modalStytle.css?inline';
+import modalStyle from './modal-stytle.css?inline';
 
 const onChangeWeight = ({ target }) => {
   readingStore.setState({ [target.name]: target.value });

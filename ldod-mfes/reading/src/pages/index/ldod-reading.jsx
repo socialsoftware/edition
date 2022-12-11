@@ -1,5 +1,5 @@
 import constants from '../../constants';
-import RecommendationModal from '../components/recommendation-modal/RecommendationModal';
+import RecommendationModal from '../components/recommendation-modal/recommendation-modal';
 import style from '../style.css?inline';
 import { navigateTo } from 'shared/router.js';
 import readingReferences from '../../references';
@@ -72,8 +72,7 @@ export class LdodReading extends HTMLElement {
                       readingReferences.editionInterPath(
                         edition.xmlId,
                         edition.urlId
-                      ),
-                      this
+                      )
                     )
                   }></span>
               </div>

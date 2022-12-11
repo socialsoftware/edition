@@ -1,13 +1,13 @@
 import 'shared/router.js';
-import { index } from './pages/index';
+import { index } from './pages/index/index';
 import './store';
 import style from './style.css?inline';
 
-const READING_SELECTOR = 'div#readingContainer';
+const READING_SELECTOR = 'div#reading-container';
 
 const routes = {
   '/fragment/:xmlId/inter/:urlId': async () =>
-    await import('./pages/reading-edition/readingEdition'),
+    await import('./pages/reading-edition/reading-edition'),
 };
 
 const isDev = () => import.meta.env.DEV;
@@ -22,7 +22,7 @@ export const unMount = () => {
 
 export const ReadingRouter = ({ language }) => {
   return (
-    <div id="readingContainer">
+    <div id="reading-container">
       <style>{style}</style>
       <div class="container">
         <ldod-router

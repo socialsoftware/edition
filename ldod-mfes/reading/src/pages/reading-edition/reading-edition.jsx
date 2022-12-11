@@ -1,5 +1,5 @@
-import { getExpertEditionInter } from '../../apiRequests';
-import './LdodReadingEdition';
+import { getExpertEditionInter } from '../../api-requests';
+import './ldod-reading-edition';
 
 function errorEvent(message) {
   return new CustomEvent('ldod-error', {
@@ -14,9 +14,9 @@ const mount = async (lang, ref) => {
   getExpertEditionInter(xmlId, urlId)
     .then((data) => LdodReadingEdition.updateData(data))
     .catch((e) => {
-      console.error(e)
-      LdodReadingEdition.dispatchEvent(errorEvent(e?.message))
-    })
+      console.error(e);
+      LdodReadingEdition.dispatchEvent(errorEvent(e?.message));
+    });
   const LdodReadingEdition = document
     .querySelector(ref)
     .appendChild(<ldod-reading-edition language={lang}></ldod-reading-edition>);
