@@ -12,7 +12,7 @@ import {
   getVeTaxonomy,
   mergeCategories,
 } from './taxonomy-api-requests';
-import { ldodEventPublisher } from '@src/event-module';
+import { errorPublisher } from '../../../../../../event-module';
 
 const GenerateTopicsModal = async (node, veId) =>
   (await import('./generate-topics-modal')).default({
@@ -87,7 +87,7 @@ export class LdodVeTaxonomy extends HTMLElement {
   attributeChangedCallback(name, oldV, newV) {
     this.onChangedAttribute[name](oldV, newV);
   }
-  disconnectedCallback() { }
+  disconnectedCallback() {}
 
   async render() {
     this.innerHTML = '';
@@ -127,7 +127,7 @@ export class LdodVeTaxonomy extends HTMLElement {
           })
           .catch((error) => {
             console.error(error);
-            ldodEventPublisher("error", error);
+            errorPublisher(error);
           });
       }
     },
@@ -263,9 +263,7 @@ export class LdodVeTaxonomy extends HTMLElement {
     );
   };
 
-  emitLoading = (isLoading) => {
-    ldodEventPublisher("loading", isLoading)
-  }
+  emitLoading = (isLoading) => loadingPublisher(isLoading);
 }
 !customElements.get('ldod-ve-taxonomy') &&
   customElements.define('ldod-ve-taxonomy', LdodVeTaxonomy);

@@ -1,7 +1,7 @@
 import { deleteVE, getVirtualEditions4Manage } from './api-requests';
 import constants from '../constants';
 import VeManageTable from './ve-manage-table';
-import { ldodEventPublisher } from '../../event-module';
+import { errorPublisher, messagePublisher } from '../../event-module';
 
 import.meta.env.DEV
   ? await import('shared/table-dev.js')
@@ -137,11 +137,11 @@ export class LdodManageVE extends HTMLElement {
   handleFileUploaded = (e) => {
     e.stopPropagation();
     const payload = e.detail.payload;
-    if (!payload.ok) return ldodEventPublisher('error', payload.message);
+    if (!payload.ok) return errorPublisher(payload.message);
     getVirtualEditions4Manage()
       .then((data) => {
         this.updateData(data);
-        ldodEventPublisher('message', payload.message);
+        messagePublisher(payload.message);
       })
       .catch((error) => console.error(error));
   };

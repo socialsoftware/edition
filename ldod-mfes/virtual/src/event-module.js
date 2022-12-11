@@ -1,7 +1,9 @@
 export let selectedInters = ['LdoD-Arquivo', 'LdoD-Mallet', 'LdoD-Twitter'];
 
-export let ldodEventPublisher;
-export let ldodEventSubscriber;
+export let errorPublisher,
+  selectedVePublisher,
+  messagePublisher,
+  loadingPublisher;
 
 function selectedVeHandler({ payload }) {
   selectedInters = payload.selected
@@ -11,8 +13,10 @@ function selectedVeHandler({ payload }) {
 
 if (typeof window !== 'undefined') {
   await import('shared/ldod-events.js').then((module) => {
-    ldodEventPublisher = module.ldodEventPublisher;
-    ldodEventSubscriber = module.ldodEventSubscriber;
+    errorPublisher = (error) => module.ldodEventPublisher('error', error);
+    selectedVePublisher = (ve) => module.ldodEventPublisher('selected-ve', ve);
+    messagePublisher = (info) => module.ldodEventPublisher('message', info);
+    loadingPublisher = (bool) => module.ldodEventPublisher('loading', bool);
+    module.ldodEventSubscriber('selected-ve', selectedVeHandler);
   });
-  ldodEventSubscriber('selected-ve', selectedVeHandler);
 }

@@ -1,5 +1,5 @@
 import { toggleSelectedVE } from '@src/restricted-api-requests';
-import { ldodEventPublisher } from '@src/event-module';
+import { errorPublisher, selectedVePublisher } from '@src/event-module';
 
 const onCheckboxChange = async (node, edition, target) => {
   const ed = {
@@ -9,19 +9,17 @@ const onCheckboxChange = async (node, edition, target) => {
   };
 
   const vEdition = node.user
-    ? await toggleSelectedVE(ed).catch(({ message }) =>
-      ldodEventPublisher('error', message)
-    )
+    ? await toggleSelectedVE(ed).catch(({ message }) => errorPublisher(message))
     : node.virtualEditions.find((ve) => {
-      if (ve.externalId === ed.externalId) {
-        ve.selected = ed.selected;
-        return ve;
-      }
-    });
+        if (ve.externalId === ed.externalId) {
+          ve.selected = ed.selected;
+          return ve;
+        }
+      });
 
   if (vEdition) {
     node.updateEdition(vEdition);
-    ldodEventPublisher("selected-ve", ed)
+    selectedVePublisher(ed);
   }
 };
 

@@ -11,7 +11,7 @@ import constants from '../../../constants';
 import CreateButton from './components/create-ve/create-button';
 import VETable from './components/ve-table';
 import Title from './components/title';
-import { ldodEventPublisher } from '@src/event-module';
+import { errorPublisher } from '../../../../event-module';
 const loadPopper = () => import('shared/tooltip.js');
 const CreateVeModal = async (node) =>
   (await import('./components/create-ve/create-ve-modal')).default({
@@ -234,5 +234,5 @@ export class LdodVirtualEditions extends HTMLElement {
   customElements.define('ldod-virtual-editions', LdodVirtualEditions);
 
 function onError(message) {
-  ldodEventPublisher('error', message);
+  errorPublisher(message);
 }
