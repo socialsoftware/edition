@@ -12,9 +12,14 @@ const loadPopper = () =>
     ? import('shared/tooltip.dev.js')
     : import('shared/tooltip.js');
 
+const sheet = new CSSStyleSheet();
+sheet.replaceSync(style);
+
 export class LdodReadingEdition extends HTMLElement {
   constructor() {
     super();
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.adoptedStyleSheets = [sheet];
     this.constants = constants;
   }
 
@@ -23,11 +28,13 @@ export class LdodReadingEdition extends HTMLElement {
   }
 
   get wrapper() {
-    return this.querySelector('#reading-edition-wrapper');
+    return this.shadowRoot.querySelector('#reading-edition-wrapper');
   }
 
   get recommendationModal() {
-    return this.querySelector('ldod-modal#reading-recommendationModal');
+    return this.shadowRoot.querySelector(
+      'ldod-modal#reading-recommendationModal'
+    );
   }
 
   static get observedAttributes() {
@@ -39,8 +46,7 @@ export class LdodReadingEdition extends HTMLElement {
   }
 
   connectedCallback() {
-    this.appendChild(<style>{style}</style>);
-    this.appendChild(<div id="reading-edition-wrapper"></div>);
+    this.shadowRoot.appendChild(<div id="reading-edition-wrapper"></div>);
     if (this.expertEditions) this.render();
     this.addEventListeners();
   }
@@ -222,17 +228,21 @@ export class LdodReadingEdition extends HTMLElement {
   };
 
   onlanguageChange = () => {
-    this.querySelectorAll('[data-reading-key]').forEach((element) => {
-      element.firstChild.textContent = this.getConstants(
-        element.dataset.readingKey
-      );
-    });
-    this.querySelectorAll('[data-reading-tooltip-key]').forEach((tooltip) => {
-      tooltip.setAttribute(
-        'content',
-        this.getConstants(tooltip.dataset.readingTooltipKey)
-      );
-    });
+    this.shadowRoot
+      .querySelectorAll('[data-reading-key]')
+      .forEach((element) => {
+        element.firstChild.textContent = this.getConstants(
+          element.dataset.readingKey
+        );
+      });
+    this.shadowRoot
+      .querySelectorAll('[data-reading-tooltip-key]')
+      .forEach((tooltip) => {
+        tooltip.setAttribute(
+          'content',
+          this.getConstants(tooltip.dataset.readingTooltipKey)
+        );
+      });
   };
 
   onRecommendation = async () => {
