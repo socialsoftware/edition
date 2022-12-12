@@ -1,17 +1,12 @@
 let home;
 
 const loadMfe = async () => {
-  // load mfe component
+  if (!home) home = await import('./components/navbar/navbar.jsx');
+  return home;
 };
 
 export default {
   path: '/home-new',
-  mount: async (lang, ref) => {
-    if (!home) await loadMfe();
-    // mfe mount call
-  },
-  unMount: async () => {
-    if (!home) await loadMfe();
-    // mfe unMount call
-  },
+  mount: async (lang, ref) => (await loadMfe()).mount(lang, ref),
+  unMount: async () => (await loadMfe()).unMount(lang, ref),
 };

@@ -1,12 +1,18 @@
 import { parseHTML } from 'shared/utils.js';
-import style from '../../../style/info.css' assert { type: 'css' };
+import style from '../../../style/info.css';
+
+const sheet = new CSSStyleSheet();
+sheet.replaceSync(style);
+
+const loadConstants = async (lang) =>
+  (await import(`../../../resources/home/constants/constants-${lang}.js`))
+    .default;
 
 export class HomeInfo extends HTMLElement {
   constructor() {
     super();
     const shadow = this.attachShadow({ mode: 'open' });
-    shadow.adoptedStyleSheets = [style];
-    this.constants = undefined;
+    shadow.adoptedStyleSheets = [sheet];
   }
 
   static get observedAttributes() {
@@ -21,21 +27,22 @@ export class HomeInfo extends HTMLElement {
     this.setAttribute('language', lang);
   }
 
-  async connectedCallback() {
-    await this.setConstants();
-    this.render();
+  connectedCallback() {
+    this.setConstants().then(() => this.render());
   }
-  async attributeChangedCallback(name, oldV, newV) {
+
+  attributeChangedCallback(name, oldV, newV) {
     if (oldV && oldV !== newV) {
-      await this.setConstants();
-      this.shadowRoot
-        .querySelectorAll('.update-language')
-        .forEach((ele) => (ele.innerHTML = this.constants[ele.id]));
+      this.setConstants().then(() => {
+        this.shadowRoot
+          .querySelectorAll('.update-language')
+          .forEach((ele) => (ele.innerHTML = this.constants[ele.id]));
+      });
     }
   }
 
   render() {
-    const info = parseHTML(html`
+    const info = parseHTML(/*html*/ `
       <div class="container">
         <div id="info" class="bottom-info font-monospace update-language">
           ${this.constants.info}
@@ -47,12 +54,8 @@ export class HomeInfo extends HTMLElement {
   }
 
   async setConstants() {
-    this.constants = await this.loadConstants(this.language);
+    this.constants = await loadConstants(this.language);
   }
-
-  loadConstants = async (lang) =>
-    (await import(`../../../resources/home/constants/constants-${lang}.js`))
-      .default;
 }
 
 customElements.define('home-info', HomeInfo);

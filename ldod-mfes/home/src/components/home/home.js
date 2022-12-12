@@ -2,8 +2,9 @@ window.html = String.raw;
 import { parseHTML } from 'shared/utils.js';
 import './home-info.js';
 import HomeContent, { boxUrl, boxUrlH } from './home-content.js';
-import style from '../../../style/home.css' assert { type: 'css' };
-const styleSheet = new CSSStyleSheet({});
+import style from '../../../style/home.css';
+const styleSheet = new CSSStyleSheet();
+styleSheet.replaceSync(style);
 
 const loadConstants = async (lang) =>
   (await import(`../../../resources/home/constants/constants-${lang}.js`))
@@ -24,13 +25,8 @@ export default class HomeMFE extends HTMLElement {
     return this.getAttribute('language');
   }
 
-  async connectedCallback() {
-    styleSheet.replaceSync(style);
-    if (!styleSheet.cssRules.length) {
-      this.shadowRoot.adoptedStyleSheets = [style];
-    }
-    await this.setConstants();
-    this.render();
+  connectedCallback() {
+    this.setConstants().then(() => this.render());
   }
 
   languageUpdate = () =>
@@ -38,12 +34,13 @@ export default class HomeMFE extends HTMLElement {
       .querySelectorAll('.language')
       .forEach((ele) => (ele.language = this.language));
 
-  async attributeChangedCallback(name, oldValue, newValue) {
+  attributeChangedCallback(name, oldValue, newValue) {
     if (name === 'language') {
-      await this.setConstants();
-      this.componentsTextContextUpdate();
-      this.boxesUpdate();
-      this.languageUpdate();
+      this.setConstants().then(() => {
+        this.componentsTextContextUpdate();
+        this.boxesUpdate();
+        this.languageUpdate();
+      });
     }
   }
 

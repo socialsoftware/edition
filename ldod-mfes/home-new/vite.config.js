@@ -14,7 +14,12 @@ export default defineConfig(({ mode }) => {
         fileName: 'home-new',
       },
       rollupOptions: {
-        external: ['shared/vanilla-jsx.js', 'shared/router.js', '@popperjs/core', 'bootstrap'],
+        external: [
+          'shared/vanilla-jsx.js',
+          'shared/router.js',
+          '@popperjs/core',
+          'bootstrap',
+        ],
       },
     },
     esbuild: {

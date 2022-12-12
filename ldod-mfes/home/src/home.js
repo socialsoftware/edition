@@ -7,10 +7,6 @@ if (typeof window === 'object') {
 
 export default {
   path: '/',
-  mount: async (lang, ref) => {
-    await home.mount(lang, ref);
-  },
-  unMount: async () => {
-    await home.unMount();
-  },
+  mount: async (lang, ref) => await home.mount(lang, ref),
+  unMount: async () => await home.unMount(),
 };

@@ -1,14 +1,17 @@
 import { parseHTML } from 'shared/utils.js';
 import headers from '../../../resources/navbar/headers-menus.js';
-import style from '../../../style/navbar.css' assert { type: 'css' };
+import style from '../../../style/navbar.css';
 import { ldodEventSubscriber } from 'shared/ldod-events.js';
 import './dropdown-menu.js';
 import './lang-menu.js';
 
+const DEFAULT_SELECTED_VE = ['LdoD-Twitter', 'LdoD-Mallet'];
+
 (await import('user').catch((e) => console.error(e)))?.default.bootstrap();
 
-const styleSheet = new CSSStyleSheet();
 window.html = String.raw;
+const styleSheet = new CSSStyleSheet();
+styleSheet.replaceSync(style);
 
 const loadConstants = async (lang) =>
   (await import(`../../../resources/navbar/constants-${lang}.js`)).default;
@@ -19,8 +22,7 @@ export default class LdodNavbar extends HTMLElement {
     const shadow = this.attachShadow({ mode: 'open' });
     shadow.adoptedStyleSheets = [styleSheet];
     this.toggleEvent = this.toggleEvent.bind(this);
-    this.defaultSelectedVE = ['LdoD-Twitter', 'LdoD-Mallet'];
-    this.selectedVE = this.defaultSelectedVE;
+    this.selectedVE = DEFAULT_SELECTED_VE;
   }
 
   static get observedAttributes() {
@@ -45,15 +47,13 @@ export default class LdodNavbar extends HTMLElement {
 
   isAdmin = () => this.user && this.user.roles.includes('ROLE_ADMIN');
 
-  async connectedCallback() {
-    styleSheet.replaceSync(style);
-    if (!styleSheet.cssRules.length)
-      this.shadowRoot.adoptedStyleSheets = [style];
-    await this.setConstants();
-    await this.render();
-    this.addEventListeners();
-    this.addDropdownEventListeners();
-    this.addExpandedCollapseEvent();
+  connectedCallback() {
+    this.setConstants().then(() => {
+      this.render();
+      this.addEventListeners();
+      this.addDropdownEventListeners();
+      this.addExpandedCollapseEvent();
+    });
   }
 
   disconnectedCallback() {
@@ -70,19 +70,16 @@ export default class LdodNavbar extends HTMLElement {
     this.unsubLogin = this.subscriber('login', this.onUserLogin);
   };
 
-  async attributeChangedCallback(name, oldValue, newValue) {
+  attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue === newValue || !newValue || !oldValue) return;
     if (name === 'language') {
-      await this.onLanguageChange();
-      this.componentsTextContextUpdate();
-      this.componentsNameUpdate();
-      this.componentsItemsUpdate();
-      this.componentsLanguageUpdate();
+      this.setConstants().then(() => {
+        this.componentsTextContextUpdate();
+        this.componentsNameUpdate();
+        this.componentsItemsUpdate();
+        this.componentsLanguageUpdate();
+      });
     }
-  }
-
-  async onLanguageChange() {
-    await this.setConstants();
   }
 
   componentsTextContextUpdate() {
@@ -113,8 +110,8 @@ export default class LdodNavbar extends HTMLElement {
       );
   }
 
-  async render() {
-    await this.setInnerHTML();
+  render() {
+    this.setInnerHTML();
     this.addEditions();
   }
 
@@ -137,7 +134,7 @@ export default class LdodNavbar extends HTMLElement {
     this.user && this.setAdminVisibility(true);
     this.user && this.removeEditions();
     this.user = undefined;
-    this.selectedVE = this.defaultSelectedVE;
+    this.selectedVE = DEFAULT_SELECTED_VE;
     this.updateVE();
   };
 
@@ -174,7 +171,7 @@ export default class LdodNavbar extends HTMLElement {
     this.constants = await loadConstants(this.language);
   }
 
-  async setInnerHTML() {
+  setInnerHTML() {
     const nav = parseHTML(
       html`
         <nav

@@ -1,16 +1,21 @@
-import Navbar from "./navbar";
+import Navbar from './navbar';
+import scssStyle from './scssStyle';
+import style from './style';
 
 export class LdodNavbar extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({ mode: "open" })
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(`${style}${scssStyle}`);
+    document.adoptedStyleSheets = [sheet];
   }
-  static get observedAttributes() { }
+  static get observedAttributes() {}
   connectedCallback() {
-    this.shadowRoot.appendChild(<Navbar />)
+    this.appendChild(Navbar);
   }
 
-  attributeChangedCallback() { }
-  disconnectedCallback() { }
+  attributeChangedCallback() {}
+  disconnectedCallback() {}
 }
-!customElements.get('ldod-navbar') && customElements.define('ldod-navbar', LdodNavbar);
+!customElements.get('ldod-navbar') &&
+  customElements.define('ldod-navbar', LdodNavbar);

@@ -1,6 +1,6 @@
 import { hideHomeInfo, showHomeInfo } from '@src/home-info';
 const loadComponent = async (lang) =>
-  (await import(`./components/Encoding-${lang}.jsx`)).default();
+  (await import(`./components/encoding-${lang}.jsx`)).default();
 
 export class LdodEncoding extends HTMLElement {
   constructor() {

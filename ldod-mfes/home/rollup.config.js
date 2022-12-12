@@ -2,14 +2,13 @@
 
 import { terser } from 'rollup-plugin-terser';
 import sourcemaps from 'rollup-plugin-sourcemaps';
-import { importAssertions } from 'acorn-import-assertions';
-import { importAssertionsPlugin } from 'rollup-plugin-import-assert';
 import dynamicImportVars from '@rollup/plugin-dynamic-import-vars';
 import alias from '@rollup/plugin-alias';
+import css from 'rollup-plugin-import-css';
 
 export default {
   input: './src/home.js',
-  external: ['shared/utils.js', "shared/ldod-events.js"],
+  external: ['shared/utils.js', 'shared/ldod-events.js'],
   output: [
     {
       dir: 'build',
@@ -18,10 +17,9 @@ export default {
       plugins: [terser()],
     },
   ],
-  acornInjectPlugins: [importAssertions],
   plugins: [
+    css(),
     sourcemaps(),
-    importAssertionsPlugin(),
     dynamicImportVars({ exclude: ['./src/external-deps.js'] }),
     alias({
       entries: [
