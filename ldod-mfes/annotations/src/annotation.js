@@ -1,5 +1,5 @@
-import { highlightText } from '@apache-annotator/dom';
-import { toRange } from 'xpath-range';
+import { highlightText } from '@apache-annotator/dom_0.3.0-dev.23';
+import { toRange } from 'xpath-range_1.1.1';
 import { ldodAnnotationComponent } from './annotator';
 
 const defaultAnnotation = {

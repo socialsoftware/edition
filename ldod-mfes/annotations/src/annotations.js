@@ -11,6 +11,10 @@ export default {
 };
 
 export const annotatorService = async ({ interId, referenceNode }) => {
-  if (!annotator) annotator = (await import('./annotator')).default;
-  annotator({ interId, referenceNode });
+  if (!annotator)
+    await import('./annotator')
+      .then((mod) => (annotator = mod.default))
+      .catch((e) => console.error(e));
+
+  annotator?.({ interId, referenceNode });
 };

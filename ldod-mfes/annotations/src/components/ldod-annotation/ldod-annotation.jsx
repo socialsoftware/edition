@@ -1,18 +1,23 @@
-import { updateFetchedData } from '../../annotator';
 import {
   createAnnotation,
   deleteAnnotation,
   updateAnnotation,
 } from '../../api-requests';
+import { errorPublisher } from '../../events-module';
+import { annotationsList, mutateAnnotationsList } from '../../ldod-annotations';
 import style from './style.css?inline';
-import snowStyle from '/node_modules/quill/dist/quill.snow.css?inline';
+import snowStyle from 'quill_1.3.7/dist/quill.snow.css?inline';
+
+let createPopper;
+let quill;
+let multipleSelect;
 
 const loadModules = async () => {
-  if (!MultipleSelect) await import('shared/select-pure.js');
-
+  if (!multipleSelect)
+    multipleSelect = await import('select-pure_2.1.4/dist/index.js');
   if (!createPopper)
-    createPopper = (await import('shared/popper.js')).createPopper;
-  if (!Quill) Quill = (await import('quill/dist/quill.min.js')).default;
+    createPopper = (await import('@src/popper.js')).createPopper;
+  if (!quill) quill = (await import('quill_1.3.7/dist/quill.min.js')).default;
 };
 
 const anyTagIsEqual = (tags, tag) => tags.some((t) => t === tag);
@@ -68,10 +73,6 @@ const onAutocomplete = (e, root) => {
   }
 };
 
-let createPopper;
-let Quill;
-let MultipleSelect;
-
 export class LdodAnnotation extends HTMLElement {
   constructor(interId, categories, openVocab) {
     super();
@@ -86,6 +87,10 @@ export class LdodAnnotation extends HTMLElement {
 
   get isEditable() {
     return this.annotation?.data.canBeUpdated;
+  }
+
+  get canBeDeleted() {
+    return this.annotation?.data.canBeDeleted;
   }
 
   get contentEditor() {
@@ -221,9 +226,7 @@ export class LdodAnnotation extends HTMLElement {
     this.hideNow();
   };
 
-  onClose = () => {
-    this.hideNow();
-  };
+  onClose = () => this.hideNow();
 
   initPopper = (ref = this.ref) => {
     this.hideNow();
@@ -253,7 +256,7 @@ export class LdodAnnotation extends HTMLElement {
   };
 
   initEditor = () => {
-    this.editor = new Quill(this.contentEditor, {
+    this.editor = new quill(this.contentEditor, {
       theme: 'snow',
       modules: { toolbar: [['bold', 'italic', 'underline', 'link', 'clean']] },
       placeholder: 'Notes ...',
@@ -348,13 +351,7 @@ export class LdodAnnotation extends HTMLElement {
   };
 
   onError = (error) => {
-    this.dispatchEvent(
-      new CustomEvent('ldod-error', {
-        detail: { message: error.message },
-        bubbles: true,
-        composed: true,
-      })
-    );
+    errorPublisher(error.message);
     console.error(error);
   };
 
@@ -372,13 +369,25 @@ export class LdodAnnotation extends HTMLElement {
       .catch(this.onError);
   };
 
-  onRemove = async () => {
-    if (this.annotation.data.uri) {
-      await deleteAnnotation(this.interId, this.annotation.id)
-        .then(this.onSuccess)
-        .catch(this.onError);
+  onRemove = () => {
+    if (!this.annotation.data.uri) {
+      this.removeNotPersisted();
+      return;
     }
+
+    deleteAnnotation(this.interId, this.annotation.id)
+      .then(this.onSuccess)
+      .catch(this.onError);
   };
+
+  removeNotPersisted() {
+    this.annotation.destroy();
+    this.hideNow();
+    mutateAnnotationsList(
+      annotationsList.filter((ann) => ann.id !== this.annotation.id)
+    );
+    return;
+  }
 
   dispatchAnnotationEvent = () => {
     this.dispatchEvent(

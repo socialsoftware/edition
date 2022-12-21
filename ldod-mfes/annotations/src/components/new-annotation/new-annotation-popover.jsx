@@ -1,8 +1,9 @@
 import style from './style.css?inline';
-import { createPopper } from 'shared/popper.js';
-import { fromRange } from 'xpath-range';
-import { annotationsList, processExistingAnnotations } from '../../annotator';
+import { createPopper } from '@src/popper.js';
+import { annotationsList } from '../../ldod-annotations';
 import { Annotation } from '../../annotation';
+import { describeTextPosition } from '@apache-annotator/dom_0.3.0-dev.23';
+import { fromNode } from 'simple-xpath-position';
 
 const getBoundingClientRect = (x = 0, y = 0) => ({
   width: 0,
@@ -102,15 +103,27 @@ export class NewAnnPopover extends HTMLElement {
 
     if (currentQuote === this.quote) return this.hidePopover();
     this.quote = currentQuote;
+
     const range = selection.getRangeAt(0);
+    let scope = range.commonAncestorContainer;
+
+    while (!scope.tagName) scope = scope.parentElement;
+    const selector = await describeTextPosition(range, scope);
+    const start = fromNode(scope, this.refNode);
+    const end = start;
+
+    this.selectionXPath = {
+      start,
+      end,
+      startOffset: selector.start,
+      endOffset: selector.end,
+    };
 
     // normalize parent node
-    annotationsList.forEach((ann) => ann.destroy());
-    range.commonAncestorContainer.parentNode.normalize();
-    this.selectionXPath = fromRange(range, this.refNode);
-
+    // annotationsList.forEach((ann) => ann.destroy());
+    // this.selectionXPath = fromRange(newRange, this.refNode);
     // rerender annotations
-    processExistingAnnotations(annotationsList);
+    // processExistingAnnotations(annotationsList);
 
     this.updatePopper(e);
   };
@@ -130,11 +143,12 @@ export class NewAnnPopover extends HTMLElement {
     const endSplit = this.selectionXPath.end.split('/');
     if (!endSplit.at(endSplit.length - 1).startsWith('text')) return;
     this.selectionXPath.end = endSplit.splice(0, endSplit.length - 1).join('/');
+    console.log(this.selectionXPath);
   };
 
   onNew = async (e) => {
     const id = Date.now().toString();
-    this.removeTextFromXPath();
+    //this.removeTextFromXPath();
     const newAnn = await new Annotation(
       {
         quote: this.quote,

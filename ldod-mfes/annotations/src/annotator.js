@@ -2,14 +2,22 @@ import { fetchAnnotations } from './api-requests';
 import { NewAnnPopover } from './components/new-annotation/new-annotation-popover';
 import { LdodAnnotation } from './components/ldod-annotation/ldod-annotation';
 import { Annotation } from './annotation';
-import { parseHTML } from 'shared/utils.js';
-const html = String.raw;
+import { annotationsList, mutateAnnotationsList } from './ldod-annotations.js';
 
 export let ldodAnnotationComponent;
-export let annotationsList = [];
 let refNode;
 let data;
 let popover;
+
+const selectionStyle = () => {
+  const style = document.createElement('style');
+  style.innerHTML = /*css*/ `
+  ::selection {
+    background-color: mark;
+    color: marktext;
+  }`;
+  return style;
+};
 
 const annotationIdByXpath = (xPath) =>
   `${xPath.start}/${xPath.startOffset}${xPath.end}/${xPath.endOffset}`;
@@ -34,8 +42,7 @@ const processNonHumanAnnotations = (annotations) => {
     val.reduce((prev, curr) => {
       if (!Object.keys(prev).length)
         prev = { ...curr, text: document.createElement('div') };
-      prev.text.appendChild(
-        parseHTML(html`
+      prev.text.innerHTML = /*html*/ `
           <div>
             <div>
               <a href=${curr.sourceLink} target="_blank">Tweet</a>
@@ -47,8 +54,7 @@ const processNonHumanAnnotations = (annotations) => {
             </div>
             <p>Date: ${curr.date}</p>
           </div>
-        `)
-      );
+        `;
       return prev;
     }, {})
   );
@@ -64,12 +70,12 @@ export async function processExistingAnnotations(
   annotationsList.forEach((ann) => {
     ann?.destroyAndnormalizeCommonAncestor();
   });
-
-  annotationsList = await Promise.all(
+  let annList = await Promise.all(
     annotations.map((ann) =>
       new Annotation(ann, refNode).highlight().catch((e) => console.error(e))
     )
   );
+  mutateAnnotationsList(annList);
 }
 
 export function updateFetchedData(res) {
@@ -83,6 +89,7 @@ export function updateFetchedData(res) {
 export default async ({ interId, referenceNode }) => {
   checkArgs(interId, referenceNode);
   refNode = referenceNode;
+  referenceNode.appendChild(selectionStyle());
 
   ldodAnnotationComponent && ldodAnnotationComponent.remove();
   ldodAnnotationComponent = refNode.parentElement.appendChild(
