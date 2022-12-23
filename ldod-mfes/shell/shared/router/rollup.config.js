@@ -1,10 +1,9 @@
 // rollup.config.js
-import sourcemaps from 'rollup-plugin-sourcemaps';
 import { terser } from 'rollup-plugin-terser';
 
 export default {
   input: './src/router.js',
-  plugins: [sourcemaps()],
+  external: [/^shared/],
   output: [
     {
       sourcemap: true,

@@ -1,9 +1,7 @@
 import { defineConfig, loadEnv } from 'vite';
 import path from 'path';
 
-
 export default defineConfig(({ command, mode }) => {
-
   const env = loadEnv(mode, process.cwd(), '');
   return {
     build: {
@@ -20,16 +18,16 @@ export default defineConfig(({ command, mode }) => {
     resolve: {
       alias: [
         {
-          find: 'shared/',
-          replacement: `${env.VITE_NODE_HOST}/shared/`,
+          find: 'shared',
+          replacement: path.resolve(__dirname, 'node_modules/shared/dist'),
         },
         {
           find: '@src',
           replacement: path.resolve(__dirname, 'src'),
         },
         {
-          find: '@bootstrap',
-          replacement: path.resolve(__dirname, command === "dev" ? 'node_modules/bootstrap' : "shared/bootstrap.js"),
+          find: 'user',
+          replacement: `${env.VITE_NODE_HOST}/user/user.js`,
         },
       ],
     },

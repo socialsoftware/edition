@@ -1,5 +1,5 @@
 import { getFragmentInters, updateFragmentInter } from '../../api-requests';
-import TextNavigation from './components/TextNavigation';
+import TextNavigation from './components/text-navigation';
 import constants from './constants';
 import fragmentsConstants from '../fragments/constants';
 import style from './style.css?inline';
@@ -12,19 +12,19 @@ import {
   isVirtualInter,
 } from './utils';
 const EditorialInter = async ({ node, inter }) =>
-  (await import('./components/EditorialInter')).default({ node, inter });
+  (await import('./components/editorial-inter')).default({ node, inter });
 
 const SourceInter = async ({ node, inter }) =>
-  (await import('./components/SourceInter')).default({ node, inter });
+  (await import('./components/source-inter')).default({ node, inter });
 
 const SideBySideTranscriptions = async ({ node, inters }) =>
-  (await import('./components/SideBySideTranscriptions')).default({
+  (await import('./components/side-by-side-transcriptions')).default({
     node,
     inters,
   });
 
 const LineByLineTranscriptions = async ({ node, inters }) =>
-  (await import('./components/LineByLineTranscriptions')).default({
+  (await import('./components/line-by-line-transcriptions')).default({
     node,
     inters,
   });

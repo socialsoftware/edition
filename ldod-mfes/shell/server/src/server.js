@@ -2,8 +2,10 @@ import cors from 'cors';
 import express from 'express';
 import multer from 'multer';
 import './shell-modules.js';
-import { staticPath } from './constants.js';
+import { sharedPath, staticPath } from './constants.js';
 import asyncRouter from 'async-express-decorator';
+
+import './deps-install.js';
 import {
   publishMFE,
   sendClassificationGameIndex,
@@ -12,6 +14,7 @@ import {
   unPublishMFE,
 } from './endpoints.js';
 import { processReferences } from './mfesReferences.js';
+import path from 'node:path';
 
 const upload = multer({ dest: staticPath });
 const app = express();
@@ -20,6 +23,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 const router = asyncRouter(express.Router());
+app.use(
+  '/ldod-mfes/vendor',
+  express.static(path.resolve(sharedPath, 'node_modules'))
+);
 app.use('/ldod-mfes', express.static(staticPath));
 app.get('/', (req, res) => res.redirect('/ldod-mfes'));
 
@@ -31,7 +38,6 @@ router.get('/ldod-visual/', sendLdodVisualIndex);
 router.get('/classification-game/', sendClassificationGameIndex);
 
 app.get('/user/sign-up*', (req, res) => res.redirect(`/ldod-mfes${req.url}`));
-//app.get('/ldod-visual*', (req, res) => res.redirect(`/ldod-mfes${req.url}`));
 
 app.get('*', sendIndex);
 

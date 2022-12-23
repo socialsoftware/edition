@@ -1,3 +1,4 @@
+import { errorPublisher } from '../event-module';
 import { computeSelectPureHeight } from '../utils';
 import {
   associateTagsRequest,
@@ -11,15 +12,17 @@ import constants from './constants';
 
 const getStyle = async () => (await import('./style.css?inline')).default;
 const AssociateModal = async (node) =>
-  (await import('./components/associate-tag-modal/associate-tag-modal')).default({
+  (
+    await import('./components/associate-tag-modal/associate-tag-modal')
+  ).default({
     node,
   });
 
 export const loadAnnotator = async (interId, referenceNode) => {
-  if (!window.mfes.includes("annotations")) return
-  const { annotatorService } = (import.meta.env.DEV
+  if (!window.mfes.includes('annotations')) return;
+  const { annotatorService } = import.meta.env.DEV
     ? await import('annotations.dev').catch((e) => console.error(e))
-    : await import('annotations').catch((e) => console.error(e)));
+    : await import('annotations').catch((e) => console.error(e));
   annotatorService({ interId, referenceNode });
 };
 export class VirtualTranscription extends HTMLElement {
@@ -148,7 +151,7 @@ export class VirtualTranscription extends HTMLElement {
 
   onError = (error) => {
     console.error(error);
-    this.dispatchCustomEvent('ldod-error', { message: error?.message });
+    errorPublisher(error?.message);
   };
 
   associateTag = async () => {
@@ -191,16 +194,6 @@ export class VirtualTranscription extends HTMLElement {
     document.body.removeEventListener('click', this.computeSelectHeight);
     document.body.removeEventListener('ldod-modal-close', this.removeModal);
     this.associateTagModal?.remove();
-  };
-
-  dispatchCustomEvent = (event, detail, emmiter = this) => {
-    emmiter.dispatchEvent(
-      new CustomEvent(event, {
-        detail,
-        bubbles: true,
-        composed: true,
-      })
-    );
   };
 }
 !customElements.get('virtual-transcription') &&

@@ -1,4 +1,4 @@
-import { EventBus } from '@trutoo';
+import 'vendor/@trutoo/event-bus_2.2.0/dist/index.umd.min.js';
 import userSchema from './user.schema.json';
 import veSchema from './ve.schema.json';
 import urlSchema from './url.schema.json';

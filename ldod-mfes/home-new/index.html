@@ -5,11 +5,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LdoD MFE</title>
+    <script>
+        window.mfes = ["about"]
+        window.references = {
+            about: {
+                archive: () => '/about/archive',
+                videos: () => '/about/videos',
+                tutorials: () => '/about/tutorials',
+                faq: () => '/about/faq',
+                encoding: () => '/about/encoding',
+                articles: () => '/about/articles',
+                book: () => '/about/book',
+                privacy: () => '/about/privacy',
+                team: () => '/about/team',
+                ack: () => '/about/acknowledgements',
+                contact: () => '/about/contact',
+                conduct: () => "/about/conduct",
+                copyright: () => '/about/copyright',
+            }
+        }
+    </script>
 </head>
 
 <body>
     <div id="app">
-        <ldod-navbar></ldod-navbar>
+        <ldod-navbar language="en"></ldod-navbar>
     </div>
     <script type="module" src="/index.js"></script>
 </body>

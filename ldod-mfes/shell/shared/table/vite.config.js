@@ -14,15 +14,10 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: false,
       sourcemap: true,
       rollupOptions: {
-        external: ['shared/vanilla-jsx.js', 'shared/utils.js'],
+        external: [/^shared/],
       },
     },
-    esbuild: {
-      jsxFactory: 'createElement',
-      jsxFragment: 'createFragment',
-      jsxInject:
-        "import {createElement, createFragment} from 'shared/vanilla-jsx.js'",
-    },
+
     resolve: {
       alias: [
         {

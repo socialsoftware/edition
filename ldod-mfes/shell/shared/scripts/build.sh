@@ -1,11 +1,11 @@
 #! /bin/sh
 
-dirs="popper store utils ldod-events router vanilla-jsx fetcher modal tooltip table buttons"
+dirs="store utils ldod-events router vanilla-jsx fetcher modal tooltip table buttons"
 
 rm -r dist
-
-cp -rf select-pure dist
-
+mkdir dist
+yarn
+cp -rf node_modules dist
 
 for dir in $dirs
 do
@@ -14,4 +14,3 @@ do
   yarn build
   cd ..
 done
-

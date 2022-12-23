@@ -4,6 +4,7 @@ import assistedContants from '../assisted/constants';
 import style from './style.css?inline';
 import ManualTable, { addTableRow } from './manual-table';
 import { saveReorderedVEInters } from '@src/restricted-api-requests';
+import { errorPublisher } from '../../../../../../event-module';
 
 export class LdodVeManual extends HTMLElement {
   constructor() {
@@ -81,8 +82,8 @@ export class LdodVeManual extends HTMLElement {
   getPrevVisibleRowIndex = (id) => {
     return this.getVisibleRowIndex(id)
       ? this.intersId.indexOf(
-        this.visibleRows.item(this.getVisibleRowIndex(id) - 1).id
-      )
+          this.visibleRows.item(this.getVisibleRowIndex(id) - 1).id
+        )
       : 0;
   };
 
@@ -102,7 +103,7 @@ export class LdodVeManual extends HTMLElement {
     this.onChangedAttribute[name](oldV, newV);
   }
 
-  disconnectedCallback() { }
+  disconnectedCallback() {}
 
   undoButton = () => (
     <button
@@ -306,9 +307,9 @@ export class LdodVeManual extends HTMLElement {
   };
 
   updateInters = () =>
-  (this.inters = this.rows.map((row) =>
-    this.inters.find(({ externalId }) => externalId === row.id)
-  ));
+    (this.inters = this.rows.map((row) =>
+      this.inters.find(({ externalId }) => externalId === row.id)
+    ));
 
   handleNewIndex = ({ target }) => {
     let oldIndex = Array.from(this.visibleRows).indexOf(target.parentNode);
@@ -392,25 +393,18 @@ export class LdodVeManual extends HTMLElement {
   onAddFragments = (inters) => {
     const duplicatedFrags = getDuplicatedFrags(this, inters);
     const fragsToAdd = getFragsToAdd(this, inters);
-    if (duplicatedFrags.length) notifyForDuplicatedFrags(this, duplicatedFrags);
+    if (duplicatedFrags.length) notifyForDuplicatedFrags(duplicatedFrags);
     fragsToAdd.forEach((frag) => this.rowAdd(frag));
   };
 }
 !customElements.get('ldod-ve-manual') &&
   customElements.define('ldod-ve-manual', LdodVeManual);
 
-const notifyForDuplicatedFrags = (node, duplicatedFrags) => {
-  node.dispatchEvent(
-    new CustomEvent('ldod-error', {
-      detail: {
-        message: `The following Fragments are duplicated: ${duplicatedFrags.join(
-          ', '
-        )}`,
-      },
-      bubbles: true,
-      composed: true,
-    })
-  );
+const notifyForDuplicatedFrags = (duplicatedFrags) => {
+  const message = `The following Fragments are duplicated: ${duplicatedFrags.join(
+    ', '
+  )}`;
+  errorPublisher(message);
 };
 
 const getDuplicatedFrags = (node, inters) => {

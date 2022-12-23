@@ -1,16 +1,14 @@
 // rollup.config.js
 import { terser } from 'rollup-plugin-terser';
-import sourcemaps from 'rollup-plugin-sourcemaps';
 
+//import terser from '@rollup/plugin-terser';
 export default {
-  input: './src/fetcher.js',
-  plugins: [sourcemaps()],
-  output: [
-    {
-      sourcemap: true,
-      dir: '../dist',
-      format: 'es',
-      plugins: [terser()],
-    },
-  ],
+  input: 'src/fetcher.js',
+  external: /^shared/,
+  output: {
+    sourcemap: true,
+    dir: '../dist',
+    format: 'es',
+    plugins: [terser()],
+  },
 };

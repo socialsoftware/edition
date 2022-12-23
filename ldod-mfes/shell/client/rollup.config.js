@@ -1,11 +1,11 @@
 // rollup.config.js
 
-import sourcemaps from 'rollup-plugin-sourcemaps';
-import terser from '@rollup/plugin-terser';
-import { importAssertionsPlugin } from 'rollup-plugin-import-assert';
-import { importAssertions } from 'acorn-import-assertions';
+//import terser from '@rollup/plugin-terser';
+import { terser } from 'rollup-plugin-terser';
+import css from 'rollup-plugin-import-css';
 
 export default {
+  external: [/^shared/, 'home'],
   input: 'src/shell.js',
   output: [
     {
@@ -15,7 +15,5 @@ export default {
       sourcemap: true,
     },
   ],
-  acornInjectPlugins: [importAssertions],
-  plugins: [sourcemaps(), importAssertionsPlugin(),
-  ]
+  plugins: [css()],
 };

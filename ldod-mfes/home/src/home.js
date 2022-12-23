@@ -1,7 +1,7 @@
 let home;
 
 if (typeof window === 'object') {
-  import('./components/navbar/navbar.js');
+  import('./components/navbar/ldod-navbar.js');
   home = await import('./components/home/home.js');
 }
 

@@ -14,7 +14,7 @@ let multipleSelect;
 
 const loadModules = async () => {
   if (!multipleSelect)
-    multipleSelect = await import('select-pure_2.1.4/dist/index.js');
+    multipleSelect = (await import('@src/select-pure')).selectPure;
   if (!createPopper)
     createPopper = (await import('@src/popper.js')).createPopper;
   if (!quill) quill = (await import('quill_1.3.7/dist/quill.min.js')).default;
@@ -374,7 +374,6 @@ export class LdodAnnotation extends HTMLElement {
       this.removeNotPersisted();
       return;
     }
-
     deleteAnnotation(this.interId, this.annotation.id)
       .then(this.onSuccess)
       .catch(this.onError);

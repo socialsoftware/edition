@@ -1,7 +1,0 @@
-html {
-    overflow: inherit;
-}
-
-html[open] {
-    overflow: hidden;
-}

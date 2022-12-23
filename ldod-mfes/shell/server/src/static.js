@@ -16,7 +16,8 @@ const removeStaticAssets = ({ name }) => {
 };
 
 const addStaticAssets = ({ from, name }) => {
-  fs.cpSync(from, path.resolve(staticPath, name), {
+  const dest = path.resolve(staticPath, name);
+  fs.cpSync(from, dest, {
     recursive: true,
     force: true,
   });

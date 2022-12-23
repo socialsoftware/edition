@@ -22,7 +22,7 @@ router.fallback = NotFound;
 window.references = {};
 
 const routes = await Object.keys(modules)
-  .filter((mod) => mod !== 'shared/' && mod !== 'home')
+  .filter((mod) => mod !== 'shared/' && mod !== 'home' && mod !== 'vendor/')
   .reduce(async (prev, mfeName) => {
     await import(mfeName)
       .then(async (mod) => {

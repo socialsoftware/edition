@@ -1,14 +1,1 @@
-{
-  "name": "shared",
-  "version": "1.0.0",
-  "description": "shared packages to be used by ldod mfes",
-  "main": "dist/",
-  "author": "Raimundo",
-  "license": "MIT",
-  "scripts": {
-    "test": "./scripts/test.sh",
-    "build": "./scripts/build.sh"
-  },
-  "type": "module",
-  "devDependencies": {}
-}
+{"name":"shared","version":"1.0.0","description":"shared packages to be used by ldod mfes","main":"dist/","author":"Raimundo","license":"MIT","scripts":{"test":"./scripts/test.sh","build":"./scripts/build.sh"},"type":"module","devDependencies":{},"dependencies":{"@popperjs/core_2.11.6":"npm:@popperjs/core@2.11.6","@trutoo/event-bus_2.2.0":"npm:@trutoo/event-bus@2.2.0","select-pure_2.1.4":"npm:select-pure@2.1.4"}}

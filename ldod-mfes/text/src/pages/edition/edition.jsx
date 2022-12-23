@@ -1,4 +1,4 @@
-import EditionRouter from './EditionRouter';
+import EditionRouter from './edition-router';
 
 const path = '/edition';
 const mount = async (lang, ref) => {

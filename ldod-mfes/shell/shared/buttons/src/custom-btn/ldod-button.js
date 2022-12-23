@@ -1,19 +1,13 @@
 import style from '../style.css?inline';
-import { parseHTML } from 'shared/utils.js';
-import { html } from '../utils';
-
-const styleElement = () =>
-  parseHTML(
-    html`<style>
-      ${style}
-    </style>`
-  );
+import ButtonComponent from './button-html';
 
 export class LdodButton extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    this.shadowRoot.appendChild(styleElement());
+    this.sheet = new CSSStyleSheet();
+    this.sheet.replaceSync(style);
+    this.shadowRoot.adoptedStyleSheets = [this.sheet];
   }
 
   get class() {
@@ -42,18 +36,13 @@ export class LdodButton extends HTMLElement {
   }
 
   connectedCallback() {
-    this.shadowRoot.appendChild(parseHTML(this.getButtonComponent()));
+    this.shadowRoot.innerHTML = ButtonComponent(
+      this.btnId,
+      this.class,
+      this.type,
+      this.title
+    );
     this.addEventListeners();
-  }
-
-  getButtonComponent() {
-    return html`<button
-      id=${this.btnId}
-      class="${this.class}"
-      type="${this.type}"
-    >
-      ${this.title}
-    </button>`;
   }
 
   addEventListeners() {
@@ -64,8 +53,14 @@ export class LdodButton extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldV, newV) {
-    if (oldV && oldV !== newV) this.button.textContent = newV;
+    this.changeAttribute[name](oldV, newV);
   }
+
+  changeAttribute = {
+    title: (oldV, newV) => {
+      if (oldV && oldV !== newV) this.button.textContent = newV;
+    },
+  };
 
   disconnectedCallback() {}
 }

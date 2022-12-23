@@ -233,6 +233,7 @@ export class LdodVirtualEditions extends HTMLElement {
 !customElements.get('ldod-virtual-editions') &&
   customElements.define('ldod-virtual-editions', LdodVirtualEditions);
 
-function onError(message) {
-  errorPublisher(message);
+function onError(error) {
+  console.error(error);
+  errorPublisher(error.message);
 }

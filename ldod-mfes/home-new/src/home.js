@@ -1,7 +1,7 @@
 let home;
 
 const loadMfe = async () => {
-  if (!home) home = await import('./components/navbar/navbar.jsx');
+  if (!home) home = await import('./components/navbar/ldod-navbar.js');
   return home;
 };
 

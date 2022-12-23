@@ -7,6 +7,7 @@ export default defineConfig(({ mode }) => {
       target: 'es2022',
       outDir: 'build',
       sourcemap: true,
+      manifest: true,
       lib: {
         entry: 'src/virtual.js',
         formats: ['es'],
@@ -14,17 +15,7 @@ export default defineConfig(({ mode }) => {
       },
 
       rollupOptions: {
-        external: [
-          'shared/vanilla-jsx.js',
-          'shared/router.js',
-          'shared/table.js',
-          'shared/fetcher.js',
-          'shared/utils.js',
-          'shared/tooltip.js',
-          'shared/popper.js',
-          'shared/select-pure.js',
-          'text',
-        ],
+        external: [/^shared/, 'text', /^vendor/],
       },
     },
     esbuild: {

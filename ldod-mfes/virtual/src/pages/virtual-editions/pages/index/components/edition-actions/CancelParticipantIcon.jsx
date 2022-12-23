@@ -1,11 +1,12 @@
 import { cancelParticipation } from '@src/restricted-api-requests';
+import { errorPublisher } from '../../../../../../event-module';
 
 const onCancelParticipation = (node, id) => {
   cancelParticipation(id)
     .then((ve) => node.updateEdition(ve))
     .catch((error) => {
-      error?.message &&
-        node.dispatchCustomEvent('ldod-error', { message: error.message });
+      console.error(error);
+      errorPublisher(error?.message);
     });
 };
 

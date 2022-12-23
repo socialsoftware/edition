@@ -1,5 +1,5 @@
-import Title from '@src/common/Title.jsx';
-import SourcesTable from './components/SourcesTable.jsx';
+import Title from '@src/common/title.jsx';
+import SourcesTable from './components/sources-table';
 import constants from './constants.js';
 
 const loadTooltip = () => import('shared/tooltip.js');

@@ -20,7 +20,7 @@ export default class NavTo extends HTMLAnchorElement {
   }
 
   get publishedMfes() {
-    return [...window.mfes, '/'];
+    return [...(window.mfes ?? []), '/'];
   }
 
   connectedCallback() {
@@ -40,13 +40,6 @@ export default class NavTo extends HTMLAnchorElement {
   emitURLEvent() {
     if (!this.to) return;
     ldodEventPublisher('url-changed', { path: this.to });
-    /*    this.dispatchEvent(
-      new CustomEvent('ldod-url-changed', {
-        composed: true,
-        bubbles: true,
-        detail: { path: this.to },
-      })
-    );*/
   }
 
   checkIfMfesIsPublished = () => {

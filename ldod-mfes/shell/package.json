@@ -6,6 +6,7 @@
   "type": "module",
   "nodemonConfig": {
     "ignore": [
+      "shared/*",
       "static/*",
       "importmap.json",
       "mfes.json"
@@ -27,7 +28,6 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "forever": "^4.0.3",
-    "jsonschema": "^1.4.1",
     "module-alias": "^2.2.2",
     "multer": "^1.4.5-lts.1",
     "node-html-parser": "^5.3.3",

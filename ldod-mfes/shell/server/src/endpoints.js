@@ -4,6 +4,7 @@ import { addToMfes, removeFromMfes } from './mfes.js';
 import { gamePath, staticPath, visualPath } from './constants.js';
 import { isMainThread, Worker } from 'worker_threads';
 import { processReferences } from './mfesReferences.js';
+import { emitter } from './event-bus.js';
 
 const sendIndex = (req, res) => res.send(getIndexHtml());
 
@@ -43,6 +44,7 @@ const publishMFE = async (req, res) => {
     });
   await addToMfes(id);
   await processReferences();
+  emitter.emit('mfe:published', { name });
   return res.sendStatus(200);
 };
 const unPublishMFE = async (req, res) => {

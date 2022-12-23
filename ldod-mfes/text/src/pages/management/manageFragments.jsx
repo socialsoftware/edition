@@ -8,7 +8,6 @@ const mount = async (lang, ref) => {
     );
 };
 
-
 const unMount = () => document.querySelector('ldod-manage-fragments')?.remove();
 
 const path = '/manage-fragments';

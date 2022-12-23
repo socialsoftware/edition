@@ -4,6 +4,7 @@ import MembersTable from './members-table';
 import style from './editors.css?inline';
 import PendentTable from './pendent-table';
 import { addParticipant } from '@src/restricted-api-requests';
+import { errorPublisher } from '../../../../../../event-module';
 export class LdodVeEditors extends HTMLElement {
   constructor() {
     super();
@@ -41,7 +42,7 @@ export class LdodVeEditors extends HTMLElement {
     this.onChangedAttribute[name](oldV, newV);
   }
 
-  disconnectedCallback() { }
+  disconnectedCallback() {}
 
   render() {
     this.innerHTML = '';
@@ -50,7 +51,7 @@ export class LdodVeEditors extends HTMLElement {
       <ldod-modal id="virtual-editorsModal" dialog-class="modal-xl" no-footer>
         <span slot="header-slot">{this.edition?.title}</span>
         <div slot="body-slot">
-          {this.edition.member?.admin && (
+          {this.edition?.member?.admin && (
             <form onSubmit={this.onAdd}>
               <div class="input-group mb-5">
                 <input
@@ -117,14 +118,9 @@ export class LdodVeEditors extends HTMLElement {
         this.edition = data;
         this.toggleAttribute('data');
       })
-      .catch(({ message }) => {
-        this.dispatchEvent(
-          new CustomEvent('ldod-error', {
-            detail: { message },
-            bubbles: true,
-            composed: true,
-          })
-        );
+      .catch((error) => {
+        console.error(error);
+        errorPublisher(error?.message);
       });
   };
 }

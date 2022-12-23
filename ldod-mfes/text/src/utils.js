@@ -1,20 +1,6 @@
 import textReferences from './references';
 export const isDev = () => import.meta.env.DEV;
 
-export function dispatchCustomEvent(
-  node,
-  payload,
-  { type, bubbles, composed }
-) {
-  node.dispatchEvent(
-    new CustomEvent(`ldod-${type}`, {
-      detail: payload,
-      bubbles,
-      composed,
-    })
-  );
-}
-
 export function processFragmentAnchor(docFrag) {
   docFrag.querySelectorAll('a[href]').forEach((anchor) => {
     if (anchor.href.includes('/fragments/fragment/Fr')) {
@@ -29,10 +15,10 @@ export function processFragmentAnchor(docFrag) {
 }
 
 /**
- * 
- * @param {string} word 
+ *
+ * @param {string} word
  */
 export function capitalize(word) {
-  if (!word) return
-  return word[0].toUpperCase().concat(word.slice(1))
+  if (!word) return;
+  return word[0].toUpperCase().concat(word.slice(1));
 }

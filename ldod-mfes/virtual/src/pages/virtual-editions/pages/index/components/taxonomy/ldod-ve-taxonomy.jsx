@@ -12,7 +12,10 @@ import {
   getVeTaxonomy,
   mergeCategories,
 } from './taxonomy-api-requests';
-import { errorPublisher } from '../../../../../../event-module';
+import {
+  errorPublisher,
+  loadingPublisher,
+} from '../../../../../../event-module';
 
 const GenerateTopicsModal = async (node, veId) =>
   (await import('./generate-topics-modal')).default({
@@ -89,7 +92,7 @@ export class LdodVeTaxonomy extends HTMLElement {
   }
   disconnectedCallback() {}
 
-  async render() {
+  render() {
     this.innerHTML = '';
     this.appendChild(<style>{style}</style>);
     this.appendChild(

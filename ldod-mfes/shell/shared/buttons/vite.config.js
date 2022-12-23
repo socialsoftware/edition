@@ -12,11 +12,7 @@ export default defineConfig({
       fileName: 'buttons',
     },
     rollupOptions: {
-      external: [
-        'shared/fetcher.js',
-        'shared/utils.js',
-        'shared/ldod-events.js',
-      ],
+      external: [/^shared/],
     },
   },
 

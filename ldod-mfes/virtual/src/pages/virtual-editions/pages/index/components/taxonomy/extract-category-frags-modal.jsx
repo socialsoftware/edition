@@ -1,4 +1,4 @@
-import 'shared/select-pure.js';
+import '@src/select-pure.js';
 import { extractCategoryFragments } from './taxonomy-api-requests';
 
 export default ({ node, category }) => {

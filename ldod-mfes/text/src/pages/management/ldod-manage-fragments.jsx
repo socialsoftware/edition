@@ -1,10 +1,16 @@
-import FragsTable from './components/FragsTable.jsx';
-import Title from './components/Title.jsx';
+import FragsTable from './components/fragments-table.jsx';
+import Title from './components/title.jsx';
 import constants from './constants.js';
-import { dispatchCustomEvent } from '@src/utils.js';
-import { removeFragmentById, removeAllFragments, dataProxy } from '@src/api-requests';
-import UploadButtons from './components/uploadButtons.jsx';
-import ExportButtons from './components/exportButtons.jsx';
+import {
+  removeFragmentById,
+  removeAllFragments,
+  dataProxy,
+} from '@src/api-requests';
+
+import UploadButtons from './components/upload-buttons.jsx';
+import ExportButtons from './components/export-buttons.jsx';
+import { ldodEventPublisher } from '../../events-module.js';
+
 import('shared/buttons.js').then(({ ldodButton }) => ldodButton());
 
 async function loadToolip() {
@@ -40,7 +46,7 @@ export class LdodManageFragments extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['language', 'data'];
+    return ['language'];
   }
 
   getSelectedFrags() {
@@ -70,7 +76,7 @@ export class LdodManageFragments extends HTMLElement {
         <div id="removeAllContainer" class="text-center">
           <ldod-button
             class="btn btn-danger"
-            data-buttonkey="removeAll"
+            data-button-key="removeAll"
             title={this.getConstants('removeAll')}
             onClick={this.handleRemoveAll}></ldod-button>
         </div>
@@ -110,20 +116,17 @@ export class LdodManageFragments extends HTMLElement {
             this.getConstants(ele.dataset.tooltipkey)
           );
         });
-        this.querySelectorAll('[data-buttonkey]').forEach((btn) => {
-          btn.setAttribute('title', this.getConstants(btn.dataset.buttonkey));
+        this.querySelectorAll('[data-button-key]').forEach((btn) => {
+          btn.setAttribute('title', this.getConstants(btn.dataset.buttonKey));
         });
       }
-    },
-    data: () => {
-      this.render();
-      this.exportHeadElement?.addEventListener('click', this.unselectAll);
-      this.wrapper.addEventListener('pointerenter', loadToolip);
     },
   };
 
   addEventListeners() {
-    this.addEventListener('ldod-file-uploaded', this.handleFileUploaded);
+    this.wrapper.addEventListener('pointerenter', loadToolip);
+    this.exportHeadElement?.addEventListener('click', this.unselectAll);
+    this.addEventListener('ldod:file-uploaded', this.handleFileUploaded);
     this.addEventListener('ldod-table-searched', this.updateTitle);
   }
 
@@ -139,12 +142,12 @@ export class LdodManageFragments extends HTMLElement {
     this.exportSelectedElement.body = [];
   };
 
-  handleFileUploaded = ({ detail: { data } }) => {
+  handleFileUploaded = ({ detail: { payload } }) => {
     dataProxy.reset;
     const nl = document.createElement('br').outerHTML;
     const p = document.createElement('p').outerHTML;
 
-    data.forEach((fragment) => {
+    payload.forEach((fragment) => {
       const { xmlId, uploaded, overwritten } = fragment;
       if (uploaded) {
         if (overwritten) this.removeFragmentByXmlId(xmlId);
@@ -152,31 +155,29 @@ export class LdodManageFragments extends HTMLElement {
       }
     });
 
-    const uploadedFrags = data.filter((frag) => frag.uploaded);
-    const notUploadedFrags = data.filter((frag) => !frag.uploaded);
+    const uploadedFrags = payload.filter((frag) => frag.uploaded);
+    const notUploadedFrags = payload.filter((frag) => !frag.uploaded);
 
     const uploadedFragsResult = uploadedFrags.reduce(
       (accumulated, { xmlId, title, overwritten }) => {
-        return `${accumulated}${nl}[${xmlId}(${title})]${overwritten ? ' (overwritten)' : ''
-          }`;
+        return `${accumulated}${nl}[${xmlId}(${title})]${
+          overwritten ? ' (overwritten)' : ''
+        }`;
       },
       `New uploaded fragments: ${uploadedFrags.length}`
     );
 
     const notUploadedFragsResult = notUploadedFrags.reduce(
       (accumulated, { xmlId, title, overwritten }) => {
-        return `${accumulated}${nl}[${xmlId}(${title})]${overwritten ? ' (overwritten)' : ''
-          }`;
+        return `${accumulated}${nl}[${xmlId}(${title})]${
+          overwritten ? ' (overwritten)' : ''
+        }`;
       },
       `\nAlready uploaded fragments: ${notUploadedFrags.length}`
     );
-
-    window.dispatchEvent(
-      new CustomEvent('ldod-message', {
-        detail: {
-          message: uploadedFragsResult.concat(`${p}`, notUploadedFragsResult),
-        },
-      })
+    ldodEventPublisher(
+      'message',
+      uploadedFragsResult.concat(`${p}`, notUploadedFragsResult)
     );
   };
 
@@ -184,22 +185,15 @@ export class LdodManageFragments extends HTMLElement {
     if (!confirm('Are you sure you want to remove all fragments?')) return;
     const res = await removeAllFragments();
     if (res.ok) this.mutateFragments([]);
-    dispatchCustomEvent(
-      this,
-      { message: res.message },
-      { type: res.ok ? 'message' : 'error', bubbles: true, composed: true }
-    );
+    const type = res.ok ? 'message' : 'error';
+    ldodEventPublisher(type, res.message);
   };
 
   handleRemoveFragment = async ({ target }) => {
     const id = target.dataset.id;
     const res = await removeFragmentById(target.dataset.id);
     if (res.ok) return this.mutateFragments(this.removeFragmentById(id));
-    dispatchCustomEvent(
-      this,
-      { message: res.message },
-      { type: 'error', bubbles: true, composed: true }
-    );
+    ldodEventPublisher('error', res.message);
   };
 
   removeFragmentById(id) {

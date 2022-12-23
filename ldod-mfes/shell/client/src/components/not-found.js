@@ -1,4 +1,4 @@
-import { parseHTML } from 'shared/utils.js';
+import { dom } from 'shared/utils.js';
 
 const message = {
   pt: 'LdoD: Esta página não existe...',
@@ -9,8 +9,8 @@ const message = {
 const getNoPage = () => document.body.querySelector('div#no-page.container');
 
 const NoPage = (language) =>
-  parseHTML(
-    html` <div id="no-page" class="container">${message[language]}</div>`
+  dom(
+    /*html*/ ` <div id="no-page" class="container">${message[language]}</div>`
   );
 
 const mount = (language, ref) => {

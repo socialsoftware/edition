@@ -29,7 +29,7 @@ export const removeFragmentById = async (id) => {
 
 export const removeAllFragments = async () => {
   dataProxy.reset;
-  await fetcher.post(`${ADMIN_PATH}/fragments-delete-all`, null);
+  return await fetcher.post(`${ADMIN_PATH}/fragments-delete-all`, null);
 };
 export const getExpertEditionByAcrn = async (acrn) =>
   await fetcher.get(`${PATH}/acronym/${acrn}`, null);

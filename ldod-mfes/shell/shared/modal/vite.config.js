@@ -10,6 +10,9 @@ export default defineConfig({
       formats: ['es'],
       fileName: 'modal',
     },
+    rollupOptions: {
+      external: [/^shared/],
+    },
   },
 
   resolve: {

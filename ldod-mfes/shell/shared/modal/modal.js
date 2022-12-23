@@ -1,1 +1,1 @@
-export * from './src/LdodModal.js';
+export * from './src/ldod-modal.js';

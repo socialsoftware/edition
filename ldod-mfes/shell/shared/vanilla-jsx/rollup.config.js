@@ -8,6 +8,7 @@ export default {
       dir: '../dist',
       format: 'es',
       plugins: [terser()],
+      sourcemap: true,
     },
   ],
 };

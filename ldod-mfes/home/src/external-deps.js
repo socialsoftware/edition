@@ -1,5 +1,5 @@
 async function getReferences(mfe) {
-  return window.references[mfe] || {};
+  return window.references?.[mfe] || {};
 }
 
 export const textReferences = await getReferences('text');

@@ -26,6 +26,10 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: [
         {
+          find: 'vendor',
+          replacement: '/node_modules',
+        },
+        {
           find: 'shared/',
           replacement: `${env.VITE_NODE_HOST}/shared/`,
         },

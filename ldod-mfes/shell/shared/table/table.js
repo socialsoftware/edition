@@ -1,1 +1,1 @@
-export * from './src/LdodTable.jsx';
+export * from './src/LdodTable';

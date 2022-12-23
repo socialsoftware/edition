@@ -1,9 +1,7 @@
 import style from '../style.css?inline';
 import ExportComponent from './ldod-export.js';
 import { xmlFileFetcher } from 'shared/fetcher.js';
-import { parseHTML } from 'shared/utils.js';
 import { errorPublisher } from '../events-module';
-import { html } from '../utils';
 
 function base64ToBuffer(data) {
   return new Uint8Array(
@@ -17,16 +15,13 @@ export class LdodExport extends HTMLElement {
   constructor() {
     super();
     const shadow = this.attachShadow({ mode: 'open' });
-    shadow.appendChild(
-      parseHTML(
-        html`<style>
-          ${style}
-        </style>`
-      )
-    );
+    this.sheet = new CSSStyleSheet();
+    this.sheet.replaceSync(style);
+    this.shadowRoot.adoptedStyleSheets = [this.sheet];
   }
+
   static get observedAttributes() {
-    return ['title'];
+    return ['title', 'width'];
   }
 
   get title() {
@@ -54,8 +49,13 @@ export class LdodExport extends HTMLElement {
   }
 
   render() {
-    this.shadowRoot.appendChild(ExportComponent({ node: this }));
+    this.shadowRoot.innerHTML = ExportComponent({ title: this.title });
+    this.addEventListeners();
   }
+
+  addEventListeners = () => {
+    this.shadowRoot.querySelector('button').onclick = this.handleSubmit;
+  };
 
   handleSubmit = async (e) => {
     e.preventDefault();
@@ -84,14 +84,19 @@ export class LdodExport extends HTMLElement {
   };
 
   attributeChangedCallback(name, oldV, newV) {
-    oldV && oldV !== newV && this.handleChangeAttribute[name]();
+    this.handleChangeAttribute[name](oldV, newV);
   }
 
   handleChangeAttribute = {
-    title: (o) => {
-      this.shadowRoot.querySelector(
-        'button#exportBtn>span[label]'
-      ).textContent = this.title;
+    title: (oldV, newV) => {
+      if (oldV && oldV !== newV)
+        this.shadowRoot.querySelector(
+          'button#exportBtn>span[label]'
+        ).textContent = this.title;
+    },
+    width: () => {
+      this.sheet.insertRule(`button {width: ${this.width};}`);
+      this.shadowRoot.adoptedStyleSheets = [this.sheet];
     },
   };
 

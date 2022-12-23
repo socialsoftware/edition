@@ -7,6 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--<link  rel="preload" href="style/fonts/WorkSans-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin/>-->
     <style type="text/css">
+        html {
+            overflow: inherit;
+        }
+
+        html[open] {
+            overflow: hidden;
+        }
+
         .ldod-default {
             font-family: Work-Sans;
             color: black;
@@ -70,7 +78,63 @@
         <div slot="body-slot"></div>
     </ldod-modal>
     <ldod-navbar token="false" language></ldod-navbar>
-    <ldod-loading id="shell-loading"></ldod-loading>
+    <ldod-loading id="shell-loading" hidden>
+        <template shadowroot="open">
+            <style>
+                div#shell-loadingOverlay {
+                    display: inherit;
+                    transition: opacity 300ms ease-in-out;
+                    overflow: hidden;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    position: fixed;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    z-index: 1060;
+                    outline: 0;
+                }
+
+                .lds-dual-ring {
+                    display: inherit;
+                    margin-left: 50%;
+                    margin-top: 40vh;
+                    width: 64px;
+                    height: 64px;
+                    border-radius: 50%;
+                    border: 6px solid #fff;
+                    z-index: 1070;
+                    border-color: #fff transparent #fff transparent;
+                    animation: lds-dual-ring 1.2s linear infinite;
+                }
+
+                .old {
+                    content: ' ';
+                    display: block;
+                    width: 64px;
+                    height: 64px;
+                    margin: 8px;
+                    border-radius: 50%;
+                    border: 6px solid #fff;
+                    border-color: #fff transparent #fff transparent;
+                    animation: lds-dual-ring 1.2s linear infinite;
+                }
+
+                @keyframes lds-dual-ring {
+                    0% {
+                        transform: rotate(0deg);
+                    }
+
+                    100% {
+                        transform: rotate(360deg);
+                    }
+                }
+            </style>
+            <div id="shell-loadingOverlay">
+                <div class="lds-dual-ring"></div>
+            </div>
+        </template>
+    </ldod-loading>
     <div id="root"></div>
     <script type="module" src="/ldod-mfes/shell.js"></script>
     <script src="/ldod-mfes/fonts.js" defer async>

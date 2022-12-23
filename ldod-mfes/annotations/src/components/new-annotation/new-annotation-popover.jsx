@@ -119,12 +119,6 @@ export class NewAnnPopover extends HTMLElement {
       endOffset: selector.end,
     };
 
-    // normalize parent node
-    // annotationsList.forEach((ann) => ann.destroy());
-    // this.selectionXPath = fromRange(newRange, this.refNode);
-    // rerender annotations
-    // processExistingAnnotations(annotationsList);
-
     this.updatePopper(e);
   };
 
@@ -133,22 +127,8 @@ export class NewAnnPopover extends HTMLElement {
     this.removeHiddenListener();
   }
 
-  removeTextFromXPath = () => {
-    const splitStart = this.selectionXPath.start.split('/');
-    if (!splitStart.at(splitStart.length - 1).startsWith('text')) return;
-    this.selectionXPath.start = splitStart
-      .splice(0, splitStart.length - 1)
-      .join('/');
-
-    const endSplit = this.selectionXPath.end.split('/');
-    if (!endSplit.at(endSplit.length - 1).startsWith('text')) return;
-    this.selectionXPath.end = endSplit.splice(0, endSplit.length - 1).join('/');
-    console.log(this.selectionXPath);
-  };
-
   onNew = async (e) => {
     const id = Date.now().toString();
-    //this.removeTextFromXPath();
     const newAnn = await new Annotation(
       {
         quote: this.quote,

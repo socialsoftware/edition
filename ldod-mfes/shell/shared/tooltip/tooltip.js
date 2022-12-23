@@ -1,2 +1,2 @@
-export * from './src/LdodTooltip.js';
-export * from './src/LdodPopover.js';
+import './src/ldod-popover.js';
+import './src/ldod-tooltip.js';

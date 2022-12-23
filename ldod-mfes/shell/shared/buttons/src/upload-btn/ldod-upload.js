@@ -1,9 +1,7 @@
-import { parseHTML } from 'shared/utils.js';
-import { html } from '../utils';
-
-export default ({ node, isMultiple }) => {
-  const form = parseHTML(html`
+export default ({ title, isMultiple }) => {
+  return /*html*/ `
     <form enctype="multipart/form-data">
+    
       <div class="input-group">
         <input
           ${isMultiple ? 'multiple' : ''}
@@ -15,15 +13,10 @@ export default ({ node, isMultiple }) => {
           accept=".xml"
         />
         <button class="btn btn-primary" type="submit" id="loadBtn" disabled>
-          <span label>${node.title}</span>
+          <span label>${title}</span>
           <span class="icon icon-upload"></span>
         </button>
       </div>
     </form>
-  `);
-  if (node.width) form.querySelector('div').style.width = node.width;
-  form.onsubmit = node.handleSubmit;
-  form.oninput = node.handleInput;
-
-  return form;
+  `;
 };

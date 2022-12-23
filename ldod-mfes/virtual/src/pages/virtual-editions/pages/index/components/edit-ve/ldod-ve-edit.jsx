@@ -3,6 +3,7 @@ import { editVE } from '@src/restricted-api-requests';
 import constants from '@src/pages/constants';
 import thisConstants from './constants';
 import EditionEditForm from './edition-edit-form';
+import { errorPublisher } from '../../../../../../event-module';
 
 export class LdodVeEdit extends HTMLElement {
   constructor() {
@@ -44,7 +45,7 @@ export class LdodVeEdit extends HTMLElement {
     this.onChangedAttribute[name](oldV, newV);
   }
 
-  disconnectedCallback() { }
+  disconnectedCallback() {}
 
   onCloseModal = () => {
     this.toggleAttribute('show', false);
@@ -53,12 +54,17 @@ export class LdodVeEdit extends HTMLElement {
   render() {
     this.innerHTML = '';
     this.appendChild(
-      <ldod-modal id="virtual-veEdit" dialog-class="modal-fullscreen" no-footer>
-        <span slot="header-slot">{this.edition?.title}</span>
-        <div slot="body-slot">
-          <EditionEditForm node={this} />
-        </div>
-      </ldod-modal>
+      <>
+        <ldod-modal
+          id="virtual-veEdit"
+          dialog-class="modal-fullscreen"
+          no-footer>
+          <span slot="header-slot">{this.edition?.title}</span>
+          <div slot="body-slot">
+            <EditionEditForm node={this} />
+          </div>
+        </ldod-modal>
+      </>
     );
   }
 
@@ -81,14 +87,8 @@ export class LdodVeEdit extends HTMLElement {
         this.toggleAttribute('show', false);
       })
       .catch((error) => {
-        if (!error?.ok)
-          this.dispatchEvent(
-            new CustomEvent('ldod-error', {
-              detail: { message: error?.message },
-              bubbles: true,
-              composed: true,
-            })
-          );
+        console.error(error);
+        if (!error?.ok) errorPublisher(error?.message);
       });
   };
 

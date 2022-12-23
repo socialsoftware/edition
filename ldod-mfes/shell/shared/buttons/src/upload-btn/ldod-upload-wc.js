@@ -1,24 +1,19 @@
 import style from '../style.css?inline';
 import UploadComponent from './ldod-upload.js';
+import { uploadEvent } from '../events-module';
 import { xmlFileFetcher } from 'shared/fetcher.js';
-import { parseHTML } from 'shared/utils.js';
-import { uploadEvent, uploadPublisher } from '../events-module';
-import { html } from '../utils';
 
 export class LdodUpload extends HTMLElement {
   constructor() {
     super();
-    const shadow = this.attachShadow({ mode: 'open' });
-    shadow.appendChild(
-      parseHTML(
-        html`<style>
-          ${style}
-        </style>`
-      )
-    );
+    this.attachShadow({ mode: 'open' });
+    this.sheet = new CSSStyleSheet();
+    this.sheet.replaceSync(style);
+    this.shadowRoot.adoptedStyleSheets = [this.sheet];
   }
+
   static get observedAttributes() {
-    return ['title'];
+    return ['title', 'width'];
   }
 
   get title() {
@@ -31,15 +26,27 @@ export class LdodUpload extends HTMLElement {
   get width() {
     return this.getAttribute('width') ?? '';
   }
+
+  get form() {
+    return this.shadowRoot.querySelector('form');
+  }
+
   connectedCallback() {
     this.render();
   }
 
   render() {
-    this.shadowRoot.appendChild(
-      UploadComponent({ node: this, isMultiple: this.isMultiple })
-    );
+    this.shadowRoot.innerHTML = UploadComponent({
+      title: this.title,
+      isMultiple: this.isMultiple,
+    });
+    this.addEventListeners();
   }
+
+  addEventListeners = () => {
+    this.form.onsubmit = this.handleSubmit;
+    this.form.oninput = this.handleInput;
+  };
 
   handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,33 +55,9 @@ export class LdodUpload extends HTMLElement {
       url: this.dataset.url,
       method: 'POST',
       body: formData,
-    });
+    }).catch((e) => console.error(e));
     this.responseData = res;
     this.dispatchEvent(uploadEvent(this.id, res));
-
-    /*if (res?.ok !== undefined) {
-      dispatchCustomEvent(
-        this,
-        { message: res.message },
-        {
-          type: res.ok ? 'message' : 'error',
-          bubbles: true,
-          composed: true,
-        }
-      );
-    }
-
-    if (!res?.ok || res.ok)
-      dispatchCustomEvent(
-        this,
-        { data: res },
-        {
-          type: 'file-uploaded',
-          bubbles: true,
-          composed: true,
-        }
-      );
-  };*/
   };
 
   handleInput = (e) => {
@@ -89,13 +72,19 @@ export class LdodUpload extends HTMLElement {
   };
 
   attributeChangedCallback(name, oldV, newV) {
-    oldV && oldV !== newV && this.handleChangeAttribute[name]();
+    this.handleChangeAttribute[name](oldV, newV);
   }
 
   handleChangeAttribute = {
-    title: (o) => {
-      this.shadowRoot.querySelector('button#loadBtn>span[label]').textContent =
-        this.title;
+    title: (oldV, newV) => {
+      if (oldV && oldV !== newV)
+        this.shadowRoot.querySelector(
+          'button#loadBtn>span[label]'
+        ).textContent = this.title;
+    },
+    width: () => {
+      this.sheet.insertRule(`form > div {width: ${this.width};}`);
+      this.shadowRoot.adoptedStyleSheets = [this.sheet];
     },
   };
 

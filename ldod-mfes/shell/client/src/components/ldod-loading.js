@@ -1,20 +1,12 @@
-import { parseHTML } from 'shared/utils.js';
 import { ldodEventBus } from 'shared/ldod-events.js';
-import style from './loading-modal.css' assert { type: 'css' };
-import { sleep } from 'shared/utils.js';
-window.html = String.raw;
-
-const styleSheet = new CSSStyleSheet();
 
 export class LdodLoading extends HTMLElement {
   constructor() {
     super();
     this.pendingLoading = 0;
     this.hidden = true;
-    const shadow = this.attachShadow({ mode: 'open' });
-    shadow.adoptedStyleSheets = [styleSheet];
+    if (!this.shadowRoot) this.attachShadow({ mode: 'open' });
   }
-  static get observedAttributes() {}
   get element() {
     return this.shadowRoot.querySelector('#shell-loadingOverlay');
   }
@@ -25,17 +17,12 @@ export class LdodLoading extends HTMLElement {
   handleLoading = async (isLoading) => {
     if (this.pendingLoading > 1 && isLoading) return;
     if (this.pendingLoading !== 0 && !isLoading) return;
-    !isLoading && (await sleep(10));
     this.toggleVisibility(isLoading);
   };
 
   toggleVisibility = (isLoading) => (this.hidden = !isLoading);
 
   connectedCallback() {
-    styleSheet.replaceSync(style);
-    if (!styleSheet.cssRules.length)
-      this.shadowRoot.adoptedStyleSheets = [style];
-    this.render();
     this.addEventListeners();
   }
 
@@ -44,12 +31,9 @@ export class LdodLoading extends HTMLElement {
   }
 
   render() {
-    const loader = parseHTML(
-      html` <div id="shell-loadingOverlay">
-        <div class="lds-dual-ring"></div>
-      </div>`
+    import('./loading-html.js').then(
+      (data) => (this.shadowRoot.innerHTML = data)
     );
-    this.shadowRoot.appendChild(loader);
   }
 
   addEventListeners = () => {
@@ -61,9 +45,9 @@ export class LdodLoading extends HTMLElement {
 
   handleLoadingEvent = ({ payload: isLoading }) => {
     this.pendingLoading = isLoading
-      ? ++this.pendingLoading
+      ? this.pendingLoading + 1
       : this.pendingLoading > 0
-      ? --this.pendingLoading
+      ? this.pendingLoading - 1
       : 0;
     this.handleLoading(isLoading);
   };

@@ -1,5 +1,3 @@
-import './buttons.js';
-
 const exportFrags = document.createElement('ldod-export');
 exportFrags.setAttribute('title', 'Export selected Fragments');
 

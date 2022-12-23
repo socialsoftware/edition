@@ -11,8 +11,9 @@ export default defineConfig({
       formats: ['es'],
       fileName: 'tooltip',
     },
+
     rollupOptions: {
-      external: ['shared/popper.js'],
+      external: [/^vendor/],
     },
   },
 

@@ -4,8 +4,8 @@ const onSubmitParticipation = (node, id) => {
   submitParticipation(id)
     .then((ve) => node.updateEdition(ve))
     .catch((error) => {
-      error?.message &&
-        node.dispatchCustomEvent('ldod-error', { message: error.message });
+      console.error(error);
+      errorPublisher(error?.message);
     });
 };
 export default ({ node, edition }) => {

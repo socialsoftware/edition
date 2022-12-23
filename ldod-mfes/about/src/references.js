@@ -10,6 +10,6 @@ export default {
   team: () => '/about/team',
   ack: () => '/about/acknowledgements',
   contact: () => '/about/contact',
-  conduct: () => "/about/conduct",
+  conduct: () => '/about/conduct',
   copyright: () => '/about/copyright',
 };

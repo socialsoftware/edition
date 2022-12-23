@@ -1,4 +1,4 @@
-import 'shared/select-pure.js';
+import '@src/select-pure.js';
 import 'shared/modal.js';
 import style from './style.css?inline';
 
