@@ -153,3 +153,8 @@ p#annotation-categories.categories-chipped > span {
   font-weight: 700;
   color: #909090;
 }
+
+div#content ::selection {
+  background-color: #0a58ca;
+  color: #fff;
+}
