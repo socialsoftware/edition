@@ -62,7 +62,6 @@ export class LdodManageFragments extends HTMLElement {
     this.fragments = await dataProxy.adminFragments;
     this.appendChild(<div id="manageFragmentsWrapper"></div>);
     this.render();
-    this.addEventListeners();
   }
 
   render() {
@@ -96,6 +95,7 @@ export class LdodManageFragments extends HTMLElement {
         <FragsTable node={this} constants={constants} />
       </>
     );
+    this.addEventListeners();
   }
 
   attributeChangedCallback(name, oldV, newV) {
@@ -210,9 +210,8 @@ export class LdodManageFragments extends HTMLElement {
   }
 
   mutateFragments(newFragments) {
-    this.toggleAttribute('data', false);
     this.fragments = newFragments;
-    this.toggleAttribute('data', true);
+    this.render();
   }
 }
 !customElements.get('ldod-manage-fragments') &&

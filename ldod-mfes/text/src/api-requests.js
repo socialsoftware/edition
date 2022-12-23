@@ -19,6 +19,10 @@ const handler = {
     if (!target[prop]) target[prop] = await API[prop]();
     return target[prop];
   },
+  set: (target, prop, value) => {
+    console.log(target);
+    return (target[prop] = value && true);
+  },
 };
 export const dataProxy = new Proxy(data, handler);
 
