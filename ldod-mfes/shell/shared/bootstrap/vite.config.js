@@ -4,20 +4,24 @@ import path from 'path';
 export default defineConfig({
   build: {
     target: 'es2022',
+    cssCodeSplit: true,
     outDir: '../dist',
     emptyOutDir: false,
+
     lib: {
-      entry: 'src/index.js',
+      entry: [
+        'src/root/root.js',
+        'src/forms/forms.js',
+        'src/buttons/buttons.js',
+        'src/tables/tables.js',
+      ],
       formats: ['es'],
-      fileName: 'bootstrap',
+      fileName: (_, entry) => `bootstrap/${entry}.js`,
     },
+
     rollupOptions: {
-      external: ['@popperjs/core'],
       output: {
-        assetFileNames: (asset) => {
-          if (asset.name == 'style.css') return 'bootstrap.css';
-          return asset.name;
-        },
+        assetFileNames: 'bootstrap/[name].[ext]',
       },
     },
   },

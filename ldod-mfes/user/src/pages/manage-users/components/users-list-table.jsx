@@ -1,4 +1,4 @@
-import { changeActiveRequest, removeUserRequest } from '@src/api-requests.js';
+import { changeActiveRequest } from '@src/api-requests.js';
 import edit from '@src/resources/icons/edit-primary.svg';
 import trash from '@src/resources/icons/trash.svg';
 import constants from '../resources/constants.js';
@@ -8,7 +8,6 @@ import.meta.env.DEV
   ? await import('shared/table-dev.js')
   : await import('shared/table.js');
 
-
 const manageUsers = () => document.querySelector('manage-users');
 const getLanguage = () => manageUsers().language;
 
@@ -17,14 +16,13 @@ function getConstants(key) {
 }
 
 const onChangeActive = async (externalId) => {
-  const res = await changeActiveRequest(externalId);
-  manageUsers().usersData.userList.forEach((user) => {
-    if (user.externalId === externalId) {
-      user.active = res.ok;
-      return;
-    }
+  changeActiveRequest(externalId).then((res) => {
+    const user = manageUsers().usersData.userList.find(
+      (user) => user.externalId === externalId
+    );
+    user.active = res.ok;
+    replaceActive(res.ok, externalId);
   });
-  replaceActive(res.ok, externalId);
 };
 
 const replaceActive = (active, id) => {

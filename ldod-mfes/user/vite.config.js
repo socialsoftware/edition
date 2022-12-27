@@ -12,16 +12,7 @@ export default defineConfig(({ mode }) => {
         fileName: 'user',
       },
       rollupOptions: {
-        external: [
-          'shared/store.js',
-          'shared/vanilla-jsx.js',
-          'shared/router.js',
-          'shared/fetcher.js',
-          'shared/modal.js',
-          'shared/table.js',
-          'shared/tooltip.js',
-          'shared/utils.js',
-        ],
+        external: [/^shared/],
       },
     },
     esbuild: {

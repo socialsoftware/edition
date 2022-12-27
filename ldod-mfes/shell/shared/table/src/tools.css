@@ -9,9 +9,6 @@
 input#table-search-field {
   width: 30%;
   color: #555;
-}
-
-input#table-search-field {
   background-color: rgb(255, 255, 255);
   margin: 0;
   display: block;

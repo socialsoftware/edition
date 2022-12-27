@@ -14,11 +14,6 @@ export function capitalizeFirstLetter(word) {
   return word.slice(0, 1).toUpperCase().concat(word.slice(1, word.length));
 }
 
-export const emitMessageEvent = (message, type = 'message') =>
-  window.dispatchEvent(
-    new CustomEvent(`ldod-${type}`, { detail: { message } })
-  );
-
 export const loadConstants = async (lang) =>
   (await import(`./resources/messages-${lang}.js`)).default;
 

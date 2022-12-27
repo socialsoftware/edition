@@ -44,11 +44,9 @@ export class LdodLoading extends HTMLElement {
   };
 
   handleLoadingEvent = ({ payload: isLoading }) => {
-    this.pendingLoading = isLoading
-      ? this.pendingLoading + 1
-      : this.pendingLoading > 0
-      ? this.pendingLoading - 1
-      : 0;
+    if (isLoading) ++this.pendingLoading;
+    else if (this.pendingLoading > 0) --this.pendingLoading;
+    else this.pendingLoading = 0;
     this.handleLoading(isLoading);
   };
 }

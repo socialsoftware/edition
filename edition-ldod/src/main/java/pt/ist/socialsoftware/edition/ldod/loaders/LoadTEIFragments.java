@@ -147,7 +147,6 @@ public class LoadTEIFragments {
 
     @Atomic(mode = TxMode.WRITE)
     public List<UploadFragmentDto> loadFragmentsAtOnce(InputStream file) throws LdoDLoadException {
-
         parseTEIFile(file);
         this.ldoD = LdoD.getInstance();
         getCorpusXmlIds();

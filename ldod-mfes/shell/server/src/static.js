@@ -10,7 +10,6 @@ const removeStaticAssets = ({ name }) => {
         recursive: true,
         force: true,
       });
-      return;
     }
   });
 };

@@ -14,7 +14,7 @@ export class ChangePassword extends HTMLElement {
     this.username = getState().user?.username;
     this.current = {
       value: '',
-      test: (val) => val && true,
+      test: (val) => val,
       message: () => this.getConstants('required'),
     };
     this.new = {
@@ -48,8 +48,6 @@ export class ChangePassword extends HTMLElement {
     }
   }
 
-  disconnectedCallback() { }
-
   setConstants = async () =>
     (this.constants = await loadConstants(this.language));
 
@@ -76,8 +74,7 @@ export class ChangePassword extends HTMLElement {
         retypedPassword: this.confirm.value,
       })
         .then((data) => {
-          if (data.ok === false)
-            return errorPublisher(data.message);
+          if (data.ok === false) return errorPublisher(data.message);
           messagePublisher(data.message);
           navigateTo('/');
         })

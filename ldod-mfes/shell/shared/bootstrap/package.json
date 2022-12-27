@@ -4,9 +4,10 @@
   "description": "shared bootstrap module",
   "main": "bootstrap.js",
   "license": "MIT",
-  "type":"module",
+  "type": "module",
   "scripts": {
-    "build": "vite build"
+    "build": "vite build",
+    "dev": "vite"
   },
   "devDependencies": {
     "bootstrap": "^5.2.3",

@@ -1,5 +1,4 @@
 import { defineConfig, loadEnv } from 'vite';
-import pkg from './package.json';
 import { resolve } from 'path';
 
 export default defineConfig(({ mode }) => {
@@ -17,20 +16,6 @@ export default defineConfig(({ mode }) => {
       },
       rollupOptions: {
         external: [/^shared/, /^vendor/],
-
-        /* output: {
-          chunkFileNames: '[name].js',
-          manualChunks: (id) => {
-            if (!Object.keys(pkg.dependencies).some((dep) => id.includes(dep)))
-              return;
-            const dep = Object.keys(pkg.dependencies).find((dep) =>
-              id.includes(dep)
-            );
-            return `shared/${dep}${pkg.dependencies[dep]}`;
-          },
-          plugins: [transformImports()],
-        },
-      },*/
       },
     },
     esbuild: {

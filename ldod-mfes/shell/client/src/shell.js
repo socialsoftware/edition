@@ -1,3 +1,4 @@
+import './service-worker/sw.js';
 import 'shared/modal.js';
 import 'shared/router.js';
 import './components/ldod-loading.js';
@@ -22,7 +23,13 @@ router.fallback = NotFound;
 window.references = {};
 
 const routes = await Object.keys(modules)
-  .filter((mod) => mod !== 'shared/' && mod !== 'home' && mod !== 'vendor/')
+  .filter(
+    (mod) =>
+      mod !== 'shared/' &&
+      mod !== 'home' &&
+      mod !== 'vendor/' &&
+      !mod.startsWith('@')
+  )
   .reduce(async (prev, mfeName) => {
     await import(mfeName)
       .then(async (mod) => {

@@ -77,5 +77,6 @@ function appender(parent, child) {
   if (child instanceof Node) parent.appendChild(child);
   else if (Symbol.iterator in Object(child)) parent.append(...child);
   else parent.textContent = child || '';
+  parent.normalize();
   return parent;
 }

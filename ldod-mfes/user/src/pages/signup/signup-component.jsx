@@ -99,8 +99,6 @@ export class SignUp extends HTMLElement {
     }
   }
 
-  disconnectedCallback() { }
-
   setConstants = async () =>
     (this.constants = await loadConstants(this.language));
 
@@ -130,7 +128,7 @@ export class SignUp extends HTMLElement {
       })
         .then((res) => {
           if (res.ok) {
-            messagePublisher(res.message);
+            messagePublisher(this.getConstants(res.message));
             this.clearDataInputs();
             return navigateTo(userReferences.signin());
           }

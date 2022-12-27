@@ -65,7 +65,7 @@ const onAutocomplete = (e, root) => {
 
     root.tagMultipleSelect.append(
       ...assignedCats.map((cat) => (
-        <option-pure selected value={cat}>
+        <option-pure key={window.hash(cat)} selected value={cat}>
           {cat}
         </option-pure>
       ))
@@ -272,7 +272,7 @@ export class LdodAnnotation extends HTMLElement {
         this.contentEditor.appendChild(
           <p id="annotation-categories" class="categories-chipped">
             {this.annotation.data.tagList.map((ann) => (
-              <span>{ann}</span>
+              <span key={ann.id}>{ann}</span>
             ))}
           </p>
         );
@@ -298,6 +298,7 @@ export class LdodAnnotation extends HTMLElement {
             {this.categories.map((cat) => {
               return (
                 <option-pure
+                  key={window.hash(cat)}
                   selected={this.annotation.data.tagList.includes(cat)}
                   value={cat}>
                   {cat}
@@ -345,8 +346,6 @@ export class LdodAnnotation extends HTMLElement {
   // API requests
 
   onSuccess = (data) => {
-    //updateFetchedData(data);
-    //this.hideNow();
     this.dispatchAnnotationEvent();
   };
 
@@ -385,7 +384,6 @@ export class LdodAnnotation extends HTMLElement {
     mutateAnnotationsList(
       annotationsList.filter((ann) => ann.id !== this.annotation.id)
     );
-    return;
   }
 
   dispatchAnnotationEvent = () => {

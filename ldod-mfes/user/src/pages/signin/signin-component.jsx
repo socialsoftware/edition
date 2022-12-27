@@ -3,7 +3,12 @@ import { setState, getState } from '@src/store';
 import { navigateTo } from 'shared/router.js';
 import { newAuthRequest, userRequest } from '../../api-requests';
 import SigninForm from './signin-form';
-import { errorPublisher, loginPublisher, logoutPublisher, tokenPublisher } from '../../events-modules';
+import {
+  errorPublisher,
+  loginPublisher,
+  logoutPublisher,
+  tokenPublisher,
+} from '../../events-modules';
 
 class SignIn extends HTMLElement {
   constructor() {
@@ -32,8 +37,6 @@ class SignIn extends HTMLElement {
       this.updateLanguage();
     }
   }
-
-  disconnectedCallback() { }
 
   setConstants = async () =>
     (this.constants = await loadConstants(this.language));
@@ -106,13 +109,13 @@ class SignIn extends HTMLElement {
   onAuthSuccess = (token) => {
     if (!token) return this.logout();
     if (token !== getState().token) setState({ token });
-    tokenPublisher(token)
+    tokenPublisher(token);
     this.login();
   };
 
   logout = () => {
     setState({ token: '', user: '' });
-    logoutPublisher()
+    logoutPublisher();
     navigateTo('/');
   };
 

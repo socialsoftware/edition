@@ -128,7 +128,7 @@ export class NewAnnPopover extends HTMLElement {
   }
 
   onNew = async (e) => {
-    const id = Date.now().toString();
+    const id = crypto.randomUUID();
     const newAnn = await new Annotation(
       {
         quote: this.quote,

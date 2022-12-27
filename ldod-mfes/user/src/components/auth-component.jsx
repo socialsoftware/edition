@@ -1,7 +1,7 @@
-import { userFullName } from "../store";
-import { userReferences } from "../user-references";
+import { userFullName } from '../store';
+import { userReferences } from '../user-references';
 
-export const AuthComponent = ({ logoutHandler }) => (
+export const AuthComponent = ({ root }) => (
   <>
     <a id="loggedIn" class="dropdown-toggle">
       {userFullName()}
@@ -9,7 +9,7 @@ export const AuthComponent = ({ logoutHandler }) => (
     </a>
     <ul class="dropdown-menu">
       <li>
-        <a class="update-language" id="logout" onClick={logoutHandler}></a>
+        <a class="update-language" id="logout" onClick={root.logoutHandler}></a>
       </li>
       <li>
         <a

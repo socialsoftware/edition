@@ -1,6 +1,7 @@
 import { registerInstance, getState, userFullName } from '@src/store.js';
 import { loadConstants } from '@src/utils.js';
 import { navigateTo } from 'shared/router.js';
+import { sleep } from 'shared/utils.js';
 import { setState } from '../store';
 import { userReferences } from '../user-references';
 import {
@@ -33,10 +34,8 @@ export class UserComponent extends HTMLLIElement {
   async connectedCallback() {
     await this.setConstants();
     this.render();
-    if (getState().user) {
-      this.onUserLogin();
-      loginPublisher(getState().user);
-    }
+    if (getState().user) loginPublisher(getState().user);
+    await sleep(1);
     this.addListeners();
   }
 
@@ -59,7 +58,7 @@ export class UserComponent extends HTMLLIElement {
 
   render() {
     getState().user
-      ? this.appendChild(<AuthComponent logoutHandler={this.logoutHandler} />)
+      ? this.appendChild(<AuthComponent root={this} />)
       : this.appendChild(<NonAuthComponent />);
     this.updateLanguage();
   }
@@ -75,6 +74,7 @@ export class UserComponent extends HTMLLIElement {
   }
 
   onUserLogin = () => {
+    this.id.endsWith('1') && console.log('test');
     this.updateComponent();
   };
 

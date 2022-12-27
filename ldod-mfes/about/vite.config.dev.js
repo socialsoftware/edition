@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
       jsxFactory: 'createElement',
       jsxFragment: 'createFragment',
       jsxInject:
-        "import {createElement, createFragment} from 'shared/vanilla-jsx.js'",
+        'import {createElement, createFragment} from "shared/vanilla-jsx.js"',
     },
     resolve: {
       alias: [

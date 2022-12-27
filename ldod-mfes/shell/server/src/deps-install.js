@@ -2,7 +2,7 @@ import { emitter } from './event-bus.js';
 import { resolve } from 'path';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { sharedDist, staticPath } from './constants.js';
-import { exec, execSync } from 'child_process';
+import { exec } from 'child_process';
 import { addStaticAssets } from './static.js';
 
 emitter.on('mfe:published', installDeps);

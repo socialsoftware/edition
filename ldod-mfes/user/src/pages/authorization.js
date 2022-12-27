@@ -1,18 +1,15 @@
 import { navigateTo } from 'shared/router.js';
 import { tokenAuthRequest } from '../api-requests.js';
-import { emitMessageEvent } from '../utils.js';
+import { errorPublisher, messagePublisher } from '../events-modules.js';
 
 const mount = async (lang, ref) => {
   let params = new URL(document.location).searchParams;
   let path = `/sign-up-authorization?token=${params.get('token')}`;
   tokenAuthRequest(path)
-    .then((res) => {
-      console.log(res);
-      res && emitMessageEvent(res.message);
-    })
+    .then((res) => res && messagePublisher(res.message))
     .catch((error) => {
       console.error(error);
-      error && emitMessageEvent(error.message, 'error');
+      error && errorPublisher(error.message);
     });
   navigateTo('/');
 };

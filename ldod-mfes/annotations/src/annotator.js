@@ -9,6 +9,16 @@ let refNode;
 let data;
 let popover;
 
+/**
+ *
+ * @param {string} str
+ * @returns
+ */
+window.hash = (str) =>
+  str
+    .split('')
+    .reduce((prv, cur) => ((prv << 5) - prv + cur.charCodeAt(0)) | 0, 0);
+
 const selectionStyle = () => {
   const style = document.createElement('style');
   style.innerHTML = /*css*/ `

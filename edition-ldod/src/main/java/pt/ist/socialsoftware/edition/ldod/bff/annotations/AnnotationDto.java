@@ -27,6 +27,8 @@ public class AnnotationDto {
     private String contents;
     private boolean canBeRead;
     private boolean canBeUpdated;
+    private boolean canBeDeleted;
+
 
     public AnnotationDto() {
     }
@@ -46,7 +48,8 @@ public class AnnotationDto {
                     .collect(Collectors.toList()));
             VirtualEdition ve = annotation.getVirtualEditionInter().getVirtualEdition();
             setCanBeRead(ve.getPub() || (user != null && ve.getParticipantSet().contains((user))));
-            setCanBeUpdated(user != null && ve.getParticipantSet().contains(user));
+            setCanBeUpdated(((HumanAnnotation) annotation).canUpdate(user));
+            setCanBeDeleted(((HumanAnnotation) annotation).canDelete(user));
             setContents(((HumanAnnotation) annotation).getContents());
 
         } else {
@@ -55,6 +58,14 @@ public class AnnotationDto {
             setProfileURL(((AwareAnnotation) annotation).getProfileURL());
             setCountry(((AwareAnnotation) annotation).getCountry());
         }
+    }
+
+    public boolean isCanBeDeleted() {
+        return canBeDeleted;
+    }
+
+    public void setCanBeDeleted(boolean canBeDeleted) {
+        this.canBeDeleted = canBeDeleted;
     }
 
     public boolean isCanBeRead() {

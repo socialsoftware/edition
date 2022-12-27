@@ -1,6 +1,6 @@
 import { G_CLIENT_ID } from './resources/constants';
 import { socialAuthRequest } from './api-requests.js';
-import { emitMessageEvent } from './utils';
+import { errorPublisher, messagePublisher } from './events-modules';
 let constants;
 
 function getGsiClientScript(loginCB) {
@@ -12,21 +12,16 @@ function getGsiClientScript(loginCB) {
 
 export function socialAuth(provider, node) {
   constants = node.constants;
-  switch (provider) {
-    case 'google':
-      document.head.appendChild(getGsiClientScript(node.onAuthSuccess));
-      break;
-    default:
-      break;
-  }
+  if (provider === 'google')
+    document.head.appendChild(getGsiClientScript(node.onAuthSuccess));
 }
 
 const handleCredentials = (credential, loginCB) =>
   socialAuthRequest('google', { accessToken: credential }, loginCB)
     .then(
-      (response) => response && emitMessageEvent(constants[response.message])
+      (response) => response && messagePublisher(constants[response.message])
     )
-    .catch((error) => emitMessageEvent(constants[error.message], 'error'));
+    .catch((error) => errorPublisher(constants[error.message]));
 
 function onLoadGoogleAuth(loginCB) {
   const id = window.google.accounts.id;

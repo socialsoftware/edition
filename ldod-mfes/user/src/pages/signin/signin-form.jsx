@@ -71,18 +71,16 @@ export default ({ node }) => {
           </div>
         </form>
         <div style={{ padding: '4px 16px' }}>
-          {[['google', google]].map(([provider, src]) => (
-            <div class="col-md-offset-5 col-md-2">
-              <button
-                class={`btn btn-outline-primary social ${provider}`}
-                type="button"
-                onClick={() => socialAuth(provider, node)}
-                style={{ width: '100%' }}>
-                <img src={src} class="social-icon" />
-                {capitalizeFirstLetter(provider)}
-              </button>
-            </div>
-          ))}
+          <div class="col-md-offset-5 col-md-2">
+            <button
+              class="btn btn-outline-primary social google"
+              type="button"
+              onClick={() => socialAuth('google', node)}
+              style={{ width: '100%' }}>
+              <img src={google} class="social-icon" />
+              {capitalizeFirstLetter('google')}
+            </button>
+          </div>
         </div>
       </div>
       <div class="row">

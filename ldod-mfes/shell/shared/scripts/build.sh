@@ -1,6 +1,6 @@
 #! /bin/sh
 
-dirs="store utils ldod-events router vanilla-jsx fetcher modal tooltip table buttons"
+dirs="store utils ldod-events router vanilla-jsx fetcher modal tooltip table buttons bootstrap"
 
 rm -r dist
 mkdir dist

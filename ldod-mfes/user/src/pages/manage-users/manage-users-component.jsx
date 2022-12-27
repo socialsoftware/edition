@@ -4,10 +4,7 @@ import constants from './resources/constants.js';
 import { exportButton, uploadButton } from 'shared/buttons.js';
 import ManageUsersTable from './manage-users-table';
 import { getUsersList, removeUserRequest } from '../../api-requests';
-import {
-  errorPublisher,
-  messagePublisher,
-} from '../../events-modules';
+import { errorPublisher, messagePublisher } from '../../events-modules';
 
 exportButton();
 uploadButton();
@@ -74,10 +71,9 @@ export class ManageUsers extends HTMLElement {
   attributeChangedCallback(name, oldV, newV) {
     this.handlers[name](oldV, newV);
   }
-  disconnectedCallback() { }
 
   addEventListeners() {
-    this.addEventListener("ldod:file-uploaded", this.handleUsersUpload);
+    this.addEventListener('ldod:file-uploaded', this.handleUsersUpload);
     this.querySelectorAll('[tooltip-ref]').forEach((tooltipped) => {
       tooltipped.parentNode.addEventListener('pointerenter', loadToolip);
     });
@@ -134,8 +130,9 @@ export class ManageUsers extends HTMLElement {
       ele.toggleAttribute('show');
     });
 
-    e.target.textContent = `Switch to ${this.querySelector('div.subject:not([show])').id
-      }`;
+    e.target.textContent = `Switch to ${
+      this.querySelector('div.subject:not([show])').id
+    }`;
   };
 
   onDeleteUser = ({ target }) => {

@@ -1,7 +1,7 @@
 import { fetcher } from 'shared/fetcher.js';
 import { getState } from './store';
-import { emitMessageEvent } from './utils';
 import { navigateTo } from 'shared/router.js';
+import { errorPublisher } from './events-modules';
 
 export const newAuthRequest = async (data) =>
   await fetcher.post(`/auth/sign-in`, data);
@@ -30,7 +30,7 @@ export const tokenConfirmRequest = async (path) =>
 
 export const tokenAuthRequest = async (path) => {
   if (import.meta.env.PROD && !getState().token) {
-    emitMessageEvent('Not authorized to access resource', 'error');
+    errorPublisher('Not authorized to access resource');
     return navigateTo('/');
   }
   return await fetcher.get(`/admin/user${path}`, null, getState().token);
@@ -41,7 +41,7 @@ export const changePasswordRequest = async (data) =>
 
 export const getUsersList = async () => {
   if (!getState().token) {
-    emitMessageEvent('Not authorized to access resource', 'error');
+    errorPublisher('Not authorized to access resource');
     return navigateTo('/');
   }
   return await fetcher.get(`/admin/user/list`, null, getState().token);

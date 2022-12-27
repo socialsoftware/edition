@@ -90,7 +90,6 @@ export class LdodVeTaxonomy extends HTMLElement {
   attributeChangedCallback(name, oldV, newV) {
     this.onChangedAttribute[name](oldV, newV);
   }
-  disconnectedCallback() {}
 
   render() {
     this.innerHTML = '';
@@ -204,7 +203,8 @@ export class LdodVeTaxonomy extends HTMLElement {
   };
 
   resetState = () => {
-    (this.taxonomy = null), (this.selectedRows = 0);
+    this.taxonomy = null;
+    this.selectedRows = 0;
     this.removeChild(this.taxonomyModal);
   };
 

@@ -491,7 +491,7 @@ public class ExpertEditionTEIExport {
     private void generateFacsimiles(Fragment fragment, Element fragElement) {
         // TODO Auto-generated method stub
         for (Source source : fragment.getSourcesSet()) {
-            generateFacsimile(source.getFacsimile(), fragElement);
+            if (source.getFacsimile() != null) generateFacsimile(source.getFacsimile(), fragElement);
         }
 
     }
