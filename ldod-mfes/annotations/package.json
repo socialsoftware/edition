@@ -23,7 +23,8 @@
     "unpublish": "./scripts/unpublish.sh annotations $npm_package_config_docker"
   },
   "devDependencies": {
-    "vite": "^4.0.2"
+    "rollup-plugin-terser": "^7.0.2",
+    "vite": "^4.0.4"
   },
   "externalDependencies": {
     "@popperjs/core_2.11.6": "npm:@popperjs/core@2.11.6",

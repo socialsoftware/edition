@@ -1,13 +1,13 @@
 // rollup.config.js
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 
 export default {
-  input: './store.js',
-  output: [
-    {
-      dir: '../dist',
-      format: 'es',
-      plugins: [terser()],
-    },
-  ],
+	input: './store.js',
+	output: [
+		{
+			dir: '../dist',
+			format: 'es',
+			plugins: [terser()],
+		},
+	],
 };

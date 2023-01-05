@@ -1,28 +1,26 @@
 import { emitter } from './event-bus.js';
 import { resolve } from 'path';
 import { readFileSync, writeFileSync } from 'node:fs';
-import { sharedDist, staticPath } from './constants.js';
-import { exec } from 'child_process';
-import { addStaticAssets } from './static.js';
+import { staticPath } from './constants.js';
+import { execSync } from 'child_process';
 
-emitter.on('mfe:published', installDeps);
+emitter.on('mfe:published', e => setImmediate(() => installDeps(e)));
 
 async function installDeps({ name }) {
-  const sharedDirectory = resolve(process.cwd(), 'shared');
-  const sharedPkgFile = `${sharedDirectory}/package.json`;
-  let manifest;
-  try {
-    manifest = readFileSync(resolve(staticPath, `${name}/manifest.json`));
-  } catch (error) {
-    return;
-  }
-  if (!manifest) return;
-  const deps = JSON.parse(manifest).dependencies;
-  const sharedPkg = JSON.parse(readFileSync(sharedPkgFile));
-  sharedPkg.dependencies = { ...sharedPkg.dependencies, ...deps };
-  writeFileSync(sharedPkgFile, JSON.stringify(sharedPkg));
+	const vendorPackage = resolve(process.cwd(), 'vendor');
+	const vendorPkgFile = `${vendorPackage}/package.json`;
+	let manifest;
 
-  exec('yarn build', { cwd: `${process.cwd()}/shared` }, () => {
-    addStaticAssets({ from: sharedDist, name: 'shared' });
-  });
+	try {
+		manifest = readFileSync(resolve(staticPath, `${name}/manifest.json`));
+	} catch (error) {
+		return;
+	}
+
+	if (!manifest) return;
+	const deps = JSON.parse(manifest).dependencies;
+	const vendorPkg = JSON.parse(readFileSync(vendorPkgFile));
+	vendorPkg.dependencies = { ...vendorPkg.dependencies, ...deps };
+	writeFileSync(vendorPkgFile, JSON.stringify(vendorPkg));
+	execSync('yarn', { cwd: vendorPackage });
 }

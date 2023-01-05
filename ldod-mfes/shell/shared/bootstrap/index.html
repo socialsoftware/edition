@@ -6,11 +6,35 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        div.form-floating {
+            margin-bottom: 20px;
+        }
+
+        button {
+            width: 100%
+        }
+    </style>
 </head>
 
 <body>
     <script src="src/index.js" type="module"></script>
+    <form class="needs-validation" novalidate>
+        <div class="form-floating">
+            <input name="firstname" type="text" class="form-control" placeholder="first name" required>
+            <label for="floatingInput">First name</label>
 
+        </div>
+        <div class="form-floating">
+            <input name="lastname" type="text" class="form-control" placeholder="Last name" required>
+            <label for="floatingPassword">Last name</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 </body>
 
 </html>

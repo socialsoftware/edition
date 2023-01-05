@@ -1,0 +1,9 @@
+{
+	"type": "object",
+	"properties": {
+		"pt": { "$ref": "/lang" },
+		"en": { "$ref": "/lang" },
+		"es": { "$ref": "/lang" }
+	},
+	"required": ["pt", "en", "es"]
+}

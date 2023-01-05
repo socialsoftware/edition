@@ -1,23 +1,26 @@
 {
-    "name": "utils",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "test": "jest --coverage --env=jest-environment-jsdom",
-        "build": "rollup -c"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "devDependencies": {
-        "@babel/core": "^7.17.10",
-        "@babel/preset-env": "^7.17.10",
-        "@types/jest": "^28.1.1",
-        "babel-jest": "^28.1.0",
-        "jest": "^28.1.0",
-        "jest-environment-jsdom": "^28.1.0",
-        "rollup": "^2.75.6",
-        "rollup-plugin-terser": "^7.0.2"
-    }
+	"name": "utils",
+	"version": "1.0.0",
+	"main": "index.js",
+	"type": "module",
+	"private": true,
+	"workspaces": {
+		"nohoist": [
+			"rollup",
+			"@rollup/plugin-terser",
+			"@babel/core",
+			"@babel/preset-env",
+			"@types/jest",
+			"babel-jest",
+			"jest",
+			"jest-environment-jsdom"
+		]
+	},
+	"scripts": {
+		"test": "jest --coverage --env=jest-environment-jsdom",
+		"build": "rollup -c"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC"
 }

@@ -1,1 +1,54 @@
-{"name":"shared","version":"1.0.0","description":"shared packages to be used by ldod mfes","main":"dist/","author":"Raimundo","license":"MIT","scripts":{"test":"./scripts/test.sh","build":"./scripts/build.sh"},"type":"module","devDependencies":{},"dependencies":{"@popperjs/core_2.11.6":"npm:@popperjs/core@2.11.6","@trutoo/event-bus_2.2.0":"npm:@trutoo/event-bus@2.2.0","select-pure_2.1.4":"npm:select-pure@2.1.4"}}
+{
+	"name": "shared",
+	"version": "1.0.0",
+	"description": "shared packages to be used by ldod mfes",
+	"main": "dist/",
+	"author": "Raimundo",
+	"license": "MIT",
+	"private": true,
+	"workspaces": {
+		"packages": [
+			"*"
+		],
+		"nohoist": [
+			"**/vite",
+			"**/rollup",
+			"**/@rollup/plugin-terser",
+			"**/vite-svg-loader",
+			"**/@babel/*",
+			"**/@types/jest",
+			"**/babel-jest",
+			"**/jest",
+			"**/jest-environment-jsdom",
+			"**/node-html-parser",
+			"**/jsdom",
+			"**/sass",
+			"**/serve",
+			"**/@happy-dom/jest-environment",
+			"**/happy-dom"
+		]
+	},
+	"scripts": {
+		"test": "./scripts/test.sh",
+		"build": "./scripts/build.sh"
+	},
+	"type": "module",
+	"devDependencies": {
+		"@babel/core": "^7.20.7",
+		"@babel/preset-env": "^7.20.2",
+		"@happy-dom/jest-environment": "^6.0.4",
+		"@rollup/plugin-terser": "^0.2.1",
+		"@types/jest": "^29.2.5",
+		"babel-jest": "^29.3.1",
+		"happy-dom": "^7.7.0",
+		"jest": "^29.3.1",
+		"jest-environment-jsdom": "^29.3.1",
+		"jsdom": "^20.0.3",
+		"node-html-parser": "^6.1.4",
+		"rollup": "^3.9.1",
+		"sass": "^1.57.1",
+		"serve": "^14.1.2",
+		"vite": "^4.0.4",
+		"vite-svg-loader": "^4.0.0"
+	}
+}

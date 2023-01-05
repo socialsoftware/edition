@@ -1,0 +1,10 @@
+{
+	"id": "/lang",
+	"type": "object",
+	"properties": {
+		"title": { "type": "string" },
+		"tooltipContent": { "type": "string" },
+		"grids": { "$ref": "/grids" }
+	},
+	"required": ["title", "grids"]
+}

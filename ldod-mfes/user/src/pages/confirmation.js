@@ -1,18 +1,18 @@
-import { navigateTo } from 'shared/router.js';
+import { navigateTo } from '@shared/router.js';
 import { tokenConfirmRequest } from '../api-requests.js';
 import { userReferences } from '../user-references';
 import { errorPublisher, messagePublisher } from '../events-modules.js';
 
 const mount = async (lang, ref) => {
-  let params = new URL(document.location).searchParams;
-  let path = `/sign-up-confirmation?token=${params.get('token')}`;
-  await tokenConfirmRequest(path)
-    .then((res) => res && messagePublisher(res.message))
-    .catch((error) => {
-      console.error(error);
-      error && errorPublisher(error.message);
-    });
-  navigateTo(userReferences.signin());
+	let params = new URL(document.location).searchParams;
+	let path = `/sign-up-confirmation?token=${params.get('token')}`;
+	await tokenConfirmRequest(path)
+		.then(res => res && messagePublisher(res.message))
+		.catch(error => {
+			console.error(error);
+			error && errorPublisher(error.message);
+		});
+	navigateTo(userReferences.signin());
 };
 const unMount = () => console.info('unmount');
 

@@ -1,51 +1,59 @@
 services:
-  nginx-reverse-proxy:
-    build: ./proxy-server
-    restart: always
-    network_mode: host
+    nginx-reverse-proxy:
+        build: ./proxy-server
+        restart: always
+        ports:
+            - '8080:8080'
 
-  mysql-db:
-    image: mysql:latest
-    restart: always
-    environment:
-      MYSQL_DATABASE: 'edition'
-      MYSQL_USER: 'root'
-      MYSQL_PASSWORD: ''
-      MYSQL_ROOT_PASSWORD: ''
-      MYSQL_TCP_PORT: 3307
+    mysql-db:
+        image: mysql:latest
+        restart: always
+        environment:
+            MYSQL_DATABASE: 'edition'
+            MYSQL_USER: 'edition'
+            MYSQL_PASSWORD: 'edition'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+            MYSQL_ROOT_PASSWORD: ''
+            MYSQL_TCP_PORT: 3307
+        ports:
+            - '3307:3307'
+        expose:
+            - 3307
+        volumes:
+            - my-db:/var/lib/mysql
 
-    network_mode: host
+    ldod-be-monolith:
+        build: ./edition-ldod
+        restart: on-failure
+        depends_on:
+            - mysql-db
+            - nginx-reverse-proxy
+        ports:
+            - '8000:8000'
+        environment:
+            dbAlias: jdbc:mysql//mysql-db:3307/edition?useSSL=false&useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;
+            dbUsername: edition
+            dbPassword: edition
+        volumes:
+            - /opt/ldod/corpus/:/opt/ldod/corpus
+            - /opt/ldod/corpus/files/:/opt/ldod/corpus/files/
+            - /opt/ldod/corpus/stoplist-pt.txt:/opt/ldod/corpus/stoplist-pt.txt
+            - /opt/ldod/inters/:/opt/ldod/inters/
+            - /opt/ldod/facsimiles/:/opt/ldod/facsimiles/
+            - /opt/ldod/encoding/:/opt/ldod/encoding/
+            - /opt/ldod/export/:/opt/ldod/export/
+            - /opt/ldod/indexer/:/opt/ldod/indexer/
+            - /opt/ldod/tests/:/opt/ldod/tests/
+            - /opt/ldod/social/aware/:/opt/ldod/social/aware/
 
-    volumes:
-      - my-db:/var/lib/mysql
+    ldod-mfes-server:
+        build: ./ldod-mfes/shell
+        restart: on-failure
+        command: yarn docker
+        depends_on:
+            - nginx-reverse-proxy
+        ports:
+            - '9000:9000'
 
-  ldod-be-monolith:
-    build: ./edition-ldod
-    restart: on-failure
-    depends_on:
-      - mysql-db
-    network_mode: host
-    environment:
-      dbAlias: jdbc:mysql//localhost:3307/edition?useSSL=false&useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull;
-      dbUsername:
-      dbPassword:
-
-    volumes:
-      - /opt/ldod/corpus/:/opt/ldod/corpus
-      - /opt/ldod/corpus/files/:/opt/ldod/corpus/files/
-      - /opt/ldod/corpus/stoplist-pt.txt:/opt/ldod/corpus/stoplist-pt.txt
-      - /opt/ldod/inters/:/opt/ldod/inters/
-      - /opt/ldod/facsimiles/:/opt/ldod/facsimiles/
-      - /opt/ldod/encoding/:/opt/ldod/encoding/
-      - /opt/ldod/export/:/opt/ldod/export/
-      - /opt/ldod/indexer/:/opt/ldod/indexer/
-      - /opt/ldod/tests/:/opt/ldod/tests/
-      - /opt/ldod/social/aware/:/opt/ldod/social/aware/
-
-  ldod-mfes-server:
-    build: ./ldod-mfes/shell
-    restart: on-failure
-    command: yarn docker
-    network_mode: host
 volumes:
-  my-db:
+    my-db:

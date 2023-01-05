@@ -1,9 +1,11 @@
-import 'vendor/@trutoo/event-bus_2.2.0/dist/index.umd.min.js';
+let { EventBus, Validator } = (await import('event-bus/dist/index.umd.min.js')).default;
+
 import userSchema from './user.schema.json';
 import veSchema from './ve.schema.json';
 import urlSchema from './url.schema.json';
 
-export const ldodEventBus = eventBus;
+export const ldodEventBus = new EventBus();
+export const ldodValidator = new Validator();
 
 ldodEventBus.register('ldod:url-changed', urlSchema);
 ldodEventBus.register('ldod:loading', { type: 'boolean' });
@@ -16,9 +18,9 @@ ldodEventBus.register('ldod:login', userSchema);
 ldodEventBus.register('ldod:selected-ve', veSchema);
 
 export function ldodEventPublisher(name, payload) {
-  ldodEventBus.publish(`ldod:${name}`, payload);
+	ldodEventBus.publish(`ldod:${name}`, payload);
 }
 
 export function ldodEventSubscriber(name, handler) {
-  return ldodEventBus.subscribe(`ldod:${name}`, handler).unsubscribe;
+	return ldodEventBus.subscribe(`ldod:${name}`, handler).unsubscribe;
 }

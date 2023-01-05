@@ -1,7 +1,6 @@
-import { ldodEventBus } from 'shared/ldod-events.js';
+import { ldodEventBus } from '@shared/ldod-events.js';
 
-export const loadingPublisher = (payload) =>
-  ldodEventBus.publish('ldod:loading', payload);
+export const loadingPublisher = payload => ldodEventBus.publish('ldod:loading', payload);
 
 // TODO
 

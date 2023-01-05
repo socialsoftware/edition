@@ -1,28 +1,21 @@
 import { defineConfig } from 'vite';
-
+import terser from '@rollup/plugin-terser';
 export default defineConfig({
-  build: {
-    target: 'es2022',
-    outDir: '../dist',
-    emptyOutDir: false,
-    sourcemap: true,
-    lib: {
-      entry: 'tooltip.js',
-      formats: ['es'],
-      fileName: 'tooltip',
-    },
+	build: {
+		target: 'es2022',
+		outDir: '../dist',
+		emptyOutDir: false,
+		lib: {
+			entry: 'tooltip.js',
+			formats: ['es'],
+			fileName: 'tooltip',
+		},
 
-    rollupOptions: {
-      external: [/^vendor/],
-    },
-  },
-
-  resolve: {
-    alias: [
-      {
-        find: '@src/',
-        replacement: '/src/',
-      },
-    ],
-  },
+		rollupOptions: {
+			output: {
+				plugins: [terser()],
+			},
+			external: [/node_modules/, /@vendor/],
+		},
+	},
 });

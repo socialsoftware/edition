@@ -9,50 +9,38 @@ let refNode;
 let data;
 let popover;
 
-/**
- *
- * @param {string} str
- * @returns
- */
-window.hash = (str) =>
-  str
-    .split('')
-    .reduce((prv, cur) => ((prv << 5) - prv + cur.charCodeAt(0)) | 0, 0);
+window.hash = str => str.split('').reduce((prv, cur) => ((prv << 5) - prv + cur.charCodeAt(0)) | 0, 0);
 
 const selectionStyle = () => {
-  const style = document.createElement('style');
-  style.innerHTML = /*css*/ `
+	const style = document.createElement('style');
+	style.innerHTML = /*css*/ `
   ::selection {
     background-color: mark;
     color: marktext;
   }`;
-  return style;
+	return style;
 };
 
-const annotationIdByXpath = (xPath) =>
-  `${xPath.start}/${xPath.startOffset}${xPath.end}/${xPath.endOffset}`;
+const annotationIdByXpath = xPath => `${xPath.start}/${xPath.startOffset}${xPath.end}/${xPath.endOffset}`;
 
-const processNonHumanAnnotations = (annotations) => {
-  let nonHumamGroupedByRange = annotations.filter(
-    (ann) => !ann.human && ann.username === 'Twitter'
-  );
+const processNonHumanAnnotations = annotations => {
+	let nonHumamGroupedByRange = annotations.filter(ann => !ann.human && ann.username === 'Twitter');
 
-  if (!nonHumamGroupedByRange.length) return annotations;
-  nonHumamGroupedByRange = nonHumamGroupedByRange.reduce((prev, curr) => {
-    let xPathId = annotationIdByXpath(curr.ranges[0]);
-    if (Object.keys(prev).includes(xPathId)) {
-      prev[xPathId].push(curr);
-      return prev;
-    }
-    prev[xPathId] = [curr];
-    return prev;
-  }, {});
+	if (!nonHumamGroupedByRange.length) return annotations;
+	nonHumamGroupedByRange = nonHumamGroupedByRange.reduce((prev, curr) => {
+		let xPathId = annotationIdByXpath(curr.ranges[0]);
+		if (Object.keys(prev).includes(xPathId)) {
+			prev[xPathId].push(curr);
+			return prev;
+		}
+		prev[xPathId] = [curr];
+		return prev;
+	}, {});
 
-  const nonHumanMerged = Object.values(nonHumamGroupedByRange).map((val) =>
-    val.reduce((prev, curr) => {
-      if (!Object.keys(prev).length)
-        prev = { ...curr, text: document.createElement('div') };
-      prev.text.innerHTML = /*html*/ `
+	const nonHumanMerged = Object.values(nonHumamGroupedByRange).map(val =>
+		val.reduce((prev, curr) => {
+			if (!Object.keys(prev).length) prev = { ...curr, text: document.createElement('div') };
+			prev.text.innerHTML = /*html*/ `
           <div>
             <div>
               <a href=${curr.sourceLink} target="_blank">Tweet</a>
@@ -65,59 +53,50 @@ const processNonHumanAnnotations = (annotations) => {
             <p>Date: ${curr.date}</p>
           </div>
         `;
-      return prev;
-    }, {})
-  );
-  annotations = annotations.filter((ann) => ann.human);
-  nonHumanMerged.forEach((ann) => annotations.push(ann));
-  return annotations;
+			return prev;
+		}, {})
+	);
+	annotations = annotations.filter(ann => ann.human);
+	nonHumanMerged.forEach(ann => annotations.push(ann));
+	return annotations;
 };
 
-export async function processExistingAnnotations(
-  annotations = data.annotations
-) {
-  annotations = processNonHumanAnnotations(annotations);
-  annotationsList.forEach((ann) => {
-    ann?.destroyAndnormalizeCommonAncestor();
-  });
-  let annList = await Promise.all(
-    annotations.map((ann) =>
-      new Annotation(ann, refNode).highlight().catch((e) => console.error(e))
-    )
-  );
-  mutateAnnotationsList(annList);
+export async function processExistingAnnotations(annotations = data.annotations) {
+	annotations = processNonHumanAnnotations(annotations);
+	annotationsList.forEach(ann => {
+		ann?.destroyAndnormalizeCommonAncestor();
+	});
+	let annList = await Promise.all(
+		annotations.map(ann => new Annotation(ann, refNode).highlight().catch(e => console.error(e)))
+	);
+	mutateAnnotationsList(annList);
 }
 
 export function updateFetchedData(res) {
-  data = res;
-  processExistingAnnotations();
-  ldodAnnotationComponent.categories = data.categories;
-  ldodAnnotationComponent.openVocab = data.openVocab;
-  if (!data.contributor && popover) popover.remove();
+	data = res;
+	processExistingAnnotations();
+	ldodAnnotationComponent.categories = data.categories;
+	ldodAnnotationComponent.openVocab = data.openVocab;
+	if (!data.contributor && popover) popover.remove();
 }
 
 export default async ({ interId, referenceNode }) => {
-  checkArgs(interId, referenceNode);
-  refNode = referenceNode;
-  referenceNode.appendChild(selectionStyle());
+	checkArgs(interId, referenceNode);
+	refNode = referenceNode;
+	referenceNode.appendChild(selectionStyle());
 
-  ldodAnnotationComponent && ldodAnnotationComponent.remove();
-  ldodAnnotationComponent = refNode.parentElement.appendChild(
-    new LdodAnnotation(interId)
-  );
+	ldodAnnotationComponent && ldodAnnotationComponent.remove();
+	ldodAnnotationComponent = refNode.parentElement.appendChild(new LdodAnnotation(interId));
 
-  await fetchAnnotations(interId)
-    .then(updateFetchedData)
-    .catch((error) => console.error(error));
+	await fetchAnnotations(interId)
+		.then(updateFetchedData)
+		.catch(error => console.error(error));
 
-  popover && popover.remove();
-  if (data.contributor)
-    popover = refNode.parentElement.appendChild(
-      new NewAnnPopover(refNode, ldodAnnotationComponent, interId)
-    );
+	popover && popover.remove();
+	if (data.contributor)
+		popover = refNode.parentElement.appendChild(new NewAnnPopover(refNode, ldodAnnotationComponent, interId));
 };
 
 function checkArgs(interId, referenceNode) {
-  if (!interId || !referenceNode || !referenceNode.isConnected)
-    throw new Error('Invalid arguments');
+	if (!interId || !referenceNode || !referenceNode.isConnected) throw new Error('Invalid arguments');
 }

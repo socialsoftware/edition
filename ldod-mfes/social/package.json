@@ -1,27 +1,28 @@
 {
-  "name": "social",
-  "version": "1.0.0",
-  "license": "MIT",
-  "private": true,
-  "type": "module",
-  "entry": "index.js",
-  "config": {
-    "docker": "http://localhost:8080/ldod-mfes",
-    "dev": "http://localhost:9000/ldod-mfes"
-  },
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "build-dev": "vite --config vite.config.dev.js build",
-    "prepreview": "vite --config vite.config.dev.js build",
-    "preview": "vite --config vite.config.dev.js preview",
-    "pack": "yarn build && ./scripts/pack.sh social",
-    "publish-dev": "yarn run pack && ./scripts/publish.sh social social.js @./dist/social.tgz $npm_package_config_dev",
-    "unpublish-dev": "./scripts/unpublish.sh social $npm_package_config_dev",
-    "publish": "yarn run pack && ./scripts/publish.sh social social.js @./dist/social.tgz $npm_package_config_docker",
-    "unpublish": "./scripts/unpublish.sh social $npm_package_config_docker"
-  },
-  "devDependencies": {
-    "vite": "^3.0.9"
-  }
+	"name": "social",
+	"version": "1.0.0",
+	"license": "MIT",
+	"private": true,
+	"type": "module",
+	"entry": "index.js",
+	"config": {
+		"docker": "http://localhost:8080/ldod-mfes",
+		"dev": "http://localhost:9000/ldod-mfes"
+	},
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"build-dev": "vite --config vite.config.dev.js build",
+		"prepreview": "vite --config vite.config.dev.js build",
+		"preview": "vite --config vite.config.dev.js preview",
+		"pack": "yarn build && ./scripts/pack.sh social",
+		"publish-dev": "yarn run pack && ./scripts/publish.sh social social.js @./dist/social.tgz $npm_package_config_dev",
+		"unpublish-dev": "./scripts/unpublish.sh social $npm_package_config_dev",
+		"publish": "yarn run pack && ./scripts/publish.sh social social.js @./dist/social.tgz $npm_package_config_docker",
+		"unpublish": "./scripts/unpublish.sh social $npm_package_config_docker"
+	},
+	"devDependencies": {
+		"rollup-plugin-terser": "^7.0.2",
+		"vite": "^4.0.4"
+	}
 }

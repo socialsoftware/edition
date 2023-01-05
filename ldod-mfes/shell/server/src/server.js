@@ -1,20 +1,14 @@
+import asyncRouter from 'async-express-decorator';
 import cors from 'cors';
 import express from 'express';
 import multer from 'multer';
-import './shell-modules.js';
 import { sharedPath, staticPath } from './constants.js';
-import asyncRouter from 'async-express-decorator';
-
 import './deps-install.js';
-import {
-  publishMFE,
-  sendClassificationGameIndex,
-  sendIndex,
-  sendLdodVisualIndex,
-  unPublishMFE,
-} from './endpoints.js';
-import { processReferences } from './mfesReferences.js';
+import './shell-modules.js';
+
 import path from 'node:path';
+import { publishMFE, sendClassificationGameIndex, sendIndex, sendLdodVisualIndex, unPublishMFE } from './endpoints.js';
+import { processReferences } from './mfesReferences.js';
 
 const upload = multer({ dest: staticPath });
 const app = express();
@@ -23,10 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 const router = asyncRouter(express.Router());
-app.use(
-  '/ldod-mfes/vendor',
-  express.static(path.resolve(sharedPath, 'node_modules'))
-);
+app.use('/ldod-mfes/vendor', express.static(path.resolve(sharedPath, 'node_modules')));
 app.use('/ldod-mfes', express.static(staticPath));
 app.get('/', (req, res) => res.redirect('/ldod-mfes'));
 
@@ -42,7 +33,7 @@ app.get('/user/sign-up*', (req, res) => res.redirect(`/ldod-mfes${req.url}`));
 app.get('*', sendIndex);
 
 app.use((err, req, res, next) => {
-  return res.status(400).send(`Error: ${err.message}`);
+	return res.status(400).send(`Error: ${err.message}`);
 });
 
 const port = process.env.PORT || 9000;
@@ -50,5 +41,5 @@ const port = process.env.PORT || 9000;
 await processReferences();
 
 app.listen(port, () => {
-  console.log(`Server running at port ${port}.`);
+	console.log(`Server running at port ${port}.`);
 });

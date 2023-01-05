@@ -1,26 +1,29 @@
 import { defineConfig } from 'vite';
-
+import terser from '@rollup/plugin-terser';
 export default defineConfig({
-  build: {
-    target: 'es2022',
-    outDir: '../dist',
-    emptyOutDir: false,
-    lib: {
-      entry: 'modal.js',
-      formats: ['es'],
-      fileName: 'modal',
-    },
-    rollupOptions: {
-      external: [/^shared/],
-    },
-  },
+	build: {
+		target: 'es2022',
+		outDir: '../dist',
+		emptyOutDir: false,
+		lib: {
+			entry: ['modal.js', 'ssr-modal.js'],
+			formats: ['es'],
+			fileName: (_, entry) => entry + '.js',
+		},
+		rollupOptions: {
+			output: {
+				plugins: [terser()],
+			},
+			external: [/^@shared/],
+		},
+	},
 
-  resolve: {
-    alias: [
-      {
-        find: '@src/',
-        replacement: '/src/',
-      },
-    ],
-  },
+	resolve: {
+		alias: [
+			{
+				find: '@src/',
+				replacement: '/src/',
+			},
+		],
+	},
 });
