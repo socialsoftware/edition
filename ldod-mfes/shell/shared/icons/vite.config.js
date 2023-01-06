@@ -7,7 +7,7 @@ export default defineConfig({
 		target: 'esnext',
 		outDir: '../dist',
 		dynamicImportVarsOptions: {
-			exclude: ['./lib/helpers.js'],
+			exclude: ['./src/helpers.js'],
 		},
 		emptyOutDir: false,
 		lib: {

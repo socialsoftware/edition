@@ -133,6 +133,7 @@ export class LdodManageFragments extends HTMLElement {
 	};
 
 	handleFileUploaded = ({ detail: { payload } }) => {
+		if ('ok' in payload) return this.handleMessageOnUploadedFile(payload.ok, payload.message);
 		dataProxy.reset = true;
 		const nl = document.createElement('br').outerHTML;
 		const p = document.createElement('p').outerHTML;
@@ -156,6 +157,10 @@ export class LdodManageFragments extends HTMLElement {
 			return `${accumulated}${nl}[${xmlId}(${title})]${overwritten ? ' (overwritten)' : ''}`;
 		}, `\nAlready uploaded fragments: ${notUploadedFrags.length}`);
 		ldodEventPublisher('message', uploadedFragsResult.concat(`${p}`, notUploadedFragsResult));
+	};
+
+	handleMessageOnUploadedFile = (ok, message) => {
+		ldodEventPublisher(ok ? 'message' : 'error', message);
 	};
 
 	handleRemoveAll = async () => {

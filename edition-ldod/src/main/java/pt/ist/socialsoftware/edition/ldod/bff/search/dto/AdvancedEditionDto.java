@@ -22,8 +22,8 @@ public class AdvancedEditionDto {
         setAcronym(ed.getAcronym());
         setEditor(ed.getEditor());
         setHeteronyms(heteronyms);
-        setBeginDate(sortedYears.get(0));
-        setEndDate(sortedYears.get(sortedYears.size() - 1));
+        setBeginDate(sortedYears.isEmpty() ? null : sortedYears.get(0));
+        setEndDate(sortedYears.isEmpty() ? null : sortedYears.get(sortedYears.size() - 1));
 
     }
 

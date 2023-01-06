@@ -1,0 +1,10 @@
+form {
+	max-width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	gap: 1rem;
+}

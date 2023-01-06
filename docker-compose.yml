@@ -54,6 +54,9 @@ services:
             - nginx-reverse-proxy
         ports:
             - '9000:9000'
+        volumes:
+            - ldod-mfes:/opt
 
 volumes:
     my-db:
+    ldod-mfes:

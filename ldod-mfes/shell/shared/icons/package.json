@@ -17,6 +17,6 @@
 	},
 	"scripts": {
 		"dev": "vite",
-		"build": "vite build && cp -rf ./src/js/ ../dist/icons/"
+		"build": "vite build && cp -rf ./src/icons/ ../dist/icons/"
 	}
 }

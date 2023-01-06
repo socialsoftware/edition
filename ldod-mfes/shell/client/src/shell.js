@@ -30,7 +30,10 @@ const routes = await Object.keys(modules)
 					router.index = () => api;
 					return;
 				}
-				if (mfePath) (await prev)[mfePath] = () => api;
+				if (mfePath) {
+					window.references[mfeName] = api.references;
+					(await prev)[mfePath] = () => api;
+				}
 			})
 			.catch(e => console.error(e));
 		return await prev;

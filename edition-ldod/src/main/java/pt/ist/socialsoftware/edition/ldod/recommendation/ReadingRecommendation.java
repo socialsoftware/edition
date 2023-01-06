@@ -1,5 +1,14 @@
 package pt.ist.socialsoftware.edition.ldod.recommendation;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pt.ist.fenixframework.FenixFramework;
+import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
+import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
+import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
+import pt.ist.socialsoftware.edition.ldod.recommendation.properties.*;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,209 +17,193 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import pt.ist.fenixframework.FenixFramework;
-import pt.ist.socialsoftware.edition.ldod.domain.LdoD;
-import pt.ist.socialsoftware.edition.ldod.recommendation.properties.DateProperty;
-import pt.ist.socialsoftware.edition.ldod.recommendation.properties.HeteronymProperty;
-import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.Fragment;
-import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TaxonomyProperty;
-import pt.ist.socialsoftware.edition.ldod.recommendation.properties.TextProperty;
-import pt.ist.socialsoftware.edition.ldod.search.options.Search;
-import pt.ist.socialsoftware.edition.ldod.search.options.SearchOption;
-
 public class ReadingRecommendation implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final String HETERONYM = "heteronymWeight";
-	private static final String DATE = "dateWeight";
-	private static final String TEXT = "textWeight";
-	private static final String TAXONOMY = "taxonomyWeight";
-	private static final String READ = "read";
-	
-	
-	private static Logger logger = LoggerFactory.getLogger(ReadingRecommendation.class);
+    private static final String HETERONYM = "heteronymWeight";
+    private static final String DATE = "dateWeight";
+    private static final String TEXT = "textWeight";
+    private static final String TAXONOMY = "taxonomyWeight";
+    private static final String READ = "read";
 
-	private List<String> read = new ArrayList<>();
-	private double heteronymWeight = 0.0;
-	private double dateWeight = 0.0;
-	private double textWeight = 1.0;
-	private double taxonomyWeight = 0.0;
 
-	public ReadingRecommendation() {
-	}
+    private static Logger logger = LoggerFactory.getLogger(ReadingRecommendation.class);
 
-	public ReadingRecommendation(
-		@JsonProperty(ReadingRecommendation.HETERONYM) double heteronymWeight, @JsonProperty(ReadingRecommendation.DATE) double dateWeight,
-		@JsonProperty(ReadingRecommendation.TEXT) double textWeight, @JsonProperty(ReadingRecommendation.TAXONOMY) double taxonomyWeight, 
-		@JsonProperty(ReadingRecommendation.READ) List<String> read) {
-		
-		setHeteronymWeight(heteronymWeight);
-		setDateWeight(dateWeight);
-		setTextWeight(textWeight);
-		setTaxonomyWeight(taxonomyWeight);
-		setRead(read);
-	}
-	
-	public void clean() {
-		this.read.clear();
-		this.heteronymWeight = 0.0;
-		this.dateWeight = 0.0;
-		this.textWeight = 0.0;
-		this.taxonomyWeight = 0.0;
-	}
+    private List<String> read = new ArrayList<>();
+    private double heteronymWeight = 0.0;
+    private double dateWeight = 0.0;
+    private double textWeight = 1.0;
+    private double taxonomyWeight = 0.0;
 
-	private List<Property> getProperties() {
-		List<Property> properties = new ArrayList<>();
-		if (this.heteronymWeight > 0.0) {
-			properties.add(new HeteronymProperty(this.heteronymWeight));
-		}
-		if (this.dateWeight > 0.0) {
-			properties.add(new DateProperty(this.dateWeight));
-		}
-		if (this.textWeight > 0.0) {
-			properties.add(new TextProperty(this.textWeight));
-		}
-		if (this.taxonomyWeight > 0.0) {
-			properties.add(new TaxonomyProperty(this.taxonomyWeight,
-					LdoD.getInstance().getArchiveEdition().getTaxonomy(), Property.PropertyCache.ON));
-		}
-		return properties;
-	}
+    public ReadingRecommendation() {
+    }
 
-	public Set<ExpertEditionInter> getNextRecommendations(String expertEditionInterId) {
-		// logger.debug("getNextRecommendations textWeight:{}, read size:{},
-		// read:{}", this.textWeight, this.read.size(),
-		// this.read);
+    public ReadingRecommendation(
+            @JsonProperty(ReadingRecommendation.HETERONYM) double heteronymWeight, @JsonProperty(ReadingRecommendation.DATE) double dateWeight,
+            @JsonProperty(ReadingRecommendation.TEXT) double textWeight, @JsonProperty(ReadingRecommendation.TAXONOMY) double taxonomyWeight,
+            @JsonProperty(ReadingRecommendation.READ) List<String> read) {
 
-		List<Fragment> readFragments = this.read.stream()
-				.map(id -> (ExpertEditionInter) FenixFramework.getDomainObject(id)).map(inter -> inter.getFragment())
-				.collect(Collectors.toList());
+        setHeteronymWeight(heteronymWeight);
+        setDateWeight(dateWeight);
+        setTextWeight(textWeight);
+        setTaxonomyWeight(taxonomyWeight);
+        setRead(read);
+    }
 
-		ExpertEditionInter toReadInter = FenixFramework.getDomainObject(expertEditionInterId);
-		Fragment toReadFragment = toReadInter.getFragment();
+    public void clean() {
+        this.read.clear();
+        this.heteronymWeight = 0.0;
+        this.dateWeight = 0.0;
+        this.textWeight = 0.0;
+        this.taxonomyWeight = 0.0;
+    }
 
-		// if the fragment that is going to be read was already read, return to
-		// that position of recommendation
-		int index = readFragments.indexOf(toReadFragment);
-		if (index != -1) {
-			readFragments.subList(index, readFragments.size()).clear();
-			this.read.subList(index, this.read.size()).clear();
-		}
+    private List<Property> getProperties() {
+        List<Property> properties = new ArrayList<>();
+        if (this.heteronymWeight > 0.0) {
+            properties.add(new HeteronymProperty(this.heteronymWeight));
+        }
+        if (this.dateWeight > 0.0) {
+            properties.add(new DateProperty(this.dateWeight));
+        }
+        if (this.textWeight > 0.0) {
+            properties.add(new TextProperty(this.textWeight));
+        }
+        if (this.taxonomyWeight > 0.0) {
+            properties.add(new TaxonomyProperty(this.taxonomyWeight,
+                    LdoD.getInstance().getArchiveEdition().getTaxonomy(), Property.PropertyCache.ON));
+        }
+        return properties;
+    }
 
-		// if all fragments minus 50 were already suggested clear the first 50
-		// recommendations
-		if (readFragments.size() == LdoD.getInstance().getFragmentsSet().size() - 50) {
-			readFragments.subList(0, 50).clear();
-			this.read.subList(0, 50).clear();
-		}
+    public Set<ExpertEditionInter> getNextRecommendations(String expertEditionInterId) {
+        // logger.debug("getNextRecommendations textWeight:{}, read size:{},
+        // read:{}", this.textWeight, this.read.size(),
+        // this.read);
 
-		Set<Fragment> toBeRecommended = LdoD.getInstance().getFragmentsSet().stream()
-				.filter(f -> !readFragments.contains(f)).collect(Collectors.toSet());
+        List<Fragment> readFragments = this.read.stream()
+                .map(id -> (ExpertEditionInter) FenixFramework.getDomainObject(id)).map(inter -> inter.getFragment())
+                .collect(Collectors.toList());
 
-		this.read.add(expertEditionInterId);
+        ExpertEditionInter toReadInter = FenixFramework.getDomainObject(expertEditionInterId);
+        Fragment toReadFragment = toReadInter.getFragment();
 
-		VSMFragmentRecommender recommender = new VSMFragmentRecommender();
-		List<Property> properties = getProperties();
-		List<Entry<Fragment, Double>> mostSimilars = recommender.getMostSimilarItems(toReadFragment, toBeRecommended,
-				properties);
+        // if the fragment that is going to be read was already read, return to
+        // that position of recommendation
+        int index = readFragments.indexOf(toReadFragment);
+        if (index != -1) {
+            readFragments.subList(index, readFragments.size()).clear();
+            this.read.subList(index, this.read.size()).clear();
+        }
 
-		Set<ExpertEditionInter> result = new HashSet<>();
-		Double value = mostSimilars.get(0).getValue();
-		for (Entry<Fragment, Double> entry : mostSimilars) {
-			// logger.debug("ReadingRecommendation value1:{}, value2:{}", value,
-			// entry.getValue());
-			// add all interpretations that are similar
-			if (Math.abs(value - entry.getValue()) < 0.001 && result.size() < 5) {
-				result.addAll(entry.getKey().getExpertEditionInters(toReadInter.getExpertEdition()));
-				// if the most similar fragment does not have an interpretation
-				// in this edition, use the next most similar fragment
-			} else if (result.size() == 0) {
-				value = entry.getValue();
-				result.addAll(entry.getKey().getExpertEditionInters(toReadInter.getExpertEdition()));
-			} else {
-				break;
-			}
-		}
+        // if all fragments minus 50 were already suggested clear the first 50
+        // recommendations
+        if (readFragments.size() == LdoD.getInstance().getFragmentsSet().size() - 50) {
+            readFragments.subList(0, 50).clear();
+            this.read.subList(0, 50).clear();
+        }
 
-		return result;
-	}
+        Set<Fragment> toBeRecommended = LdoD.getInstance().getFragmentsSet().stream()
+                .filter(f -> !readFragments.contains(f)).collect(Collectors.toSet());
 
-	public String prevRecommendation() {
-		ExpertEditionInter result = getPrevRecommendation();
-		if (result == null) {
-			return null;
-		}
-		this.read.remove(this.read.size() - 1);
-		this.read.remove(this.read.size() - 1);
-		return result.getExternalId();
-	}
+        this.read.add(expertEditionInterId);
 
-	public ExpertEditionInter getPrevRecommendation() {
-		if (this.read.size() < 2) {
-			return null;
-		}
-		return FenixFramework.getDomainObject(this.read.get(this.read.size() - 2));
-	}
+        VSMFragmentRecommender recommender = new VSMFragmentRecommender();
+        List<Property> properties = getProperties();
+        List<Entry<Fragment, Double>> mostSimilars = recommender.getMostSimilarItems(toReadFragment, toBeRecommended,
+                properties);
 
-	public void resetPrevRecommendations() {
-		if (this.read.size() > 1) {
-			this.read.subList(0, this.read.size() - 1).clear();
-		}
-	}
+        Set<ExpertEditionInter> result = new HashSet<>();
+        if (!mostSimilars.isEmpty()) {
+            Double value = mostSimilars.get(0).getValue();
+            for (Entry<Fragment, Double> entry : mostSimilars) {
+                // logger.debug("ReadingRecommendation value1:{}, value2:{}", value,
+                // entry.getValue());
+                // add all interpretations that are similar
+                if (Math.abs(value - entry.getValue()) < 0.001 && result.size() < 5) {
+                    result.addAll(entry.getKey().getExpertEditionInters(toReadInter.getExpertEdition()));
+                    // if the most similar fragment does not have an interpretation
+                    // in this edition, use the next most similar fragment
+                } else if (result.size() == 0) {
+                    value = entry.getValue();
+                    result.addAll(entry.getKey().getExpertEditionInters(toReadInter.getExpertEdition()));
+                } else {
+                    break;
+                }
+            }
+        }
+        return result;
+    }
 
-	public String getCurrentInterpretation() {
-		if(this.read.size() > 1) {
-			return this.read.get(this.read.size() - 1);
-		}
-		return null;
-	}
-	
-	public List<String> getRead() {
-		return this.read;
-	}
-	
-	public void setRead(List<String> read) {
-		this.read = read;
-	}
+    public String prevRecommendation() {
+        ExpertEditionInter result = getPrevRecommendation();
+        if (result == null) {
+            return null;
+        }
+        this.read.remove(this.read.size() - 1);
+        this.read.remove(this.read.size() - 1);
+        return result.getExternalId();
+    }
 
-	public double getHeteronymWeight() {
-		return this.heteronymWeight;
-	}
+    public ExpertEditionInter getPrevRecommendation() {
+        if (this.read.size() < 2) {
+            return null;
+        }
+        return FenixFramework.getDomainObject(this.read.get(this.read.size() - 2));
+    }
 
-	public void setHeteronymWeight(double heteronymWeight) {
-		this.heteronymWeight = heteronymWeight;
-	}
+    public void resetPrevRecommendations() {
+        if (this.read.size() > 1) {
+            this.read.subList(0, this.read.size() - 1).clear();
+        }
+    }
 
-	public double getDateWeight() {
-		return this.dateWeight;
-	}
+    public String getCurrentInterpretation() {
+        if (this.read.size() > 1) {
+            return this.read.get(this.read.size() - 1);
+        }
+        return null;
+    }
 
-	public void setDateWeight(double dateWeight) {
-		this.dateWeight = dateWeight;
-	}
+    public List<String> getRead() {
+        return this.read;
+    }
 
-	public double getTextWeight() {
-		return this.textWeight;
+    public void setRead(List<String> read) {
+        this.read = read;
+    }
 
-	}
+    public double getHeteronymWeight() {
+        return this.heteronymWeight;
+    }
 
-	public void setTextWeight(double textWeight) {
-		this.textWeight = textWeight;
-	}
+    public void setHeteronymWeight(double heteronymWeight) {
+        this.heteronymWeight = heteronymWeight;
+    }
 
-	public double getTaxonomyWeight() {
-		return this.taxonomyWeight;
-	}
+    public double getDateWeight() {
+        return this.dateWeight;
+    }
 
-	public void setTaxonomyWeight(double taxonomyWeight) {
-		this.taxonomyWeight = taxonomyWeight;
-	}
+    public void setDateWeight(double dateWeight) {
+        this.dateWeight = dateWeight;
+    }
+
+    public double getTextWeight() {
+        return this.textWeight;
+
+    }
+
+    public void setTextWeight(double textWeight) {
+        this.textWeight = textWeight;
+    }
+
+    public double getTaxonomyWeight() {
+        return this.taxonomyWeight;
+    }
+
+    public void setTaxonomyWeight(double taxonomyWeight) {
+        this.taxonomyWeight = taxonomyWeight;
+    }
 
 }

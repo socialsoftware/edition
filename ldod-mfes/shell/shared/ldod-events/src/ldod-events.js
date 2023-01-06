@@ -1,11 +1,11 @@
-let { EventBus, Validator } = (await import('event-bus/dist/index.umd.min.js')).default;
+import 'event-bus/dist/index.umd.min.js';
 
 import userSchema from './user.schema.json';
 import veSchema from './ve.schema.json';
 import urlSchema from './url.schema.json';
 
-export const ldodEventBus = new EventBus();
-export const ldodValidator = new Validator();
+export const ldodEventBus = new EventBus.EventBus();
+export const ldodValidator = new EventBus.Validator();
 
 ldodEventBus.register('ldod:url-changed', urlSchema);
 ldodEventBus.register('ldod:loading', { type: 'boolean' });
