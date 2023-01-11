@@ -35,3 +35,6 @@ span.google-icon {
 	height: 20px;
 	width: 20px;
 }
+a[is='nav-to'] {
+	cursor: pointer;
+}

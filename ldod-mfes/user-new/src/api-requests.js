@@ -3,7 +3,9 @@ import { getState } from './store';
 import { navigateTo } from '@shared/router.js';
 import { errorPublisher } from './events-modules';
 
-export const newAuthRequest = async data => await fetcher.post(`/auth/sign-in`, data);
+export async function signinRequest(data) {
+	return await fetcher.post(`/auth/sign-in`, data);
+}
 
 export async function userRequest(token) {
 	return await fetcher.get(`/user`, null, token).then(res => {

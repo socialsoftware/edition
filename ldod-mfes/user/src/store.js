@@ -12,8 +12,3 @@ export const store = new Store(intialState);
 export const getState = () => store.getState();
 export const setState = state => store.setState(state);
 export const userFullName = () => `${getState().user.firstName} ${getState().user.lastName}`;
-
-export const registerInstance = () => {
-	setState({ index: getState().index + 1 });
-	return getState().index;
-};

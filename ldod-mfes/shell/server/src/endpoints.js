@@ -1,6 +1,6 @@
 import { extractTarball, getIndexHtml, removeStaticAssets } from './static.js';
 import { addToImportmaps, removeFromImportmaps } from './importmaps.js';
-import { addToMfes, removeFromMfes } from './mfes.js';
+import { updateMfesList, removeFromMfes } from './mfes.js';
 import { gamePath, staticPath, visualPath } from './constants.js';
 import { isMainThread, Worker } from 'worker_threads';
 import { processReferences } from './mfesReferences.js';
@@ -40,7 +40,7 @@ const publishMFE = async (req, res) => {
 			name,
 			entry: name !== entry ? `/${process.env.BASE}/${id}/${entry}` : `/${entry}`,
 		});
-	await addToMfes(id);
+	await updateMfesList(id);
 	await processReferences();
 	emitter.emit('mfe:published', { name });
 	return res.sendStatus(200);

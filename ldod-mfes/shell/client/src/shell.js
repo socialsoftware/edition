@@ -45,7 +45,7 @@ document.getElementById('root').replaceWith(router);
 
 const updateLanguage = (newState, currentState) => {
 	if (newState.language !== currentState.language) {
-		document.body.querySelectorAll('[language').forEach(ele => ele.setAttribute('language', newState.language));
+		document.body.querySelectorAll('[language]').forEach(ele => ele.setAttribute('language', newState.language));
 	}
 };
 

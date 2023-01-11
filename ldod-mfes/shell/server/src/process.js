@@ -3,18 +3,18 @@ import { parse } from 'node-html-parser';
 import { htmlPath } from './constants.js';
 import { getIndexHtml } from './static.js';
 
-export const addProcessScript = () => {
+export const appendProcessScript = () => {
 	const script =
 		process.env.HOST &&
-		parse(
-			`<script id="process">
-			window.LDOD_PRODUCTION = true;
-				window.process = {
-					host: "${process.env.HOST}",
-					apiHost: "${process.env.API_HOST}"
-				};
-			</script>`
-		);
+		parse(/*html */ `
+			<script id="process">
+				window.LDOD_PRODUCTION = true;
+					window.process = {
+						host: "${process.env.HOST}",
+						apiHost: "${process.env.API_HOST}"
+					};
+			</script>`);
+
 	let indexHTML = getIndexHtml();
 	if (!indexHTML || !script) return;
 	indexHTML = parse(indexHTML);

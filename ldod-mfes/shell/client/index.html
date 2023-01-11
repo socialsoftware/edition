@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src *">-->
+    <link rel="stylesheet" href="/ldod-mfes/shared/bootstrap/root.css">
     <style type="text/css">
         html {
             overflow: inherit;
@@ -62,7 +62,6 @@
             }
         }
     </style>
-    <script src="/ldod-mfes/references.js"></script>
     <script id="importmap" type="importmap">
         { "imports": { "shared/":"/node_modules/shared/dist/" } }
     </script>
@@ -105,18 +104,6 @@
                     border-radius: 50%;
                     border: 6px solid #fff;
                     z-index: 1070;
-                    border-color: #fff transparent #fff transparent;
-                    animation: lds-dual-ring 1.2s linear infinite;
-                }
-
-                .old {
-                    content: ' ';
-                    display: block;
-                    width: 64px;
-                    height: 64px;
-                    margin: 8px;
-                    border-radius: 50%;
-                    border: 6px solid #fff;
                     border-color: #fff transparent #fff transparent;
                     animation: lds-dual-ring 1.2s linear infinite;
                 }

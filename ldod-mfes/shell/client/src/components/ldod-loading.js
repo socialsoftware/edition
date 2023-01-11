@@ -4,12 +4,8 @@ export class LdodLoading extends HTMLElement {
 	constructor() {
 		super();
 		this.pendingLoading = 0;
-		this.hidden = true;
-		if (!this.shadowRoot) this.attachShadow({ mode: 'open' });
 	}
-	get element() {
-		return this.shadowRoot.querySelector('#shell-loadingOverlay');
-	}
+
 	get isLoading() {
 		return this.hasAttribute('show');
 	}
@@ -22,16 +18,12 @@ export class LdodLoading extends HTMLElement {
 
 	toggleVisibility = isLoading => (this.hidden = !isLoading);
 
-	connectedCallback() {
+	async connectedCallback() {
 		this.addEventListeners();
 	}
 
 	disconnectedCallback() {
 		this.unsubLoading?.();
-	}
-
-	render() {
-		import('./loading-html.js').then(data => (this.shadowRoot.innerHTML = data));
 	}
 
 	addEventListeners = () => {

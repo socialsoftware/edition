@@ -1,5 +1,4 @@
-import root from '../root/root';
-import '../style/buttons.scss';
+import root from '../root/root.js';
 
 import buttons from '../style/buttons.scss?inline';
 

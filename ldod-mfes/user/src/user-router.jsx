@@ -5,7 +5,7 @@ import buttons from '@src/resources/buttons.css?inline';
 import { isDev } from './utils.js';
 
 const routes = {
-	'/signin': async () => await import('./pages/signin/signin.jsx'),
+	'/signin': async () => await import('./pages/signin/signin.js'),
 	'/signup': async () => await import('./pages/signup/signup.jsx'),
 	'/change-password': async () => await import('./pages/change-pw/change-password.jsx'),
 	'/sign-up-authorization': async () => await import('./pages/authorization.js'),

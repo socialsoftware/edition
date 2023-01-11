@@ -1,7 +1,5 @@
 let modalHtml;
 
-window.addEventListener('pointermove', loadModalHtml, { once: true });
-
 async function loadModalHtml() {
 	if (modalHtml) return;
 	modalHtml = (await import('./components/modal.js')).default;
@@ -10,11 +8,6 @@ async function loadModalHtml() {
 export class LdodModal extends HTMLElement {
 	constructor() {
 		super();
-		this.serverRendered = true;
-		if (!this.shadowRoot) {
-			this.attachShadow({ mode: 'open' });
-			this.serverRendered = false;
-		}
 	}
 
 	get show() {
@@ -41,14 +34,15 @@ export class LdodModal extends HTMLElement {
 		return ['show'];
 	}
 	async connectedCallback() {
-		!this.serverRendered && (await this.render());
+		if (!this.shadowRoot) await this.render();
 		this.hydrate();
 	}
 
-	async render() {
-		if (!modalHtml) await loadModalHtml();
+	render = async () => {
+		this.attachShadow({ mode: 'open' });
+		if (!modalHtml) await loadModalHtml(this);
 		this.shadowRoot.innerHTML = modalHtml(this.dialogClass, this.noFooter);
-	}
+	};
 
 	hydrate() {
 		this.addEventListeners();

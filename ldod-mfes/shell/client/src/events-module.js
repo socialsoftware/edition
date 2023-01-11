@@ -1,4 +1,4 @@
-import { ldodEventBus } from '@shared/ldod-events.js';
+import { ldodEventSubscriber } from '@shared/ldod-events.js';
 import { store } from './store.js';
 
 function updateModal(id, content, show) {
@@ -14,8 +14,8 @@ const handlers = {
 	message: ({ payload }) => updateModal('success', payload || '', true),
 };
 
-ldodEventBus.subscribe('ldod:language', handlers.language);
-ldodEventBus.subscribe('ldod:token', handlers.token);
-ldodEventBus.subscribe('ldod:logout', handlers.token);
-ldodEventBus.subscribe('ldod:message', handlers.message);
-ldodEventBus.subscribe('ldod:error', handlers.error);
+ldodEventSubscriber('language', handlers.language);
+ldodEventSubscriber('token', handlers.token);
+ldodEventSubscriber('logout', handlers.token);
+ldodEventSubscriber('message', handlers.message);
+ldodEventSubscriber('error', handlers.error);

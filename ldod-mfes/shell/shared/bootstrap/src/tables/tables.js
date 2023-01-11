@@ -1,5 +1,4 @@
-import root from '../root/root';
-import '../style/tables.scss';
+import root from '../root/root.js';
 
 import tables from '../style/tables.scss?inline';
 

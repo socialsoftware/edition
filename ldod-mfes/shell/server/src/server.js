@@ -2,16 +2,33 @@ import asyncRouter from 'async-express-decorator';
 import cors from 'cors';
 import express from 'express';
 import multer from 'multer';
+import path from 'node:path';
 import { sharedPath, staticPath } from './constants.js';
 import './deps-install.js';
-import './shell-modules.js';
-
-import path from 'node:path';
 import { publishMFE, sendClassificationGameIndex, sendIndex, sendLdodVisualIndex, unPublishMFE } from './endpoints.js';
 import { processReferences } from './mfesReferences.js';
+import { preRenderIndexHtml } from './pre-render.js';
+import {
+	addSharedStaticAssets,
+	addSharedToImportmaps,
+	addShellClientStaticAssets,
+	addVendorToImportmaps,
+} from './shell-modules.js';
+import { updateMfesList } from './mfes.js';
+import { appendProcessScript } from './process.js';
+
+addShellClientStaticAssets();
+addSharedStaticAssets();
+addSharedToImportmaps();
+addVendorToImportmaps();
+updateMfesList();
+appendProcessScript();
+preRenderIndexHtml();
+await processReferences();
 
 const upload = multer({ dest: staticPath });
 const app = express();
+
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -37,8 +54,6 @@ app.use((err, req, res, next) => {
 });
 
 const port = process.env.PORT || 9000;
-
-await processReferences();
 
 app.listen(port, () => {
 	console.log(`Server running at port ${port}.`);

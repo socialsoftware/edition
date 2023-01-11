@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import svgLoader from 'vite-svg-loader';
-import terser from '@rollup/plugin-terser';
+import { terser } from 'rollup-plugin-terser';
 
 export default defineConfig({
 	build: {
@@ -9,6 +9,7 @@ export default defineConfig({
 		dynamicImportVarsOptions: {
 			exclude: ['./src/helpers.js'],
 		},
+		sourcemap: true,
 		emptyOutDir: false,
 		lib: {
 			entry: 'index.js',

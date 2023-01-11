@@ -195,7 +195,7 @@ export default class LdodNavbar extends HTMLElement {
 	addExpandedCollapseEvent() {
 		// TODO: user component collapse
 		this.shadowRoot
-			.querySelectorAll('.navbar-toggle, li.nav-lang a, ul.dropdown-menu a, li.dropdown.visible-xs>a.login')
+			.querySelectorAll('.navbar-toggle, ul.dropdown-menu a, li.dropdown.visible-xs>a.login')
 			.forEach(element => {
 				element.removeEventListener('click', this.toggleEvent);
 				element.addEventListener('click', this.toggleEvent);
@@ -227,7 +227,7 @@ export default class LdodNavbar extends HTMLElement {
 		open(this);
 	}
 
-	handleClickNavbar(e) {
+	handleClickNavbar = e => {
 		if (
 			[...this.getRootNode().querySelectorAll('a.dropdown-toggle')].some(drop => drop === e.target) ||
 			[...this.getRootNode().querySelectorAll('li.nav-lang>a')].some(lang => lang === e.target)
@@ -235,13 +235,13 @@ export default class LdodNavbar extends HTMLElement {
 			return;
 		this.removeDropdownEventListeners();
 		close(this);
-	}
+	};
 
-	handleDocumentClick(e) {
+	handleDocumentClick = e => {
 		if (e.target instanceof customElements.get('ldod-navbar')) return;
 		this.removeDropdownEventListeners();
 		close(this);
-	}
+	};
 
 	removeDropdownEventListeners() {
 		this.getRootNode().removeEventListener('click', this.handleClickNavbar);

@@ -1,18 +1,16 @@
-import { registerInstance, getState } from '@src/store.js';
-import { loadConstants } from '@src/utils.js';
+import { getState } from '@src/store.js';
 import { navigateTo } from '@shared/router.js';
-import { sleep } from '@shared/utils.js';
-import { setState } from '../store';
+import { setState, userFullName } from '../store';
 import { userReferences } from '../user-references';
-import { loginPublisher, loginSubscriber, logoutPublisher, logoutSubscriber } from '../events-modules';
-import { AuthComponent } from './auth-component';
-import { NonAuthComponent } from './non-auth-component';
+import { loginSubscriber, logoutPublisher, logoutSubscriber } from '../events-modules';
+import authenticatedComponent from './auth-component';
+import nonAuthenticatedComponent from './non-auth-component';
+import constants from './constants';
 
 export class UserComponent extends HTMLLIElement {
 	constructor(language) {
 		super();
 		if (language) this.language = language;
-		this.id = `user-component-${registerInstance()}`;
 	}
 	get language() {
 		return this.getAttribute('language') ?? 'en';
@@ -26,12 +24,9 @@ export class UserComponent extends HTMLLIElement {
 		return ['language'];
 	}
 
-	async connectedCallback() {
-		await this.setConstants();
-		this.render();
-		if (getState().user) loginPublisher(getState().user);
-		await sleep(1);
+	connectedCallback() {
 		this.addListeners();
+		this.render();
 	}
 
 	disconnectedCallback() {
@@ -40,20 +35,26 @@ export class UserComponent extends HTMLLIElement {
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
-		if (oldValue && newValue && oldValue !== newValue) {
-			name === 'language' && this.updateLanguage(newValue);
-		}
+		this.onChangedAttribute[name](oldValue, newValue);
 	}
 
-	setConstants = async () => {
-		this.constants = await loadConstants(this.language);
+	onChangedAttribute = {
+		language: (oldValue, newValue) => {
+			if (oldValue && newValue && oldValue !== newValue) this.onLanguage();
+		},
 	};
 
-	getConstants = key => this.constants[key];
+	onLanguage() {
+		this.querySelectorAll('[data-user-key]').forEach(ele => {
+			ele.textContent = constants[this.language][ele.dataset.userKey];
+		});
+	}
 
 	render() {
-		getState().user ? this.appendChild(<AuthComponent root={this} />) : this.appendChild(<NonAuthComponent />);
-		this.updateLanguage();
+		this.innerHTML = getState().user
+			? authenticatedComponent(userFullName(), this.language, this.logoutHandler)
+			: nonAuthenticatedComponent(this.language);
+		this.addLogoutClickEventListener();
 	}
 
 	updateComponent() {
@@ -66,6 +67,10 @@ export class UserComponent extends HTMLLIElement {
 		this.logoutUnsub = logoutSubscriber(this.onUserLogout);
 	}
 
+	addLogoutClickEventListener = () => {
+		this.querySelector('a#user-logout')?.addEventListener('click', this.logoutHandler);
+	};
+
 	onUserLogin = () => {
 		this.updateComponent();
 	};
@@ -75,15 +80,10 @@ export class UserComponent extends HTMLLIElement {
 		this.updateComponent();
 	};
 
-	async updateLanguage() {
-		await this.setConstants();
-		this.querySelectorAll('a.update-language').forEach(ele => (ele.innerHTML = this.getConstants(ele.id)));
-	}
-
 	logoutHandler = () => {
 		if (!(getState().user || getState().token)) return;
 		setState({ token: '', user: '' });
-		logoutPublisher();
+		logoutPublisher('handler');
 		navigateTo(userReferences.signin());
 	};
 }

@@ -1,46 +1,40 @@
 import { iconSVGLoader } from './helpers';
+import style from './ldod-span-icon-style.css?inline';
 
-const style = (className, icon, iconHover) => `
-span[is="ldod-span-icon"].${className} {
+const iconStyle = (icon, iconHover, size) => /*css*/ `
+:host {
     --icon-background: url(data:image/svg+xml,${encodeURIComponent(icon)});
+	background-image: var(--icon-background);
+	width: ${size};
+	height: ${size};
+	background-size: ${size};
 }
-
-span[is="ldod-span-icon"].${className}:hover {
+:host(:hover) {
     --icon-background: url(data:image/svg+xml,${encodeURIComponent(iconHover)});
 }
-
-span[is="ldod-span-icon"].${className} {
-	background-image: var(--icon-background);
-
-}
 `;
-
-const PRIMARY = '#0d6efd';
-const SECONDARY = '#6c757d';
 
 export class LdodSpanIcon extends HTMLSpanElement {
 	constructor() {
 		super();
-		this.style.display = 'inline-block';
-		this.style.backgroundRepeat = 'no-repeat';
-		this.style.backgroundPosition = 'center';
-		this.style.verticalAlign = 'middle';
-		this.classList.add(...super.classList);
-		this.styleElement = document.createElement('style');
+		this.attachShadow({ mode: 'open' });
+		this.sheet = new CSSStyleSheet();
+		this.sheet.replaceSync(style);
+		this.shadowRoot.adoptedStyleSheets = [this.sheet];
 	}
 
 	get icon() {
 		return this.getAttribute('icon');
 	}
 	get fill() {
-		return this.getAttribute('fill') || SECONDARY;
+		return this.getAttribute('fill') || '#6c757d';
 	}
 	get hoverIcon() {
 		return this.getAttribute('hover-icon') || this.icon;
 	}
 
 	get hoverFill() {
-		return this.getAttribute('hover-fill') || PRIMARY;
+		return this.getAttribute('hover-fill') || this.fill;
 	}
 	get size() {
 		return this.getAttribute('size') || '24px';
@@ -52,20 +46,9 @@ export class LdodSpanIcon extends HTMLSpanElement {
 	}
 
 	async connectedCallback() {
-		this.style.width = this.size;
-		this.style.height = this.size;
-		this.style.backgroundSize = this.size;
-		const className = `icon-${this.icon}-${crypto.randomUUID()}`;
-		this.classList.add(className);
 		const iconSVG = this.setFillColor(await iconSVGLoader(this.icon), this.fill);
 		const iconHoverSVG = this.setFillColor(await iconSVGLoader(this.hoverIcon), this.hoverFill);
-		this.styleElement.textContent = style(className, iconSVG.outerHTML, iconHoverSVG.outerHTML);
-		if (this.getRootNode() === document) document.head.appendChild(this.styleElement);
-		else this.getRootNode().appendChild(this.styleElement);
-	}
-
-	disconnectedCallback() {
-		this.styleElement.remove();
+		this.sheet.replaceSync(style + iconStyle(iconSVG.outerHTML, iconHoverSVG.outerHTML, this.size));
 	}
 }
 

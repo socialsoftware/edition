@@ -52,12 +52,12 @@ export default class LdodSignin extends HTMLElement {
 			});
 	};
 
-	onSubmit = event => {
+	onSubmit = async event => {
 		event.preventDefault();
 		event.stopPropagation();
 		this.form.classList.add('was-validated');
 		if (this.form.checkValidity()) {
-			signinRequest(Object.fromEntries(new FormData(this.form)))
+			await signinRequest(Object.fromEntries(new FormData(this.form)))
 				.then(res => 'accessToken' in res && onAuthSuccess(res.accessToken))
 				.catch(error => onAuthFail(error?.message));
 			resetForm(this.form);

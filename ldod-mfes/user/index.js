@@ -1,5 +1,6 @@
-import '@src/components/user-component.jsx';
+import '@src/components/user-component.js';
 import router from '@src/user.js';
+import { ldodEventSubscriber } from 'shared/router/src/events-module';
 router.mount('en', '#root');
 
 window.addEventListener('ldod-url-changed', ({ detail: { path } }) => {
@@ -38,3 +39,7 @@ function clearMessage() {
 	document.getElementById('message').innerHTML = '';
 	document.getElementById('error').innerHTML = '';
 }
+
+ldodEventSubscriber('logout', event => {
+	console.log(event);
+});

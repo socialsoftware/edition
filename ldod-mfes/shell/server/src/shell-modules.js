@@ -1,14 +1,18 @@
 import { addToImportmaps } from './importmaps.js';
-import { addToMfes } from './mfes.js';
-import { addProcessScript } from './process.js';
 import { addStaticAssets } from './static.js';
 import { clientDist, sharedDist } from './constants.js';
 
-addStaticAssets({ from: clientDist, name: '' });
-addStaticAssets({ from: sharedDist, name: 'shared' });
-addToImportmaps({ name: '@shared/', entry: '/ldod-mfes/shared/' });
-addToImportmaps({ name: '@vendor/', entry: '/ldod-mfes/vendor/' });
+export function addShellClientStaticAssets() {
+	addStaticAssets({ from: clientDist, name: '' });
+}
 
-addToMfes();
-addProcessScript();
-import('./static-generation.js');
+export function addSharedStaticAssets() {
+	addStaticAssets({ from: sharedDist, name: 'shared' });
+}
+
+export function addSharedToImportmaps() {
+	addToImportmaps({ name: '@shared/', entry: '/ldod-mfes/shared/' });
+}
+export function addVendorToImportmaps() {
+	addToImportmaps({ name: '@vendor/', entry: '/ldod-mfes/vendor/' });
+}

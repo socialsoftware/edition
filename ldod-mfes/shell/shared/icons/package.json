@@ -9,6 +9,7 @@
 		"nohoist": [
 			"vite",
 			"@rollup/plugin-terser",
+			"rollup-plugin-terser",
 			"vite-svg-loader"
 		]
 	},
@@ -17,6 +18,6 @@
 	},
 	"scripts": {
 		"dev": "vite",
-		"build": "vite build && cp -rf ./src/icons/ ../dist/icons/"
+		"build": "vite build && cp -rf src/icons/ ../dist/icons/"
 	}
 }

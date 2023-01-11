@@ -4,7 +4,7 @@ import userSchema from './user.schema.json';
 import veSchema from './ve.schema.json';
 import urlSchema from './url.schema.json';
 
-export const ldodEventBus = new EventBus.EventBus();
+export const ldodEventBus = eventBus;
 export const ldodValidator = new EventBus.Validator();
 
 ldodEventBus.register('ldod:url-changed', urlSchema);

@@ -1,5 +1,4 @@
-import root from '../root/root';
-import '../style/forms.scss';
+import root from '../root/root.js';
 
 import forms from '../style/forms.scss?inline';
 
