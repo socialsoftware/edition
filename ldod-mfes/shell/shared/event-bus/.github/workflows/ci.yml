@@ -1,0 +1,49 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - develop
+      - feature/*
+      - release/*
+      - hotfix/*
+      - renovate/*
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  integration:
+    name: Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node: [16.x, 17.x, 18.x]
+
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v2-beta
+
+      - name: Set up Node.js version ${{ matrix.node }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          registry-url: https://npm.pkg.github.com
+          scope: trutoo
+
+      - name: Install dependencies using CI
+        run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Used in .npmrc to install packages from github
+
+      - name: Run tests on package
+        run: npm test
+
+      - name: Update coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build package
+        run: npm run build
