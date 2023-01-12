@@ -8,7 +8,11 @@ import './deps-install.js';
 import { publishMFE, sendClassificationGameIndex, sendIndex, sendLdodVisualIndex, unPublishMFE } from './endpoints.js';
 import { generateMfesReferences } from './mfesReferences.js';
 import { updateIndexHTML } from './html-template.js';
+import { createOrUpdateImportmap } from './importmap.js';
+import { createOrUpdateMfes } from './mfes.js';
 
+createOrUpdateImportmap();
+createOrUpdateMfes();
 await updateIndexHTML();
 await generateMfesReferences();
 

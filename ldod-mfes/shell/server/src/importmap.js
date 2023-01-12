@@ -1,7 +1,12 @@
 import fs from 'fs';
-import { parse } from 'node-html-parser';
-import { importmapPath, htmlPath } from './constants.js';
-import { getIndexHtml } from './static.js';
+import { importmapPath } from './constants.js';
+
+export function createOrUpdateImportmap() {
+	const importmap = loadImportmap();
+	console.log(!('@shared/' in importmap));
+	if (!('@shared/' in importmap)) addToImportmap({ name: '@shared/', entry: '/ldod-mfes/shared/' });
+	if (!('@vendor/' in importmap)) addToImportmap({ name: '@vendor/', entry: '/ldod-mfes/vendor/' });
+}
 
 export function loadImportmap() {
 	let importmap = { imports: {} };

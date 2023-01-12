@@ -1,6 +1,11 @@
 import fs from 'fs';
 import { mfesPath } from './constants.js';
 
+export function createOrUpdateMfes() {
+	const mfes = loadMfes();
+	saveMfes(mfes);
+}
+
 export function loadMfes() {
 	try {
 		return JSON.parse(fs.readFileSync(mfesPath, 'utf-8'));
@@ -10,13 +15,13 @@ export function loadMfes() {
 }
 
 function saveMfes(mfes) {
-	fs.writeFileSync(mfesPath, mfes);
+	fs.writeFileSync(mfesPath, JSON.stringify(mfes));
 }
 
 export async function addMfe(name) {
 	const mfes = new Set(loadMfes());
 	name && mfes.add(name);
-	saveMfes(JSON.stringify([...mfes]));
+	saveMfes([...mfes]);
 }
 
 export function removeMfe(name) {
