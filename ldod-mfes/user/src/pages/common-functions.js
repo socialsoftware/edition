@@ -1,7 +1,8 @@
 import { userRequest } from '../api-requests';
-import { errorPublisher, loginPublisher, logoutPublisher, tokenPublisher } from '../events-modules';
+import { errorPublisher, loginPublisher, logoutPublisher, messagePublisher, tokenPublisher } from '../events-modules';
 import { getState, setState } from '../store';
 import { navigateTo } from '@shared/router.js';
+import { userReferences } from '../user-references';
 
 export function revealPassword({ target }) {
 	getAssociatedPasswordInput(target).type = 'text';
@@ -25,6 +26,11 @@ export function onAuthSuccess(token) {
 export function onAuthFail(message) {
 	errorPublisher(message);
 	setState({ token: '' });
+}
+
+export function onSignup(message) {
+	messagePublisher(message);
+	navigateTo(userReferences.signin());
 }
 
 export function logout() {

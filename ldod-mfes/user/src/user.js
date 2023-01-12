@@ -9,7 +9,7 @@ if (typeof window !== 'undefined') {
 
 const loadUser = async () => {
 	if (User) return;
-	User = await import('./user-router.jsx');
+	User = await import('./user-router.js');
 };
 
 export default {

@@ -1,4 +1,4 @@
-import signinHtml from './signin-html';
+import signupHtml from './signup-html';
 import constants from '../constants';
 import formsStyle from '@shared/bootstrap/forms.js';
 import buttonsStyle from '@shared/bootstrap/buttons.js';
@@ -6,12 +6,14 @@ import hostStyle from '../host.css?inline';
 import style from './style.css?inline';
 
 import '@shared/ldod-icons.js';
-import { signinRequest } from '../../api-requests';
-import { onAuthFail, onAuthSuccess, resetForm } from '../common-functions';
+import { signupRequest } from '../../api-requests';
+import { errorPublisher } from '../../events-modules';
+import { onSignup, resetForm } from '../common-functions';
 
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(formsStyle + buttonsStyle + hostStyle + style);
-export default class LdodSignin extends HTMLElement {
+
+export default class LdodSignup extends HTMLElement {
 	constructor() {
 		super();
 		this.attachShadow({ mode: 'open' });
@@ -22,12 +24,12 @@ export default class LdodSignin extends HTMLElement {
 		return this.getAttribute('language');
 	}
 
-	get form() {
-		return this.shadowRoot.querySelector('form');
-	}
-
 	static get observedAttributes() {
 		return ['language'];
+	}
+
+	get conductCodeModal() {
+		return this.shadowRoot.querySelector('ldod-modal#modal-conduct-code');
 	}
 
 	connectedCallback() {
@@ -35,9 +37,8 @@ export default class LdodSignin extends HTMLElement {
 	}
 
 	render() {
-		this.shadowRoot.appendChild(signinHtml(this.language, this));
+		this.shadowRoot.appendChild(signupHtml(this.language, this));
 	}
-
 	attributeChangedCallback(name, oldValue, newValue) {
 		this.onChangedAttribute[name](oldValue, newValue);
 	}
@@ -56,14 +57,23 @@ export default class LdodSignin extends HTMLElement {
 	onSubmit = async event => {
 		event.preventDefault();
 		event.stopPropagation();
-		this.form.classList.add('was-validated');
-		if (this.form.checkValidity()) {
-			await signinRequest(Object.fromEntries(new FormData(this.form)))
-				.then(res => 'accessToken' in res && onAuthSuccess(res.accessToken))
-				.catch(error => onAuthFail(error?.message));
-			resetForm(this.form);
+		const form = event.target;
+		form.classList.add('was-validated');
+		if (form.checkValidity()) {
+			const formData = Object.fromEntries(new FormData(form));
+			formData.socialMediaId = '';
+			formData.socialMediaService = '';
+			await signupRequest(formData)
+				.then(res => {
+					if (res.ok) {
+						onSignup(res.message);
+						resetForm(form);
+					}
+					errorPublisher(res.message);
+				})
+				.catch(error => errorPublisher(error.message));
 		}
 	};
 }
 
-!customElements.get('ldod-signin') && customElements.define('ldod-signin', LdodSignin);
+!customElements.get('ldod-signup') && customElements.define('ldod-signup', LdodSignup);

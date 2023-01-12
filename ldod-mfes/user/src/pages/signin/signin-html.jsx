@@ -25,7 +25,7 @@ export default (language, root) => (
 				</label>
 			</div>
 			<div class="input-group">
-				<div id="user-login-form" class="form-floating">
+				<div id="login-form-password" class="form-floating">
 					<input class="form-control" name="password" type="password" placeholder="password" required />
 					<label for="login-form-password" data-user-key="password">
 						{constants[language].password}
@@ -33,7 +33,7 @@ export default (language, root) => (
 				</div>
 				<button id="user-password-btn" class="btn" type="button">
 					<span
-						data-input="div#user-login-form > input"
+						data-input="div#login-form-password > input"
 						id="user-password-icon"
 						is="ldod-span-icon"
 						icon="eye"

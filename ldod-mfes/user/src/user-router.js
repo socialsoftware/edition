@@ -15,27 +15,29 @@ const routes = {
 const userMfeSelector = 'div#user-mfe';
 
 export const mount = (lang, ref) => {
-	document.querySelector(ref).appendChild(<UserRouter language={lang} />);
+	document.querySelector(ref).appendChild(UserRouter(lang));
 };
 
 export const unMount = () => {
 	document.querySelector(userMfeSelector)?.remove();
 };
 
-const UserRouter = ({ language }) => {
-	return (
-		<>
-			<div id="user-mfe" class="container text-center">
-				<style>{style}</style>
-				<style>{buttons}</style>
-				<style>{switchCSS}</style>
-				<ldod-router
-					id="user-router"
-					base={isDev() ? '' : import.meta.env.VITE_BASE}
-					route="/user"
-					routes={routes}
-					language={language}></ldod-router>
-			</div>
-		</>
-	);
+const UserRouter = language => {
+	const template = document.createElement('template');
+	template.innerHTML = /*html*/ `
+		<div id="user-mfe" class="container text-center">
+			<style>${style}</style>
+			<style>${buttons}</style>
+			<style>${switchCSS}</style>
+			<ldod-router
+				id="user-router"
+				base="${isDev() ? '' : import.meta.env.VITE_BASE}"
+				route="/user"
+				language=${language}>
+			</ldod-router>
+		</div>
+	`;
+	const content = template.content.cloneNode(true);
+	content.querySelector('ldod-router').routes = routes;
+	return content;
 };
