@@ -37,7 +37,7 @@ const UserRouter = language => {
 			</ldod-router>
 		</div>
 	`;
-	const content = template.content.cloneNode(true);
-	content.querySelector('ldod-router').routes = routes;
-	return content;
+	const router = template.content.cloneNode(true);
+	router.querySelector('ldod-router').routes = routes;
+	return router;
 };

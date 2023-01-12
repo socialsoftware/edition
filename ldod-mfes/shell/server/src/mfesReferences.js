@@ -1,18 +1,16 @@
-import { htmlPath, staticPath } from './constants.js';
-import { parse } from 'node-html-parser';
+import { staticPath } from './constants.js';
 import fs from 'fs';
-import { loadMfesFromJson } from './mfes.js';
-import { getIndexHtml } from './static.js';
+import { loadMfes } from './mfes.js';
+import { minify } from 'html-minifier';
 
-export async function processReferences() {
+export async function generateMfesReferences() {
 	const references = await getMfesReferences();
 	writeReferencesToFile(references);
-	appendReferencesScriptTagOnIndexHTML();
 	global.globalReferences = await references;
 }
 
 async function getMfesReferences() {
-	const mfes = loadMfesFromJson();
+	const mfes = loadMfes();
 	return await mfes.reduce(async (refs, mfe) => {
 		let result = await refs;
 		const entryPoint = `${staticPath}/${mfe}/${mfe}.js`;
@@ -24,17 +22,10 @@ async function getMfesReferences() {
 	}, Promise.resolve({}));
 }
 function writeReferencesToFile(references) {
-	fs.writeFileSync(`${staticPath}/references.js`, generateReferencesJsCode(references));
-}
-
-function appendReferencesScriptTagOnIndexHTML() {
-	const dom = parse(getIndexHtml());
-	const src = '/ldod-mfes/references.js';
-	let script = dom.querySelector('head script#mfes-references');
-	if (script && script.attributes.src === src) return;
-	script = parse(`<script id="mfes-references" src="${src}"></script>`);
-	dom.querySelector('head').appendChild(script);
-	fs.writeFileSync(htmlPath, dom.toString());
+	fs.writeFileSync(
+		`${staticPath}/references.js`,
+		minify(generateReferencesJsCode(references), { minifyJS: true, collapseWhitespace: true })
+	);
 }
 
 function generateReferencesJsCode(references) {

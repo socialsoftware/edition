@@ -12,14 +12,4 @@ const htmlPath = resolve(staticPath, 'index.html');
 const visualPath = resolve(staticPath, 'visual');
 const gamePath = resolve(staticPath, 'game');
 
-export {
-  staticPath,
-  importmapPath,
-  mfesPath,
-  htmlPath,
-  visualPath,
-  gamePath,
-  sharedPath,
-  sharedDist,
-  clientDist,
-};
+export { staticPath, importmapPath, mfesPath, htmlPath, visualPath, gamePath, sharedPath, sharedDist, clientDist };

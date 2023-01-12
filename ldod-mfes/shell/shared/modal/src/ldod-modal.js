@@ -40,7 +40,7 @@ export class LdodModal extends HTMLElement {
 
 	render = async () => {
 		this.attachShadow({ mode: 'open' });
-		if (!modalHtml) await loadModalHtml(this);
+		if (!modalHtml) await loadModalHtml();
 		this.shadowRoot.innerHTML = modalHtml(this.dialogClass, this.noFooter);
 	};
 

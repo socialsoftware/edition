@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path, { resolve } from 'path';
 import tar from 'tar';
-import { staticPath } from './constants.js';
+import { htmlPath, staticPath } from './constants.js';
 
 function removeStaticAssets({ name }) {
 	try {
@@ -43,9 +43,9 @@ async function extractTarball(fileInfo, id) {
 	fs.rmSync(resolve(fileInfo.destination, id, fileInfo.originalname));
 }
 
-const getIndexHtml = (path = staticPath) => {
+const getIndexHtml = () => {
 	try {
-		return fs.readFileSync(resolve(path, 'index.html'), 'utf8');
+		return fs.readFileSync(htmlPath, 'utf8');
 	} catch (error) {
 		return;
 	}

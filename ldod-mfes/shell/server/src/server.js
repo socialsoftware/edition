@@ -6,25 +6,11 @@ import path from 'node:path';
 import { sharedPath, staticPath } from './constants.js';
 import './deps-install.js';
 import { publishMFE, sendClassificationGameIndex, sendIndex, sendLdodVisualIndex, unPublishMFE } from './endpoints.js';
-import { processReferences } from './mfesReferences.js';
-import { preRenderIndexHtml } from './pre-render.js';
-import {
-	addSharedStaticAssets,
-	addSharedToImportmaps,
-	addShellClientStaticAssets,
-	addVendorToImportmaps,
-} from './shell-modules.js';
-import { updateMfesList } from './mfes.js';
-import { appendProcessScript } from './process.js';
+import { generateMfesReferences } from './mfesReferences.js';
+import { updateIndexHTML } from './html-template.js';
 
-addShellClientStaticAssets();
-addSharedStaticAssets();
-addSharedToImportmaps();
-addVendorToImportmaps();
-updateMfesList();
-appendProcessScript();
-preRenderIndexHtml();
-await processReferences();
+await updateIndexHTML();
+await generateMfesReferences();
 
 const upload = multer({ dest: staticPath });
 const app = express();

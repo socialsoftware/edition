@@ -1,6 +1,6 @@
 import modalStyle from '@src/modal.css?inline';
 
-export default (dialogClass, hasFooter) => {
+export default (dialogClass, noFooter) => {
 	return /*html*/ `
   <style>
     ${modalStyle}
@@ -31,15 +31,15 @@ export default (dialogClass, hasFooter) => {
           <div class="modal-body">
             <slot name="body-slot"></slot>
           </div>
-          ${getFooter(hasFooter)}
+          ${getFooter(noFooter)}
         </div>
       </div>
     </div>
     `;
 };
 
-function getFooter(hasFooter) {
-	if (!hasFooter) return '';
+function getFooter(noFooter) {
+	if (noFooter) return '';
 	return /*html*/ `
   <div class="modal-footer">
     <slot name="footer-slot"></slot>

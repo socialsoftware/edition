@@ -57,9 +57,6 @@
 				.then(loaded => document.fonts.add(loaded))
 				.catch(e => console.log(e));
 		});
-		window.dispatchEvent(new Event('fonts-loaded'));
 	};
-
-	window.addEventListener('pointermove', loader);
-	window.addEventListener('fonts-loaded', () => this.removeEventListener('pointermove', loader));
+	window.addEventListener('pointermove', loader, { once: true });
 })();

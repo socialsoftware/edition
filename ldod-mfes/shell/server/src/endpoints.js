@@ -1,10 +1,11 @@
 import { extractTarball, getIndexHtml, removeStaticAssets } from './static.js';
-import { addToImportmaps, removeFromImportmaps } from './importmaps.js';
-import { updateMfesList, removeFromMfes } from './mfes.js';
+import { addToImportmap, removeFromImportmaps } from './importmap.js';
+import { addMfe, removeMfe } from './mfes.js';
 import { gamePath, staticPath, visualPath } from './constants.js';
 import { isMainThread, Worker } from 'worker_threads';
-import { processReferences } from './mfesReferences.js';
+import { generateMfesReferences } from './mfesReferences.js';
 import { emitter } from './event-bus.js';
+import { updateIndexHTML } from './html-template.js';
 
 const sendIndex = (req, res) => res.send(getIndexHtml());
 
@@ -36,12 +37,14 @@ const publishMFE = async (req, res) => {
 		});
 
 	if (name)
-		await addToImportmaps({
+		await addToImportmap({
 			name,
 			entry: name !== entry ? `/${process.env.BASE}/${id}/${entry}` : `/${entry}`,
 		});
-	await updateMfesList(id);
-	await processReferences();
+
+	await addMfe(id);
+	await updateIndexHTML();
+	await generateMfesReferences();
 	emitter.emit('mfe:published', { name });
 	return res.sendStatus(200);
 };
@@ -49,8 +52,9 @@ const unPublishMFE = async (req, res) => {
 	const { id, name } = req.body;
 	removeStaticAssets({ name: id });
 	removeFromImportmaps({ name });
-	removeFromMfes(id);
-	await processReferences();
+	removeMfe(id);
+	await updateIndexHTML();
+	await generateMfesReferences();
 	return res.sendStatus(200);
 };
 

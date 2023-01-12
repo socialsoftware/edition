@@ -54,8 +54,6 @@ export class LdodVirtualEditions extends HTMLElement {
 		this.onChangedAttribute[name](oldV, newV);
 	}
 
-	disconnectedCallback() {}
-
 	render() {
 		this.wrapper.innerHTML = '';
 		this.wrapper.appendChild(

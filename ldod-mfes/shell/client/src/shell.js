@@ -26,14 +26,8 @@ const routes = await Object.keys(modules)
 			.then(async mod => {
 				const api = mod.default;
 				const mfePath = api.path;
-				if (mfePath === '/') {
-					router.index = () => api;
-					return;
-				}
-				if (mfePath) {
-					window.references[mfeName] = api.references;
-					(await prev)[mfePath] = () => api;
-				}
+				if (mfePath === '/') router.index = () => api;
+				else if (mfePath) (await prev)[mfePath] = () => api;
 			})
 			.catch(e => console.error(e));
 		return await prev;
@@ -43,10 +37,9 @@ router.routes = routes;
 
 document.getElementById('root').replaceWith(router);
 
-const updateLanguage = (newState, currentState) => {
-	if (newState.language !== currentState.language) {
+function updateLanguage(newState, currentState) {
+	if (newState.language !== currentState.language)
 		document.body.querySelectorAll('[language]').forEach(ele => ele.setAttribute('language', newState.language));
-	}
-};
+}
 
 store.subscribe(updateLanguage);

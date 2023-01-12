@@ -8,8 +8,6 @@ coverage/
 build/
 dist/
 transpiled-src
-importmap.json
-mfes.json
 **/static/**
 static
 
