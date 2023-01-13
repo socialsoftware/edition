@@ -12,6 +12,7 @@ export default ({ node }) => {
 					is="ldod-span-icon"
 					id="virtual-navigation-title-tooltip"
 					icon="circle-info"
+					hover-fill="#0d6efd"
 					class="icon-flex"
 					size="18px"></span>
 				<ldod-tooltip
@@ -22,9 +23,9 @@ export default ({ node }) => {
 					width="200px"
 					content={node.getConstants('virtualEditionsInfo')}></ldod-tooltip>
 			</div>
-			{node.inters.map(inter => {
+			{node.inters?.map(inter => {
 				return (
-					<div class="text-center">
+					<div key={inter.externalId || crypto.randomUUID()} class="text-center">
 						{
 							<table
 								width="100%"

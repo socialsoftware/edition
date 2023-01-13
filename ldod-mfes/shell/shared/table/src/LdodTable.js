@@ -1,6 +1,7 @@
 import { sleep } from '@shared/utils.js';
 import { loadingPublisher } from './events-module';
 import { tableComponent, tableRows } from './table-component';
+import { debounce } from './debounce';
 
 export class LdodTable extends HTMLElement {
 	constructor() {
@@ -74,7 +75,7 @@ export class LdodTable extends HTMLElement {
 	};
 
 	addEventListeners = () => {
-		this.searchInput?.addEventListener('input', this.handleSearchInput);
+		this.searchInput?.addEventListener('input', () => debounce(500, this.handleSearchInput));
 	};
 
 	handleLazyRenderRows = () => {

@@ -73,6 +73,7 @@ export default ({ node }) => {
 					id="text-navigation-title-tooltip"
 					icon="circle-info"
 					size="18px"
+					hover-fill="#0d6efd"
 					class="icon-flex"></span>
 
 				<ldod-tooltip

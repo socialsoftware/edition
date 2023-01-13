@@ -15,7 +15,8 @@ export default async ({ node, inter }) => {
 						is="ldod-span-icon"
 						icon="eye"
 						size="20px"
-						style={{ marginTop: '25px', marginLeft: '10px' }}></span>
+						hover-fill="#0d6efd"
+						style={{ marginLeft: '10px' }}></span>
 				</a>
 			</div>
 			<EditorialInterTranscription node={node} key={0} />
