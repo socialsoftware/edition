@@ -4,26 +4,26 @@ import com.google.api.client.json.webtoken.JsonWebToken.Payload;
 
 public class GoogleIdentityDto {
 
-    private final String firstname;
-    private final String lastname;
+    private final String firstName;
+    private final String lastName;
     private final String email;
     private final String socialMedia;
     private final String socialId;
 
     public GoogleIdentityDto(Payload payload, String provider) {
         this.email = (String) payload.get("email");
-        this.lastname = (String) payload.get("family_name");
-        this.firstname = (String) payload.get("given_name");
+        this.lastName = (String) payload.get("family_name");
+        this.firstName = (String) payload.get("given_name");
         this.socialId = payload.getSubject();
         this.socialMedia = provider;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
     public String getEmail() {

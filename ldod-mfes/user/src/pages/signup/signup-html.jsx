@@ -121,6 +121,8 @@ export default (language, root) => {
 						</div>
 					</ldod-modal>
 				</div>
+				<input type="hidden" name="socialId" />
+				<input type="hidden" name="socialMedia" />
 				<button type="submit" class="btn btn-primary" data-user-key="register">
 					{constants[language].register}
 				</button>

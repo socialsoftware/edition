@@ -10,8 +10,8 @@ public class SignupDto {
     private String password;
     private String email;
     private boolean conduct;
-    private String socialMediaId;
-    private String socialMediaService;
+    private String socialId;
+    private String socialMedia;
 
     public SignupDto() {
     }
@@ -64,8 +64,8 @@ public class SignupDto {
         this.conduct = conduct;
     }
 
-    public String getSocialMediaId() {
-        return socialMediaId;
+    public String getSocialId() {
+        return socialId;
     }
 
     public String getProviderId() {
@@ -84,18 +84,18 @@ public class SignupDto {
         return 1;
     }
 
-    public void setSocialMediaId(String socialMediaId) {
-        this.socialMediaId = socialMediaId;
+    public void setSocialId(String socialId) {
+        this.socialId = socialId;
     }
 
-    public LdoDUser.SocialMediaService getSocialMediaService() {
-        return socialMediaService.equals("")
+    public LdoDUser.SocialMediaService getSocialMedia() {
+        return socialMedia.equals("")
                 ? null
-                : LdoDUser.SocialMediaService.valueOf(socialMediaService.toUpperCase());
+                : LdoDUser.SocialMediaService.valueOf(socialMedia.toUpperCase());
     }
 
-    public void setSocialMediaService(String socialMediaService) {
-        this.socialMediaService = socialMediaService;
+    public void setSocialMedia(String socialMedia) {
+        this.socialMedia = socialMedia;
     }
 
     @Override
@@ -107,8 +107,8 @@ public class SignupDto {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", conduct=" + conduct +
-                ", socialMediaId='" + socialMediaId + '\'' +
-                ", socialMediaService='" + socialMediaService + '\'' +
+                ", socialMediaId='" + socialId + '\'' +
+                ", socialMediaService='" + socialMedia + '\'' +
                 '}';
     }
 }

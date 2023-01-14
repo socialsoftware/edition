@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
 				output: {
 					plugins: [terser()],
 				},
-				external: [/^@shared/, /^@vendor/],
+				external: [/^@shared/, /^@vendor/, 'about'],
 			},
 		},
 		esbuild: {

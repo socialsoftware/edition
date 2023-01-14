@@ -106,8 +106,8 @@ public class LdoDUser extends LdoDUser_Base {
         setFirstName(signupDto.getFirstName());
         setLastName(signupDto.getLastName());
         setEmail(signupDto.getEmail());
-        setSocialMediaId(signupDto.getSocialMediaId());
-        setSocialMediaService(signupDto.getSocialMediaService());
+        setSocialMediaId(signupDto.getSocialId());
+        setSocialMediaService(signupDto.getSocialMedia());
     }
 
 

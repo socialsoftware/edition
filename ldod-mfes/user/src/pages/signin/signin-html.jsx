@@ -10,8 +10,8 @@ async function prefetchGoogleAuth() {
 	gauth = (await import('./google-auth')).default;
 }
 
-async function googleAuth() {
-	await gauth();
+async function googleAuth(lang) {
+	await gauth(lang);
 }
 
 export default (language, root) => (
@@ -52,7 +52,7 @@ export default (language, root) => (
 			type="button"
 			class="btn btn-light"
 			onPointerOver={prefetchGoogleAuth}
-			onClick={googleAuth}>
+			onClick={() => googleAuth(language)}>
 			<div style={{ display: 'grid', gridTemplateColumns: '10% 80% 10%' }}>
 				<span class="google-icon"></span>
 				<span>Google</span>

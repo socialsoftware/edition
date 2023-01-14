@@ -60,7 +60,7 @@ export default class LdodSignin extends HTMLElement {
 		if (this.form.checkValidity()) {
 			await signinRequest(Object.fromEntries(new FormData(this.form)))
 				.then(res => 'accessToken' in res && onAuthSuccess(res.accessToken))
-				.catch(error => onAuthFail(error?.message));
+				.catch(onAuthFail);
 			resetForm(this.form);
 		}
 	};

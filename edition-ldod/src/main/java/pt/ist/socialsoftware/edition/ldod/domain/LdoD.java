@@ -19,7 +19,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class LdoD extends LdoD_Base {
     public static String TWITTER_EDITION_ACRONYM = "LdoD-Twitter";
@@ -256,7 +255,6 @@ public class LdoD extends LdoD_Base {
             LdoDUser user = new LdoDUser(this, passwordEncoder.encode(signupDto.getPassword()), signupDto);
             Role userRole = Role.getRole(RoleType.ROLE_USER);
             user.addRoles(userRole);
-            System.out.println(user.getSocialMediaId());
             return user;
         } else {
             throw new LdoDDuplicateUsernameException(signupDto.getUsername());
@@ -280,7 +278,7 @@ public class LdoD extends LdoD_Base {
     }
 
     public void createUserConnection(SignupDto signupDto) {
-        createUserConnection(signupDto.getUsername(), signupDto.getProviderId(), signupDto.getSocialMediaId(), signupDto.getRank(),
+        createUserConnection(signupDto.getUsername(), signupDto.getProviderId(), signupDto.getSocialId(), signupDto.getRank(),
                 signupDto.getDisplayName(), "", "", "", "", "", signupDto.getExpireTime());
 
     }

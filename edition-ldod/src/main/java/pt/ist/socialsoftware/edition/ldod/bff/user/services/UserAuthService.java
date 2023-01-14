@@ -102,7 +102,7 @@ public class UserAuthService {
     }
 
     public void createUserConnection(SignupDto signupDto) {
-        if (!signupDto.getSocialMediaId().equals(""))
+        if (!signupDto.getSocialId().equals(""))
             LdoD.getInstance().createUserConnection(signupDto);
     }
 

@@ -8,6 +8,7 @@ const G_CLIENT_ID = {
 };
 
 let gPrompt;
+let language;
 
 const script = document.createElement('script');
 script.src = 'https://accounts.google.com/gsi/client';
@@ -24,8 +25,11 @@ document.head.appendChild(script);
 
 function handleCredentials(accessToken, callback) {
 	socialAuthRequest('google', { accessToken }, callback)
-		.then(response => messagePublisher(constants[response?.message]))
+		.then(response => response?.message && messagePublisher(constants[language || 'en'][response.message]))
 		.catch(error => errorPublisher(constants[error?.message]));
 }
 
-export default () => gPrompt();
+export default lang => {
+	language = lang;
+	gPrompt();
+};

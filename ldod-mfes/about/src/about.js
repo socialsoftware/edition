@@ -1,10 +1,14 @@
 const references = (await import('./references.js')).default;
 let about;
 
-const loadAbout = async () => {
+async function loadAbout() {
 	if (!about) about = await import('./about-router.jsx');
 	return about;
-};
+}
+
+export function loadConductCode() {
+	import('./pages/conduct/conduct.jsx');
+}
 
 export default {
 	path: '/about',

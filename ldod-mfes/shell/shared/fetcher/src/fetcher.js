@@ -13,16 +13,19 @@ const getStorageToken = () => getPartialStorage('ldod-store', ['token'])?.token;
 const fetchRequest = async (url, options) => {
 	try {
 		const res = await fetch(url, options);
+		const resData = await res.json();
 		handleLoading(false);
-		if (res.ok) return await res.json();
-		if (res.status === 401) handleLogout();
-		handleError(res.message || 'Not authorized to access this resource');
-		return Promise.reject();
+		if (!res.ok) {
+			res.status === 401 && handleLogout();
+			handleError(resData?.message || 'Not authorized to access this resource');
+			return Promise.reject(resData || res);
+		}
+		return resData;
 	} catch (error) {
 		console.error('FETCH ERROR: ', error.stack);
-		handleLoading(false);
 		handleError('Something went wrong');
 		navigateTo('/');
+		handleLoading(false);
 	}
 };
 

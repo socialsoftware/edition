@@ -1,12 +1,16 @@
 let home;
 
 if (typeof window === 'object') {
-  import('./components/navbar/ldod-navbar.js');
-  home = await import('./components/home/home.js');
+	import('./components/navbar/ldod-navbar.js');
+}
+
+async function loadHome() {
+	if (!home) home = await import('./components/home/home.js');
+	return home;
 }
 
 export default {
-  path: '/',
-  mount: async (lang, ref) => await home.mount(lang, ref),
-  unMount: async () => await home.unMount(),
+	path: '/',
+	mount: async (lang, ref) => (await loadHome()).mount(lang, ref),
+	unMount: async () => (await loadHome()).unMount(),
 };

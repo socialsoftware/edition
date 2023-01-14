@@ -18,6 +18,7 @@ export default {
 		conductCheck: 'Must accept the code of conduct',
 		authorization:
 			'Your request was submitted for authorization. In case of approval, an email from the e-address ldod.archive@gmail.com will be sent to your mailbox. The confirmation should occur within the next 24 hours.',
+		googleAssociation: 'Your Google account is not associated with a LdoD Archive account. Please sign up.',
 	},
 	pt: {
 		title: 'Arquivo LdoD',
@@ -38,6 +39,8 @@ export default {
 		conduct: 'Ao registar-me como utilizador do Arquivo LdoD, aceito o código de conduta',
 		authorization:
 			'O seu pedido foi submetido para autorização. Em caso de aceitação, um email de confirmação será enviado para a sua caixa de correio a partir do endereço ldod.archive@gmail.com. A confirmação deve ocorrer no espaço de 24 horas.',
+		googleAssociation:
+			'A sua conta Google ainda não está associada com uma conta do Arquivo do LdoD. Registe-se por favor.',
 	},
 	es: {
 		title: 'Archivo LdoD',
@@ -58,5 +61,6 @@ export default {
 		conductCheck: 'Debe aceptar el código de conducta',
 		authorization:
 			'Su solicitud fue enviada para autorización. En caso de aprobación, un correo electrónico de la dirección electrónica ldod.archive@gmail.com será enviado a su buzón de correo. La confirmación debe ocurrir dentro de las próximas 24 horas',
+		googleAssociation: 'Su cuenta Google no está asociada con una cuenta de Archivo LdoD. Por favor regístrese.',
 	},
 };

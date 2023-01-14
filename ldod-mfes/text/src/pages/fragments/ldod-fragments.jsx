@@ -70,7 +70,7 @@ export class LdodFragments extends HTMLElement {
 
 	handeChangedAttribute = {
 		language: (oldV, newV) => {
-			if (oldV && oldV !== newV) this.handleChangedLanguage();
+			if (oldV && oldV !== newV) this.onChangedLanguage();
 		},
 		data: () => {
 			this.render();
@@ -83,23 +83,29 @@ export class LdodFragments extends HTMLElement {
 	};
 
 	updateTitle = ({ detail }) => {
+		console.log('searched');
 		if (this.ldodTable.isFullyLoaded)
 			this.querySelector('h3#title').firstChild.textContent = this.getConstants('encodedFragments', detail.size);
 	};
 
-	handleChangedLanguage = async () => {
+	onChangedLanguage = () => {
 		loadingPublisher(true);
-		await sleep(5);
+		sleep(1).then(() => {
+			this.handleChangedLanguage();
+			loadingPublisher(false);
+		});
+	};
+
+	handleChangedLanguage = () => {
 		this.querySelectorAll('[data-key]').forEach(node => {
-			return (node.firstChild.textContent =
+			node.firstChild.textContent =
 				node.dataset.args || node.hasAttribute('data-args')
 					? this.getConstants(
 							node.dataset.key,
 							JSON.parse(node.dataset.args || node.hasAttribute('data-args'))
 					  )
-					: this.getConstants(node.dataset.key));
+					: this.getConstants(node.dataset.key);
 		});
-		loadingPublisher(false);
 	};
 }
 !customElements.get('ldod-fragments') && customElements.define('ldod-fragments', LdodFragments);

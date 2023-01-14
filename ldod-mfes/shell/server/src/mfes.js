@@ -25,5 +25,5 @@ export async function addMfe(name) {
 }
 
 export function removeMfe(name) {
-	saveMfes(JSON.stringify(loadMfes().filter(mfe => mfe !== name)));
+	saveMfes(loadMfes().filter(mfe => mfe !== name));
 }

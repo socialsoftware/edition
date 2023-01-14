@@ -2,6 +2,7 @@ import { fetcher } from '@shared/fetcher.js';
 import { getState } from './store';
 import { navigateTo } from '@shared/router.js';
 import { errorPublisher } from './events-modules';
+import { userReferences } from './user-references.js';
 
 export const signinRequest = async data => await fetcher.post(`/auth/sign-in`, data);
 
@@ -15,13 +16,16 @@ export async function userRequest(token) {
 export const signupRequest = async data => await fetcher.post(`/auth/sign-up`, data);
 
 export const socialAuthRequest = async (path, data, loginCB) =>
-	fetcher.post(`/auth/${path}`, data).then(response => {
-		if (isFormState(response)) {
-			navigateTo(userReferences.signup, response);
-			return Promise.resolve({ message: 'googleAssociation' });
-		}
-		isAccessToken(response) && loginCB(response.accessToken);
-	});
+	fetcher
+		.post(`/auth/${path}`, data)
+		.then(response => {
+			if (isFormState(response)) {
+				navigateTo(userReferences.signup(), response);
+				return Promise.resolve({ message: 'googleAssociation' });
+			}
+			isAccessToken(response) && loginCB(response.accessToken);
+		})
+		.catch(e => console.error(e));
 
 export const tokenConfirmRequest = async path => await fetcher.get(`/auth${path}`, null);
 
@@ -58,6 +62,6 @@ function isAccessToken(response) {
 	return Object.keys(response).some(key => key === 'accessToken' || key === 'tokenType');
 }
 
-function isFormState(response) {
-	return Object?.keys(response).some(key => key === 'socialId');
+function isFormState(object) {
+	return object && 'socialId' in object;
 }

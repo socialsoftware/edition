@@ -1,4 +1,4 @@
-import { userReferences } from './user-references';
+const userReferences = (await import('./user-references')).userReferences;
 let User;
 
 if (typeof window !== 'undefined') {

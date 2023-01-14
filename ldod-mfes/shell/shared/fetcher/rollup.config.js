@@ -1,5 +1,5 @@
 // rollup.config.js
-import terser from '@rollup/plugin-terser';
+import { terser } from 'rollup-plugin-terser';
 
 export default {
 	input: 'src/fetcher.js',
@@ -7,6 +7,7 @@ export default {
 	output: {
 		dir: '../dist',
 		format: 'es',
+		sourcemap: true,
 		plugins: [terser()],
 	},
 };

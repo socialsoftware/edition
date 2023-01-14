@@ -6,7 +6,7 @@ import { isDev } from './utils.js';
 
 const routes = {
 	'/signin': async () => await import('./pages/signin/signin.js'),
-	'/signup': async () => await import('./pages/signup/signup.jsx'),
+	'/signup': async () => await import('./pages/signup/signup.js'),
 	'/change-password': async () => await import('./pages/change-pw/change-password.jsx'),
 	'/sign-up-authorization': async () => await import('./pages/authorization.js'),
 	'/sign-up-confirmation': async () => await import('./pages/confirmation.js'),

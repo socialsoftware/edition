@@ -13,6 +13,10 @@ import { onSignup, resetForm } from '../common-functions';
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(formsStyle + buttonsStyle + hostStyle + style);
 
+function loadConductCode() {
+	import('about').then(({ loadConductCode }) => loadConductCode());
+}
+
 export default class LdodSignup extends HTMLElement {
 	constructor() {
 		super();
@@ -33,7 +37,15 @@ export default class LdodSignup extends HTMLElement {
 	}
 
 	connectedCallback() {
+		loadConductCode();
 		this.render();
+		if (Object.keys(history.state).length) this.loadState();
+	}
+
+	loadState() {
+		this.shadowRoot.querySelectorAll('input').forEach(input => {
+			if (input.name in history.state) input.value = history.state[input.name];
+		});
 	}
 
 	render() {
@@ -52,6 +64,9 @@ export default class LdodSignup extends HTMLElement {
 			this.shadowRoot.querySelectorAll('[data-user-key]').forEach(ele => {
 				ele.firstChild.textContent = constants[this.language][ele.dataset.userKey];
 			});
+		this.shadowRoot
+			.querySelectorAll('[language]')
+			.forEach(element => element.setAttribute('language', this.language));
 	};
 
 	onSubmit = async event => {
@@ -60,18 +75,14 @@ export default class LdodSignup extends HTMLElement {
 		const form = event.target;
 		form.classList.add('was-validated');
 		if (form.checkValidity()) {
-			const formData = Object.fromEntries(new FormData(form));
-			formData.socialMediaId = '';
-			formData.socialMediaService = '';
-			await signupRequest(formData)
+			await signupRequest(Object.fromEntries(new FormData(form)))
 				.then(res => {
 					if (res.ok) {
 						onSignup(res.message);
 						resetForm(form);
-					}
-					errorPublisher(res.message);
+					} else errorPublisher(res.message);
 				})
-				.catch(error => errorPublisher(error.message));
+				.catch(error => errorPublisher(error?.message));
 		}
 	};
 }

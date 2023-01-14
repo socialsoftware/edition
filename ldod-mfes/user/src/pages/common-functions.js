@@ -23,19 +23,19 @@ export function onAuthSuccess(token) {
 	login(token);
 }
 
-export function onAuthFail(message) {
-	errorPublisher(message);
+export function onAuthFail(error) {
+	errorPublisher(error?.message);
 	setState({ token: '' });
 }
 
 export function onSignup(message) {
-	messagePublisher(message);
+	message && messagePublisher(message);
 	navigateTo(userReferences.signin());
 }
 
 export function logout() {
 	setState({ token: '', user: '' });
-	logoutPublisher('token absent');
+	logoutPublisher('');
 	navigateTo('/');
 }
 

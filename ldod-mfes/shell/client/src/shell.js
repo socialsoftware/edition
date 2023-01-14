@@ -34,7 +34,6 @@ const routes = await Object.keys(modules)
 	}, Promise.resolve({}));
 
 router.routes = routes;
-
 document.getElementById('root').replaceWith(router);
 
 function updateLanguage(newState, currentState) {
