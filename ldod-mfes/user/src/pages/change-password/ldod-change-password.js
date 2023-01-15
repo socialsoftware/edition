@@ -8,7 +8,8 @@ import '@shared/ldod-icons.js';
 
 import { errorPublisher } from '../../events-modules';
 import { changePasswordRequest } from '../../api-requests';
-import { onChangePassword, onChangePasswordFail } from '../common-functions';
+import { onChangePassword, onChangePasswordFail, redirectToHome } from '../common-functions';
+import { getState } from '../../store';
 
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(formsStyle + buttonsStyle + hostStyle);
@@ -29,6 +30,7 @@ export default class LdodChangePassword extends HTMLElement {
 	}
 
 	connectedCallback() {
+		if (!getState().user) return redirectToHome();
 		this.render();
 	}
 

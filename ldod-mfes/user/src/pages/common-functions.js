@@ -64,3 +64,7 @@ export function resetForm(form) {
 	form.classList.remove('was-validated');
 	form.reset();
 }
+
+export function redirectToHome() {
+	navigateTo('/');
+}
