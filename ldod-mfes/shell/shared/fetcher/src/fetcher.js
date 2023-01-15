@@ -29,7 +29,7 @@ const fetchRequest = async (url, options) => {
 	}
 };
 
-const request = async (method, path, data, token) => {
+const request = async (method, path, data, token, signal) => {
 	handleLoading(true);
 	const options = {};
 	const accessToken = token ? token : getStorageToken();
@@ -45,16 +45,18 @@ const request = async (method, path, data, token) => {
 	if (path.includes('restricted') || path.includes('admin')) options.headers.append('Cache-Control', 'private');
 
 	options.method = method;
+	if (signal) options.signal = signal;
 	if (data) options.body = JSON.stringify(data);
 	return await fetchRequest(HOST.concat(path), options);
 };
 
 export const fetcher = ['get', 'post', 'put', 'delete'].reduce((fetcher, method) => {
-	fetcher[method] = (url, data = {}, token = undefined) => request(method.toUpperCase(), url, data, token);
+	fetcher[method] = (url, data = {}, token = undefined, signal = undefined) =>
+		request(method.toUpperCase(), url, data, token, signal);
 	return fetcher;
 }, {});
 
-export const xmlFileFetcher = async ({ url, body, method = 'POST', token, headers = [] }) => {
+export const xmlFileFetcher = async ({ url, body, method = 'POST', token, headers = [], signal }) => {
 	handleLoading(true);
 	const options = {};
 	const accessToken = token ? token : getStorageToken();
@@ -66,6 +68,7 @@ export const xmlFileFetcher = async ({ url, body, method = 'POST', token, header
 		})
 	);
 	options.method = method;
+	if (signal) options.signal = signal;
 	if (body) options.body = body;
 	return await fetchRequest(HOST.concat(url), options);
 };

@@ -133,6 +133,7 @@ export class LdodManageFragments extends HTMLElement {
 	};
 
 	handleFileUploaded = ({ detail: { payload } }) => {
+		if (!payload) return;
 		if ('ok' in payload) return this.handleMessageOnUploadedFile(payload.ok, payload.message);
 		dataProxy.reset = true;
 		const nl = document.createElement('br').outerHTML;

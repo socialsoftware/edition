@@ -19,6 +19,13 @@ export default {
 		authorization:
 			'Your request was submitted for authorization. In case of approval, an email from the e-address ldod.archive@gmail.com will be sent to your mailbox. The confirmation should occur within the next 24 hours.',
 		googleAssociation: 'Your Google account is not associated with a LdoD Archive account. Please sign up.',
+		changePassword: 'Change Password',
+		update: 'Update',
+		currentPassword: 'Current password',
+		newPassword: 'New password',
+		confirmPassword: 'Retype password',
+		currentNew: 'The new password must differ from the current one',
+		confirmPattern: 'The passwords do not match',
 	},
 	pt: {
 		title: 'Arquivo LdoD',
@@ -41,6 +48,13 @@ export default {
 			'O seu pedido foi submetido para autorização. Em caso de aceitação, um email de confirmação será enviado para a sua caixa de correio a partir do endereço ldod.archive@gmail.com. A confirmação deve ocorrer no espaço de 24 horas.',
 		googleAssociation:
 			'A sua conta Google ainda não está associada com uma conta do Arquivo do LdoD. Registe-se por favor.',
+		changePassword: 'Alterar Senha',
+		update: 'Atualizar',
+		currentPassword: 'Senha actual',
+		newPassword: 'Nova senha',
+		confirmPassword: 'Digite novamente a senha',
+		currentNew: 'A nova senha deve diferir da atual',
+		confirmPattern: 'As palavras-passe não coincidem',
 	},
 	es: {
 		title: 'Archivo LdoD',
@@ -62,5 +76,12 @@ export default {
 		authorization:
 			'Su solicitud fue enviada para autorización. En caso de aprobación, un correo electrónico de la dirección electrónica ldod.archive@gmail.com será enviado a su buzón de correo. La confirmación debe ocurrir dentro de las próximas 24 horas',
 		googleAssociation: 'Su cuenta Google no está asociada con una cuenta de Archivo LdoD. Por favor regístrese.',
+		changePassword: 'Cambiar la Contraseña',
+		update: 'Atualizar',
+		currentPassword: 'Contraseña actual',
+		newPassword: 'Nueva constraseña',
+		confirmPassword: 'Vuelva a escribir la contraseña',
+		currentNew: 'La nueva contraseña debe ser diferente de la actual',
+		confirmPattern: 'Las contraseñas no coinciden',
 	},
 };

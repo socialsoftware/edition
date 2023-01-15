@@ -33,6 +33,17 @@ export function onSignup(message) {
 	navigateTo(userReferences.signin());
 }
 
+export function onChangePassword(res) {
+	if (res.ok === false) return onChangePasswordFail(res);
+	messagePublisher(res.message);
+	navigateTo('/');
+}
+
+export function onChangePasswordFail(res) {
+	console.error(res);
+	errorPublisher(res?.message);
+}
+
 export function logout() {
 	setState({ token: '', user: '' });
 	logoutPublisher('');

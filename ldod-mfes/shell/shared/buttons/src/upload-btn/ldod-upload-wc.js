@@ -6,6 +6,7 @@ import { xmlFileFetcher } from '@shared/fetcher.js';
 export class LdodUpload extends HTMLElement {
 	constructor() {
 		super();
+		this.controller = new AbortController();
 		this.attachShadow({ mode: 'open' });
 		this.sheet = new CSSStyleSheet();
 		this.sheet.replaceSync(style);
@@ -35,6 +36,10 @@ export class LdodUpload extends HTMLElement {
 		this.render();
 	}
 
+	disconnectedCallback() {
+		this.controller.abort();
+	}
+
 	render() {
 		this.shadowRoot.innerHTML = UploadComponent({
 			title: this.title,
@@ -55,6 +60,7 @@ export class LdodUpload extends HTMLElement {
 			url: this.dataset.url,
 			method: 'POST',
 			body: formData,
+			signal: this.controller.signal,
 		}).catch(e => console.error(e));
 		this.responseData = res;
 		this.dispatchEvent(uploadEvent(this.id, res));

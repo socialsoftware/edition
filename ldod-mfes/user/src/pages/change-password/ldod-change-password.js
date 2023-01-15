@@ -1,25 +1,19 @@
-import signupHtml from './signup-html';
+import changePasswordHtml from './change-password-html';
 import constants from '../constants';
 import formsStyle from '@shared/bootstrap/forms.js';
 import buttonsStyle from '@shared/bootstrap/buttons.js';
 import hostStyle from '../host.css?inline';
-import style from './style.css?inline';
 
 import '@shared/ldod-icons.js';
-import { signupRequest } from '../../api-requests';
+
 import { errorPublisher } from '../../events-modules';
-import { onSignup, resetForm } from '../common-functions';
+import { changePasswordRequest } from '../../api-requests';
+import { onChangePassword, onChangePasswordFail } from '../common-functions';
 
 const sheet = new CSSStyleSheet();
-sheet.replaceSync(formsStyle + buttonsStyle + hostStyle + style);
+sheet.replaceSync(formsStyle + buttonsStyle + hostStyle);
 
-function loadExternalModules() {
-	import('./external-modules')
-		.then(({ load }) => load())
-		.catch(e => console.error(e));
-}
-
-export default class LdodSignup extends HTMLElement {
+export default class LdodChangePassword extends HTMLElement {
 	constructor() {
 		super();
 		this.attachShadow({ mode: 'open' });
@@ -34,24 +28,12 @@ export default class LdodSignup extends HTMLElement {
 		return ['language'];
 	}
 
-	get conductCodeModal() {
-		return this.shadowRoot.querySelector('ldod-modal#modal-conduct-code');
-	}
-
 	connectedCallback() {
-		!import.meta.env.DEV && loadExternalModules();
 		this.render();
-		if (Object.keys(history.state).length) this.loadState();
-	}
-
-	loadState() {
-		this.shadowRoot.querySelectorAll('input').forEach(input => {
-			if (input.name in history.state) input.value = history.state[input.name];
-		});
 	}
 
 	render() {
-		this.shadowRoot.appendChild(signupHtml(this.language, this));
+		this.shadowRoot.appendChild(changePasswordHtml(this.language, this));
 	}
 	attributeChangedCallback(name, oldValue, newValue) {
 		this.onChangedAttribute[name](oldValue, newValue);
@@ -71,22 +53,31 @@ export default class LdodSignup extends HTMLElement {
 			.forEach(element => element.setAttribute('language', this.language));
 	};
 
+	passwordsValidation(formData) {
+		if (!formData.username) return false;
+		if (formData.currentPassword === formData.newPassword) {
+			errorPublisher(constants[this.language].currentNew);
+			return false;
+		}
+		if (formData.newPassword !== formData.retypedPassword) {
+			errorPublisher(constants[this.language].confirmPattern);
+			return false;
+		}
+		return true;
+	}
+
 	onSubmit = async event => {
 		event.preventDefault();
 		event.stopPropagation();
 		const form = event.target;
 		form.classList.add('was-validated');
 		if (form.checkValidity()) {
-			await signupRequest(Object.fromEntries(new FormData(form)))
-				.then(res => {
-					if (res.ok) {
-						onSignup(res.message);
-						resetForm(form);
-					} else errorPublisher(res.message);
-				})
-				.catch(error => errorPublisher(error?.message));
+			const formData = Object.fromEntries(new FormData(form));
+			if (!this.passwordsValidation(formData)) return;
+			console.log(formData);
+			await changePasswordRequest(formData).then(onChangePassword).catch(onChangePasswordFail);
 		}
 	};
 }
 
-!customElements.get('ldod-signup') && customElements.define('ldod-signup', LdodSignup);
+!customElements.get('ldod-change-password') && customElements.define('ldod-change-password', LdodChangePassword);
