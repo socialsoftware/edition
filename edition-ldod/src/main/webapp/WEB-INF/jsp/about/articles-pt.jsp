@@ -945,4 +945,4 @@
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p>[updated 22-01-2023]</p>
+<p>[atualizado 22-01-2023]</p>
