@@ -75,6 +75,7 @@
 	URL: <a href="https://ldod.uc.pt/">https://ldod.uc.pt/</a>
 </p>
 <p>&nbsp;</p>
+<p>&nbsp;</p>
 <p class="ldod-about semibold">
 	How to cite a virtual edition from the <em>LdoD Archive?</em>
 </p>
@@ -86,4 +87,4 @@
 </p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p>[updated 31-12-2021]</p>
+<p>[updated 22-01-2023]</p>
