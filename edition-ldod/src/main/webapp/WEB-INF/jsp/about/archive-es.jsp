@@ -88,7 +88,7 @@
 </p>
 <p>&nbsp;</p>
 <p class="ldod-about semibold">
-	&iquest;C&oacute;mo citar una edici&iocute;n virtual del <em>Archivo LdoD</em>&quest; 
+	&iquest;C&oacute;mo citar una edici&ocute;n virtual del <em>Archivo LdoD</em>&quest; 
 </p>
 <p>
 	Marrone, Rita, Bruno Ministro, Bruno Fontes, Cec&iacute;lia Magalh&atilde;es, Manuel Portela, Mariana Ferreira, Raquel Gon&ccedil;alves, Rui Silva, 
