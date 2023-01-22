@@ -170,27 +170,27 @@
 <p>&nbsp;</p>
 <p><strong>2020</strong></p>
 <p>
-	Marques, Ana, and Manuel Portela (2020). &ldquo;Representa&ccedil;&atilde;o e An&aacute;lise da Rece&ccedil;&atilde;o Cr&iacute;tica 
-	do <em>Livro do Desassossego</em> no <em>Arquivo LdoD</em>.&rdquo; 
-	<em>Novos Estudos Pessoanos - Ponto de Situa&ccedil;&atilde;o</em>, Lisboa: Casa Fernando Pessoa. 5-11.
-	URL: <a href="https://www.casafernandopessoa.pt/download_file/342/0" target="_new">
-	https://www.casafernandopessoa.pt/download_file/342/0</a></p> 
-<p>
 	Gim&eacute;nez, Diego (2020). &ldquo;Problemas de Intertextualidade Filos&oacute;fica no <em>Livro do Desassossego</em>.&rdquo; 
 	<em>Novos Estudos Pessoanos - Ponto de Situa&ccedil;&atilde;o</em>, Lisboa: Casa Fernando Pessoa. 21-30.
 	URL: <a href="https://www.casafernandopessoa.pt/download_file/342/0" target="_new">
 	https://www.casafernandopessoa.pt/download_file/342/0</a></p>
 <p>
-	Portela, Manuel, and Cec&iacute;lia Magalh&atilde;es (2020). &ldquo;The Book of Disquiet Digital Archive as a Role-playing Experiment.&rdquo;  
-	<em> MIND THE GAP! Thinking Electronic Literature in a Digital Culture | Attention &agrave; la marche: Penser la litt&eacute;rature 
-		&eacute;lectronique en culture num&eacute;rique. </em>Eds. Bertrand Gervais and Sophie Marcotte. Montr&eacute;al: Les presses de
-	l’&eacute;cureuil—ALN/NT2. 307–25. URL: <a href="http://nt2.uqam.ca/en/elo-2018" target="_new">
-	http://nt2.uqam.ca/en/elo-2018</a> </p>
+	Marques, Ana, and Manuel Portela (2020). &ldquo;Representa&ccedil;&atilde;o e An&aacute;lise da Rece&ccedil;&atilde;o Cr&iacute;tica 
+	do <em>Livro do Desassossego</em> no <em>Arquivo LdoD</em>.&rdquo; 
+	<em>Novos Estudos Pessoanos - Ponto de Situa&ccedil;&atilde;o</em>, Lisboa: Casa Fernando Pessoa. 5-11.
+	URL: <a href="https://www.casafernandopessoa.pt/download_file/342/0" target="_new">
+	https://www.casafernandopessoa.pt/download_file/342/0</a></p> 
 <p>	
 	Marques, Gon&ccedil;alo Montalv&atilde;o, Ant&oacute;nio Rito Silva, and Manuel Portela (2020). &ldquo;Classification in the LdoD Archive: A Crowdsourcing 
 	and Gamification Approach.&rdquo; <em>Digital Libraries at Times of Massive Societal Transition </em>, Eds. Ishita, Emi; Pang, Natalie Lee San; Zhou, Lihong. 
 	Cham: Springer Nature Switzerland AG. 313-319. DOI: <a href="https://link.springer.com/chapter/10.1007%2F978-3-030-64452-9_29" target="_new">
 	https://link.springer.com/chapter/10.1007%2F978-3-030-64452-9_29</a> </p>
+<p>
+	Portela, Manuel, and Cec&iacute;lia Magalh&atilde;es (2020). &ldquo;The Book of Disquiet Digital Archive as a Role-playing Experiment.&rdquo;  
+	<em> MIND THE GAP! Thinking Electronic Literature in a Digital Culture | Attention &agrave; la marche: Penser la litt&eacute;rature 
+	&eacute;lectronique en culture num&eacute;rique.</em> Eds. Bertrand Gervais and Sophie Marcotte. Montr&eacute;al: Les presses de
+	l’&eacute;cureuil—ALN/NT2. 307–25. URL: <a href="http://nt2.uqam.ca/en/elo-2018" target="_new">
+	http://nt2.uqam.ca/en/elo-2018</a> </p>
 
 <p>&nbsp;</p>
 <p><strong>2021</strong></p>
@@ -199,33 +199,49 @@
 	Refactoring and Performance Trade-offs.&rdquo; <em>2021 IEEE 18th International Conference on Software Architecture Companion (ICSA-C)</em>, 
 	Cham: Springer Nature Switzerland AG. 54-61. DOI: <a href="https://doi.org/10.1109/ICSA-C52384.2021.00015" target="_new">
 	https://doi.org/10.1109/ICSA-C52384.2021.00015</a> </p> 
-<p>
-	Raposo, Jos&eacute;; Rito Silva, Ant&oacute;nio; Portela, Manuel (2021). &ldquo;LdoD Visual - A Visual Reader for Fernando Pessoa&apos;s <em>Book of Disquiet</em>: 
-	An In-Out-In Metaphor.&rdquo; <em>Digital Humanities Quarterly </em> 15.3. <a href="http://digitalhumanities.org/dhq/vol/15/3/000569/000569.html" target="_new">
-	http://digitalhumanities.org/dhq/vol/15/3/000569/000569.html</a> </p> 
 <p>	
 	Portela, Manuel (2021). &ldquo;An Evolutionary Textual Environment: The Unfinished Machine.&rdquo; <em>Textual Cultures</em> 14.2: 220-238. 
-	</p>
+	DOI: <a href="https://doi.org/10.14434/tc.v14i2.33659" target="_new">https://doi.org/10.14434/tc.v14i2.33659</a></p>
+<p>
+	Raposo, Jos&eacute;; Rito Silva, Ant&oacute;nio; Portela, Manuel (2021). &ldquo;LdoD Visual - A Visual Reader for Fernando Pessoa&apos;s <em>Book of Disquiet</em>: 
+	An In-Out-In Metaphor.&rdquo; <em>Digital Humanities Quarterly</em> 15.3. <a href="http://digitalhumanities.org/dhq/vol/15/3/000569/000569.html" target="_new">
+	http://digitalhumanities.org/dhq/vol/15/3/000569/000569.html</a> </p> 
 
 
 <p>&nbsp;</p>
 <p><strong>2022</strong></p>
+<p>	
+	Gim&eacute;nez, Diego (2022). &ldquo;Uma taxonomia filos&oacute;fica para o <em>Livro do Desassossego</em>.&rdquo; 
+	<em>Congresso Internacional Fernando Pessoa 2021</em>. Lisboa: Casa Fernando Pessoa. 108-116.</p>
 <p>
 	Portela, Manuel (2022). <em>Literary Simulation and the Digital Humanities: Reading, Editing, Writing</em>. New York: Bloomsbury Academic. 
 	URL: <a href="https://www.bloomsbury.com/ca/literary-simulation-and-the-digital-humanities-9781501385407/" target="_new">
 	https://www.bloomsbury.com/ca/literary-simulation-and-the-digital-humanities-9781501385407/</a> </p>
 <p>	
-	Portela, Manuel (2022). &ldquo;&lsquo;De que me serve reler?&rsquo; Um modelo computacional da rece&ccedil;&atilde;o cr&iacute;tica do <em>Livro do Desassossego</em>.&rdquo; 
-	<em>Congresso Internacional Fernando Pessoa 2021</em>. Lisboa: Casa Fernando Pessoa. [forthcoming]</p>
-<p>	
-	Gim&eacute;nez, Diego  (2022). &ldquo;Uma taxonomia filos&oacute;fica para o <em>Livro do Desassossego</em>.&rdquo; 
-	<em>Congresso Internacional Fernando Pessoa 2021</em>. Lisboa: Casa Fernando Pessoa. [forthcoming]</p>
+	Portela, Manuel (2022). &ldquo;&lsquo;De que me serve reler?&rsquo; Um modelo computacional da rece&ccedil;&atilde;o cr&iacute;tica do 
+	<em>Livro do Desassossego</em>.&rdquo; <em>Congresso Internacional Fernando Pessoa 2021</em>. Lisboa, Casa Fernando Pessoa. 174-183.</p>
 <p>
-	Marques, Ana (2022).  &ldquo;Processos de cita&ccedil;&atilde;o e produ&ccedil;&atilde;o de argumentos em textos cr&iacute;ticos e ensa&iacute;sticos.&rdquo;
+	Portela, Manuel (2022). &ldquo;Simula&ccedil;&atilde;o e Performatividade: O <em>Arquivo LdoD</em> em 8 Diagramas.&rdquo; Eds. Renata Vieira e Ana Paula Banza. 
+	<em>Jornada de Humanidades Digitais do CIDEHUS</em>. &Eacute;vora: Imprensa da Universidade de &Eacute;vora. 7-15. </p>
+<p>
+	Portela, Manuel (2022). &ldquo;Literary Fields Forever: Playing with the <em>Book of Disquiet</em>.&rdquo; <em>Textual Cultures</em> 15.1: 135-154. 
+	DOI: <a href="https://doi.org/10.14434/tc.v15i1.34506" target="_new">https://doi.org/10.14434/tc.v15i1.34506</a></p>
+
+<p>&nbsp;</p>
+<p><strong>2023</strong></p>
+<p>
+	Marques, Ana (2023). &ldquo;Processos de cita&ccedil;&atilde;o e produ&ccedil;&atilde;o de argumentos em textos cr&iacute;ticos e ensa&iacute;sticos.&rdquo;
 	<em>Discurso Acad&eacute;mico: Conhecimento Disciplinar e Apropria&ccedil;&atilde;o Did&aacute;tica.</em> Ed. Joana Vieira Santos. Coimbra: CELGA-ILTEC. [forthcoming]</p>
 <p> 
-	Portela, Manuel (2022). &ldquo;From Meta-Editing to Virtual Editing: The <em>LdoD Archive</em> as a Computer-Assisted Editorial Space.&rdquo; 
-	<em>Approaches to Teaching Pessoa&apos;s The Book of Disquiet.</em> Eds. Paulo de Medeiros and Jer&oacute;nimo Pizarro. 
+	Portela, Manuel (2023). &ldquo;Alucinar Fragmentos, Escrever Imagens: A Montagem do Livro no <em>Filme do Desassossego</em>.&rdquo; Ed. Golgona Anghel. 
+	<em>Jo&atilde;o Botelho: &lsquo;filmo um texto como se fosse um rosto&rsquo;&rdquo;</em>. Lisboa: Sistema Solar/Documenta. [forthcoming]</p>
+<p>	
+	Portela, Manuel (2023). &ldquo;Text Mining the <em>Book of Disquiet</em> for Critical and Creative Explorations&rdquo;. 
+	Eds. Ulrike Henny-Krahmer and Bernhard Geiger. <em>Machine Learning and Data Mining for Digital Scholarly Editions</em>. 
+	Norderstedt: Books on Demand/ Rostock: Institut f&uuml;r Dokumentologie und Editorik. [forthcoming]</p>
+<p>	
+	Portela, Manuel (2023). &ldquo;From Meta-Editing to Virtual Editing: The <em>LdoD Archive</em> as a Computer-Assisted Editorial Space.&rdquo; 
+	<em>Approaches to Teaching The Book of Disquiet.</em> Eds. Paulo de Medeiros and Jer&oacute;nimo Pizarro. 
 	New York: Modern Language Association. [forthcoming]</p>
 
 <p>&nbsp;</p>
@@ -928,4 +944,4 @@
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p>[updated 31-12-2021]</p>
+<p>[actualizaci&oacute;n 22-01-2023]</p>
