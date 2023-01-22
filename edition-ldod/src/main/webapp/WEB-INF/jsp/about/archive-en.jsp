@@ -75,7 +75,6 @@
 	URL: <a href="https://ldod.uc.pt/">https://ldod.uc.pt/</a>
 </p>
 <p>&nbsp;</p>
-<p>&nbsp;</p>
 <p class="ldod-about semibold">
 	How to cite a virtual edition from the <em>LdoD Archive?</em>
 </p>
