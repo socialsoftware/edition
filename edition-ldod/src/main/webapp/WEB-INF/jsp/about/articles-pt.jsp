@@ -207,7 +207,6 @@
 	An In-Out-In Metaphor.&rdquo; <em>Digital Humanities Quarterly</em> 15.3. <a href="http://digitalhumanities.org/dhq/vol/15/3/000569/000569.html" target="_new">
 	http://digitalhumanities.org/dhq/vol/15/3/000569/000569.html</a> </p> 
 
-
 <p>&nbsp;</p>
 <p><strong>2022</strong></p>
 <p>	
@@ -222,7 +221,7 @@
 	<em>Livro do Desassossego</em>.&rdquo; <em>Congresso Internacional Fernando Pessoa 2021</em>. Lisboa, Casa Fernando Pessoa. 174-183.</p>
 <p>
 	Portela, Manuel (2022). &ldquo;Simula&ccedil;&atilde;o e Performatividade: O <em>Arquivo LdoD</em> em 8 Diagramas.&rdquo; Eds. Renata Vieira e Ana Paula Banza. 
-	<em>Jornada de Humanidades Digitais do CIDEHUS</em>. Évora: Imprensa da Universidade de Évora. 7-15. </p>
+	<em>Jornada de Humanidades Digitais do CIDEHUS</em>. &Eacute;vora: Imprensa da Universidade de &Eacute;vora. 7-15. </p>
 <p>
 	Portela, Manuel (2022). &ldquo;Literary Fields Forever: Playing with the <em>Book of Disquiet</em>.&rdquo; <em>Textual Cultures</em> 15.1: 135-154. 
 	DOI: <a href="https://doi.org/10.14434/tc.v15i1.34506" target="_new">https://doi.org/10.14434/tc.v15i1.34506</a></p>
