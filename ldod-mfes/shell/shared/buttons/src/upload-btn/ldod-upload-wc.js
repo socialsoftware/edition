@@ -1,4 +1,10 @@
-import style from '../style.css?inline';
+/** @format */
+
+import buttonsCss from '@shared/bootstrap/buttons-css.js';
+import formsCss from '@shared/bootstrap/forms-css.js';
+import rootCss from '@shared/bootstrap/root-css.js';
+import style from './style.css?inline';
+
 import UploadComponent from './ldod-upload.js';
 import { uploadEvent } from '../events-module';
 import { xmlFileFetcher } from '@shared/fetcher.js';
@@ -9,7 +15,7 @@ export class LdodUpload extends HTMLElement {
 		this.controller = new AbortController();
 		this.attachShadow({ mode: 'open' });
 		this.sheet = new CSSStyleSheet();
-		this.sheet.replaceSync(style);
+		this.sheet.replaceSync(rootCss + buttonsCss + formsCss + style);
 		this.shadowRoot.adoptedStyleSheets = [this.sheet];
 	}
 
@@ -67,7 +73,8 @@ export class LdodUpload extends HTMLElement {
 	};
 
 	handleInput = e => {
-		const toggleDisabled = value => this.shadowRoot.querySelector('#loadBtn').toggleAttribute('disabled', value);
+		const toggleDisabled = value =>
+			this.shadowRoot.querySelector('#loadBtn').toggleAttribute('disabled', value);
 		if (e.target.value.endsWith('.xml') || e.target.value.endsWith('.XML')) {
 			return toggleDisabled(false);
 		}
@@ -81,7 +88,8 @@ export class LdodUpload extends HTMLElement {
 	handleChangeAttribute = {
 		title: (oldV, newV) => {
 			if (oldV && oldV !== newV)
-				this.shadowRoot.querySelector('button#loadBtn>span[label]').textContent = this.title;
+				this.shadowRoot.querySelector('button#loadBtn>span[label]').textContent =
+					this.title;
 		},
 		width: () => {
 			this.sheet.insertRule(`form > div {width: ${this.width};}`);

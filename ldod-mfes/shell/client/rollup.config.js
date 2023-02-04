@@ -5,7 +5,7 @@ import css from 'rollup-plugin-import-css';
 
 export default {
 	external: [/^@shared/],
-	input: ['src/shell.js', 'fonts.js'],
+	input: ['src/shell.js'],
 	output: [
 		{
 			dir: 'dist',

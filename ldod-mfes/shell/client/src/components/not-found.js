@@ -8,7 +8,8 @@ const message = {
 
 const getNoPage = () => document.body.querySelector('div#no-page.container');
 
-const NoPage = language => /*html*/ `<div id="no-page" class="container">${message[language]}</div>`;
+const NoPage = language =>
+	/*html*/ `<div id="no-page" class="container">${message[language]}</div>`;
 
 let langUnsub;
 

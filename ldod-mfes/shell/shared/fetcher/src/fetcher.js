@@ -36,13 +36,12 @@ const request = async (method, path, data, token, signal) => {
 	if (!accessToken) handleLogout();
 
 	if (data && typeof data !== 'object') throw new Error('Data must be an Object');
-
 	options.headers = new Headers();
 	options.headers.append('Authorization', `Bearer ${accessToken || ''}`);
 	options.headers.append('Content-Type', 'application/json');
-	options.headers.append('Access-Control-Allow-Origin', '*');
 
-	if (path.includes('restricted') || path.includes('admin')) options.headers.append('Cache-Control', 'private');
+	if (path.includes('restricted') || path.includes('admin'))
+		options.headers.append('Cache-Control', 'private');
 
 	options.method = method;
 	if (signal) options.signal = signal;
@@ -56,7 +55,14 @@ export const fetcher = ['get', 'post', 'put', 'delete'].reduce((fetcher, method)
 	return fetcher;
 }, {});
 
-export const xmlFileFetcher = async ({ url, body, method = 'POST', token, headers = [], signal }) => {
+export const xmlFileFetcher = async ({
+	url,
+	body,
+	method = 'POST',
+	token,
+	headers = [],
+	signal,
+}) => {
 	handleLoading(true);
 	const options = {};
 	const accessToken = token ? token : getStorageToken();

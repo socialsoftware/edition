@@ -1,7 +1,8 @@
+/** @format */
+
 import '@shared/router.js';
-import style from '@src/resources/style.css?inline';
-import switchCSS from './resources/switch.css?inline';
-import buttons from '@src/resources/buttons.css?inline';
+import style from '@src/style.css?inline';
+
 import { isDev } from './utils.js';
 
 const routes = {
@@ -10,7 +11,7 @@ const routes = {
 	'/change-password': async () => await import('./pages/change-password/change-password.js'),
 	'/sign-up-authorization': async () => await import('./pages/authorization.js'),
 	'/sign-up-confirmation': async () => await import('./pages/confirmation.js'),
-	'/manage-users': async () => await import('./pages/manage-users/manage-users.jsx'),
+	'/manage-users': async () => await import('./pages/manage-users/manage-users.js'),
 };
 const userMfeSelector = 'div#user-mfe';
 
@@ -27,8 +28,7 @@ const UserRouter = language => {
 	template.innerHTML = /*html*/ `
 		<div id="user-mfe" class="container text-center">
 			<style>${style}</style>
-			<style>${buttons}</style>
-			<style>${switchCSS}</style>
+
 			<ldod-router
 				id="user-router"
 				base="${isDev() ? '' : import.meta.env.VITE_BASE}"

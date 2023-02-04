@@ -7,11 +7,11 @@ const path = import.meta.url.includes('src') ? '../../../' : '';
 
 const getUrl = () => new URL(`${path}resources/home/webp/xxx.webp`, import.meta.url).href;
 
-export const boxUrl = (version, key, lang) =>
-	new URL(`${path}resources/home/svg/${version}-${lang}-${key}-${random}.svg`, import.meta.url).href;
+export const boxUrl = (version, key, root) =>
+	new URL(`${path}resources/home/svg/${version}-${root.language}-${key}-${random}.svg`, import.meta.url).href;
 
-export const boxUrlH = (version, key, lang) =>
-	new URL(`${path}resources/home/svg/${version}-${lang}-${key}-${random}-h.svg`, import.meta.url).href;
+export const boxUrlH = (version, key, root) =>
+	new URL(`${path}resources/home/svg/${version}-${root.language}-${key}-${random}-h.svg`, import.meta.url).href;
 
 const excerpt = excerpts[parseInt(Math.random() * excerpts.length)];
 
@@ -43,32 +43,31 @@ const boxes = [
 	},
 ].filter(Boolean);
 
-const boxGroup = (module, path, index, version, language) => {
+const boxGroup = (module, path, index, version, root) => {
 	const key = `0${index}`;
-	return html` ${key !== '01' ? '<hr class="line-points" />' : ''}
+
+	return html`${key !== '01' ? '<hr class="line-points" />' : ''}
 		<a is="nav-to" to="${path}">
 			<div class="div-link">
 				<img
 					loading="lazy"
-					id="${module}"
 					version=${version}
 					key="${key}"
 					class="not-hover"
-					src=${boxUrl(version, key, language)}
+					src=${boxUrl(version, key, root)}
 					alt="${module}" />
 				<img
 					loading="lazy"
-					id="${module}"
 					version=${version}
 					key="${key}"
 					class="hover"
-					src=${boxUrlH(version, key, language)}
+					src=${boxUrlH(version, key, root)}
 					alt="${module}" />
 			</div>
 		</a>`;
 };
 
-export default (language, constants) => {
+export default root => {
 	const xmlId = excerpt.path.split('/')[0];
 	const urlId = excerpt.path.split('/')[2];
 	return parseHTML(html`
@@ -86,21 +85,21 @@ export default (language, constants) => {
 
 				<hr class="line-points" />
 				<div class="about font-monospace">
-					<p id="about" class="update-language">${constants.about}</p>
+					<p id="about" class="update-language">${root.constants.about}</p>
 				</div>
 				<hr class="line-x" style="background: url(${getUrl()})  repeat-x 0 0" />
 				<div class="menu-boxes hidden-xs col-xs-12">
 					${boxes.reduce((prev, { mod, path, index }) => {
-						return prev.concat(boxGroup(mod, path, index, 'D', language));
+						return prev.concat(boxGroup(mod, path, index, 'D', root));
 					}, '')}
 				</div>
 				<div class="menu-boxes visible-xs-inline col-xs-12">
 					${boxes.reduce((prev, { mod, path, index }) => {
-						return prev.concat(boxGroup(mod, path, index, 'M', language));
+						return prev.concat(boxGroup(mod, path, index, 'M', root));
 					}, '')}
 				</div>
 			</div>
-			<home-info language=${language} class="language"></home-info>
+			<home-info language=${root.language} class="language"></home-info>
 		</div>
 	`);
 };

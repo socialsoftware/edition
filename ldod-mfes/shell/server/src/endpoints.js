@@ -1,11 +1,12 @@
-import { extractTarball, getIndexHtml, removeStaticAssets } from './static.js';
+import { addStaticAssets, extractTarball, getIndexHtml, removeStaticAssets, rmTempContent } from './static.js';
 import { addToImportmap, removeFromImportmaps } from './importmap.js';
 import { addMfe, removeMfe } from './mfes.js';
-import { gamePath, staticPath, visualPath } from './constants.js';
+import { gamePath, staticPath, tempPath, visualPath } from './constants.js';
 import { isMainThread, Worker } from 'worker_threads';
 import { generateMfesReferences } from './mfesReferences.js';
 import { emitter } from './event-bus.js';
 import { updateIndexHTML } from './html-template.js';
+import { resolve } from 'path';
 
 const sendIndex = (req, res) => res.send(getIndexHtml());
 
@@ -32,9 +33,12 @@ const publishMFE = async (req, res) => {
 	await extractTarball(fileInfo, id);
 
 	if (entry)
-		await checkMfeApiCompliance(`${staticPath}/${id}/${entry}`).catch(e => {
-			throw new Error(e);
-		});
+		await checkMfeApiCompliance(`${tempPath}/${id}/${entry}`)
+			.then(() => addStaticAssets({ from: resolve(tempPath, id), name: id }))
+			.catch(e => {
+				throw new Error(e);
+			})
+			.finally(() => rmTempContent());
 
 	if (name)
 		await addToImportmap({
@@ -45,6 +49,7 @@ const publishMFE = async (req, res) => {
 	await addMfe(id);
 	await updateIndexHTML();
 	await generateMfesReferences();
+
 	emitter.emit('mfe:published', { name });
 	return res.sendStatus(200);
 };

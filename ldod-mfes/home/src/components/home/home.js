@@ -29,7 +29,7 @@ export default class HomeMFE extends HTMLElement {
 
 	languageUpdate = () => this.shadowRoot.querySelectorAll('.language').forEach(ele => (ele.language = this.language));
 
-	attributeChangedCallback(name, oldValue, newValue) {
+	attributeChangedCallback(name) {
 		if (name === 'language') {
 			this.setConstants().then(() => {
 				this.componentsTextContextUpdate();
@@ -47,12 +47,12 @@ export default class HomeMFE extends HTMLElement {
 		this.shadowRoot
 			.querySelectorAll('div.div-link>img.not-hover')
 			.forEach(img =>
-				img.setAttribute('src', boxUrl(img.getAttribute('version'), img.getAttribute('key'), this.language))
+				img.setAttribute('src', boxUrl(img.getAttribute('version'), img.getAttribute('key'), this))
 			);
 		this.shadowRoot
 			.querySelectorAll('div.div-link>img.hover')
 			.forEach(img =>
-				img.setAttribute('src', boxUrlH(img.getAttribute('version'), img.getAttribute('key'), this.language))
+				img.setAttribute('src', boxUrlH(img.getAttribute('version'), img.getAttribute('key'), this))
 			);
 	}
 
@@ -61,7 +61,7 @@ export default class HomeMFE extends HTMLElement {
 	}
 
 	render() {
-		this.shadowRoot.appendChild(HomeContent(this.language, this.constants));
+		this.shadowRoot.appendChild(HomeContent(this));
 	}
 }
 

@@ -6,7 +6,7 @@ import { ldodEventSubscriber } from '@shared/ldod-events.js';
 import './li-dropdown-menu.js';
 import './li-lang-menu.js';
 
-const DEFAULT_SELECTED_VE = ['LdoD-Twitter', 'LdoD-Mallet'];
+const DEFAULT_SELECTED_VE = [];
 
 (await import('user').catch(e => console.error(e)))?.default.bootstrap();
 

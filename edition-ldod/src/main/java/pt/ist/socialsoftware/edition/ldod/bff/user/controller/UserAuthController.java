@@ -4,6 +4,7 @@ import com.google.auth.oauth2.TokenVerifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.MessagingException;
@@ -19,7 +20,9 @@ import pt.ist.socialsoftware.edition.ldod.dto.JWTAuthenticationDto;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.Message;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -33,10 +36,12 @@ public class UserAuthController {
     UserAuthService userAuthService;
 
     @PostMapping("/sign-in")
-    public ResponseEntity<?> authenticationController(@Valid @RequestBody SigninRequestDto signinRequestDto) {
+    public ResponseEntity<?> authenticationController(@Valid @RequestBody SigninRequestDto signinRequestDto, HttpServletResponse response) {
         logger.debug("auth request {}", signinRequestDto.toString());
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(userAuthService.authenticationService(signinRequestDto));
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(userAuthService.authenticationService(signinRequestDto));
         } catch (AuthenticationException e) {
             return getResponse(HttpStatus.UNAUTHORIZED, false, Message.BAD_CREDENTIALS.getLabel());
         }

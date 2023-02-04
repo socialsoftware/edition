@@ -1,101 +1,120 @@
-import constants from '../resources/constants.js';
+/** @format */
 
-function getConstants(key) {
-  return constants[document.querySelector('manage-users').language][key];
-}
+export default ({ user, root }) => {
+	return (
+		<div>
+			<form role="form" onSubmit={root.onUpdate}>
+				<div class="form-floating">
+					<input
+						id="firstname"
+						class="form-control"
+						type="text"
+						placeholder="firstname"
+						name="firstName"
+						value={user.firstName}
+					/>
+					<label data-users-key="firstName">{root.getConstant('firstName')}</label>
+				</div>
+				<div class="form-floating">
+					<input
+						id="lastname"
+						class="form-control"
+						type="text"
+						name="lastName"
+						placeholder="lastname"
+						value={user.lastName}
+					/>
+					<label data-users-key="lastName">{root.getConstant('lastName')}</label>
+				</div>
+				<div class="form-floating">
+					<input type="hidden" value={user.userName} name="oldUsername" />
+					<input
+						class="form-control"
+						id="username"
+						type="text"
+						name="newUsername"
+						placeholder="username"
+						value={user.userName}
+					/>
+					<label for="username" data-users-key="userName">
+						{root.getConstant('userName')}
+					</label>
+				</div>
+				<div class="form-floating">
+					<input
+						id="newPassword"
+						class="form-control"
+						type="text"
+						name="newPassword"
+						placeholder={root.getConstant('newPassword')}
+					/>
+					<label for="newPassoword" data-users-key="newPassword">
+						{root.getConstant('newPassword')}
+					</label>
+				</div>
+				<div class="form-floating">
+					<input
+						id="email"
+						class="form-control"
+						type="text"
+						name="email"
+						placeholder="email"
+						value={user.email}
+					/>
+					<label for="email" data-users-key="email">
+						{root.getConstant('email')}
+					</label>
+				</div>
 
-export default ({ user }) => {
-  return (
-    <div>
-      <form role="form" class="form">
-        <div class="form-floating">
-          <input
-            id="firstname"
-            class="form-control"
-            type="text"
-            autoComplete="first-name"
-            name="firstName"
-            value={user?.firstName}
-          />
-          <label data-key="firstName">{getConstants('firstName')}</label>
-        </div>
-        <div class="form-floating">
-          <input
-            id="lastname"
-            class="form-control"
-            type="text"
-            name="lastName"
-            value={user?.lastName}
-          />
-          <label data-key="lastName">{getConstants('lastName')}</label>
-        </div>
-        <div class="form-floating">
-          <input type="hidden" value={user?.userName} name="oldUsername" />
-          <input
-            class="form-control"
-            id="username"
-            type="text"
-            name="newUsername"
-            value={user?.userName}
-          />
-          <label for="username" data-key="userName">
-            {getConstants('userName')}
-          </label>
-        </div>
-        <div class="form-floating">
-          <input
-            id="email"
-            class="form-control"
-            type="text"
-            name="email"
-            value={user?.email}
-          />
-          <label for="email" data-key="email">
-            {getConstants('email')}
-          </label>
-        </div>
-        <div class="form-floating">
-          <input
-            id="newPassword"
-            class="form-control"
-            type="text"
-            name="newPassword"
-            placeholder={getConstants('newPassword')}
-          />
-          <label for="newPassoword" data-key="newPassword">
-            {getConstants('newPassword')}
-          </label>
-        </div>
-        <div class="form-flex">
-          <div>
-            <label data-key="user">{getConstants('user')}</label>
-            <div>
-              <label class="switch">
-                <input name="role_user" type="checkbox" />
-                <span class="slider round"></span>
-              </label>
-            </div>
-          </div>
-          <div>
-            <label data-key="admin">{getConstants('admin')}</label>
-            <div>
-              <label class="switch">
-                <input name="role_admin" type="checkbox" />
-                <span class="slider round"></span>
-              </label>
-            </div>
-          </div>
-          <div>
-            <label data-key="enabled">{getConstants('enabled')}</label>
-            <div>
-              <label class="switch">
-                <input name="enabled" type="checkbox" />
-                <span class="slider round"></span>
-              </label>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-  );
+				<div>
+					<div>
+						<label data-users-key="user">{root.getConstant('user')}</label>
+						<div>
+							<label class="switch">
+								<input
+									name="user"
+									type="checkbox"
+									value="true"
+									checked={user.listOfRoles.includes('ROLE_USER')}
+								/>
+								<span class="slider round"></span>
+							</label>
+						</div>
+					</div>
+					<div>
+						<label data-users-key="admin">{root.getConstant('admin')}</label>
+						<div>
+							<label class="switch">
+								<input
+									name="admin"
+									value="true"
+									type="checkbox"
+									checked={user.listOfRoles.includes('ROLE_ADMIN')}
+								/>
+								<span class="slider round"></span>
+							</label>
+						</div>
+					</div>
+					<div>
+						<label data-users-key="enabled">{root.getConstant('enabled')}</label>
+						<div>
+							<label class="switch">
+								<input
+									name="enabled"
+									type="checkbox"
+									value="true"
+									checked={user.enabled}
+								/>
+								<span class="slider round"></span>
+							</label>
+						</div>
+					</div>
+				</div>
+
+				<button type="submit" class="btn btn-primary" data-users-key="update">
+					{root.getConstant('update')}
+				</button>
+			</form>
+		</div>
+	);
 };

@@ -1,9 +1,11 @@
+/** @format */
+
 import { navigateTo } from '@shared/router.js';
 import { tokenConfirmRequest } from '../api-requests.js';
 import { userReferences } from '../user-references';
 import { errorPublisher, messagePublisher } from '../events-modules.js';
 
-const mount = async (lang, ref) => {
+const mount = async () => {
 	let params = new URL(document.location).searchParams;
 	let path = `/sign-up-confirmation?token=${params.get('token')}`;
 	await tokenConfirmRequest(path)

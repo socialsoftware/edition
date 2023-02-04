@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"type": "module",
 	"scripts": {
-		"build": "if [ -d dist ]; then rm -r dist;fi && rollup -c && cp -r style dist && cp index.html dist",
+		"build": "if [ -d dist ]; then rm -r dist;fi && rollup -c && cp -r style dist && cp index.html src/worker.js dist",
 		"dev": "serve -C -l 3000"
 	},
 	"license": "MIT",

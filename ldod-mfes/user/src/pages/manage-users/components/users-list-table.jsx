@@ -1,124 +1,124 @@
+/** @format */
+
 import { changeActiveRequest } from '@src/api-requests.js';
-import edit from '@src/resources/icons/edit-primary.svg';
-import trash from '@src/resources/icons/trash.svg';
+import '@shared/modal-bs.js';
 import '@shared/table.js';
-import constants from '../resources/constants.js';
+import constants from '../constants.js';
 import UptadeUserForm from './update-user-form.jsx';
 import UpdateModal from './update-user-modal.jsx';
 
-const manageUsers = () => document.querySelector('manage-users');
-const getLanguage = () => manageUsers().language;
-
-function getConstants(key) {
-	return constants[getLanguage()][key];
-}
-
-const onChangeActive = async externalId => {
+const onChangeActive = async (externalId, root) => {
 	changeActiveRequest(externalId).then(res => {
-		const user = manageUsers().usersData.userList.find(user => user.externalId === externalId);
+		const user = root.usersData.userList.find(user => user.externalId === externalId);
 		user.active = res.ok;
-		replaceActive(res.ok, externalId);
+		replaceActive(root, user);
 	});
 };
 
-const replaceActive = (active, id) => {
-	const newActive = getUsersListActive(active, id);
-	document.querySelector(`#active-${id}`).replaceWith(newActive);
+const replaceActive = (root, user) => {
+	const newActive = getUsersListActive(root, user);
+	root.shadowRoot.querySelector(`#active-${user.externalId}`).replaceWith(newActive);
 };
 
-const onEditUser = async ({ target }) => {
-	const user = manageUsers().usersData.userList.find(({ externalId }) => externalId === target.dataset.id);
-	const modal = document.querySelector('manage-users ldod-modal');
-	modal.toggleAttribute('show');
+const onEditUser = async ({ target }, root) => {
+	const user = root.usersData.userList.find(({ externalId }) => externalId === target.dataset.id);
+	const modal = root.usersEditModal;
+	if (!modal) return;
 	const bodySlot = modal.querySelector("div[slot='body-slot']");
 	bodySlot.innerHTML = '';
-	bodySlot.appendChild(<UptadeUserForm user={user} />);
-	bodySlot.querySelectorAll("input[type='checkbox']").forEach(input => {
-		input.checked = input.name.startsWith('role')
-			? user?.listOfRoles.includes(input.name.toUpperCase())
-			: user?.enabled;
-	});
+	bodySlot.appendChild(<UptadeUserForm user={user} root={root} />);
+	modal.toggleAttribute('show');
 };
 
-const getUsersListActive = (active, id) => {
+const getUsersListActive = (root, user) => {
+	const active = user.active;
+	const id = user.externalId;
 	return (
 		<div id={`active-${id}`} class="text-center">
 			<button
 				id={`button-active-${id}`}
 				tooltip-ref={`button-active-${id}`}
 				class={`btn ${active ? 'btn-success' : 'btn-secondary'} btn-sm`}
-				onClick={() => onChangeActive(id)}>
-				<span data-key={String(active).toUpperCase()}>{getConstants(String(active).toUpperCase())}</span>
+				onClick={() => onChangeActive(id, root)}>
+				<span data-users-key={String(active).toUpperCase()}>
+					{root.getConstant(String(active).toUpperCase())}
+				</span>
 			</button>
 			<ldod-tooltip
 				placement="top"
 				data-ref={`[tooltip-ref='button-active-${id}']`}
-				data-tooltipkey="toggleActiveMode"
-				content={getConstants('toggleActiveMode')}></ldod-tooltip>
+				data-users-tooltip-key="toggleActiveMode"
+				content={root.getConstant('toggleActiveMode')}></ldod-tooltip>
 		</div>
 	);
 };
 
-const getUsersListActions = (id, username, node) => {
+const getUsersListActions = (root, user) => {
+	const username = user.userName;
+	const id = user.externalId;
 	return (
 		<div class="text-center">
-			<img
-				id={`edit-icon-${id}`}
-				tooltip-ref={`edit-icon-${id}`}
-				data-id={id}
-				src={edit}
-				class="btn-icon action"
-				onClick={onEditUser}
-			/>
-			<img
-				id={`trash-icon-${id}`}
-				tooltip-ref={`trash-icon-${id}`}
-				data-id={id}
-				data-username={username}
-				src={trash}
-				class="btn-icon action"
-				onClick={node.onDeleteUser}
-			/>
+			<div id="row-user-actions">
+				<span
+					id={`edit-icon-${id}`}
+					data-id={id}
+					tooltip-ref={`edit-icon-${id}`}
+					is="ldod-span-icon"
+					icon="pen-to-square"
+					fill="#0d6efd"
+					size="1.25rem"
+					onClick={e => onEditUser(e, root)}></span>
+				<span
+					id={`trash-icon-${id}`}
+					tooltip-ref={`trash-icon-${id}`}
+					data-id={id}
+					data-username={username}
+					is="ldod-span-icon"
+					icon="trash-can"
+					fill="#dc3545"
+					size="1.25rem"
+					onClick={root.onDeleteUser}></span>
+			</div>
+
 			<ldod-tooltip
 				data-ref={`[tooltip-ref='edit-icon-${id}']`}
-				data-tooltipkey="edit"
+				data-users-tooltip-key="edit"
 				placement="top"
-				content={getConstants('edit')}></ldod-tooltip>
+				content={root.getConstant('edit')}></ldod-tooltip>
 			<ldod-tooltip
 				data-ref={`[tooltip-ref='trash-icon-${id}']`}
-				data-tooltipkey="remove"
+				data-users-tooltip-key="remove"
 				placement="top"
-				content={getConstants('remove')}></ldod-tooltip>
+				content={root.getConstant('remove')}></ldod-tooltip>
 		</div>
 	);
 };
 
-export default ({ node }) => {
-	const usersData = node.usersData;
-	const language = node.language;
+export default ({ root }) => {
+	const usersData = root.usersData;
+	const language = root.language;
 	return (
 		<div>
-			<UpdateModal node={node} />
-			<div id="userList" class="row">
+			<UpdateModal root={root} />
+			<div id="users-list" class="row">
 				<ldod-table
-					id="user-usersListTable"
+					id="user-users-list-table"
 					classes="table table-responsive-sm table-striped table-bordered"
 					headers={constants.usersListHeaders}
 					data={usersData.userList.map(user => ({
 						...user,
 						enabled: (
-							<div data-key={String(user.enabled).toUpperCase()}>
-								{getConstants(String(user.enabled).toUpperCase())}
+							<div data-users-key={String(user.enabled).toUpperCase()}>
+								{root.getConstant(String(user.enabled).toUpperCase())}
 							</div>
 						),
-						active: getUsersListActive(user.active, user.externalId),
-						actions: getUsersListActions(user.externalId, user.userName, node),
+						active: getUsersListActive(root, user),
+						actions: getUsersListActions(root, user),
 						search: Object.values(user).reduce((prev, curr) => {
 							return prev.concat(String(curr), ',');
 						}, ''),
 					}))}
-					language={language}
-					constants={constants}
+					constants={constants[language]}
 					data-searchkey="externalId"></ldod-table>
 			</div>
 		</div>

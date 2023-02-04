@@ -1,3 +1,5 @@
+/** @format */
+
 import { defineConfig } from 'vite';
 import terser from '@rollup/plugin-terser';
 export default defineConfig({
@@ -6,7 +8,7 @@ export default defineConfig({
 		outDir: '../dist',
 		emptyOutDir: false,
 		lib: {
-			entry: ['modal.js', 'ssr-modal.js'],
+			entry: ['src/ldod-modal/modal.js', 'src/ldod-bs-modal/modal-bs.js'],
 			formats: ['es'],
 			fileName: (_, entry) => entry + '.js',
 		},
@@ -23,6 +25,10 @@ export default defineConfig({
 			{
 				find: '@src/',
 				replacement: '/src/',
+			},
+			{
+				find: '@shared/',
+				replacement: '../../../dist/',
 			},
 		],
 	},

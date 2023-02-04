@@ -21,6 +21,6 @@ export function ldodEventPublisher(name, payload) {
 	ldodEventBus.publish(`ldod:${name}`, payload);
 }
 
-export function ldodEventSubscriber(name, handler) {
-	return ldodEventBus.subscribe(`ldod:${name}`, handler).unsubscribe;
+export function ldodEventSubscriber(name, handler, replay = false) {
+	return ldodEventBus.subscribe(`ldod:${name}`, replay, handler).unsubscribe;
 }

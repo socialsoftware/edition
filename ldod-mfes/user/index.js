@@ -1,6 +1,7 @@
 import '@src/components/user-component.js';
 import router from '@src/user.js';
 import { ldodEventSubscriber } from 'shared/router/src/events-module';
+
 router.mount('en', '#root');
 
 window.addEventListener('ldod-url-changed', ({ detail: { path } }) => {

@@ -1,8 +1,17 @@
 import { ldodEventBus } from '@shared/ldod-events.js';
+import style from './loading.css';
+const sheet = new CSSStyleSheet();
+sheet.replaceSync(style);
 
 export class LdodLoading extends HTMLElement {
 	constructor() {
 		super();
+		this.attachShadow({ mode: 'open' });
+		this.shadowRoot.adoptedStyleSheets = [sheet];
+		this.shadowRoot.innerHTML = /*html*/ `
+			<div id="shell-loadingOverlay">
+				<div class="lds-dual-ring"></div>
+			</div>`;
 		this.pendingLoading = 0;
 	}
 

@@ -1,4 +1,4 @@
-export let selectedInters = ['LdoD-Arquivo', 'LdoD-Mallet', 'LdoD-Twitter'];
+export let selectedInters = ['LdoD-Arquivo'];
 
 export let errorPublisher, selectedVePublisher, messagePublisher, loadingPublisher;
 

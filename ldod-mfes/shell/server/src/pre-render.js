@@ -9,7 +9,7 @@ async function preRenderModal(dom) {
 		.then(({ staticGeneration }) => {
 			dom.querySelectorAll('ldod-modal').forEach(modal => {
 				modal.querySelector('template')?.remove();
-				const template = staticGeneration(modal.getAttribute('dialog-class'), modal.getAttribute('noFooter'));
+				const template = staticGeneration(modal.getAttribute('dialog-class'), modal.hasAttribute('no-footer'));
 				modal.appendChild(parse(template));
 			});
 		})

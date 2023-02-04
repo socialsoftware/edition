@@ -1,6 +1,8 @@
+/** @format */
+
 import { hidePassword, revealPassword } from '../common-functions';
 import constants from '../constants';
-import '@shared/modal.js';
+import '@shared/modal-bs.js';
 
 export default (language, root) => {
 	return (
@@ -88,7 +90,13 @@ export default (language, root) => {
 				</div>
 
 				<div id="signup-form-email" class="form-floating">
-					<input class="form-control" name="email" type="email" placeholder="email" required />
+					<input
+						class="form-control"
+						name="email"
+						type="email"
+						placeholder="email"
+						required
+					/>
 					<label for="signup-form-email" data-user-key="email">
 						{constants[language].email}
 					</label>
@@ -109,17 +117,24 @@ export default (language, root) => {
 						id="conduct-code"
 						class="link-primary"
 						data-user-key="conduct"
-						onClick={() => root.conductCodeModal?.toggleAttribute('show', true)}>
+						onClick={() =>
+							root.shadowRoot
+								.querySelector('ldod-bs-modal')
+								?.toggleAttribute('show', true)
+						}>
 						{constants[language].conduct}
 					</a>
-					<ldod-modal dialog-class="modal-xl" id="modal-conduct-code" no-footer>
-						<div data-user-key="conductCode" slot="header-slot">
+					<ldod-bs-modal
+						dialog-class="modal-xl modal-dialog-scrollable"
+						id="modal-conduct-code"
+						static>
+						<h4 data-user-key="conductCode" slot="header-slot">
 							{constants[language].conductCode}
-						</div>
+						</h4>
 						<div slot="body-slot">
 							<ldod-conduct language={language} title></ldod-conduct>
 						</div>
-					</ldod-modal>
+					</ldod-bs-modal>
 				</div>
 				<input type="hidden" name="socialId" />
 				<input type="hidden" name="socialMedia" />

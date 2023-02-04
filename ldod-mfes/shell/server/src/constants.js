@@ -11,5 +11,17 @@ const mfesPath = resolve(rootPath, 'mfes.json');
 const htmlPath = resolve(staticPath, 'index.html');
 const visualPath = resolve(staticPath, 'visual');
 const gamePath = resolve(staticPath, 'game');
+const tempPath = resolve(rootPath, 'temp');
 
-export { staticPath, importmapPath, mfesPath, htmlPath, visualPath, gamePath, sharedPath, sharedDist, clientDist };
+export {
+	staticPath,
+	importmapPath,
+	mfesPath,
+	htmlPath,
+	visualPath,
+	gamePath,
+	sharedPath,
+	sharedDist,
+	clientDist,
+	tempPath,
+};

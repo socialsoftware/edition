@@ -1,3 +1,5 @@
+/** @format */
+
 import { defineConfig } from 'vite';
 import terser from '@rollup/plugin-terser';
 import path from 'path';
@@ -10,7 +12,16 @@ export default defineConfig({
 		emptyOutDir: false,
 
 		lib: {
-			entry: ['src/root/root.js', 'src/forms/forms.js', 'src/buttons/buttons.js', 'src/tables/tables.js'],
+			entry: [
+				'src/scss/utilities.scss',
+				'src/scss/root.scss',
+				'src/buttons-css.js',
+				'src/root-css.js',
+				'src/forms-css.js',
+				'src/modal-css.js',
+				'src/bootstrap-css.js',
+				'src/modal.js',
+			],
 			formats: ['es'],
 			fileName: (_, entry) => `bootstrap/${entry}.js`,
 		},

@@ -1,8 +1,11 @@
+/** @format */
+
 import changePasswordHtml from './change-password-html';
 import constants from '../constants';
-import formsStyle from '@shared/bootstrap/forms.js';
-import buttonsStyle from '@shared/bootstrap/buttons.js';
-import hostStyle from '../host.css?inline';
+import rootCss from '@shared/bootstrap/root-css.js';
+import formsCss from '@shared/bootstrap/forms-css.js';
+import buttonsCss from '@shared/bootstrap/buttons-css.js';
+import hostCss from '../host.css?inline';
 
 import '@shared/ldod-icons.js';
 
@@ -12,7 +15,7 @@ import { onChangePassword, onChangePasswordFail, redirectToHome } from '../commo
 import { getState } from '../../store';
 
 const sheet = new CSSStyleSheet();
-sheet.replaceSync(formsStyle + buttonsStyle + hostStyle);
+sheet.replaceSync(rootCss + formsCss + buttonsCss + hostCss);
 
 export default class LdodChangePassword extends HTMLElement {
 	constructor() {
@@ -76,10 +79,12 @@ export default class LdodChangePassword extends HTMLElement {
 		if (form.checkValidity()) {
 			const formData = Object.fromEntries(new FormData(form));
 			if (!this.passwordsValidation(formData)) return;
-			console.log(formData);
-			await changePasswordRequest(formData).then(onChangePassword).catch(onChangePasswordFail);
+			await changePasswordRequest(formData)
+				.then(onChangePassword)
+				.catch(onChangePasswordFail);
 		}
 	};
 }
 
-!customElements.get('ldod-change-password') && customElements.define('ldod-change-password', LdodChangePassword);
+!customElements.get('ldod-change-password') &&
+	customElements.define('ldod-change-password', LdodChangePassword);

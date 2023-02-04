@@ -3,9 +3,15 @@ import cors from 'cors';
 import express from 'express';
 import multer from 'multer';
 import path from 'node:path';
-import { sharedPath, staticPath } from './constants.js';
+import { sharedPath, staticPath, tempPath } from './constants.js';
 import './deps-install.js';
-import { publishMFE, sendClassificationGameIndex, sendIndex, sendLdodVisualIndex, unPublishMFE } from './endpoints.js';
+import {
+	publishMFE,
+	sendClassificationGameIndex,
+	sendIndex,
+	sendLdodVisualIndex,
+	unPublishMFE,
+} from './endpoints.js';
 import { generateMfesReferences } from './mfesReferences.js';
 import { updateIndexHTML } from './html-template.js';
 import { createOrUpdateImportmap } from './importmap.js';
@@ -16,7 +22,7 @@ createOrUpdateMfes();
 await updateIndexHTML();
 await generateMfesReferences();
 
-const upload = multer({ dest: staticPath });
+const upload = multer({ dest: tempPath, preservePath: true });
 const app = express();
 
 app.use(cors());

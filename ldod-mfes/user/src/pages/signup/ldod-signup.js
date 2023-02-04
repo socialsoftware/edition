@@ -1,8 +1,11 @@
+/** @format */
+
 import signupHtml from './signup-html';
 import constants from '../constants';
-import formsStyle from '@shared/bootstrap/forms.js';
-import buttonsStyle from '@shared/bootstrap/buttons.js';
-import hostStyle from '../host.css?inline';
+import rootCss from '@shared/bootstrap/root-css.js';
+import formsCss from '@shared/bootstrap/forms-css.js';
+import buttonsCss from '@shared/bootstrap/buttons-css.js';
+import hostCss from '../host.css?inline';
 import style from './style.css?inline';
 
 import '@shared/ldod-icons.js';
@@ -11,7 +14,7 @@ import { errorPublisher } from '../../events-modules';
 import { onSignup, resetForm } from '../common-functions';
 
 const sheet = new CSSStyleSheet();
-sheet.replaceSync(formsStyle + buttonsStyle + hostStyle + style);
+sheet.replaceSync(rootCss + formsCss + buttonsCss + hostCss + style);
 
 function loadExternalModules() {
 	import('./external-modules')

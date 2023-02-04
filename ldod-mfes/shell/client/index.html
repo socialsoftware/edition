@@ -5,16 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/ldod-mfes/shared/bootstrap/root.css">
     <style type="text/css">
-        html {
-            overflow: inherit;
-        }
-
-        html[open] {
-            overflow: hidden;
-        }
-
         .ldod-default {
             font-family: Work-Sans, sans-serif;
             color: black;
@@ -25,6 +16,12 @@
         body {
             margin: 0;
             padding-top: 190px;
+            overflow: inherit;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+            padding-right: 15px;
         }
 
         .container {
@@ -69,64 +66,18 @@
 </head>
 
 <body class="ldod-default">
-    <ldod-modal id="success" dialog-class="modal-lg modal-success" z-index="1060">
+    <ldod-navbar token="false" language></ldod-navbar>
+    <div id="root"></div>
+    <ldod-modal id="success" dialog-class="modal-lg modal-success" no-footer z-index="1060" hidden>
         <span slot="header-slot">Info</span>
         <div slot="body-slot"></div>
     </ldod-modal>
-    <ldod-modal id="error" dialog-class="modal-lg modal-danger" z-index="1060">
+    <ldod-modal id="error" dialog-class="modal-lg modal-danger" no-footer z-index="1060" hidden>
         <span slot="header-slot">Error</span>
         <div slot="body-slot"></div>
     </ldod-modal>
-    <ldod-navbar token="false" language></ldod-navbar>
-    <ldod-loading id="shell-loading" hidden>
-        <template shadowroot="open">
-            <style>
-                div#shell-loadingOverlay {
-                    display: inherit;
-                    transition: opacity 300ms ease-in-out;
-                    overflow: hidden;
-                    background-color: rgba(0, 0, 0, 0.5);
-                    position: fixed;
-                    top: 0;
-                    bottom: 0;
-                    left: 0;
-                    right: 0;
-                    z-index: 1060;
-                    outline: 0;
-                }
-
-                .lds-dual-ring {
-                    display: inherit;
-                    margin-left: 50%;
-                    margin-top: 40vh;
-                    width: 64px;
-                    height: 64px;
-                    border-radius: 50%;
-                    border: 6px solid #fff;
-                    z-index: 1070;
-                    border-color: #fff transparent #fff transparent;
-                    animation: lds-dual-ring 1.2s linear infinite;
-                }
-
-                @keyframes lds-dual-ring {
-                    0% {
-                        transform: rotate(0deg);
-                    }
-
-                    100% {
-                        transform: rotate(360deg);
-                    }
-                }
-            </style>
-            <div id="shell-loadingOverlay">
-                <div class="lds-dual-ring"></div>
-            </div>
-        </template>
-    </ldod-loading>
-    <div id="root"></div>
+    <ldod-loading id="shell-loading" hidden></ldod-loading>
     <script type="module" src="/ldod-mfes/shell.js"></script>
-    <script src="/ldod-mfes/fonts.js" defer async>
-    </script>
 </body>
 
 </html>

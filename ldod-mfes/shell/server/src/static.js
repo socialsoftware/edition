@@ -1,7 +1,7 @@
-import fs from 'fs';
+import fs, { cpSync, mkdirSync, readdirSync, rmSync, rmdir, rmdirSync } from 'fs';
 import path, { resolve } from 'path';
 import tar from 'tar';
-import { htmlPath, staticPath } from './constants.js';
+import { htmlPath, staticPath, tempPath } from './constants.js';
 
 function removeStaticAssets({ name }) {
 	try {
@@ -28,10 +28,15 @@ function addStaticAssets({ from, name }) {
 	}
 }
 
+export function rmTempContent() {
+	rmSync(tempPath, { recursive: true, force: true });
+	mkdirSync(tempPath);
+}
+
 async function extractTarball(fileInfo, id) {
 	const dest = resolve(fileInfo.destination, id);
 	const source = resolve(fileInfo.destination, id, fileInfo.originalname);
-	fs.rmSync(dest, { recursive: true, force: true });
+	//fs.rmSync(dest, { recursive: true, force: true });
 	fs.mkdirSync(dest);
 	fs.renameSync(fileInfo.path, source);
 

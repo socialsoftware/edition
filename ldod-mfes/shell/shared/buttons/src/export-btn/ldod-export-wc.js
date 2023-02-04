@@ -1,4 +1,7 @@
-import style from '../style.css?inline';
+/** @format */
+import buttonsCss from '@shared/bootstrap/buttons-css.js';
+import rootCss from '@shared/bootstrap/root-css.js';
+import style from './style.css?inline';
 import ExportComponent from './ldod-export.js';
 import { xmlFileFetcher } from '@shared/fetcher.js';
 import { errorPublisher } from '../events-module';
@@ -16,7 +19,7 @@ export class LdodExport extends HTMLElement {
 		super();
 		this.attachShadow({ mode: 'open' });
 		this.sheet = new CSSStyleSheet();
-		this.sheet.replaceSync(style);
+		this.sheet.replaceSync(rootCss + buttonsCss + style);
 		this.shadowRoot.adoptedStyleSheets = [this.sheet];
 	}
 
@@ -90,7 +93,8 @@ export class LdodExport extends HTMLElement {
 	handleChangeAttribute = {
 		title: (oldV, newV) => {
 			if (oldV && oldV !== newV)
-				this.shadowRoot.querySelector('button#exportBtn>span[label]').textContent = this.title;
+				this.shadowRoot.querySelector('button#exportBtn>span[label]').textContent =
+					this.title;
 		},
 		width: () => {
 			this.sheet.insertRule(`button {width: ${this.width};}`);

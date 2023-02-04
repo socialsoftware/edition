@@ -1,3 +1,5 @@
+/** @format */
+
 import { fetcher } from '@shared/fetcher.js';
 import { getState } from './store';
 import { navigateTo } from '@shared/router.js';
@@ -37,7 +39,8 @@ export const tokenAuthRequest = async path => {
 	return await fetcher.get(`/admin/user${path}`, null, getState().token);
 };
 
-export const changePasswordRequest = async data => fetcher.post(`/user/change-password`, data, getState().token);
+export const changePasswordRequest = async data =>
+	fetcher.post(`/user/change-password`, data, getState().token);
 
 export const getUsersList = async () => {
 	if (!getState().token) {
@@ -47,14 +50,17 @@ export const getUsersList = async () => {
 	return await fetcher.get(`/admin/user/list`, null, getState().token);
 };
 
-export const switchModeRequest = async () => await fetcher.post(`/admin/user/switch`, null, getState().token);
+export const switchModeRequest = async () =>
+	await fetcher.post(`/admin/user/switch`, null, getState().token);
 
 export const deleteSessionsRequest = async () =>
 	await fetcher.post(`/admin/user/sessions-delete`, null, getState().token);
 
-export const changeActiveRequest = async externalId => await fetcher.post(`/admin/user/active/${externalId}`);
+export const changeActiveRequest = async externalId =>
+	await fetcher.post(`/admin/user/active/${externalId}`);
 
-export const removeUserRequest = async externalId => await fetcher.post(`/admin/user/delete/${externalId}`);
+export const removeUserRequest = async externalId =>
+	await fetcher.post(`/admin/user/delete/${externalId}`);
 
 export const updateUserRequest = async data => await fetcher.post(`/admin/user/edit`, data);
 

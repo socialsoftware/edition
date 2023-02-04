@@ -1,5 +1,5 @@
-import { parseHTML } from '@shared/utils.js';
 import style from '../../../style/info.css';
+import homeInfoHtml from './home-info-html';
 
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(style);
@@ -40,15 +40,7 @@ export class HomeInfo extends HTMLElement {
 	}
 
 	render() {
-		const info = parseHTML(/*html*/ `
-      <div class="container">
-        <div id="info" class="bottom-info font-monospace update-language">
-          ${this.constants.info}
-        </div>
-      </div>
-    `);
-		const bottomBar = parseHTML(html`<div class="bottom-bar"></div>`);
-		this.shadowRoot.append(info, bottomBar);
+		this.shadowRoot.innerHTML = homeInfoHtml(this);
 	}
 
 	async setConstants() {

@@ -1,40 +1,38 @@
+/** @format */
+
 import { switchModeRequest } from '@src/api-requests.js';
 
-export default ({ node, buttonLabel, tooltipContent }) => {
-  const updateClass = () =>
-    node.getMode() === 'admin'
-      ? 'btn btn-danger ellipsis'
-      : 'btn btn-success ellipsis';
+export default ({ root, buttonLabel, tooltipContent }) => {
+	const updateClass = () =>
+		root.getMode() === 'admin' ? 'btn btn-danger ellipsis' : 'btn btn-success ellipsis';
 
-  const onSwitchMode = () => {
-    switchModeRequest().then((res) => {
-      res && node.setMode(res.ok);
-      const button = node.querySelector('button#user-switchModeButton');
-      button.querySelector('span[label]').textContent = node.getConstants(
-        `${node.getMode()}Mode`
-      );
-      button.setAttribute('class', updateClass());
-    });
-  };
+	const onSwitchMode = () => {
+		switchModeRequest().then(res => {
+			res && root.setMode(res.ok);
+			const button = root.shadowRoot.querySelector('button#user-switch-mode-button');
+			button.querySelector('span[label]').textContent = root.getConstant(
+				`${root.getMode()}Mode`
+			);
+			button.setAttribute('class', updateClass());
+		});
+	};
 
-  return (
-    <div id="adminMode" class="row btn-row">
-      <button
-        id="user-switchModeButton"
-        tooltip-ref="switch-button"
-        type="button"
-        class={updateClass()}
-        onClick={onSwitchMode}>
-        <span class="icon icon-edit"></span>
-        <span label dynamic dynamicKey={() => `${node.getMode()}Mode`}>
-          {buttonLabel}
-        </span>
-      </button>
-      <ldod-tooltip
-        placement="top"
-        data-ref="[tooltip-ref='switch-button']"
-        data-tooltipkey="changeLdodMode"
-        content={tooltipContent}></ldod-tooltip>
-    </div>
-  );
+	return (
+		<div id="adminMode" class="row btn-row">
+			<button
+				id="user-switch-mode-button"
+				tooltip-ref="switch-button"
+				type="button"
+				class={updateClass()}
+				onClick={onSwitchMode}>
+				<span class="icon icon-edit"></span>
+				<span label>{buttonLabel}</span>
+			</button>
+			<ldod-tooltip
+				placement="top"
+				data-ref="[tooltip-ref='switch-button']"
+				data-users-tooltip-key="changeLdodMode"
+				content={tooltipContent}></ldod-tooltip>
+		</div>
+	);
 };

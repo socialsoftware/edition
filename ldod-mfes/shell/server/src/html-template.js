@@ -14,7 +14,7 @@ export async function updateIndexHTML() {
 	updateImportmapScript(dom);
 	updateLdodProcessScript(dom);
 	updateMfesReferencesScript(dom);
-	await preRenderIndexHtml(dom);
+	//await preRenderIndexHtml(dom);
 	fs.writeFileSync(
 		htmlPath,
 		minify(dom.outerHTML, {
