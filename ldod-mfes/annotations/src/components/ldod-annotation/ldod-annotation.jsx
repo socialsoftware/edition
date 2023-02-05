@@ -1,10 +1,10 @@
-import {
-  createAnnotation,
-  deleteAnnotation,
-  updateAnnotation,
-} from '../../api-requests';
+/** @format */
+
+import { createAnnotation, deleteAnnotation, updateAnnotation } from '../../api-requests';
 import { errorPublisher } from '../../events-module';
 import { annotationsList, mutateAnnotationsList } from '../../ldod-annotations';
+import annotationHtml from './annotation-html';
+import { annotationCats, multipleSelectHTML } from './multiple-select-html';
 import style from './style.css?inline';
 import snowStyle from 'quill_1.3.7/dist/quill.snow.css?inline';
 
@@ -13,387 +13,257 @@ let quill;
 let multipleSelect;
 
 const loadModules = async () => {
-  if (!multipleSelect)
-    multipleSelect = (await import('@src/select-pure')).selectPure;
-  if (!createPopper)
-    createPopper = (await import('@src/popper.js')).createPopper;
-  if (!quill) quill = (await import('quill_1.3.7/dist/quill.min.js')).default;
-};
-
-const anyTagIsEqual = (tags, tag) => tags.some((t) => t === tag);
-
-const onAutocomplete = (e, root) => {
-  const assignedCats = root.annotation.data.tagList;
-  const nonAssignedCats = root.categories.filter(
-    (cat) => !assignedCats.includes(cat)
-  );
-  const target = e.target;
-
-  const matches = nonAssignedCats.filter((cat) =>
-    cat.toLowerCase().startsWith(target.value.toLowerCase())
-  );
-
-  Array.from(root.tagMultipleSelect.querySelectorAll('option-pure')).forEach(
-    (option) => {
-      if (
-        option.hasAttribute('selected') ||
-        matches.includes(option.getAttribute('value'))
-      ) {
-        option.hidden = false;
-        return;
-      }
-      option.hidden = true;
-    }
-  );
-
-  if (
-    e.key === 'Enter' &&
-    !anyTagIsEqual(matches, target.value) &&
-    root.openVocab
-  ) {
-    root.tagMultipleSelect.shadowRoot
-      .querySelectorAll('div.multi-selected-wrapper span.multi-selected')
-      .forEach((span) => span.remove());
-
-    root.tagMultipleSelect
-      .querySelectorAll('option-pure[selected]')
-      .forEach((option) => option.remove());
-
-    !assignedCats.includes(target.value) && assignedCats.push(target.value);
-    !root.categories.includes(target.value) &&
-      root.categories.push(target.value);
-
-    root.tagMultipleSelect.append(
-      ...assignedCats.map((cat) => (
-        <option-pure key={window.hash(cat)} selected value={cat}>
-          {cat}
-        </option-pure>
-      ))
-    );
-  }
+	if (!multipleSelect) multipleSelect = (await import('@src/select-pure')).selectPure;
+	if (!createPopper) createPopper = (await import('@src/popper.js')).createPopper;
+	if (!quill) quill = (await import('quill_1.3.7/dist/quill.min.js')).default;
 };
 
 export class LdodAnnotation extends HTMLElement {
-  constructor(interId, categories, openVocab) {
-    super();
-    this.interId = interId;
-    this.categories = categories;
-    this.openVocab = openVocab;
-  }
+	constructor(interId, categories, openVocab) {
+		super();
+		this.interId = interId;
+		this.categories = categories;
+		this.openVocab = openVocab;
+	}
 
-  get isReadable() {
-    return this.annotation?.data.canBeRead;
-  }
+	get isReadable() {
+		return this.annotation?.data.canBeRead;
+	}
 
-  get isEditable() {
-    return this.annotation?.data.canBeUpdated;
-  }
+	get isEditable() {
+		return this.annotation?.data.canBeUpdated;
+	}
 
-  get canBeDeleted() {
-    return this.annotation?.data.canBeDeleted;
-  }
+	get canBeDeleted() {
+		return this.annotation?.data.canBeDeleted;
+	}
 
-  get contentEditor() {
-    return this.querySelector('div#content');
-  }
+	get contentEditor() {
+		return this.querySelector('div#content');
+	}
 
-  get id() {
-    return this.annotation?.id;
-  }
+	get id() {
+		return this.annotation?.id;
+	}
 
-  get tagMultipleSelect() {
-    return this.querySelector('select-pure');
-  }
+	get tagMultipleSelect() {
+		return this.querySelector('select-pure');
+	}
 
-  static get observedAttributes() {
-    return ['updated'];
-  }
+	static get observedAttributes() {
+		return ['updated'];
+	}
 
-  connectedCallback() {
-    this.hidden = true;
-    this.on = false;
-    this.appendChild(
+	connectedCallback() {
+		this.hidden = true;
+		this.on = false;
+		this.innerHTML = /*html*/ `
       <style>
-        {style}
-        {snowStyle}
-      </style>
-    );
-  }
+        ${style}
+        ${snowStyle}
+      </style> `;
+	}
 
-  attributeChangedCallback(name, oldV, newV) {
-    this.onChangedAtttribute[name]();
-  }
+	attributeChangedCallback(name) {
+		this.onChangedAtttribute[name]();
+	}
 
-  onChangedAtttribute = {
-    updated: () => this.onHoverAnnotation(),
-  };
+	onChangedAtttribute = {
+		updated: () => this.onHoverAnnotation(),
+	};
 
-  handleHover(ref, annotation) {
-    this.ref = ref;
-    this.annotation = annotation;
-    this.toggleAttribute('updated', true);
-  }
+	handleHover(ref, annotation) {
+		this.ref = ref;
+		this.annotation = annotation;
+		this.toggleAttribute('updated', true);
+	}
 
-  onHoverAnnotation = async () => {
-    await loadModules();
-    if (!this.hasAttribute('updated')) return;
-    this.toggleAttribute('updated', false);
-    if (this.annotation.data.human && !this.isReadable) return;
-    this.render();
-    this.annotation.data.human && this.initEditor();
-    this.initPopper();
-  };
+	onHoverAnnotation = async () => {
+		await loadModules();
+		if (!this.hasAttribute('updated')) return;
+		this.toggleAttribute('updated', false);
+		if (this.annotation.data.human && !this.isReadable) return;
+		this.render();
+		this.annotation.data.human && this.initEditor();
+		this.initPopper();
+	};
 
-  disconnectedCallback() {
-    this.removeEventListeners();
-  }
+	render() {
+		this.querySelector('div.comment')?.remove();
+		this.appendChild(annotationHtml(this));
+	}
 
-  render() {
-    this.querySelector('div.comment')?.remove();
-    this.appendChild(
-      <div class="comment">
-        <div class="comment-header">
-          <div class="flex-5">
-            <span class="comment-icon comment-user"></span>
-            <span>{this.annotation?.data.username}</span>
-          </div>
-          <div actions class="flex-5">
-            {this.isEditable && (
-              <span
-                class="comment-icon comment-trash"
-                onClick={this.onRemove}></span>
-            )}
-          </div>
-        </div>
-        <div comment-body class="comment-body">
-          <div id="content">
-            {!this.annotation?.data.human && <p>{this.annotation.data.text}</p>}
-          </div>
-        </div>
-        <div comment-footer class="comment-footer">
-          {this.isEditable && (
-            <>
-              <button
-                id="comment-save-btn"
-                class="comment-btn"
-                onClick={this.onSave}>
-                Save
-              </button>
-              <button
-                id="comment-close-btn"
-                class="comment-btn"
-                onClick={this.onClose}>
-                Close
-              </button>
-            </>
-          )}
-        </div>
-      </div>
-    );
-    this.addEventListeners();
-  }
+	show = () => {
+		this.addPopperEvents();
+		this.hidden = false;
+		this.on = true;
+		this.popper.update();
+	};
 
-  show = () => {
-    this.hidden = false;
-    this.on = true;
-    this.popper.update();
-  };
+	hide = () => {
+		this.on = false;
+		setTimeout(() => {
+			if (this.on) return;
+			this.hideNow();
+		}, 1000);
+	};
 
-  hide = () => {
-    this.on = false;
-    setTimeout(() => {
-      if (this.on) return;
-      this.hidden = true;
-    }, 1000);
-  };
+	hideNow = () => {
+		this.removeAnnotationEvents();
+		this.on = false;
+		this.hidden = true;
+	};
 
-  hideNow = () => {
-    this.on = false;
-    this.hidden = true;
-  };
+	onClose = e => {
+		e.stopPropagation();
+		this.hideNow();
+	};
 
-  addEventListeners = () => {
-    document.addEventListener('click', this.onClickOutside);
-  };
+	initPopper = (ref = this.ref) => {
+		this.hideNow();
+		this.popper && this.popper.destroy();
+		this.popper = createPopper(ref, this);
+		this.show();
+	};
 
-  removeEventListeners = () => {
-    document.removeEventListener('click', this.onClickOutside);
-  };
+	addPopperEvents = () => {
+		this.addAnnotationEvents();
+		this.addAnnotationRefEvents();
+	};
 
-  onClickOutside = ({ target }) => {
-    if (target.id === 'comment-close-btn') return;
-    if (this.contains(target)) return;
-    this.hideNow();
-  };
+	addAnnotationEvents = () => {
+		this.addEventListener('pointerenter', this.onPointerInteraction);
+		this.contentEditor.addEventListener('focusin', this.onKeyboardInteraction);
+		this.addEventListener('pointerleave', this.onPointerInteraction);
+		this.contentEditor.addEventListener('focusout', this.onKeyboardInteraction);
+	};
 
-  onClose = () => this.hideNow();
+	removeAnnotationEvents = () => {
+		this.removeEventListener('pointerenter', this.onPointerInteraction);
+		this.contentEditor.removeEventListener('focusin', this.onKeyboardInteraction);
+		this.removeEventListener('pointerleave', this.onPointerInteraction);
+		this.contentEditor.removeEventListener('focusout', this.onKeyboardInteraction);
+	};
 
-  initPopper = (ref = this.ref) => {
-    this.hideNow();
-    this.popper && this.popper.destroy();
-    this.popper = createPopper(ref, this);
-    this.addPopperEvents();
-    this.show();
-  };
+	addAnnotationRefEvents = () => {
+		this.ref?.addEventListener('pointerleave', this.onPointerInteraction);
+	};
 
-  addPopperEvents = () => {
-    this.addPopperShowEvents();
-    this.addPopperHideEvents();
-  };
+	removeAnnotationRefEvents = () => {
+		this.ref?.removeEventListener('pointerleave', this.onPointerInteraction);
+	};
 
-  addPopperShowEvents = () => {
-    this.addEventListener('pointerenter', this.show);
-  };
+	onPointerInteraction = e => {
+		this.hasPointerInteraction = e.type === 'pointerenter';
+		this.handleInteraction();
+	};
 
-  addPopperHideEvents = () => {
-    this.ref?.addEventListener('pointerleave', this.hide);
-    this.addEventListener('pointerleave', this.hide);
-  };
+	onKeyboardInteraction = e => {
+		this.hasKeyboardInteraction = e.type === 'focusin';
+		this.handleInteraction();
+	};
 
-  removePopperHideEvents = () => {
-    this.ref?.removeEventListener('pointerleave', this.hide);
-    this.removeEventListener('pointerleave', this.hide);
-  };
+	handleInteraction = () => {
+		this[this.hasKeyboardInteraction || this.hasPointerInteraction ? 'show' : 'hide']();
+	};
 
-  initEditor = () => {
-    this.editor = new quill(this.contentEditor, {
-      theme: 'snow',
-      modules: { toolbar: [['bold', 'italic', 'underline', 'link', 'clean']] },
-      placeholder: 'Notes ...',
-    });
-    let contents = this.annotation?.data.contents;
+	initEditor = () => {
+		this.editor = new quill(this.contentEditor, {
+			theme: 'snow',
+			modules: { toolbar: [['bold', 'italic', 'underline', 'link', 'clean']] },
+			placeholder: 'Notes ...',
+		});
+		let contents = this.annotation?.data.contents;
 
-    contents
-      ? this.editor.setContents(JSON.parse(decodeURI(contents)))
-      : this.editor.setText(this.annotation?.data.text || '');
-    if (!this.isEditable) {
-      this.editor.disable();
-      this.annotation?.data.tagList.length &&
-        this.contentEditor.appendChild(
-          <p id="annotation-categories" class="categories-chipped">
-            {this.annotation.data.tagList.map((ann) => (
-              <span key={ann.id}>{ann}</span>
-            ))}
-          </p>
-        );
-      return;
-    }
+		contents
+			? this.editor.setContents(JSON.parse(decodeURI(contents)))
+			: this.editor.setText(this.annotation?.data.text || '');
+		if (!this.isEditable) {
+			this.editor.disable();
+			this.annotation?.data.tagList.length &&
+				this.contentEditor.appendChild(annotationCats(this));
+			return;
+		}
 
-    this.contentEditor.appendChild(
-      <div style={{ marginTop: '10px' }}>
-        {
-          <select-pure
-            id="annotations-categories"
-            name="annotations-categories"
-            multiple
-            default-label="Categories">
-            {this.openVocab && (
-              <input
-                id="select-pure-autocomplete"
-                type="text"
-                onKeyUp={(e) => onAutocomplete(e, this)}
-                placeholder={'Search or enter new tag'}
-              />
-            )}
-            {this.categories.map((cat) => {
-              return (
-                <option-pure
-                  key={window.hash(cat)}
-                  selected={this.annotation.data.tagList.includes(cat)}
-                  value={cat}>
-                  {cat}
-                </option-pure>
-              );
-            })}
-          </select-pure>
-        }
-      </div>
-    );
+		this.contentEditor.appendChild(multipleSelectHTML(this));
 
-    this.addEditorEvents();
-    this.addTagSelectEvent();
-  };
+		this.addEditorEvents();
+		this.addTagSelectEvent();
+	};
 
-  addEditorEvents = () => {
-    this.editor.root.onblur = () => {
-      this.annotation.data.text = this.editor.getText();
-      this.annotation.data.contents = encodeURI(
-        JSON.stringify(this.editor.getContents())
-      );
-    };
-  };
+	addEditorEvents = () => {
+		this.editor.root.onblur = () => {
+			this.annotation.data.text = this.editor.getText();
+			this.annotation.data.contents = encodeURI(JSON.stringify(this.editor.getContents()));
+		};
+	};
 
-  addTagSelectEvent = () => {
-    this.tagMultipleSelect.addEventListener('change', () => {
-      const selected = Array.from(
-        this.tagMultipleSelect.querySelectorAll('option-pure[selected]')
-      ).map((opt) => opt.getAttribute('value'));
-      this.annotation.data.tagList = selected;
-    });
-  };
+	addTagSelectEvent = () => {
+		this.tagMultipleSelect.addEventListener('change', () => {
+			const selected = Array.from(
+				this.tagMultipleSelect.querySelectorAll('option-pure[selected]')
+			).map(opt => opt.getAttribute('value'));
+			this.annotation.data.tagList = selected;
+		});
+	};
 
-  showOnCreation = async (virtualElement, ann) => {
-    await loadModules();
-    this.annotation = ann;
-    this.render();
-    this.initEditor();
-    this.initPopper(virtualElement);
-    this.removePopperHideEvents();
-    this.removeEventListeners();
-    this.hidden = false;
-  };
+	showOnCreation = async (virtualElement, ann) => {
+		await loadModules();
+		this.annotation = ann;
+		this.render();
+		this.initEditor();
+		this.initPopper(virtualElement);
+		this.removeAnnotationEvents();
+		this.hidden = false;
+	};
 
-  // API requests
+	// API requests
 
-  onSuccess = (data) => {
-    this.dispatchAnnotationEvent();
-  };
+	onSuccess = data => {
+		this.dispatchAnnotationEvent();
+	};
 
-  onError = (error) => {
-    errorPublisher(error.message);
-    console.error(error);
-  };
+	onError = error => {
+		errorPublisher(error.message);
+		console.error(error);
+	};
 
-  onSave = async () => {
-    if (this.annotation.data.uri) await this.updateAnnotation(this.annotation);
-    else
-      await createAnnotation(this.interId, this.annotation.data)
-        .then(this.onSuccess)
-        .catch(this.onError);
-  };
+	onSave = async () => {
+		if (this.annotation.data.uri) await this.updateAnnotation(this.annotation);
+		else
+			await createAnnotation(this.interId, this.annotation.data)
+				.then(this.onSuccess)
+				.catch(this.onError);
+	};
 
-  updateAnnotation = async (annotation) => {
-    await updateAnnotation(annotation.id, annotation.data)
-      .then(this.onSuccess)
-      .catch(this.onError);
-  };
+	updateAnnotation = async annotation => {
+		await updateAnnotation(annotation.id, annotation.data)
+			.then(this.onSuccess)
+			.catch(this.onError);
+	};
 
-  onRemove = () => {
-    if (!this.annotation.data.uri) {
-      this.removeNotPersisted();
-      return;
-    }
-    deleteAnnotation(this.interId, this.annotation.id)
-      .then(this.onSuccess)
-      .catch(this.onError);
-  };
+	onRemove = () => {
+		if (!this.annotation.data.uri) {
+			this.removeNotPersisted();
+			return;
+		}
+		deleteAnnotation(this.interId, this.annotation.id).then(this.onSuccess).catch(this.onError);
+	};
 
-  removeNotPersisted() {
-    this.annotation.destroy();
-    this.hideNow();
-    mutateAnnotationsList(
-      annotationsList.filter((ann) => ann.id !== this.annotation.id)
-    );
-  }
+	removeNotPersisted() {
+		this.annotation.destroy();
+		this.hideNow();
+		mutateAnnotationsList(annotationsList.filter(ann => ann.id !== this.annotation.id));
+	}
 
-  dispatchAnnotationEvent = () => {
-    this.dispatchEvent(
-      new CustomEvent('ldod-annotation', {
-        bubbles: true,
-      })
-    );
-  };
+	dispatchAnnotationEvent = () => {
+		this.dispatchEvent(
+			new CustomEvent('ldod-annotation', {
+				bubbles: true,
+				composed: true,
+			})
+		);
+	};
 }
 
-!customElements.get('ldod-annotation') &&
-  customElements.define('ldod-annotation', LdodAnnotation);
+!customElements.get('ldod-annotation') && customElements.define('ldod-annotation', LdodAnnotation);
