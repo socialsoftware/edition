@@ -54,14 +54,18 @@ export class LdodAnnotation extends HTMLElement {
 		return ['updated'];
 	}
 
+	clearTimeout = () => {
+		window.clearTimeout(this.timeout);
+		this.timeout = null;
+	};
+
 	connectedCallback() {
 		this.hidden = true;
-		this.on = false;
 		this.innerHTML = /*html*/ `
-      <style>
-        ${style}
-        ${snowStyle}
-      </style> `;
+			<style>
+				${style}
+				${snowStyle}
+			</style>`;
 	}
 
 	attributeChangedCallback(name) {
@@ -96,16 +100,14 @@ export class LdodAnnotation extends HTMLElement {
 	show = () => {
 		this.addPopperEvents();
 		this.hidden = false;
-		this.on = true;
 		this.popper.update();
+		this.clearTimeout();
 	};
 
 	hide = () => {
-		this.on = false;
-		setTimeout(() => {
-			if (this.on) return;
-			this.hideNow();
-		}, 1000);
+		this.timeout = setTimeout(() => {
+			this.timeout && this.hideNow();
+		}, 2000);
 	};
 
 	hideNow = () => {
