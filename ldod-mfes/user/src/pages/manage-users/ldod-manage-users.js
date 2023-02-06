@@ -2,6 +2,7 @@
 import { getUsersList, removeUserRequest, updateUserRequest } from '../../api-requests';
 import ManageUsersTable from './manage-users-table';
 import { exportButton, uploadButton } from '@shared/buttons.js';
+import UpdateModal from './update-user-modal.js';
 
 import style from './manage-users-style.css?inline';
 import rootCss from '@shared/bootstrap/root-css.js';
@@ -57,13 +58,18 @@ export class LdodManageUsers extends HTMLElement {
 	}
 
 	connectedCallback() {
-		this.getData().then(() => this.render());
+		this.getData().then(() => {
+			if (!this.usersData) return;
+			this.shadowRoot.innerHTML = /*html*/ `
+				<div class="container"></div>
+				${UpdateModal(this)}
+			`;
+			this.render();
+		});
 	}
 
 	render() {
-		this.shadowRoot.innerHTML = '';
-		if (!this.usersData) return;
-		this.shadowRoot.appendChild(ManageUsersTable(this));
+		this.shadowRoot.firstElementChild.replaceWith(ManageUsersTable(this));
 		this.addEventListeners();
 	}
 
@@ -98,9 +104,9 @@ export class LdodManageUsers extends HTMLElement {
 
 	addEventListeners() {
 		this.addEventListener('ldod:file-uploaded', this.handleUsersUpload);
-		this.shadowRoot.querySelectorAll('[tooltip-ref]').forEach(tooltipped => {
-			tooltipped.parentNode.addEventListener('pointerenter', loadToolip);
-		});
+		this.shadowRoot
+			.querySelector('div.container')
+			.addEventListener('pointerenter', loadToolip, { once: true });
 		this.addEventListener('ldod-table-searched', this.updateUsersListTitleOnSearch);
 	}
 

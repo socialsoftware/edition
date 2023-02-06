@@ -10,6 +10,7 @@ export class LdodModal extends HTMLElement {
 		super();
 		this.attachShadow({ mode: 'open' });
 		this.shadowRoot.adoptedStyleSheets = [sheet];
+		this.modalHtml = modalHtml;
 	}
 
 	get show() {
@@ -40,7 +41,7 @@ export class LdodModal extends HTMLElement {
 	}
 
 	render() {
-		this.shadowRoot.innerHTML = modalHtml(this.dialogClass, this.noFooter);
+		this.shadowRoot.innerHTML = this.modalHtml(this.dialogClass, this.noFooter);
 		this.addEventListeners();
 		this.handleToggleShow();
 	}
@@ -54,16 +55,12 @@ export class LdodModal extends HTMLElement {
 		if (name === 'show' && prev !== 'null') this.handleToggleShow();
 	}
 
-	setPageOverflow = (hide = true) => document.querySelector('html').toggleAttribute('open', hide);
+	setBodyOverflow = () => document.body.classList.toggle('modal-open', this.show);
 
 	handleToggleShow = () => {
 		const modal = this.shadowRoot.querySelector('div#ldod-modal');
 		if (!modal) return;
-		if (!this.enableDocOverflow) {
-			document.body.classList.toggle('modal-open');
-			//this.show && this.setPageOverflow();
-		}
-
+		this.setBodyOverflow();
 		modal.setAttribute('aria-hidden', !this.show);
 		!this.show && this.onClose();
 	};

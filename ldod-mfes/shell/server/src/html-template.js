@@ -1,3 +1,5 @@
+/** @format */
+
 import { loadMfes } from './mfes.js';
 import { preRenderIndexHtml } from './pre-render.js';
 import fs from 'fs';
@@ -52,6 +54,6 @@ function updateMfesReferencesScript(dom) {
 	const src = '/ldod-mfes/references.js';
 	let script = dom.querySelector('head script#mfes-references');
 	if (script && script.attributes.src === src) return;
-	script = parse(`<script id="mfes-references" src="${src}"></script>`);
+	script = parse(`<script id="mfes-references" src="${src}" async></script>`);
 	dom.querySelector('head').appendChild(script);
 }

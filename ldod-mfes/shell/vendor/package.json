@@ -1,11 +1,1 @@
-{
-  "name": "vendor",
-  "version": "1.0.0",
-  "description": "vendor packages centralized for MFEs",
-  "license": "MIT",
-  "type": "module",
-  "dependencies": {
-    "@popperjs/core_2.11.6": "npm:@popperjs/core@2.11.6",
-    "select-pure_2.1.4": "npm:select-pure@2.1.4"
-  }
-}
+{"name":"vendor","version":"1.0.0","description":"vendor packages centralized for MFEs","license":"MIT","type":"module","dependencies":{"@popperjs/core_2.11.6":"npm:@popperjs/core@2.11.6","select-pure_2.1.4":"npm:select-pure@2.1.4"}}

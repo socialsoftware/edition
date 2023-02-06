@@ -1,4 +1,6 @@
-import '@shared/modal.js';
+/** @format */
+
+import '@shared/modal-bs.js';
 import constants from './constants';
 import GamesTable from './games-table';
 import style from './games.css?inline';
@@ -18,7 +20,7 @@ export class LdodVeGames extends HTMLElement {
 	}
 
 	get modal() {
-		return this.querySelector('ldod-modal');
+		return this.querySelector('ldod-bs-modal');
 	}
 
 	static get observedAttributes() {
@@ -33,7 +35,7 @@ export class LdodVeGames extends HTMLElement {
 		this.games = games;
 		this.inters = inters;
 		this.publicAnnotation = publicAnnotation;
-		this.toggleAttribute('data');
+		//this.onChangedAttribute.show();
 	};
 
 	connectedCallback() {
@@ -44,9 +46,7 @@ export class LdodVeGames extends HTMLElement {
 		this.onChangedAttribute[name](oldV, newV);
 	}
 
-	disconnectedCallback() {}
-
-	onCloseModal = () => {
+	onCloseModal = e => {
 		this.toggleAttribute('show', false);
 	};
 
@@ -54,8 +54,11 @@ export class LdodVeGames extends HTMLElement {
 		this.innerHTML = '';
 		this.appendChild(<style>{style}</style>);
 		this.appendChild(
-			<ldod-modal id="virtual-gamesModal" dialog-class="modal-fullscreen" no-footer>
-				<span slot="header-slot">{this.edition?.title}</span>
+			<ldod-bs-modal
+				id="virtual-games-modal"
+				dialog-class="modal-xl modal-fullscreen-lg-down modal-dialog-scrollable"
+				static>
+				<h4 slot="header-slot">{this.edition?.title}</h4>
 				<div slot="body-slot">
 					<div id="virtual-createCGContainer" class="mb-5">
 						<CreateGame node={this} />
@@ -64,18 +67,17 @@ export class LdodVeGames extends HTMLElement {
 						<GamesTable node={this} />
 					</div>
 				</div>
-			</ldod-modal>
+			</ldod-bs-modal>
 		);
 	}
 
 	onChangedAttribute = {
-		data: () => {
-			this.render();
-			this.modal?.toggleAttribute('show', this.show);
+		data: function () {
+			this.show();
 		},
-		show: (oldV, newV) => {
+		show: () => {
 			this.render();
-			this.modal?.toggleAttribute('show', this.show);
+			this.modal.toggleAttribute('show', this.show);
 		},
 	};
 }

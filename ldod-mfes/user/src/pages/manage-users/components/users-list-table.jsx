@@ -5,7 +5,6 @@ import '@shared/modal-bs.js';
 import '@shared/table.js';
 import constants from '../constants.js';
 import UptadeUserForm from './update-user-form.jsx';
-import UpdateModal from './update-user-modal.jsx';
 
 const onChangeActive = async (externalId, root) => {
 	changeActiveRequest(externalId).then(res => {
@@ -37,18 +36,12 @@ const getUsersListActive = (root, user) => {
 		<div id={`active-${id}`} class="text-center">
 			<button
 				id={`button-active-${id}`}
-				tooltip-ref={`button-active-${id}`}
 				class={`btn ${active ? 'btn-success' : 'btn-secondary'} btn-sm`}
 				onClick={() => onChangeActive(id, root)}>
 				<span data-users-key={String(active).toUpperCase()}>
 					{root.getConstant(String(active).toUpperCase())}
 				</span>
 			</button>
-			<ldod-tooltip
-				placement="top"
-				data-ref={`[tooltip-ref='button-active-${id}']`}
-				data-users-tooltip-key="toggleActiveMode"
-				content={root.getConstant('toggleActiveMode')}></ldod-tooltip>
 		</div>
 	);
 };
@@ -62,7 +55,6 @@ const getUsersListActions = (root, user) => {
 				<span
 					id={`edit-icon-${id}`}
 					data-id={id}
-					tooltip-ref={`edit-icon-${id}`}
 					is="ldod-span-icon"
 					icon="pen-to-square"
 					fill="#0d6efd"
@@ -70,7 +62,6 @@ const getUsersListActions = (root, user) => {
 					onClick={e => onEditUser(e, root)}></span>
 				<span
 					id={`trash-icon-${id}`}
-					tooltip-ref={`trash-icon-${id}`}
 					data-id={id}
 					data-username={username}
 					is="ldod-span-icon"
@@ -79,17 +70,6 @@ const getUsersListActions = (root, user) => {
 					size="1.25rem"
 					onClick={root.onDeleteUser}></span>
 			</div>
-
-			<ldod-tooltip
-				data-ref={`[tooltip-ref='edit-icon-${id}']`}
-				data-users-tooltip-key="edit"
-				placement="top"
-				content={root.getConstant('edit')}></ldod-tooltip>
-			<ldod-tooltip
-				data-ref={`[tooltip-ref='trash-icon-${id}']`}
-				data-users-tooltip-key="remove"
-				placement="top"
-				content={root.getConstant('remove')}></ldod-tooltip>
 		</div>
 	);
 };
@@ -99,7 +79,6 @@ export default ({ root }) => {
 	const language = root.language;
 	return (
 		<div>
-			<UpdateModal root={root} />
 			<div id="users-list" class="row">
 				<ldod-table
 					id="user-users-list-table"
@@ -120,6 +99,16 @@ export default ({ root }) => {
 					}))}
 					constants={constants[language]}
 					data-searchkey="externalId"></ldod-table>
+				<ldod-tooltip
+					data-ref="table>thead>tr>th[data-key='actions']"
+					data-users-tooltip-key="tooltipActions"
+					placement="top"
+					content={root.getConstant('tooltipActions')}></ldod-tooltip>
+				<ldod-tooltip
+					placement="top"
+					data-ref="table>thead>tr>th[data-key='active']"
+					data-users-tooltip-key="toggleActiveMode"
+					content={root.getConstant('toggleActiveMode')}></ldod-tooltip>
 			</div>
 		</div>
 	);

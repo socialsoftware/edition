@@ -68,16 +68,12 @@
 <body class="ldod-default">
     <ldod-navbar token="false" language></ldod-navbar>
     <div id="root"></div>
-    <ldod-modal id="success" dialog-class="modal-lg modal-success" no-footer z-index="1060" hidden>
-        <span slot="header-slot">Info</span>
-        <div slot="body-slot"></div>
-    </ldod-modal>
-    <ldod-modal id="error" dialog-class="modal-lg modal-danger" no-footer z-index="1060" hidden>
-        <span slot="header-slot">Error</span>
-        <div slot="body-slot"></div>
-    </ldod-modal>
+    <ldod-notification>
+        <div slot="toast-body">
+        </div>
+    </ldod-notification>
     <ldod-loading id="shell-loading" hidden></ldod-loading>
-    <script type="module" src="/ldod-mfes/shell.js"></script>
+    <script type="module" src="/ldod-mfes/shell.js" async></script>
 </body>
 
 </html>

@@ -1,3 +1,5 @@
+/** @format */
+
 import tooltipStyle from '../src/tooltip.css?inline';
 import tooltipHtml from './tooltip-html';
 import { createPopper } from './popper.js';
@@ -48,7 +50,7 @@ export class LdodTooltip extends HTMLElement {
 	}
 
 	get content() {
-		return this.getAttribute('content');
+		return this.getAttribute('content') || this.dataset.content;
 	}
 
 	get instance() {
@@ -60,7 +62,6 @@ export class LdodTooltip extends HTMLElement {
 
 	connectedCallback() {
 		this.addEventListeners();
-		this.element?.setAttribute('aria-describedby', 'tooltip');
 		this.render();
 	}
 
@@ -87,11 +88,13 @@ export class LdodTooltip extends HTMLElement {
 		['mouseenter', 'focus'].forEach(event => {
 			this.element?.removeEventListener(event, this.show);
 		});
-		['mouseleave', 'blur'].forEach(event => this.element?.removeEventListener(event, this.hide));
+		['mouseleave', 'blur'].forEach(event =>
+			this.element?.removeEventListener(event, this.hide)
+		);
 	}
 
 	show = () => {
-		this.tooltip.setAttribute('data-show', '');
+		this.tooltip.toggleAttribute('data-show', true);
 		this.instance.setOptions(options => ({
 			...options,
 			modifiers: [...options.modifiers, { name: 'eventListeners', enabled: true }],
@@ -100,7 +103,7 @@ export class LdodTooltip extends HTMLElement {
 	};
 
 	hide = () => {
-		this.tooltip.removeAttribute('data-show');
+		this.tooltip.toggleAttribute('data-show', false);
 		this.instance.setOptions(options => ({
 			...options,
 			modifiers: [...options.modifiers, { name: 'eventListeners', enabled: false }],

@@ -2,22 +2,37 @@
 
 import { defineConfig } from 'vite';
 import terser from '@rollup/plugin-terser';
+import path from 'path';
+
 export default defineConfig({
 	build: {
 		target: 'es2022',
+		cssCodeSplit: true,
 		outDir: '../dist',
 		emptyOutDir: false,
+		sourcemap: true,
 		lib: {
-			entry: 'tooltip.js',
+			entry: ['src/notifications.js'],
 			formats: ['es'],
-			fileName: 'tooltip',
 		},
 
 		rollupOptions: {
 			output: {
 				plugins: [terser()],
 			},
-			external: [/node_modules/, /@vendor/],
+			external: [/^@shared/],
 		},
+	},
+	resolve: {
+		alias: [
+			{
+				find: '@src',
+				replacement: path.resolve(__dirname, 'src'),
+			},
+			{
+				find: '@shared/',
+				replacement: '../../dist/',
+			},
+		],
 	},
 });

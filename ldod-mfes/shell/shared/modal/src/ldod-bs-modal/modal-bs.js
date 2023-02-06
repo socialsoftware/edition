@@ -93,7 +93,7 @@ export class LdodBsModal extends HTMLElement {
 			this.ariaModal = 'true';
 			document.body.classList.add('modal-open');
 			this.modal.classList.add('show');
-		}, 10);
+		}, 50);
 	};
 
 	hideModal = () => {
@@ -103,9 +103,10 @@ export class LdodBsModal extends HTMLElement {
 		this.removeAttribute('aria-modal');
 		document.body.classList.remove('modal-open');
 		this.modal.classList.remove('show');
+		this.onHide();
 		setTimeout(() => {
 			this.modal.style.display = 'none';
-		}, 300);
+		}, 50);
 	};
 
 	onHide = () =>

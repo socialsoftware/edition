@@ -1,3 +1,5 @@
+/** @format */
+
 import { getPartialStorage } from '@shared/store.js';
 import { ldodEventPublisher } from '@shared/ldod-events.js';
 import { navigateTo } from '@shared/router.js';
@@ -22,7 +24,7 @@ const fetchRequest = async (url, options) => {
 		}
 		return resData;
 	} catch (error) {
-		console.error('FETCH ERROR: ', error.stack);
+		console.error('FETCH ERROR: ', error?.stack ?? error);
 		handleError('Something went wrong');
 		navigateTo('/');
 		handleLoading(false);

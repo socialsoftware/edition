@@ -1,11 +1,19 @@
-import '@shared/modal.js';
+/** @format */
+
+import '@shared/modal-bs.js';
 import constants from '@src/pages/constants';
 import thisConstants from './constants';
 import TaxonomyComponent from './taxonomy-component';
 import style from './style.css?inline';
 import { DeleteButton, MergeButton } from './merge-delete-buttons';
 import { computeSelectPureHeight } from '@src/utils';
-import { addCategory, addTopics, deleteCategories, getVeTaxonomy, mergeCategories } from './taxonomy-api-requests';
+import {
+	addCategory,
+	addTopics,
+	deleteCategories,
+	getVeTaxonomy,
+	mergeCategories,
+} from './taxonomy-api-requests';
 import { errorPublisher, loadingPublisher } from '../../../../../../event-module';
 
 const GenerateTopicsModal = async (node, veId) =>
@@ -14,7 +22,8 @@ const GenerateTopicsModal = async (node, veId) =>
 		veId,
 	});
 
-const EditCategoryModal = async (node, category) => (await import('./edit-category-modal')).default({ node, category });
+const EditCategoryModal = async (node, category) =>
+	(await import('./edit-category-modal')).default({ node, category });
 
 const ExtractCategoryFragsModal = async (node, category) =>
 	(await import('./extract-category-frags-modal')).default({ node, category });
@@ -34,10 +43,12 @@ export class LdodVeTaxonomy extends HTMLElement {
 	}
 
 	get selectedCategories() {
-		const ids = Array.from(this.querySelectorAll('table#virtual-taxonomyTable>tbody>tr[selected]')).map(
-			row => row.id
-		);
-		return this.taxonomy.categories.map(cat => cat.externalId).filter(catId => ids.indexOf(catId) !== -1);
+		const ids = Array.from(
+			this.querySelectorAll('table#virtual-taxonomyTable>tbody>tr[selected]')
+		).map(row => row.id);
+		return this.taxonomy.categories
+			.map(cat => cat.externalId)
+			.filter(catId => ids.indexOf(catId) !== -1);
 	}
 
 	get show() {
@@ -45,7 +56,7 @@ export class LdodVeTaxonomy extends HTMLElement {
 	}
 
 	get taxonomyModal() {
-		return this.querySelector('ldod-modal#virtual-taxonomyModal');
+		return this.querySelector('ldod-bs-modal#virtual-taxonomy-modal');
 	}
 
 	get generateTopicsModal() {
@@ -79,15 +90,17 @@ export class LdodVeTaxonomy extends HTMLElement {
 		this.innerHTML = '';
 		this.appendChild(<style>{style}</style>);
 		this.appendChild(
-			<ldod-modal id="virtual-taxonomyModal" dialog-class="modal-fullscreen" no-footer>
-				<span slot="header-slot">
+			<ldod-bs-modal
+				id="virtual-taxonomy-modal"
+				dialog-class="modal-xl modal-dialog-scrollable">
+				<h4 slot="header-slot">
 					<span>{this.taxonomy.veTitle} - </span>
 					<span>{this.getConstants('taxonomy')}</span>
-				</span>
+				</h4>
 				<div slot="body-slot">
 					<TaxonomyComponent node={this} />
 				</div>
-			</ldod-modal>
+			</ldod-bs-modal>
 		);
 		this.renderMergeAndDeleteButtons();
 		this.addEventListeners();
@@ -95,8 +108,8 @@ export class LdodVeTaxonomy extends HTMLElement {
 
 	onChangedAttribute = {
 		data: () => {
-			this.render();
-			this.taxonomyModal?.toggleAttribute('show', this.show);
+			//this.render();
+			//this.taxonomyModal?.toggleAttribute('show', this.show);
 		},
 		show: () => {
 			if (this.show) {
@@ -110,7 +123,7 @@ export class LdodVeTaxonomy extends HTMLElement {
 					})
 					.catch(error => {
 						console.error(error);
-						errorPublisher(error);
+						errorPublisher(error.msg);
 					});
 			}
 		},
@@ -157,7 +170,7 @@ export class LdodVeTaxonomy extends HTMLElement {
 	};
 
 	onCloseModal = {
-		taxonomyModal: async () => {
+		'taxonomy-modal': async () => {
 			this.emitLoading(true);
 			this.toggleAttribute('show', false);
 			this.resetState();
@@ -232,4 +245,5 @@ export class LdodVeTaxonomy extends HTMLElement {
 
 	emitLoading = isLoading => loadingPublisher(isLoading);
 }
-!customElements.get('ldod-ve-taxonomy') && customElements.define('ldod-ve-taxonomy', LdodVeTaxonomy);
+!customElements.get('ldod-ve-taxonomy') &&
+	customElements.define('ldod-ve-taxonomy', LdodVeTaxonomy);

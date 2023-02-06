@@ -1,5 +1,13 @@
+/** @format */
+
 import { userRequest } from '../api-requests';
-import { errorPublisher, loginPublisher, logoutPublisher, messagePublisher, tokenPublisher } from '../events-modules';
+import {
+	errorPublisher,
+	loginPublisher,
+	logoutPublisher,
+	messagePublisher,
+	tokenPublisher,
+} from '../events-modules';
 import { getState, setState } from '../store';
 import { navigateTo } from '@shared/router.js';
 import { userReferences } from '../user-references';
@@ -36,7 +44,7 @@ export function onSignup(message) {
 export function onChangePassword(res) {
 	if (res.ok === false) return onChangePasswordFail(res);
 	messagePublisher(res.message);
-	navigateTo('/');
+	redirectToHome();
 }
 
 export function onChangePasswordFail(res) {
@@ -46,8 +54,8 @@ export function onChangePasswordFail(res) {
 
 export function logout() {
 	setState({ token: '', user: '' });
-	logoutPublisher('');
-	navigateTo('/');
+	logoutPublisher();
+	redirectToHome();
 }
 
 export function login(token) {

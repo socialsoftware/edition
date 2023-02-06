@@ -10,7 +10,7 @@ export const signinRequest = async data => await fetcher.post(`/auth/sign-in`, d
 
 export async function userRequest(token) {
 	return await fetcher.get(`/user`, null, token).then(res => {
-		if (res.ok === false) return Promise.reject(res);
+		if (!res || res.ok === false) return Promise.reject(res);
 		return Promise.resolve(res);
 	});
 }

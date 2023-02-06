@@ -1,6 +1,6 @@
 #! /bin/sh
 
-dirs="event-bus store utils ldod-events router vanilla-jsx fetcher modal tooltip table buttons bootstrap icons navigation-panel"
+dirs="event-bus store utils ldod-events router vanilla-jsx fetcher modal tooltip table buttons bootstrap icons navigation-panel notifications"
 
 rm -r dist
 mkdir dist

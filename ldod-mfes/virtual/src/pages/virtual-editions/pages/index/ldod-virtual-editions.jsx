@@ -1,3 +1,5 @@
+/** @format */
+
 import { getVirtualEditions } from '@src/api-requests';
 import {
 	createVirtualEdition,
@@ -106,7 +108,9 @@ export class LdodVirtualEditions extends HTMLElement {
 	};
 
 	onChangedLanguage = () => {
-		this.querySelectorAll('[language]').forEach(ele => ele.setAttribute('language', this.language));
+		this.querySelectorAll('[language]').forEach(ele =>
+			ele.setAttribute('language', this.language)
+		);
 		this.querySelectorAll('[data-virtualkey]').forEach(node => {
 			return (node.firstChild.textContent = this.getConstants(node.dataset.virtualkey));
 		});
@@ -144,8 +148,8 @@ export class LdodVirtualEditions extends HTMLElement {
 		ldodVeGames.edition = this.edition;
 		getEditionGames(this.edition.externalId)
 			.then(data => {
-				ldodVeGames.updateData(data);
 				ldodVeGames.parent = this;
+				ldodVeGames.updateData(data);
 				ldodVeGames.toggleAttribute('show');
 			})
 			.catch(onError);
@@ -215,7 +219,8 @@ export class LdodVirtualEditions extends HTMLElement {
 			.catch(onError);
 	};
 }
-!customElements.get('ldod-virtual-editions') && customElements.define('ldod-virtual-editions', LdodVirtualEditions);
+!customElements.get('ldod-virtual-editions') &&
+	customElements.define('ldod-virtual-editions', LdodVirtualEditions);
 
 function onError(error) {
 	console.error(error);

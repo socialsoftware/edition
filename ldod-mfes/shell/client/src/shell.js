@@ -1,3 +1,5 @@
+/** @format */
+
 import NotFound from './components/not-found.js';
 import './events-module.js';
 import '@shared/router.js';
@@ -35,17 +37,18 @@ document.getElementById('root').replaceWith(router);
 
 function updateLanguage(newState, currentState) {
 	if (newState.language !== currentState.language)
-		document.body.querySelectorAll('[language]').forEach(ele => ele.setAttribute('language', newState.language));
+		document.body
+			.querySelectorAll('[language]')
+			.forEach(ele => ele.setAttribute('language', newState.language));
 }
 
 store.subscribe(updateLanguage);
 
-if (typeof window !== 'undefined') window.addEventListener('pointermove', loadLazyModules, { once: true });
+if (typeof window !== 'undefined')
+	window.addEventListener('pointermove', loadLazyModules, { once: true });
 
 function loadLazyModules() {
 	import('@shared/ldod-icons.js');
 	import('./components/ldod-loading.js');
-	import('@shared/modal.js').then(() => {
-		['error', 'success'].forEach(id => document.querySelector(`ldod-modal#${id}`).removeAttribute('hidden'));
-	});
+	import('@shared/notifications.js');
 }

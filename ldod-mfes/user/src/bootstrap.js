@@ -2,13 +2,16 @@
 
 import { userRequest } from './api-requests';
 import { loginPublisher, logoutPublisher } from './events-modules';
-import { getState, setState, storage } from './store';
+import { getState, setState, storageState } from './store';
 
-if (storage?.token) {
+if (storageState?.token) {
 	userRequest(getState().token)
 		.then(user => {
 			setState({ user });
 			loginPublisher(user);
 		})
-		.catch(() => logoutPublisher());
+		.catch(error => {
+			console.error(error);
+			logoutPublisher();
+		});
 }

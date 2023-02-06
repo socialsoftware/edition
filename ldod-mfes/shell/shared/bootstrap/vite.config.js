@@ -15,11 +15,13 @@ export default defineConfig({
 			entry: [
 				'src/scss/utilities.scss',
 				'src/scss/root.scss',
+				'src/utilities-css.js',
 				'src/buttons-css.js',
 				'src/root-css.js',
 				'src/forms-css.js',
 				'src/modal-css.js',
 				'src/bootstrap-css.js',
+				'src/toast-css.js',
 				'src/modal.js',
 			],
 			formats: ['es'],
