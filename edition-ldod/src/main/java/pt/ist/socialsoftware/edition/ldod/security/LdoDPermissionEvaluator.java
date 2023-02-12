@@ -107,7 +107,7 @@ public class LdoDPermissionEvaluator implements PermissionEvaluator {
 
             if (virtualEdition == null) {
                 hasPermission = true;
-            } else if (permissions[1].equals(ADMIN)) {
+            } else if (permissions[1].equalsIgnoreCase(ADMIN)) {
                 System.out.println(loggedUser);
                 hasPermission = virtualEdition.getAdminSet().contains(loggedUser);
             } else if (permissions[1].equals(PARTICIPANT)) {

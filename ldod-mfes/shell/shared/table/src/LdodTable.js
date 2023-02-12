@@ -1,12 +1,15 @@
+/** @format */
+
 import { sleep } from '@shared/utils.js';
 import { loadingPublisher } from './events-module';
-import { tableComponent, tableRows } from './table-component';
+import { getRow, tableComponent, tableRows } from './table-component';
 import { debounce } from './debounce';
 
 export class LdodTable extends HTMLElement {
 	constructor() {
 		super();
 		this.lastIndex = 0;
+		this.getRow = getRow.bind();
 	}
 
 	get classes() {
@@ -22,7 +25,9 @@ export class LdodTable extends HTMLElement {
 	}
 
 	get interval() {
-		return this.data.length < this.numberOfVisibleRows ? this.data.length : this.numberOfVisibleRows;
+		return this.data.length < this.numberOfVisibleRows
+			? this.data.length
+			: this.numberOfVisibleRows;
 	}
 
 	get language() {
@@ -114,7 +119,6 @@ export class LdodTable extends HTMLElement {
 	addRows = end => {
 		const rows = tableRows(this, this.lastIndex, end ?? this.lastIndex + this.interval);
 		this.querySelector('table>tbody').append(...rows);
-
 		this.dispatchCustomEvent('ldod-table-increased');
 	};
 
@@ -135,7 +139,10 @@ export class LdodTable extends HTMLElement {
 			this.addRows(this.data.length);
 		}
 
-		const searchTerm = this.querySelector('input#table-search-field').value?.trim().toLowerCase().toString();
+		const searchTerm = this.querySelector('input#table-search-field')
+			.value?.trim()
+			.toLowerCase()
+			.toString();
 
 		history.replaceState(searchTerm ? { searchTerm } : {}, {});
 		const result = searchTerm
@@ -166,6 +173,12 @@ export class LdodTable extends HTMLElement {
 	dispatchCustomEvent = (event, detail) => {
 		this.dispatchEvent(new CustomEvent(event, { detail, bubbles: true, composed: true }));
 	};
+}
+
+function getCell(key, entry) {
+	return /*html*/ `
+	<td>${typeof entry[key] === 'function' ? entry[key]() : entry[key]}</td>
+	`;
 }
 
 !customElements.get('ldod-table') && customElements.define('ldod-table', LdodTable);

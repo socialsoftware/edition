@@ -6,7 +6,7 @@ import rootCss from '@shared/bootstrap/root-css.js';
 import notificationHtml from './notification-html';
 
 const sheet = new CSSStyleSheet();
-sheet.replaceSync(rootCss + style + toastCss + buttonsCss);
+sheet.replaceSync(rootCss + toastCss + buttonsCss + style);
 
 export class LdodNotification extends HTMLElement {
 	constructor() {
@@ -73,7 +73,7 @@ export class LdodNotification extends HTMLElement {
 	hideNotification = () => {
 		this.timeout = setTimeout(() => {
 			this.timeout && this.close();
-		}, 5000);
+		}, 105000);
 	};
 
 	fadeTransition = (close = false) => {

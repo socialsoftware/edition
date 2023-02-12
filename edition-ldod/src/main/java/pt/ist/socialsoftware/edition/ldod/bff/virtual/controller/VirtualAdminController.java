@@ -12,7 +12,7 @@ import pt.ist.socialsoftware.edition.ldod.bff.virtual.service.VirtualAdminServic
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 
 @RestController
-@Secured({"ROLE_ADMIN"})
+@PreAuthorize("hasPermission('','ADMIN')")
 @RequestMapping("/api/virtual/admin")
 public class VirtualAdminController {
 

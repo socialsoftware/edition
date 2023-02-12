@@ -4,18 +4,23 @@ export default () => theme =>
 	/*html*/ `
         <div class="toast-container">
         <div
-            class="toast fade text-bg-${theme}"
+            class="toast fade alert-${theme}"
             role="alert"
             aria-live="assertive"
             aria-atomic="true"
         >
             <div class="d-flex">
-                <div class="toast-body">
+            ${
+				theme === 'success'
+					? /*html*/ `<span is="ldod-span-icon" icon="check" size="18px" fill="#0f5132"></span>`
+					: /*html*/ `<span is="ldod-span-icon" icon="triangle-exclamation" size="18px" fill="#842029"></span>`
+			}
+            <div class="toast-body">
                 <slot name="toast-body"></slot>
                 </div>
                 <button
                     type="button"
-                    class="btn-close btn-close-white btn-close-margin"
+                    class="btn-close btn-close-alert btn-close-margin"
                 ></button>
             </div>
         </div>

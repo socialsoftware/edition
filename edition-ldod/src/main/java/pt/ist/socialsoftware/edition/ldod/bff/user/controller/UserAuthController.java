@@ -20,7 +20,6 @@ import pt.ist.socialsoftware.edition.ldod.dto.JWTAuthenticationDto;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.Message;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -36,7 +35,7 @@ public class UserAuthController {
     UserAuthService userAuthService;
 
     @PostMapping("/sign-in")
-    public ResponseEntity<?> authenticationController(@Valid @RequestBody SigninRequestDto signinRequestDto, HttpServletResponse response) {
+    public ResponseEntity<?> authenticationController(@RequestBody SigninRequestDto signinRequestDto) {
         logger.debug("auth request {}", signinRequestDto.toString());
         try {
             return ResponseEntity

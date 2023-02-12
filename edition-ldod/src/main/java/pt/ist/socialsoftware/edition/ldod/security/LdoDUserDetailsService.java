@@ -32,7 +32,6 @@ public class LdoDUserDetailsService implements UserDetailsService {
                 .findFirst()
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
-
         return new LdoDUserDetails(
                 matchingUser,
                 username,

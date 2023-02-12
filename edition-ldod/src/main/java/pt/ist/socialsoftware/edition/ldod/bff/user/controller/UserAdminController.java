@@ -24,8 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @RestController
-@Secured({"ROLE_ADMIN"})
 @RequestMapping("/api/admin/user")
+@PreAuthorize("hasPermission('','ADMIN')")
 public class UserAdminController {
     private static final Logger logger = LoggerFactory.getLogger(UserAdminController.class);
     @Autowired

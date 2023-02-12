@@ -29,7 +29,6 @@ public class LdoDSession implements Serializable {
 	public static LdoDSession getLdoDSession() {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 				.getRequest();
-
 		LdoDSession ldoDSession = null;
 		if (request.getSession().getAttribute("ldoDSession") == null) {
 			ldoDSession = new LdoDSession();

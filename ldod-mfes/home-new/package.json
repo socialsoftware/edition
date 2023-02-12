@@ -1,31 +1,17 @@
 {
-  "name": "home-new",
-  "version": "1.0.0",
-  "license": "MIT",
-  "private": true,
-  "type": "module",
-  "entry": "index.js",
-  "config": {
-    "docker": "http://localhost:8080/ldod-mfes",
-    "dev": "http://localhost:9000/ldod-mfes"
-  },
-  "scripts": {
-    "dev": "vite --config vite.config.dev.js",
-    "build": "vite build && yarn build:navbar",
-    "build:dev": "vite --config vite.config.dev.js build",
-    "build:navbar": "vite --config vite.config.server.navbar.js build",
-    "prepreview": "vite --config vite.config.dev.js build",
-    "preview": "vite --config vite.config.dev.js preview",
-    "pack": "yarn build && ./scripts/pack.sh home-new",
-    "publish:dev": "yarn run pack && ./scripts/publish.sh home-new home-new.js @./dist/home-new.tgz $npm_package_config_dev",
-    "unpublish:dev": "./scripts/unpublish.sh home-new $npm_package_config_dev",
-    "publish": "yarn run pack && ./scripts/publish.sh home-new home-new.js @./dist/home-new.tgz $npm_package_config_docker",
-    "unpublish": "./scripts/unpublish.sh home-new $npm_package_config_docker"
-  },
-  "devDependencies": {
-    "vite": "^3.2.4"
-  },
-  "dependencies": {
-    "shared": "file:../shell/shared"
-  }
+	"name": "home-new",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"scripts": {
+		"dev": "vite"
+	},
+	"devDependencies": {
+		"rollup-plugin-terser": "^7.0.2",
+		"vite": "^4.1.1"
+	},
+	"dependencies": {
+		"@popperjs/core": "^2.11.6",
+		"shared": "file:../shell/shared"
+	}
 }

@@ -1,3 +1,5 @@
+/** @format */
+
 import { ldodEventPublisher, ldodEventSubscriber, ldodEventBus } from '@shared/ldod-events.js';
 
 export const errorPublisher = message => ldodEventPublisher('error', message);

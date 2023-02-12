@@ -1,2 +1,3 @@
-import 'shared/router.js';
-import './src/components/navbar/ldod-navbar.js';
+/** @format */
+
+import './src/navbar/home';

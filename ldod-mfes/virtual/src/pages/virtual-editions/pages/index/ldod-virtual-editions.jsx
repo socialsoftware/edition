@@ -169,8 +169,8 @@ export class LdodVirtualEditions extends HTMLElement {
 		getVeIntersForManual(this.edition.externalId)
 			.then(data => {
 				ldodVeManual.parent = this;
-				ldodVeManual.initialInters = Array.from(data);
-				ldodVeManual.updateData(data);
+				ldodVeManual.inters = data;
+				ldodVeManual.toggleAttribute('show', true);
 			})
 			.catch(onError);
 	};

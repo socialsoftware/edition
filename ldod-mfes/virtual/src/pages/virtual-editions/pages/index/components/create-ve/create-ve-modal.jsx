@@ -1,17 +1,19 @@
-import '@shared/modal.js';
+/** @format */
+
+import '@shared/modal-bs.js';
 import CreateVEForm from './create-ve-form';
 
 export default ({ node }) => {
 	return (
 		<>
-			<ldod-modal id="virtual-veCreateModal" dialog-class="modal-lg" no-footer>
-				<span data-virtualkey="modalTitle" slot="header-slot">
+			<ldod-bs-modal id="virtual-ve-create-modal" dialog-class="modal-lg">
+				<h4 data-virtualkey="modalTitle" slot="header-slot" style={{ margin: '0' }}>
 					{node.getConstants('modalTitle')}
-				</span>
+				</h4>
 				<div slot="body-slot">
 					<CreateVEForm node={node} />
 				</div>
-			</ldod-modal>
+			</ldod-bs-modal>
 		</>
 	);
 };

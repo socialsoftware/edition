@@ -1,6 +1,5 @@
 /** @format */
 
-import '@shared/modal-bs.js';
 import constants from '@src/pages/constants';
 import thisConstants from './constants';
 import TaxonomyComponent from './taxonomy-component';
@@ -60,15 +59,15 @@ export class LdodVeTaxonomy extends HTMLElement {
 	}
 
 	get generateTopicsModal() {
-		return this.querySelector('ldod-modal#virtual-generateTopicsModal');
+		return this.querySelector('ldod-bs-modal#virtual-generate-topics-modal');
 	}
 
 	get editCategoryModal() {
-		return this.querySelector('ldod-modal#virtual-editCategoryModal');
+		return this.querySelector('ldod-bs-modal#virtual-edit-category-modal');
 	}
 
 	get extractCategoryFragsModal() {
-		return this.querySelector('ldod-modal#virtual-extractCategoryFragsModal');
+		return this.querySelector('ldod-bs-modal#virtual-extract-category-frags-modal');
 	}
 
 	static get observedAttributes() {
@@ -93,7 +92,7 @@ export class LdodVeTaxonomy extends HTMLElement {
 			<ldod-bs-modal
 				id="virtual-taxonomy-modal"
 				dialog-class="modal-xl modal-dialog-scrollable">
-				<h4 slot="header-slot">
+				<h4 slot="header-slot" style={{ margin: 0 }}>
 					<span>{this.taxonomy.veTitle} - </span>
 					<span>{this.getConstants('taxonomy')}</span>
 				</h4>
@@ -107,10 +106,6 @@ export class LdodVeTaxonomy extends HTMLElement {
 	}
 
 	onChangedAttribute = {
-		data: () => {
-			//this.render();
-			//this.taxonomyModal?.toggleAttribute('show', this.show);
-		},
 		show: () => {
 			if (this.show) {
 				getVeTaxonomy(this.parent.edition.externalId)
@@ -176,15 +171,17 @@ export class LdodVeTaxonomy extends HTMLElement {
 			this.resetState();
 			this.emitLoading(false);
 		},
-		generateTopicsModal: () => {
+		'generate-topics-modal': () => {
 			this.toggleAttribute('show', true);
 		},
-		editCategoryModal: () => {
+		'edit-category-modal': () => {
 			this.editCategoryModal.remove();
+			this.toggleAttribute('show', true);
 		},
-		extractCategoryFragsModal: () => {
+		'extract-category-frags-modal': () => {
 			document.body.removeEventListener('click', this.computeSelectHeight);
 			this.extractCategoryFragsModal.remove();
+			this.toggleAttribute('show', true);
 		},
 	};
 
@@ -229,11 +226,13 @@ export class LdodVeTaxonomy extends HTMLElement {
 	};
 
 	onOpenEditModal = async category => {
+		this.taxonomyModal.toggleAttribute('show', false);
 		this.appendChild(await EditCategoryModal(this, category));
 		this.editCategoryModal.toggleAttribute('show');
 	};
 
 	onExtractFrags = async category => {
+		this.taxonomyModal.toggleAttribute('show', false);
 		this.appendChild(await ExtractCategoryFragsModal(this, category));
 		document.body.addEventListener('click', this.computeSelectHeight);
 		this.extractCategoryFragsModal.toggleAttribute('show');

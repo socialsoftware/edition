@@ -1,3 +1,5 @@
+/** @format */
+
 export const modal = () => {
 	return /*html*/ `
         <div

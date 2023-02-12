@@ -18,7 +18,7 @@ import pt.ist.socialsoftware.edition.ldod.bff.user.controller.LdoDUserController
 import java.io.IOException;
 
 @RestController
-@Secured({"ROLE_ADMIN"})
+@PreAuthorize("hasPermission('','ADMIN')")
 @RequestMapping("/api/admin/social")
 public class SocialAdminController {
     @Autowired

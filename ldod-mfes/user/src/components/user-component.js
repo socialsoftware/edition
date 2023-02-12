@@ -1,6 +1,7 @@
-import { getState } from '@src/store.js';
+/** @format */
+
 import { navigateTo } from '@shared/router.js';
-import { setState, userFullName } from '../store';
+import { getState, setState, userFullName } from '../store';
 import { userReferences } from '../user-references';
 import { loginSubscriber, logoutPublisher, logoutSubscriber } from '../events-modules';
 import authenticatedComponent from './auth-component';
@@ -88,4 +89,5 @@ export class UserComponent extends HTMLLIElement {
 	};
 }
 
-!customElements.get('user-component') && customElements.define('user-component', UserComponent, { extends: 'li' });
+!customElements.get('user-component') &&
+	customElements.define('user-component', UserComponent, { extends: 'li' });

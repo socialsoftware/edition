@@ -22,6 +22,7 @@ export class LdodPopover extends HTMLElement {
 
 	get options() {
 		return {
+			strategy: 'fixed',
 			placement: 'bottom',
 			modifiers: [
 				{

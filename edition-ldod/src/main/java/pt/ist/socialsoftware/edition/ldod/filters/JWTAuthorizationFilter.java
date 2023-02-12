@@ -3,6 +3,7 @@ package pt.ist.socialsoftware.edition.ldod.filters;
 import io.jsonwebtoken.Jwts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,7 +29,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             .getProperty("spring.security.jwt.header.string");
     private final static String SECRET = PropertiesManager.getProperties().getProperty("spring.security.jwt.secret");
 
-    public JWTAuthorizationFilter(AuthenticationManager authManager) {
+    public JWTAuthorizationFilter(@Qualifier("authenticationManagerBean") AuthenticationManager authManager) {
         super(authManager);
     }
 
@@ -36,7 +37,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
             throws IOException, ServletException {
         String header = req.getHeader(HEADER_STRING);
-
         if (header == null || !header.startsWith(TOKEN_PREFIX)) {
             chain.doFilter(req, res);
             return;

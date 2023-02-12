@@ -20,8 +20,8 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@Secured({"ROLE_ADMIN"})
 @RequestMapping("/api/text/admin/")
+@PreAuthorize("hasPermission('','ADMIN')")
 public class TextAdminController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserAdminController.class);

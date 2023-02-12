@@ -1,42 +1,37 @@
-const getAddFragsModal = (node) =>
-  node.querySelector('ldod-modal#virtual-addFragmentsModal');
+/** @format */
 
-const getLdodSearchSimple = (node) =>
-  getAddFragsModal(node)?.querySelector('ldod-search-simple');
+const getAddFragsModal = node => node.querySelector('ldod-bs-modal#virtual-add-fragments-modal');
 
-const getSelectedInters = (node) =>
-  getLdodSearchSimple(node)?.getSelectedInters();
+const getLdodSearchSimple = node => getAddFragsModal(node)?.querySelector('ldod-search-simple');
 
-const onAdd = (node) => {
-  const selectedInters = getSelectedInters(node);
-  if (!selectedInters?.length) return;
-  node.onAddFragments(selectedInters);
-  getAddFragsModal(node).toggleAttribute('show');
-  getLdodSearchSimple(node).replaceWith(renderLdodSearchSimple(node));
+const getSelectedInters = node => getLdodSearchSimple(node)?.getSelectedInters();
+
+const onAdd = node => {
+	const selectedInters = getSelectedInters(node);
+	if (!selectedInters?.length) return;
+	node.onAddFragments(selectedInters);
+	getAddFragsModal(node).toggleAttribute('show');
+	getLdodSearchSimple(node).replaceWith(renderLdodSearchSimple(node));
 };
 
-const renderLdodSearchSimple = (node) => (
-  <ldod-search-simple language={node.language} fragment></ldod-search-simple>
+const renderLdodSearchSimple = node => (
+	<ldod-search-simple language={node.language} fragment></ldod-search-simple>
 );
 
 export default ({ node }) => {
-  return (
-    <ldod-modal
-      id="virtual-addFragmentsModal"
-      dialog-class="modal-xl"
-      document-overflow>
-      <span slot="header-slot">{node.getConstants('addFrags')}</span>
-      <div slot="body-slot" style={{ margin: 'auto 30px' }}>
-        {renderLdodSearchSimple(node)}
-      </div>
-      <div slot="footer-slot">
-        <button
-          type="button"
-          class="btn btn-primary"
-          onClick={() => onAdd(node)}>
-          {node.getConstants('add')}
-        </button>
-      </div>
-    </ldod-modal>
-  );
+	return (
+		<ldod-bs-modal id="virtual-add-fragments-modal" dialog-class="modal-xl">
+			<h4 slot="header-slot" style={{ margin: '0' }}>
+				{node.getConstants('addFrags')}
+			</h4>
+			<div slot="body-slot" style={{ margin: 'auto 30px' }}>
+				{renderLdodSearchSimple(node)}
+			</div>
+			<div slot="footer-slot">
+				<button type="button" class="btn btn-primary" onClick={() => onAdd(node)}>
+					{node.getConstants('add')}
+				</button>
+			</div>
+		</ldod-bs-modal>
+	);
 };

@@ -6,15 +6,38 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="http://localhost:9000/ldod-mfes/shared/bootstrap/root.css">
+  <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
   <title>Document</title>
+  <style>
+    button[id] {
+      display: block;
+    }
+  </style>
 </head>
 
 <body>
   <script type="module" src="index.js"></script>
-  <ldod-bs-modal dialog-class="modal-xl modal-dialog-centered modal-dialog-scrollable" static show>
+  <ldod-bs-modal dialog-class="modal-sm" static show>
     <h5 slot="header-slot">Header</h5>
-    <div slot="body-slot">Body</div>
+    <div slot="body-slot">
+      <button id="1">button for tooltip</button>
+      <button id="2">button for tooltip</button>
+      <button id="3">button for tooltip</button>
+      <div>
+        <div id="4">
+          <button>button for tooltip</button>
+        </div>
+        <ldod-tooltip data-ref="div[id='4']" data-content="some tooltiped content" placement="left"></ldod-tooltip>
+
+        <button id="5">button for tooltip</button>
+        <button id="6">button for tooltip</button>
+      </div>
+    </div>
   </ldod-bs-modal>
+
+  <button id="out-1">button for tooltip</button>
+  <ldod-tooltip data-ref="button[id='out-1']" data-content="some tooltiped content" placement="right"></ldod-tooltip>
+
   <ldod-modal id="test" dialog-class="modal-lg modal-success" z-index="1060">
     <span slot="header-slot">Info</span>
     <div slot="body-slot"></div>

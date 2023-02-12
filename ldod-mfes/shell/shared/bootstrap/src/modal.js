@@ -1,1 +1,3 @@
-export { default } from 'bootstrap/js/dist/modal';
+/** @format */
+
+export { default } from 'bootstrap/js/dist/modal.js';

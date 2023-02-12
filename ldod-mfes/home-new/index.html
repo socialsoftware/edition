@@ -2,13 +2,17 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LdoD MFE</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://localhost:9000/ldod-mfes/shared/bootstrap/root.css">
+    <link rel="stylesheet" href="/fonts/fonts.css">
+    <title>Document</title>
     <script>
-        window.mfes = ["about"]
-        window.references = {
-            about: {
+        window.process = {
+            host: "http://localhost:9000/ldod-mfes",
+        }; window.references = {
+            "about": {
                 archive: () => '/about/archive',
                 videos: () => '/about/videos',
                 tutorials: () => '/about/tutorials',
@@ -20,7 +24,7 @@
                 team: () => '/about/team',
                 ack: () => '/about/acknowledgements',
                 contact: () => '/about/contact',
-                conduct: () => "/about/conduct",
+                conduct: () => '/about/conduct',
                 copyright: () => '/about/copyright',
             }
         }
@@ -28,10 +32,11 @@
 </head>
 
 <body>
-    <div id="app">
-        <ldod-navbar language="en"></ldod-navbar>
-    </div>
-    <script type="module" src="/index.js"></script>
+
+    <script src="index.js" type="module"></script>
+    <ldod-navbar language="pt"></ldod-navbar>
+
+
 </body>
 
 </html>

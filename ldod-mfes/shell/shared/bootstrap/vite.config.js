@@ -23,6 +23,11 @@ export default defineConfig({
 				'src/bootstrap-css.js',
 				'src/toast-css.js',
 				'src/modal.js',
+				'src/dropdown.js',
+				'src/collapse.js',
+				'src/navbar-css.js',
+				'src/nav-css.js',
+				'src/dropdown-css.js',
 			],
 			formats: ['es'],
 			fileName: (_, entry) => `bootstrap/${entry}.js`,
@@ -47,7 +52,8 @@ export default defineConfig({
 			},
 			{
 				find: '@popperjs/core',
-				replacement: '../../vendor/node_modules/@popperjs/core_2.11.6',
+				replacement:
+					'../../vendor/node_modules/@popperjs/core_2.11.6/dist/umd/popper.min.js',
 			},
 		],
 	},

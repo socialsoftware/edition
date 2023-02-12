@@ -22,6 +22,7 @@ import pt.ist.socialsoftware.edition.ldod.domain.RegistrationToken;
 import pt.ist.socialsoftware.edition.ldod.dto.JWTAuthenticationDto;
 import pt.ist.socialsoftware.edition.ldod.security.jwt.GoogleAuthTokenVerifier;
 import pt.ist.socialsoftware.edition.ldod.security.jwt.JWTTokenProvider;
+import pt.ist.socialsoftware.edition.ldod.session.LdoDSession;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDDuplicateUsernameException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.LdoDException;
 import pt.ist.socialsoftware.edition.ldod.shared.exception.Message;
@@ -30,6 +31,7 @@ import pt.ist.socialsoftware.edition.ldod.validator.SignupValidator;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 import java.util.UUID;
 

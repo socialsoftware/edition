@@ -37,6 +37,7 @@ export class LdodTooltip extends HTMLElement {
 
 	get options() {
 		return {
+			strategy: 'fixed',
 			placement: this.placement,
 			modifiers: [
 				{

@@ -15,12 +15,16 @@ export class LdodBsModal extends HTMLElement {
 		super();
 		this.attachShadow({ mode: 'open' });
 		this.shadowRoot.adoptedStyleSheets = [sheet];
-		this.shadowRoot.innerHTML = modal();
-		this.modalBackdrop = this.shadowRoot.querySelector('#modal-backdrop');
+		this.self.innerHTML = modal();
+		this.modalBackdrop = this.self.querySelector('#modal-backdrop');
+	}
+
+	get self() {
+		return this.shadowRoot || this;
 	}
 
 	get modal() {
-		return this.shadowRoot.firstElementChild;
+		return this.self.firstElementChild;
 	}
 
 	get dialog() {
@@ -57,7 +61,7 @@ export class LdodBsModal extends HTMLElement {
 
 	connectedCallback() {
 		this.dialog.addEventListener('click', e => e.stopPropagation());
-		this.shadowRoot.querySelectorAll('slot').forEach(slot => {
+		this.self.querySelectorAll('slot').forEach(slot => {
 			if (!slot.assignedNodes().length) slot.parentElement.hidden = true;
 		});
 	}
@@ -87,13 +91,13 @@ export class LdodBsModal extends HTMLElement {
 	showModal = () => {
 		this.addEventListeners();
 		this.modal.style.display = 'block';
+		this.ariaModal = 'true';
+		this.removeAttribute('aria-hidden');
 		setTimeout(() => {
-			this.modalBackdrop.className = 'modal-backdrop fade show';
-			this.removeAttribute('aria-hidden');
-			this.ariaModal = 'true';
 			document.body.classList.add('modal-open');
+			this.modalBackdrop.className = 'modal-backdrop show';
 			this.modal.classList.add('show');
-		}, 50);
+		}, 100);
 	};
 
 	hideModal = () => {
@@ -101,12 +105,12 @@ export class LdodBsModal extends HTMLElement {
 		this.modalBackdrop.className = '';
 		this.ariaHidden = 'true';
 		this.removeAttribute('aria-modal');
-		document.body.classList.remove('modal-open');
 		this.modal.classList.remove('show');
 		this.onHide();
 		setTimeout(() => {
 			this.modal.style.display = 'none';
-		}, 50);
+			document.body.classList.remove('modal-open');
+		}, 100);
 	};
 
 	onHide = () =>

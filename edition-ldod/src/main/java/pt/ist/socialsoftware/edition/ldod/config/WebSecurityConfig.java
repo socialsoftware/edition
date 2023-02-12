@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -37,7 +38,6 @@ import javax.inject.Inject;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
     private static Logger log = LoggerFactory.getLogger(WebSecurityConfig.class);
-
     @Inject
     Environment environment;
 
@@ -47,7 +47,7 @@ public class WebSecurityConfig {
     @Autowired
     private AuthenticationConfiguration authConfig;
 
-    @Bean
+  /*  @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         log.debug("configure");
 
@@ -62,7 +62,7 @@ public class WebSecurityConfig {
                 .loginProcessingUrl("/signin/authenticate").failureUrl("/signin?param.error=bad_credentials").and()
                 .logout().logoutUrl("/signout").deleteCookies("JSESSIONID").invalidateHttpSession(true).and()
                 .authorizeRequests().antMatchers("/virtualeditions/restricted/**", "/user/**").authenticated().and()
-                .authorizeRequests().antMatchers("/api/microfrontend/virtual/restricted/**").authenticated().and()
+                //.authorizeRequests().antMatchers("/api/microfrontend/virtual/restricted/**").authenticated().and()
                 .authorizeRequests().antMatchers("/api/user/**", "/api/virtual/restricted/**").authenticated()
                 .antMatchers("/admin/**").hasAuthority(Role.RoleType.ROLE_ADMIN.name()).and()
                 .exceptionHandling().authenticationEntryPoint(this.unauthorizedHandler).and()
@@ -70,10 +70,96 @@ public class WebSecurityConfig {
                 .sessionManagement()
                 .maximumSessions(2).sessionRegistry(sessionRegistry());
 
+
         // .sessionManagement()
         // .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         return http.build();
+    }*/
+
+    @Configuration
+    @Order(2)
+    public static class App2ConfigurationAdapter {
+        @Inject
+        Environment environment;
+
+        @Autowired
+        private JWTAuthenticationEntryPoint unauthorizedHandler;
+
+        @Autowired
+        private AuthenticationConfiguration authConfig;
+
+        @Bean
+        public SecurityFilterChain filterChain2(HttpSecurity http) throws Exception {
+            http
+                    .cors().and()
+                    .csrf().disable()
+                    .formLogin().loginPage("/signin").successHandler(ldoDAuthenticationSuccessHandler())
+                    .loginProcessingUrl("/signin/authenticate").failureUrl("/signin?param.error=bad_credentials").and()
+                    .logout().logoutUrl("/signout").deleteCookies("JSESSIONID").invalidateHttpSession(true).and()
+                    .authorizeRequests().antMatchers("/virtualeditions/restricted/**", "/user/**").authenticated()
+                    .antMatchers("/admin/**").hasAuthority(Role.RoleType.ROLE_ADMIN.name()).and()
+                    .exceptionHandling().authenticationEntryPoint(this.unauthorizedHandler).and()
+                    .addFilter(new JWTAuthorizationFilter(authenticationManagerBean(new AuthenticationConfiguration())))
+                    .sessionManagement()
+                    .maximumSessions(2).sessionRegistry(sessionRegistry());
+            return http.build();
+        }
+
+        @Bean
+        public LdoDAuthenticationSuccessHandler ldoDAuthenticationSuccessHandler() {
+            return new LdoDAuthenticationSuccessHandler();
+        }
+
+        @Bean
+        public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration authConfig) throws Exception {
+            return authConfig.getAuthenticationManager();
+        }
+
+        @Bean
+        public SessionRegistry sessionRegistry() {
+            return new SessionRegistryImpl();
+        }
+    }
+
+    @Configuration
+    @Order(1)
+    public static class App1ConfigurationAdapter {
+        @Inject
+        Environment environment;
+
+        @Autowired
+        private JWTAuthenticationEntryPoint unauthorizedHandler;
+
+        @Autowired
+        private AuthenticationConfiguration authConfig;
+
+        @Bean
+        public SecurityFilterChain filterChain1(HttpSecurity http) throws Exception {
+            http.antMatcher("/api/**")
+                    .cors().and()
+                    .csrf().disable()
+                    .authorizeRequests().antMatchers("/api/user/**", "/api/virtual/restricted/**").authenticated().and()
+                    .exceptionHandling().authenticationEntryPoint(this.unauthorizedHandler).and()
+                    .addFilter(new JWTAuthorizationFilter(authenticationManagerBean(new AuthenticationConfiguration())))
+                    .sessionManagement().disable();
+            return http.build();
+        }
+
+        @Bean
+        public LdoDAuthenticationSuccessHandler ldoDAuthenticationSuccessHandler() {
+            return new LdoDAuthenticationSuccessHandler();
+        }
+
+        @Bean
+        public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration authConfig) throws Exception {
+            return authConfig.getAuthenticationManager();
+        }
+
+        @Bean
+        public SessionRegistry sessionRegistry() {
+            return new SessionRegistryImpl();
+        }
     }
 
     @Bean
@@ -133,5 +219,4 @@ public class WebSecurityConfig {
     public LdoDSocialUserDetailsService ldoDSocialUserDetailsService() {
         return new LdoDSocialUserDetailsService(ldoDUserDetailsService());
     }
-
 }

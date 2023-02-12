@@ -30,10 +30,13 @@ public class LdoDAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
 		LdoDUser user = LdoDUser.getAuthenticatedUser();
 		user.setLastLogin(LocalDate.now());
 
-		LdoDSession ldoDSession = new LdoDSession();
-		request.getSession().setAttribute("ldoDSession", ldoDSession);
-		ldoDSession.updateSession(user);
+		String authHeader = request.getHeader("Authorization");
 
+		if (authHeader != null && !authHeader.startsWith("Bearer ") ) {
+			LdoDSession ldoDSession = new LdoDSession();
+			request.getSession().setAttribute("ldoDSession", ldoDSession);
+			ldoDSession.updateSession(user);
+		}
 		super.onAuthenticationSuccess(request, response, authentication);
 		log.debug("onAuthenticationSuccess");
 	}

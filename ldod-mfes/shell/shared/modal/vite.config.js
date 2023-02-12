@@ -30,6 +30,10 @@ export default defineConfig({
 				find: '@shared/',
 				replacement: '../../../dist/',
 			},
+			{
+				find: '@vendor/',
+				replacement: '../../vendor/node_modules/',
+			},
 		],
 	},
 });
