@@ -7,6 +7,8 @@ import rootBS from '@shared/bootstrap/root-css.js';
 import navbarBS from '@shared/bootstrap/navbar-css.js';
 import navBS from '@shared/bootstrap/nav-css.js';
 import dropdownBS from '@shared/bootstrap/dropdown-css.js';
+import { ldodEventSubscriber } from '@shared/ldod-events.js';
+
 import './li-dropdown/li-dropdown';
 import container from './style/container.css?inline';
 import navbar from './style/navbar.css?inline';
@@ -15,6 +17,8 @@ import dropdown from './style/dropdown.css?inline';
 import './li-lang-menu';
 import navbarHtml from './navbar-html';
 import constants from './constants';
+import { getDropItems } from './li-dropdown/li-dropdown-html';
+import { virtualReferences } from '../external-deps';
 
 (await import('user').catch(e => console.error(e)))?.default.bootstrap();
 
@@ -26,6 +30,7 @@ sheet.replaceSync(
 const loadBootstrapJSModules = async () => {
 	Collapse = (await import('@shared/bootstrap/collapse.js')).default;
 };
+const DEFAULT_SELECTED_VE = [];
 
 export class LdodNavbar extends HTMLElement {
 	constructor() {
@@ -33,6 +38,7 @@ export class LdodNavbar extends HTMLElement {
 		this.attachShadow({ mode: 'open' });
 		this.shadowRoot.adoptedStyleSheets = [sheet];
 		this.shadowRoot.innerHTML = `${navbarHtml(this.language)}`;
+		this.selectedVE = DEFAULT_SELECTED_VE;
 	}
 	static get observedAttributes() {
 		return ['language'];
@@ -57,6 +63,16 @@ export class LdodNavbar extends HTMLElement {
 		return Array.from(this.shadowRoot.querySelectorAll('.dropdown-menu a.dropdown-item'));
 	}
 
+	get editionDropdown() {
+		return this.shadowRoot.querySelector("[key='editions']");
+	}
+	get adminDropdown() {
+		return this.shadowRoot.querySelector("[key='admin']");
+	}
+	get isAdmin() {
+		return this.user && this.user.roles.includes('ROLE_ADMIN');
+	}
+
 	attributeChangedCallback(name, oldValue, newValue) {
 		this.handleChangedAttribute[name](oldValue, newValue);
 	}
@@ -75,7 +91,15 @@ export class LdodNavbar extends HTMLElement {
 	}
 
 	connectedCallback() {
+		this.addEventBusListeners();
 		window.addEventListener('pointermove', this.render, { once: true });
+		this.setAdminVisibility();
+	}
+
+	disconnectedCallback() {
+		this.unsubSelectedVe?.();
+		this.unsubLogout?.();
+		this.unsubLogin?.();
 	}
 	render = async () => {
 		await this.createInstances();
@@ -87,6 +111,12 @@ export class LdodNavbar extends HTMLElement {
 			collapse => new Collapse(collapse, { toggle: false })
 		);
 	};
+
+	addEventBusListeners() {
+		this.unsubSelectedVe = ldodEventSubscriber('selected-ve', this.addSelectedVE);
+		this.unsubLogout = ldodEventSubscriber('logout', this.onUserLogout);
+		this.unsubLogin = ldodEventSubscriber('login', this.onUserLogin);
+	}
 
 	addEventListeners() {
 		this.collapseToggler.addEventListener('click', this.onToggler);
@@ -125,21 +155,68 @@ export class LdodNavbar extends HTMLElement {
 			.forEach(ele => ele.classList.toggle('show', force));
 	};
 
-	handleDropdownClick = () => {
-		this.dropdowns.forEach(drop =>
-			drop._element.addEventListener('pointerdown', e => e.button === 0 && drop.toggle())
-		);
-	};
-
-	handleDropdownBlur = () => {
-		this.dropdowns.forEach(drop => {
-			drop._element.addEventListener('focusout', () => {
-				console.log(drop);
-				drop.hide();
-			});
-		});
-	};
-
 	onDropdownItem = e => e.button === 2 && e.preventDefault();
+
+	onUserLogin = ({ payload }) => {
+		if (!this.user) {
+			this.selectedVE = payload.selectedVE;
+			this.updateVE();
+		}
+		this.user = payload;
+		this.setAdminVisibility();
+	};
+
+	onUserLogout = () => {
+		this.user && this.setAdminVisibility(true);
+		this.user && this.removeEditions();
+		this.user = undefined;
+		this.selectedVE = DEFAULT_SELECTED_VE;
+		this.updateVE();
+	};
+
+	setAdminVisibility = (hide = !this.isAdmin) => {
+		this.adminDropdown.hidden = hide;
+	};
+
+	addSelectedVE = ({ payload }) => {
+		this.selectedVE = payload.selected
+			? [...this.selectedVE, payload.name]
+			: this.selectedVE.filter(acr => acr !== payload.name);
+		this.updateVE();
+	};
+
+	updateVE() {
+		this.removeEditions();
+		this.addEditions();
+	}
+
+	addEditions() {
+		const template = document.createElement('template');
+		template.innerHTML = /*html*/ `
+			${this.selectedVE
+				.map(
+					ve => /*html*/ `
+					<li selected>
+						<a
+							class="dropdown-item"
+							is="nav-to"
+							to="${virtualReferences?.virtualEdition?.(ve) || ''}"
+							id="${ve.toLowerCase()}"
+						>
+							${ve}
+						</a>
+					</li>
+					`
+				)
+				.join('')}
+		`;
+		this.editionDropdown
+			.querySelector('ul.dropdown-menu')
+			.appendChild(template.content.cloneNode(true));
+	}
+
+	removeEditions() {
+		this.editionDropdown.querySelectorAll('li[selected]').forEach(li => li.remove());
+	}
 }
 customElements.define('ldod-navbar', LdodNavbar);

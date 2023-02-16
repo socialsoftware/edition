@@ -32,11 +32,9 @@ export class HomeInfo extends HTMLElement {
 
 	attributeChangedCallback(name, oldV, newV) {
 		if (oldV && oldV !== newV) {
-			this.setConstants().then(() => {
-				this.shadowRoot
-					.querySelectorAll('.update-language')
-					.forEach(ele => (ele.innerHTML = constants[this.language][ele.id]));
-			});
+			this.shadowRoot
+				.querySelectorAll('[data-info-key]')
+				.forEach(ele => (ele.innerHTML = constants[this.language][ele.dataset.infoKey]));
 		}
 	}
 

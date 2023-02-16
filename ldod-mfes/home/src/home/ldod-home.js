@@ -3,7 +3,6 @@ import style from './style/home.css?inline';
 import containerCss from '../navbar/style/container.css?inline';
 const styleSheet = new CSSStyleSheet();
 styleSheet.replaceSync(style + containerCss);
-import constants from '../navbar/constants';
 import ldodHomeHtml from './ldod-home-html';
 
 export default class LdodHome extends HTMLElement {
@@ -21,37 +20,16 @@ export default class LdodHome extends HTMLElement {
 	}
 
 	attributeChangedCallback(name, oldV, newV) {
-		this.attributeChanged[name]();
+		this.attributeChanged[name](oldV, newV);
 	}
 
 	attributeChanged = {
-		language: (oldV, newV) => {
-			if (oldV !== newV) {
-				this.componentsTextContextUpdate();
-				this.boxesUpdate();
-				this.languageUpdate();
-			}
-		},
+		language: (oldV, newV) => oldV !== newV && this.render(),
 	};
 
-	connectedCallback() {
-		this.render();
-	}
+	connectedCallback = () => this.render();
 
-	render() {
-		this.shadowRoot.innerHTML = ldodHomeHtml(this);
-	}
-
-	languageUpdate = () =>
-		this.shadowRoot
-			.querySelectorAll('[language]')
-			.forEach(ele => ele.setAttribute('language', this.language));
-
-	componentsTextContextUpdate() {
-		this.shadowRoot
-			.querySelectorAll('[data-home-key]')
-			.forEach(ele => (ele.textContent = constants[this.language][ele.dataset.homeKey]));
-	}
+	render = () => (this.shadowRoot.innerHTML = ldodHomeHtml(this));
 }
 
 customElements.define('ldod-home', LdodHome);

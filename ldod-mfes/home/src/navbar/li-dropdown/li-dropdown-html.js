@@ -18,7 +18,7 @@ export default root => {
     `;
 };
 
-function getDropItems({ id, route, link }, lang) {
+export function getDropItems({ id, route, link }, lang) {
 	return /*html*/ `<li>${
 		id === 'divider' ? divider() : dropdownItem(id, route, link, lang)
 	}</li>`;
