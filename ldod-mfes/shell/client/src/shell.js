@@ -48,7 +48,7 @@ if (typeof window !== 'undefined')
 	window.addEventListener('pointermove', loadLazyModules, { once: true });
 
 function loadLazyModules() {
+	import('@shared/notifications.js');
 	import('@shared/ldod-icons.js');
 	import('./components/ldod-loading.js');
-	import('@shared/notifications.js');
 }

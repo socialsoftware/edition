@@ -24,6 +24,21 @@
             padding-right: 15px;
         }
 
+        div#notification-container {
+            padding: 0 2rem;
+            transform: translateX(-50%);
+            left: 50%;
+            top: 125px;
+            position: absolute;
+            z-index: 1090;
+            width: max-content;
+            max-width: 100%;
+        }
+
+        div#notification-container>* {
+            margin-bottom: 1rem;
+        }
+
         .container {
             padding-right: 15px;
             padding-left: 15px;
@@ -68,10 +83,7 @@
 <body class="ldod-default">
     <ldod-navbar token="false" language></ldod-navbar>
     <div id="root"></div>
-    <ldod-notification>
-        <div slot="toast-body">
-        </div>
-    </ldod-notification>
+    <div id="notification-container"></div>
     <ldod-loading id="shell-loading" hidden></ldod-loading>
     <script type="module" src="/ldod-mfes/shell.js" async></script>
 </body>

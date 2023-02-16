@@ -157,10 +157,9 @@ export class LdodTable extends HTMLElement {
 					.map(row => row[this.dataset.searchkey].toString())
 			: this.data.map(row => row[this.dataset.searchkey].toString());
 
-		this.querySelectorAll('tbody>tr').forEach(row => {
-			if (result.indexOf(row.id) === -1) return row.toggleAttribute('searched', false);
-			row.toggleAttribute('searched', true);
-		});
+		this.querySelectorAll('tbody>tr').forEach(row =>
+			row.toggleAttribute('searched', result.indexOf(row.id) !== -1)
+		);
 
 		this.dispatchCustomEvent('ldod-table-searched', {
 			id: this.id,
@@ -173,12 +172,6 @@ export class LdodTable extends HTMLElement {
 	dispatchCustomEvent = (event, detail) => {
 		this.dispatchEvent(new CustomEvent(event, { detail, bubbles: true, composed: true }));
 	};
-}
-
-function getCell(key, entry) {
-	return /*html*/ `
-	<td>${typeof entry[key] === 'function' ? entry[key]() : entry[key]}</td>
-	`;
 }
 
 !customElements.get('ldod-table') && customElements.define('ldod-table', LdodTable);

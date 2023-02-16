@@ -1,0 +1,205 @@
+/** @format */
+
+p {
+	margin-block-start: 0;
+	margin-block-end: 0;
+	margin: 0 0 10px;
+}
+
+a[is='nav-to'] {
+	cursor: pointer;
+	background-color: transparent;
+}
+
+a[is='nav-to']:active,
+a[is='nav-to']:hover {
+	outline: 0;
+}
+
+:after,
+:before {
+	box-sizing: border-box;
+}
+
+.ldod-default {
+	font-family: 'Work-Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+		Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	color: black;
+	font-size: 15px;
+	line-height: 1.5;
+}
+
+.ldod-default .frag-excerpt {
+	color: #fc1b27;
+}
+
+.font-grotesque {
+	font-family: 'Work-Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+		Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.font-egyptian {
+	font-family: 'Ultra', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+		Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.font-condensed {
+	font-family: 'League-Gothic', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+		Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.ldod-default .frag-number {
+	font-size: 80px;
+	padding-left: 8%;
+}
+
+@media (max-width: 767px) {
+	.ldod-default .frag-number {
+		font-size: 35px;
+	}
+}
+
+.ldod-default .frag-editor {
+	position: relative;
+	font-weight: 600;
+	font-size: 40px;
+	padding-left: 2%;
+	text-transform: uppercase;
+	vertical-align: top;
+	top: 16px;
+}
+
+@media (max-width: 767px) {
+	.ldod-default .frag-editor {
+		font-size: 20px;
+		top: 6px;
+	}
+}
+
+.line-points {
+	border-top: 3px dotted #e71924;
+	margin-bottom: 30px;
+	margin-top: 30px;
+}
+
+@media (max-width: 767px) {
+	.line-points {
+		margin-bottom: 20px;
+		margin-top: 20px;
+	}
+}
+
+.frag-excerpt:hover {
+	color: #0c4ef6;
+}
+
+.frag-excerpt-text p {
+	font-weight: 600;
+	font-size: 50px;
+	line-height: 58px;
+}
+
+@media (max-width: 767px) {
+	.ldod-default .frag-excerpt-text p {
+		font-weight: 600;
+		font-size: 32px;
+		line-height: 36px;
+	}
+}
+
+.ldod-default .about {
+	margin-top: 30px;
+	margin-bottom: 40px;
+}
+
+.font-monospace {
+	font-family: 'Space-Mono', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+		Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.ldod-default .about p {
+	color: #0c4ef6;
+	font-size: 36px;
+	line-height: 48px;
+}
+
+.ldod-default .line-x {
+	height: 20px;
+	border: 0;
+}
+
+hr {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border: 0;
+	border-top: 1px solid #eee;
+	height: 0;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+.ldod-default .menu-boxes {
+	position: relative;
+	display: block;
+	padding: 0;
+	margin-top: 20px;
+}
+
+.ldod-default .menu-boxes img {
+	position: relative;
+	width: 100%;
+}
+
+img {
+	vertical-align: middle;
+	border: 0;
+}
+
+@media (max-width: 767px) {
+	.ldod-default .about p {
+		font-size: 20px;
+		line-height: 25px;
+		margin-top: 0px;
+		margin-bottom: 0px;
+	}
+}
+
+@media (max-width: 767px) {
+	.ldod-default .menu-boxes {
+		margin-top: 7px;
+	}
+}
+
+.visible-xs-inline {
+	display: none !important;
+}
+
+@media (max-width: 767px) {
+	.hidden-xs {
+		display: none !important;
+	}
+}
+
+@media (max-width: 767px) {
+	.visible-xs-inline {
+		display: inline !important;
+	}
+}
+
+.ldod-default .div-link img:nth-child(2) {
+	display: none;
+}
+
+.ldod-default .div-link:hover img:nth-child(2) {
+	display: inline;
+}
+
+.ldod-default .div-link:hover img:nth-child(1) {
+	display: none;
+}
+
+.line-x {
+	background: url('data:image/webp;base64,UklGRjACAABXRUJQVlA4WAoAAAAQAAAAFQAAEwAAQUxQSC8AAAABD9D/iAiojW0buh+lSBW5xSKjIX14xVhqiOj/BAB5hLUDbylKiXedAcg9ALkdnwBWUDgg2gEAAPALAJ0BKhYAFAA+MRaJQ6IhIRQEACADBLYATplCQWPwZiV1B/iPtJriD+3dJz1gHoAfsV6XPsU/tR+xnsk3KCuA/qv5AaICaa8gu/pPJl87+iL/setyEy70/N7x61Tg3iTkn/b5EUmAAP7/YjQi2GbAIJ0LQPXo8byr/BQPvmrCXm//+EU3kgSrf4a2l4P9+vsfcpxdWeored9Pi0nR/ugNGCscjeyPBmrhCIU0YYrLb1aa29N/E/nmh/VhklfIIkam15895ct7VJ04MOaPb7CC/kCM+wv9Y72mjQv0xQO9Qk0qbF8nQOmv/439L8rFZLTcoS0MGKQdL8koX5qEsP/9Rpq5Dh+qYT5yXt/8iCX2pwWy8tObr28TRXxARC+c4D/GH/jfmeJCdesFf8A3oI61R+Z9lvQ8y4MyAb+nRig4nNgR425x3NbmZxUXAsS2T+D/IUpqD8d27jjr2LXpMNZfDD5EI94b0zdXZIV/dBWBh5x9Bz5CC2tMfNuXoaTwuUsP3wK+ok6Hdef3XPJtAxym5MrnK4IATw770GzYzaIGNfhawFld1GUlVlas/2kVcXTWGfMyevRCU+pokUCWFkAdMtFj6Bq2SynR97GCAYdY0PGjPYPRgAAAAA==')
+		repeat-x 0 0;
+}

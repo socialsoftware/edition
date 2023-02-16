@@ -8,7 +8,7 @@ const HOST = window.process?.apiHost || 'http://localhost:8000/api';
 
 const handleLoading = isLoading => ldodEventPublisher('loading', isLoading);
 const handleLogout = () => ldodEventPublisher('logout');
-const handleError = message => ldodEventPublisher('error', message);
+const handleError = message => ldodEventPublisher('error', message || 'Something went wrong');
 
 const getStorageToken = () => getPartialStorage('ldod-store', ['token'])?.token;
 
@@ -18,14 +18,14 @@ const fetchRequest = async (url, options) => {
 		const resData = await res.json();
 		handleLoading(false);
 		if (!res.ok) {
-			res.status === 401 && handleLogout();
-			handleError(resData?.message || 'Not authorized to access this resource');
+			if (res.status === 401) handleLogout();
+			else handleError(resData?.message);
 			return Promise.reject(resData || res);
 		}
 		return resData;
 	} catch (error) {
 		console.error('FETCH ERROR: ', error?.stack ?? error);
-		handleError('Something went wrong');
+		handleError();
 		navigateTo('/');
 		handleLoading(false);
 	}

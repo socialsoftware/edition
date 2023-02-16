@@ -5,60 +5,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="importmap">
-        { "imports": { "shared/":"http://127.0.0.1:9000/ldod-mfes/shared/", "user":"http://127.0.0.1:9000/ldod-mfes/user/user.js" } }
+    <link rel="stylesheet" href="http://localhost:9000/ldod-mfes/shared/bootstrap/root.css">
+    <link rel="stylesheet" href="/fonts/fonts.css">
+    <title>Document</title>
+    <script>
+        window.process = {
+            host: "http://localhost:9000/ldod-mfes",
+        }; window.references = {
+            "about": {
+                archive: () => '/about/archive',
+                videos: () => '/about/videos',
+                tutorials: () => '/about/tutorials',
+                faq: () => '/about/faq',
+                encoding: () => '/about/encoding',
+                articles: () => '/about/articles',
+                book: () => '/about/book',
+                privacy: () => '/about/privacy',
+                team: () => '/about/team',
+                ack: () => '/about/acknowledgements',
+                contact: () => '/about/contact',
+                conduct: () => '/about/conduct',
+                copyright: () => '/about/copyright',
+            }
+        }
     </script>
-    <link rel="stylesheet" href="/style/font.css">
-    <title>Home MFE</title>
+</head>
+
+<body style="padding-top: 190px;">
+
+    <script src="index.js" type="module"></script>
+    <ldod-navbar language="pt"></ldod-navbar>
+    <ldod-home language="pt"></ldod-home>
 
 
-
-    
-<script id=process>
-  window.process = {
-    host: "http://localhost:9000/ldod-mfes",
-  };
-</script></head>
-
-
-<body class="ldod-default">
-    <style>
-        .ldod-default {
-            font-family: 'Work-Sans';
-            color: black;
-            font-size: 15px;
-            line-height: 1.5;
-        }
-        
-        html {
-            font-size: 10px;
-        }
-        
-        html::-webkit-scrollbar {
-            display: none;
-        }
-        
-        body {
-            margin: 0;
-            padding-top: 190px;
-        }
-        
-        @media (min-width: 1200px) {
-            body {
-                padding-top: 150px;
-            }
-        }
-        
-        @media (max-width: 767px) {
-            body {
-                padding-top: 100px;
-            }
-        }
-    </style>
-    <ldod-navbar language="en" token="true"></ldod-navbar>
-    <home-mfe language="en"></home-mfe>
-
-    <script type="module" src="/index.js"></script>
 </body>
 
 </html>

@@ -2,12 +2,19 @@
 
 import { ldodEventSubscriber } from '@shared/ldod-events.js';
 import { store } from './store.js';
+let notification;
+
+const loadNotification = async () => {
+	if (notification) return;
+	notification = (await import('./components/notification.js')).default;
+};
+
+const notificationContainer = document.getElementById('notification-container');
 
 function notifications(content, theme) {
-	const notification = document.body.querySelector('ldod-notification');
-	notification.querySelector('div[slot="toast-body"]').innerHTML = content;
-	notification.setAttribute('theme', theme);
-	notification.toggleAttribute('show', true);
+	loadNotification().then(() => {
+		notificationContainer.appendChild(notification(content, theme));
+	});
 }
 
 const handlers = {

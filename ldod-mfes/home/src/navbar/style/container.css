@@ -1,0 +1,26 @@
+/** @format */
+
+.container-md {
+	--bs-gutter-x: 1.5rem;
+	--bs-gutter-y: 0;
+	padding-right: calc(var(--bs-gutter-x) * 0.5);
+	padding-left: calc(var(--bs-gutter-x) * 0.5);
+	margin-right: auto;
+	margin-left: auto;
+}
+
+@media (min-width: 768px) {
+	.container-md {
+		max-width: 720px;
+	}
+}
+@media (min-width: 992px) {
+	.container-md {
+		max-width: 960px;
+	}
+}
+@media (min-width: 1200px) {
+	.container-md {
+		max-width: 1140px;
+	}
+}

@@ -1,9 +1,15 @@
-//import 'user';
-import './src/components/navbar/ldod-navbar.js';
-//import './src/Components/HomeView/Home.js';
+/** @format */
 
-window.addEventListener('ldod-language', ({ detail: { language } }) =>
-  document
-    .querySelectorAll('[language]')
-    .forEach((element) => element.setAttribute('language', language))
-);
+import './src/navbar/ldod-navbar';
+import './src/home/home';
+
+document
+	.querySelector('ldod-navbar')
+	.shadowRoot.querySelectorAll("li[is='lang-menu'] > a")
+	.forEach(a => {
+		a.addEventListener('click', () =>
+			document
+				.querySelectorAll('[language]')
+				.forEach(ele => ele.setAttribute('language', a.id))
+		);
+	});

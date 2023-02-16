@@ -2,7 +2,6 @@
 
 export default () => theme =>
 	/*html*/ `
-        <div class="toast-container">
         <div
             class="toast fade alert-${theme}"
             role="alert"
@@ -23,6 +22,5 @@ export default () => theme =>
                     class="btn-close btn-close-alert btn-close-margin"
                 ></button>
             </div>
-        </div>
         </div>
 `;

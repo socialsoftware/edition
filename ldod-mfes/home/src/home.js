@@ -1,11 +1,11 @@
+/** @format */
+
 let home;
 
-if (typeof window === 'object') {
-	import('./components/navbar/ldod-navbar.js');
-}
+if (typeof window === 'object') import('./navbar/ldod-navbar.js');
 
 async function loadHome() {
-	if (!home) home = await import('./components/home/home.js');
+	if (!home) home = await import('./home/home.js');
 	return home;
 }
 

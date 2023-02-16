@@ -1,3 +1,5 @@
+/** @format */
+
 import { iconSVGLoader } from './helpers';
 import style from './ldod-span-icon-style.css?inline';
 
@@ -5,8 +7,8 @@ const iconStyle = (icon, iconHover, size) => /*css*/ `
 :host {
     --icon-background: url(data:image/svg+xml,${encodeURIComponent(icon)});
 	background-image: var(--icon-background);
-	width: ${size};
-	height: ${size};
+	min-width: ${size};
+	min-height: ${size};
 	background-size: ${size};
 }
 :host(:hover) {
@@ -48,8 +50,11 @@ export class LdodSpanIcon extends HTMLSpanElement {
 	async connectedCallback() {
 		const iconSVG = this.setFillColor(await iconSVGLoader(this.icon), this.fill);
 		const iconHoverSVG = this.setFillColor(await iconSVGLoader(this.hoverIcon), this.hoverFill);
-		this.sheet.replaceSync(style + iconStyle(iconSVG.outerHTML, iconHoverSVG.outerHTML, this.size));
+		this.sheet.replaceSync(
+			style + iconStyle(iconSVG.outerHTML, iconHoverSVG.outerHTML, this.size)
+		);
 	}
 }
 
-!customElements.get('ldod-span-icon') && customElements.define('ldod-span-icon', LdodSpanIcon, { extends: 'span' });
+!customElements.get('ldod-span-icon') &&
+	customElements.define('ldod-span-icon', LdodSpanIcon, { extends: 'span' });

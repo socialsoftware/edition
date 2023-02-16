@@ -57,15 +57,15 @@ function tableBody(root) {
 export function tableRows(root, start, end) {
 	return root.data.slice(start, end).map(row => {
 		root.lastIndex += 1;
-		const entry = row.data && typeof row.data === 'function' ? row.data() : row;
-		return getRow(entry, root);
+		return getRow(row, root);
 	});
 }
 
-export function getRow(entry, root = this) {
+export function getRow(row, root) {
+	const entry = row.data && typeof row.data === 'function' ? row.data() : row;
 	const tr = document.createElement('tr');
 	tr.toggleAttribute('searched', true);
-	tr.setAttribute('id', entry[root.searchKey] || '');
+	tr.setAttribute('id', row[root.searchKey] || '');
 	tr.append(...root.headers.map(key => rowCell(entry[key])));
 	return tr;
 }

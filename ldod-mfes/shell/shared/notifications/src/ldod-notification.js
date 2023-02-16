@@ -73,7 +73,7 @@ export class LdodNotification extends HTMLElement {
 	hideNotification = () => {
 		this.timeout = setTimeout(() => {
 			this.timeout && this.close();
-		}, 105000);
+		}, 3000);
 	};
 
 	fadeTransition = (close = false) => {
@@ -81,6 +81,7 @@ export class LdodNotification extends HTMLElement {
 		setTimeout(() => {
 			this.toast.classList.remove('showing');
 			close && this.toast.classList.remove('show');
+			close && this.remove();
 		}, 100);
 	};
 
