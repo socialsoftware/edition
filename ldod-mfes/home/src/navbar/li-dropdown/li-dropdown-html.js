@@ -1,6 +1,7 @@
 /** @format */
 import constants from '../constants';
 export default root => {
+	console.log(root.data);
 	return /*html*/ `
         <a
             class="nav-link dropdown-toggle"
@@ -18,16 +19,21 @@ export default root => {
     `;
 };
 
-export function getDropItems({ id, route, link }, lang) {
+function getDropItems({ id, route, link }, lang) {
 	return /*html*/ `<li>${
 		id === 'divider' ? divider() : dropdownItem(id, route, link, lang)
 	}</li>`;
 }
 
 function dropdownItem(id, route, link, lang) {
-	return /* html*/ `<a is="nav-to" class="dropdown-item" ${
-		route ? `to="${route}"` : `href="${link}" target="_blank"`
-	} data-navbar-key="${id}" >${constants[lang][id]}</a>`;
+	console.log(link);
+	const a = /* html*/ `
+    <a class="dropdown-item" ${route ? `to="${route}"` : 'to'} ${
+		link ? `href="${link}" target="_blank"` : 'is="nav-to"'
+	} data-navbar-key="${id}" >${constants[lang][id]}</a>
+    `;
+	console.log(a);
+	return a;
 }
 
 function divider() {

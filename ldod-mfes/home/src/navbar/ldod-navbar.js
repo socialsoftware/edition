@@ -2,25 +2,22 @@
 
 let Collapse;
 
-import hostStyle from './style/host-style.css?inline';
-import rootBS from '@shared/bootstrap/root-css.js';
-import navbarBS from '@shared/bootstrap/navbar-css.js';
-import navBS from '@shared/bootstrap/nav-css.js';
 import dropdownBS from '@shared/bootstrap/dropdown-css.js';
+import navBS from '@shared/bootstrap/nav-css.js';
+import navbarBS from '@shared/bootstrap/navbar-css.js';
+import rootBS from '@shared/bootstrap/root-css.js';
 import { ldodEventSubscriber } from '@shared/ldod-events.js';
+import hostStyle from './style/host-style.css?inline';
 
 import './li-dropdown/li-dropdown';
 import container from './style/container.css?inline';
-import navbar from './style/navbar.css?inline';
 import dropdown from './style/dropdown.css?inline';
+import navbar from './style/navbar.css?inline';
 
+import { virtualReferences } from '../external-deps';
+import constants from './constants';
 import './li-lang-menu';
 import navbarHtml from './navbar-html';
-import constants from './constants';
-import { getDropItems } from './li-dropdown/li-dropdown-html';
-import { virtualReferences } from '../external-deps';
-
-(await import('user').catch(e => console.error(e)))?.default.bootstrap();
 
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(

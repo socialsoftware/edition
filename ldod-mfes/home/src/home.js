@@ -2,7 +2,10 @@
 
 let home;
 
-if (typeof window === 'object') import('./navbar/ldod-navbar.js');
+if (typeof window !== 'undefined') {
+	import('./navbar/ldod-navbar.js');
+	import('./home/home-info.js');
+}
 
 async function loadHome() {
 	if (!home) home = await import('./home/home.js');
