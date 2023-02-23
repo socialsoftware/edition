@@ -1,4 +1,6 @@
 /** @format */
 
 import nav from './scss/nav.scss?inline';
-export default `${nav}`;
+import reboot from './reboot-css.js';
+
+export default `${nav + reboot}`;

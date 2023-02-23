@@ -9,6 +9,10 @@ import thisConstants from './constants';
 import ManualTable, { addTableRow } from './manual-table';
 import style from './style.css?inline';
 
+if (typeof window !== 'undefined') {
+	import('search').then(({ loadSearchSimple }) => loadSearchSimple());
+}
+
 export class LdodVeManual extends HTMLElement {
 	constructor() {
 		super();

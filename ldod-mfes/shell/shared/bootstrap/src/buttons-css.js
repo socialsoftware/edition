@@ -1,2 +1,6 @@
+/** @format */
+
 import buttons from './scss/buttons.scss?inline';
-export default `${buttons}`;
+import reboot from './reboot-css.js';
+
+export default `${buttons + reboot}`;

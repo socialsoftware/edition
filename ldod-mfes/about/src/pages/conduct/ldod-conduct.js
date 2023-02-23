@@ -1,7 +1,11 @@
 /** @format */
 
 import { hideHomeInfo, showHomeInfo } from '@src/home-info';
-const loadComponent = async lang => (await import(`./components/conduct-${lang}.jsx`)).default();
+
+const loadComponent = async lang => {
+	const node = await import(`./components/conduct-${lang}.js`);
+	return node.default;
+};
 
 const conductTitle = {
 	en: 'Code of Conduct',
@@ -26,10 +30,10 @@ export class LdodConduct extends HTMLElement {
 		return ['language'];
 	}
 
-	async connectedCallback() {
-		this.appendChild(this.wrapper());
-		await this.render();
-		showHomeInfo();
+	connectedCallback() {
+		this.innerHTML = /*html*/ `<div id="about-wrapper" class="ldod-about"></div>`;
+		this.wrapper = this.querySelector('div#about-wrapper');
+		this.render().then(() => showHomeInfo());
 	}
 
 	attributeChangedCallback(name, oldV, newV) {
@@ -48,28 +52,19 @@ export class LdodConduct extends HTMLElement {
 	};
 
 	getTitle() {
-		if (!this.title) return;
-		return (
-			<>
-				<h1 class="text-center">{conductTitle[this.language]}</h1>
-				<p>&nbsp;</p>
-			</>
-		);
-	}
-
-	wrapper() {
-		return <div id="about-wrapper" class="ldod-about"></div>;
+		if (!this.title) return '';
+		return /*html*/ `
+			<h1 class="text-center">${conductTitle[this.language]}</h1>
+			<p>&nbsp;</p>
+		`;
 	}
 
 	async render() {
-		const wrapper = this.querySelector('#about-wrapper');
-		wrapper.appendChild(
-			<div>
-				{this.getTitle()}
-				{await loadComponent(this.language)}
-			</div>
-		);
-		wrapper.childNodes.length > 1 && wrapper.firstChild.remove();
+		this.wrapper.innerHTML = /*html*/ `
+		<div>
+			${this.getTitle()} ${await loadComponent(this.language)}
+		</div>
+		`;
 	}
 }
 !customElements.get('ldod-conduct') && customElements.define('ldod-conduct', LdodConduct);

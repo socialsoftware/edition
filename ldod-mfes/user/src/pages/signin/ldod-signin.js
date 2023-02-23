@@ -2,7 +2,6 @@
 
 import signinHtml from './signin-html';
 import constants from '../constants';
-import rootCss from '@shared/bootstrap/root-css.js';
 import formsCss from '@shared/bootstrap/forms-css.js';
 import buttonsCss from '@shared/bootstrap/buttons-css.js';
 import hostCss from '../host.css?inline';
@@ -13,7 +12,7 @@ import { signinRequest } from '../../api-requests';
 import { onAuthFail, onAuthSuccess, resetForm } from '../common-functions';
 
 const sheet = new CSSStyleSheet();
-sheet.replaceSync(rootCss + formsCss + buttonsCss + hostCss + style);
+sheet.replaceSync(formsCss + buttonsCss + hostCss + style);
 export default class LdodSignin extends HTMLElement {
 	constructor() {
 		super();

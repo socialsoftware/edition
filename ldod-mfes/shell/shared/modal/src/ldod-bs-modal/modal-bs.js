@@ -2,13 +2,12 @@
 
 import modalCss from '@shared/bootstrap/modal-css.js';
 import buttonsCss from '@shared/bootstrap/buttons-css.js';
-import root from '@shared/bootstrap/root-css.js';
 
 import style from './style.css?inline';
 import { modal } from './modal-html';
 
 const sheet = new CSSStyleSheet();
-sheet.replaceSync(root + modalCss + buttonsCss + style);
+sheet.replaceSync(modalCss + buttonsCss + style);
 
 export class LdodBsModal extends HTMLElement {
 	constructor() {

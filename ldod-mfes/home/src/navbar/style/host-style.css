@@ -11,7 +11,7 @@ a:hover {
 	cursor: pointer;
 }
 
-@media (width > 768px) {
+@media (width > 767px) {
 	#user-md {
 		display: none;
 	}

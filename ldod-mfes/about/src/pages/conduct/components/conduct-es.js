@@ -1,5 +1,6 @@
-export default () => {
-  return (
+/** @format */
+
+export default /*html*/ `
     <div>
       <p>
         Las funcionalidades de edici&oacute;n virtual y de escritura virtual son
@@ -9,8 +10,8 @@ export default () => {
         Los usuarios registrados pueden crear, anotar y publicar libremente sus
         propias ediciones virtuales. Una vez que la funcionalidad de escritura
         est&eacute; disponible, tambi&eacute;n son libres de escribir y publicar
-        variaciones basadas en referencias textuales particulares del{' '}
-        <em>Libro del desasosiego</em>. Todos los usuarios registrados del{' '}
+        variaciones basadas en referencias textuales particulares del
+        <em>Libro del desasosiego</em>. Todos los usuarios registrados del
         <em>Archivo LdoD </em> deben respetar las reglas de conducta
         establecidas en este documento.
       </p>
@@ -68,23 +69,23 @@ export default () => {
             conservar la autor&iacute;a de todo el contenido de edici&oacute;n
             virtual y escritura virtual.
             <br />
-          </em>{' '}
+          </em>
           Toda reproducci&oacute;n posterior, en cualquier medio, del contenido
           generado por usuarios del <em>Archivo LdoD</em> debe ser atribuida.
         </li>
         <li>
-          todo el contenido generado por el usuario en el <em>Archivo LdoD</em>{' '}
+          todo el contenido generado por el usuario en el <em>Archivo LdoD</em>
           puede ser compartido de acuerdo con la licencia Creative Commons
           &ldquo;
           <a href="https://creativecommons.org/licenses/by-nc/4.0/">
             Attribution-NonCommercial 4.0 International
           </a>
-          &rdquo; (CC BY-NC 4.0).{' '}
+          &rdquo; (CC BY-NC 4.0).
         </li>
         <li>
-          las cuatro ediciones de los especialistas transcritas en el{' '}
+          las cuatro ediciones de los especialistas transcritas en el
           <em>Archivo LdoD</em> s&oacute;lo se pueden utilizar en el contexto de
-          la plataforma, tal como se define en el{' '}
+          la plataforma, tal como se define en el
           <a href="https://ldod.uc.pt/about/copyright">Aviso de Copyright</a>.
         </li>
       </ol>
@@ -106,5 +107,4 @@ export default () => {
       <strong>&nbsp;</strong>
       <p>[actualizado 14-08-2017]</p>
     </div>
-  );
-};
+`;

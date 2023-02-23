@@ -1,2 +1,6 @@
+/** @format */
+
 import forms from './scss/forms.scss?inline';
-export default `${forms}`;
+import reboot from './reboot-css.js';
+
+export default `${forms + reboot}`;

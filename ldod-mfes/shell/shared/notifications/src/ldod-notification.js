@@ -2,11 +2,10 @@
 import style from './style.css?inline';
 import toastCss from '@shared/bootstrap/toast-css.js';
 import buttonsCss from '@shared/bootstrap/buttons-css.js';
-import rootCss from '@shared/bootstrap/root-css.js';
 import notificationHtml from './notification-html';
 
 const sheet = new CSSStyleSheet();
-sheet.replaceSync(rootCss + toastCss + buttonsCss + style);
+sheet.replaceSync(toastCss + buttonsCss + style);
 
 export class LdodNotification extends HTMLElement {
 	constructor() {

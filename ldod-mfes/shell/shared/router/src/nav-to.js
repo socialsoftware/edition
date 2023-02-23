@@ -1,3 +1,5 @@
+/** @format */
+
 import { ldodEventPublisher } from './events-module';
 
 export default class NavTo extends HTMLAnchorElement {

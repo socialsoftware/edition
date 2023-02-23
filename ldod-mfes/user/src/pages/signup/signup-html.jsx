@@ -4,6 +4,16 @@ import { hidePassword, revealPassword } from '../common-functions';
 import constants from '../constants';
 import '@shared/modal-bs.js';
 
+let conductCode;
+
+function showConductCode(root) {
+	!conductCode &&
+		import('about').then(({ loadConductCode }) => {
+			loadConductCode();
+			conductCode = true;
+		});
+	root.shadowRoot.querySelector('ldod-bs-modal')?.toggleAttribute('show', true);
+}
 export default (language, root) => {
 	return (
 		<>
@@ -117,11 +127,7 @@ export default (language, root) => {
 						id="conduct-code"
 						class="link-primary"
 						data-user-key="conduct"
-						onClick={() =>
-							root.shadowRoot
-								.querySelector('ldod-bs-modal')
-								?.toggleAttribute('show', true)
-						}>
+						onClick={() => showConductCode(root)}>
 						{constants[language].conduct}
 					</a>
 					<ldod-bs-modal
@@ -132,7 +138,7 @@ export default (language, root) => {
 							{constants[language].conductCode}
 						</h4>
 						<div slot="body-slot">
-							<ldod-conduct language={language} title></ldod-conduct>
+							<ldod-conduct language={language}></ldod-conduct>
 						</div>
 					</ldod-bs-modal>
 				</div>

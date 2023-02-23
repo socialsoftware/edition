@@ -1,3 +1,5 @@
+/** @format */
+
 import '@shared/router.js';
 import style from './style.css?inline';
 import { isDev, getContainer } from './utils.js';
@@ -7,7 +9,7 @@ const routes = {
 	'/acknowledgements': async () => await import(`./pages/ack/ack.jsx`),
 	'/articles': async () => await import(`./pages/articles/articles.jsx`),
 	'/book': async () => await import(`./pages/book/book.jsx`),
-	'/conduct': async () => await import(`./pages/conduct/conduct.jsx`),
+	'/conduct': async () => await import(`./pages/conduct/conduct.js`),
 	'/copyright': async () => await import(`./pages/copyright/copyright.jsx`),
 	'/encoding': async () => await import('./pages/encoding/encoding.jsx'),
 	'/faq': async () => await import('./pages/faq/faq.jsx'),

@@ -282,10 +282,7 @@ public class VirtualEditionDto {
         }
 
         public VirtualEditionDtoBuilder member(LdoDUser user, VirtualEdition ve, LdoDUser actor) {
-            virtualEditionDto.setSelected(user != null
-                    ? user.getSelectedVirtualEditionsSet().contains(ve)
-                    : ve.getAcronym().equals("LdoD-Twitter")
-                    || ve.getAcronym().equals("LdoD-Mallet"));
+            virtualEditionDto.setSelected(user != null && user.getSelectedVirtualEditionsSet().contains(ve));
             if (user == null) return this;
             virtualEditionDto.setMember(new VeUserDto(user, ve, actor));
             return this;

@@ -1,7 +1,6 @@
 /** @format */
 import constants from '../constants';
 export default root => {
-	console.log(root.data);
 	return /*html*/ `
         <a
             class="nav-link dropdown-toggle"
@@ -26,13 +25,11 @@ function getDropItems({ id, route, link }, lang) {
 }
 
 function dropdownItem(id, route, link, lang) {
-	console.log(link);
 	const a = /* html*/ `
     <a class="dropdown-item" ${route ? `to="${route}"` : 'to'} ${
 		link ? `href="${link}" target="_blank"` : 'is="nav-to"'
 	} data-navbar-key="${id}" >${constants[lang][id]}</a>
     `;
-	console.log(a);
 	return a;
 }
 

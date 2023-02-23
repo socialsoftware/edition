@@ -2,7 +2,6 @@
 
 import signupHtml from './signup-html';
 import constants from '../constants';
-import rootCss from '@shared/bootstrap/root-css.js';
 import formsCss from '@shared/bootstrap/forms-css.js';
 import buttonsCss from '@shared/bootstrap/buttons-css.js';
 import hostCss from '../host.css?inline';
@@ -14,13 +13,7 @@ import { errorPublisher } from '../../events-modules';
 import { onSignup, resetForm } from '../common-functions';
 
 const sheet = new CSSStyleSheet();
-sheet.replaceSync(rootCss + formsCss + buttonsCss + hostCss + style);
-
-function loadExternalModules() {
-	import('./external-modules')
-		.then(({ load }) => load())
-		.catch(e => console.error(e));
-}
+sheet.replaceSync(formsCss + buttonsCss + hostCss + style);
 
 export default class LdodSignup extends HTMLElement {
 	constructor() {
@@ -42,7 +35,6 @@ export default class LdodSignup extends HTMLElement {
 	}
 
 	connectedCallback() {
-		!import.meta.env.DEV && loadExternalModules();
 		this.render();
 		if (Object.keys(history.state).length) this.loadState();
 	}

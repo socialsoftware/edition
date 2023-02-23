@@ -1,5 +1,7 @@
+/** @format */
+
 import { ldodEventPublisher, ldodEventSubscriber } from './events-module';
-import { addEndSlash, addStartSlash, isSlash, PATH_REGEX, removeEndSlash } from './utils';
+import { addEndSlash, addStartSlash, isSlash, PATH_PATTERN, removeEndSlash } from './utils';
 export default class LdodRouter extends HTMLElement {
 	constructor() {
 		super();
@@ -11,7 +13,7 @@ export default class LdodRouter extends HTMLElement {
 	}
 
 	get shadow() {
-		return this.getAttribute('shadow');
+		return this.hasAttribute('shadow');
 	}
 
 	get self() {
@@ -23,11 +25,11 @@ export default class LdodRouter extends HTMLElement {
 	}
 
 	get route() {
-		return addStartSlash(removeEndSlash(this.getAttribute('route'))) ?? '';
+		return addStartSlash(removeEndSlash(this.getAttribute('route'))) || '';
 	}
 
 	get base() {
-		return addStartSlash(removeEndSlash(this.getAttribute('base'))) ?? '';
+		return addStartSlash(removeEndSlash(this.getAttribute('base'))) || '';
 	}
 
 	get routerPathname() {
@@ -35,9 +37,11 @@ export default class LdodRouter extends HTMLElement {
 	}
 
 	get outlet() {
-		if (this.self.querySelector('ldod-outlet')) return this.self.querySelector('ldod-outlet');
-		const outlet = document.createElement('ldod-outlet');
-		outlet.id = `${this.id}-outlet`;
+		let outlet = this.self.querySelector('ldod-outlet');
+		if (!outlet) {
+			outlet = document.createElement('ldod-outlet');
+			outlet.id = `${this.id}-outlet`;
+		}
 		return outlet;
 	}
 
@@ -58,7 +62,7 @@ export default class LdodRouter extends HTMLElement {
 
 	isPathActive = path => {
 		if (!this.active) return false;
-		let target = PATH_REGEX.exec(this.normalizePath(path)).at(0);
+		let target = PATH_PATTERN.exec(this.normalizePath(path)).at(0);
 		let current = removeEndSlash(this.normalizePath(this.active.path));
 		return current === target;
 	};
@@ -96,7 +100,9 @@ export default class LdodRouter extends HTMLElement {
 	}
 
 	handleLanguageChange(language) {
-		this.self.querySelectorAll('[language]').forEach(ele => ele.setAttribute('language', language));
+		this.self
+			.querySelectorAll('[language]')
+			.forEach(ele => ele.setAttribute('language', language));
 	}
 
 	disconnectedCallback() {
@@ -119,9 +125,7 @@ export default class LdodRouter extends HTMLElement {
 		if (path && this.isFromThisRouter(path)) this.navigate(this.getFullPath(path), state);
 	};
 
-	handlePopstate = e => {
-		this.isFromThisRouter(this.location) && this.navigate(this.location);
-	};
+	handlePopstate = () => this.isFromThisRouter(this.location) && this.navigate(this.location);
 
 	async render() {
 		let route = await this.getRoute();
@@ -148,29 +152,31 @@ export default class LdodRouter extends HTMLElement {
 							const locationLength = this.location.split('/').length;
 							const pathAlength = pathA?.split('/').length;
 							const pathBlength = pathB?.split('/').length;
-							return +(pathBlength === locationLength) - +(pathAlength === locationLength);
-						})[0]?.[1];
-		if (!targetPath) targetPath = this.fallback;
-		if (typeof targetPath === 'function') {
-			await this.processPathVariables(targetPath);
-		}
+							return (
+								+(pathBlength === locationLength) -
+								+(pathAlength === locationLength)
+							);
+						})[0]?.[1] ?? this.fallback;
+		if (typeof targetPath === 'function') this.updateRoutingParameters(await targetPath());
 		return targetPath;
 	}
 
-	processPathVariables = async api => {
-		const subPaths = (await api()).path.split('/');
-		const newHistoryState = subPaths.reduce(
+	updateRoutingParameters = api => {
+		const subPaths = api.path.split('/');
+		const newState = subPaths.reduce(
 			(state, subPath, index) => {
 				if (subPath.startsWith(':')) {
 					const key = subPath.replace(':', '');
-					const value = addStartSlash(this.location.replace(this.routerPathname, '')).split('/')[index];
+					const value = addStartSlash(
+						this.location.replace(this.routerPathname, '')
+					).split('/')[index];
 					return { ...state, [key]: value };
 				}
 				return state;
 			},
 			{ ...history.state }
 		);
-		if (newHistoryState) history.replaceState(newHistoryState, '');
+		if (newState) history.replaceState(newState, '');
 	};
 
 	async appendMFE(route) {

@@ -10,7 +10,7 @@ export default root => {
 			`${import.meta.env.VITE_BASE}resources/webp/logotipos.webp`
 		)}" class="hidden-xs" width="100%" alt="logos"/>
         <img src="${getURL(
-			'/resources/webp/logotiposm.webp'
+			`${import.meta.env.VITE_BASE}resources/webp/logotiposm.webp`
 		)}" class="visible-xs-inline" width="100%" alt="logos"/>
         <br />
         <br />

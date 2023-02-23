@@ -13,9 +13,7 @@ export default defineConfig({
 
 		lib: {
 			entry: [
-				'src/scss/utilities.scss',
 				'src/scss/root.scss',
-				'src/utilities-css.js',
 				'src/buttons-css.js',
 				'src/root-css.js',
 				'src/forms-css.js',
@@ -28,6 +26,7 @@ export default defineConfig({
 				'src/navbar-css.js',
 				'src/nav-css.js',
 				'src/dropdown-css.js',
+				'src/reboot-css.js',
 			],
 			formats: ['es'],
 			fileName: (_, entry) => `bootstrap/${entry}.js`,

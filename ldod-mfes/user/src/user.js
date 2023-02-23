@@ -3,12 +3,12 @@
 const userReferences = (await import('./user-references')).userReferences;
 
 let user;
-let userAuthFragment;
 
 if (typeof window !== 'undefined') {
 	await import('./events-modules').catch(e => console.error(e));
 	await import('./store').catch(e => console.error(e));
 	await import('./bootstrap').catch(e => console.error(e));
+	import('./components/user-component');
 }
 
 const loadUser = async () => {
@@ -19,9 +19,6 @@ const loadUser = async () => {
 export default {
 	path: '/user',
 	references: userReferences,
-	bootstrap: () => {
-		if (!userAuthFragment) userAuthFragment = import('./components/user-component');
-	},
 	mount: async (lang, ref) => {
 		await loadUser();
 		await user.mount(lang, ref);

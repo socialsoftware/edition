@@ -1,3 +1,5 @@
+/** @format */
+
 const references = (await import('./references.js')).default;
 let about;
 
@@ -7,7 +9,7 @@ async function loadAbout() {
 }
 
 export function loadConductCode() {
-	import('./pages/conduct/conduct.jsx');
+	import('./pages/conduct/ldod-conduct.js');
 }
 
 export default {

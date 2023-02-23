@@ -5,7 +5,6 @@ let Collapse;
 import dropdownBS from '@shared/bootstrap/dropdown-css.js';
 import navBS from '@shared/bootstrap/nav-css.js';
 import navbarBS from '@shared/bootstrap/navbar-css.js';
-import rootBS from '@shared/bootstrap/root-css.js';
 import { ldodEventSubscriber } from '@shared/ldod-events.js';
 import hostStyle from './style/host-style.css?inline';
 
@@ -20,9 +19,7 @@ import './li-lang-menu';
 import navbarHtml from './navbar-html';
 
 const sheet = new CSSStyleSheet();
-sheet.replaceSync(
-	rootBS + navbarBS + navBS + dropdownBS + hostStyle + container + navbar + dropdown
-);
+sheet.replaceSync(navbarBS + navBS + dropdownBS + hostStyle + container + navbar + dropdown);
 
 const loadBootstrapJSModules = async () => {
 	Collapse = (await import('@shared/bootstrap/collapse.js')).default;
