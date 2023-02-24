@@ -58,15 +58,15 @@ span[label] {
 	justify-content: center;
 }
 
-table#user-usersListTable > thead > tr > th:nth-child(1),
-table#user-usersListTable > thead > tr > th:nth-child(2),
-table#user-usersListTable > thead > tr > th:nth-child(3) {
-	text-align: start;
-}
-
-table#user-usersListTable > tbody > tr > td:nth-child(4),
-table#user-usersListTable > tbody > tr > td:nth-child(5),
-table#user-usersListTable > tbody > tr > td:nth-child(6) {
+table#user-users-list-table > thead > tr > th:nth-child(4),
+table#user-users-list-table > thead > tr > th:nth-child(5),
+table#user-users-list-table > thead > tr > th:nth-child(6),
+table#user-users-list-table > thead > tr > th:nth-child(7),
+table#user-users-list-table > thead > tr > th:nth-child(8),
+table#user-users-list-table > tbody > tr > td:nth-child(4),
+table#user-users-list-table > tbody > tr > td:nth-child(5),
+table#user-users-list-table > tbody > tr > td:nth-child(6),
+table#user-users-list-table > tbody > tr > td:nth-child(7) {
 	text-align: center;
 }
 

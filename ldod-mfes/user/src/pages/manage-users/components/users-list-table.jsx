@@ -36,11 +36,13 @@ const getUsersListActive = (root, user) => {
 		<div id={`active-${id}`} class="text-center">
 			<button
 				id={`button-active-${id}`}
-				class={`btn ${active ? 'btn-success' : 'btn-secondary'} btn-sm`}
+				class={`btn btn-sm`}
 				onClick={() => onChangeActive(id, root)}>
-				<span data-users-key={String(active).toUpperCase()}>
-					{root.getConstant(String(active).toUpperCase())}
-				</span>
+				<span
+					is="ldod-span-icon"
+					icon={active ? 'circle-check' : 'circle-xmark'}
+					fill={active ? '#198754' : '#dc3545'}
+					size="1.25rem"></span>
 			</button>
 		</div>
 	);
