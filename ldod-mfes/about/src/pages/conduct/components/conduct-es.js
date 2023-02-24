@@ -1,8 +1,8 @@
 /** @format */
 
 export default /*html*/ `
-    <div>
-      <p>
+<div class="body">
+<p>
         Las funcionalidades de edici&oacute;n virtual y de escritura virtual son
         parte integrante de los niveles din&aacute;micos del ambiente textual
         colaborativo del <em>Archivo LdoD</em>. Se destinan a ser utilizadas en
@@ -15,7 +15,7 @@ export default /*html*/ `
         <em>Archivo LdoD </em> deben respetar las reglas de conducta
         establecidas en este documento.
       </p>
-      <strong>&nbsp;</strong>
+      &nbsp;
       <p>
         Al registrarse como usuario del <em>Archivo LdoD</em>, usted est&aacute;
         de acuerdo en no usar la plataforma para:
@@ -55,7 +55,7 @@ export default /*html*/ `
         </li>
         <li>recoger o almacenar datos personales sobre otros usuarios.</li>
       </ol>
-      <strong>&nbsp;</strong>
+      &nbsp;
       <p>Usted tambi&eacute;n est&aacute; de acuerdo en que:</p>
       <ol>
         <li>
@@ -104,7 +104,7 @@ export default /*html*/ `
           edici&oacute;n y escritura de la plataforma.
         </li>
       </ol>
-      <strong>&nbsp;</strong>
+      &nbsp;
       <p>[actualizado 14-08-2017]</p>
     </div>
 `;

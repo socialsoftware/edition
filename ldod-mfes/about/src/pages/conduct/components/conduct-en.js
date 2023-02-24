@@ -1,8 +1,8 @@
 /** @format */
 
 export default /*html*/ `
-<div>
-  <p>
+<div class="body">
+<p>
     The virtual editing and the virtual writing functionalities are provided as part of the dynamic
     layers of the textual collaborative environment of the
     <em>LdoD Archive</em>
@@ -15,7 +15,7 @@ export default /*html*/ `
     <em>LdoD Archive</em>
     must respect its code of conduct as laid out in this document.
   </p>
-  <p>&nbsp;</p>
+  &nbsp;
   <p>
     By registering as a user of the
     <em>LdoD Archive,</em>
@@ -50,7 +50,7 @@ export default /*html*/ `
     </li>
     <li>collect or store personal data about other users.</li>
   </ol>
-  <p>&nbsp;</p>
+  &nbsp;
   <p>You also agree that:</p>
   <ol>
     <li>
@@ -83,7 +83,7 @@ export default /*html*/ `
       .
     </li>
   </ol>
-  <p>&nbsp;</p>
+  &nbsp;
   <p>
     The editors of the
     <em>LdoD Archive</em>
@@ -98,7 +98,7 @@ export default /*html*/ `
       virtual editing and virtual writing functionalities of the platform.
     </li>
   </ol>
-  <p>&nbsp;</p>
+  &nbsp;
   <p>[updated 14-08-2017]</p>
 </div>
 `;

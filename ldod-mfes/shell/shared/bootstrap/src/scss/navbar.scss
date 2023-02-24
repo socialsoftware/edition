@@ -1,6 +1,12 @@
 // Required
 @import "@bootstrap/scss/functions";
 // Required
+
+$navbar-light-color: "#000";
+$navbar-light-hover-color: "#0d6efd";
+$navbar-brand-font-size: 2rem;
+$nav-link-font-weight: 800;
+
 @import "@bootstrap/scss/variables";
 @import "@bootstrap/scss/mixins";
 @import "@bootstrap/scss/navbar";

@@ -3,12 +3,6 @@
 :host {
 	display: block;
 	--ldod-nav-theme: #fc1b27;
-	--ldod-hover-theme: #0c4ef6;
-}
-
-a:hover {
-	color: var(--ldod-hover-theme) !important;
-	cursor: pointer;
 }
 
 @media (width > 767px) {

@@ -1,7 +1,7 @@
 /** @format */
 
 export default /*html*/ `
-  <div>
+  <div class="body">
     <p>
       As funcionalidades de edi&ccedil;&atilde;o virtual e de escrita virtual s&atilde;o parte
       integrante das camadas din&acirc;micas do ambiente textual colaborativo do
@@ -16,7 +16,7 @@ export default /*html*/ `
       <em>Arquivo LdoD</em>
       devem respeitar as regras de conduta definidas neste documento.
     </p>
-    <strong>&nbsp;</strong>
+    &nbsp;
     <p>
       Ao registar-se como utilizador do
       <em>Arquivo LdoD</em>
@@ -54,7 +54,7 @@ export default /*html*/ `
       </li>
       <li>recolher ou armazenar dados pessoais sobre outros utilizadores.</li>
     </ol>
-    <strong>&nbsp;</strong>
+    &nbsp;
     <p>Concorda tamb&eacute;m que:</p>
     <ol>
       <li>
@@ -90,7 +90,7 @@ export default /*html*/ `
         .
       </li>
     </ol>
-    <strong>&nbsp;</strong>
+    &nbsp;
     <p>
       Os editores do
       <em>Arquivo LdoD</em>
@@ -106,7 +106,7 @@ export default /*html*/ `
         &agrave;s funcionalidades virtuais de edi&ccedil;&atilde;o e de escrita da plataforma.
       </li>
     </ol>
-    <strong>&nbsp;</strong>
+    &nbsp;
     <p>[atualizado em 14-08-2017]</p>
   </div>
 `;

@@ -5,7 +5,7 @@ import constants from './constants';
 
 export default (name, language) => /*html*/ `
   <a id="user-logged-in" class="nav-link dropdown-toggle" 
-  key="user" >
+  key="user" role="button">
     ${name}
     <span class="caret"></span>
   </a>

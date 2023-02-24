@@ -1,7 +1,7 @@
 /** @format */
 
 import { hideHomeInfo, showHomeInfo } from '@src/home-info';
-
+import style from './style.css?inline';
 const loadComponent = async lang => {
 	const node = await import(`./components/conduct-${lang}.js`);
 	return node.default;
@@ -13,9 +13,13 @@ const conductTitle = {
 	pt: 'Código de Conduta',
 };
 
+const sheet = new CSSStyleSheet();
+sheet.replaceSync(style);
 export class LdodConduct extends HTMLElement {
 	constructor() {
 		super();
+		this.attachShadow({ mode: 'open' });
+		this.shadowRoot.adoptedStyleSheets = [sheet];
 	}
 
 	get language() {
@@ -31,8 +35,8 @@ export class LdodConduct extends HTMLElement {
 	}
 
 	connectedCallback() {
-		this.innerHTML = /*html*/ `<div id="about-wrapper" class="ldod-about"></div>`;
-		this.wrapper = this.querySelector('div#about-wrapper');
+		this.shadowRoot.innerHTML = /*html*/ `<div id="about-wrapper" class="ldod-about"></div>`;
+		this.wrapper = this.shadowRoot.querySelector('div#about-wrapper');
 		this.render().then(() => showHomeInfo());
 	}
 
@@ -54,7 +58,7 @@ export class LdodConduct extends HTMLElement {
 	getTitle() {
 		if (!this.title) return '';
 		return /*html*/ `
-			<h1 class="text-center">${conductTitle[this.language]}</h1>
+			<h1 class="title text-center">${conductTitle[this.language]}</h1>
 			<p>&nbsp;</p>
 		`;
 	}
