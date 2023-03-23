@@ -5,7 +5,7 @@ import headersMenus from './headers-menus';
 export default language => {
 	return /*html*/ `
 <nav class="navbar navbar-expand-md fixed-top">
-    <div class="container-md" style="display: flex;width: 100%">
+    <div class="container-md" style="display: flex;width: 100%;min-height: 62px">
         <a is="nav-to" to="/" class="navbar-brand" data-navbar-key="header_title">${
 			constants[language]['header_title']
 		}</a>

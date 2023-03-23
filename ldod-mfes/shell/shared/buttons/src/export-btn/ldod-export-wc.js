@@ -3,7 +3,8 @@ import buttonsCss from '@shared/bootstrap/buttons-css.js';
 import rootCss from '@shared/bootstrap/root-css.js';
 import style from './style.css?inline';
 import ExportComponent from './ldod-export.js';
-import { xmlFileFetcher } from '@shared/fetcher.js';
+//import { xmlFileFetcher } from '@shared/fetcher.js';
+import requestProxy from '@shared/request-proxy.js';
 import { errorPublisher } from '../events-module';
 
 function base64ToBuffer(data) {
@@ -62,11 +63,9 @@ export class LdodExport extends HTMLElement {
 
 	handleSubmit = async e => {
 		e.preventDefault();
-		const res = await xmlFileFetcher({
-			url: this.dataset.url,
-			method: this.method,
+		const res = await requestProxy[this.method.toLowerCase()]?.({
+			path: this.dataset.url,
 			body: this.method === 'POST' && JSON.stringify(this.body),
-			headers: [{ 'Content-Type': 'application/json' }],
 		});
 
 		if (res && !res.xmlData && res.ok !== undefined) {

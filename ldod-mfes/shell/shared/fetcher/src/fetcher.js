@@ -41,6 +41,7 @@ const request = async (method, path, data, token, signal) => {
 	options.headers = new Headers();
 	options.headers.append('Authorization', `Bearer ${accessToken || ''}`);
 	options.headers.append('Content-Type', 'application/json');
+	options.headers.append('Accept-Encoding', 'gzip');
 
 	if (path.includes('restricted') || path.includes('admin'))
 		options.headers.append('Cache-Control', 'private');

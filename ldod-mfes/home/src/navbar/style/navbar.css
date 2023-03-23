@@ -27,7 +27,6 @@
 		Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	font-weight: 800;
 	text-transform: capitalize;
-	line-height: 62px;
 }
 
 .navbar-collapse {
@@ -95,7 +94,7 @@ li[is='drop-down'] > a.nav-link {
 }
 @media (width > 768px) {
 	li[is='user-component'] > a.dropdown-toggle {
-		line-height: 40px;
+		line-height: 46px;
 		color: var(--ldod-nav-theme);
 	}
 

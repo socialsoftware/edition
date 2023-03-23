@@ -7,7 +7,7 @@ import style from './style.css?inline';
 
 import UploadComponent from './ldod-upload.js';
 import { uploadEvent } from '../events-module';
-import { xmlFileFetcher } from '@shared/fetcher.js';
+import request from '@shared/request-proxy.js';
 
 export class LdodUpload extends HTMLElement {
 	constructor() {
@@ -62,12 +62,9 @@ export class LdodUpload extends HTMLElement {
 	handleSubmit = async e => {
 		e.preventDefault();
 		const formData = new FormData(e.target);
-		const res = await xmlFileFetcher({
-			url: this.dataset.url,
-			method: 'POST',
-			body: formData,
-			signal: this.controller.signal,
-		}).catch(e => console.error(e));
+		const path = this.dataset.url;
+		const signal = this.controller.signal;
+		const res = await request.upload({ path, signal }, formData).catch(e => console.error(e));
 		this.responseData = res;
 		this.dispatchEvent(uploadEvent(this.id, res));
 	};

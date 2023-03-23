@@ -5,15 +5,16 @@ import './ldod-virtual-editions.jsx';
 
 const mount = async (lang, ref) => {
 	const virtualEditionsData = await getVirtualEditions();
-	document
-		.querySelector(ref)
-		.appendChild(
-			<ldod-virtual-editions
-				language={lang}
-				virtualEditions={virtualEditionsData.virtualEditions}
-				user={virtualEditionsData.user}
-				selectedVE={virtualEditionsData.user?.selectedVE || []}></ldod-virtual-editions>
-		);
+	if (virtualEditionsData)
+		document
+			.querySelector(ref)
+			.appendChild(
+				<ldod-virtual-editions
+					language={lang}
+					virtualEditions={virtualEditionsData.virtualEditions}
+					user={virtualEditionsData.user}
+					selectedVE={virtualEditionsData.user?.selectedVE || []}></ldod-virtual-editions>
+			);
 };
 
 const unMount = () => document.querySelector('ldod-virtual-editions')?.remove();
