@@ -1,7 +1,7 @@
 /** @format */
 
 import '@shared/modal-bs.js';
-import CreateVEForm from './create-ve-form';
+import './create-ve-form/create-ve-form.js';
 
 export default ({ node }) => {
 	return (
@@ -11,7 +11,7 @@ export default ({ node }) => {
 					{node.getConstants('modalTitle')}
 				</h4>
 				<div slot="body-slot">
-					<CreateVEForm node={node} />
+					<create-ve-form node={node}></create-ve-form>
 				</div>
 			</ldod-bs-modal>
 		</>

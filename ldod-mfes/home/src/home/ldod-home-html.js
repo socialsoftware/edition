@@ -20,7 +20,7 @@ export default root => {
 	return /*html*/ `
 		<div class="container-md ldod-default">
 			<a
-				is="nav-to"
+				is="nav-to-new"
 				to="${readingReferences?.editionInterPath?.(xmlId, urlId)}"
 				class="home-frag-link"
 			>

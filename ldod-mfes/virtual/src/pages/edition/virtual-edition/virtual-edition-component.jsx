@@ -1,3 +1,5 @@
+/** @format */
+
 import { virtualReferences } from '@src/references';
 import { textFragmentInter } from '../../../external-deps';
 
@@ -7,8 +9,8 @@ export default ({ node }) => {
 	return (
 		<div>
 			<h3 class="text-center">
-				<span data-virtual-key="virtualEdition">{node.getConstants('virtualEdition')}</span>:{' '}
-				<span>{node.title}</span>
+				<span data-virtual-key="virtualEdition">{node.getConstants('virtualEdition')}</span>
+				: <span>{node.title}</span>
 			</h3>
 			<div id="virtualEditionInfo">
 				<p id="editors">
@@ -53,13 +55,18 @@ export default ({ node }) => {
 						data: () => ({
 							number: inter.number,
 							title: (
-								<a is="nav-to" content to={textFragmentInter(inter.xmlId, inter.urlId)}>
+								<a
+									is="nav-to-new"
+									content
+									to={textFragmentInter(inter.xmlId, inter.urlId)}>
 									{inter.title}
 								</a>
 							),
-							category: inter.categories.map(cat => (
-								<div>
-									<a is="nav-to" to={virtualReferences.category(inter.shortName, cat)}>
+							category: inter.categories.map((cat, i) => (
+								<div key={crypto.randomUUID()}>
+									<a
+										is="nav-to"
+										to={virtualReferences.category(inter.shortName, cat)}>
 										{cat}
 									</a>
 								</div>
@@ -67,7 +74,10 @@ export default ({ node }) => {
 							useEdition: (
 								<>
 									<span>{'-> '}</span>
-									<a is="nav-to" content to={textFragmentInter(frag.xmlId, frag.urlId)}>
+									<a
+										is="nav-to"
+										content
+										to={textFragmentInter(frag.xmlId, frag.urlId)}>
 										{frag.shortName}
 									</a>
 								</>

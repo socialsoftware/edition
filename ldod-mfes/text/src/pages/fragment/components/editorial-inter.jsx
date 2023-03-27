@@ -1,3 +1,5 @@
+/** @format */
+
 import Checkboxes from './checkboxes';
 import Title from './title';
 import { getExpertEdition } from '../../fragments/components/expert-edition';
@@ -10,13 +12,13 @@ export default async ({ node, inter }) => {
 			<Checkboxes node={node} checkboxes={['diff']} />
 			<div style={{ display: 'flex', justifyContent: 'center' }}>
 				<Title title={node.data.title} />
-				<a is="nav-to" to={readingExpertEdition(node.xmlId, inter.urlId)}>
-					<span
-						is="ldod-span-icon"
-						icon="eye"
-						size="20px"
-						hover-fill="#0d6efd"
-						style={{ marginLeft: '10px' }}></span>
+				<a
+					is="nav-to"
+					to={readingExpertEdition(node.xmlId, inter.urlId)}
+					style={{
+						margin: '20px 10px',
+					}}>
+					<span is="ldod-span-icon" icon="eye" size="20px" hover-fill="#0d6efd"></span>
 				</a>
 			</div>
 			<EditorialInterTranscription node={node} key={0} />

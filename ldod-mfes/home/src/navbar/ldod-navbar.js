@@ -1,6 +1,7 @@
 /** @format */
 
 let Collapse;
+import './body-observer.js';
 
 import dropdownBS from '@shared/bootstrap/dropdown-css.js';
 import navBS from '@shared/bootstrap/nav-css.js';

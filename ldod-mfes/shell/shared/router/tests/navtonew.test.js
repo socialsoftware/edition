@@ -1,7 +1,7 @@
 /** @format */
 
 import { Window } from 'happy-dom';
-import NavTo from '../src/nav-to.js';
+import NavTo from '../src/nav-to-new';
 
 let window;
 let uut;

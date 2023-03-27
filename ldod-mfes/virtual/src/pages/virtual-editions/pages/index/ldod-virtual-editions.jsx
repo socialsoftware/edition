@@ -111,9 +111,22 @@ export class LdodVirtualEditions extends HTMLElement {
 		this.querySelectorAll('[language]').forEach(ele =>
 			ele.setAttribute('language', this.language)
 		);
-		this.querySelectorAll('[data-virtualkey]').forEach(node => {
-			return (node.firstChild.textContent = this.getConstants(node.dataset.virtualkey));
+
+		this.querySelectorAll('[data-virtual-key]').forEach(node => {
+			node.firstChild.textContent = this.getConstants(node.dataset.virtualKey);
 		});
+
+		// replace all by the above
+		this.querySelectorAll('[data-virtualkey]').forEach(node => {
+			node.firstChild.textContent = this.getConstants(node.dataset.virtualkey);
+		});
+
+		this.querySelectorAll('[data-virtual-tooltip-key]').forEach(tooltip => {
+			console.log(tooltip.dataset);
+			tooltip.setAttribute('content', this.getConstants(tooltip.dataset.virtualTooltipKey));
+		});
+
+		// replace all by the above
 		this.querySelectorAll('[data-virtualtooltipkey]').forEach(tooltip =>
 			tooltip.setAttribute('content', this.getConstants(tooltip.dataset.virtualtooltipkey))
 		);

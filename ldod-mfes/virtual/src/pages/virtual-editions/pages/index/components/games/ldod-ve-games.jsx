@@ -3,7 +3,8 @@
 import '@shared/modal-bs.js';
 import constants from './constants';
 import GamesTable from './games-table';
-import style from './games.css?inline';
+import gameStyle from './games.css?inline';
+import style from '../style.css?inline';
 import CreateGame from './create-game-form';
 
 export class LdodVeGames extends HTMLElement {
@@ -52,13 +53,16 @@ export class LdodVeGames extends HTMLElement {
 
 	render() {
 		this.innerHTML = '';
-		this.appendChild(<style>{style}</style>);
+		this.appendChild(<style>{gameStyle + style}</style>);
 		this.appendChild(
 			<ldod-bs-modal
 				id="virtual-games-modal"
 				dialog-class="modal-xl modal-fullscreen-lg-down modal-dialog-scrollable"
 				static>
-				<h4 slot="header-slot">{this.edition?.title}</h4>
+				<h4 slot="header-slot">
+					<span>{this.edition?.title} - </span>
+					<span>{this.getConstants('game')}</span>
+				</h4>
 				<div slot="body-slot">
 					<div id="virtual-createCGContainer" class="mb-5">
 						<CreateGame node={this} />

@@ -77,12 +77,10 @@ export const addTableRow = (node, inter, index) => {
 		),
 		useEdition: (
 			<a
+				is="nav-to-new"
+				content
 				target="_blank"
-				is="nav-to"
-				to={`${isDev() ? '' : '/ldod-mfes'}${textFragmentInter(
-					useInter.xmlId,
-					useInter.urlId
-				)}`}>
+				to={`${textFragmentInter(useInter.xmlId, useInter.urlId)}`}>
 				{`-> ${useInter.shortName}`}
 			</a>
 		),

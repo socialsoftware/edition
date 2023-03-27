@@ -4,12 +4,11 @@ import { ldodEventPublisher } from './events-module';
 
 export default class NavTo extends HTMLAnchorElement {
 	get to() {
-		let toAttr = this.getAttribute('to');
-		toAttr = typeof toAttr === 'string' ? toAttr.trim() : toAttr;
-		return toAttr;
+		const toAttr = this.getAttribute('to');
+		return typeof toAttr === 'string' ? toAttr.trim() : '';
 	}
 
-	get mfe() {
+	get mfePath() {
 		return this.to === '/' ? this.to : this.to?.split('/')[1];
 	}
 
@@ -46,7 +45,7 @@ export default class NavTo extends HTMLAnchorElement {
 
 	checkIfMfesIsPublished = () => {
 		if (this.target || !this.hasTo) return;
-		if (!this.publishedMfes.includes(this.mfe)) {
+		if (!this.publishedMfes.includes(this.mfePath)) {
 			if (this.hasContent) return this.setAttribute('to', '');
 			this.style.display = 'none';
 		}

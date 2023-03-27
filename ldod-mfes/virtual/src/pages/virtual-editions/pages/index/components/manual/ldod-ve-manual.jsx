@@ -7,7 +7,8 @@ import assistedContants from '../assisted/constants';
 import AddFragmentsModal from './add-fragments';
 import thisConstants from './constants';
 import ManualTable, { addTableRow } from './manual-table';
-import style from './style.css?inline';
+import manualStyle from './manual.css?inline';
+import style from '../style.css?inline';
 
 if (typeof window !== 'undefined') {
 	import('search').then(({ loadSearchSimple }) => loadSearchSimple());
@@ -104,7 +105,7 @@ export class LdodVeManual extends HTMLElement {
 	connectedCallback() {
 		this.wrapper = document.createElement('div');
 		this.wrapper.id = 'virtual-manual-ve-wrapper';
-		this.append(<style>{style}</style>, this.wrapper);
+		this.append(<style>{manualStyle + style}</style>, this.wrapper);
 		this.addModalCloseEventListener();
 	}
 
@@ -148,8 +149,9 @@ export class LdodVeManual extends HTMLElement {
 		this.wrapper.appendChild(
 			<>
 				<ldod-bs-modal id="virtual-ve-manual" dialog-class="modal-xl">
-					<h4 slot="header-slot" style={{ margin: '0' }}>
-						{this.edition?.title}
+					<h4 slot="header-slot">
+						<span>{this.edition?.title} - </span>
+						<span>{this.getConstants('manualSort')}</span>
 					</h4>
 					<div slot="body-slot">
 						<div id="virtual-manual-table-wrapper"></div>

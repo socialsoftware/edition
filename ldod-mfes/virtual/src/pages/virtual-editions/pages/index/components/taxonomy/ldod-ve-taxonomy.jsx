@@ -3,7 +3,8 @@
 import constants from '@src/pages/constants';
 import thisConstants from './constants';
 import TaxonomyComponent from './taxonomy-component';
-import style from './style.css?inline';
+import taxonomyStyle from './taxonomy.css?inline';
+import style from '../style.css?inline';
 import { DeleteButton, MergeButton } from './merge-delete-buttons';
 import { computeSelectPureHeight } from '@src/utils';
 import {
@@ -87,12 +88,12 @@ export class LdodVeTaxonomy extends HTMLElement {
 
 	render() {
 		this.innerHTML = '';
-		this.appendChild(<style>{style}</style>);
+		this.appendChild(<style>{taxonomyStyle + style}</style>);
 		this.appendChild(
 			<ldod-bs-modal
 				id="virtual-taxonomy-modal"
 				dialog-class="modal-xl modal-dialog-scrollable">
-				<h4 slot="header-slot" style={{ margin: 0 }}>
+				<h4 slot="header-slot">
 					<span>{this.taxonomy.veTitle} - </span>
 					<span>{this.getConstants('taxonomy')}</span>
 				</h4>

@@ -1,0 +1,12 @@
+/** @format */
+
+.form-row {
+	display: flex;
+	gap: 1rem;
+}
+
+.form-col {
+	display: grid;
+	margin-bottom: 16px;
+	width: 100%;
+}

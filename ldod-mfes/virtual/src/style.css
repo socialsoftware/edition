@@ -44,24 +44,24 @@
 h3,
 h4,
 h5 {
+	margin-top: 0 !important;
+	margin-bottom: 0.5rem !important;
 	font-family: inherit;
 	font-weight: 500;
-	line-height: 1.1;
+	line-height: 1.2;
 	color: inherit;
 }
 
 h3 {
-	font-size: 24px;
+	font-size: 24px !important;
 }
 
 h4 {
-	font-size: 18px;
+	font-size: 18px !important;
 }
 
 h5 {
-	font-size: 14px;
-	margin-bottom: 10px;
-	margin-top: 10px;
+	font-size: 14px !important;
 }
 
 .flex-center {
