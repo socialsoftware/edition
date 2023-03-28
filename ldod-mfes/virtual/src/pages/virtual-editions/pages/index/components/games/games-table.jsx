@@ -6,7 +6,7 @@ import constants from './constants';
 
 const onRemove = async (id, gameId, node) => {
 	const data = await removeClassGame(id, gameId);
-	node.updateData(data);
+	node.updateTable(data);
 };
 
 const getTableData = node => {
@@ -17,11 +17,21 @@ const getTableData = node => {
 				description: game.description,
 				title: (
 					<>
-						<span class={!game.active ? 'success icon icon-asteris' : ''}></span>
+						{!game.active && (
+							<span
+								is="ldod-span-icon"
+								icon="asterisk"
+								class="success"
+								fill="#333"
+								size="12px"
+								style={{ marginRight: '8px' }}></span>
+						)}
 						<a
-							is="nav-to"
-							to={virtualReferences.game(game.veExternalId, game.externalId)}></a>
-						{game.title}
+							is="nav-to-new"
+							target="_blank"
+							to={virtualReferences.game(game.veExternalId, game.externalId)}>
+							{game.title}
+						</a>
 					</>
 				),
 				date: game.date,
@@ -31,7 +41,10 @@ const getTableData = node => {
 				category: game.category,
 				players: game.players.map(player => {
 					return (
-						<a is="nav-to" to={virtualReferences.user(player.username)}>
+						<a
+							key={crypto.randomUUID()}
+							is="nav-to"
+							to={virtualReferences.user(player.username)}>
 							{player.firstname} ${player.lastname}
 						</a>
 					);
@@ -41,7 +54,10 @@ const getTableData = node => {
 				remove: game.canBeRemoved && (
 					<div class="center-container">
 						<span
-							class="icon-size icon-trash"
+							is="ldod-span-icon"
+							icon="trash-can"
+							fill="#dc3545"
+							size="1.25rem"
 							onClick={() =>
 								onRemove(game.veExternalId, game.externalId, node)
 							}></span>

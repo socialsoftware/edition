@@ -14,13 +14,10 @@ import CreateButton from './components/create-ve/create-button';
 import VETable from './components/ve-table';
 import Title from './components/title';
 import { errorPublisher } from '../../../../event-module';
-const loadPopper = () => import('@shared/tooltip.js');
-const CreateVeModal = async node =>
-	(await import('./components/create-ve/create-ve-modal')).default({
-		node,
-	});
-
 import.meta.env.DEV ? await import('@shared/table-dev.js') : await import('@shared/table.js');
+
+let gamesModal;
+let taxonomy;
 
 export class LdodVirtualEditions extends HTMLElement {
 	constructor() {
@@ -72,6 +69,14 @@ export class LdodVirtualEditions extends HTMLElement {
 				<ldod-ve-assisted language={this.language}></ldod-ve-assisted>
 				<ldod-ve-manual language={this.language}></ldod-ve-manual>
 				<ldod-ve-taxonomy language={this.language}></ldod-ve-taxonomy>
+				<ldod-bs-modal id="virtual-ve-create-modal" dialog-class="modal-lg">
+					<h4 data-virtual-key="modalTitle" slot="header-slot">
+						{this.getConstants('modalTitle')}
+					</h4>
+					<div slot="body-slot">
+						<create-ve-form node={this}></create-ve-form>
+					</div>
+				</ldod-bs-modal>
 			</>
 		);
 	}
@@ -133,13 +138,8 @@ export class LdodVirtualEditions extends HTMLElement {
 	};
 
 	addEventListeners = () => {
-		this.wrapper.addEventListener('pointerenter', loadPopper, { once: true });
-		this.wrapper.addEventListener('pointerenter', this.createVeLazyLoad, {
-			once: true,
-		});
+		this.wrapper.addEventListener('pointerenter', onWrapperEnter, { once: true });
 	};
-
-	createVeLazyLoad = async () => this.wrapper.appendChild(await CreateVeModal(this));
 
 	//actions
 
@@ -156,20 +156,20 @@ export class LdodVirtualEditions extends HTMLElement {
 	};
 
 	onGamesModal = async () => {
-		await import('./components/games/ldod-ve-games');
+		if (!gamesModal) gamesModal = await import('./components/games/ldod-ve-games');
 		const ldodVeGames = this.querySelector('ldod-ve-games');
 		ldodVeGames.edition = this.edition;
 		getEditionGames(this.edition.externalId)
 			.then(data => {
 				ldodVeGames.parent = this;
 				ldodVeGames.updateData(data);
-				ldodVeGames.toggleAttribute('show');
+				ldodVeGames.show();
 			})
 			.catch(onError);
 	};
 
 	onTaxonomy = async () => {
-		await import('./components/taxonomy/ldod-ve-taxonomy');
+		if (!taxonomy) taxonomy = await import('./components/taxonomy/ldod-ve-taxonomy');
 		const ldodVeTaxonomy = this.querySelector('ldod-ve-taxonomy');
 		ldodVeTaxonomy.parent = this;
 		ldodVeTaxonomy.toggleAttribute('show');
@@ -234,6 +234,12 @@ export class LdodVirtualEditions extends HTMLElement {
 }
 !customElements.get('ldod-virtual-editions') &&
 	customElements.define('ldod-virtual-editions', LdodVirtualEditions);
+
+function onWrapperEnter() {
+	import('@shared/modal-bs.js');
+	import('@shared/tooltip.js');
+	import('./components/create-ve/create-ve-form/create-ve-form.js');
+}
 
 function onError(error) {
 	console.error(error);

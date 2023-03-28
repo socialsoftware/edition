@@ -6,22 +6,29 @@ import GamesTable from './games-table';
 import gameStyle from './games.css?inline';
 import style from '../style.css?inline';
 import CreateGame from './create-game-form';
+import formStyle from '@shared/bootstrap/forms-css.js';
+import buttonsStyle from '@shared/bootstrap/buttons-css.js';
+
+const sheet = new CSSStyleSheet();
+sheet.replaceSync(buttonsStyle + formStyle + style + gameStyle);
 
 export class LdodVeGames extends HTMLElement {
 	constructor() {
 		super();
+		this.attachShadow({ mode: 'open' });
+		this.shadowRoot.adoptedStyleSheets = [sheet];
 	}
 
 	get language() {
 		return this.getAttribute('language');
 	}
 
-	get show() {
+	get hasShow() {
 		return this.hasAttribute('show');
 	}
 
 	get modal() {
-		return this.querySelector('ldod-bs-modal');
+		return this.shadowRoot.querySelector('ldod-bs-modal');
 	}
 
 	static get observedAttributes() {
@@ -36,7 +43,6 @@ export class LdodVeGames extends HTMLElement {
 		this.games = games;
 		this.inters = inters;
 		this.publicAnnotation = publicAnnotation;
-		//this.onChangedAttribute.show();
 	};
 
 	connectedCallback() {
@@ -52,22 +58,21 @@ export class LdodVeGames extends HTMLElement {
 	};
 
 	render() {
-		this.innerHTML = '';
-		this.appendChild(<style>{gameStyle + style}</style>);
-		this.appendChild(
+		this.shadowRoot.innerHTML = '';
+		this.shadowRoot.appendChild(
 			<ldod-bs-modal
 				id="virtual-games-modal"
 				dialog-class="modal-xl modal-fullscreen-lg-down modal-dialog-scrollable"
 				static>
-				<h4 slot="header-slot">
+				<h5 slot="header-slot">
 					<span>{this.edition?.title} - </span>
 					<span>{this.getConstants('game')}</span>
-				</h4>
+				</h5>
 				<div slot="body-slot">
 					<div id="virtual-createCGContainer" class="mb-5">
 						<CreateGame node={this} />
 					</div>
-					<div class="mb-5">
+					<div id="games-table" class="mb-5">
 						<GamesTable node={this} />
 					</div>
 				</div>
@@ -75,14 +80,23 @@ export class LdodVeGames extends HTMLElement {
 		);
 	}
 
+	updateTable(data) {
+		data && this.updateData(data);
+		const gamesTable = this.shadowRoot.querySelector('#games-table');
+		gamesTable.innerHTML = '';
+		gamesTable.appendChild(<GamesTable node={this} />);
+	}
+
 	onChangedAttribute = {
-		data: function () {
-			this.show();
-		},
 		show: () => {
-			this.render();
-			this.modal.toggleAttribute('show', this.show);
+			if (this.hasShow) this.render();
+			this.modal.toggleAttribute('show', this.hasShow);
 		},
 	};
+
+	show() {
+		if (this.hasShow) this.updateTable();
+		else this.toggleAttribute('show', true);
+	}
 }
 !customElements.get('ldod-ve-games') && customElements.define('ldod-ve-games', LdodVeGames);

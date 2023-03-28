@@ -5,6 +5,8 @@ import thisConstants from './constants';
 import TaxonomyComponent from './taxonomy-component';
 import taxonomyStyle from './taxonomy.css?inline';
 import style from '../style.css?inline';
+import formStyle from '@shared/bootstrap/forms-css.js';
+import buttonsStyle from '@shared/bootstrap/buttons-css.js';
 import { DeleteButton, MergeButton } from './merge-delete-buttons';
 import { computeSelectPureHeight } from '@src/utils';
 import {
@@ -16,21 +18,14 @@ import {
 } from './taxonomy-api-requests';
 import { errorPublisher, loadingPublisher } from '../../../../../../event-module';
 
-const GenerateTopicsModal = async (node, veId) =>
-	(await import('./generate-topics-modal')).default({
-		node,
-		veId,
-	});
-
-const EditCategoryModal = async (node, category) =>
-	(await import('./edit-category-modal')).default({ node, category });
-
-const ExtractCategoryFragsModal = async (node, category) =>
-	(await import('./extract-category-frags-modal')).default({ node, category });
+const sheet = new CSSStyleSheet();
+sheet.replaceSync(style + taxonomyStyle + buttonsStyle + formStyle);
 
 export class LdodVeTaxonomy extends HTMLElement {
 	constructor() {
 		super();
+		this.attachShadow({ mode: 'open' });
+		this.shadowRoot.adoptedStyleSheets = [sheet];
 		this.selectedRows = 0;
 		this.constants = Object.entries(thisConstants).reduce((prev, [key, value]) => {
 			prev[key] = value instanceof Array ? value : { ...constants[key], ...value };
@@ -44,7 +39,7 @@ export class LdodVeTaxonomy extends HTMLElement {
 
 	get selectedCategories() {
 		const ids = Array.from(
-			this.querySelectorAll('table#virtual-taxonomyTable>tbody>tr[selected]')
+			this.shadowRoot.querySelectorAll('table#virtual-taxonomyTable>tbody>tr[selected]')
 		).map(row => row.id);
 		return this.taxonomy.categories
 			.map(cat => cat.externalId)
@@ -56,19 +51,19 @@ export class LdodVeTaxonomy extends HTMLElement {
 	}
 
 	get taxonomyModal() {
-		return this.querySelector('ldod-bs-modal#virtual-taxonomy-modal');
+		return this.shadowRoot.querySelector('ldod-bs-modal#virtual-taxonomy-modal');
 	}
 
 	get generateTopicsModal() {
-		return this.querySelector('ldod-bs-modal#virtual-generate-topics-modal');
+		return this.shadowRoot.querySelector('ldod-bs-modal#virtual-generate-topics-modal');
 	}
 
 	get editCategoryModal() {
-		return this.querySelector('ldod-bs-modal#virtual-edit-category-modal');
+		return this.shadowRoot.querySelector('ldod-bs-modal#virtual-edit-category-modal');
 	}
 
 	get extractCategoryFragsModal() {
-		return this.querySelector('ldod-bs-modal#virtual-extract-category-frags-modal');
+		return this.shadowRoot.querySelector('ldod-bs-modal#virtual-extract-category-frags-modal');
 	}
 
 	static get observedAttributes() {
@@ -87,16 +82,15 @@ export class LdodVeTaxonomy extends HTMLElement {
 	}
 
 	render() {
-		this.innerHTML = '';
-		this.appendChild(<style>{taxonomyStyle + style}</style>);
-		this.appendChild(
+		this.shadowRoot.innerHTML = '';
+		this.shadowRoot.appendChild(
 			<ldod-bs-modal
 				id="virtual-taxonomy-modal"
 				dialog-class="modal-xl modal-dialog-scrollable">
-				<h4 slot="header-slot">
+				<h5 slot="header-slot">
 					<span>{this.taxonomy.veTitle} - </span>
 					<span>{this.getConstants('taxonomy')}</span>
-				</h4>
+				</h5>
 				<div slot="body-slot">
 					<TaxonomyComponent node={this} />
 				</div>
@@ -133,11 +127,11 @@ export class LdodVeTaxonomy extends HTMLElement {
 	};
 
 	generateTopicsModalLazyLoad = async () => {
-		this.appendChild(await GenerateTopicsModal(this, this.taxonomy.veExternalId));
+		this.shadowRoot.appendChild(await GenerateTopicsModal(this, this.taxonomy.veExternalId));
 	};
 
 	handleRowsSelection = () => {
-		this.querySelectorAll('table>tbody>tr').forEach(row => {
+		this.shadowRoot.querySelectorAll('table>tbody>tr').forEach(row => {
 			row.addEventListener('click', this.onRowSelection);
 		});
 	};
@@ -151,13 +145,17 @@ export class LdodVeTaxonomy extends HTMLElement {
 	};
 
 	renderMergeAndDeleteButtons = () => {
-		this.querySelector('div#mergeCategory').replaceWith(<MergeButton node={this} />);
-		this.querySelector('div#deleteCategory').replaceWith(<DeleteButton node={this} />);
+		this.shadowRoot.querySelector('div#mergeCategory').replaceWith(<MergeButton node={this} />);
+		this.shadowRoot
+			.querySelector('div#deleteCategory')
+			.replaceWith(<DeleteButton node={this} />);
 	};
 
 	updateData = (data = this.taxonomy) => {
 		this.taxonomy = data;
-		this.querySelector('#taxonomyComponent').replaceWith(<TaxonomyComponent node={this} />);
+		this.shadowRoot
+			.querySelector('#taxonomyComponent')
+			.replaceWith(<TaxonomyComponent node={this} />);
 		this.addEventListeners();
 	};
 
@@ -189,7 +187,7 @@ export class LdodVeTaxonomy extends HTMLElement {
 	resetState = () => {
 		this.taxonomy = null;
 		this.selectedRows = 0;
-		this.removeChild(this.taxonomyModal);
+		this.shadowRoot.removeChild(this.taxonomyModal);
 	};
 
 	onAddCategory = e => {
@@ -228,13 +226,13 @@ export class LdodVeTaxonomy extends HTMLElement {
 
 	onOpenEditModal = async category => {
 		this.taxonomyModal.toggleAttribute('show', false);
-		this.appendChild(await EditCategoryModal(this, category));
+		this.shadowRoot.appendChild(await EditCategoryModal(this, category));
 		this.editCategoryModal.toggleAttribute('show');
 	};
 
 	onExtractFrags = async category => {
 		this.taxonomyModal.toggleAttribute('show', false);
-		this.appendChild(await ExtractCategoryFragsModal(this, category));
+		this.shadowRoot.appendChild(await ExtractCategoryFragsModal(this, category));
 		document.body.addEventListener('click', this.computeSelectHeight);
 		this.extractCategoryFragsModal.toggleAttribute('show');
 	};
@@ -247,3 +245,18 @@ export class LdodVeTaxonomy extends HTMLElement {
 }
 !customElements.get('ldod-ve-taxonomy') &&
 	customElements.define('ldod-ve-taxonomy', LdodVeTaxonomy);
+
+async function GenerateTopicsModal(node, veId) {
+	return (await import('./generate-topics-modal')).default({
+		node,
+		veId,
+	});
+}
+
+async function EditCategoryModal(node, category) {
+	return (await import('./edit-category-modal')).default({ node, category });
+}
+
+async function ExtractCategoryFragsModal(node, category) {
+	return (await import('./extract-category-frags-modal')).default({ node, category });
+}

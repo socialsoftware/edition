@@ -6,7 +6,7 @@ import { DeleteButton, MergeButton } from './merge-delete-buttons';
 import TaxonomyTable from './taxonomy-table';
 
 const onPublicContent = (target, node) => {
-	const popover = node.querySelector('ldod-popover');
+	const popover = node.shadowRoot.querySelector('ldod-popover');
 	popover.element = () => (
 		<>
 			<ul class="drop-menu" style={{ minWidth: `${target.clientWidth}px` }}>
@@ -30,12 +30,12 @@ const onPublicContent = (target, node) => {
 };
 
 const onUsedIn = (target, node) => {
-	const popover = node.querySelector('ldod-popover');
+	const popover = node.shadowRoot.querySelector('ldod-popover');
 	popover.element = () => (
 		<>
 			<ul class="drop-menu" style={{ minWidth: `${target.clientWidth}px` }}>
 				{node.taxonomy.usedIn.map(ed => (
-					<li>
+					<li key={crypto.randomUUID()}>
 						<a
 							target="_blank"
 							class="drop-item"
@@ -125,6 +125,7 @@ export default ({ node }) => {
 				</div>
 				{['addCategory', 'generateTopics'].map(id => (
 					<ldod-tooltip
+						key={crypto.randomUUID()}
 						data-ref={`button#${id}`}
 						data-virtual-tooltip-key={`${id}Info`}
 						placement="top"

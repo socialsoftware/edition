@@ -11,23 +11,28 @@ const getCurrentDateTime = () => {
 	)}T${addZero(date.getHours())}:${addZero(date.getMinutes())}`;
 };
 
-const onCreateCG = async (e, node) => {
+const onCreateCG = (e, node) => {
 	e.preventDefault();
-	const gameBody = Object.fromEntries(new FormData(e.target));
-	const data = await createClassGame(node.edition.externalId, gameBody);
-	node.updateData(data);
+	const form = e.target;
+	const gameBody = Object.fromEntries(new FormData(form));
+	createClassGame(node.edition.externalId, gameBody).then(data => {
+		node.updateTable(data);
+		form.reset();
+	});
 };
 
 export default ({ node }) => {
 	return (
 		<>
-			<h4 class="text-center">{node.getConstants('createCG')}</h4>
+			<h5 class="text-center">{node.getConstants('createCG')}</h5>
 			<div class="mb-4">
 				<label class="control-label">
 					<strong>{node.getConstants('players')}:</strong>
 				</label>
 				<em>
-					{node.pubAnnotation ? node.getConstants('all') : node.getConstants('members')}
+					{node.publicAnnotation
+						? node.getConstants('all')
+						: node.getConstants('members')}
 				</em>
 			</div>
 			<form onSubmit={e => onCreateCG(e, node)}>
@@ -79,7 +84,9 @@ export default ({ node }) => {
 								required
 								placeholder={node.getConstants('inter')}>
 								{node.inters.map(inter => (
-									<option value={inter.externalId}>{inter.title}</option>
+									<option key={crypto.randomUUID()} value={inter.externalId}>
+										{inter.title}
+									</option>
 								))}
 							</select>
 							<label for="public">{node.getConstants('inter')}</label>
