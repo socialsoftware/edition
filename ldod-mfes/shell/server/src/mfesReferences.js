@@ -1,3 +1,5 @@
+/** @format */
+
 import { staticPath } from './constants.js';
 import fs from 'fs';
 import { loadMfes } from './mfes.js';
@@ -34,8 +36,8 @@ function generateReferencesJsCode(references) {
 	  window.references = {
 		${Object.keys(references || [])
 			.map(key => {
-				if (!references[key]) return `${key}: ${null}`;
-				return `${key}: {
+				if (!references[key]) return `"${key}": ${null}`;
+				return `"${key}": {
 					${Object.entries(references[key])
 						.map(([fnKey, fn]) => {
 							return `${fnKey}: ${fn}`;

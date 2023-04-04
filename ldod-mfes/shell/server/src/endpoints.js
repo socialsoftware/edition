@@ -1,7 +1,15 @@
-import { addStaticAssets, extractTarball, getIndexHtml, removeStaticAssets, rmTempContent } from './static.js';
+/** @format */
+
+import {
+	addStaticAssets,
+	extractTarball,
+	getIndexHtml,
+	removeStaticAssets,
+	rmTempContent,
+} from './static.js';
 import { addToImportmap, removeFromImportmaps } from './importmap.js';
 import { addMfe, removeMfe } from './mfes.js';
-import { gamePath, staticPath, tempPath, visualPath } from './constants.js';
+import { gamePath, tempPath, visualPath } from './constants.js';
 import { isMainThread, Worker } from 'worker_threads';
 import { generateMfesReferences } from './mfesReferences.js';
 import { emitter } from './event-bus.js';

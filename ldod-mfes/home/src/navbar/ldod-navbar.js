@@ -20,6 +20,7 @@ import './li-lang-menu';
 import navbarHtml from './navbar-html';
 
 const sheet = new CSSStyleSheet();
+
 sheet.replaceSync(navbarBS + navBS + dropdownBS + hostStyle + container + navbar + dropdown);
 
 const loadBootstrapJSModules = async () => {
@@ -30,10 +31,13 @@ const DEFAULT_SELECTED_VE = [];
 export class LdodNavbar extends HTMLElement {
 	constructor() {
 		super();
+
 		this.attachShadow({ mode: 'open' });
 		this.shadowRoot.adoptedStyleSheets = [sheet];
 		this.shadowRoot.innerHTML = `${navbarHtml(this.language)}`;
 		this.selectedVE = DEFAULT_SELECTED_VE;
+		if (LdodNavbar.instance) return LdodNavbar.instance;
+		LdodNavbar.instance = this;
 	}
 	static get observedAttributes() {
 		return ['language'];
@@ -66,6 +70,10 @@ export class LdodNavbar extends HTMLElement {
 	}
 	get isAdmin() {
 		return this.user && this.user.roles.includes('ROLE_ADMIN');
+	}
+
+	get dropdownSize() {
+		return this.shadowRoot.querySelectorAll("li[is='drop-down']").length;
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
@@ -212,6 +220,20 @@ export class LdodNavbar extends HTMLElement {
 
 	removeEditions() {
 		this.editionDropdown.querySelectorAll('li[selected]').forEach(li => li.remove());
+	}
+
+	addHeaderMenu(name, headerData, constants) {
+		if (this.dropdownSize >= 10) return;
+		const dropdown = document.createElement('li', { is: 'drop-down' });
+		dropdown.setAttribute('language', this.language);
+		dropdown.setAttribute('key', name);
+		dropdown.setAttribute('is', 'drop-down');
+		dropdown.className = 'nav-item dropdown';
+		dropdown.data = headerData;
+		dropdown.constants = constants;
+		this.shadowRoot
+			.querySelector('li[key="admin"]')
+			.insertAdjacentElement('beforebegin', dropdown);
 	}
 }
 customElements.define('ldod-navbar', LdodNavbar);

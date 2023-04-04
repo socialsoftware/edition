@@ -7,6 +7,13 @@ if (typeof window !== 'undefined') {
 	import('./home/home-info.js');
 }
 
+export async function registerMFE({ name, data, constants }) {
+	if (!name || !data || !constants) return;
+	customElements.whenDefined('ldod-navbar').then(navbar => {
+		navbar.instance.addHeaderMenu(name, data, constants);
+	});
+}
+
 async function loadHome() {
 	if (!home) home = await import('./home/home.js');
 	return home;

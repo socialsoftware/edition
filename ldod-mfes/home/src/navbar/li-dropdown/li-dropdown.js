@@ -1,6 +1,7 @@
 /** @format */
 import headersMenus from '../headers-menus';
 import liDropdownHtml from './li-dropdown-html';
+import constants from '../constants';
 
 let dropdown;
 const loadDropdownJSModule = async () => {
@@ -11,9 +12,6 @@ export class Dropdown extends HTMLLIElement {
 	constructor() {
 		super();
 		this.data = headersMenus[this.key];
-		this.innerHTML = liDropdownHtml(this);
-		this.toggler = this.querySelector('a.dropdown-toggle');
-		this.menu = this.querySelector('ul.dropdown-menu');
 	}
 
 	get key() {
@@ -29,7 +27,7 @@ export class Dropdown extends HTMLLIElement {
 	}
 
 	static get observedAttributes() {
-		return ['show'];
+		return ['show', 'language'];
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
@@ -40,9 +38,18 @@ export class Dropdown extends HTMLLIElement {
 			this.toggler.classList.toggle('show', this.show);
 			this.menu.classList.toggle('show', this.show);
 		},
+		language: () => {
+			this.querySelectorAll('[data-dropdown-key]').forEach(element => {
+				const constantsMap = this.constants || constants;
+				element.textContent = constantsMap[this.language][element.dataset.dropdownKey];
+			});
+		},
 	};
 
 	connectedCallback() {
+		this.innerHTML = liDropdownHtml(this);
+		this.toggler = this.querySelector('a.dropdown-toggle');
+		this.menu = this.querySelector('ul.dropdown-menu');
 		window.addEventListener('pointermove', this.render, { once: true });
 		this.toggler.addEventListener('click', e => {
 			e.stopPropagation();

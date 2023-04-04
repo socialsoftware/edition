@@ -15,11 +15,13 @@ const getStorageToken = () => getPartialStorage('ldod-store', ['token'])?.token;
 const fetchRequest = async (url, options) => {
 	try {
 		const res = await fetch(url, options);
+		if (res.status === 401) {
+			handleLogout();
+			return Promise.reject(res);
+		}
 		const resData = await res.json();
-		handleLoading(false);
 		if (!res.ok) {
-			if (res.status === 401) handleLogout();
-			else handleError(resData?.message);
+			handleError(resData?.message);
 			return Promise.reject(resData || res);
 		}
 		return resData;
@@ -27,6 +29,7 @@ const fetchRequest = async (url, options) => {
 		console.error('FETCH ERROR: ', error?.stack ?? error);
 		handleError();
 		navigateTo('/');
+	} finally {
 		handleLoading(false);
 	}
 };

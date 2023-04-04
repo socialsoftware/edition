@@ -1,4 +1,6 @@
-import fs, { cpSync, mkdirSync, readdirSync, rmSync, rmdir, rmdirSync } from 'fs';
+/** @format */
+
+import fs, { mkdirSync, rmSync } from 'fs';
 import path, { resolve } from 'path';
 import tar from 'tar';
 import { htmlPath, staticPath, tempPath } from './constants.js';

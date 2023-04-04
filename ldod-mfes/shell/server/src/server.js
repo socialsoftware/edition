@@ -1,3 +1,5 @@
+/** @format */
+
 import asyncRouter from 'async-express-decorator';
 import cors from 'cors';
 import express from 'express';
@@ -16,7 +18,9 @@ import { generateMfesReferences } from './mfesReferences.js';
 import { updateIndexHTML } from './html-template.js';
 import { createOrUpdateImportmap } from './importmap.js';
 import { createOrUpdateMfes } from './mfes.js';
+import { rmTempContent } from './static.js';
 
+rmTempContent();
 createOrUpdateImportmap();
 createOrUpdateMfes();
 await updateIndexHTML();
