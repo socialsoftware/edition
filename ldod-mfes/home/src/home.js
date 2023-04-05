@@ -1,14 +1,20 @@
 /** @format */
 
 let home;
+let ldodValidator;
 
 if (typeof window !== 'undefined') {
 	import('./navbar/ldod-navbar.js');
 	import('./home/home-info.js');
 }
 
-export async function registerMFE({ name, data, constants }) {
-	if (!name || !data || !constants) return;
+export async function registerMFE(headerData) {
+	if (!ldodValidator)
+		ldodValidator = (await import('./navbar/header-menu/data-schema-validator.js'))
+			.headerDataSchemaValidator;
+	const { errors } = ldodValidator(headerData);
+	if (errors.length) return errors;
+	const { name, data, constants } = headerData;
 	customElements.whenDefined('ldod-navbar').then(navbar => {
 		navbar.instance.addHeaderMenu(name, data, constants);
 	});

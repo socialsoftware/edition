@@ -1,0 +1,13 @@
+{
+	"id": "/data",
+	"type": "object",
+	"properties": {
+		"name": {
+			"type": "string"
+		},
+		"pages": {
+			"type": "array"
+		}
+	},
+	"required": ["name"]
+}

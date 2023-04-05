@@ -42,6 +42,16 @@ div > ul.navbar-nav {
 	justify-content: space-evenly;
 }
 
+ul.navbar-nav > li {
+	max-width: 10%;
+}
+
+ul.navbar-nav li a {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
 .navbar-toggler:hover .icon-bar {
 	background-color: #0c4ef6;
 }
@@ -90,6 +100,10 @@ li[is='drop-down'] > a.nav-link {
 	}
 	.nav-link {
 		padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
+	}
+
+	ul.navbar-nav li {
+		max-width: 300px;
 	}
 }
 @media (width > 768px) {

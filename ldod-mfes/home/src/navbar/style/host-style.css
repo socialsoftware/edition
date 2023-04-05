@@ -17,6 +17,13 @@ div.navbar-border-bottom {
 	width: 100%;
 }
 
+@media (width > 768px) {
+	#user-lg,
+	#user-lg > li > ul {
+		width: 210px;
+	}
+}
+
 @media (width < 768px) {
 	#user-lg {
 		display: none;

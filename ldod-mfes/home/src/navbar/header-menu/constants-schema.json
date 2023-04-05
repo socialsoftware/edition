@@ -1,0 +1,10 @@
+{
+	"id": "/constants",
+	"type": "object",
+	"properties": {
+		"pt": { "type": "object" },
+		"en": { "type": "object" },
+		"es": { "type": "object" }
+	},
+	"required": ["pt", "en", "es"]
+}
