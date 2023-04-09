@@ -1,21 +1,21 @@
 {
-  "type": "object",
-  "required": ["username", "roles", "selectedVE", "firstName", "lastName"],
-  "properties": {
-    "username": {
-      "type": "string"
-    },
-    "firstName": {
-      "type": "string"
-    },
-    "lastName": {
-      "type": "string"
-    },
-    "roles": {
-      "type": "string"
-    },
-    "selectedVE": {
-      "type": "array"
-    }
-  }
+	"type": "object",
+	"required": ["username", "roles", "selectedVE", "firstName", "lastName"],
+	"properties": {
+		"username": {
+			"type": "string"
+		},
+		"firstName": {
+			"type": "string"
+		},
+		"lastName": {
+			"type": "string"
+		},
+		"roles": {
+			"type": "string"
+		},
+		"selectedVE": {
+			"type": "array"
+		}
+	}
 }

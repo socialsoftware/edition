@@ -55,8 +55,8 @@ const publishMFE = async (req, res) => {
 		});
 
 	await addMfe(id);
-	await updateIndexHTML();
 	await generateMfesReferences();
+	await updateIndexHTML();
 
 	emitter.emit('mfe:published', { name });
 	return res.sendStatus(200);

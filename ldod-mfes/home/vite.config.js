@@ -38,6 +38,10 @@ export default defineConfig({
 				find: 'user',
 				replacement: 'http://localhost:9000/ldod-mfes/user/user.js',
 			},
+			{
+				find: 'shared',
+				replacement: '/node_modules/shared/dist',
+			},
 		],
 	},
 });

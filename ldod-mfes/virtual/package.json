@@ -30,6 +30,7 @@
     "select-pure_2.1.4": "npm:select-pure@2.1.4"
   },
   "dependencies": {
-    "select-pure_2.1.4": "npm:select-pure@2.1.4"
+    "select-pure_2.1.4": "npm:select-pure@2.1.4",
+    "shared": "file:../shell/shared"
   }
 }

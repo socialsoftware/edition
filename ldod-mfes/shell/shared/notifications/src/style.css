@@ -1,6 +1,7 @@
 /** @format */
 :host {
 	display: block;
+	padding: 0 20px;
 }
 .d-flex {
 	display: flex !important;

@@ -21,5 +21,8 @@
 	"devDependencies": {
 		"rollup-plugin-terser": "^7.0.2",
 		"vite": "^4.2.1"
+	},
+	"dependencies": {
+		"shared": "file:../shell/shared"
 	}
 }

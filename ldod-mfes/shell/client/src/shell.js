@@ -10,7 +10,9 @@ const getLanguage = () => store.getState().language;
 
 const modules = JSON.parse(document.querySelector('script#importmap').textContent).imports;
 
-document.querySelector('ldod-navbar').setAttribute('language', getLanguage());
+document
+	.querySelectorAll('[language]')
+	.forEach(node => node.setAttribute('language', getLanguage()));
 
 const router = document.createElement('ldod-router');
 router.id = 'shell';

@@ -1,7 +1,7 @@
 /** @format */
 
 import { loadMfes } from './mfes.js';
-import { preRenderIndexHtml } from './pre-render.js';
+import { preRenderHeaders, preRenderNavbar } from './pre-render.js';
 import fs from 'fs';
 import { getIndexHtml } from './static.js';
 import { loadImportmap } from './importmap.js';
@@ -16,14 +16,15 @@ export async function updateIndexHTML() {
 	updateImportmapScript(dom);
 	updateLdodProcessScript(dom);
 	updateMfesReferencesScript(dom);
-	//await preRenderIndexHtml(dom);
+	await preRenderNavbar(dom);
+	await preRenderHeaders(dom);
+	writeIndexHTML(dom.outerHTML);
+}
+
+export function writeIndexHTML(outerHTML) {
 	fs.writeFileSync(
 		htmlPath,
-		minify(dom.outerHTML, {
-			minifyCSS: true,
-			minifyJS: true,
-			collapseWhitespace: true,
-		})
+		minify(outerHTML, { minifyCSS: true, minifyJS: true, collapseWhitespace: true })
 	);
 }
 
@@ -39,7 +40,7 @@ function updateLdodProcessScript(dom) {
                 <script id="ldod-process">
                     window.LDOD_PRODUCTION = true;
                     window.mfes = ${mfes}
-                    window.process = {
+                    globalThis.process = {
                             host: "${process.env.HOST}",
                             apiHost: "${process.env.API_HOST}"
                         };

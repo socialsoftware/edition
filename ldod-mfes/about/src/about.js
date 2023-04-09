@@ -15,6 +15,9 @@ export function loadConductCode() {
 export default {
 	path: '/about',
 	references,
+	preRender: {
+		header: async () => (await import('./headerSSR.js')).default(),
+	},
 	mount: async (lang, ref) => (await loadAbout()).mount(lang, ref),
 	unMount: async () => (await loadAbout()).unMount(),
 };

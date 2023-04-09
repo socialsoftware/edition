@@ -1,3 +1,5 @@
+/** @format */
+
 import 'event-bus/dist/index.umd.min.js';
 
 import userSchema from './user.schema.json';

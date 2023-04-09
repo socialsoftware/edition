@@ -1,6 +1,9 @@
+/** @format */
+
 const virtualReferences = (await import('./references')).virtualReferences;
 export { virtualReferences };
-import './event-module';
+
+if (typeof window !== 'undefined') import('./event-module');
 
 let virtual;
 
@@ -22,5 +25,8 @@ export default {
 	bootstrap: () => {
 		import('./fragment/virtual-navigation');
 		import('./fragment/virtual-transcription');
+	},
+	preRender: {
+		header: async () => (await import('./headerSSR.js')).default(),
 	},
 };

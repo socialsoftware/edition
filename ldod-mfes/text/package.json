@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "openseadragon": "^3.1.0",
-    "photoswipe": "^5.3.2"
+    "photoswipe": "^5.3.2",
+    "shared": "file:../shell/shared"
   }
 }

@@ -27,6 +27,7 @@ export default defineConfig({
 				'src/nav-css.js',
 				'src/dropdown-css.js',
 				'src/reboot-css.js',
+				'src/transitions-css.js',
 			],
 			formats: ['es'],
 			fileName: (_, entry) => `bootstrap/${entry}.js`,

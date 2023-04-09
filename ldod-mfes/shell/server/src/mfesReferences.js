@@ -7,8 +7,8 @@ import { minify } from 'html-minifier';
 
 export async function generateMfesReferences() {
 	const references = await getMfesReferences();
+	globalThis.references = references;
 	writeReferencesToFile(references);
-	global.globalReferences = await references;
 }
 
 async function getMfesReferences() {
@@ -18,11 +18,14 @@ async function getMfesReferences() {
 		const entryPoint = `${staticPath}/${mfe}/${mfe}.js`;
 		const api = await import(entryPoint).catch(onError);
 		if (!api) return;
-
-		result = { ...result, [mfe]: api.default.references };
+		result = {
+			...result,
+			[mfe]: api.default.references,
+		};
 		return result;
 	}, Promise.resolve({}));
 }
+
 function writeReferencesToFile(references) {
 	fs.writeFileSync(
 		`${staticPath}/references.js`,

@@ -1,3 +1,5 @@
+/** @format */
+
 import { emitter } from './event-bus.js';
 import { resolve } from 'path';
 import { readFileSync, writeFileSync } from 'node:fs';

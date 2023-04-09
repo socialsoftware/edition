@@ -4,7 +4,7 @@ import { userReferences } from '../user-references';
 import constants from './constants';
 
 export default (name, language) => /*html*/ `
-  <a id="user-logged-in" class="nav-link dropdown-toggle" 
+  <a id="user-logged-in" class="dropdown-toggle nav-link" 
   key="user" role="button">
     ${name}
     <span class="caret"></span>
