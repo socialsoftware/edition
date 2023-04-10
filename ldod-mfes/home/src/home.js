@@ -1,7 +1,6 @@
 /** @format */
 
 let home;
-let ldodValidator;
 
 if (typeof window !== 'undefined') {
 	import('./nav-bar/nav-bar.js');

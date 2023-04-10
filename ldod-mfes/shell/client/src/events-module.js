@@ -1,20 +1,18 @@
 /** @format */
 
-import { ldodEventSubscriber } from '@shared/ldod-events.js';
+import { ldodEventSubscriber, ldodEventPublisher } from '@shared/ldod-events.js';
 import { store } from './store.js';
 let notification;
 
 const loadNotification = async () => {
-	if (notification) return;
 	notification = (await import('./components/notification.js')).default;
 };
 
 const notificationContainer = document.getElementById('notification-container');
 
-function notifications(content, theme) {
-	loadNotification().then(() => {
-		notificationContainer.appendChild(notification(content, theme));
-	});
+async function notifications(content, theme) {
+	if (!notification) await loadNotification();
+	notificationContainer.appendChild(notification(content, theme));
 }
 
 const handlers = {
@@ -29,3 +27,5 @@ ldodEventSubscriber('token', handlers.token);
 ldodEventSubscriber('logout', handlers.token);
 ldodEventSubscriber('message', handlers.message);
 ldodEventSubscriber('error', handlers.error);
+
+ldodEventPublisher('language', store.getState().language);

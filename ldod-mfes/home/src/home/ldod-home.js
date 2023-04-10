@@ -1,6 +1,6 @@
 /** @format */
 import style from './style/home.css?inline';
-import containerCss from '../navbar/style/container.css?inline';
+import containerCss from '../nav-bar/style/container.css?inline';
 const styleSheet = new CSSStyleSheet();
 styleSheet.replaceSync(style + containerCss);
 import ldodHomeHtml from './ldod-home-html';

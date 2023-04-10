@@ -1,7 +1,6 @@
 /** @format */
 
 import './li-lang-drop';
-import './body-observer.js';
 import '@shared/dropdown/li-dropdown.js';
 import { ldodEventSubscriber } from '@shared/ldod-events.js';
 import transitionsCss from '@shared/bootstrap/transitions-css.js';
@@ -177,7 +176,7 @@ class NavBar extends HTMLElement {
 	};
 
 	handleChangedAttribute = {
-		language: (oldV, newV) => oldV && oldV !== newV && this.onLanguageChange(),
+		language: (oldV, newV) => oldV !== newV && this.onLanguageChange(),
 	};
 
 	onLanguageChange() {

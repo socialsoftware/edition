@@ -13,7 +13,7 @@ export default {
 			},
 			{
 				id: 'general_classificationGame',
-				route: '/virtual/classificationGames',
+				route: virtualReferences.classificationGames(),
 			},
 		],
 	},

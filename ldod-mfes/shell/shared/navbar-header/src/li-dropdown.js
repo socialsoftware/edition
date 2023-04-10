@@ -82,6 +82,7 @@ export class DropDown extends HTMLLIElement {
 	};
 
 	onNewLink = ({ payload }) => {
+		console.log(payload);
 		if (!payload) return;
 		const { replace = false, name, data, constants } = payload;
 		if (name !== this.key) return;

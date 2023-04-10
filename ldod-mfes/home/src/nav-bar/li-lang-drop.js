@@ -1,6 +1,7 @@
 /** @format */
 
-import { ldodEventPublisher } from '@shared/ldod-events.js';
+import { ldodEventPublisher, ldodEventBus } from '@shared/ldod-events.js';
+
 class LangDrop extends HTMLLIElement {
 	constructor() {
 		super();
@@ -11,9 +12,12 @@ class LangDrop extends HTMLLIElement {
 	}
 
 	connectedCallback() {
-		this.language = this.getAttribute('language');
-		this.setActive();
-		this.addEventListeners();
+		this.unsub = ldodEventBus.subscribe('ldod:language', true, ({ payload }) => {
+			this.language = payload;
+			this.setActive();
+			this.addEventListeners();
+		}).unsubscribe;
+		this.unsub();
 	}
 
 	addEventListeners = () => {

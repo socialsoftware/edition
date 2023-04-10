@@ -1,3 +1,5 @@
+/** @format */
+
 import '@shared/router.js';
 import style from './style.css?inline';
 import { isDev } from './utils';
@@ -5,9 +7,11 @@ import { isDev } from './utils';
 const VIRTUAL_SELECTOR = 'div#virutalContainer';
 
 const routes = {
-	'/virtual-editions': async () => await import('./pages/virtual-editions/virtual-editions-router'),
+	'/virtual-editions': async () =>
+		await import('./pages/virtual-editions/virtual-editions-router'),
 	'/manage-virtual-editions': async () => await import('./pages/manage-ve/manage-ve'),
 	'/edition': async () => await import('./pages/edition/edition-router'),
+	'/classification-games': async () => await import('./pages/class-games/class-games.js'),
 };
 
 export const mount = (lang, ref) => {

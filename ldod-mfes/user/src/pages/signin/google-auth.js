@@ -1,3 +1,5 @@
+/** @format */
+
 import { socialAuthRequest } from '../../api-requests';
 import { errorPublisher, messagePublisher } from '../../events-modules';
 import { onAuthSuccess } from '../common-functions';
@@ -25,11 +27,14 @@ document.head.appendChild(script);
 
 function handleCredentials(accessToken, callback) {
 	socialAuthRequest('google', { accessToken }, callback)
-		.then(response => response?.message && messagePublisher(constants[language || 'en'][response.message]))
+		.then(
+			response =>
+				response?.message && messagePublisher(constants[language || 'en'][response.message])
+		)
 		.catch(error => errorPublisher(constants[error?.message]));
 }
 
 export default lang => {
 	language = lang;
-	gPrompt();
+	if (gPrompt) gPrompt();
 };

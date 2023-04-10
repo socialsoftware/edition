@@ -1,6 +1,7 @@
 /** @format */
 
 import NotFound from './components/not-found.js';
+import './body-observer.js';
 import './events-module.js';
 import '@shared/router.js';
 import { store } from './store.js';

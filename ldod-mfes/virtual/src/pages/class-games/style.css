@@ -1,0 +1,25 @@
+/** @format */
+
+:host {
+	display: block;
+	font-family: Work-Sans, sans-serif;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.mb {
+	margin-bottom: 20px;
+}
+
+a[is='nav-to-new'] {
+	text-decoration: none;
+}
+a[is='nav-to-new']:hover {
+	text-decoration: underline;
+}
+
+span[is='ldod-span-icon'] {
+	vertical-align: inherit;
+}

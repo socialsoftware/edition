@@ -1,7 +1,7 @@
 /** @format */
 
 import homeInfoHtml from './home-info-html';
-import containerCss from '../navbar/style/container.css?inline';
+import containerCss from '../nav-bar/style/container.css?inline';
 import style from './style/info.css?inline';
 import constants from './constants/constants';
 const sheet = new CSSStyleSheet();

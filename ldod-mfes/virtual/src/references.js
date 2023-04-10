@@ -1,3 +1,5 @@
+/** @format */
+
 export const virtualReferences = {
 	virtualEditions: () => '/virtual/virtual-editions',
 	virtualEdition: acrn => `/virtual/edition/acronym/${acrn}`,
@@ -6,4 +8,5 @@ export const virtualReferences = {
 	taxonomy: acrn => `/virtual/edition/acronym/${acrn}/taxonomy`,
 	user: username => `/virtual/edition/user/${username}`,
 	game: (veId, id) => `/virtual/virtual-editions/${veId}/game/${id}`,
+	classificationGames: () => '/virtual/classification-games',
 };

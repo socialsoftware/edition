@@ -4,7 +4,6 @@ import dropdown from 'shared/dropdown/navbar-header-ssr';
 
 export default language => {
 	return /*html*/ `
-
         <nav class="navbar navbar-expand-md fixed-top">
             <div class="container-md" style="display: flex;width: 100%;min-height: 62px">
                 <a is="nav-to-new" to="/" class="navbar-brand" data-navbar-key="header_title">
@@ -43,9 +42,9 @@ export default language => {
                         <div id="user-md">
                             <li is="user-component" language="${language}" key="user"></li>
                         </div>
-                        <li is="lang-drop" class="nav-item dropdown nav-drop" language="${language}">
+                        <li is="lang-drop" class="nav-item dropdown nav-drop">
                             <a role="button" id="pt" class="nav-link">PT</a>
-                            <a role="button" id="en" class="nav-link active">EN</a>
+                            <a role="button" id="en" class="nav-link">EN</a>
                             <a role="button" id="es" class="nav-link">ES</a>
                         </li>
                     </ul>

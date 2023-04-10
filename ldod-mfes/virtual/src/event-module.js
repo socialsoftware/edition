@@ -38,8 +38,10 @@ const veManagement = {
 	},
 };
 
-customElements.whenDefined('nav-bar').then(() => ldodEventPublisher('header:admin', veManagement));
-updateEditions();
+customElements.whenDefined('nav-bar').then(() => {
+	updateEditions();
+	ldodEventPublisher('header:admin', veManagement);
+});
 
 function selectedVeHandler({ payload }) {
 	selectedInters = payload.selected

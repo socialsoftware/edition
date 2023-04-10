@@ -231,17 +231,6 @@ li[is='drop-down'] > a.nav-link {
 	column-gap: 8px;
 }
 
-.nav-link {
-	display: block;
-	padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
-	font-size: var(--bs-nav-link-font-size);
-	font-weight: var(--bs-nav-link-font-weight);
-	color: var(--bs-nav-link-color);
-	text-decoration: none;
-	transition: color 0.15s ease-in-out 0s, background-color 0.15s ease-in-out 0s,
-		border-color 0.15s ease-in-out 0s;
-}
-
 .nav-link:hover,
 .nav-link:focus,
 .dropdown-item:hover,
@@ -315,7 +304,16 @@ li[is='drop-down'] > a.nav-link {
 	font-size: 14px;
 	font-weight: 700;
 }
-
+.nav-link {
+	display: block;
+	padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
+	font-size: var(--bs-nav-link-font-size);
+	font-weight: var(--bs-nav-link-font-weight);
+	color: var(--bs-nav-link-color);
+	text-decoration: none;
+	transition: color 0.15s ease-in-out 0s, background-color 0.15s ease-in-out 0s,
+		border-color 0.15s ease-in-out 0s;
+}
 .dropdown-toggle::after {
 	display: inline-block;
 	margin-left: 0.255em;
