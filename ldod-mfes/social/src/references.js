@@ -46,8 +46,8 @@ const tweetsManagement = {
 if (typeof window !== 'undefined') {
 	import('@shared/ldod-events.js').then(({ ldodEventBus }) => {
 		customElements.whenDefined('nav-bar').then(() => {
-			ldodEventBus.publish('ldod:header:reading', twitterCitationsHeader);
-			ldodEventBus.publish('ldod:header:admin', tweetsManagement);
+			ldodEventBus.publish('ldod:header', twitterCitationsHeader);
+			ldodEventBus.publish('ldod:header', tweetsManagement);
 		});
 	});
 }

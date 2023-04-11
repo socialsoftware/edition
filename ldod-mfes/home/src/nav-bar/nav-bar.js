@@ -2,8 +2,9 @@
 
 import './li-lang-drop';
 import '@shared/dropdown/li-dropdown.js';
-import { ldodEventSubscriber } from '@shared/ldod-events.js';
+import { ldodEventBus, ldodEventSubscriber } from '@shared/ldod-events.js';
 import transitionsCss from '@shared/bootstrap/transitions-css.js';
+import headerSchema from './header-data-schema.json';
 
 const constants = {
 	en: {
@@ -28,6 +29,8 @@ const loadBootstrapJSModules = async () => {
 class NavBar extends HTMLElement {
 	constructor() {
 		super();
+		ldodEventBus.register(`ldod:header`, headerSchema);
+		ldodEventBus.subscribe(`ldod:header`, this.onHeader);
 		this.headersToConsume = [];
 		if (NavBar.instance) return NavBar.instance;
 		NavBar.instance = this;
@@ -191,6 +194,27 @@ class NavBar extends HTMLElement {
 	setAdminVisibility = (hide = !this.isAdmin) => {
 		const adminDrop = this.adminDropdown;
 		if (adminDrop) adminDrop.hidden = hide;
+	};
+
+	newHeader = payload => {
+		const template = document.createElement('template');
+		template.innerHTML = /*html*/ `
+		<li
+			is="drop-down"
+			key="${payload.name}"
+			language="${this.language}"
+			data-headers='${JSON.stringify(payload)}'
+		></li>`;
+		return template.content.firstElementChild.cloneNode(true);
+	};
+
+	onHeader = ({ payload }) => {
+		const drop = [...this.dropdowns].find(d => d.key === payload.name);
+		if (drop) drop.onNewLink({ payload });
+		else {
+			const header = this.newHeader(payload);
+			this.addHeader(header);
+		}
 	};
 
 	addHeader(liDropdownNode) {

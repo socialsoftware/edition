@@ -35,6 +35,4 @@ const usersManagement = {
 	},
 };
 
-customElements
-	.whenDefined('nav-bar')
-	.then(() => ldodEventPublisher('header:admin', usersManagement));
+customElements.whenDefined('nav-bar').then(() => ldodEventPublisher('header', usersManagement));

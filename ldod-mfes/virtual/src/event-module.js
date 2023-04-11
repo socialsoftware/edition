@@ -40,7 +40,7 @@ const veManagement = {
 
 customElements.whenDefined('nav-bar').then(() => {
 	updateEditions();
-	ldodEventPublisher('header:admin', veManagement);
+	ldodEventPublisher('header', veManagement);
 });
 
 function selectedVeHandler({ payload }) {
@@ -50,7 +50,7 @@ function selectedVeHandler({ payload }) {
 	updateEditions();
 }
 function updateEditions() {
-	ldodEventPublisher('header:editions', {
+	ldodEventPublisher('header', {
 		replace: true,
 		name: 'editions',
 		data: {

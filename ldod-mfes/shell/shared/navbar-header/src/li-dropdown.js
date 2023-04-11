@@ -1,8 +1,6 @@
 /** @format */
 import { addLiItem, getDropDownHTML } from './li-dropdown-html';
 import { headerDataSchemaValidator } from './data-schema-validator';
-import { ldodEventBus } from '@shared/ldod-events.js';
-import headerSchema from './header-data-schema.json';
 
 let DropdownBS;
 const loadDropdownJSModule = async () => {
@@ -13,8 +11,6 @@ const loadDropdownJSModule = async () => {
 export class DropDown extends HTMLLIElement {
 	constructor() {
 		super();
-		ldodEventBus.register(`ldod:header:${this.key}`, headerSchema);
-		ldodEventBus.subscribe(`ldod:header:${this.key}`, this.onNewLink);
 	}
 
 	get key() {

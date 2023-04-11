@@ -26,6 +26,4 @@ const fragmentsManagement = {
 	},
 };
 
-customElements
-	.whenDefined('nav-bar')
-	.then(() => ldodEventPublisher('header:admin', fragmentsManagement));
+customElements.whenDefined('nav-bar').then(() => ldodEventPublisher('header', fragmentsManagement));
