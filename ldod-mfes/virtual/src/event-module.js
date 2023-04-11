@@ -57,6 +57,11 @@ function updateEditions() {
 			name: 'editions',
 			pages: selectedInters.map(ed => ({ id: ed, route: `/virtual/edition/acronym/${ed}` })),
 		},
+		constants: {
+			pt: {},
+			en: {},
+			es: {},
+		},
 	});
 }
 

@@ -1,6 +1,7 @@
 /** @format */
 
-export function getDropDownHTML({ name, data, constants }, lang = 'en') {
+export function getDropDownHTML({ replace, name, data, constants }, lang = 'en') {
+	const pages = data.pages.map(page => addLiItem(page, lang, constants)).join('');
 	return /*html*/ `
         <a
             class="nav-link dropdown-toggle"
@@ -13,8 +14,8 @@ export function getDropDownHTML({ name, data, constants }, lang = 'en') {
         </a>
         <ul class="dropdown-menu">
             <div class="dropdown-menu-bg"></div>
-            ${data.pages.map(page => addLiItem(page, lang, constants)).join('')}
-            <div id="external-links"></div>
+            ${replace ? '' : pages}
+            <div id="external-links">${replace ? pages : ''}</div>            
         </ul>
     `;
 }

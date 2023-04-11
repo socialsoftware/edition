@@ -1,6 +1,6 @@
 {
 	"type": "object",
-	"required": ["name", "data"],
+	"required": ["name", "data", "constants"],
 	"properties": {
 		"replace": { "type": "boolean" },
 		"name": {
