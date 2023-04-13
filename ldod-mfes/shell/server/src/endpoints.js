@@ -15,6 +15,7 @@ import { generateMfesReferences } from './mfesReferences.js';
 import { emitter } from './event-bus.js';
 import { updateIndexHTML } from './html-template.js';
 import { resolve } from 'path';
+import { preRenderMFE } from './pre-render.js';
 
 const sendIndex = (req, res) => res.send(getIndexHtml());
 
@@ -38,10 +39,11 @@ const checkMfeApiCompliance = async entry => {
 const publishMFE = async (req, res) => {
 	const fileInfo = req.file;
 	const { id, name, entry } = req.body;
+	const entryPoint = `${id}/${entry}`;
 	await extractTarball(fileInfo, id);
 
 	if (entry)
-		await checkMfeApiCompliance(`${tempPath}/${id}/${entry}`)
+		await checkMfeApiCompliance(`${tempPath}/${entryPoint}`)
 			.then(() => addStaticAssets({ from: resolve(tempPath, id), name: id }))
 			.catch(e => {
 				throw new Error(e);
@@ -51,13 +53,12 @@ const publishMFE = async (req, res) => {
 	if (name)
 		await addToImportmap({
 			name,
-			entry: name !== entry ? `/${process.env.BASE}/${id}/${entry}` : `/${entry}`,
+			entry: name !== entry ? `/${process.env.BASE}/${entryPoint}` : `/${entry}`,
 		});
 
 	await addMfe(id);
 	await generateMfesReferences();
-	await updateIndexHTML();
-
+	await updateIndexHTML(entryPoint);
 	emitter.emit('mfe:published', { name });
 	return res.sendStatus(200);
 };

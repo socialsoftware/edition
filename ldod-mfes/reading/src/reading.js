@@ -12,9 +12,7 @@ const loadReading = async () => {
 export default {
 	path: '/reading',
 	references,
-	preRender: {
-		header: async () => (await import('./headerSSR.js')).default(),
-	},
+	preRender: async (dom, lang) => (await import('./headerSSR.js')).default(dom, lang),
 	mount: async (lang, ref) => (await loadReading()).mount(lang, ref),
 	unMount: async () => (await loadReading()).unMount(),
 };

@@ -1,6 +1,6 @@
 /** @format */
 
-export function getDropDownHTML({ replace, name, data, constants }, lang = 'en') {
+export function createDropdownRawHTML({ replace, name, data, constants }, lang = 'en') {
 	const pages = data.pages.map(page => addLiItem(page, lang, constants)).join('');
 	return /*html*/ `
         <a

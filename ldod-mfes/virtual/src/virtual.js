@@ -26,7 +26,5 @@ export default {
 		import('./fragment/virtual-navigation');
 		import('./fragment/virtual-transcription');
 	},
-	preRender: {
-		header: async () => (await import('./headerSSR.js')).default(),
-	},
+	preRender: async (dom, lang) => (await import('./headerSSR.js')).default(dom, lang),
 };

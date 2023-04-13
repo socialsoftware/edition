@@ -1,13 +1,20 @@
 /** @format */
 
 import navBarHtml from './nav-bar-html';
+import { parse } from 'node-html-parser';
 
-export default (language = 'en') => {
-	return /*html*/ `
+export default async (dom, language = 'en') => {
+	const rawDrops = dom.querySelector('li[is="drop.down"]:not(li[key="admin"])')?.outerHTML || '';
+	console.log(rawDrops);
+	const rawNavbar = /*html*/ `
         <nav-bar language="${language}">
             <template shadowrootmode="open">
-                ${navBarHtml(language)}            
+                ${navBarHtml(language, rawDrops)}            
             </template>
         </nav-bar> 
     `;
+	const body = dom.querySelector('body');
+	const newNavbar = parse(rawNavbar);
+	body.querySelector('nav-bar')?.remove();
+	body.appendChild(newNavbar);
 };

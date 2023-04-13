@@ -13,9 +13,7 @@ if (typeof window !== 'undefined') import('./events-module');
 export default {
 	path: '/text',
 	references: textReferences,
-	preRender: {
-		header: async () => (await import('./headerSSR.js')).default(),
-	},
+	preRender: async (dom, lang) => (await import('./headerSSR.js')).default(dom, lang),
 	mount: async (lang, ref) => (await loadText()).mount(lang, ref),
 	unMount: async () => (await loadText()).unMount(),
 };

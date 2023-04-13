@@ -26,6 +26,7 @@
     "vite": "^4.0.4"
   },
   "dependencies": {
+    "node-html-parser": "^6.1.5",
     "shared": "file:../shell/shared"
   }
 }

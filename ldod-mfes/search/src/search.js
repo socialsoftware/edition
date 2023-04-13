@@ -10,9 +10,7 @@ export default {
 	references,
 	mount: async (lang, ref) => (await loadSearch()).mount(lang, ref),
 	unMount: async () => (await loadSearch()).unMount(),
-	preRender: {
-		header: async () => (await import('./headerSSR.js')).default(),
-	},
+	preRender: async (dom, lang) => (await import('./headerSSR.js')).default(dom, lang),
 };
 
 async function loadSearch() {

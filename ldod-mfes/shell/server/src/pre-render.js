@@ -3,10 +3,10 @@
 import { parse } from 'node-html-parser';
 import { loadMfes } from './mfes.js';
 import { staticPath } from './constants.js';
+import { loadImportmap } from './importmap.js';
 
 export async function preRenderIndexHtml(dom) {
-	//await preRenderModal(dom);
-	await preRenderHeaders(dom);
+	await preRenderMFEs(dom);
 }
 
 async function preRenderModal(dom) {
@@ -23,33 +23,22 @@ async function preRenderModal(dom) {
 		})
 		.catch(e => console.error(e));
 }
+
 /**
  *
  * @param {HTMLElement} dom
  */
-export async function preRenderNavbar(dom) {
-	const api = await import(`${staticPath}/home/home.js`).catch(e => console.error(e));
-	const navbarPreRender = api.default.preRender?.navbar;
-	if (typeof navbarPreRender === 'function') {
-		const navbar = parse(await navbarPreRender());
-		dom.querySelector('nav-bar').replaceWith(navbar);
-	}
+export async function preRenderMFE(entry, dom) {
+	const entryPoint = `${staticPath}/${entry}`;
+	const api = await import(`${entryPoint}`).catch(e => console.error(e));
+	const preRender = api.default.preRender;
+	if (typeof preRender === 'function') await preRender(dom, 'en');
 }
 
-export async function preRenderHeaders(dom) {
-	const mfes = loadMfes().sort();
-	const headers = await mfes.reduce(async (headersString, mfe) => {
-		const result = await headersString;
-		const api = await import(`${staticPath}/${mfe}/${mfe}.js`).catch(e => console.error(e));
-		const header = api?.default?.preRender?.header || '';
-		if (typeof header === 'function') return result + (await header());
-		return result;
-	}, Promise.resolve(''));
-	const dropdownContainer = dom.querySelector('div#navbar-nav > ul.navbar-nav');
-	if (!dropdownContainer) return;
-	dropdownContainer
-		.querySelectorAll("li[is='drop-down']:not([key='admin'])")
-		.forEach(n => n.remove());
-	const inner = dropdownContainer.innerHTML;
-	dropdownContainer.innerHTML = headers + inner;
+export async function preRenderMFEs(dom) {
+	const mfes = loadMfes().sort((a, b) => a === 'home' && -1);
+	for (const mfe of mfes) {
+		const entry = loadImportmap().imports[mfe].replace('/ldod-mfes/', '');
+		await preRenderMFE(entry, dom);
+	}
 }

@@ -16,7 +16,5 @@ export default {
 	path: '/',
 	mount: async (lang, ref) => (await loadHome()).mount(lang, ref),
 	unMount: async () => (await loadHome()).unMount(),
-	preRender: {
-		navbar: async () => (await import('./nav-bar/nav-bar-ssr.js')).default(),
-	},
+	preRender: async (dom, lang) => (await import('./nav-bar/nav-bar-ssr.js')).default(dom, lang),
 };

@@ -3,6 +3,7 @@
 const observable = document.body;
 
 customElements.whenDefined('nav-bar').then(({ instance }) => {
+	if (!(instance instanceof HTMLElement)) return;
 	const navElement = instance.shadowRoot.firstElementChild;
 	new MutationObserver(mutations => {
 		mutations.forEach(mutation => {

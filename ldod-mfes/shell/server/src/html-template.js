@@ -1,7 +1,7 @@
 /** @format */
 
 import { loadMfes } from './mfes.js';
-import { preRenderHeaders, preRenderNavbar } from './pre-render.js';
+import { preRenderIndexHtml, preRenderMFE } from './pre-render.js';
 import fs from 'fs';
 import { getIndexHtml } from './static.js';
 import { loadImportmap } from './importmap.js';
@@ -9,15 +9,16 @@ import { htmlPath } from './constants.js';
 import { parse } from 'node-html-parser';
 import { minify } from 'html-minifier';
 
-export async function updateIndexHTML() {
+export async function updateIndexHTML(entry) {
+	console.log(entry);
 	const html = getIndexHtml();
 	if (!html) return;
 	const dom = parse(html);
 	updateImportmapScript(dom);
 	updateLdodProcessScript(dom);
 	updateMfesReferencesScript(dom);
-	await preRenderNavbar(dom);
-	await preRenderHeaders(dom);
+	await preRenderIndexHtml(dom);
+	entry && (await preRenderMFE(entry, dom));
 	writeIndexHTML(dom.outerHTML);
 }
 

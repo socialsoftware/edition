@@ -2,7 +2,7 @@
 
 import textReferences from './references';
 
-export const headerData = [
+export default [
 	{
 		name: 'text',
 		data: {

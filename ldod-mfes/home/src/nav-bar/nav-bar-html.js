@@ -2,7 +2,7 @@
 import style from './style/style.css?inline';
 import dropdown from 'shared/dropdown/navbar-header-ssr';
 
-export default language => {
+export default (language, rawDrops) => {
 	return /*html*/ `
         <nav class="navbar navbar-expand-md fixed-top">
             <div class="container-md" style="display: flex;width: 100%;min-height: 62px">

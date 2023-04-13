@@ -1,5 +1,5 @@
 /** @format */
-import { addLiItem, getDropDownHTML } from './li-dropdown-html';
+import { addLiItem, createDropdownRawHTML } from './li-dropdown-html';
 import { headerDataSchemaValidator } from './data-schema-validator';
 
 let DropdownBS;
@@ -62,7 +62,7 @@ export class DropDown extends HTMLLIElement {
 
 	render = async () => {
 		if (!this.data) return;
-		if (!this.innerHTML) this.innerHTML = getDropDownHTML(this.data, this.language);
+		if (!this.innerHTML) this.innerHTML = createDropdownRawHTML(this.data, this.language);
 		this.toggler = this.querySelector('a.dropdown-toggle');
 		this.menu = this.querySelector('ul.dropdown-menu');
 		this.externalLinks = this.menu.querySelector('div#external-links');
@@ -91,18 +91,19 @@ export class DropDown extends HTMLLIElement {
 			}, '')}
 		`;
 		if (replace) this.replaceExternalLinks(itemsHTML);
-		else this.addExternalLinks(itemsHTML);
+		else this.addMenuLinks(itemsHTML);
 	};
 
 	replaceExternalLinks = html => {
-		const template = document.createElement('template');
-		template.innerHTML = /*html*/ `<div id="external-links">${html}</div>`;
-		this.menu.querySelector('div#external-links').replaceWith(template.content.cloneNode(true));
+		this.externalLinks.innerHTML = html;
 	};
-	addExternalLinks = html => {
+
+	addMenuLinks = html => {
 		const template = document.createElement('template');
 		template.innerHTML = html;
-		this.externalLinks.appendChild(template.content.cloneNode(true));
+		[...template.content.cloneNode(true).children].forEach(node => {
+			this.externalLinks.insertAdjacentElement('beforebegin', node);
+		});
 	};
 
 	loadDropdownModule = async () => {

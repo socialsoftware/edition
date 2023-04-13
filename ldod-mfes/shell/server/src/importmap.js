@@ -1,10 +1,14 @@
+/** @format */
+
 import fs from 'fs';
 import { importmapPath } from './constants.js';
 
 export function createOrUpdateImportmap() {
 	const importmap = loadImportmap();
-	if (!('@shared/' in importmap)) addToImportmap({ name: '@shared/', entry: '/ldod-mfes/shared/' });
-	if (!('@vendor/' in importmap)) addToImportmap({ name: '@vendor/', entry: '/ldod-mfes/vendor/' });
+	if (!('@shared/' in importmap))
+		addToImportmap({ name: '@shared/', entry: '/ldod-mfes/shared/' });
+	if (!('@vendor/' in importmap))
+		addToImportmap({ name: '@vendor/', entry: '/ldod-mfes/vendor/' });
 }
 
 export function loadImportmap() {
