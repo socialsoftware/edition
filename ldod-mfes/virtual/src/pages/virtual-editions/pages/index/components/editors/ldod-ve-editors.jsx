@@ -1,7 +1,11 @@
+/** @format */
+
 import '@shared/modal.js';
 import constants from './constants';
 import MembersTable from './members-table';
 import style from './editors.css?inline';
+import formsCss from '@shared/bootstrap/forms-css.js';
+import buttonsCss from '@shared/bootstrap/buttons-css.js';
 import PendentTable from './pendent-table';
 import { addParticipant } from '@src/restricted-api-requests';
 import { errorPublisher } from '../../../../../../event-module';
@@ -19,7 +23,7 @@ export class LdodVeEditors extends HTMLElement {
 	}
 
 	get modal() {
-		return this.querySelector('ldod-modal');
+		return this.querySelector('ldod-bs-modal#virtual-editors-modal');
 	}
 
 	get participantUsername() {
@@ -42,14 +46,15 @@ export class LdodVeEditors extends HTMLElement {
 		this.onChangedAttribute[name](oldV, newV);
 	}
 
-	disconnectedCallback() {}
-
 	render() {
 		this.innerHTML = '';
-		this.appendChild(<style>{style}</style>);
+		this.appendChild(<style>{formsCss + buttonsCss + style}</style>);
 		this.appendChild(
-			<ldod-modal id="virtual-editorsModal" dialog-class="modal-xl" no-footer>
-				<span slot="header-slot">{this.edition?.title}</span>
+			<ldod-bs-modal id="virtual-editors-modal" dialog-class="modal-xl">
+				<h4 slot="header-slot">
+					<span>{this.edition?.title}</span>
+					<span>{this.getConstants('manualSort')}</span>
+				</h4>
 				<div slot="body-slot">
 					{this.edition?.member?.admin && (
 						<form onSubmit={this.onAdd}>
@@ -64,7 +69,10 @@ export class LdodVeEditors extends HTMLElement {
 									aria-describedby="add-participant-username"
 									required
 								/>
-								<button class="btn btn-primary" type="submit" id="add-participant-username">
+								<button
+									class="btn btn-primary"
+									type="submit"
+									id="add-participant-username">
 									{this.getConstants('addMember')}
 								</button>
 							</div>
@@ -83,7 +91,7 @@ export class LdodVeEditors extends HTMLElement {
 						)}
 					</div>
 				</div>
-			</ldod-modal>
+			</ldod-bs-modal>
 		);
 	}
 	isMemberActive = () => this.edition.member?.active;
@@ -91,7 +99,9 @@ export class LdodVeEditors extends HTMLElement {
 	onChangedAttribute = {
 		data: () => {
 			this.render();
-			return this.isMemberActive() ? this.modal?.toggleAttribute('show', true) : this.onCloseModal();
+			return this.isMemberActive()
+				? this.modal?.toggleAttribute('show', true)
+				: this.onCloseModal();
 		},
 		show: (oldV, newV) => {
 			this.render();

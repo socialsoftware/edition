@@ -7,7 +7,7 @@ import {
 	removeStaticAssets,
 	rmTempContent,
 } from './static.js';
-import { addToImportmap, removeFromImportmaps } from './importmap.js';
+import { addToImportmap, getEntryPoint, removeFromImportmaps } from './importmap.js';
 import { addMfe, removeMfe } from './mfes.js';
 import { gamePath, tempPath, visualPath } from './constants.js';
 import { isMainThread, Worker } from 'worker_threads';
@@ -15,7 +15,8 @@ import { generateMfesReferences } from './mfesReferences.js';
 import { emitter } from './event-bus.js';
 import { updateIndexHTML } from './html-template.js';
 import { resolve } from 'path';
-import { preRenderMFE } from './pre-render.js';
+import { cleanUpMFE } from './pre-render.js';
+import { parse } from 'node-html-parser';
 
 const sendIndex = (req, res) => res.send(getIndexHtml());
 
@@ -58,16 +59,17 @@ const publishMFE = async (req, res) => {
 
 	await addMfe(id);
 	await generateMfesReferences();
-	await updateIndexHTML(entryPoint);
+	await updateIndexHTML({ entryPoint, action: 'publish' });
 	emitter.emit('mfe:published', { name });
 	return res.sendStatus(200);
 };
 const unPublishMFE = async (req, res) => {
 	const { id, name } = req.body;
-	removeStaticAssets({ name: id });
+	const entryPoint = getEntryPoint(id);
 	removeFromImportmaps({ name });
 	removeMfe(id);
-	await updateIndexHTML();
+	await updateIndexHTML({ entryPoint, action: 'unpublish' });
+	removeStaticAssets({ name: id });
 	await generateMfesReferences();
 	return res.sendStatus(200);
 };

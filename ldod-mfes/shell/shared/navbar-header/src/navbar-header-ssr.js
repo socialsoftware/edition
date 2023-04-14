@@ -40,3 +40,6 @@ function createDropdownElement(data, lang) {
 		)}'>${createDropdownRawHTML(data, lang)}</li>`
 	);
 }
+export function cleanUp(dom, key) {
+	dom.querySelector(`div#navbar-nav ul li[key="${key}"]`)?.remove();
+}

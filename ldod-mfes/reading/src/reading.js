@@ -13,6 +13,7 @@ export default {
 	path: '/reading',
 	references,
 	preRender: async (dom, lang) => (await import('./headerSSR.js')).default(dom, lang),
+	cleanUp: async dom => (await import('./headerSSR.js')).cleanUpHeader(dom),
 	mount: async (lang, ref) => (await loadReading()).mount(lang, ref),
 	unMount: async () => (await loadReading()).unMount(),
 };

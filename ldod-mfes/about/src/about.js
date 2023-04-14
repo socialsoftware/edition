@@ -16,6 +16,7 @@ export default {
 	path: '/about',
 	references,
 	preRender: async (dom, lang) => (await import('./headerSSR.js')).default(dom, lang),
+	cleanUp: async dom => (await import('./headerSSR.js')).cleanUpHeader(dom),
 	mount: async (lang, ref) => (await loadAbout()).mount(lang, ref),
 	unMount: async () => (await loadAbout()).unMount(),
 };

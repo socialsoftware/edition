@@ -1,7 +1,7 @@
 /** @format */
 
 import fs from 'fs';
-import { importmapPath } from './constants.js';
+import { importmapPath, staticPath } from './constants.js';
 
 export function createOrUpdateImportmap() {
 	const importmap = loadImportmap();
@@ -36,3 +36,6 @@ export const removeFromImportmaps = ({ name }) => {
 	delete importmap.imports[name];
 	saveImportmap(importmap);
 };
+export function getEntryPoint(id) {
+	return loadImportmap().imports[id]?.replace('/ldod-mfes/', '');
+}

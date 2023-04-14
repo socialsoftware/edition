@@ -1,3 +1,5 @@
+/** @format */
+
 import { fetchAnnotations } from './api-requests';
 import { NewAnnPopover } from './components/new-annotation/new-annotation-popover';
 import { LdodAnnotation } from './components/ldod-annotation/ldod-annotation';
@@ -9,7 +11,8 @@ let refNode;
 let data;
 let popover;
 
-window.hash = str => str.split('').reduce((prv, cur) => ((prv << 5) - prv + cur.charCodeAt(0)) | 0, 0);
+window.hash = str =>
+	str.split('').reduce((prv, cur) => ((prv << 5) - prv + cur.charCodeAt(0)) | 0, 0);
 
 const selectionStyle = () => {
 	const style = document.createElement('style');
@@ -21,11 +24,16 @@ const selectionStyle = () => {
 	return style;
 };
 
-const annotationIdByXpath = xPath => `${xPath.start}/${xPath.startOffset}${xPath.end}/${xPath.endOffset}`;
+const annotationIdByXpath = xPath =>
+	`${xPath.start}/${xPath.startOffset}${xPath.end}/${xPath.endOffset}`;
 
+/**
+ *
+ * @param {[]} annotations
+ * @returns
+ */
 const processNonHumanAnnotations = annotations => {
-	let nonHumamGroupedByRange = annotations.filter(ann => !ann.human && ann.username === 'Twitter');
-
+	let nonHumamGroupedByRange = annotations.filter(isNotHumanAnn);
 	if (!nonHumamGroupedByRange.length) return annotations;
 	nonHumamGroupedByRange = nonHumamGroupedByRange.reduce((prev, curr) => {
 		let xPathId = annotationIdByXpath(curr.ranges[0]);
@@ -67,7 +75,9 @@ export async function processExistingAnnotations(annotations = data.annotations)
 		ann?.destroyAndnormalizeCommonAncestor();
 	});
 	let annList = await Promise.all(
-		annotations.map(ann => new Annotation(ann, refNode).highlight().catch(e => console.error(e)))
+		annotations.map(ann =>
+			new Annotation(ann, refNode).highlight().catch(e => console.error(e))
+		)
 	);
 	mutateAnnotationsList(annList);
 }
@@ -94,9 +104,16 @@ export default async ({ interId, referenceNode }) => {
 
 	popover && popover.remove();
 	if (data.contributor)
-		popover = refNode.parentElement.appendChild(new NewAnnPopover(refNode, ldodAnnotationComponent, interId));
+		popover = refNode.parentElement.appendChild(
+			new NewAnnPopover(refNode, ldodAnnotationComponent, interId)
+		);
 };
 
 function checkArgs(interId, referenceNode) {
-	if (!interId || !referenceNode || !referenceNode.isConnected) throw new Error('Invalid arguments');
+	if (!interId || !referenceNode || !referenceNode.isConnected)
+		throw new Error('Invalid arguments');
+}
+
+function isNotHumanAnn(ann) {
+	return !ann.human && ann.username === 'Twitter';
 }

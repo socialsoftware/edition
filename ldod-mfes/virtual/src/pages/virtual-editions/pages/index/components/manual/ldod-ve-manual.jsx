@@ -148,7 +148,9 @@ export class LdodVeManual extends HTMLElement {
 		this.wrapper.innerHTML = '';
 		this.wrapper.appendChild(
 			<>
-				<ldod-bs-modal id="virtual-ve-manual" dialog-class="modal-xl">
+				<ldod-bs-modal
+					id="virtual-ve-manual"
+					dialog-class="modal-xl modal-dialog-scrollable">
 					<h4 slot="header-slot">
 						<span>{this.edition?.title} - </span>
 						<span>{this.getConstants('manualSort')}</span>

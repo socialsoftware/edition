@@ -220,8 +220,11 @@ class NavBar extends HTMLElement {
 	addHeader(liDropdownNode) {
 		if (!(liDropdownNode instanceof HTMLLIElement)) return;
 		if (this.dropdownSize >= 10) return;
+		const ref = [...this.dropdowns].find(
+			d => d.key.localeCompare(liDropdownNode.getAttribute('key')) == 1
+		);
 		if (!this.adminDropdown) this.headersToConsume.push(liDropdownNode);
-		else this.adminDropdown.insertAdjacentElement('beforebegin', liDropdownNode);
+		else ref.insertAdjacentElement('beforebegin', liDropdownNode);
 	}
 
 	consumeHeaders() {

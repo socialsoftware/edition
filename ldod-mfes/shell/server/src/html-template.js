@@ -1,7 +1,7 @@
 /** @format */
 
 import { loadMfes } from './mfes.js';
-import { preRenderIndexHtml, preRenderMFE } from './pre-render.js';
+import { cleanUpMFE, preRenderIndexHtml, preRenderMFE } from './pre-render.js';
 import fs from 'fs';
 import { getIndexHtml } from './static.js';
 import { loadImportmap } from './importmap.js';
@@ -9,16 +9,20 @@ import { htmlPath } from './constants.js';
 import { parse } from 'node-html-parser';
 import { minify } from 'html-minifier';
 
-export async function updateIndexHTML(entry) {
-	console.log(entry);
+const updateAction = {
+	publish: (entry, dom) => preRenderMFE(entry, dom),
+	unpublish: (entry, dom) => cleanUpMFE(entry, dom),
+};
+
+export async function updateIndexHTML(options) {
 	const html = getIndexHtml();
 	if (!html) return;
 	const dom = parse(html);
 	updateImportmapScript(dom);
 	updateLdodProcessScript(dom);
 	updateMfesReferencesScript(dom);
+	if (options) updateAction[options.action](options.entryPoint, dom);
 	await preRenderIndexHtml(dom);
-	entry && (await preRenderMFE(entry, dom));
 	writeIndexHTML(dom.outerHTML);
 }
 
