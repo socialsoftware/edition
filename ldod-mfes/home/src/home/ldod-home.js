@@ -1,15 +1,16 @@
 /** @format */
-import style from './style/home.css?inline';
-import containerCss from '../nav-bar/style/container.css?inline';
-const styleSheet = new CSSStyleSheet();
-styleSheet.replaceSync(style + containerCss);
-import ldodHomeHtml from './ldod-home-html';
 
+import { getReferences } from '../external-deps.js';
+import './home-info.js';
 export default class LdodHome extends HTMLElement {
 	constructor() {
 		super();
-		const shadow = this.attachShadow({ mode: 'open' });
-		shadow.adoptedStyleSheets = [styleSheet];
+		if (!this.shadowRoot) {
+			this.attachShadow({ mode: 'open' });
+			this.render();
+		} else {
+			this.addEventListeners();
+		}
 	}
 	static get observedAttributes() {
 		return ['language'];
@@ -24,12 +25,36 @@ export default class LdodHome extends HTMLElement {
 	}
 
 	attributeChanged = {
-		language: (oldV, newV) => oldV !== newV && this.render(),
+		language: (oldV, newV) => oldV && oldV !== newV && this.render(),
 	};
 
-	connectedCallback = () => this.render();
+	connectedCallback = () => {
+		this.addEventListeners();
+	};
 
-	render = () => (this.shadowRoot.innerHTML = ldodHomeHtml(this));
+	async render() {
+		this.shadowRoot.innerHTML = /*html*/ `
+		${(await import('./ldod-home-html.js')).default(this.language)} 
+        <home-info language="${this.language}"></home-info>
+		`;
+		this.addEventListeners();
+	}
+
+	addEventListeners() {
+		this.shadowRoot.querySelectorAll('img').forEach(img => {
+			img.src = getUrl(img.id);
+		});
+
+		this.shadowRoot.querySelectorAll('a[is="nav-to-new"]').forEach(a => {
+			const params = JSON.parse(a.dataset.mfeKeyParams);
+			a.setAttribute('to', getReferences(a.dataset.mfe)?.[a.dataset.mfeKey]?.(...params));
+		});
+	}
 }
 
-customElements.define('ldod-home', LdodHome);
+!customElements.get('ldod-home') && customElements.define('ldod-home', LdodHome);
+
+function getUrl(path) {
+	const url = `${import.meta.env.VITE_BASE}resources/svg/${path}.svg`;
+	return new URL(url, import.meta.url).href;
+}

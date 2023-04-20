@@ -1,3 +1,5 @@
+/** @format */
+
 import fs from 'fs';
 import { mfesPath } from './constants.js';
 
@@ -6,6 +8,10 @@ export function createOrUpdateMfes() {
 	saveMfes(mfes);
 }
 
+/**
+ *
+ * @returns {[]}
+ */
 export function loadMfes() {
 	try {
 		return JSON.parse(fs.readFileSync(mfesPath, 'utf-8'));

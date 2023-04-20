@@ -22,8 +22,8 @@
 		"unpublish": "./scripts/unpublish.sh about $npm_package_config_docker"
 	},
 	"devDependencies": {
-		"rollup-plugin-terser": "^7.0.2",
-		"vite": "^4.0.4"
+		"@rollup/plugin-terser": "latest",
+		"vite": "latest"
 	},
 	"dependencies": {
 		"shared": "file:../shell/shared"

@@ -13,7 +13,7 @@ export default (dom, data, lang = 'en') => {
 	drops.forEach(drop => drop.remove());
 	drops = [
 		...drops.filter(element => element.getAttribute('key') !== data.name),
-		createDropdownElement(data, lang).firstChild,
+		createDropdownHTML(data, lang).firstChild,
 	];
 	drops = sortArrayOfHTMLElementsByKey(drops);
 	reference.insertAdjacentHTML('beforebegin', reduceElementsToRawHTML(drops));
@@ -31,7 +31,7 @@ function reduceElementsToRawHTML(elements) {
 	return elements.reduce((html, element) => html + element.outerHTML, '');
 }
 
-function createDropdownElement(data, lang) {
+export function createDropdownHTML(data, lang) {
 	return parse(
 		/*html*/ `<li key="${
 			data.name

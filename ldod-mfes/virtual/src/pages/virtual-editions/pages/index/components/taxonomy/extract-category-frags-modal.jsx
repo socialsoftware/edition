@@ -5,14 +5,14 @@ import { extractCategoryFragments } from './taxonomy-api-requests';
 
 export default ({ node, category }) => {
 	const onExtract = () => {
-		let body = Array.from(node.querySelector('select-pure').selectedOptions).map(
-			option => option.value
-		);
+		let body = Array.from(
+			node.shadowRoot.querySelector('select-pure#virtual-extractCatModal').selectedOptions
+		).map(option => option.value);
 		extractCategoryFragments(category?.externalId, body)
 			.then(data => {
 				node.updateData(data);
 				node.handleCloseModal({
-					detail: { id: 'virtual-extractCategoryFragsModal' },
+					detail: { id: 'virtual-extract-category-frags-modal' },
 				});
 			})
 			.catch(error => console.error(error));

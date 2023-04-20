@@ -12,18 +12,12 @@ export async function generateMfesReferences() {
 }
 
 async function getMfesReferences() {
-	const mfes = loadMfes();
-	return await mfes.reduce(async (refs, mfe) => {
-		let result = await refs;
-		const entryPoint = `${staticPath}/${mfe}/${mfe}.js`;
-		const api = await import(entryPoint).catch(onError);
-		if (!api) return;
-		result = {
-			...result,
-			[mfe]: api.default.references,
-		};
-		return result;
-	}, Promise.resolve({}));
+	let result = {};
+	for (const mfe of loadMfes()) {
+		const api = await import(`${staticPath}/${mfe}/${mfe}.js`);
+		if (api) result = { ...result, [mfe]: api.default.references };
+	}
+	return result;
 }
 
 function writeReferencesToFile(references) {

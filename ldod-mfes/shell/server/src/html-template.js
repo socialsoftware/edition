@@ -1,34 +1,28 @@
 /** @format */
 
 import { loadMfes } from './mfes.js';
-import { cleanUpMFE, preRenderIndexHtml, preRenderMFE } from './pre-render.js';
+import { preRenderIndexHtml } from './pre-render.js';
 import fs from 'fs';
-import { getIndexHtml } from './static.js';
+import { getOriginalHTML } from './static.js';
 import { loadImportmap } from './importmap.js';
-import { htmlPath } from './constants.js';
+import { indexHTML } from './constants.js';
 import { parse } from 'node-html-parser';
 import { minify } from 'html-minifier';
 
-const updateAction = {
-	publish: (entry, dom) => preRenderMFE(entry, dom),
-	unpublish: (entry, dom) => cleanUpMFE(entry, dom),
-};
-
-export async function updateIndexHTML(options) {
-	const html = getIndexHtml();
+export async function updateIndexHTML() {
+	const html = getOriginalHTML();
 	if (!html) return;
-	const dom = parse(html);
+	let dom = parse(html);
 	updateImportmapScript(dom);
 	updateLdodProcessScript(dom);
 	updateMfesReferencesScript(dom);
-	if (options) updateAction[options.action](options.entryPoint, dom);
-	await preRenderIndexHtml(dom);
+	dom = await preRenderIndexHtml(dom);
 	writeIndexHTML(dom.outerHTML);
 }
 
 export function writeIndexHTML(outerHTML) {
 	fs.writeFileSync(
-		htmlPath,
+		indexHTML,
 		minify(outerHTML, { minifyCSS: true, minifyJS: true, collapseWhitespace: true })
 	);
 }

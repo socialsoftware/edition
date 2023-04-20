@@ -31,6 +31,7 @@ class NavBar extends HTMLElement {
 		super();
 		ldodEventBus.register(`ldod:header`, headerSchema);
 		ldodEventBus.subscribe(`ldod:header`, this.onHeader);
+		if (!this.shadowRoot) this.attachShadow({ mode: 'open' });
 		this.headersToConsume = [];
 		if (NavBar.instance) return NavBar.instance;
 		NavBar.instance = this;
@@ -74,13 +75,10 @@ class NavBar extends HTMLElement {
 
 	// Custom Elements hooks
 
-	connectedCallback() {
-		if (!this.shadowRoot) {
-			this.attachShadow({ mode: 'open' });
-			import('./nav-bar-html').then(mod => {
-				this.shadowRoot.innerHTML = mod.default(this.language);
-				this.consumeHeaders();
-			});
+	async connectedCallback() {
+		if (!this.shadowRoot.innerHTML) {
+			this.shadowRoot.innerHTML = await getNavbarHTML(this.language);
+			this.consumeHeaders();
 		}
 		this.shadowRoot.adoptedStyleSheets = [sheet];
 		this.addEventBusListeners();
@@ -196,6 +194,15 @@ class NavBar extends HTMLElement {
 		if (adminDrop) adminDrop.hidden = hide;
 	};
 
+	onHeader = ({ payload }) => {
+		const drop = this.getHeader(payload.name);
+		if (drop) drop.onNewLink({ payload });
+		else {
+			const header = this.newHeader(payload);
+			this.addHeader(header);
+		}
+	};
+
 	newHeader = payload => {
 		const template = document.createElement('template');
 		template.innerHTML = /*html*/ `
@@ -206,15 +213,6 @@ class NavBar extends HTMLElement {
 			data-headers='${JSON.stringify(payload)}'
 		></li>`;
 		return template.content.firstElementChild.cloneNode(true);
-	};
-
-	onHeader = ({ payload }) => {
-		const drop = [...this.dropdowns].find(d => d.key === payload.name);
-		if (drop) drop.onNewLink({ payload });
-		else {
-			const header = this.newHeader(payload);
-			this.addHeader(header);
-		}
 	};
 
 	addHeader(liDropdownNode) {
@@ -230,6 +228,14 @@ class NavBar extends HTMLElement {
 	consumeHeaders() {
 		while (this.headersToConsume.length) this.addHeader(this.headersToConsume.pop());
 	}
+
+	getHeader(name) {
+		return [...this.dropdowns].find(d => d.key === name);
+	}
 }
 
 !customElements.get('nav-bar') && customElements.define('nav-bar', NavBar);
+
+async function getNavbarHTML(lang) {
+	return (await import('./nav-bar-html')).default(lang);
+}

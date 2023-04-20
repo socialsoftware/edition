@@ -1,41 +1,41 @@
 {
-  "name": "annotations",
-  "version": "1.0.0",
-  "license": "MIT",
-  "private": true,
-  "type": "module",
-  "entry": "index.js",
-  "config": {
-    "docker": "http://localhost:8080/ldod-mfes",
-    "dev": "http://localhost:9000/ldod-mfes"
-  },
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "build:manifest": "node ./scripts/manifest-deps.js",
-    "build:dev": "vite --config vite.config.dev.js build",
-    "prepreview": "vite --config vite.config.dev.js build",
-    "preview": "vite --config vite.config.dev.js preview",
-    "pack": "yarn build && yarn build:manifest && ./scripts/pack.sh annotations",
-    "publish-dev": "yarn run pack && ./scripts/publish.sh annotations annotations.js @./dist/annotations.tgz $npm_package_config_dev",
-    "unpublish-dev": "./scripts/unpublish.sh annotations $npm_package_config_dev",
-    "publish": "yarn run pack && ./scripts/publish.sh annotations annotations.js @./dist/annotations.tgz $npm_package_config_docker",
-    "unpublish": "./scripts/unpublish.sh annotations $npm_package_config_docker"
-  },
-  "devDependencies": {
-    "rollup-plugin-terser": "^7.0.2",
-    "vite": "^4.0.4"
-  },
-  "externalDependencies": {
-    "@popperjs/core_2.11.6": "npm:@popperjs/core@2.11.6",
-    "select-pure_2.1.4": "npm:select-pure@2.1.4"
-  },
-  "dependencies": {
-    "@apache-annotator/dom_0.3.0-dev.23": "npm:@apache-annotator/dom@0.3.0-dev.23",
-    "@popperjs/core_2.11.6": "npm:@popperjs/core@2.11.6",
-    "quill_1.3.7": "npm:quill@1.3.7",
-    "select-pure_2.1.4": "npm:select-pure@2.1.4",
-    "simple-xpath-position": "^2.0.2",
-    "xpath-range_1.1.1": "npm:xpath-range@1.1.1"
-  }
+	"name": "annotations",
+	"version": "1.0.0",
+	"license": "MIT",
+	"private": true,
+	"type": "module",
+	"entry": "index.js",
+	"config": {
+		"docker": "http://localhost:8080/ldod-mfes",
+		"dev": "http://localhost:9000/ldod-mfes"
+	},
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"build:manifest": "node ./scripts/manifest-deps.js",
+		"build:dev": "vite --config vite.config.dev.js build",
+		"prepreview": "vite --config vite.config.dev.js build",
+		"preview": "vite --config vite.config.dev.js preview",
+		"pack": "yarn build && yarn build:manifest && ./scripts/pack.sh annotations",
+		"publish-dev": "yarn run pack && ./scripts/publish.sh annotations annotations.js @./dist/annotations.tgz $npm_package_config_dev",
+		"unpublish-dev": "./scripts/unpublish.sh annotations $npm_package_config_dev",
+		"publish": "yarn run pack && ./scripts/publish.sh annotations annotations.js @./dist/annotations.tgz $npm_package_config_docker",
+		"unpublish": "./scripts/unpublish.sh annotations $npm_package_config_docker"
+	},
+	"devDependencies": {
+		"@rollup/plugin-terser": "latest",
+		"vite": "latest"
+	},
+	"externalDependencies": {
+		"@popperjs/core_2.11.6": "npm:@popperjs/core@2.11.6",
+		"select-pure_2.1.4": "npm:select-pure@2.1.4"
+	},
+	"dependencies": {
+		"@apache-annotator/dom_0.3.0-dev.23": "npm:@apache-annotator/dom@0.3.0-dev.23",
+		"@popperjs/core_2.11.6": "npm:@popperjs/core@2.11.6",
+		"quill_1.3.7": "npm:quill@1.3.7",
+		"select-pure_2.1.4": "npm:select-pure@2.1.4",
+		"simple-xpath-position": "^2.0.2",
+		"xpath-range_1.1.1": "npm:xpath-range@1.1.1"
+	}
 }

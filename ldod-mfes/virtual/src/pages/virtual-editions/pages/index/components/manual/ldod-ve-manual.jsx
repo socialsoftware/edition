@@ -397,6 +397,7 @@ export class LdodVeManual extends HTMLElement {
 
 	//Add fragments
 	onAddFragments = inters => {
+		console.log(inters);
 		const duplicatedFrags = getDuplicatedFrags(this, inters);
 		const fragsToAdd = getFragsToAdd(this, inters);
 		if (duplicatedFrags.length) notifyForDuplicatedFrags(duplicatedFrags);

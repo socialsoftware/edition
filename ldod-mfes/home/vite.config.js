@@ -1,7 +1,7 @@
 /** @format */
 
-import { defineConfig, loadEnv } from 'vite';
-import { terser } from 'rollup-plugin-terser';
+import { defineConfig } from 'vite';
+import terser from '@rollup/plugin-terser';
 
 export default defineConfig({
 	build: {
@@ -12,9 +12,14 @@ export default defineConfig({
 			formats: ['es'],
 			fileName: (_, entry) => entry + '.js',
 		},
+		sourcemap: true,
 		rollupOptions: {
 			output: {
-				plugins: [terser()],
+				plugins: [
+					terser({
+						ecma: '2016',
+					}),
+				],
 			},
 			external: [/^@shared/, /^@vendor/, 'user'],
 		},

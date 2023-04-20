@@ -4,11 +4,10 @@ import navBarHtml from './nav-bar-html';
 import { parse } from 'node-html-parser';
 
 export default async (dom, language = 'en') => {
-	const rawDrops = dom.querySelector('li[is="drop.down"]:not(li[key="admin"])')?.outerHTML || '';
 	const rawNavbar = /*html*/ `
         <nav-bar language="${language}">
             <template shadowrootmode="open">
-                ${navBarHtml(language, rawDrops)}            
+                ${await navBarHtml(language)}
             </template>
         </nav-bar> 
     `;
@@ -17,7 +16,3 @@ export default async (dom, language = 'en') => {
 	body.querySelector('nav-bar')?.remove();
 	body.appendChild(newNavbar);
 };
-
-export function cleanUpNavbar(dom) {
-	dom.querySelector('nav-bar').remove();
-}

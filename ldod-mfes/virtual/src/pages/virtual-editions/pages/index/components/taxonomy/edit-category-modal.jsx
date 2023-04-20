@@ -9,7 +9,7 @@ export default ({ node, category }) => {
 		editCategory(category?.externalId, body)
 			.then(data => {
 				node.updateData(data);
-				node.editCategoryModal.remove();
+				node.editCategoryModal.toggleAttribute('show', false);
 			})
 			.catch(error => console.error(error));
 

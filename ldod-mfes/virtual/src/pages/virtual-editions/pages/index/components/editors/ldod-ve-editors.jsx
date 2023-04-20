@@ -52,8 +52,8 @@ export class LdodVeEditors extends HTMLElement {
 		this.appendChild(
 			<ldod-bs-modal id="virtual-editors-modal" dialog-class="modal-xl">
 				<h4 slot="header-slot">
-					<span>{this.edition?.title}</span>
-					<span>{this.getConstants('manualSort')}</span>
+					<span>{this.edition?.title} - </span>
+					<span>{this.getConstants('editors')}</span>
 				</h4>
 				<div slot="body-slot">
 					{this.edition?.member?.admin && (

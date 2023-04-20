@@ -1,8 +1,13 @@
 /** @format */
 import style from './style/style.css?inline';
-import dropdown from 'shared/dropdown/navbar-header-ssr';
 
-export default (language, rawDrops) => {
+const adminHeaderPayload = {
+	name: 'admin',
+	data: { name: 'admin', pages: [] },
+	constants: { pt: {}, en: {}, es: {} },
+};
+
+export default async language => {
 	return /*html*/ `
         <nav class="navbar navbar-expand-md fixed-top">
             <div class="container-md" style="display: flex;width: 100%;min-height: 62px">
@@ -34,11 +39,7 @@ export default (language, rawDrops) => {
             <div class="container-md" style="display: flex;width: 100%; padding: 0;">
                 <div class="collapse navbar-collapse nav" id="navbar-nav">
                     <ul class="navbar-nav">
-                        ${dropdown({
-							name: 'admin',
-							data: { name: 'admin', pages: [] },
-							constants: { pt: {}, en: {}, es: {} },
-						})}
+                        ${await getDropdown(language)}
                         <div id="user-md">
                             <li is="user-component" language="${language}" key="user"></li>
                         </div>
@@ -57,3 +58,12 @@ export default (language, rawDrops) => {
         </style>
     `;
 };
+
+async function getDropdown(language) {
+	return globalThis.LDOD_PRODUCTION
+		? (await import('./drop-down-html')).default(adminHeaderPayload, language)
+		: (await import('shared/dropdown/navbar-header-ssr')).createDropdownHTML(
+				adminHeaderPayload,
+				language
+		  );
+}

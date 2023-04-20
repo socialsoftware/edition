@@ -2,7 +2,7 @@
 
 :host {
 	display: block;
-	--ldod-nav-theme: #fc1b27;
+	--ldod-primary: #fc1b27;
 }
 
 @media (width > 767px) {
@@ -13,7 +13,7 @@
 
 div.navbar-border-bottom {
 	display: block;
-	border-bottom: 1px solid var(--ldod-nav-theme);
+	border-bottom: 1px solid var(--ldod-primary);
 	width: 100%;
 }
 

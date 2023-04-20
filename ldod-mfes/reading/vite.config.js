@@ -1,5 +1,7 @@
+/** @format */
+
 import { defineConfig, loadEnv } from 'vite';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 
 export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), '');
@@ -16,7 +18,7 @@ export default defineConfig(({ mode }) => {
 			rollupOptions: {
 				external: [/^@shared/, 'text'],
 				output: {
-					plugins: [terser()],
+					plugins: [terser({ ecma: '2016' })],
 				},
 			},
 		},

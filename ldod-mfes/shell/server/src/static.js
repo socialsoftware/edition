@@ -3,7 +3,7 @@
 import fs, { mkdirSync, rmSync } from 'fs';
 import path, { resolve } from 'path';
 import tar from 'tar';
-import { htmlPath, staticPath, tempPath } from './constants.js';
+import { indexHTML, originalHTML, staticPath, tempPath } from './constants.js';
 
 function removeStaticAssets({ name }) {
 	try {
@@ -19,6 +19,7 @@ function removeStaticAssets({ name }) {
 }
 
 function addStaticAssets({ from, name }) {
+	removeStaticAssets({ name });
 	const dest = path.resolve(staticPath, name);
 	try {
 		fs.cpSync(from, dest, {
@@ -50,12 +51,20 @@ async function extractTarball(fileInfo, id) {
 	fs.rmSync(resolve(fileInfo.destination, id, fileInfo.originalname));
 }
 
-const getIndexHtml = () => {
+export function getOriginalHTML() {
 	try {
-		return fs.readFileSync(htmlPath, 'utf8');
+		return fs.readFileSync(originalHTML, 'utf8');
 	} catch (error) {
 		return;
 	}
-};
+}
 
-export { extractTarball, addStaticAssets, removeStaticAssets, getIndexHtml };
+export function getIndexHTML(path = indexHTML) {
+	try {
+		return fs.readFileSync(path, 'utf8');
+	} catch (error) {
+		return;
+	}
+}
+
+export { extractTarball, addStaticAssets, removeStaticAssets };

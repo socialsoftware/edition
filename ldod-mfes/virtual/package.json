@@ -1,36 +1,36 @@
 {
-  "name": "virtual",
-  "version": "1.0.0",
-  "license": "MIT",
-  "private": true,
-  "type": "module",
-  "entry": "index.js",
-  "config": {
-    "docker": "http://localhost:8080/ldod-mfes",
-    "dev": "http://localhost:9000/ldod-mfes"
-  },
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build && yarn build-dev",
-    "build:manifest": "node ./scripts/manifest-deps.js",
-    "build-dev": "vite --config vite.config.dev.js build",
-    "prepreview": "vite --config vite.config.dev.js build",
-    "preview": "vite --config vite.config.dev.js preview",
-    "pack": "yarn build && yarn build:manifest && ./scripts/pack.sh virtual",
-    "publish-dev": "yarn run pack && ./scripts/publish.sh virtual virtual.js @./dist/virtual.tgz $npm_package_config_dev",
-    "unpublish-dev": "./scripts/unpublish.sh virtual $npm_package_config_dev",
-    "publish": "yarn run pack && ./scripts/publish.sh virtual virtual.js @./dist/virtual.tgz $npm_package_config_docker",
-    "unpublish": "./scripts/unpublish.sh virtual $npm_package_config_docker"
-  },
-  "devDependencies": {
-    "rollup-plugin-terser": "^7.0.2",
-    "vite": "^4.0.4"
-  },
-  "externalDependencies": {
-    "select-pure_2.1.4": "npm:select-pure@2.1.4"
-  },
-  "dependencies": {
-    "select-pure_2.1.4": "npm:select-pure@2.1.4",
-    "shared": "file:../shell/shared"
-  }
+	"name": "virtual",
+	"version": "1.0.0",
+	"license": "MIT",
+	"private": true,
+	"type": "module",
+	"entry": "index.js",
+	"config": {
+		"docker": "http://localhost:8080/ldod-mfes",
+		"dev": "http://localhost:9000/ldod-mfes"
+	},
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build && yarn build-dev",
+		"build:manifest": "node ./scripts/manifest-deps.js",
+		"build-dev": "vite --config vite.config.dev.js build",
+		"prepreview": "vite --config vite.config.dev.js build",
+		"preview": "vite --config vite.config.dev.js preview",
+		"pack": "yarn build && yarn build:manifest && ./scripts/pack.sh virtual",
+		"publish-dev": "yarn run pack && ./scripts/publish.sh virtual virtual.js @./dist/virtual.tgz $npm_package_config_dev",
+		"unpublish-dev": "./scripts/unpublish.sh virtual $npm_package_config_dev",
+		"publish": "yarn run pack && ./scripts/publish.sh virtual virtual.js @./dist/virtual.tgz $npm_package_config_docker",
+		"unpublish": "./scripts/unpublish.sh virtual $npm_package_config_docker"
+	},
+	"devDependencies": {
+		"@rollup/plugin-terser": "latest",
+		"shared": "file:../shell/shared",
+		"vite": "latest"
+	},
+	"externalDependencies": {
+		"select-pure_2.1.4": "npm:select-pure@2.1.4"
+	},
+	"dependencies": {
+		"select-pure_2.1.4": "npm:select-pure@2.1.4"
+	}
 }

@@ -1,0 +1,1 @@
+const e=e=>{const t=(new DOMParser).parseFromString(e,"text/html");return t.body.firstChild??t.head.firstChild},t=e=>document.createRange().createContextualFragment(e),r=(e,t)=>t.appendChild(e),n=e=>{let t=e;return[()=>t,e=>t=e]},a=async e=>new Promise((t=>setTimeout(t,e)));export{t as dom,r as ldodRender,e as parseHTML,a as sleep,n as useState};

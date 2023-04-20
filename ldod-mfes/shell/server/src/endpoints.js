@@ -3,11 +3,11 @@
 import {
 	addStaticAssets,
 	extractTarball,
-	getIndexHtml,
+	getIndexHTML,
 	removeStaticAssets,
 	rmTempContent,
 } from './static.js';
-import { addToImportmap, getEntryPoint, removeFromImportmaps } from './importmap.js';
+import { addToImportmap, removeFromImportmaps } from './importmap.js';
 import { addMfe, removeMfe } from './mfes.js';
 import { gamePath, tempPath, visualPath } from './constants.js';
 import { isMainThread, Worker } from 'worker_threads';
@@ -15,14 +15,12 @@ import { generateMfesReferences } from './mfesReferences.js';
 import { emitter } from './event-bus.js';
 import { updateIndexHTML } from './html-template.js';
 import { resolve } from 'path';
-import { cleanUpMFE } from './pre-render.js';
-import { parse } from 'node-html-parser';
 
-const sendIndex = (req, res) => res.send(getIndexHtml());
+const sendIndex = (req, res) => res.send(getIndexHTML());
 
-const sendLdodVisualIndex = (req, res) => res.send(getIndexHtml(visualPath));
+const sendLdodVisualIndex = (req, res) => res.send(getIndexHTML(visualPath));
 
-const sendClassificationGameIndex = (req, res) => res.send(getIndexHtml(gamePath));
+const sendClassificationGameIndex = (req, res) => res.send(getIndexHTML(gamePath));
 
 const checkMfeApiCompliance = async entry => {
 	const worker = new Worker('./server/src/mfeApiChecker.js', {
@@ -30,9 +28,7 @@ const checkMfeApiCompliance = async entry => {
 	});
 
 	return new Promise((resolve, reject) => {
-		worker.once('message', e => {
-			if (isMainThread) reject(e);
-		});
+		worker.once('message', e => isMainThread && reject(e));
 		worker.on('exit', () => resolve());
 	});
 };
@@ -58,18 +54,17 @@ const publishMFE = async (req, res) => {
 		});
 
 	await addMfe(id);
+	await updateIndexHTML();
 	await generateMfesReferences();
-	await updateIndexHTML({ entryPoint, action: 'publish' });
 	emitter.emit('mfe:published', { name });
 	return res.sendStatus(200);
 };
 const unPublishMFE = async (req, res) => {
 	const { id, name } = req.body;
-	const entryPoint = getEntryPoint(id);
 	removeFromImportmaps({ name });
 	removeMfe(id);
-	await updateIndexHTML({ entryPoint, action: 'unpublish' });
 	removeStaticAssets({ name: id });
+	await updateIndexHTML();
 	await generateMfesReferences();
 	return res.sendStatus(200);
 };

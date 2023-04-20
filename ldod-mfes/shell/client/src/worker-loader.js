@@ -1,6 +1,6 @@
 /** @format */
 
-const worker = new Worker('/ldod-mfes/worker.js', { type: 'module' });
+const worker = new Worker('/ldod-mfes/shell/worker.js', { type: 'module' });
 
 const FONTS_URL = '/ldod-mfes/style/fonts';
 const ROOT_CSS_URL = '/ldod-mfes/shared/bootstrap/root.css';

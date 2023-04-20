@@ -1,7 +1,7 @@
 /** @format */
 
 import { ldodEventSubscriber, ldodEventPublisher } from '@shared/ldod-events.js';
-import { store } from './store.js';
+import { getLanguage, store } from './shell-store.js';
 let notification;
 
 const loadNotification = async () => {
@@ -28,4 +28,4 @@ ldodEventSubscriber('logout', handlers.token);
 ldodEventSubscriber('message', handlers.message);
 ldodEventSubscriber('error', handlers.error);
 
-ldodEventPublisher('language', store.getState().language);
+ldodEventPublisher('language', getLanguage());

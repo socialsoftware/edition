@@ -8,7 +8,7 @@
 		"ignore": [
 			"shared/*",
 			"new-shared/*",
-			"static/*",
+			"static/**/*",
 			"vendor/*",
 			"importmap.json",
 			"mfes.json",
@@ -16,7 +16,7 @@
 		]
 	},
 	"scripts": {
-		"build:client": "yarn --cwd client && yarn --cwd client build && cp -r client/dist/* server/static/",
+		"build:client": "yarn --cwd client && yarn --cwd client build && mkdir -p server/static/shell && cp -r client/dist/* server/static/shell/",
 		"build:shared": "yarn --cwd shared && yarn --cwd shared build && rm -rf server/static/shared/*  && cp -r shared/dist/* server/static/shared/",
 		"copy:shared": "rm -rf server/static/shared/*  && cp -r shared/dist/* server/static/shared/",
 		"build:vendor": "yarn --cwd vendor && cp -r vendor/node_modules server/static/shared",
@@ -36,9 +36,9 @@
 		"forever": "^4.0.3",
 		"html-minifier": "^4.0.0",
 		"module-alias": "^2.2.2",
-		"multer": "^1.4.5-lts.1",
-		"node-html-parser": "^5.3.3",
-		"nodemon": "^2.0.18",
+		"multer": "latest",
+		"node-html-parser": "latest",
+		"nodemon": "latest",
 		"tar": "^6.1.11"
 	}
 }

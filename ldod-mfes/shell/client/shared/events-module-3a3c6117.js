@@ -1,0 +1,1 @@
+import{ldodEventBus as e}from"@shared/ldod-events.js";const d=(e,d)=>new CustomEvent("ldod:file-uploaded",{detail:{ref:e,payload:d},bubbles:!0,composed:!0}),o=d=>e.publish("ldod:error",d);export{o as e,d as u};

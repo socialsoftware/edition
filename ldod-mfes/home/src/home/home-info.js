@@ -1,17 +1,14 @@
 /** @format */
 
-import homeInfoHtml from './home-info-html';
-import containerCss from '../nav-bar/style/container.css?inline';
-import style from './style/info.css?inline';
 import constants from './constants/constants';
-const sheet = new CSSStyleSheet();
-sheet.replaceSync(containerCss + style);
 
 export class HomeInfo extends HTMLElement {
 	constructor() {
 		super();
-		const shadow = this.attachShadow({ mode: 'open' });
-		shadow.adoptedStyleSheets = [sheet];
+		if (!this.shadowRoot) {
+			this.attachShadow({ mode: 'open' });
+			this.render();
+		}
 	}
 
 	static get observedAttributes() {
@@ -27,7 +24,7 @@ export class HomeInfo extends HTMLElement {
 	}
 
 	connectedCallback() {
-		this.render();
+		this.addEventListeners();
 	}
 
 	attributeChangedCallback(name, oldV, newV) {
@@ -38,9 +35,21 @@ export class HomeInfo extends HTMLElement {
 		}
 	}
 
-	render() {
-		this.shadowRoot.innerHTML = homeInfoHtml(this);
+	addEventListeners() {
+		this.shadowRoot.querySelectorAll('img').forEach(img => {
+			img.src = getURL(img.id);
+		});
 	}
+
+	async render() {
+		this.shadowRoot.innerHTML = (await import('./home-info-html')).default(this.language);
+		this.addEventListeners();
+	}
+}
+
+function getURL(path) {
+	const url = `${import.meta.env.VITE_BASE}resources/webp/${path}.webp`;
+	return new URL(url, import.meta.url).href;
 }
 
 customElements.define('home-info', HomeInfo);

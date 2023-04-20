@@ -1,8 +1,10 @@
 /** @format */
 
-import './home-info.js';
+import style from './style/home.css?inline';
+import containerCss from '../nav-bar/style/container.css?inline';
 import excerpts from './constants/excerpts.js';
 import constants from './constants/constants.js';
+
 import {
 	textReferences,
 	readingReferences,
@@ -14,14 +16,18 @@ const random = parseInt(Math.random() * 2) + 1;
 
 const excerpt = excerpts[parseInt(Math.random() * excerpts.length)];
 
-export default root => {
+export default lang => {
 	const xmlId = excerpt.path.split('/')[0];
 	const urlId = excerpt.path.split('/')[2];
 	return /*html*/ `
+		<style>
+			${style + containerCss}
+		</style>
 		<div class="container-md ldod-default">
-			<a
-				is="nav-to-new"
-				to="${readingReferences.editionInterPath?.(xmlId, urlId)}"
+			<a is="nav-to-new"
+				data-mfe="reading"
+				data-mfe-key="editionInterPath"
+				data-mfe-key-params='["${xmlId}","${urlId}"]'
 				class="home-frag-link"
 			>
 				<div class="frag-excerpt">
@@ -35,64 +41,60 @@ export default root => {
 
 			<hr class="line-points" />
 			<div class="about font-monospace">
-				<p data-home-key="about">${constants[root.language].about}</p>
+				<p data-home-key="about">${constants[lang].about}</p>
 			</div>
 			<hr class="line-x" />
 			<div class="menu-boxes hidden-xs">
-				${getBox('D', readingReferences.index?.(), root.language, random, '01')}
+				${getBox('D', 'reading', 'index', '', lang, random, '01')}
 				<hr class="line-points" />
-				${getBox('D', textReferences.fragments?.(), root.language, random, '02')}
+				${getBox('D', 'text', 'fragments', '', lang, random, '02')}
 				<hr class="line-points" />
-				${getBox('D', textReferences.editions?.(), root.language, random, '03')}
+				${getBox('D', 'text', 'editions', '', lang, random, '03')}
 				<hr class="line-points" />
-				${getBox('D', searchReferences.simple?.(), root.language, random, '04')}
+				${getBox('D', 'search', 'simple', '', lang, random, '04')}
 				<hr class="line-points" />
-				${getBox('D', virtualReferences.virtualEditions?.(), root.language, random, '05')}
+				${getBox('D', 'virtual', 'virtualEditions', '', lang, random, '05')}
 			</div>
 			<div class="menu-boxes visible-xs-inline ">
-				${getBox('M', readingReferences.index?.(), root.language, random, '01')}
+				${getBox('M', 'reading', 'index', '', lang, random, '01')}
 				<hr class="line-points" />
-				${getBox('M', textReferences.fragments?.(), root.language, random, '02')}
+				${getBox('M', 'text', 'fragments', '', lang, random, '02')}
 				<hr class="line-points" />
-				${getBox('M', textReferences.editions?.(), root.language, random, '03')}
+				${getBox('M', 'text', 'editions', '', lang, random, '03')}
 				<hr class="line-points" />
-				${getBox('M', searchReferences.simple?.(), root.language, random, '04')}
+				${getBox('M', 'search', 'simple', '', lang, random, '04')}
 				<hr class="line-points" />
-				${getBox('M', virtualReferences.virtualEditions?.(), root.language, random, '05')}
+				${getBox('M', 'virtual', 'virtualEditions', '', lang, random, '05')}
 			</div>
 		</div>
-		<home-info language="${root.language}"></home-info>
-	`;
+`;
 };
 
-function getBox(version, path, lang, random, key) {
+function getBox(version, mfe, mfeKey, mfeKeyparams, lang, random, key) {
 	return /*html*/ `
-		<a is="nav-to" to="${path}">
+		<a  is="nav-to-new"
+			data-mfe="${mfe}"
+			data-mfe-key="${mfeKey}"
+			data-mfe-key-params='[${mfeKeyparams ? mfeKeyparams.map(p => '${p}').join(',') : ''}]'
+		>
 			<div class="div-link">
 				<img
 					loading="lazy"
 					version
 					key
 					class="not-hover"
-					src="${getUrl(version, lang, random, key)}"
-					alt="${path}"
+					id="${version}-${lang}-${key}-${random}"
+					alt="${mfe}"
 				/>
 				<img
 					loading="lazy"
 					version
 					key
 					class="hover"
-					src="${getUrl(version, lang, random, key, true)}"
-					alt="${path}"
+					id="${version}-${lang}-${key}-${random}-h"
+					alt="${mfe}"
 				/>
 			</div>
 		</a>
 	`;
-}
-
-function getUrl(version, lang, random, key, isHover) {
-	const path = `${import.meta.env.VITE_BASE}resources/svg/${version}-${lang}-${key}-${random}${
-		isHover ? '-h' : ''
-	}.svg`;
-	return new URL(path, import.meta.url).href;
 }

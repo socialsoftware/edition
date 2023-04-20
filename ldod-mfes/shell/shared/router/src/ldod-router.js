@@ -5,6 +5,7 @@ import { addEndSlash, addStartSlash, isSlash, PATH_PATTERN, removeEndSlash } fro
 export default class LdodRouter extends HTMLElement {
 	constructor() {
 		super();
+		this.routes = {};
 		this.shadow && this.attachShadow({ mode: 'open' });
 	}
 
@@ -38,10 +39,8 @@ export default class LdodRouter extends HTMLElement {
 
 	get outlet() {
 		let outlet = this.self.querySelector('ldod-outlet');
-		if (!outlet) {
-			outlet = document.createElement('ldod-outlet');
-			outlet.id = `${this.id}-outlet`;
-		}
+		if (!outlet) outlet = document.createElement('ldod-outlet');
+		outlet.id = `${this.id}-outlet`;
 		return outlet;
 	}
 
@@ -74,25 +73,19 @@ export default class LdodRouter extends HTMLElement {
 	};
 
 	async connectedCallback() {
-		if (!this.id) throw new Error('Each router must have an unique ID');
-		if (!this.routes && !this.index) return;
-		this.processRoutes();
-		this.self.append(this.outlet);
 		this.addEventListeners();
-		this.navigate();
+		if (!this.id) throw new Error('Each router must have an unique ID');
+		this.self.append(this.outlet);
+		this.processRoutes();
 	}
 
-	processRoutes() {
-		if (!this.routes) {
-			this.routes = {};
-			return;
-		}
-
-		this.routes = Object.entries(this.routes).reduce((prev, [key, api]) => {
+	processRoutes(routes = this.routes) {
+		this.routes = Object.entries(routes).reduce((prev, [key, api]) => {
 			let path = removeEndSlash(`/${this.base}/${this.route}/${key}`.replace(/\/\/+/g, '/'));
 			prev[path] = api;
 			return prev;
 		}, {});
+		this.navigate();
 	}
 
 	attributeChangedCallback(name, oldV, newV) {

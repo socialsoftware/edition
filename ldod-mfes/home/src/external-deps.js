@@ -1,5 +1,7 @@
-function getReferences(mfe) {
-	return window.references?.[mfe] || {};
+/** @format */
+
+export function getReferences(mfe) {
+	return globalThis.references?.[mfe] || {};
 }
 
 export const textReferences = getReferences('text');

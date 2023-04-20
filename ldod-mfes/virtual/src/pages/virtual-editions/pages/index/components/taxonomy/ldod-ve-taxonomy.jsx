@@ -153,10 +153,11 @@ export class LdodVeTaxonomy extends HTMLElement {
 
 	updateData = (data = this.taxonomy) => {
 		this.taxonomy = data;
-		this.shadowRoot
-			.querySelector('#taxonomyComponent')
-			.replaceWith(<TaxonomyComponent node={this} />);
-		this.addEventListeners();
+		const taxComponent = this.shadowRoot.querySelector('#taxonomyComponent');
+		if (taxComponent) {
+			taxComponent.replaceWith(<TaxonomyComponent node={this} />);
+			this.addEventListeners();
+		}
 	};
 
 	handleCloseModal = ({ detail: { id } }) => {

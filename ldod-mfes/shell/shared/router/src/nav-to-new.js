@@ -24,6 +24,18 @@ export default class NavToNew extends HTMLAnchorElement {
 		return [...(window.mfes ?? []), '/'];
 	}
 
+	static get observedAttributes() {
+		return ['to'];
+	}
+
+	attributeChangedCallback(name, oldV, newV) {
+		this.attributeChanged[name](oldV, newV);
+	}
+
+	attributeChanged = {
+		to: () => !this.target && this.hasTo && this.interceptBehavior(),
+	};
+
 	connectedCallback() {
 		if (this.href) return;
 		if (!this.target && this.hasTo) this.interceptBehavior();

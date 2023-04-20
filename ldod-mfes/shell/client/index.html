@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style type="text/css">
         :root {
-            --ldod-nav-theme: #fc1b27;
+            --ldod-primary: #fc1b27;
+            --ldod-secondary: #ffffff;
         }
 
         .ldod-default {
@@ -84,10 +85,13 @@
 </head>
 
 <body class="ldod-default">
-    <div id="root"></div>
+    <nav-bar></nav-bar>
+    <ldod-router id="shell" base="/ldod-mfes"><ldod-outlet></ldod-outlet></ldod-router>
     <div id="notification-container"></div>
-    <ldod-loading id="shell-loading" hidden></ldod-loading>
-    <script type="module" src="/ldod-mfes/shell.js" async></script>
+    <loading-spinner id="shell-loading" hidden></loading-spinner>
+    <script type="module" src="/ldod-mfes/shell/shell.js" async></script>
+    <scroll-btn></scroll-btn>
+
 </body>
 
 </html>
