@@ -22,8 +22,8 @@
 		"unpublish": "./scripts/unpublish.sh text $npm_package_config_docker"
 	},
 	"devDependencies": {
-		"@types/openseadragon": "^3.0.3",
 		"@rollup/plugin-terser": "latest",
+		"@types/openseadragon": "^3.0.3",
 		"shared": "file:../shell/shared",
 		"vite": "latest"
 	},

@@ -14,7 +14,6 @@ export default {
 	path: '/text',
 	references: textReferences,
 	preRender: async (dom, lang) => (await import('./headerSSR.js')).default(dom, lang),
-	cleanUp: async dom => (await import('./headerSSR.js')).cleanUpHeaders(dom),
 	mount: async (lang, ref) => (await loadText()).mount(lang, ref),
 	unMount: async () => (await loadText()).unMount(),
 };

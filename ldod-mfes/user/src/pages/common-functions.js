@@ -61,7 +61,7 @@ export function logout() {
 export function login(token) {
 	userRequest(token)
 		.then(user => {
-			setState({ user });
+			setState(state => ({ ...state, user }));
 			loginPublisher(user);
 			location.pathname.endsWith('/user/signin') && navigateTo('/');
 		})

@@ -1,5 +1,4 @@
 /** @format */
-
 const references = (await import('./references.js')).default;
 let about;
 

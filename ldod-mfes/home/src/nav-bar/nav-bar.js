@@ -2,7 +2,7 @@
 
 import './li-lang-drop';
 import '@shared/dropdown/li-dropdown.js';
-import { ldodEventBus, ldodEventSubscriber } from '@shared/ldod-events.js';
+import { ldodEventBus } from '@shared/ldod-events.js';
 import transitionsCss from '@shared/bootstrap/transitions-css.js';
 import headerSchema from './header-data-schema.json';
 
@@ -29,9 +29,10 @@ const loadBootstrapJSModules = async () => {
 class NavBar extends HTMLElement {
 	constructor() {
 		super();
+		this.isRendered = this.shadowRoot?.innerHTML;
 		ldodEventBus.register(`ldod:header`, headerSchema);
 		ldodEventBus.subscribe(`ldod:header`, this.onHeader);
-		if (!this.shadowRoot) this.attachShadow({ mode: 'open' });
+		if (!this.isRendered) this.attachShadow({ mode: 'open' });
 		this.headersToConsume = [];
 		if (NavBar.instance) return NavBar.instance;
 		NavBar.instance = this;
@@ -43,6 +44,7 @@ class NavBar extends HTMLElement {
 	get language() {
 		return this.getAttribute('language') || 'en';
 	}
+
 	get dropdowns() {
 		return this.shadowRoot.querySelectorAll("li[is='drop-down']");
 	}
@@ -59,14 +61,8 @@ class NavBar extends HTMLElement {
 		return Array.from(this.shadowRoot.querySelectorAll('.dropdown-menu a.dropdown-item'));
 	}
 
-	get editionDropdown() {
-		return this.shadowRoot.querySelector("[key='editions']");
-	}
-	get adminDropdown() {
-		return this.shadowRoot.querySelector("[key='admin']");
-	}
-	get isAdmin() {
-		return this.user && this.user.roles.includes('ROLE_ADMIN');
+	get reference() {
+		return this.shadowRoot.querySelector('div#reference');
 	}
 
 	get dropdownSize() {
@@ -76,14 +72,13 @@ class NavBar extends HTMLElement {
 	// Custom Elements hooks
 
 	async connectedCallback() {
-		if (!this.shadowRoot.innerHTML) {
+		if (!this.isRendered) {
 			this.shadowRoot.innerHTML = await getNavbarHTML(this.language);
+			this.isRendered = true;
 			this.consumeHeaders();
 		}
 		this.shadowRoot.adoptedStyleSheets = [sheet];
-		this.addEventBusListeners();
 		window.addEventListener('pointermove', this.render, { once: true });
-		this.setAdminVisibility();
 	}
 
 	disconnectedCallback() {
@@ -94,23 +89,6 @@ class NavBar extends HTMLElement {
 	attributeChangedCallback(name, oldValue, newValue) {
 		this.handleChangedAttribute[name](oldValue, newValue);
 	}
-
-	// EventBus Communication
-
-	addEventBusListeners() {
-		this.unsubLogout = ldodEventSubscriber('logout', this.onUserLogout);
-		this.unsubLogin = ldodEventSubscriber('login', this.onUserLogin);
-	}
-
-	onUserLogin = ({ payload }) => {
-		this.user = payload;
-		this.setAdminVisibility();
-	};
-
-	onUserLogout = () => {
-		this.user && this.setAdminVisibility(true);
-		this.user = undefined;
-	};
 
 	// Custom element on render
 
@@ -189,11 +167,6 @@ class NavBar extends HTMLElement {
 		});
 	}
 
-	setAdminVisibility = (hide = !this.isAdmin) => {
-		const adminDrop = this.adminDropdown;
-		if (adminDrop) adminDrop.hidden = hide;
-	};
-
 	onHeader = ({ payload }) => {
 		const drop = this.getHeader(payload.name);
 		if (drop) drop.onNewLink({ payload });
@@ -216,13 +189,10 @@ class NavBar extends HTMLElement {
 	};
 
 	addHeader(liDropdownNode) {
-		if (!(liDropdownNode instanceof HTMLLIElement)) return;
-		if (this.dropdownSize >= 10) return;
-		const ref = [...this.dropdowns].find(
-			d => d.key.localeCompare(liDropdownNode.getAttribute('key')) == 1
-		);
-		if (!this.adminDropdown) this.headersToConsume.push(liDropdownNode);
-		else ref.insertAdjacentElement('beforebegin', liDropdownNode);
+		if (!this.checkNavBarRenderedAndValid(liDropdownNode)) return;
+		const key = liDropdownNode.getAttribute('key');
+		const where = key === 'admin' ? 'afterbegin' : 'beforebegin';
+		(this.getHeader(key) || this.reference).insertAdjacentElement(where, liDropdownNode);
 	}
 
 	consumeHeaders() {
@@ -231,6 +201,11 @@ class NavBar extends HTMLElement {
 
 	getHeader(name) {
 		return [...this.dropdowns].find(d => d.key === name);
+	}
+
+	checkNavBarRenderedAndValid(liDropdownNode) {
+		if (!this.isRendered) this.headersToConsume.push(liDropdownNode);
+		return this.isRendered && liDropdownNode instanceof HTMLLIElement && this.dropdownSize < 10;
 	}
 }
 

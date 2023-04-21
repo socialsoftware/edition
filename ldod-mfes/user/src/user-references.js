@@ -1,3 +1,5 @@
+/** @format */
+
 export const userReferences = {
 	manageUsers: () => '/user/manage-users',
 	signin: () => '/user/signin',

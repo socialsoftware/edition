@@ -11,7 +11,6 @@ export default {
 	mount: async (lang, ref) => (await loadSearch()).mount(lang, ref),
 	unMount: async () => (await loadSearch()).unMount(),
 	preRender: async (dom, lang) => (await import('./headerSSR.js')).default(dom, lang),
-	cleanUp: async dom => (await import('./headerSSR.js')).cleanUpHeader(dom),
 };
 
 async function loadSearch() {

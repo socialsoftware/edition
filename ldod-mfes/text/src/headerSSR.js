@@ -7,8 +7,3 @@ export default (dom, lang) => {
 	headerSSR(dom, headerData[0], lang);
 	headerSSR(dom, headerData[1], lang);
 };
-
-export function cleanUpHeaders(dom) {
-	cleanUp(dom, 'text');
-	cleanUp(dom, 'editions');
-}

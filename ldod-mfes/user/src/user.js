@@ -8,6 +8,7 @@ if (typeof window !== 'undefined') {
 	await import('./events-modules').catch(e => console.error(e));
 	await import('./store').catch(e => console.error(e));
 	await import('./bootstrap').catch(e => console.error(e));
+	import('./components/admin-header');
 	import('./components/user-component');
 }
 
@@ -27,4 +28,5 @@ export default {
 		await loadUser();
 		await user.unMount();
 	},
+	preRender: async (dom, lang) => (await import('./headerSSR')).default(dom, lang),
 };

@@ -39,6 +39,10 @@ export default defineConfig(({ mode }) => {
 					replacement: resolve('node_modules', 'shared/dist'),
 				},
 				{
+					find: 'shared',
+					replacement: resolve('node_modules', 'shared/dist'),
+				},
+				{
 					find: '@vendor',
 					replacement: resolve('node_modules', 'shared/dist/node_modules'),
 				},

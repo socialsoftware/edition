@@ -27,5 +27,4 @@ export default {
 		import('./fragment/virtual-transcription');
 	},
 	preRender: async (dom, lang) => (await import('./headerSSR.js')).default(dom, lang),
-	cleanUp: async dom => (await import('./headerSSR.js')).cleanUpHeader(dom),
 };
