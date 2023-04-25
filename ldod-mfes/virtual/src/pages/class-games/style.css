@@ -13,10 +13,10 @@
 	margin-bottom: 20px;
 }
 
-a[is='nav-to-new'] {
+a[is='nav-to'] {
 	text-decoration: none;
 }
-a[is='nav-to-new']:hover {
+a[is='nav-to']:hover {
 	text-decoration: underline;
 }
 

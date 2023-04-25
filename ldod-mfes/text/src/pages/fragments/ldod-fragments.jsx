@@ -1,3 +1,5 @@
+/** @format */
+
 import FragsTable from './components/frags-table.jsx';
 import Title from '@src/common/title.jsx';
 import constants from './constants.js';
@@ -83,9 +85,11 @@ export class LdodFragments extends HTMLElement {
 	};
 
 	updateTitle = ({ detail }) => {
-		console.log('searched');
 		if (this.ldodTable.isFullyLoaded)
-			this.querySelector('h3#title').firstChild.textContent = this.getConstants('encodedFragments', detail.size);
+			this.querySelector('h3#title').firstChild.textContent = this.getConstants(
+				'encodedFragments',
+				detail.size
+			);
 	};
 
 	onChangedLanguage = () => {

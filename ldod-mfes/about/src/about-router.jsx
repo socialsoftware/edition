@@ -32,14 +32,12 @@ export const AboutRouter = ({ language }) => {
 	return (
 		<div id="about-container">
 			<style>{style}</style>
-			<div class="container">
-				<ldod-router
-					id="about-router"
-					base={isDev() ? '' : import.meta.env.VITE_BASE}
-					route="/about"
-					routes={routes}
-					language={language}></ldod-router>
-			</div>
+			<ldod-router
+				id="about-router"
+				base={isDev() ? '' : import.meta.env.VITE_BASE}
+				route="/about"
+				routes={routes}
+				language={language}></ldod-router>
 			<home-info language={language} class="language" hidden></home-info>
 		</div>
 	);

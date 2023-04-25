@@ -56,7 +56,7 @@ export default ({ node }) => {
 							number: inter.number,
 							title: (
 								<a
-									is="nav-to-new"
+									is="nav-to"
 									content
 									to={textFragmentInter(inter.xmlId, inter.urlId)}>
 									{inter.title}

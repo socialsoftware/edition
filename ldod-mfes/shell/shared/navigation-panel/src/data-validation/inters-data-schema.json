@@ -1,0 +1,19 @@
+{
+	"id": "/inters",
+	"type": "object",
+	"properties": {
+		"title": {
+			"type": "string"
+		},
+		"externalId": {
+			"type": "string"
+		},
+		"current": {
+			"$ref": "/inter"
+		},
+		"checked": {
+			"type": "boolean"
+		}
+	},
+	"required": ["externalId", "current", "checked"]
+}

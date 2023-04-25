@@ -1,16 +1,8 @@
 /** @format */
 
 import style from './style/home.css?inline';
-import containerCss from '../nav-bar/style/container.css?inline';
 import excerpts from './constants/excerpts.js';
 import constants from './constants/constants.js';
-
-import {
-	textReferences,
-	readingReferences,
-	searchReferences,
-	virtualReferences,
-} from '../external-deps.js';
 
 const random = parseInt(Math.random() * 2) + 1;
 
@@ -21,10 +13,10 @@ export default lang => {
 	const urlId = excerpt.path.split('/')[2];
 	return /*html*/ `
 		<style>
-			${style + containerCss}
+			${style}
 		</style>
-		<div class="container-md ldod-default">
-			<a is="nav-to-new"
+		<div class="ldod-default">
+			<a is="nav-to"
 				data-mfe="reading"
 				data-mfe-key="editionInterPath"
 				data-mfe-key-params='["${xmlId}","${urlId}"]'
@@ -72,7 +64,7 @@ export default lang => {
 
 function getBox(version, mfe, mfeKey, mfeKeyparams, lang, random, key) {
 	return /*html*/ `
-		<a  is="nav-to-new"
+		<a  is="nav-to"
 			data-mfe="${mfe}"
 			data-mfe-key="${mfeKey}"
 			data-mfe-key-params='[${mfeKeyparams ? mfeKeyparams.map(p => '${p}').join(',') : ''}]'

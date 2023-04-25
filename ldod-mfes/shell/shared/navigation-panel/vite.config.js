@@ -1,3 +1,5 @@
+/** @format */
+
 import { defineConfig } from 'vite';
 import terser from '@rollup/plugin-terser';
 import { resolve } from 'path';
@@ -8,9 +10,9 @@ export default defineConfig({
 		outDir: '../dist',
 		emptyOutDir: false,
 		lib: {
-			entry: 'src/navigation-panel.js',
+			entry: 'src/frag-nav-panel.js',
 			formats: ['es'],
-			fileName: 'navigation-panel',
+			fileName: 'nav-panel',
 		},
 
 		rollupOptions: {
@@ -30,7 +32,7 @@ export default defineConfig({
 			},
 			{
 				find: '@vendor',
-				replacement: resolve('../dist/node_modules'),
+				replacement: resolve('../../vendor/node_modules'),
 			},
 		],
 	},

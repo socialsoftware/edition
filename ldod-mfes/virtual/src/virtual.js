@@ -22,9 +22,10 @@ export default {
 		if (!virtual) await loadVirtual();
 		await virtual.unMount();
 	},
-	bootstrap: () => {
-		import('./fragment/virtual-navigation');
-		import('./fragment/virtual-transcription');
-	},
 	preRender: async (dom, lang) => (await import('./headerSSR.js')).default(dom, lang),
 };
+
+export function loadFragment() {
+	import('./fragment/virtual-frag-nav.js');
+	import('./fragment/virtual-transcription');
+}

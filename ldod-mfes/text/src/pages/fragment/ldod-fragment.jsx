@@ -1,5 +1,6 @@
+/** @format */
+
 import { getFragmentInters, updateFragmentInter } from '../../api-requests';
-import TextNavigation from './components/text-navigation';
 import constants from './constants';
 import fragmentsConstants from '../fragments/constants';
 import style from './style.css?inline';
@@ -11,10 +12,12 @@ import {
 	isSingleAndSourceInter,
 	isVirtualInter,
 } from './utils';
+import fragNav from './components/frag-nav/frag-nav';
 const EditorialInter = async ({ node, inter }) =>
 	(await import('./components/editorial-inter')).default({ node, inter });
 
-const SourceInter = async ({ node, inter }) => (await import('./components/source-inter')).default({ node, inter });
+const SourceInter = async ({ node, inter }) =>
+	(await import('./components/source-inter')).default({ node, inter });
 
 const SideBySideTranscriptions = async ({ node, inters }) =>
 	(await import('./components/side-by-side-transcriptions')).default({
@@ -36,7 +39,7 @@ export class LdodFragment extends HTMLElement {
 		this.language = lang;
 		this.xmlId = xmlId;
 		this.updateFragmentState(data, urlId, data.inters);
-		this.editorialInters = ['JPC', 'TSC', 'RZ', 'JP'].map(acrn => data.expertsInterMap[acrn] ?? false);
+		this.editorialInters = Object.values(data.expertsInterMap);
 		this.transcriptionCheckboxes = checkBoxes;
 		this.virtualInters = [];
 	}
@@ -44,7 +47,9 @@ export class LdodFragment extends HTMLElement {
 	updateFragmentState = (data, urlId, inters) => {
 		this.data = data;
 		this.urlId = urlId;
-		this.inters = new Set(inters?.length ? [...inters.map(({ externalId }) => externalId)] : []);
+		this.inters = new Set(
+			inters?.length ? [...inters.map(({ externalId }) => externalId)] : []
+		);
 	};
 
 	get wrapper() {
@@ -59,12 +64,12 @@ export class LdodFragment extends HTMLElement {
 		this.setAttribute('language', lang);
 	}
 
-	get navigationContainer() {
-		return this.querySelector('div#fragment-navigation-container');
-	}
-
 	get transcriptionContainer() {
 		return this.querySelector('div#fragment-transcription-container');
+	}
+
+	get navigationContainer() {
+		return this.querySelector('div#fragment-navigation-container');
 	}
 
 	hasInters() {
@@ -88,49 +93,40 @@ export class LdodFragment extends HTMLElement {
 		return ['language'];
 	}
 
-	connectedCallback() {
+	async connectedCallback() {
 		this.appendChild(<style>{style}</style>);
 		this.appendChild(<div id="fragmentWrapper"></div>);
-		this.render();
-	}
-
-	async render() {
-		this.wrapper.innerHTML = '';
-		this.wrapper.appendChild(
-			<>
-				<div id="fragInterContainer">
-					<div id="fragment-transcription-container"></div>
-					<div id="fragment-navigation-container">
-						<TextNavigation node={this} />
-						{this.getVirtualNavigation()}
-					</div>
-				</div>
-			</>
-		);
-		await this.renderFragmentTranscription();
+		await this.render();
 		this.addEventListeners();
 	}
 
-	getVirtualNavigation = () => (
-		<virtual-navigation
-			language={this.language}
-			fragment={this.xmlId}
-			urlId={isVirtualInter(this.urlId) ? this.urlId : ''}></virtual-navigation>
-	);
+	async render() {
+		this.wrapper.innerHTML = /*html*/ `
+			<div id="fragInterContainer">
+				<div id="fragment-transcription-container"></div>
+				<div id="fragment-navigation-container">
+			</div>
+		`;
+		this.renderNavigationPanels();
+		this.renderVirtualFragNav();
+		await this.renderFragmentTranscription();
+	}
 
-	renderTextNavigation = () => {
-		this.querySelector('#text-navigation').replaceWith(<TextNavigation node={this} />);
-	};
+	renderNavigationPanels() {
+		this.navigationContainer.querySelectorAll('frag-nav-panel').forEach(ele => ele.remove());
+		this.navigationContainer.insertAdjacentHTML('afterbegin', fragNav(this));
+	}
 
-	renderVirtualNavigation = () => {
-		this.querySelector('virtual-navigation').replaceWith(this.getVirtualNavigation());
-	};
-
-	renderNavigation = () => {
-		this.navigationContainer.innerHTML = '';
-		this.renderTextNavigation();
-		this.renderVirtualNavigation();
-	};
+	renderVirtualFragNav() {
+		const template = document.createElement('template');
+		template.innerHTML = /*html*/ `
+		<virtual-frag-nav
+			language="${this.language}"
+			fragment="${this.xmlId}"
+			${isVirtualInter(this.urlId) ? `urlid="${this.urlId}"` : ''}				
+		></virtual-frag-nav>`;
+		this.navigationContainer.appendChild(template.content.firstElementChild);
+	}
 
 	renderFragmentTranscription = async () => {
 		this.transcriptionContainer.innerHTML = '';
@@ -187,25 +183,34 @@ export class LdodFragment extends HTMLElement {
 	intersSize = () => this.inters?.size;
 
 	addRemoveInter(externalId) {
-		return this.inters.has(externalId) ? this.inters.delete(externalId) : this.inters.add(externalId);
+		return this.inters.has(externalId)
+			? this.inters.delete(externalId)
+			: this.inters.add(externalId);
 	}
 
 	clearInters() {
 		this.inters.clear();
-		this.renderTextNavigation();
+		this.renderNavigationPanels();
 	}
 
 	addEventListeners = () => {
 		this.wrapper
 			.querySelectorAll('[data-tooltipkey]')
-			.forEach(ele => ele.parentNode.addEventListener('pointerenter', loadTooltip));
-		this.addEventListener('ldod-virtual-selected', this.handleVirtualIntersSelection);
+			.forEach(ele =>
+				ele.parentNode.addEventListener('pointerenter', loadTooltip, { once: true })
+			);
+		['witnesses', 'experts'].forEach(id => {
+			this.addEventListener(`${id}:changed`, ({ detail }) => {
+				this.handleInterCheckboxChange(detail.id);
+			});
+		});
+		this.addEventListener('virtual:inter-selected', this.handleVirtualIntersSelection);
 	};
 
 	handleVirtualIntersSelection = async ({ detail }) => {
 		this.clearInters();
 		this.urlId = '';
-		this.virtualInters = detail.inters;
+		this.virtualInters = detail;
 		if (!this.virtualInters.length) return this.render();
 		await this.renderFragmentTranscription();
 	};
@@ -215,13 +220,19 @@ export class LdodFragment extends HTMLElement {
 			this.transcriptionCheckboxes = checkBoxes;
 			return;
 		}
-		this.querySelectorAll("div#text-checkBoxesContainer input[type='checkbox']").forEach(input => {
-			this.transcriptionCheckboxes[input.name] = input.checked;
-		});
+		this.querySelectorAll("div#text-checkBoxesContainer input[type='checkbox']").forEach(
+			input => {
+				this.transcriptionCheckboxes[input.name] = input.checked;
+			}
+		);
 	};
 
 	handleChangedLanguage = () => {
-		this.querySelectorAll('[language]').forEach(ele => ele.setAttribute('language', this.language));
+		this.renderNavigationPanels();
+		this.renderVirtualFragNav();
+		this.querySelectorAll('[language]').forEach(ele =>
+			ele.setAttribute('language', this.language)
+		);
 		this.querySelectorAll('[data-key]').forEach(
 			node => (node.firstChild.textContent = this.getConstants(node.dataset.key))
 		);
@@ -233,7 +244,8 @@ export class LdodFragment extends HTMLElement {
 	handleInterCheckboxChange = async externalId => {
 		this.addRemoveInter(externalId);
 		if (!this.intersSize() || isVirtualInter(this.urlId)) this.urlId = '';
-		if (this.intersSize() >= 1) this.data = await getFragmentInters(this.xmlId, this.getRequestBody());
+		if (this.intersSize() >= 1)
+			this.data = await getFragmentInters(this.xmlId, this.getRequestBody());
 		this.updateTranscriptCheckboxesValue(true);
 		this.updateFragmentState(
 			this.data,

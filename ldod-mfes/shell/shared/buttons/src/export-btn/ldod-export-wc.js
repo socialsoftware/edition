@@ -63,10 +63,10 @@ export class LdodExport extends HTMLElement {
 
 	handleSubmit = async e => {
 		e.preventDefault();
-		const res = await requestProxy[this.method.toLowerCase()]?.({
-			path: this.dataset.url,
-			body: this.method === 'POST' && JSON.stringify(this.body),
-		});
+		const res = await requestProxy[this.method.toLowerCase()]?.(
+			{ path: this.dataset.url },
+			this.method === 'POST' ? this.body : ''
+		);
 
 		if (res && !res.xmlData && res.ok !== undefined) {
 			errorPublisher('error', res.message);

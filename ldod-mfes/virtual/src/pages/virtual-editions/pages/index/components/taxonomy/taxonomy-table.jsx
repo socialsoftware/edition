@@ -17,7 +17,7 @@ export default ({ node }) => {
 					data: () => ({
 						category: (
 							<a
-								is="nav-to-new"
+								is="nav-to"
 								target="_blank"
 								to={virtualReferences.category(cat.veAcronym, cat.name)}>
 								{cat.name}
@@ -26,7 +26,7 @@ export default ({ node }) => {
 						fragments: cat.veInters.map(inter => (
 							<div key={crypto.randomUUID()}>
 								<a
-									is="nav-to-new"
+									is="nav-to"
 									target="_blank"
 									to={textFragmentInter(inter.xmlId, inter.urlId)}>
 									{inter.title}

@@ -33,8 +33,10 @@ img {
 }
 
 .bottom-bar {
-	position: relative;
-	width: 100%;
+	position: absolute;
+	left: 0;
+	right: 0;
 	height: 20px;
 	border-bottom: 40px solid #fc1b27;
+	box-sizing: border-box;
 }

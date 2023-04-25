@@ -55,11 +55,9 @@ class RequestProxy {
 	async request(method, { url, path, token, signal }, contentType, data) {
 		handleLoading(true);
 		const accessToken = token ? token : this.storageToken;
-		if (!accessToken) handleLogout();
-		if (data && typeof data !== 'object') throw new Error('Data must be an Object');
 		const options = getOptions(method, accessToken, contentType);
-		if (signal) options.signal = signal;
 		if (data) options.body = data;
+		if (signal) options.signal = signal;
 		return await this.fetchRequest(url ?? HOST.concat(path), options);
 	}
 

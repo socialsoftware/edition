@@ -27,7 +27,7 @@ const getTableData = node => {
 								style={{ marginRight: '8px' }}></span>
 						)}
 						<a
-							is="nav-to-new"
+							is="nav-to"
 							target="_blank"
 							to={virtualReferences.game(game.veExternalId, game.externalId)}>
 							{game.title}

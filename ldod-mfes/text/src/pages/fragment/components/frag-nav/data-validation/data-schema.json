@@ -1,0 +1,18 @@
+{
+	"id": "/data",
+	"type": "object",
+	"properties": {
+		"name": {
+			"type": "string"
+		},
+		"url": {
+			"type": "string"
+		},
+		"inters": {
+			"type": "array",
+			"items": {
+				"$ref": "/inters"
+			}
+		}
+	}
+}

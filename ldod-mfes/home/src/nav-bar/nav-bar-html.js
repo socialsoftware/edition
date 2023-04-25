@@ -5,7 +5,7 @@ export default async language => {
 	return /*html*/ `
         <nav class="navbar navbar-expand-md fixed-top">
             <div class="container-md" style="display: flex;width: 100%;min-height: 62px">
-                <a is="nav-to-new" to="/" class="navbar-brand" data-navbar-key="header_title">
+                <a is="nav-to" to="/" class="navbar-brand" data-navbar-key="header_title">
                     LdoD Archive
                 </a>
                 <button

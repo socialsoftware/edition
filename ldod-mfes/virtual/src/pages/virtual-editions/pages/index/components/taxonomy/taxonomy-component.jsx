@@ -102,7 +102,11 @@ export default ({ node }) => {
 								id="addCategory"
 								type="submit"
 								class="btn btn-sm btn-primary">
-								<span class="icon icon-plus"></span>
+								<span
+									is="ldod-span-icon"
+									icon="plus"
+									fill="#fff"
+									size="16px"></span>
 								<span data-virtual-key="addCategory">
 									{node.getConstants('addCategory')}
 								</span>
@@ -116,7 +120,7 @@ export default ({ node }) => {
 						type="button"
 						class="btn btn-sm btn-primary"
 						onClick={node.onGenerateTopics}>
-						<span class="icon icon-plus"></span>
+						<span is="ldod-span-icon" icon="gear" size="16px" fill="#fff"></span>
 						<span data-virtual-key="generateTopics">
 							{node.getConstants('generateTopics')}
 						</span>

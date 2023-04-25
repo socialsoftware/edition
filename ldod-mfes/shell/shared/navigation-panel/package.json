@@ -8,7 +8,7 @@
 	"workspaces": {
 		"nohoist": [
 			"vite",
-			"@rollup/plugin-tersers"
+			"@rollup/plugin-terser"
 		]
 	},
 	"scripts": {

@@ -1,7 +1,9 @@
+/** @format */
+
 import('@shared/buttons.js').then(({ exportButton }) => exportButton());
 const PATH = '/text/admin';
 
-export default ({ exportAll, exportSelected, exportRandom, node }) => {
+export default ({ exportAll, exportSelected, exportRandom }) => {
 	return (
 		<div class="export-row">
 			<ldod-export

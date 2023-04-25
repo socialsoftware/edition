@@ -8,6 +8,7 @@
     <style type="text/css">
         :root {
             --ldod-primary: #fc1b27;
+            --ldod-primary-hover: #fd8188;
             --ldod-secondary: #ffffff;
         }
 
@@ -86,7 +87,9 @@
 
 <body class="ldod-default">
     <nav-bar></nav-bar>
-    <ldod-router id="shell" base="/ldod-mfes"><ldod-outlet></ldod-outlet></ldod-router>
+    <div class="container">
+        <ldod-router id="shell" base="/ldod-mfes"><ldod-outlet></ldod-outlet></ldod-router>
+    </div>
     <div id="notification-container"></div>
     <loading-spinner id="shell-loading" hidden></loading-spinner>
     <script type="module" src="/ldod-mfes/shell/shell.js" async></script>

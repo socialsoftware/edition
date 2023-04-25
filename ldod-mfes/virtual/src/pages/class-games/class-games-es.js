@@ -4,7 +4,7 @@ export default /*html*/ `
         <h4 class="text-center mb">Juego de Clasificación</h4>
         <p>
             <a
-                is="nav-to-new"
+                is="nav-to"
                 href="${import.meta.env.VITE_NODE_HOST}/classification-game"
                 target="_blank"
             >Clic aquí para visitar el Juego de Clasificación

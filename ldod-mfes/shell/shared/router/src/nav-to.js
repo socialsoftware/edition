@@ -24,14 +24,36 @@ export default class NavTo extends HTMLAnchorElement {
 		return [...(window.mfes ?? []), '/'];
 	}
 
-	connectedCallback() {
-		this.checkIfMfesIsPublished();
-		if (this.target) {
-			this.href = this.to;
-			return;
-		}
-		this.addEventListener('click', this.onclick);
+	static get observedAttributes() {
+		return ['to'];
 	}
+
+	attributeChangedCallback(name, oldV, newV) {
+		this.attributeChanged[name](oldV, newV);
+	}
+
+	attributeChanged = {
+		to: () => !this.target && this.hasTo && this.interceptBehavior(),
+	};
+
+	connectedCallback() {
+		if (this.href) return;
+		if (!this.target && this.hasTo) this.interceptBehavior();
+		if (this.target) {
+			this.handleMfePublishState();
+			if (this.hasTo) this.href = `/ldod-mfes${this.to}`;
+		}
+	}
+
+	interceptBehavior = () => {
+		this.handleMfePublishState();
+		this.addEventListener('click', this.onclick);
+	};
+
+	handleMfePublishState = () => {
+		if (this.isMfePublished()) return;
+		this.hasContent ? this.removeToAttr() : this.hide();
+	};
 
 	onclick(e) {
 		e.preventDefault();
@@ -43,13 +65,11 @@ export default class NavTo extends HTMLAnchorElement {
 		ldodEventPublisher('url-changed', { path: this.to });
 	}
 
-	checkIfMfesIsPublished = () => {
-		if (this.target || !this.hasTo) return;
-		if (!this.publishedMfes.includes(this.mfePath)) {
-			if (this.hasContent) return this.setAttribute('to', '');
-			this.style.display = 'none';
-		}
+	isMfePublished = () => this.publishedMfes.includes(this.mfePath);
+	hide = () => {
+		this.style.display = 'none';
 	};
+	removeToAttr = () => this.removeAttribute('to');
 }
 
 customElements.define('nav-to', NavTo, { extends: 'a' });

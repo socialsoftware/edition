@@ -1,0 +1,16 @@
+{
+	"id": "/inter",
+	"type": "object",
+	"properties": {
+		"xmlId": {
+			"type": "string"
+		},
+		"urlId": {
+			"type": "string"
+		},
+		"name": {
+			"type": "string"
+		}
+	},
+	"required": ["xmlId", "urlId"]
+}

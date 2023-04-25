@@ -7,13 +7,13 @@ p {
 }
 
 a[is='nav-to'],
-a[is='nav-to-new'] {
+a[is='nav-to'] {
 	cursor: pointer;
 	background-color: transparent;
 }
 
-a[is='nav-to-new']:active,
-a[is='nav-to-new']:hover,
+a[is='nav-to']:active,
+a[is='nav-to']:hover,
 a[is='nav-to']:active,
 a[is='nav-to']:hover {
 	outline: 0;

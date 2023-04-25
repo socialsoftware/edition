@@ -3,7 +3,7 @@
 export default /*html*/ `
 <h4 class="text-center mb">Jogo de Classificação</h4>
 <p>
-    <a is="nav-to-new" href="${import.meta.env.VITE_NODE_HOST}/classification-game" target="_blank">
+    <a is="nav-to" href="${import.meta.env.VITE_NODE_HOST}/classification-game" target="_blank">
         Clique aqui para visitar o Jogo de Classificação
         <span is="ldod-span-icon" icon="arrow-up-from-bracket" fill="#0d6efd" size="16px"></span>
     </a>

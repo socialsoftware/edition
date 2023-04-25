@@ -1,4 +1,6 @@
-import './src/navigation-panel';
+/** @format */
+
+import './src/frag-nav-panel';
 
 document.querySelectorAll('button[lang]').forEach(btnLang => {
 	btnLang.onclick = () =>
@@ -7,111 +9,79 @@ document.querySelectorAll('button[lang]').forEach(btnLang => {
 		});
 });
 
-const checkBox = document.createElement('input');
-checkBox.type = 'checkbox';
-
-const iconLeft = document.createElement('span', { is: 'ldod-span-icon' });
-iconLeft.setAttribute('is', 'ldod-span-icon');
-iconLeft.setAttribute('icon', 'chevron-left');
-iconLeft.setAttribute('size', '15px');
-
-const iconRight = document.createElement('span', { is: 'ldod-span-icon' });
-iconRight.setAttribute('is', 'ldod-span-icon');
-iconRight.setAttribute('icon', 'chevron-right');
-iconRight.setAttribute('size', '15px');
-
-const ele = document.createElement('ldod-navigation-panel');
-ele.setAttribute('language', 'pt');
-ele.setAttribute('cells', '6');
-ele.data = {
-	pt: {
-		title: 'Titulo',
-		tooltipContent: 'Conteúdo',
-		grids: [
+document.body.querySelector('frag-nav-panel#expert').setAttribute(
+	'data-input',
+	JSON.stringify({
+		type: 'Edições dos Peritos',
+		tooltip: 'conteudo',
+		data: [
 			{
-				gridTitle: 'Titulo da edição',
-				gridData: [
-					'',
-					checkBox.cloneNode(true),
-					iconLeft.cloneNode(true),
-					'<a>Link da edição</a>',
-					iconRight.cloneNode(true),
-					'',
+				name: 'Jacinto Prado Coelho',
+				acronym: 'JCP',
+				inters: [
+					{
+						title: 'Edition title',
+						externalId: 'someId',
+						previous: { xmlId: 'Fr234', urlId: 'Frsdaasdgf' },
+						current: { xmlId: 'Fr234', urlId: 'Frsdaasdgf', name: '325' },
+						next: { xmlId: 'Fr234', urlId: 'Frsdaasdgf' },
+						checked: true,
+					},
+					{
+						title: 'Edition title',
+						externalId: 'someId',
+						previous: { xmlId: 'Fr234', urlId: 'Frsdaasdgf' },
+						current: { xmlId: 'Fr234', urlId: 'Frsdaasdgf', name: '325' },
+						next: { xmlId: 'Fr234', urlId: 'Frsdaasdgf' },
+						checked: false,
+					},
 				],
 			},
 			{
-				gridTitle: 'Titulo da edição',
-				gridData: [
-					'',
-					checkBox.cloneNode(true),
-					iconLeft.cloneNode(true),
-					'<a>Link da edição</a>',
-					iconRight.cloneNode(true),
-					'',
-				],
-			},
-		],
-	},
-	en: {
-		title: 'Title',
-		tooltipContent: 'Content',
-		grids: [
-			{
-				gridTitle: 'Edition title',
-				gridData: [
-					'',
-					checkBox.cloneNode(true),
-					iconLeft.cloneNode(true),
-					'<a>Edition link</a>',
-					iconRight.cloneNode(true),
-					'',
-				],
-			},
-			{
-				gridTitle: 'Edition title',
-				gridData: [
-					'',
-					checkBox.cloneNode(true),
-					iconLeft.cloneNode(true),
-					'<a>Edition link</a>',
-					iconRight.cloneNode(true),
-					'',
+				name: 'Jacinto Prado Coelho',
+				acronym: 'JCP',
+				inters: [
+					{
+						title: 'Edition title',
+						externalId: 'someId',
+						previous: { xmlId: 'Fr234', urlId: 'Frsdaasdgf' },
+						current: { xmlId: 'Fr234', urlId: 'Frsdaasdgf', name: '325' },
+						next: { xmlId: 'Fr234', urlId: 'Frsdaasdgf' },
+						checked: false,
+					},
+					{
+						title: 'Edition title',
+						externalId: 'someId',
+						previous: { xmlId: 'Fr234', urlId: 'Frsdaasdgf' },
+						current: { xmlId: 'Fr234', urlId: 'Frsdaasdgf', name: '325' },
+						next: { xmlId: 'Fr234', urlId: 'Frsdaasdgf' },
+						checked: true,
+					},
 				],
 			},
 		],
-	},
-	es: {
-		title: 'Titulo',
-		tooltipContent: 'Conteúdo',
-		grids: [
+	})
+);
+
+document.body.querySelector('frag-nav-panel').setAttribute(
+	'data-input',
+	JSON.stringify({
+		type: 'Testemunhos',
+		data: [
 			{
-				gridTitle: 'Titulo da edição',
-				gridData: [
-					'',
-					checkBox.cloneNode(true),
-					iconLeft.cloneNode(true),
-					'<a>Link da edição</a>',
-					iconRight.cloneNode(true),
-					'',
-				],
-			},
-			{
-				gridTitle: 'Titulo da edição',
-				gridData: [
-					'',
-					checkBox.cloneNode(true),
-					iconLeft.cloneNode(true),
-					'<a>Link da edição</a>',
-					iconRight.cloneNode(true),
-					'',
+				inters: [
+					{
+						externalId: 'someId',
+						current: { xmlId: 'Fr234', urlId: 'Frsdaasdgf', name: '325' },
+						checked: true,
+					},
+					{
+						externalId: 'someId',
+						current: { xmlId: 'Fr234', urlId: 'Frsdaasdgf', name: '325' },
+						checked: false,
+					},
 				],
 			},
 		],
-	},
-};
-
-document.body.appendChild(ele);
-
-const ele4 = document.createElement('ldod-navigation-panel');
-ele4.setAttribute('language', 'pt');
-ele4.setAttribute('cells', '4');
+	})
+);

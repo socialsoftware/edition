@@ -77,7 +77,7 @@ export const addTableRow = (node, inter, index) => {
 		),
 		useEdition: (
 			<a
-				is="nav-to-new"
+				is="nav-to"
 				content
 				target="_blank"
 				to={`${textFragmentInter(useInter.xmlId, useInter.urlId)}`}>

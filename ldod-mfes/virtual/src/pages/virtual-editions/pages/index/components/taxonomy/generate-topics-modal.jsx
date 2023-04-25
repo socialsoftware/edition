@@ -21,9 +21,9 @@ export default ({ node, veId }) => {
 
 	return (
 		<ldod-bs-modal id="virtual-generate-topics-modal" dialog-class="modal-xl">
-			<h4 slot="header-slot" style={{ margin: 0 }}>
+			<h5 slot="header-slot" style={{ margin: 0 }}>
 				<span>{node.getConstants('generateTopicsTitle')}</span>
-			</h4>
+			</h5>
 			<div slot="body-slot">
 				<div style={{ padding: '20px' }}>
 					<form onSubmit={onGenerate}>
@@ -90,7 +90,11 @@ export default ({ node, veId }) => {
 								</label>
 							</div>
 							<button type="submit" class="btn btn-primary">
-								<span class="icon icon-gear-light"></span>
+								<span
+									is="ldod-span-icon"
+									icon="gear"
+									size="16px"
+									fill="#fff"></span>
 								<span data-virtual-key="generate">
 									{node.getConstants('generate')}
 								</span>

@@ -1,0 +1,63 @@
+/** @format */
+
+div.wrapper {
+	margin: 1rem 0;
+}
+div.title-container {
+	text-align: center;
+}
+
+div.title-container > h5 {
+	font-size: 14px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	font-family: inherit;
+	font-weight: 500;
+	line-height: 1.1;
+	color: inherit;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+span[is='ldod-span-icon'] {
+	cursor: pointer;
+}
+a[is='nav-to'] {
+	cursor: pointer;
+	color: var(--bs-primary) !important;
+}
+a[is='nav-to']:hover {
+	text-decoration: underline;
+}
+
+div.grid-container {
+	text-align: center;
+}
+
+.grid {
+	display: grid;
+	align-items: center;
+	align-self: center;
+	grid-template-columns: 10% 15% 50% 15% 10%;
+	gap: 2px;
+}
+
+div.caption {
+	text-align: center;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	color: #777;
+}
+
+input[type='checkbox'] {
+	width: 0.8rem;
+	height: 0.8rem;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+div.frag {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}

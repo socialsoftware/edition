@@ -30,7 +30,7 @@ export function addLiItem(page, lang, constants) {
 function dropdownItem(id, route, link, lang, constants) {
 	const a = /* html*/ `
     <a class="dropdown-item" ${route ? `to="${route}"` : 'to'} ${
-		link ? `href="${link}" target="_blank"` : 'is="nav-to-new"'
+		link ? `href="${link}" target="_blank"` : 'is="nav-to"'
 	} data-dropdown-key="${id}" >${constants[lang][id] || id}</a>
     `;
 	return a;

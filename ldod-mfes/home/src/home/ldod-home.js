@@ -45,7 +45,7 @@ export default class LdodHome extends HTMLElement {
 			img.src = getUrl(img.id);
 		});
 
-		this.shadowRoot.querySelectorAll('a[is="nav-to-new"]').forEach(a => {
+		this.shadowRoot.querySelectorAll('a[is="nav-to"]').forEach(a => {
 			const params = JSON.parse(a.dataset.mfeKeyParams);
 			a.setAttribute('to', getReferences(a.dataset.mfe)?.[a.dataset.mfeKey]?.(...params));
 		});

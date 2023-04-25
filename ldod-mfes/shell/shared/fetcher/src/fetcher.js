@@ -38,7 +38,6 @@ const request = async (method, path, data, token, signal) => {
 	handleLoading(true);
 	const options = {};
 	const accessToken = token ? token : getStorageToken();
-	if (!accessToken) handleLogout();
 
 	if (data && typeof data !== 'object') throw new Error('Data must be an Object');
 	options.headers = new Headers();
