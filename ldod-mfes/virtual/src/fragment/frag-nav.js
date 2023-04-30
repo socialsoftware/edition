@@ -23,14 +23,14 @@ const dataArray = {
 		})),
 };
 
-export default root => {
+export default ({ lang, virtualEditions, intersChecked }) => {
 	const id = 'virtual';
 	return /*html*/ `<frag-nav-panel id="${id}" data-input='${getDataInput(
 		id,
-		root.language,
+		lang,
 		dataArray.virtual(
-			root.inters,
-			root.intersChecked.map(item => item.externalId)
+			virtualEditions,
+			intersChecked.map(item => item.externalId)
 		)
 	)}'></frag-nav-panel>`;
 };

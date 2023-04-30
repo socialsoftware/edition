@@ -2,20 +2,21 @@
 
 import { virtualReferences } from './virtual';
 import { ldodEventPublisher, ldodEventSubscriber } from '@shared/ldod-events.js';
-export let selectedVe = ['LdoD-Arquivo'];
+export let selectedVEs = ['LdoD-Arquivo'];
 const errorPublisher = error => ldodEventPublisher('error', error);
 const selectedVePublisher = ve => ldodEventPublisher('selected-ve', ve);
+const updateSelecteVEs = ves => ves.forEach(selectedVePublisher);
 const messagePublisher = info => ldodEventPublisher('message', info);
 const loadingPublisher = bool => ldodEventPublisher('loading', bool);
 
 ldodEventSubscriber('selected-ve', selectedVeHandler);
 ldodEventSubscriber('login', ({ payload }) => {
-	selectedVe = ['LdoD-Arquivo', ...payload.selectedVE];
+	selectedVEs = ['LdoD-Arquivo', ...payload.selectedVE];
 	updateEditions();
 });
 
 ldodEventSubscriber('logout', () => {
-	selectedVe = ['LdoD-Arquivo'];
+	selectedVEs = ['LdoD-Arquivo'];
 	updateEditions();
 });
 
@@ -44,9 +45,10 @@ customElements.whenDefined('nav-bar').then(() => {
 });
 
 function selectedVeHandler({ payload }) {
-	selectedVe = payload.selected
-		? [...selectedVe, payload.name]
-		: selectedVe.filter(ed => ed !== payload.name);
+	selectedVEs = payload.selected
+		? [...selectedVEs, payload.name]
+		: selectedVEs.filter(ed => ed !== payload.name);
+	selectedVEs = [...new Set(selectedVEs)];
 	updateEditions();
 }
 function updateEditions() {
@@ -55,7 +57,7 @@ function updateEditions() {
 		name: 'editions',
 		data: {
 			name: 'editions',
-			pages: selectedVe.map(ed => ({ id: ed, route: `/virtual/edition/acronym/${ed}` })),
+			pages: selectedVEs.map(ed => ({ id: ed, route: `/virtual/edition/acronym/${ed}` })),
 		},
 		constants: {
 			pt: {},
@@ -65,6 +67,10 @@ function updateEditions() {
 	});
 }
 
-function defaultSelectedVE() {}
-
-export { errorPublisher, loadingPublisher, selectedVePublisher, messagePublisher };
+export {
+	errorPublisher,
+	loadingPublisher,
+	selectedVePublisher,
+	messagePublisher,
+	updateSelecteVEs,
+};

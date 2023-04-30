@@ -21,6 +21,7 @@ export default lang => {
 				data-mfe-key="editionInterPath"
 				data-mfe-key-params='["${xmlId}","${urlId}"]'
 				class="home-frag-link"
+				content
 			>
 				<div class="frag-excerpt">
 					<span class="frag-number font-egyptian">${excerpt.number}</span>
@@ -68,6 +69,7 @@ function getBox(version, mfe, mfeKey, mfeKeyparams, lang, random, key) {
 			data-mfe="${mfe}"
 			data-mfe-key="${mfeKey}"
 			data-mfe-key-params='[${mfeKeyparams ? mfeKeyparams.map(p => '${p}').join(',') : ''}]'
+			content
 		>
 			<div class="div-link">
 				<img

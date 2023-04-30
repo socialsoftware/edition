@@ -8,6 +8,7 @@ import { loadImportmap } from './importmap.js';
 import { indexHTML } from './constants.js';
 import { parse } from 'node-html-parser';
 import { minify } from 'html-minifier';
+import { updateSWCache } from './update-cache-version.js';
 
 export async function updateIndexHTML() {
 	const html = getOriginalHTML();
@@ -18,6 +19,7 @@ export async function updateIndexHTML() {
 	updateMfesReferencesScript(dom);
 	dom = await preRenderIndexHtml(dom);
 	writeIndexHTML(dom.outerHTML);
+	updateSWCache();
 }
 
 export function writeIndexHTML(outerHTML) {

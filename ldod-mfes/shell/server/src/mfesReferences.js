@@ -47,7 +47,3 @@ function generateReferencesJsCode(references) {
 	}
 	`;
 }
-
-function onError(e) {
-	console.error(e);
-}

@@ -10,30 +10,30 @@ const getTag = (acrn, urlId, name) => (
 	</div>
 );
 
-export default ({ node }) => {
+export default ({ root }) => {
 	return (
 		<div>
 			<h4 class="text-center" data-virtual-key="veCompare">
-				{node.getConstants('veCompare')}
+				{root.getConstants('veCompare')}
 			</h4>
 			<div>
-				{node.inters.map((inter, index) => {
+				{root.inters.map((inter, index) => {
 					const rows = inter.tags.concat(inter.annotations);
 
 					return (
 						<div style={{ padding: '20px' }}>
 							<h5>
 								<strong data-virtual-key="edition">
-									{node.getConstants('edition')}
+									{root.getConstants('edition')}
 								</strong>
 								: {inter.acronym}
 							</h5>
 							<ldod-table
 								id="virtual-intersTaxonomyComparison"
 								classes="table table-bordered table-hover table-striped"
-								headers={node.constants.taxonomyCompareHeaders}
-								language={node.language}
-								constants={node.constants}
+								headers={root.constants.taxonomyCompareHeaders}
+								language={root.language}
+								constants={root.constants}
 								data={rows.map(row => {
 									return {
 										quote: row.quote || '---',

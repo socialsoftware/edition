@@ -58,8 +58,9 @@ public class VirtualFragmentService {
 
         Collection<String> acronyms = LdoDUser.getAuthenticatedUser() != null
                 ? LdoDUser.getAuthenticatedUser().getSelectedVirtualEditionsSet().stream().map(Edition_Base::getAcronym).collect(Collectors.toSet())
-                : new HashSet<>(body.getInters());
+                : new HashSet<>(body.getVeIds());
         acronyms.add(LdoD.getInstance().getArchiveEdition().getAcronym());
+        if(inter != null) acronyms.add(inter.getEdition().getAcronym());
 
         return acronyms
                 .stream()

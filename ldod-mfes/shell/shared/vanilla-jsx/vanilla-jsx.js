@@ -1,3 +1,5 @@
+/** @format */
+
 const isAnEventHandler = name => name.startsWith('on') && name.toLowerCase() in window;
 
 export const createElement = (tag, props, ...children) => {
@@ -29,7 +31,9 @@ function setProps([key, value], elem) {
 	if (isAnEventHandler(key)) return elem.addEventListener(key.toLowerCase().substring(2), value);
 
 	if (key === 'style')
-		return Object.entries(value).forEach(([styleKey, styleValue]) => (elem.style[styleKey] = styleValue));
+		return Object.entries(value).forEach(
+			([styleKey, styleValue]) => (elem.style[styleKey] = styleValue)
+		);
 
 	let typeValue = typeof value;
 

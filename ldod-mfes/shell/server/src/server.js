@@ -5,7 +5,7 @@ import cors from 'cors';
 import express from 'express';
 import multer from 'multer';
 import path from 'node:path';
-import { sharedPath, staticPath, tempPath } from './constants.js';
+import { serviceWorkerPath, sharedPath, staticPath, tempPath } from './constants.js';
 import './deps-install.js';
 import {
 	publishMFE,
@@ -35,9 +35,10 @@ app.use(express.json());
 
 const router = asyncRouter(express.Router());
 app.use('/ldod-mfes/vendor', express.static(path.resolve(sharedPath, 'node_modules')));
+
 app.use('/ldod-mfes', express.static(staticPath));
 
-app.get('/', (req, res) => res.redirect('/ldod-mfes'));
+app.get('/', (req, res) => res.redirect('/ldod-mfes/'));
 
 app.use('/ldod-mfes', router);
 router.get('/', sendIndex);

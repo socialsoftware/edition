@@ -6,7 +6,7 @@ public class VirtualFragmentNavBodyDto {
     private String currentInterId;
 
     private String urlId;
-    private List<String> inters;
+    private List<String> veIds;
 
     private String veId;
 
@@ -47,11 +47,11 @@ public class VirtualFragmentNavBodyDto {
         this.currentInterId = currentInterId;
     }
 
-    public List<String> getInters() {
-        return inters;
+    public List<String> getVeIds() {
+        return veIds;
     }
 
-    public void setInters(List<String> inters) {
-        this.inters = inters;
+    public void setVeIds(List<String> veIds) {
+        this.veIds = veIds;
     }
 }

@@ -6,7 +6,7 @@ import path from 'path';
 
 export default defineConfig({
 	build: {
-		target: 'es2022',
+		target: 'esnext',
 		cssCodeSplit: true,
 		outDir: '../dist',
 		emptyOutDir: false,

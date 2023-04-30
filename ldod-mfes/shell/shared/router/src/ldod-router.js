@@ -123,7 +123,7 @@ export default class LdodRouter extends HTMLElement {
 	async render() {
 		let route = await this.getRoute();
 		ldodEventPublisher('loading', true);
-		await this.appendMFE(route);
+		await this.appendMFE(route).catch(console.error;
 		ldodEventPublisher('loading', false);
 	}
 

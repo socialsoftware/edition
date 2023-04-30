@@ -1,14 +1,14 @@
+/** @format */
+
 import { dom } from '@shared/utils.js';
 import Taxonomy from './taxonomy';
 
-export default ({ node }) => {
-	const inter = node.inter;
-	const taxonomy = node.taxonomy;
+export default ({ root, inter, taxonomy }) => {
 	return (
 		<>
 			<h4>
 				{`${inter.editionTitle} - `}
-				<span data-virtual-key="uses">{node.getConstants('uses')}</span>
+				<span data-virtual-key="uses">{root.getConstants('uses')}</span>
 				<span>{` ${inter.usesEditionReference} (${inter.usesReference})`}</span>
 			</h4>
 			<div id="virtual-nodeReference">
@@ -19,13 +19,15 @@ export default ({ node }) => {
 						{dom(inter.transcription)}
 					</div>
 					{taxonomy.canManipulateAnnotation && (
-						<div id="virtual-associateButton" style={{ display: 'flex', justifyContent: 'end' }}>
+						<div
+							id="virtual-associateButton"
+							style={{ display: 'flex', justifyContent: 'end' }}>
 							<button
 								id="virtual-categoryAssociationBtn"
 								title={`Associate new category to '${inter.title}' interpretation`}
 								type="button"
 								class="btn btn-sm btn-primary"
-								onClick={node.associateTag}>
+								onClick={root.associateTag}>
 								<span
 									class="icon icon-plus"
 									style={{
@@ -38,7 +40,7 @@ export default ({ node }) => {
 				</div>
 			</div>
 			<div id="virtual-taxonomy">
-				<Taxonomy node={node} inter={inter} />
+				<Taxonomy root={root} inter={inter} />
 			</div>
 		</>
 	);

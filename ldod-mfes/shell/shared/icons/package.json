@@ -9,7 +9,6 @@
 		"nohoist": [
 			"vite",
 			"@rollup/plugin-terser",
-			"rollup-plugin-terser",
 			"vite-svg-loader"
 		]
 	},

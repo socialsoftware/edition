@@ -1,3 +1,5 @@
+/** @format */
+
 import { virtualReferences } from '../../references';
 
 try {
@@ -6,7 +8,7 @@ try {
 	await import('@shared/table-dev.js');
 }
 
-const getTableData = (inter, node) => {
+const getTableData = (inter, root) => {
 	return inter.categories.map(cat => ({
 		tag: (
 			<div style={{ display: 'flex', gap: '5px' }}>
@@ -19,7 +21,7 @@ const getTableData = (inter, node) => {
 						data-inter-id={inter.externalId}
 						data-cat-id={cat.externalId}
 						title={`Dissociate category from '${inter.title}' interpretation`}
-						onClick={node.dissociateTag}
+						onClick={root.dissociateTag}
 						class="icon icon-erase"></span>
 				)}
 			</div>
@@ -37,13 +39,13 @@ const getTableData = (inter, node) => {
 	}));
 };
 
-export default ({ node, inter }) => {
+export default ({ root, inter }) => {
 	return (
 		<ldod-table
 			id="virtual-interTaxonomyTable"
 			classes="table  table-hover"
-			headers={node.constants.taxonomyHeaders}
-			data={getTableData(inter, node)}
-			constants={node.constants.taxonomyHeadersIcons}></ldod-table>
+			headers={root.constants.taxonomyHeaders}
+			data={getTableData(inter, root)}
+			constants={root.constants.taxonomyHeadersIcons}></ldod-table>
 	);
 };

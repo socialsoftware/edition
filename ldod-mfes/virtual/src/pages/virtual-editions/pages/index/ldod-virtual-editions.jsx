@@ -13,7 +13,7 @@ import constants from '../../../constants';
 import CreateButton from './components/create-ve/create-button';
 import VETable from './components/ve-table';
 import Title from './components/title';
-import { errorPublisher } from '../../../../event-module';
+import { errorPublisher, selectedVEs } from '../../../../event-module';
 import.meta.env.DEV ? await import('@shared/table-dev.js') : await import('@shared/table.js');
 
 let gamesModal;
@@ -86,7 +86,11 @@ export class LdodVirtualEditions extends HTMLElement {
 			.sort((ed1, ed2) => ed1.acronym.localeCompare(ed2.acronym))
 			.sort((ed1, ed2) => +ed2.member?.pending - +ed1.member?.pending)
 			.sort((ed1, ed2) => +ed2.member?.active - +ed1.member?.active)
-			.sort((ed1, ed2) => +ed2.selected - +ed1.selected);
+			.sort(
+				(ed1, ed2) =>
+					+(ed2.selected || selectedVEs.includes(ed2.acronym)) -
+					(+ed1.selected || selectedVEs.includes(ed1.acronym))
+			);
 		this.render();
 		this.addEventListeners();
 	};
@@ -144,6 +148,7 @@ export class LdodVirtualEditions extends HTMLElement {
 	//actions
 
 	onCreateVE = e => {
+		console.log(e);
 		e.preventDefault();
 		const veDto = Object.fromEntries(new FormData(e.target));
 		createVirtualEdition(veDto)

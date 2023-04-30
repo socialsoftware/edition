@@ -1,30 +1,22 @@
 /** @format */
 
-import { getFragment } from '@src/api-requests.js';
 import { isDev } from '../../utils.js';
-import { LdodFragment } from './ldod-fragment.jsx';
-import { getNewInter, isVirtualInter } from './utils.js';
+import './frag-orchestrator/frag-orchestrator.js';
 
 let virtual;
+const onError = e => console.error(e);
 async function loadVirtualFrags() {
 	if (virtual) return;
 	virtual =
 		window.mfes?.includes('virtual') && isDev()
-			? await import('virtual/virtual-dev.js').catch(e => console.error(e))
-			: await import('virtual').catch(e => console.error(e));
+			? await import('virtual/virtual-dev.js').catch(onError)
+			: await import('virtual').catch(onError);
 	virtual.loadFragment();
 }
 
 const mount = async (lang, ref) => {
-	const { xmlId, urlId } = history.state;
-	let data;
-	if (!xmlId) data = '';
-	else
-		data =
-			urlId && !isVirtualInter(urlId)
-				? await getNewInter(xmlId, urlId)
-				: await getFragment(xmlId);
-	document.querySelector(ref).appendChild(new LdodFragment(lang, data, xmlId, urlId));
+	const element = document.querySelector(ref);
+	element.innerHTML = /*html*/ `<frag-orchestrator language="${lang}"></frag-orchestrator>`;
 	loadVirtualFrags();
 };
 

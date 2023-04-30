@@ -1,0 +1,26 @@
+/** @format */
+
+@media (width < 991.8px) {
+	div#fragment-nav-container {
+		padding: 20px;
+	}
+}
+
+@media (width >= 992px) {
+	div#fragment-container {
+		margin-left: 0px;
+		margin-right: 0px;
+		display: flex;
+		justify-content: space-between;
+	}
+
+	div#fragment-inter-container {
+		width: 75%;
+		min-width: 300px;
+	}
+	div#fragment-nav-container {
+		width: 25%;
+		min-width: 300px;
+		margin-left: 2rem;
+	}
+}

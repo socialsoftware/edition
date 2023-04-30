@@ -1,7 +1,7 @@
 /** @format */
 
 import { defineConfig } from 'vite';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 import { resolve } from 'path';
 
 export default defineConfig({

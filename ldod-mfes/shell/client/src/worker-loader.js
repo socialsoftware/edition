@@ -58,6 +58,7 @@ worker.postMessage({ type: 'css', url: ROOT_CSS_URL });
 
 //worker.postMessage({ type: 'script', url: '/ldod-mfes/shared/notifications.js' });
 //worker.postMessage({ type: 'script', url: '/ldod-mfes/shared/ldod-icons.js' });
+//worker.postMessage({ type: 'script', url: '/ldod-mfes/references.js' });
 
 const workerHandler = {
 	font: (res, url) => onFont(res, url),

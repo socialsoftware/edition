@@ -15,7 +15,18 @@ async function preRenderMFE(entryPoint, dom) {
 		workerData: `${staticPath}/${entryPoint}`,
 	});
 	worker.postMessage(dom.outerHTML);
-	return new Promise(resolve => worker.on('message', rawDom => resolve(parse(rawDom))));
+	return new Promise(resolve => {
+		worker.on('message', rawDom => {
+			resolve(parse(rawDom));
+			worker.terminate();
+		});
+		worker.on('error', err => {
+			console.error(err);
+			worker.terminate();
+			resolve('');
+		});
+		worker.on('exit', code => console.log('pre-render: ' + entryPoint));
+	});
 }
 
 async function preRenderMfes(dom) {

@@ -4,7 +4,7 @@ import { defineConfig } from 'vite';
 import terser from '@rollup/plugin-terser';
 export default defineConfig({
 	build: {
-		target: 'es2022',
+		target: 'esnext',
 		outDir: '../dist',
 		emptyOutDir: false,
 		lib: {

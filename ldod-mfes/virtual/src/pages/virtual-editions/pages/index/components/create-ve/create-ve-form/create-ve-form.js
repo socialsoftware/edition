@@ -21,7 +21,7 @@ class CreateVeForm extends HTMLElement {
 	}
 
 	addEventListeners() {
-		this.form.onsubmit = this.node.onCreateVe;
+		this.form.addEventListener('submit', this.node.onCreateVE);
 	}
 }
 !customElements.get('create-ve-form') && customElements.define('create-ve-form', CreateVeForm);

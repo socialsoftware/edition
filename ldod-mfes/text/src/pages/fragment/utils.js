@@ -14,7 +14,7 @@ export const checkBoxes = {
 	pbText: null,
 };
 
-export const getNewInter = async (xmlId, urlId) =>
+export const getNewFragInter = async (xmlId, urlId) =>
 	await getFragmentInter(xmlId, urlId, {
 		inters: [],
 		...checkBoxes,
@@ -32,4 +32,5 @@ export const isSideBySide = data => data.transcriptions?.length > 1;
 
 export const isLineByLine = data => data.transcriptions?.length === 1 && data.inters?.length > 1;
 
-export const isVirtualInter = urlId => urlId?.includes('ED_VIRT');
+export const isVirtualInter = urlId =>
+	urlId && ['_ED_CRIT_', '_MS_'].every(key => !urlId.includes(key));

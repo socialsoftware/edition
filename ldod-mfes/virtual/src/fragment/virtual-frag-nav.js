@@ -1,8 +1,11 @@
 /** @format */
 
 import constants from './constants';
-import { selectedVe } from '../event-module';
-import { addInterRequest, getVirtualFragmentNavInters } from './api-requests';
+import { selectedVEs, updateSelecteVEs } from '../event-module';
+import {
+	addInterRequest,
+	getVirtualFragmentNavInters as getNavigationFragmentData,
+} from './api-requests';
 import fragNav from './frag-nav';
 
 import style from './style.css?inline';
@@ -17,6 +20,7 @@ export class VirtualFragNav extends HTMLElement {
 		this.intersChecked = [];
 		this.veId = '';
 		this.interId = '';
+		VirtualFragNav.instance = this;
 	}
 
 	get urlId() {
@@ -41,57 +45,61 @@ export class VirtualFragNav extends HTMLElement {
 
 	updateSelectedInters = () => {
 		if (this.urlId)
-			this.intersChecked.push(
-				this.inters
-					.map(obj => obj.inters)
-					.map(([inter]) => inter)
-					.find(inter => inter?.urlId === this.urlId)
+			this.intersChecked = this.virtualEditions.flatMap(ve =>
+				ve.inters.filter(inter => inter.urlId === this.urlId)
 			);
 	};
 
 	async connectedCallback() {
-		this.fragment && (await this.fetchData());
-		this.updateSelectedInters();
-		this.render();
 		this.addEventListener('virtual:changed', this.onCheckboxChange);
 		this.addEventListener('virtual:clicked', this.addInterToVe);
+		this.fragment && (await this.navDataRequest());
+		this.updateSelectedInters();
+		this.render();
 	}
 
-	fetchData = async () => {
-		await getVirtualFragmentNavInters(this.fragment, {
-			inters: selectedVe,
+	navDataRequest = async () => {
+		await getNavigationFragmentData(this.fragment, {
+			veIds: selectedVEs,
 			currentInterId:
 				this.intersChecked?.length === 1 ? this.intersChecked[0].externalId : null,
 			urlId: this.urlId,
 		})
-			.then(data => (this.inters = data))
+			.then(data => {
+				updateSelecteVEs(data.map(ved => ({ name: ved.acronym, selected: true })));
+				this.virtualEditions = data;
+			})
 			.catch(error => console.error(error));
 	};
 
-	fetchAddInter = async () => {
+	interAddRequest = async () => {
 		await addInterRequest(this.fragment, this.veId, this.interId, {
-			inters: selectedVe,
+			veIds: selectedVEs,
 			currentInterId: this.intersChecked.length === 1 && this.intersChecked[0].externalId,
 		})
-			.then(data => (this.inters = data))
+			.then(data => (this.virtualEditions = data))
 			.catch(error => console.error(error));
 	};
 
 	render() {
-		this.shadowRoot.innerHTML = fragNav(this);
+		this.shadowRoot.innerHTML = fragNav({
+			lang: this.language,
+			intersChecked: this.intersChecked,
+			virtualEditions: this.virtualEditions,
+		});
 	}
 
 	onCheckboxChange = async ({ detail }) => {
 		this.updateInters(detail);
 		this.dispatchEvent(
 			new CustomEvent('virtual:inter-selected', {
-				detail: detail.selected,
+				detail: { virtualInters: detail.selected?.length },
 				composed: true,
 				bubbles: true,
 			})
 		);
 		if (!this.intersChecked.length) return;
-		await this.fetchData();
+		await this.navDataRequest();
 		this.render();
 	};
 
@@ -106,7 +114,7 @@ export class VirtualFragNav extends HTMLElement {
 		const target = detail.target;
 		this.veId = target.dataset.veId;
 		this.interId = target.dataset.interId;
-		await this.fetchAddInter();
+		await this.interAddRequest();
 		this.render();
 	};
 }

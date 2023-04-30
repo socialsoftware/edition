@@ -1,0 +1,15 @@
+{
+	"short_name": "LdoD",
+	"name": "LdoD-MFE",
+	"icons": [
+		{
+			"src": "/ldod-mfes/home/resources/webp/logotiposm.webp",
+			"sizes": "512x512",
+			"type": "image/webp"
+		}
+	],
+	"start_url": "/ldod-mfes/",
+	"background_color": "#fff",
+	"theme_color": "#fc1b27",
+	"display": "fullscreen"
+}

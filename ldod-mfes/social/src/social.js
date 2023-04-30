@@ -4,7 +4,7 @@ import references from './references.js';
 let social;
 
 const loadSocial = async () => {
-	if (!social) social = await import('./social-router.jsx');
+	if (!social) social = await import('./social-router.js');
 	return social;
 };
 

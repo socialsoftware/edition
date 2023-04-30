@@ -1,5 +1,6 @@
 /** @format */
 
+import './sw/service-worker-reg';
 import './body-observer.js';
 import './events-module.js';
 import './shell-router.js';

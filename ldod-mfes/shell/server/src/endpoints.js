@@ -16,7 +16,10 @@ import { emitter } from './event-bus.js';
 import { updateIndexHTML } from './html-template.js';
 import { resolve } from 'path';
 
-const sendIndex = (req, res) => res.send(getIndexHTML());
+const sendIndex = (req, res) => {
+	res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+	res.send(getIndexHTML());
+};
 
 const sendLdodVisualIndex = (req, res) => res.send(getIndexHTML(visualPath));
 
@@ -29,7 +32,11 @@ const checkMfeApiCompliance = async entry => {
 
 	return new Promise((resolve, reject) => {
 		worker.once('message', e => isMainThread && reject(e));
-		worker.on('exit', () => resolve());
+		worker.on('error', error => console.error(error));
+		worker.on('exit', () => {
+			console.log(`MFE on ${entry} is compliant`);
+			resolve();
+		});
 	});
 };
 
@@ -59,6 +66,7 @@ const publishMFE = async (req, res) => {
 	emitter.emit('mfe:published', { name });
 	return res.sendStatus(200);
 };
+
 const unPublishMFE = async (req, res) => {
 	const { id, name } = req.body;
 	removeFromImportmaps({ name });

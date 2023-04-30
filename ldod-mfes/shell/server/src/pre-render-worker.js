@@ -4,7 +4,7 @@ import { workerData, parentPort } from 'worker_threads';
 
 const api = (await import(workerData)).default;
 
-parentPort.on('message', async rawDom => {
+parentPort.once('message', async rawDom => {
 	const preRender = api.preRender;
 	const dom = parse(rawDom);
 	if (typeof preRender === 'function') await api.preRender(dom, 'en');
