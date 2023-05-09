@@ -1,20 +1,18 @@
 /** @format */
 
 import '@src/select-pure.js';
-import '@shared/modal.js';
+import '@shared/modal-bs.js';
 import style from './style.css?inline';
 
 const selectPure = root => root.associateTagModal.querySelector('select-pure#virtual-associateTag');
 
 const anyTagIsEqual = (tags, tag) => tags.some(t => t === tag);
 
-const onAutocomplete = (e, root) => {
-	const nonAssignedCats = root.inter.notAssignedCategories.map(cat => cat.name);
-	const assignedCats = root.inter.categories.map(cat => cat.name);
+const onAutocomplete = (e, root, inter) => {
+	const nonAssignedCats = inter.notAssignedCategories.map(cat => cat.name);
+	const assignedCats = inter.categories.map(cat => cat.name);
 
 	const target = e.target;
-
-	root.computeSelectHeight();
 
 	const matches = nonAssignedCats.filter(cat =>
 		cat.toLowerCase().startsWith(target.value.toLowerCase())
@@ -26,8 +24,6 @@ const onAutocomplete = (e, root) => {
 		option.hidden = true;
 	});
 
-	root.computeSelectHeight();
-
 	if (e.key === 'Enter' && !anyTagIsEqual(matches, target.value) && root.taxonomy.openVocab) {
 		selectPure(root)
 			.shadowRoot.querySelectorAll('div.multi-selected-wrapper span.multi-selected')
@@ -38,8 +34,8 @@ const onAutocomplete = (e, root) => {
 			.forEach(option => option.remove());
 
 		!assignedCats.includes(target.value) && assignedCats.push(e.target.value);
-		!root.inter.categories.map(c => c.name).includes(target.value) &&
-			root.inter.categories.push({ name: target.value });
+		!inter.categories.map(c => c.name).includes(target.value) &&
+			inter.categories.push({ name: target.value });
 
 		selectPure(root).append(
 			...assignedCats.map(cat => (
@@ -48,16 +44,15 @@ const onAutocomplete = (e, root) => {
 				</option-pure>
 			))
 		);
-		return;
 	}
 };
 
-export default ({ root }) => {
+export default ({ root, inter }) => {
 	return (
-		<ldod-modal id="virtual-associateTagModal" dialog-class="modal-xl">
+		<ldod-bs-modal id="virtual--associate-tag-modal" dialog-class="modal-xl">
 			<style>{style}</style>
 			<span slot="header-slot">
-				<span>{root.inter.title}</span>
+				<span>{inter.title}</span>
 			</span>
 			<div slot="body-slot">
 				<div id="multipleSelectContainer" style={{ padding: '20px' }}>
@@ -65,12 +60,13 @@ export default ({ root }) => {
 						<input
 							id="select-pure-autocomplete"
 							type="text"
-							onKeyUp={e => onAutocomplete(e, root)}
+							placeholder={root.getConstants('newCategory')}
+							onKeyUp={e => onAutocomplete(e, root, inter)}
 						/>
-						{root.inter.notAssignedCategories.map(cat => (
+						{inter.notAssignedCategories.map(cat => (
 							<option-pure value={cat.name}>{cat.name}</option-pure>
 						))}
-						{root.inter.categories.map(cat => (
+						{inter.categories.map(cat => (
 							<option-pure selected value={cat.name}>
 								{cat.name}
 							</option-pure>
@@ -83,6 +79,6 @@ export default ({ root }) => {
 					<span>{root.getConstants('associate')}</span>
 				</button>
 			</div>
-		</ldod-modal>
+		</ldod-bs-modal>
 	);
 };

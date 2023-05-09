@@ -1,3 +1,5 @@
+/** @format */
+
 import { textFrag, textFragInter } from '../../../external-deps';
 import constants from '../constants';
 
@@ -15,23 +17,29 @@ const getTableData = root => {
 			externalId: inter.externalId,
 			data: () => ({
 				fragments: (
-					<a is="nav-to" to={textFrag(inter.xmlId)}>
+					<a is="nav-to" content to={textFrag(inter.xmlId)}>
 						{inter.fragTitle}
 					</a>
 				),
 				interpretations: (
-					<a is="nav-to" to={textFragInter(inter.xmlId, inter.urlId)}>
+					<a is="nav-to" content to={textFragInter(inter.xmlId, inter.urlId)}>
 						{inter.title}
 					</a>
 				),
 				...criterias,
 				sourceTypeHeader: inter.sourceType,
-				sourcesHeader: <span data-search-key={inter.sources}>{root.getConstants(inter.sources)}</span>,
-				hasLdoDMarkHeader: inter.hasLdoDMark ? root.getConstants('yes') : root.getConstants('no'),
+				sourcesHeader: (
+					<span data-search-key={inter.sources}>{root.getConstants(inter.sources)}</span>
+				),
+				hasLdoDMarkHeader: inter.hasLdoDMark
+					? root.getConstants('yes')
+					: root.getConstants('no'),
 				dateHeader: inter.date,
 				editionHeader: inter.editor,
 				heteronymHeader:
-					inter.heteronym === 'não atribuído' ? root.getConstants(inter.heteronym) : inter.heteronym,
+					inter.heteronym === 'não atribuído'
+						? root.getConstants(inter.heteronym)
+						: inter.heteronym,
 			}),
 			search: JSON.stringify(Object.values(inter).join(', ')),
 		};

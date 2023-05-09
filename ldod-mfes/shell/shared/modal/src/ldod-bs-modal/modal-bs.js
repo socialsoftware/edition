@@ -10,6 +10,7 @@ const sheet = new CSSStyleSheet();
 sheet.replaceSync(modalCss + buttonsCss + style);
 
 export class LdodBsModal extends HTMLElement {
+	static modalsOpened = 0;
 	constructor() {
 		super();
 		this.attachShadow({ mode: 'open' });
@@ -65,6 +66,10 @@ export class LdodBsModal extends HTMLElement {
 		});
 	}
 
+	disconnectedCallback() {
+		this.hideModal();
+	}
+
 	addEventListeners() {
 		this.closeBtn.addEventListener('click', this.toggle);
 		this.addEventListener('click', this.onClickOutsiteContent);
@@ -94,6 +99,7 @@ export class LdodBsModal extends HTMLElement {
 		this.removeAttribute('aria-hidden');
 		setTimeout(() => {
 			document.body.classList.add('modal-open');
+			++LdodBsModal.modalsOpened;
 			this.modalBackdrop.className = 'modal-backdrop show';
 			this.modal.classList.add('show');
 		}, 100);
@@ -108,7 +114,10 @@ export class LdodBsModal extends HTMLElement {
 		this.onHide();
 		setTimeout(() => {
 			this.modal.style.display = 'none';
-			document.body.classList.remove('modal-open');
+			if (LdodBsModal.modalsOpened === 1) {
+				--LdodBsModal.modalsOpened;
+				document.body.classList.remove('modal-open');
+			}
 		}, 100);
 	};
 

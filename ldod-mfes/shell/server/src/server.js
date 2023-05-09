@@ -5,7 +5,7 @@ import cors from 'cors';
 import express from 'express';
 import multer from 'multer';
 import path from 'node:path';
-import { serviceWorkerPath, sharedPath, staticPath, tempPath } from './constants.js';
+import { sharedPath, staticPath, tempPath } from './constants.js';
 import './deps-install.js';
 import {
 	publishMFE,

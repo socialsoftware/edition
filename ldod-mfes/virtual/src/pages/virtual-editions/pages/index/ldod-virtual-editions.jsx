@@ -148,7 +148,6 @@ export class LdodVirtualEditions extends HTMLElement {
 	//actions
 
 	onCreateVE = e => {
-		console.log(e);
 		e.preventDefault();
 		const veDto = Object.fromEntries(new FormData(e.target));
 		createVirtualEdition(veDto)

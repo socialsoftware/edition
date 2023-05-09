@@ -4,7 +4,7 @@ const getAddFragsModal = node => node.querySelector('ldod-bs-modal#virtual-add-f
 
 const getLdodSearchSimple = node => getAddFragsModal(node)?.querySelector('ldod-search-simple');
 
-const getSelectedInters = node => getLdodSearchSimple(node)?.getSelectedInters();
+const getSelectedInters = node => getLdodSearchSimple(node)?.getSelectedInters?.();
 
 const onAdd = node => {
 	const selectedInters = getSelectedInters(node);

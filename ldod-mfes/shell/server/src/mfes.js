@@ -25,8 +25,9 @@ function saveMfes(mfes) {
 }
 
 export async function addMfe(name) {
+	if (!name) return;
 	const mfes = new Set(loadMfes());
-	name && mfes.add(name);
+	mfes.add(name);
 	saveMfes([...mfes]);
 }
 

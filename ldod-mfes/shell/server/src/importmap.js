@@ -12,11 +12,11 @@ export function createOrUpdateImportmap() {
 }
 
 export function loadImportmap() {
-	let importmap = { imports: {} };
+	let importmap;
 	try {
 		importmap = JSON.parse(fs.readFileSync(importmapPath, 'utf-8'));
 	} catch (error) {
-		console.error(error);
+		importmap = { imports: {} };
 	}
 	return importmap;
 }

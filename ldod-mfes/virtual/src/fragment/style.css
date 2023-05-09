@@ -1,3 +1,5 @@
+/** @format */
+
 .text-center {
 	text-align: center;
 }
@@ -185,7 +187,7 @@ table#virtual-intersTaxonomyComparison thead > tr > th {
 	text-align: start;
 }
 
-#virtual-associateButton .btn,
+#virtual--associate-tag-btn.btn,
 #virtual-addFragmentInter.btn {
 	display: inline-block;
 	font-weight: 400;
@@ -203,19 +205,19 @@ table#virtual-intersTaxonomyComparison thead > tr > th {
 	padding: 0.25rem 0.5rem;
 	font-size: 1rem;
 	border-radius: 0.2rem;
-	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
-		box-shadow 0.15s ease-in-out;
+	transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+		border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 	max-width: 300px;
 }
 
-#virtual-associateButton .btn-primary,
+#virtual--associate-tag-btn.btn-primary,
 #virtual-addFragmentInter.btn-primary {
 	color: #fff;
 	background-color: #0d6efd;
 	border-color: #0d6efd;
 }
 
-#virtual-associateButton .btn-primary:hover,
+#virtual--associate-tag-btn.btn-primary:hover,
 #virtual-addFragmentInter.btn-primary:hover {
 	color: #fff;
 	background-color: #0b5ed7;

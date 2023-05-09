@@ -1,5 +1,5 @@
 /** @format */
-
+import './associate-tag-btn.js';
 import { dom } from '@shared/utils.js';
 import Taxonomy from './taxonomy';
 
@@ -20,21 +20,11 @@ export default ({ root, inter, taxonomy }) => {
 					</div>
 					{taxonomy.canManipulateAnnotation && (
 						<div
-							id="virtual-associateButton"
+							id="virtual--associate-tag"
 							style={{ display: 'flex', justifyContent: 'end' }}>
 							<button
-								id="virtual-categoryAssociationBtn"
-								title={`Associate new category to '${inter.title}' interpretation`}
-								type="button"
-								class="btn btn-sm btn-primary"
-								onClick={root.associateTag}>
-								<span
-									class="icon icon-plus"
-									style={{
-										margin: '0',
-										pointerEvents: 'none',
-									}}></span>
-							</button>
+								is="virtual-associate-tag"
+								title={`Associate new category to '${inter.title}' interpretation`}></button>
 						</div>
 					)}
 				</div>

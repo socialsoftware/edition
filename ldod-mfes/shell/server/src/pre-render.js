@@ -31,8 +31,12 @@ async function preRenderMFE(entryPoint, dom) {
 
 async function preRenderMfes(dom) {
 	let newDom = dom;
+	let entry;
 	const mfes = loadMfes().sort(a => a === 'home' && -1);
-	for (const mfe of mfes) newDom = await preRenderMFE(getEntryPoint(mfe), newDom);
+	for (const mfe of mfes) {
+		entry = getEntryPoint(mfe);
+		if (entry) newDom = await preRenderMFE(entry, newDom);
+	}
 	return newDom;
 }
 

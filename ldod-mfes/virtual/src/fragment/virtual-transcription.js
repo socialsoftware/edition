@@ -37,7 +37,7 @@ export class VirtualTranscription extends HTMLElement {
 	}
 
 	get associateTagModal() {
-		return document.body.querySelector('ldod-modal#virtual-associateTagModal');
+		return document.body.querySelector('ldod-bs-modal#virtual--associate-tag-modal');
 	}
 
 	get associateTagModalSelect() {
@@ -108,6 +108,7 @@ export class VirtualTranscription extends HTMLElement {
 	}
 
 	addEventListeners() {
+		this.addEventListener('virtual:associate-tag', this.handleAssociateTag);
 		this.addEventListener('ldod-annotation', async () => {
 			await this.fetchData();
 			this.render();
@@ -139,11 +140,13 @@ export class VirtualTranscription extends HTMLElement {
 	};
 
 	associateTag = async () => {
-		document.body.appendChild(await getAssociateModal(this));
-		document.body.addEventListener('click', this.computeSelectHeight);
+		document.body.appendChild(await getAssociateModal(this, this.singleInter));
+		//document.body.addEventListener('click', this.computeSelectHeight);
 		document.body.addEventListener('ldod-modal-close', this.removeModal);
 		this.associateTagModal.toggleAttribute('show', true);
 	};
+
+	handleAssociateTag = () => this.associateTag();
 
 	computeSelectHeight = () => {
 		computeSelectPureHeight(this.associateTagModalSelect, 80);
@@ -172,8 +175,8 @@ export class VirtualTranscription extends HTMLElement {
 	};
 
 	removeModal = (e = {}) => {
-		if (e.detail && e.detail.id !== 'virtual-associateTagModal') return;
-		document.body.removeEventListener('click', this.computeSelectHeight);
+		if (e.detail && e.detail.id !== 'virtual--associate-tag-modal') return;
+		//document.body.removeEventListener('click', this.computeSelectHeight);
 		document.body.removeEventListener('ldod-modal-close', this.removeModal);
 		this.associateTagModal?.remove();
 	};
@@ -181,8 +184,11 @@ export class VirtualTranscription extends HTMLElement {
 !customElements.get('virtual-transcription') &&
 	customElements.define('virtual-transcription', VirtualTranscription);
 
-async function getAssociateModal(root) {
-	return (await import('./components/associate-tag-modal/associate-tag-modal')).default({ root });
+async function getAssociateModal(root, inter) {
+	return (await import('./components/associate-tag-modal/associate-tag-modal')).default({
+		root,
+		inter,
+	});
 }
 
 async function getInterTranscription(root, inter, taxonomy) {

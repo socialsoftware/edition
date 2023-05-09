@@ -2,7 +2,6 @@
 
 import { headerDataSchemaValidator } from './data-schema-validator-ssr';
 import { createDropdownRawHTML } from './li-dropdown-html';
-import { parse } from 'node-html-parser';
 
 export default (dom, data, lang = 'en') => {
 	const container = dom.querySelector('div#navbar-nav ul');
@@ -20,10 +19,6 @@ export default (dom, data, lang = 'en') => {
 function processHeaders(container) {
 	let drops = container.querySelectorAll("li[is='drop-down']:not([key='admin'])");
 	drops.forEach(drop => drop.remove());
-	/*drops = [
-		...drops.filter(element => element.getAttribute('key') !== headerKey),
-		createLiDropdownHTML(data, lang).firstChild,
-	];*/
 	drops = sortArrayOfHTMLElementsByKey(drops);
 	container.insertAdjacentHTML('afterbegin', reduceElementsToRawHTML(drops));
 }

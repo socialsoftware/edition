@@ -4,14 +4,13 @@ import { isDev } from '../../utils.js';
 import './frag-orchestrator/frag-orchestrator.js';
 
 let virtual;
-const onError = e => console.error(e);
+
 async function loadVirtualFrags() {
-	if (virtual) return;
-	virtual =
-		window.mfes?.includes('virtual') && isDev()
-			? await import('virtual/virtual-dev.js').catch(onError)
-			: await import('virtual').catch(onError);
-	virtual.loadFragment();
+	if (virtual || !window.mfes?.includes('virtual')) return;
+	virtual = isDev()
+		? await import('virtual/virtual-dev.js').catch(console.error)
+		: await import('virtual').catch(console.error);
+	virtual?.loadFragment();
 }
 
 const mount = async (lang, ref) => {
@@ -20,7 +19,7 @@ const mount = async (lang, ref) => {
 	loadVirtualFrags();
 };
 
-const unMount = () => document.querySelector('ldod-fragment')?.remove();
+const unMount = () => customElements.get('frag-orchestrator')?.instance?.remove();
 
 const path = '/fragment/:xmlId/inter/:urlId';
 

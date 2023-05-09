@@ -27,5 +27,4 @@ ldodEventSubscriber('token', handlers.token);
 ldodEventSubscriber('logout', handlers.token);
 ldodEventSubscriber('message', handlers.message);
 ldodEventSubscriber('error', handlers.error);
-
 ldodEventPublisher('language', getLanguage());

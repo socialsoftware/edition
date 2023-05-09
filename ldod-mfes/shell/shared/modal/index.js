@@ -1,7 +1,8 @@
 /** @format */
 
 import './src/ldod-bs-modal/modal-bs';
-import './src/ldod-modal/modal';
+//import './src/ldod-modal/modal';
+import './src/ldod-dialog/ldod-dialog';
 import '../dist/tooltip.js';
 
 document

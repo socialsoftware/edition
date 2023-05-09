@@ -21,7 +21,7 @@ export default class NavTo extends HTMLAnchorElement {
 	}
 
 	get publishedMfes() {
-		return [...(window.mfes ?? []), '/ldod-mfes/'];
+		return [...(window.mfes ?? []), '/'];
 	}
 
 	static get observedAttributes() {

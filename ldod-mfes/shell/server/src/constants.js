@@ -16,7 +16,9 @@ const originalHTML = resolve(shellPath, 'index.html');
 const visualPath = resolve(staticPath, 'visual');
 const gamePath = resolve(staticPath, 'game');
 const tempPath = resolve(rootPath, 'temp');
-const serviceWorkerPath = resolve(staticPath, 'service-worker.js');
+const templatePath = resolve(rootPath, 'templates');
+const staticSWPath = resolve(staticPath, 'service-worker.js');
+const templateSWPath = resolve(templatePath, 'service-worker.js');
 
 export {
 	staticPath,
@@ -31,5 +33,6 @@ export {
 	tempPath,
 	shellPath,
 	indexHTML,
-	serviceWorkerPath,
+	staticSWPath,
+	templateSWPath,
 };

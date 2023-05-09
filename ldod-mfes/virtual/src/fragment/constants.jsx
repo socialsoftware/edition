@@ -34,6 +34,7 @@ export default {
 		tags: 'Etiquetas',
 		add: 'Adicionar',
 		associate: 'Associar',
+		newCategory: 'Introduza nova categoria',
 	},
 	en: {
 		virtual: 'Virtual Editions',
@@ -48,6 +49,7 @@ export default {
 		tags: 'Tags',
 		add: 'Add',
 		associate: 'Associate',
+		newCategory: 'Introduce new category',
 	},
 	es: {
 		virtual: 'Ediciónes Virtuales',
@@ -62,5 +64,6 @@ export default {
 		tags: 'Etiquetas',
 		add: 'Añadir',
 		associate: 'Asociar',
+		newCategory: 'Introduza nova categoira',
 	},
 };
