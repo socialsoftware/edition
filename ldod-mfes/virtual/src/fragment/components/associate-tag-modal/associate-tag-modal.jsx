@@ -1,7 +1,7 @@
 /** @format */
 
 import '@src/select-pure.js';
-import '@shared/modal-bs.js';
+import '@ui/modal-bs.js';
 import style from './style.css?inline';
 
 const selectPure = root => root.associateTagModal.querySelector('select-pure#virtual-associateTag');

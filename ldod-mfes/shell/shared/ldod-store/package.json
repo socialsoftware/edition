@@ -1,0 +1,27 @@
+{
+	"name": "store",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"private": true,
+	"workspaces": {
+		"nohoist": [
+			"rollup",
+			"@rollup/plugin-terser",
+			"@babel/core",
+			"@babel/preset-env",
+			"@types/jest",
+			"babel-jest",
+			"jest",
+			"jest-environment-jsdom"
+		]
+	},
+	"scripts": {
+		"build": "rollup -c",
+		"test": "jest --coverage"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT"
+}

@@ -1,11 +1,13 @@
+/** @format */
+
 import { deleteVE, getVirtualEditions4Manage } from './api-requests';
 import constants from '../constants';
 import VeManageTable from './ve-manage-table';
 import { errorPublisher, messagePublisher } from '../../event-module';
 
-import.meta.env.DEV ? await import('@shared/table-dev.js') : await import('@shared/table.js');
+import.meta.env.DEV ? await import('@ui/table-dev.js') : await import('@ui/table.js');
 
-import('@shared/buttons.js').then(({ exportButton, uploadButton }) => {
+import('@ui/buttons.js').then(({ exportButton, uploadButton }) => {
 	exportButton();
 	uploadButton();
 });
@@ -136,7 +138,9 @@ export class LdodManageVE extends HTMLElement {
 	};
 
 	handleRemoveVE = async ({ target }) => {
-		const isToBeRemoved = confirm(`Are you sure you want to remove the Virtual Edition ${target.dataset.acrn} ?`);
+		const isToBeRemoved = confirm(
+			`Are you sure you want to remove the Virtual Edition ${target.dataset.acrn} ?`
+		);
 		if (!isToBeRemoved) return;
 		deleteVE(target.id)
 			.then(data => {

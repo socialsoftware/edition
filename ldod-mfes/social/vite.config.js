@@ -6,7 +6,7 @@ export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), '');
 	return {
 		build: {
-			target: 'es2022',
+			target: 'esnext',
 			outDir: 'build',
 			lib: {
 				entry: 'src/social.js',
@@ -15,20 +15,24 @@ export default defineConfig(({ mode }) => {
 			},
 			sourcemap: true,
 			rollupOptions: {
-				output: { plugins: [terser({ ecma: '2016' })] },
-				external: [/^@shared/, 'text'],
+				output: { plugins: [terser()] },
+				external: [/^@core/, /^@ui/, 'text'],
 			},
 		},
 		esbuild: {
 			jsxFactory: 'createElement',
 			jsxFragment: 'createFragment',
-			jsxInject: "import {createElement, createFragment} from '@shared/vanilla-jsx.js'",
+			jsxInject: "import {createElement, createFragment} from '@core'",
 		},
 		resolve: {
 			alias: [
 				{
-					find: '@shared',
-					replacement: `${env.VITE_NODE_HOST}/shared`,
+					find: '@core',
+					replacement: '/node_modules/shared/dist/core/ldod-core.js',
+				},
+				{
+					find: '@ui/',
+					replacement: '/node_modules/shared/dist/ui/',
 				},
 				{
 					find: '@src/',

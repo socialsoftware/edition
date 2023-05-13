@@ -1,4 +1,6 @@
-import { ldodEventSubscriber } from '@shared/ldod-events.js';
+/** @format */
+
+import { ldodEventSubscriber } from '@core';
 
 const message = {
 	pt: 'LdoD: Esta página não existe...',

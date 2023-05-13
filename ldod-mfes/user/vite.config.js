@@ -24,27 +24,40 @@ export default defineConfig(({ mode }) => {
 						}),
 					],
 				},
-				external: [/^@shared/, /^@vendor/, 'about'],
+				external: [/^@core/, /^@ui/, /^@vendor/, 'about'],
 			},
 		},
 		esbuild: {
 			jsxFactory: 'createElement',
 			jsxFragment: 'createFragment',
-			jsxInject: "import {createElement, createFragment} from '@shared/vanilla-jsx.js'",
+			jsxInject: "import {createElement, createFragment} from '@core'",
 		},
 		resolve: {
 			alias: [
 				{
-					find: '@shared',
-					replacement: resolve('node_modules', 'shared/dist'),
+					find: '@core',
+					replacement: resolve('node_modules/shared/dist/core/ldod-core.js'),
 				},
 				{
-					find: 'shared',
-					replacement: resolve('node_modules', 'shared/dist'),
+					find: '@core',
+					replacement: resolve('node_modules/shared/dist/core/ldod-core.js'),
 				},
+				{
+					find: '@core',
+					replacement: resolve('node_modules/shared/dist/core/ldod-core.js'),
+				},
+				{
+					find: '@core-ui',
+					replacement: resolve('node_modules/shared/dist/core-ui/ldod-core-ui.js'),
+				},
+				{
+					find: '@ui/',
+					replacement: resolve('node_modules/shared/dist/ui'),
+				},
+
 				{
 					find: '@vendor',
-					replacement: resolve('node_modules', 'shared/dist/node_modules'),
+					replacement: resolve('node_modules/shared/dist/node_modules'),
 				},
 
 				{

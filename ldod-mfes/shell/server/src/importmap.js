@@ -1,12 +1,15 @@
 /** @format */
 
 import fs from 'fs';
-import { importmapPath, staticPath } from './constants.js';
+import { importmapPath } from './constants.js';
 
 export function createOrUpdateImportmap() {
 	const importmap = loadImportmap();
-	if (!('@shared/' in importmap))
-		addToImportmap({ name: '@shared/', entry: '/ldod-mfes/shared/' });
+	if (!('@core' in importmap))
+		addToImportmap({ name: '@core', entry: '/ldod-mfes/shared/core/ldod-core.js' });
+	if (!('@core-ui' in importmap))
+		addToImportmap({ name: '@core-ui', entry: '/ldod-mfes/shared/core-ui/ldod-core-ui.js' });
+	if (!('@ui' in importmap)) addToImportmap({ name: '@ui/', entry: '/ldod-mfes/shared/ui/' });
 	if (!('@vendor/' in importmap))
 		addToImportmap({ name: '@vendor/', entry: '/ldod-mfes/vendor/' });
 }

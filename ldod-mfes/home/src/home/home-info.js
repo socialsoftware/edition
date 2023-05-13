@@ -1,6 +1,7 @@
 /** @format */
 
 import constants from './constants/constants';
+import { loadImages } from './helpers';
 
 export class HomeInfo extends HTMLElement {
 	constructor() {
@@ -36,20 +37,13 @@ export class HomeInfo extends HTMLElement {
 	}
 
 	addEventListeners() {
-		this.shadowRoot.querySelectorAll('img').forEach(img => {
-			img.src = getURL(img.id);
-		});
+		window.addEventListener('pointermove', () => loadImages(this.shadowRoot), { once: true });
 	}
 
 	async render() {
 		this.shadowRoot.innerHTML = (await import('./home-info-html')).default(this.language);
 		this.addEventListeners();
 	}
-}
-
-function getURL(path) {
-	const url = `${import.meta.env.VITE_BASE}resources/webp/${path}.webp`;
-	return new URL(url, import.meta.url).href;
 }
 
 customElements.define('home-info', HomeInfo);

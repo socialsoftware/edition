@@ -1,10 +1,12 @@
+/** @format */
+
 import { defineConfig, loadEnv } from 'vite';
 
 export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), '');
 	return {
 		build: {
-			target: 'es2022',
+			target: 'esnext',
 			outDir: 'build',
 			sourcemap: true,
 			lib: {
@@ -20,7 +22,7 @@ export default defineConfig(({ mode }) => {
 		esbuild: {
 			jsxFactory: 'createElement',
 			jsxFragment: 'createFragment',
-			jsxInject: "import {createElement, createFragment} from '@shared/vanilla-jsx.js'",
+			jsxInject: "import {createElement, createFragment} from 'core'",
 		},
 		resolve: {
 			alias: [
@@ -29,8 +31,8 @@ export default defineConfig(({ mode }) => {
 					replacement: '/node_modules',
 				},
 				{
-					find: '@shared/',
-					replacement: `${env.VITE_NODE_HOST}/shared/`,
+					find: '@core',
+					replacement: '/node_modules/shared/dist/core/ldod-core.js',
 				},
 				{
 					find: '@src/',

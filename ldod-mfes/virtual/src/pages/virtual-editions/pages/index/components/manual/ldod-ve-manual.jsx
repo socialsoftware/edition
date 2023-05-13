@@ -11,12 +11,15 @@ import manualStyle from './manual.css?inline';
 import style from '../style.css?inline';
 
 if (typeof window !== 'undefined') {
-	import('search').then(({ loadSearchSimple }) => loadSearchSimple());
+	import('search')
+		.then(({ loadSearchSimple }) => loadSearchSimple())
+		.catch(console.error);
 }
 
 export class LdodVeManual extends HTMLElement {
 	constructor() {
 		super();
+
 		this.history = [];
 		this.constants = Object.entries(thisConstants).reduce((prev, [key, value]) => {
 			prev[key] =

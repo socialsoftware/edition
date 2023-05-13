@@ -1,12 +1,11 @@
 /** @format */
-import { navigateTo } from '@shared/router.js';
-import { getFragment, getFragmentInter } from '../../../api-requests';
+import { navigateTo } from '@core';
+import { getFragment } from '../../../api-requests';
 import { getNewFragInter as getNewFragInter, isVirtualInter } from '../utils';
 import fragNav from '../components/frag-nav/frag-nav-container';
 import '../components/frag-inter/frag-inter';
 import fragOrchestratorHtml from './frag-orchestrator-html';
 import virtualFragNav from '../components/virtual/virtual-frag-nav';
-import virtualTranscription from '../components/virtual/virtual-transcription';
 
 function getExternalId(inter) {
 	return inter.externalId;

@@ -1,4 +1,6 @@
-import { fetcher } from '@shared/fetcher.js';
+/** @format */
+
+import { fetcher } from '@core';
 
 const PATH = `/virtual/virtual-editions`;
 

@@ -1,10 +1,12 @@
+/** @format */
+
 import constants from '../../constants';
-import SearchComponent from './SearchComponent';
+import SearchComponent from './search-component';
 import { simpleSearchRequest } from '../../api-requests';
 import style from '@src/style.css?inline';
-import SimpleSearchTable from './SimpleSearchTable';
+import SimpleSearchTable from './simple-search-table';
 
-import.meta.env.DEV ? await import('@shared/table-dev.js') : await import('@shared/table.js');
+import.meta.env.DEV ? await import('@ui/table-dev.js') : await import('@ui/table.js');
 
 export class LdodSearchSimple extends HTMLElement {
 	constructor(options) {
@@ -70,7 +72,9 @@ export class LdodSearchSimple extends HTMLElement {
 	}
 
 	renderTable() {
-		this.shadowRoot.querySelector('div#search-tableContainer').replaceWith(<SimpleSearchTable node={this} />);
+		this.shadowRoot
+			.querySelector('div#search-tableContainer')
+			.replaceWith(<SimpleSearchTable node={this} />);
 		this.addEventListeners();
 	}
 
@@ -113,4 +117,5 @@ export class LdodSearchSimple extends HTMLElement {
 		this.renderTable();
 	};
 }
-!customElements.get('ldod-search-simple') && customElements.define('ldod-search-simple', LdodSearchSimple);
+!customElements.get('ldod-search-simple') &&
+	customElements.define('ldod-search-simple', LdodSearchSimple);

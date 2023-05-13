@@ -7,9 +7,10 @@ export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), '');
 	return {
 		build: {
-			target: 'es2022',
+			target: 'esnext',
 			outDir: 'build',
 			sourcemap: true,
+			manifest: true,
 			lib: {
 				entry: `src/${env.VITE_MFE_NAME}.js`,
 				formats: ['es'],
@@ -19,7 +20,7 @@ export default defineConfig(({ mode }) => {
 				output: {
 					plugins: [terser()],
 				},
-				external: [/^@shared/, /^@vendor/],
+				external: [/^@ui/, /^@core/, /^@lit-bundle/],
 			},
 		},
 		esbuild: {
@@ -30,12 +31,24 @@ export default defineConfig(({ mode }) => {
 		resolve: {
 			alias: [
 				{
+					find: '@core',
+					replacement: './node_modules/shared/dist/core/ldod-core.js',
+				},
+				{
+					find: '@shared/',
+					replacement: `/node_modules/shared/dist/`,
+				},
+				{
 					find: 'shared/',
-					replacement: `${env.VITE_NODE_HOST}/shared/`,
+					replacement: `/node_modules/shared/dist/`,
 				},
 				{
 					find: '@src/',
 					replacement: '/src/',
+				},
+				{
+					find: '@lit-bundle',
+					replacement: 'https://cdn.jsdelivr.net/gh/lit/dist@2.7.4/all/lit-all.min.js',
 				},
 			],
 		},

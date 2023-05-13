@@ -44,7 +44,7 @@ const tweetsManagement = {
 };
 
 if (typeof window !== 'undefined') {
-	import('@shared/ldod-events.js').then(({ ldodEventBus }) => {
+	import('@core').then(({ ldodEventBus }) => {
 		customElements.whenDefined('nav-bar').then(() => {
 			ldodEventBus.publish('ldod:header', twitterCitationsHeader);
 			ldodEventBus.publish('ldod:header', tweetsManagement);

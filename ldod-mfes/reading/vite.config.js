@@ -16,22 +16,26 @@ export default defineConfig(({ mode }) => {
 				fileName: 'reading',
 			},
 			rollupOptions: {
-				external: [/^@shared/, 'text'],
+				external: [/^@core/, /^@ui/, 'text'],
 				output: {
-					plugins: [terser({ ecma: '2016' })],
+					plugins: [terser()],
 				},
 			},
 		},
 		esbuild: {
 			jsxFactory: 'createElement',
 			jsxFragment: 'createFragment',
-			jsxInject: "import {createElement, createFragment} from '@shared/vanilla-jsx.js'",
+			jsxInject: "import {createElement, createFragment} from '@core'",
 		},
 		resolve: {
 			alias: [
 				{
-					find: '@shared',
+					find: '@core',
 					replacement: `${env.VITE_NODE_HOST}/shared`,
+				},
+				{
+					find: '@ui',
+					replacement: `/node_modules/shared/dist/ui`,
 				},
 				{
 					find: '@src',

@@ -1,13 +1,22 @@
-import '@shared/modal.js';
+/** @format */
+
+import '@ui/modal-bs.js';
 import { editVE } from '@src/restricted-api-requests';
 import constants from '@src/pages/constants';
 import thisConstants from './constants';
 import EditionEditForm from './edition-edit-form';
 import { errorPublisher } from '../../../../../../event-module';
+import style from '../style.css?inline';
+import formStyle from '@ui/bootstrap/forms-css.js';
+import buttonsStyle from '@ui/bootstrap/buttons-css.js';
 
+const sheet = new CSSStyleSheet();
+sheet.replaceSync(style + buttonsStyle + formStyle);
 export class LdodVeEdit extends HTMLElement {
 	constructor() {
 		super();
+		this.attachShadow({ mode: 'open' });
+		this.shadowRoot.adoptedStyleSheets = [sheet];
 		this.constants = Object.entries(thisConstants).reduce((prev, [key, value]) => {
 			prev[key] = { ...constants[key], ...value };
 			return prev;
@@ -23,7 +32,7 @@ export class LdodVeEdit extends HTMLElement {
 	}
 
 	get modal() {
-		return this.querySelector('ldod-modal');
+		return this.shadowRoot.querySelector('ldod-bs-modal');
 	}
 
 	static get observedAttributes() {
@@ -42,22 +51,20 @@ export class LdodVeEdit extends HTMLElement {
 		this.onChangedAttribute[name](oldV, newV);
 	}
 
-	disconnectedCallback() {}
-
 	onCloseModal = () => {
 		this.toggleAttribute('show', false);
 	};
 
 	render() {
-		this.innerHTML = '';
-		this.appendChild(
+		this.shadowRoot.innerHTML = '';
+		this.shadowRoot.appendChild(
 			<>
-				<ldod-modal id="virtual-veEdit" dialog-class="modal-fullscreen" no-footer>
+				<ldod-bs-modal id="virtual-veEdit" dialog-class="modal-xl modal-fullscreen-lg-down">
 					<span slot="header-slot">{this.edition?.title}</span>
 					<div slot="body-slot">
 						<EditionEditForm node={this} />
 					</div>
-				</ldod-modal>
+				</ldod-bs-modal>
 			</>
 		);
 	}

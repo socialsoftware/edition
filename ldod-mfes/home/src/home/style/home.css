@@ -6,14 +6,11 @@ p {
 	margin: 0 0 10px;
 }
 
-a[is='nav-to'],
 a[is='nav-to'] {
 	cursor: pointer;
 	background-color: transparent;
 }
 
-a[is='nav-to']:active,
-a[is='nav-to']:hover,
 a[is='nav-to']:active,
 a[is='nav-to']:hover {
 	outline: 0;
@@ -154,11 +151,6 @@ hr {
 	width: 100%;
 }
 
-img {
-	vertical-align: middle;
-	border: 0;
-}
-
 @media (max-width: 767px) {
 	.ldod-default .about p {
 		font-size: 20px;
@@ -190,15 +182,15 @@ img {
 	}
 }
 
-.ldod-default .div-link img:nth-child(2) {
+.ldod-default .div-link img.hover {
 	display: none;
 }
 
-.ldod-default .div-link:hover img:nth-child(2) {
+.ldod-default .div-link:hover img.hover {
 	display: inline;
 }
 
-.ldod-default .div-link:hover img:nth-child(1) {
+.ldod-default .div-link:hover img.not-hover {
 	display: none;
 }
 

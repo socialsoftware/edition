@@ -1,6 +1,7 @@
 /** @format */
 
 import { getReferences } from '../external-deps.js';
+import { loadImages } from './helpers.js';
 import './home-info.js';
 export default class LdodHome extends HTMLElement {
 	constructor() {
@@ -41,20 +42,13 @@ export default class LdodHome extends HTMLElement {
 	}
 
 	addEventListeners() {
-		this.shadowRoot.querySelectorAll('img').forEach(img => {
-			img.src = getUrl(img.id);
-		});
-
 		this.shadowRoot.querySelectorAll('a[is="nav-to"]').forEach(a => {
 			const params = JSON.parse(a.dataset.mfeKeyParams);
 			a.setAttribute('to', getReferences(a.dataset.mfe)?.[a.dataset.mfeKey]?.(...params));
 		});
+
+		window.addEventListener('pointermove', () => loadImages(this.shadowRoot), { once: true });
 	}
 }
 
 !customElements.get('ldod-home') && customElements.define('ldod-home', LdodHome);
-
-function getUrl(path) {
-	const url = `${import.meta.env.VITE_BASE}resources/svg/${path}.svg`;
-	return new URL(url, import.meta.url).href;
-}

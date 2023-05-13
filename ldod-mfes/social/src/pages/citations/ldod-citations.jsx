@@ -1,8 +1,10 @@
+/** @format */
+
 import Title from './components/title.jsx';
 import constants from './constants.js';
 import CitationsTable from './components/citations-table.jsx';
 import { dataProxy } from '../../api-requests.js';
-import.meta.env.DEV ? await import('@shared/table-dev.js') : await import('@shared/table.js');
+import.meta.env.DEV ? await import('@ui/table-dev.js') : await import('@ui/table.js');
 
 export class LdodCitations extends HTMLElement {
 	constructor() {
@@ -55,7 +57,10 @@ export class LdodCitations extends HTMLElement {
 	};
 
 	updateTitle = ({ detail }) => {
-		this.querySelector('h3#title').firstChild.textContent = this.getConstants('title', detail.size);
+		this.querySelector('h3#title').firstChild.textContent = this.getConstants(
+			'title',
+			detail.size
+		);
 	};
 
 	render() {

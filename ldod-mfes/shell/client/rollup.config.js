@@ -4,13 +4,14 @@
 
 import terser from '@rollup/plugin-terser';
 import css from 'rollup-plugin-import-css';
+import { resolve } from 'path';
 
 export default {
-	external: [/^@shared/],
+	external: [/^@core/],
 	input: [
 		'src/shell.js',
-		'src/components/scroll-btn/scroll-btn-ssr.js',
-		'src/components/loading-spinner/loading-spinner-ssr.js',
+		resolve('../shared/ldod-core-ui/src/scroll-btn/scroll-btn-ssr.js'),
+		resolve('../shared/ldod-core-ui/src/loading-spinner/loading-spinner-ssr.js'),
 	],
 	output: [
 		{

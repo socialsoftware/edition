@@ -30,13 +30,13 @@ export default defineConfig({
 				'src/transitions-css.js',
 			],
 			formats: ['es'],
-			fileName: (_, entry) => `bootstrap/${entry}.js`,
+			fileName: (_, entry) => `ui/bootstrap/${entry}.js`,
 		},
 
 		rollupOptions: {
 			output: {
 				plugins: [terser()],
-				assetFileNames: 'bootstrap/[name].[ext]',
+				assetFileNames: 'ui/bootstrap/[name].[ext]',
 			},
 		},
 	},

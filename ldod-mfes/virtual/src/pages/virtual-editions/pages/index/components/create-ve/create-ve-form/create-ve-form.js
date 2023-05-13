@@ -1,7 +1,7 @@
 /** @format */
 import createVeFormHtml from './create-ve-form-html';
-import formStyle from '@shared/bootstrap/forms-css.js';
-import buttonsStyle from '@shared/bootstrap/buttons-css.js';
+import formStyle from '@ui/bootstrap/forms-css.js';
+import buttonsStyle from '@ui/bootstrap/buttons-css.js';
 import style from './create-ve-form-style.css?inline';
 
 const sheet = new CSSStyleSheet();

@@ -1,0 +1,19 @@
+{
+	"name": "ldod-ui",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"type": "module",
+	"private": true,
+	"workspaces": {
+		"nohoist": [
+			"vite",
+			"@rollup/plugin-terser",
+			"lit"
+		]
+	},
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build"
+	}
+}

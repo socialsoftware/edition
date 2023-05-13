@@ -3,11 +3,11 @@
 import { textFrag, textFragInter } from '../../../external-deps';
 import constants from '../constants';
 
-import.meta.env.DEV ? await import('@shared/table-dev.js') : await import('@shared/table.js');
+import.meta.env.DEV ? await import('@ui/table-dev.js') : await import('@ui/table.js');
 
 const getTableData = root => {
 	return root.inters.map(inter => {
-		const criterias = root.criteriaNumber.reduce((prev, curr, index) => {
+		const criterias = root.criteriaNumber.reduce((prev, _, index) => {
 			let c = ++index;
 			prev[`C${c}`] = inter.options.map(i => ++i).includes(c) ? 'X' : '';
 			return prev;

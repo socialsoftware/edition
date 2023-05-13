@@ -14,7 +14,7 @@ import CreateButton from './components/create-ve/create-button';
 import VETable from './components/ve-table';
 import Title from './components/title';
 import { errorPublisher, selectedVEs } from '../../../../event-module';
-import.meta.env.DEV ? await import('@shared/table-dev.js') : await import('@shared/table.js');
+import.meta.env.DEV ? await import('@ui/table-dev.js') : await import('@ui/table.js');
 
 let gamesModal;
 let taxonomy;
@@ -200,6 +200,7 @@ export class LdodVirtualEditions extends HTMLElement {
 			.then(data => {
 				ldodVeAssisted.parent = this;
 				ldodVeAssisted.updateData(data);
+				ldodVeAssisted.toggleAttribute('show', true);
 			})
 			.catch(onError);
 	};
@@ -240,8 +241,8 @@ export class LdodVirtualEditions extends HTMLElement {
 	customElements.define('ldod-virtual-editions', LdodVirtualEditions);
 
 function onWrapperEnter() {
-	import('@shared/modal-bs.js');
-	import('@shared/tooltip.js');
+	import('@ui/modal-bs.js');
+	import('@ui/tooltip.js');
 	import('./components/create-ve/create-ve-form/create-ve-form.js');
 }
 

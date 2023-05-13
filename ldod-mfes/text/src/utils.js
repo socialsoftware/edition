@@ -28,3 +28,6 @@ export function capitalize(word) {
 	if (!word) return;
 	return word[0].toUpperCase().concat(word.slice(1));
 }
+
+export const sleep = async ms => new Promise(r => setTimeout(r, ms));
+export const htmlRender = (...rawHtml) => document.createRange().createContextualFragment(rawHtml);

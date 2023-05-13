@@ -1,6 +1,6 @@
 /** @format */
 
-import { getPartialStorage, Store } from '@shared/store.js';
+import { getPartialStorage, Store } from '@core';
 const storage = () => getPartialStorage('ldod-store', ['token', 'language']);
 export let storageState;
 const getStorageState = () => {

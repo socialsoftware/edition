@@ -1,5 +1,7 @@
+/** @format */
+
 import { getTableData } from './table-data';
-import.meta.env.DEV ? await import('@shared/table-dev.js') : await import('@shared/table.js');
+import.meta.env.DEV ? await import('@ui/table-dev.js') : await import('@ui/table.js');
 
 export default ({ node, constants }) => {
 	return (

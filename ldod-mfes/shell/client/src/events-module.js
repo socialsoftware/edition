@@ -1,6 +1,6 @@
 /** @format */
 
-import { ldodEventSubscriber, ldodEventPublisher } from '@shared/ldod-events.js';
+import { ldodEventSubscriber, ldodEventPublisher } from '@core';
 import { getLanguage, store } from './shell-store.js';
 let notification;
 

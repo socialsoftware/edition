@@ -1,6 +1,6 @@
 /** @format */
 
-import { ldodEventPublisher, ldodEventBus } from '@shared/ldod-events.js';
+import { ldodEventBus } from './ldod-event-bus';
 
 class LangDrop extends HTMLLIElement {
 	constructor() {
@@ -28,7 +28,7 @@ class LangDrop extends HTMLLIElement {
 		e.stopPropagation();
 		this.language = e.target.id;
 		this.setActive();
-		ldodEventPublisher('language', this.language);
+		ldodEventBus.publish('ldod:language', this.language);
 	};
 
 	setActive() {

@@ -1,13 +1,15 @@
+/** @format */
+
 import constants from '../../constants';
 import style from '../style.css?inline';
-import { dom } from '@shared/utils.js';
-import { navigateTo } from '@shared/router.js';
+import { navigateTo, htmlRender } from '@core';
 import { readingStore } from '../../store';
 import RecommendationModal from '../components/recommendation-modal/recommendation-modal';
 import readingReferences from '../../references';
 import { textFragInter } from '../../external-deps';
 
-const loadPopper = () => (import.meta.env.DEV ? import('@shared/tooltip.dev.js') : import('@shared/tooltip.js'));
+const loadPopper = () =>
+	import.meta.env.DEV ? import('@ui/tooltip.dev.js') : import('@ui/tooltip.js');
 
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(style);
@@ -29,7 +31,7 @@ export class LdodReadingEdition extends HTMLElement {
 	}
 
 	get recommendationModal() {
-		return this.shadowRoot.querySelector('ldod-modal#reading-recommendationModal');
+		return this.shadowRoot.querySelector('#reading-recommendation--modal');
 	}
 
 	static get observedAttributes() {
@@ -59,7 +61,10 @@ export class LdodReadingEdition extends HTMLElement {
 									<h4>
 										<a
 											is="nav-to"
-											to={readingReferences.editionInterPath(edition.xmlId, edition.urlId)}>
+											to={readingReferences.editionInterPath(
+												edition.xmlId,
+												edition.urlId
+											)}>
 											{edition.editor}
 										</a>
 									</h4>
@@ -112,13 +117,20 @@ export class LdodReadingEdition extends HTMLElement {
 								</div>
 
 								{transcript && (
-									<div class="reading-text" style={{ gridColumn: `${index + 2}/${index + 9}` }}>
+									<div
+										class="reading-text"
+										style={{ gridColumn: `${index + 2}/${index + 9}` }}>
 										<h1>
-											<a is="nav-to" content to={textFragInter(edition.xmlId, edition.urlId)}>
+											<a
+												is="nav-to"
+												content
+												to={textFragInter(edition.xmlId, edition.urlId)}>
 												{edition.transcriptTitle}
 											</a>
 										</h1>
-										<div class="reading-transcript">{dom(transcript)}</div>
+										<div class="reading-transcript">
+											{htmlRender(transcript)}
+										</div>
 									</div>
 								)}
 							</>
@@ -152,7 +164,10 @@ export class LdodReadingEdition extends HTMLElement {
 							<div class="reading-inter">
 								<a
 									is="nav-to"
-									to={readingReferences.editionInterPath(this.prevInter.xmlId, this.prevInter.urlId)}>
+									to={readingReferences.editionInterPath(
+										this.prevInter.xmlId,
+										this.prevInter.urlId
+									)}>
 									<h3>{this.prevInter.acronym}</h3>
 									<h2>{`${this.prevInter.number}`}</h2>
 								</a>
@@ -176,7 +191,12 @@ export class LdodReadingEdition extends HTMLElement {
 						{this.recommendedInters.map(recomm => {
 							return (
 								<div key={recomm.externalId} class="reading-inter">
-									<a is="nav-to" to={readingReferences.editionInterPath(recomm.xmlId, recomm.urlId)}>
+									<a
+										is="nav-to"
+										to={readingReferences.editionInterPath(
+											recomm.xmlId,
+											recomm.urlId
+										)}>
 										<h3>{recomm.acronym}</h3>
 										<h2>{`${recomm.number}`}</h2>
 									</a>
@@ -187,7 +207,12 @@ export class LdodReadingEdition extends HTMLElement {
 										size="30px"
 										class="icon"
 										onClick={() =>
-											navigateTo(readingReferences.editionInterPath(recomm.xmlId, recomm.urlId))
+											navigateTo(
+												readingReferences.editionInterPath(
+													recomm.xmlId,
+													recomm.urlId
+												)
+											)
 										}></span>
 								</div>
 							);
@@ -234,11 +259,14 @@ export class LdodReadingEdition extends HTMLElement {
 
 	onRecommendationSubmit = () => {
 		this.recommendationModal.toggleAttribute('show');
-		navigateTo(readingReferences.editionInterPath(this.currentInter.xmlId, this.currentInter.urlId));
+		navigateTo(
+			readingReferences.editionInterPath(this.currentInter.xmlId, this.currentInter.urlId)
+		);
 	};
 
 	addEventListeners = () => {
 		this.wrapper.addEventListener('pointerenter', loadPopper);
 	};
 }
-!customElements.get('ldod-reading-edition') && customElements.define('ldod-reading-edition', LdodReadingEdition);
+!customElements.get('ldod-reading-edition') &&
+	customElements.define('ldod-reading-edition', LdodReadingEdition);

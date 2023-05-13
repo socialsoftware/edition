@@ -1,6 +1,6 @@
 /** @format */
 
-import('@shared/buttons.js').then(({ exportButton }) => exportButton());
+import('@ui/buttons.js').then(({ exportButton }) => exportButton());
 const PATH = '/text/admin';
 
 export default ({ exportAll, exportSelected, exportRandom }) => {

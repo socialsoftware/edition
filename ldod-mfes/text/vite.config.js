@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), '');
 	return {
 		build: {
-			target: 'es2022',
+			target: 'esnext',
 			outDir: 'build',
 			sourcemap: true,
 			lib: {
@@ -19,19 +19,23 @@ export default defineConfig(({ mode }) => {
 				output: {
 					plugins: [terser({ ecma: '2016' })],
 				},
-				external: [/^@shared/, 'reading', 'virtual'],
+				external: [/^@core/, /^@ui/, 'reading', 'virtual'],
 			},
 		},
 		esbuild: {
 			jsxFactory: 'createElement',
 			jsxFragment: 'createFragment',
-			jsxInject: "import {createElement, createFragment} from '@shared/vanilla-jsx.js'",
+			jsxInject: "import {createElement, createFragment} from '@core'",
 		},
 		resolve: {
 			alias: [
 				{
-					find: '@shared',
-					replacement: `${env.VITE_NODE_HOST}/shared`,
+					find: '@core',
+					replacement: '/node_modules/shared/dist/core/ldod-core.js',
+				},
+				{
+					find: '@ui',
+					replacement: '/node_modules/shared/dist/ui',
 				},
 				{
 					find: 'reading',

@@ -1,8 +1,11 @@
-import { fetcher } from '@shared/fetcher.js';
+/** @format */
+
+import { fetcher } from '@core';
 
 const PATH = `/virtual/taxonomy`;
 
-export const getVeTaxonomy = async id => await fetcher.get(`${PATH}/restricted/${id}`, null, window.token);
+export const getVeTaxonomy = async id =>
+	await fetcher.get(`${PATH}/restricted/${id}`, null, window.token);
 
 export const addCategory = async (id, body) =>
 	await fetcher.post(`${PATH}/restricted/${id}/category/create`, body, window.token);

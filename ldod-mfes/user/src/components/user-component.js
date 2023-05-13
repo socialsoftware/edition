@@ -1,6 +1,6 @@
 /** @format */
 
-import { navigateTo } from '@shared/router.js';
+import { navigateTo } from '@core';
 import { getState, setState, userFullName } from '../store';
 import { userReferences } from '../user-references';
 import { loginSubscriber, logoutPublisher, logoutSubscriber } from '../events-modules';

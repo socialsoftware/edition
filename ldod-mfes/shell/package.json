@@ -19,9 +19,8 @@
 	"scripts": {
 		"build:client": "yarn --cwd client && yarn --cwd client build && mkdir -p server/static/shell && cp -r client/dist/* server/static/shell/",
 		"build:shared": "yarn --cwd shared && yarn --cwd shared build && rm -rf server/static/shared/*  && cp -r shared/dist/* server/static/shared/",
-		"copy:shared": "rm -rf server/static/shared/*  && cp -r shared/dist/* server/static/shared/",
-		"build:vendor": "yarn --cwd vendor && cp -r vendor/node_modules server/static/shared",
-		"build": "mkdir -p server/static/shared server/temp && yarn build:client && yarn build:shared && yarn build:vendor",
+		"build:vendor": "yarn --cwd vendor && cp -r vendor/node_modules/* server/static/vendor/",
+		"build": "mkdir -p server/static/shared server/static/vendor  server/temp && yarn build:client && yarn build:shared && yarn build:vendor",
 		"dev": "yarn && yarn build && nodemon -r dotenv/config server/src/server.js dotenv_config_path=.env.dev",
 		"docker": "yarn install && yarn build && forever -c 'node -r dotenv/config' server/src/server.js dotenv_config_path=.env"
 	},

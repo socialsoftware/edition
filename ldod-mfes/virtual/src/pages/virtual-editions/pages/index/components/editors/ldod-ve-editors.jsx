@@ -1,17 +1,22 @@
 /** @format */
 
-import '@shared/modal.js';
+import '@ui/modal-bs.js';
 import constants from './constants';
 import MembersTable from './members-table';
 import style from './editors.css?inline';
-import formsCss from '@shared/bootstrap/forms-css.js';
-import buttonsCss from '@shared/bootstrap/buttons-css.js';
+import formsCss from '@ui/bootstrap/forms-css.js';
+import buttonsCss from '@ui/bootstrap/buttons-css.js';
 import PendentTable from './pendent-table';
 import { addParticipant } from '@src/restricted-api-requests';
 import { errorPublisher } from '../../../../../../event-module';
+
+const sheet = new CSSStyleSheet();
+sheet.replaceSync(style + formsCss + buttonsCss);
 export class LdodVeEditors extends HTMLElement {
 	constructor() {
 		super();
+		this.attachShadow({ mode: 'open' });
+		this.shadowRoot.adoptedStyleSheets = [sheet];
 	}
 
 	get language() {
@@ -23,11 +28,11 @@ export class LdodVeEditors extends HTMLElement {
 	}
 
 	get modal() {
-		return this.querySelector('ldod-bs-modal#virtual-editors-modal');
+		return this.shadowRoot.querySelector('#virtual-editors-modal');
 	}
 
 	get participantUsername() {
-		return this.querySelector("input[name='participantUsername']").value;
+		return this.shadowRoot.querySelector("input[name='participantUsername']").value;
 	}
 
 	static get observedAttributes() {
@@ -47,14 +52,13 @@ export class LdodVeEditors extends HTMLElement {
 	}
 
 	render() {
-		this.innerHTML = '';
-		this.appendChild(<style>{formsCss + buttonsCss + style}</style>);
-		this.appendChild(
+		this.shadowRoot.innerHTML = '';
+		this.shadowRoot.appendChild(
 			<ldod-bs-modal id="virtual-editors-modal" dialog-class="modal-xl">
-				<h4 slot="header-slot">
+				<h5 slot="header-slot">
 					<span>{this.edition?.title} - </span>
 					<span>{this.getConstants('editors')}</span>
-				</h4>
+				</h5>
 				<div slot="body-slot">
 					{this.edition?.member?.admin && (
 						<form onSubmit={this.onAdd}>
@@ -78,14 +82,14 @@ export class LdodVeEditors extends HTMLElement {
 							</div>
 						</form>
 					)}
-					<div class="mb-5">
-						<h4 class="text-center">{this.getConstants('editionMembers')}</h4>
+					<div style={{ marginTop: '16px', marginBottom: '16px' }}>
+						<h6 class="text-center">{this.getConstants('editionMembers')}</h6>
 						<MembersTable node={this} />
 					</div>
-					<div class="mb-5">
+					<div style={{ marginTop: '16px', marginBottom: '16px' }}>
 						{this.edition.pendingMembers.length && (
 							<>
-								<h4 class="text-center">{this.getConstants('pendingRequests')}</h4>
+								<h5 class="text-center">{this.getConstants('pendingRequests')}</h5>
 								<PendentTable node={this} />
 							</>
 						)}

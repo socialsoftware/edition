@@ -1,13 +1,16 @@
+/** @format */
+
 import { virtualReferences } from '@src/references';
 import { textFragmentInter } from '../../../external-deps';
 
-import.meta.env.DEV ? await import('@shared/table-dev.js') : await import('@shared/table.js');
+import.meta.env.DEV ? await import('@ui/table-dev.js') : await import('@ui/table.js');
 
 export default ({ node }) => {
 	return (
 		<div>
 			<h3 class="text-center">
-				<span data-virtual-key="category">{node.getConstants('category')}</span>: <span>{node.name}</span>
+				<span data-virtual-key="category">{node.getConstants('category')}</span>:{' '}
+				<span>{node.name}</span>
 			</h3>
 			<div id="categoryInfo">
 				<p id="taxonomy">
@@ -41,7 +44,9 @@ export default ({ node }) => {
 								</a>
 							),
 							virtualEdition: (
-								<a is="nav-to" to={virtualReferences.virtualEdition(inter.shortName)}>
+								<a
+									is="nav-to"
+									to={virtualReferences.virtualEdition(inter.shortName)}>
 									{inter.editionTitle}
 								</a>
 							),

@@ -1,8 +1,10 @@
+/** @format */
+
 import Title from '@src/common/title.jsx';
 import SourcesTable from './components/sources-table';
 import constants from './constants.js';
 
-const loadTooltip = () => import('@shared/tooltip.js');
+const loadTooltip = () => import('@ui/tooltip.js');
 export class LdodSources extends HTMLElement {
 	constructor() {
 		super();
@@ -91,7 +93,10 @@ export class LdodSources extends HTMLElement {
 
 	updateTitle = ({ detail }) => {
 		if (this.ldodTable.isFullyLoaded)
-			this.querySelector('h3#title').firstChild.textContent = this.getConstants('interSources', detail.size);
+			this.querySelector('h3#title').firstChild.textContent = this.getConstants(
+				'interSources',
+				detail.size
+			);
 	};
 
 	handleChangedLanguage = () => {

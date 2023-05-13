@@ -2,11 +2,11 @@
 
 import changePasswordHtml from './change-password-html';
 import constants from '../constants';
-import formsCss from '@shared/bootstrap/forms-css.js';
-import buttonsCss from '@shared/bootstrap/buttons-css.js';
+import formsCss from '@ui/bootstrap/forms-css.js';
+import buttonsCss from '@ui/bootstrap/buttons-css.js';
 import hostCss from '../host.css?inline';
 
-import '@shared/ldod-icons.js';
+import '@core-ui';
 
 import { errorPublisher } from '../../events-modules';
 import { changePasswordRequest } from '../../api-requests';

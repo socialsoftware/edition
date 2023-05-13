@@ -5,7 +5,7 @@ import terser from '@rollup/plugin-terser';
 
 export default defineConfig({
 	build: {
-		target: 'es2022',
+		target: 'esnext',
 		outDir: 'build',
 		lib: {
 			entry: ['src/home.js'],
@@ -21,7 +21,7 @@ export default defineConfig({
 					}),
 				],
 			},
-			external: [/^@shared/, /^@vendor/, 'user'],
+			external: [/^@ui/, /^@vendor/, 'user'],
 		},
 	},
 
@@ -32,8 +32,8 @@ export default defineConfig({
 				replacement: '/src/',
 			},
 			{
-				find: '@shared',
-				replacement: '/node_modules/shared/dist',
+				find: '@ui',
+				replacement: '/node_modules/shared/dist/ui',
 			},
 			{
 				find: '@vendor/',

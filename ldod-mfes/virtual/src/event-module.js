@@ -1,7 +1,7 @@
 /** @format */
 
 import { virtualReferences } from './virtual';
-import { ldodEventPublisher, ldodEventSubscriber } from '@shared/ldod-events.js';
+import { ldodEventPublisher, ldodEventSubscriber } from '@core';
 export let selectedVEs = ['LdoD-Arquivo'];
 const errorPublisher = error => ldodEventPublisher('error', error);
 const selectedVePublisher = ve => ldodEventPublisher('selected-ve', ve);

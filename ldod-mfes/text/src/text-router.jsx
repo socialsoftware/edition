@@ -1,4 +1,6 @@
-import '@shared/router.js';
+/** @format */
+
+import '@core';
 import style from './style.css?inline';
 import { isDev } from './utils';
 

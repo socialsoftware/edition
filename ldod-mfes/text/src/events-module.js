@@ -1,6 +1,6 @@
 /** @format */
 
-import { ldodEventPublisher } from '@shared/ldod-events.js';
+import { ldodEventPublisher } from '@core';
 import references from './references';
 
 export const loadingPublisher = isLoading => ldodEventPublisher('loading', isLoading);

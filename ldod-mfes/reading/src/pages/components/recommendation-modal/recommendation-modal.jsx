@@ -1,4 +1,6 @@
-import '@shared/modal.js';
+/** @format */
+
+import '@ui/modal-bs.js';
 import { getState, readingStore, resetReadingStore } from '../../../store';
 import modalStyle from './modal-stytle.css?inline';
 
@@ -15,7 +17,7 @@ export default ({ root }) => {
 	return (
 		<>
 			<style>{modalStyle}</style>
-			<ldod-modal dialog-class="modal-xl" id="reading-recommendationModal">
+			<ldod-bs-modal dialog-class="modal-xl" id="reading-recommendation--modal">
 				<div slot="header-slot">
 					<h3 class="modal-title text-center" data-reading-key="recomModalTitle">
 						{root.getConstants('recomModalTitle')}
@@ -30,7 +32,9 @@ export default ({ root }) => {
 							return (
 								<>
 									<div>
-										<span data-reading-key={criteria}>{root.getConstants(criteria)}</span>
+										<span data-reading-key={criteria}>
+											{root.getConstants(criteria)}
+										</span>
 										<input
 											min="0"
 											max="1"
@@ -48,7 +52,11 @@ export default ({ root }) => {
 					</div>
 				</div>
 				<div slot="footer-slot">
-					<button type="button" data-reading-key="reset" class="btn btn-danger" onClick={() => onReset(root)}>
+					<button
+						type="button"
+						data-reading-key="reset"
+						class="btn btn-danger"
+						onClick={() => onReset(root)}>
 						{root.getConstants('reset')}
 					</button>
 					<button
@@ -59,7 +67,7 @@ export default ({ root }) => {
 						{root.getConstants('submit')}
 					</button>
 				</div>
-			</ldod-modal>
+			</ldod-bs-modal>
 			<ldod-tooltip
 				data-ref="span#reading-recommendationTooltip"
 				data-reading-tooltip-key="recommendationTooltipInfo"

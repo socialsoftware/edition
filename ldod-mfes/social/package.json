@@ -23,6 +23,7 @@
 	},
 	"devDependencies": {
 		"@rollup/plugin-terser": "latest",
+		"shared": "file:../shell/shared",
 		"vite": "latest"
 	}
 }

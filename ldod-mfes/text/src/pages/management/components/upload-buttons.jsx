@@ -1,4 +1,6 @@
-import('@shared/buttons.js').then(({ uploadButton }) => uploadButton());
+/** @format */
+
+import('@ui/buttons.js').then(({ uploadButton }) => uploadButton());
 const PATH = '/text/admin';
 
 export default ({ uploadSingle, uploadMultiple, uploadCorpus }) => {

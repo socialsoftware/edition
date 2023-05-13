@@ -75,7 +75,7 @@ ul.navbar-nav li a {
 	color: var(--ldod-primary);
 }
 
-li[is='drop-down'] > a.nav-link {
+li[is='nav-dropdown'] > a.nav-link {
 	padding-left: 0 !important;
 	padding-right: 0 !important;
 }

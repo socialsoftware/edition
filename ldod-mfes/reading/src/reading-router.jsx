@@ -1,4 +1,6 @@
-import '@shared/router.js';
+/** @format */
+
+import '@core';
 import { index } from './pages/index/index';
 import './store';
 import style from './style.css?inline';
@@ -6,7 +8,8 @@ import style from './style.css?inline';
 const READING_SELECTOR = 'div#reading-container';
 
 const routes = {
-	'/fragment/:xmlId/inter/:urlId': async () => await import('./pages/reading-edition/reading-edition'),
+	'/fragment/:xmlId/inter/:urlId': async () =>
+		await import('./pages/reading-edition/reading-edition'),
 };
 
 const isDev = () => import.meta.env.DEV;

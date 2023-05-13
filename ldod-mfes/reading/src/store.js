@@ -1,4 +1,6 @@
-import { Store } from '@shared/store.js';
+/** @format */
+
+import { Store } from '@core';
 
 const defaultState = {
 	heteronymWeight: 0,

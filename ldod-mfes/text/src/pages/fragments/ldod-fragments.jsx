@@ -4,7 +4,7 @@ import FragsTable from './components/frags-table.jsx';
 import Title from '@src/common/title.jsx';
 import constants from './constants.js';
 import { loadingPublisher } from '../../events-module.js';
-import { sleep } from '@shared/utils.js';
+import { sleep } from '../../utils.js';
 
 export class LdodFragments extends HTMLElement {
 	constructor() {

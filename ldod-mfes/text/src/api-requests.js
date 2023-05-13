@@ -1,4 +1,6 @@
-import { fetcher } from '@shared/fetcher.js';
+/** @format */
+
+import { fetcher } from '@core';
 
 const PATH = '/text';
 const ADMIN_PATH = '/text/admin';
@@ -32,14 +34,16 @@ export const removeAllFragments = async () => {
 	dataProxy.reset = true;
 	return await fetcher.post(`${ADMIN_PATH}/fragments-delete-all`, null);
 };
-export const getExpertEditionByAcrn = async acrn => await fetcher.get(`${PATH}/acronym/${acrn}`, null);
+export const getExpertEditionByAcrn = async acrn =>
+	await fetcher.get(`${PATH}/acronym/${acrn}`, null);
 
 export const getFragment = async xmlId => await fetcher.get(`${PATH}/fragment/${xmlId}`, null);
 
 export const getFragmentInter = async (xmlId, urlId, body) =>
 	await fetcher.post(`${PATH}/fragment/${xmlId}/inter/${urlId}`, body);
 
-export const getFragmentInters = async (xmlId, body) => await fetcher.post(`${PATH}/fragment/${xmlId}/inters`, body);
+export const getFragmentInters = async (xmlId, body) =>
+	await fetcher.post(`${PATH}/fragment/${xmlId}/inters`, body);
 
 export const updateFragmentInter = async (xmlId, urlId, body) => {
 	return body.inters.length > 1 || !urlId

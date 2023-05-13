@@ -5,8 +5,8 @@ import thisConstants from './constants';
 import TaxonomyComponent from './taxonomy-component';
 import taxonomyStyle from './taxonomy.css?inline';
 import style from '../style.css?inline';
-import formStyle from '@shared/bootstrap/forms-css.js';
-import buttonsStyle from '@shared/bootstrap/buttons-css.js';
+import formStyle from '@ui/bootstrap/forms-css.js';
+import buttonsStyle from '@ui/bootstrap/buttons-css.js';
 import { DeleteButton, MergeButton } from './merge-delete-buttons';
 import { computeSelectPureHeight } from '@src/utils';
 import {
@@ -26,7 +26,6 @@ export class LdodVeTaxonomy extends HTMLElement {
 		super();
 		this.attachShadow({ mode: 'open' });
 		this.shadowRoot.adoptedStyleSheets = [sheet];
-		this.selectedRows = 0;
 		this.constants = Object.entries(thisConstants).reduce((prev, [key, value]) => {
 			prev[key] = value instanceof Array ? value : { ...constants[key], ...value };
 			return prev;
@@ -139,9 +138,7 @@ export class LdodVeTaxonomy extends HTMLElement {
 	onRowSelection = ({ target }) => {
 		if (['A', 'SPAN'].some(tag => tag === target.nodeName)) return;
 		while (target.nodeName !== 'TR') target = target.parentElement;
-		const isSelected = target.toggleAttribute('selected');
-		isSelected ? ++this.selectedRows : --this.selectedRows;
-		this.renderMergeAndDeleteButtons();
+		target.toggleAttribute('selected');
 	};
 
 	renderMergeAndDeleteButtons = () => {
@@ -187,7 +184,6 @@ export class LdodVeTaxonomy extends HTMLElement {
 
 	resetState = () => {
 		this.taxonomy = null;
-		this.selectedRows = 0;
 		this.shadowRoot.removeChild(this.taxonomyModal);
 	};
 

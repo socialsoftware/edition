@@ -1,3 +1,5 @@
+/** @format */
+
 import FragsTable from './components/fragments-table.jsx';
 import Title from './components/title.jsx';
 import constants from './constants.js';
@@ -7,10 +9,10 @@ import UploadButtons from './components/upload-buttons.jsx';
 import ExportButtons from './components/export-buttons.jsx';
 import { ldodEventPublisher } from '../../events-module.js';
 
-import('@shared/buttons.js').then(({ ldodButton }) => ldodButton());
+import('@ui/buttons.js').then(({ ldodButton }) => ldodButton());
 
 async function loadToolip() {
-	await import('@shared/tooltip.js');
+	await import('@ui/tooltip.js');
 }
 
 export class LdodManageFragments extends HTMLElement {
@@ -124,7 +126,10 @@ export class LdodManageFragments extends HTMLElement {
 	}
 
 	updateTitle = ({ detail }) => {
-		this.querySelector('h3#title').firstChild.textContent = this.getConstants('manageFragments', detail.size);
+		this.querySelector('h3#title').firstChild.textContent = this.getConstants(
+			'manageFragments',
+			detail.size
+		);
 	};
 
 	unselectAll = () => {
@@ -150,13 +155,23 @@ export class LdodManageFragments extends HTMLElement {
 		const uploadedFrags = payload.filter(frag => frag.uploaded);
 		const notUploadedFrags = payload.filter(frag => !frag.uploaded);
 
-		const uploadedFragsResult = uploadedFrags.reduce((accumulated, { xmlId, title, overwritten }) => {
-			return `${accumulated}${nl}[${xmlId}(${title})]${overwritten ? ' (overwritten)' : ''}`;
-		}, `New uploaded fragments: ${uploadedFrags.length}`);
+		const uploadedFragsResult = uploadedFrags.reduce(
+			(accumulated, { xmlId, title, overwritten }) => {
+				return `${accumulated}${nl}[${xmlId}(${title})]${
+					overwritten ? ' (overwritten)' : ''
+				}`;
+			},
+			`New uploaded fragments: ${uploadedFrags.length}`
+		);
 
-		const notUploadedFragsResult = notUploadedFrags.reduce((accumulated, { xmlId, title, overwritten }) => {
-			return `${accumulated}${nl}[${xmlId}(${title})]${overwritten ? ' (overwritten)' : ''}`;
-		}, `\nAlready uploaded fragments: ${notUploadedFrags.length}`);
+		const notUploadedFragsResult = notUploadedFrags.reduce(
+			(accumulated, { xmlId, title, overwritten }) => {
+				return `${accumulated}${nl}[${xmlId}(${title})]${
+					overwritten ? ' (overwritten)' : ''
+				}`;
+			},
+			`\nAlready uploaded fragments: ${notUploadedFrags.length}`
+		);
 		ldodEventPublisher('message', uploadedFragsResult.concat(`${p}`, notUploadedFragsResult));
 	};
 
@@ -197,4 +212,5 @@ export class LdodManageFragments extends HTMLElement {
 		this.render();
 	}
 }
-!customElements.get('ldod-manage-fragments') && customElements.define('ldod-manage-fragments', LdodManageFragments);
+!customElements.get('ldod-manage-fragments') &&
+	customElements.define('ldod-manage-fragments', LdodManageFragments);

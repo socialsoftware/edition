@@ -1,7 +1,7 @@
 /** @format */
 
 import style from './style.css?inline';
-import rootCss from '@shared/bootstrap/reboot-css.js';
+import rootCss from '@ui/bootstrap/reboot-css.js';
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(style + rootCss);
 

@@ -1,15 +1,14 @@
 #! /bin/sh
 
-dirs="event-bus store utils ldod-events router vanilla-jsx fetcher modal tooltip table buttons bootstrap icons notifications navbar-header"
+dirs="ldod-ui bootstrap ldod-core ldod-core-ui"
 
 rm -r dist
 mkdir dist
-yarn
 
 for dir in $dirs
 do
   cd $dir
-  yarn install
+  yarn
   yarn build
   cd ..
 done

@@ -3,9 +3,9 @@
 import { virtualReferences } from '../../references';
 
 try {
-	await import('@shared/table.js');
+	await import('@ui/table.js');
 } catch (error) {
-	await import('@shared/table-dev.js');
+	await import('@ui/table-dev.js');
 }
 
 const getTableData = (inter, root) => {

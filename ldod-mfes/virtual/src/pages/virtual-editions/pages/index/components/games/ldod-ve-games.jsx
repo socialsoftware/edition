@@ -1,13 +1,13 @@
 /** @format */
 
-import '@shared/modal-bs.js';
+import '@ui/modal-bs.js';
 import constants from './constants';
 import GamesTable from './games-table';
 import gameStyle from './games.css?inline';
 import style from '../style.css?inline';
 import CreateGame from './create-game-form';
-import formStyle from '@shared/bootstrap/forms-css.js';
-import buttonsStyle from '@shared/bootstrap/buttons-css.js';
+import formStyle from '@ui/bootstrap/forms-css.js';
+import buttonsStyle from '@ui/bootstrap/buttons-css.js';
 
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(buttonsStyle + formStyle + style + gameStyle);

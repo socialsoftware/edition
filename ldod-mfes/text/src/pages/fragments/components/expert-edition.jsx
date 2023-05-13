@@ -1,4 +1,5 @@
-import { dom } from '@shared/utils.js';
+/** @format */
+
 import { processFragmentAnchor } from '../../../utils';
 
 const getPage = (startPage, endPage) =>
@@ -30,7 +31,9 @@ export const getExpertEdition = (inters, node) => {
 				{inter.title}
 				<br />
 				<strong data-key="heteronym">{node.getConstants('heteronym')}</strong>
-				{inter.heteronym ?? <span data-key="notAssigned">{node.getConstants('notAssigned')}</span>}
+				{inter.heteronym ?? (
+					<span data-key="notAssigned">{node.getConstants('notAssigned')}</span>
+				)}
 				<br />
 				{inter.volume && (
 					<>
@@ -70,7 +73,7 @@ export const getExpertEdition = (inters, node) => {
 				{annexNote && (
 					<>
 						<strong data-key="nota">{node.getConstants('nota')}</strong>
-						{processFragmentAnchor(dom(annexNote))}
+						{processFragmentAnchor(htmlRender(annexNote))}
 						<br />
 					</>
 				)}

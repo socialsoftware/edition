@@ -1,6 +1,6 @@
 /** @format */
 
-import { Store } from '@shared/store.js';
+import { Store } from '@core';
 
 export const store = new Store(
 	{ language: 'en', token: '' },

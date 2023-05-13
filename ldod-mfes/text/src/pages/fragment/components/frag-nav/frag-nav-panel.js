@@ -3,9 +3,9 @@
 import { ldodValidator, inputSchema } from './data-validation/data-schema-validator';
 import navPanelHtml from './nav-panel-html';
 import style from './style.css?inline';
-import '@shared/ldod-icons.js';
-import '@shared/tooltip.js';
-import buttonsCss from '@shared/bootstrap/buttons-css.js';
+import '@core-ui';
+import '@ui/tooltip.js';
+import buttonsCss from '@ui/bootstrap/buttons-css.js';
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(buttonsCss + style);
 

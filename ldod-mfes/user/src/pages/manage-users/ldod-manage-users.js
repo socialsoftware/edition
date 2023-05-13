@@ -1,13 +1,13 @@
 /** @format */
 import { getUsersList, removeUserRequest, updateUserRequest } from '../../api-requests';
 import ManageUsersTable from './manage-users-table';
-import { exportButton, uploadButton } from '@shared/buttons.js';
+import { exportButton, uploadButton } from '@ui/buttons.js';
 import UpdateModal from './update-user-modal.js';
 
 import style from './manage-users-style.css?inline';
-import rootCss from '@shared/bootstrap/root-css.js';
-import formsCss from '@shared/bootstrap/forms-css.js';
-import buttonsCss from '@shared/bootstrap/buttons-css.js';
+import rootCss from '@ui/bootstrap/root-css.js';
+import formsCss from '@ui/bootstrap/forms-css.js';
+import buttonsCss from '@ui/bootstrap/buttons-css.js';
 import switchCss from './switch.css?inline';
 import constants from './constants';
 import { errorPublisher, messagePublisher } from '../../events-modules';
@@ -19,7 +19,7 @@ exportButton();
 uploadButton();
 
 async function loadToolip() {
-	await import('@shared/tooltip.js');
+	await import('@ui/tooltip.js');
 }
 
 export class LdodManageUsers extends HTMLElement {

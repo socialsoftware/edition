@@ -1,10 +1,10 @@
 /** @format */
 
 import './li-lang-drop';
-import '@shared/dropdown/li-dropdown.js';
-import { ldodEventBus } from '@shared/ldod-events.js';
-import transitionsCss from '@shared/bootstrap/transitions-css.js';
-import headerSchema from './header-data-schema.json';
+import '@ui/nav-dropdown.js';
+import transitionsCss from '@ui/bootstrap/transitions-css.js';
+import headerSchema from './data-schema.json';
+import { ldodEventBus } from './ldod-event-bus';
 
 const constants = {
 	en: {
@@ -23,7 +23,7 @@ sheet.replaceSync(transitionsCss);
 
 let Collapse;
 const loadBootstrapJSModules = async () => {
-	Collapse = (await import('@shared/bootstrap/collapse.js')).default;
+	Collapse = (await import('@ui/bootstrap/collapse.js')).default;
 };
 
 class NavBar extends HTMLElement {
@@ -46,7 +46,7 @@ class NavBar extends HTMLElement {
 	}
 
 	get dropdowns() {
-		return this.shadowRoot.querySelectorAll("li[is='drop-down']");
+		return this.shadowRoot.querySelectorAll("li[is='nav-dropdown']");
 	}
 
 	get userComponents() {
@@ -66,7 +66,7 @@ class NavBar extends HTMLElement {
 	}
 
 	get dropdownSize() {
-		return this.shadowRoot.querySelectorAll("li[is='drop-down']").length + 1;
+		return this.shadowRoot.querySelectorAll("li[is='nav-dropdown']").length + 1;
 	}
 
 	// Custom Elements hooks
@@ -180,7 +180,7 @@ class NavBar extends HTMLElement {
 		const template = document.createElement('template');
 		template.innerHTML = /*html*/ `
 		<li
-			is="drop-down"
+			is="nav-dropdown"
 			key="${payload.name}"
 			language="${this.language}"
 			data-headers='${JSON.stringify(payload)}'

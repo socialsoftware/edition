@@ -1,18 +1,23 @@
+/** @format */
+
 import { virtualReferences } from '@src/references';
 import { textFragmentInter } from '../../../external-deps';
 
-import.meta.env.DEV ? await import('@shared/table-dev.js') : await import('@shared/table.js');
+import.meta.env.DEV ? await import('@ui/table-dev.js') : await import('@ui/table.js');
 
 export default ({ node }) => {
 	const data = node.taxonomy;
 	return (
 		<div>
 			<h3 class="text-center">
-				<span data-virtual-key="taxonomy">{node.getConstants('taxonomy')}</span>: <span>{data.veTitle}</span>
+				<span data-virtual-key="taxonomy">{node.getConstants('taxonomy')}</span>:{' '}
+				<span>{data.veTitle}</span>
 			</h3>
 			<div id="categoryInfo">
 				<p id="virtualEdition">
-					<strong data-virtual-key="virtualEdition">{node.getConstants('virtualEdition')}</strong>
+					<strong data-virtual-key="virtualEdition">
+						{node.getConstants('virtualEdition')}
+					</strong>
 					<span>: </span>
 					{
 						<a is="nav-to" to={virtualReferences.virtualEdition(data.veAcronym)}>
@@ -35,7 +40,9 @@ export default ({ node }) => {
 						externalId: inter.externalId,
 						data: () => ({
 							category: (
-								<a is="nav-to" to={virtualReferences.category(inter.veAcronym, inter.name)}>
+								<a
+									is="nav-to"
+									to={virtualReferences.category(inter.veAcronym, inter.name)}>
 									{inter.name}
 								</a>
 							),
@@ -51,7 +58,9 @@ export default ({ node }) => {
 							)),
 							editions: inter.editions.map(edition => (
 								<div>
-									<a is="nav-to" to={virtualReferences.virtualEdition(edition.acronym)}>
+									<a
+										is="nav-to"
+										to={virtualReferences.virtualEdition(edition.acronym)}>
 										{edition.title}
 									</a>
 								</div>

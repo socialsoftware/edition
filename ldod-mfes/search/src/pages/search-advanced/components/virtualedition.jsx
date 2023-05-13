@@ -1,4 +1,6 @@
-import { parseHTML } from '@shared/utils.js';
+/** @format */
+
+import { htmlRender } from '@core';
 export default ({ root, form }) => {
 	return (
 		<div id="wrapper">
@@ -19,10 +21,12 @@ export default ({ root, form }) => {
 						{root.getConstants('all')}
 					</option>
 					{root.data.virtualEditions.map(ve => (
-						<option value={ve.veAcronym}>{parseHTML(ve.title)}</option>
+						<option value={ve.veAcronym}>{htmlRender(ve.title)}</option>
 					))}
 				</select>
-				<label data-search-key="virtualEdition">{root.getConstants('virtualEdition')}</label>
+				<label data-search-key="virtualEdition">
+					{root.getConstants('virtualEdition')}
+				</label>
 			</div>
 		</div>
 	);

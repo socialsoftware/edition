@@ -1,10 +1,13 @@
+/** @format */
+
 import constants from '../../constants';
 import RecommendationModal from '../components/recommendation-modal/recommendation-modal';
 import style from '../style.css?inline';
-import { navigateTo } from '@shared/router.js';
+import { navigateTo } from '@core';
 import readingReferences from '../../references';
 
-const loadPopper = () => (import.meta.env.DEV ? import('@shared/tooltip.dev.js') : import('@shared/tooltip.js'));
+const loadPopper = () =>
+	import.meta.env.DEV ? import('@ui/tooltip.dev.js') : import('@ui/tooltip.js');
 
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(style);
@@ -25,7 +28,7 @@ export class LdodReading extends HTMLElement {
 	}
 
 	get recommendationModal() {
-		return this.shadowRoot.querySelector('ldod-modal#reading-recommendationModal');
+		return this.shadowRoot.querySelector('#reading-recommendation--modal');
 	}
 
 	static get observedAttributes() {
@@ -56,7 +59,10 @@ export class LdodReading extends HTMLElement {
 								<h4>
 									<a
 										is="nav-to"
-										to={readingReferences.editionInterPath(edition.xmlId, edition.urlId)}>
+										to={readingReferences.editionInterPath(
+											edition.xmlId,
+											edition.urlId
+										)}>
 										{edition.editor}
 									</a>
 								</h4>
@@ -67,7 +73,12 @@ export class LdodReading extends HTMLElement {
 									fill="black"
 									size="30px"
 									onClick={() => {
-										navigateTo(readingReferences.editionInterPath(edition.xmlId, edition.urlId));
+										navigateTo(
+											readingReferences.editionInterPath(
+												edition.xmlId,
+												edition.urlId
+											)
+										);
 									}}></span>
 							</div>
 						);

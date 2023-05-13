@@ -2,12 +2,12 @@
 
 import signupHtml from './signup-html';
 import constants from '../constants';
-import formsCss from '@shared/bootstrap/forms-css.js';
-import buttonsCss from '@shared/bootstrap/buttons-css.js';
+import formsCss from '@ui/bootstrap/forms-css.js';
+import buttonsCss from '@ui/bootstrap/buttons-css.js';
 import hostCss from '../host.css?inline';
 import style from './style.css?inline';
 
-import '@shared/ldod-icons.js';
+import '@core-ui';
 import { signupRequest } from '../../api-requests';
 import { errorPublisher } from '../../events-modules';
 import { onSignup, resetForm } from '../common-functions';

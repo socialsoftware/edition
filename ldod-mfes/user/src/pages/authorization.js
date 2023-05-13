@@ -1,4 +1,6 @@
-import { navigateTo } from '@shared/router.js';
+/** @format */
+
+import { navigateTo } from '@core';
 import { tokenAuthRequest } from '../api-requests.js';
 import { errorPublisher, messagePublisher } from '../events-modules.js';
 

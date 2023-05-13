@@ -1,11 +1,22 @@
-import '@shared/tooltip.js';
+/** @format */
 
-const countries = ['Portugal', 'Spain', 'Brazil', 'United Kingdom', 'United States', 'Lebanon', 'Angola', 'Mozambique'];
+import '@ui/tooltip.js';
+
+const countries = [
+	'Portugal',
+	'Spain',
+	'Brazil',
+	'United Kingdom',
+	'United States',
+	'Lebanon',
+	'Angola',
+	'Mozambique',
+];
 
 export default ({ node }) => {
 	return (
 		<>
-			<form id="virtual-editVE" onSubmit={node.onSave}>
+			<form id="virtual-editVE" onSubmit={node.onSave} style={{ minWidth: '500px' }}>
 				<div class="form-floating" style={{ margin: '20px' }}>
 					<input
 						class="form-control"
@@ -55,11 +66,17 @@ export default ({ node }) => {
 					</div>
 
 					<div class="form-floating">
-						<select name="pub" class="form-select" id="headerVeInfo_4" value={node.edition.pub}>
-							<option data-virtualkey="public" value="true">
+						<select name="pub" class="form-select" id="headerVeInfo_4">
+							<option
+								data-virtualkey="public"
+								value="true"
+								selected={node.edition.pub === true}>
 								{node.getConstants('public')}
 							</option>
-							<option data-virtualkey="private" value="false">
+							<option
+								data-virtualkey="private"
+								value="false"
+								selected={node.edition.pub === false}>
 								{node.getConstants('private')}
 							</option>
 						</select>
@@ -116,7 +133,9 @@ export default ({ node }) => {
 
 					<div class="form-floating">
 						<select name="mediaSource" class="form-select" id="headerVeInfo_9">
-							<option value="Twitter" selected={node.edition.mediaSource === 'Twitter'}>
+							<option
+								value="Twitter"
+								selected={node.edition.mediaSource === 'Twitter'}>
 								Twitter
 							</option>
 							<option value="noMediaSource" selected={!node.edition.mediaSource}>
@@ -154,11 +173,19 @@ export default ({ node }) => {
 						<label style={{ marginBottom: '8px' }}>
 							{node.getConstants('location')} (multiple selection) :
 						</label>
-						<select style={{ height: '58px' }} multiple name="countries" class="form-select">
+						<select
+							style={{ height: '58px' }}
+							multiple
+							name="countries"
+							class="form-select">
 							{countries.map(country => (
 								<option
 									value={country}
-									selected={node.edition.countries?.split(',').includes(country) ? true : false}>
+									selected={
+										node.edition.countries?.split(',').includes(country)
+											? true
+											: false
+									}>
 									{country}
 								</option>
 							))}

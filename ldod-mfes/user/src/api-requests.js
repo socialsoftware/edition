@@ -1,8 +1,8 @@
 /** @format */
 
-import { fetcher } from '@shared/fetcher.js';
+import { fetcher } from '@core';
 import { getState } from './store';
-import { navigateTo } from '@shared/router.js';
+import { navigateTo } from '@core';
 import { errorPublisher } from './events-modules';
 import { userReferences } from './user-references.js';
 

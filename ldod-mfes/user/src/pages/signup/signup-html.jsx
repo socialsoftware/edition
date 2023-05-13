@@ -2,7 +2,7 @@
 
 import { hidePassword, revealPassword } from '../common-functions';
 import constants from '../constants';
-import '@shared/modal-bs.js';
+import '@ui/modal-bs.js';
 
 let conductCode;
 

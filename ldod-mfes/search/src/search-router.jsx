@@ -1,15 +1,16 @@
-import '@shared/router.js';
+/** @format */
+
+import '@core';
 
 export const isDev = () => import.meta.env.DEV;
 
 const SEARCH_SELECTOR = 'div#searchContainer';
 
-const style =
-	'*{ -webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}.container {padding-right: 15px;  padding-left: 15px;margin-right: auto; margin-left: auto;  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;  font-size: 14px;  line-height: 1.42857143;  color: #333;  background-color: #fff;}@media (min-width: 768px) {.container {width: 750px;}}@media (min-width: 992px) {.container {width: 970px; }}@media (min-width: 1200px) { .container {width: 1170px;}}';
+const style = /*css*/ `*{ -webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}.container {padding-right: 15px;  padding-left: 15px;margin-right: auto; margin-left: auto;  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;  font-size: 14px;  line-height: 1.42857143;  color: #333;  background-color: #fff;}@media (min-width: 768px) {.container {width: 750px;}}@media (min-width: 992px) {.container {width: 970px; }}@media (min-width: 1200px) { .container {width: 1170px;}}`;
 
 const routes = {
-	'/simple': async () => await import('./pages/search-simple/searchSimple'),
-	'/advanced': async () => await import('./pages/search-advanced/searchAdvanced'),
+	'/simple': async () => await import('./pages/search-simple/search-simple'),
+	'/advanced': async () => await import('./pages/search-advanced/search-advanced'),
 };
 
 export const mount = (lang, ref) => {

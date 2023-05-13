@@ -1,10 +1,13 @@
-import.meta.env.DEV ? await import('@shared/table-dev.js') : await import('@shared/table.js');
+/** @format */
+
+import.meta.env.DEV ? await import('@ui/table-dev.js') : await import('@ui/table.js');
 
 export default ({ node }) => {
 	return (
 		<div>
 			<h3 class="text-center">
-				<span data-virtual-key="game">{node.getConstants('game')}</span>: <span>{node.game.veTitle}</span>
+				<span data-virtual-key="game">{node.getConstants('game')}</span>:{' '}
+				<span>{node.game.veTitle}</span>
 			</h3>
 			<div id="gameData">
 				<h4>

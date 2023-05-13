@@ -2,12 +2,16 @@
 
 import references from './references';
 
-const sleep = miliseconds => new Promise(res => setTimeout(res, miliseconds));
+let newMFe;
+async function loadNewMfe() {
+	if (!newMFe) newMFe = await import('./router.js');
+	return newMFe;
+}
 
 export default {
 	path: `/${import.meta.env.VITE_MFE_NAME}`,
-	mount: async (ref, lang) => await sleep(1000).then(() => console.log('mount')),
-	unMount: () => console.log('unmount'),
-	preRender: async (dom, lang) => (await import('./server-static-generation')).default(dom, lang),
+	mount: async (lang, ref) => (await loadNewMfe()).mount(lang, ref),
+	unMount: async () => (await loadNewMfe()).unMount(),
+	preRender: async (dom, lang) => (await import('./pre-render.js')).default(dom, lang),
 	references,
 };

@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), '');
 	return {
 		build: {
-			target: 'es2022',
+			target: 'esnext',
 			outDir: 'build',
 			sourcemap: true,
 			manifest: true,
@@ -19,21 +19,21 @@ export default defineConfig(({ mode }) => {
 
 			rollupOptions: {
 				output: {
-					plugins: [terser({ ecma: '2016' })],
+					plugins: [terser()],
 				},
-				external: [/^@shared/, 'text', /^@vendor/],
+				external: [/^@ui/, 'text', /^@vendor/, /^@core/],
 			},
 		},
 		esbuild: {
 			jsxFactory: 'createElement',
 			jsxFragment: 'createFragment',
-			jsxInject: "import {createElement, createFragment} from '@shared/vanilla-jsx.js'",
+			jsxInject: "import {createElement, createFragment} from '@core'",
 		},
 		resolve: {
 			alias: [
 				{
-					find: '@shared',
-					replacement: `${env.VITE_NODE_HOST}/shared`,
+					find: '@core',
+					replacement: '/node_modules/shared/dist/core/ldod-core.js',
 				},
 				{
 					find: 'annotations',

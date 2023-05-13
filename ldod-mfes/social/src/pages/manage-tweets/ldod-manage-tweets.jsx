@@ -1,9 +1,11 @@
+/** @format */
+
 import { dataProxy } from '../../api-requests.js';
 import Buttons from './components/buttons.jsx';
 import Title from './components/title.jsx';
 import TweetsTable from './components/tweets-table.jsx';
 import constants from './constants.js';
-import.meta.env.DEV ? await import('@shared/table-dev.js') : await import('@shared/table.js');
+import.meta.env.DEV ? await import('@ui/table-dev.js') : await import('@ui/table.js');
 
 export class LdodManageTweets extends HTMLElement {
 	constructor() {
@@ -59,7 +61,10 @@ export class LdodManageTweets extends HTMLElement {
 	};
 
 	updateTitle = ({ detail }) => {
-		this.querySelector('h3#title').firstChild.textContent = this.getConstants('title', detail.size);
+		this.querySelector('h3#title').firstChild.textContent = this.getConstants(
+			'title',
+			detail.size
+		);
 	};
 
 	handleChangedLanguage() {
@@ -100,4 +105,5 @@ export class LdodManageTweets extends HTMLElement {
 		);
 	}
 }
-!customElements.get('ldod-manage-tweets') && customElements.define('ldod-manage-tweets', LdodManageTweets);
+!customElements.get('ldod-manage-tweets') &&
+	customElements.define('ldod-manage-tweets', LdodManageTweets);

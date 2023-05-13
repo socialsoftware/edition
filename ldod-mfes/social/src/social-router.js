@@ -1,6 +1,6 @@
 /** @format */
 
-import '@shared/router.js';
+import '@core';
 import style from './style.css?inline';
 
 export const isDev = () => import.meta.env.DEV;

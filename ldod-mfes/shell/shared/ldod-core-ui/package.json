@@ -1,0 +1,22 @@
+{
+	"name": "ldod-core-ui",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"type": "module",
+	"private": true,
+	"workspaces": {
+		"nohoist": [
+			"vite",
+			"@rollup/plugin-terser",
+			"vite-svg-loader"
+		]
+	},
+	"devDependencies": {
+		"@mdi/svg": "^7.1.96"
+	},
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build && cp -rf src/icons/icons ../dist/ui/icons"
+	}
+}

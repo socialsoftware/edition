@@ -22,13 +22,13 @@ export default defineConfig(({ mode }) => {
 						}),
 					],
 				},
-				external: [/^@shared/],
+				external: [/^@core/],
 			},
 		},
 		esbuild: {
 			jsxFactory: 'createElement',
 			jsxFragment: 'createFragment',
-			jsxInject: "import {createElement, createFragment} from '@shared/vanilla-jsx.js'",
+			jsxInject: "import {createElement, createFragment} from '@core'",
 		},
 		resolve: {
 			alias: [

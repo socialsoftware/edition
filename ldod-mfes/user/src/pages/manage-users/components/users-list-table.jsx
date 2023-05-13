@@ -1,8 +1,8 @@
 /** @format */
 
 import { changeActiveRequest } from '@src/api-requests.js';
-import '@shared/modal-bs.js';
-import '@shared/table.js';
+import '@ui/modal-bs.js';
+import '@ui/table.js';
 import constants from '../constants.js';
 import UptadeUserForm from './update-user-form.jsx';
 

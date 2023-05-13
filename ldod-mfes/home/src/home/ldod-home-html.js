@@ -1,6 +1,7 @@
 /** @format */
 
 import style from './style/home.css?inline';
+import common from './style/common.css?inline';
 import excerpts from './constants/excerpts.js';
 import constants from './constants/constants.js';
 
@@ -13,7 +14,7 @@ export default lang => {
 	const urlId = excerpt.path.split('/')[2];
 	return /*html*/ `
 		<style>
-			${style}
+			${style + common}
 		</style>
 		<div class="ldod-default">
 			<a is="nav-to"
@@ -71,22 +72,21 @@ function getBox(version, mfe, mfeKey, mfeKeyparams, lang, random, key) {
 			data-mfe-key-params='[${mfeKeyparams ? mfeKeyparams.map(p => '${p}').join(',') : ''}]'
 			content
 		>
-			<div class="div-link">
+			<div class="div-link" >
+				<div class="skeleton"></div>
 				<img
 					loading="lazy"
 					version
 					key
 					class="not-hover"
-					id="${version}-${lang}-${key}-${random}"
-					alt="${mfe}"
+					id="svg/${version}-${lang}-${key}-${random}.svg"
 				/>
 				<img
 					loading="lazy"
 					version
 					key
 					class="hover"
-					id="${version}-${lang}-${key}-${random}-h"
-					alt="${mfe}"
+					id="svg/${version}-${lang}-${key}-${random}-h.svg"
 				/>
 			</div>
 		</a>

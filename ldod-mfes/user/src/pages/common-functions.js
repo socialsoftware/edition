@@ -9,7 +9,7 @@ import {
 	tokenPublisher,
 } from '../events-modules';
 import { getState, setState } from '../store';
-import { navigateTo } from '@shared/router.js';
+import { navigateTo } from '@core';
 import { userReferences } from '../user-references';
 
 export function revealPassword({ target }) {

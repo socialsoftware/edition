@@ -3,9 +3,10 @@
 	"name": "LdoD-MFE",
 	"icons": [
 		{
-			"src": "/ldod-mfes/home/resources/webp/logotiposm.webp",
-			"sizes": "512x512",
-			"type": "image/webp"
+			"src": "/ldod-mfes/shell/icon.webp",
+			"sizes": "325x325",
+			"type": "image/webp",
+			"purpose": "any"
 		}
 	],
 	"start_url": "/ldod-mfes/",

@@ -1,4 +1,6 @@
-import { fetcher } from '@shared/fetcher.js';
+/** @format */
+
+import { fetcher } from '@core';
 const PATH = '/annotations/inter';
 
 export const fetchAnnotations = async id => await fetcher.get(`${PATH}/${id}`, null, window.token);

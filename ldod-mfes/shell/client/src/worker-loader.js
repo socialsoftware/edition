@@ -3,7 +3,7 @@
 const worker = new Worker('/ldod-mfes/shell/worker.js', { type: 'module' });
 
 const FONTS_URL = '/ldod-mfes/shell/style/fonts';
-const ROOT_CSS_URL = '/ldod-mfes/shared/bootstrap/root.css';
+const ROOT_CSS_URL = '/ldod-mfes/shared/ui/bootstrap/root.css';
 const fonts = [
 	{
 		family: 'Work-Sans',
