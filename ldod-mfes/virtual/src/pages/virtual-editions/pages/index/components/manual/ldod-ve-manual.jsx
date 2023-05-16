@@ -9,6 +9,8 @@ import thisConstants from './constants';
 import ManualTable, { addTableRow } from './manual-table';
 import manualStyle from './manual.css?inline';
 import style from '../style.css?inline';
+import formsCss from '@ui/bootstrap/forms-css.js';
+import buttonsCss from '@ui/bootstrap/buttons-css.js';
 
 if (typeof window !== 'undefined') {
 	import('search')
@@ -16,10 +18,14 @@ if (typeof window !== 'undefined') {
 		.catch(console.error);
 }
 
+const sheet = new CSSStyleSheet();
+sheet.replaceSync(style + manualStyle + formsCss + buttonsCss);
+
 export class LdodVeManual extends HTMLElement {
 	constructor() {
 		super();
-
+		this.attachShadow({ mode: 'open' });
+		this.shadowRoot.adoptedStyleSheets = [sheet];
 		this.history = [];
 		this.constants = Object.entries(thisConstants).reduce((prev, [key, value]) => {
 			prev[key] =
@@ -39,15 +45,15 @@ export class LdodVeManual extends HTMLElement {
 	}
 
 	get modal() {
-		return this.querySelector('#virtual-ve-manual');
+		return this.shadowRoot.querySelector('#virtual-ve-manual');
 	}
 
 	get addFragsModal() {
-		return this.querySelector('#virtual-add-fragments-modal');
+		return this.shadowRoot.querySelector('#virtual-add-fragments-modal');
 	}
 
 	get table() {
-		return this.querySelector('ldod-table#virtual-manualTable');
+		return this.shadowRoot.querySelector('ldod-table#virtual-manualTable');
 	}
 
 	get intersId() {
@@ -55,7 +61,7 @@ export class LdodVeManual extends HTMLElement {
 	}
 
 	get tableBody() {
-		return this.querySelector('tbody');
+		return this.shadowRoot.querySelector('tbody');
 	}
 
 	get rows() {
@@ -106,9 +112,7 @@ export class LdodVeManual extends HTMLElement {
 	}
 
 	connectedCallback() {
-		this.wrapper = document.createElement('div');
-		this.wrapper.id = 'virtual-manual-ve-wrapper';
-		this.append(<style>{manualStyle + style}</style>, this.wrapper);
+		this.wrapper = this.shadowRoot.appendChild(<div id="'virtual-manual-ve-wrapper"></div>);
 		this.addModalCloseEventListener();
 	}
 
@@ -121,6 +125,7 @@ export class LdodVeManual extends HTMLElement {
 			this.toggleAttribute('show', false);
 		},
 		'add-fragments-modal': () => {
+			this.addFragsModal.toggleAttribute('show', false);
 			this.modal.toggleAttribute('show', true);
 		},
 	};
@@ -154,10 +159,10 @@ export class LdodVeManual extends HTMLElement {
 				<ldod-bs-modal
 					id="virtual-ve-manual"
 					dialog-class="modal-xl modal-dialog-scrollable">
-					<h4 slot="header-slot">
+					<h5 slot="header-slot">
 						<span>{this.edition?.title} - </span>
 						<span>{this.getConstants('manualSort')}</span>
-					</h4>
+					</h5>
 					<div slot="body-slot">
 						<div id="virtual-manual-table-wrapper"></div>
 					</div>
@@ -183,9 +188,9 @@ export class LdodVeManual extends HTMLElement {
 	};
 
 	renderTable = () => {
-		this.querySelector('#virtual-manual-table-wrapper').replaceWith(
-			<ManualTable node={this} />
-		);
+		this.shadowRoot
+			.querySelector('#virtual-manual-table-wrapper')
+			.replaceWith(<ManualTable node={this} />);
 		this.hydrateRows();
 	};
 
@@ -196,7 +201,7 @@ export class LdodVeManual extends HTMLElement {
 	}
 
 	renderUndoButton() {
-		this.querySelector('#virtual-undoManualSort').replaceWith(this.undoButton());
+		this.shadowRoot.querySelector('#virtual-undoManualSort').replaceWith(this.undoButton());
 	}
 
 	undoButton = () => (
@@ -430,7 +435,7 @@ const getDuplicatedFrags = (node, inters) => {
 						node.visibleFragments.includes(inter.xmlId) ||
 						inters.filter(({ xmlId }) => xmlId === inter.xmlId).length > 1
 				)
-				.map(inter => `<br />${inter.xmlId} - ${inter.title}`)
+				.map(inter => `\n${inter.xmlId} - ${inter.title}`)
 		),
 	];
 };

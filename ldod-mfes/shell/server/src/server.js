@@ -34,7 +34,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 const router = asyncRouter(express.Router());
-app.use('/ldod-mfes/vendor', express.static(path.resolve(sharedPath, 'node_modules')));
 
 app.use('/ldod-mfes', express.static(staticPath));
 

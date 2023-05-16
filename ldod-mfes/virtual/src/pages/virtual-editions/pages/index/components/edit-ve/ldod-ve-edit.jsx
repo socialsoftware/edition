@@ -60,7 +60,9 @@ export class LdodVeEdit extends HTMLElement {
 		this.shadowRoot.appendChild(
 			<>
 				<ldod-bs-modal id="virtual-veEdit" dialog-class="modal-xl modal-fullscreen-lg-down">
-					<span slot="header-slot">{this.edition?.title}</span>
+					<h5 slot="header-slot">
+						<span>{this.edition?.title}</span>
+					</h5>
 					<div slot="body-slot">
 						<EditionEditForm node={this} />
 					</div>

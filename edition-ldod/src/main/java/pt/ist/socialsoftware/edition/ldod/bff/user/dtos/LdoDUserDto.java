@@ -13,7 +13,7 @@ public class LdoDUserDto {
     private String oldUsername;
     private String newUsername;
 
-    private String userName;
+    private String username;
     private String firstName;
     private String lastName;
     private String email;
@@ -21,7 +21,7 @@ public class LdoDUserDto {
     private String lastLogin;
     private boolean active;
 
-    private String listOfRoles;
+    private String roles;
 
     private List<String> selectedVE;
 
@@ -34,14 +34,14 @@ public class LdoDUserDto {
 
     public LdoDUserDto(LdoDUser user) {
         setExternalId(user.getExternalId());
-        setUserName(user.getUsername());
+        setUsername(user.getUsername());
         setEnabled(user.getEnabled());
         setActive(user.getActive());
         setLastLogin(Optional.ofNullable(user.getLastLogin()).isPresent() ? user.getLastLogin().toString() : "");
         setEmail(user.getEmail());
         setFirstName(user.getFirstName());
         setLastName(user.getLastName());
-        setListOfRoles(user.getListOfRolesAsStrings());
+        setRoles(user.getListOfRolesAsStrings());
         setSelectedVE(user.getSelectedVirtualEditionsSet()
                 .stream()
                 .map(Edition_Base::getAcronym)
@@ -137,12 +137,12 @@ public class LdoDUserDto {
         this.enabled = enabled;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public boolean isActive() {
@@ -153,12 +153,12 @@ public class LdoDUserDto {
         this.active = active;
     }
 
-    public String getListOfRoles() {
-        return listOfRoles;
+    public String getRoles() {
+        return roles;
     }
 
-    public void setListOfRoles(String listOfRoles) {
-        this.listOfRoles = listOfRoles;
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 
     public List<String> getSelectedVE() {

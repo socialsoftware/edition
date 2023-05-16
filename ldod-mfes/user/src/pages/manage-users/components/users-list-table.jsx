@@ -49,7 +49,7 @@ const getUsersListActive = (root, user) => {
 };
 
 const getUsersListActions = (root, user) => {
-	const username = user.userName;
+	const username = user.username;
 	const id = user.externalId;
 	return (
 		<div class="text-center">

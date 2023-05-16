@@ -1,29 +1,30 @@
 /** @format */
 import sheet from './style-css.js';
-import './abstract.js';
+import { getState, setState, subscribe } from '../store.js';
+
 export class NewMfe extends HTMLElement {
 	constructor() {
 		super();
 		this.attachShadow({ mode: 'open' });
 		this.shadowRoot.adoptedStyleSheets = sheet;
 		this.title = 'Hey there';
-		this.counter = 5;
 	}
 
-	static observedAttributes = ['test'];
-
 	#__increment = () => {
-		this.counter += 1;
-		this.span.innerHTML = this.counter;
+		setState(state => ({ counter: state.counter + 1 }));
 	};
 
 	connectedCallback() {
+		subscribe(this.updateCounter);
 		this.render();
 	}
+	updateCounter = () => {
+		this.span.innerHTML = getState().counter;
+	};
 
 	render() {
 		this.shadowRoot.innerHTML = /*html*/ `
-			<h2>${this.title} Nr. <span id="counter">${this.counter}
+			<h2>${this.title} Nr. <span id="counter">${getState().counter}
 			</span>!</h2><button id="incrementor">increment</button>`;
 		this.addEventListeners();
 	}
@@ -36,6 +37,7 @@ export class NewMfe extends HTMLElement {
 }
 customElements.define('new-mfe', NewMfe);
 let instance;
+
 const mount = (lang, ref) => {
 	instance = html`<new-mfe></new-mfe>`;
 	document.querySelector(ref).appendChild(instance);

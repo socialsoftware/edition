@@ -1,81 +1,56 @@
+/** @format */
+
 ldod-table#virtual-manualTable .table-container {
-    border: none !important;
+	border: none !important;
 }
 
 table#virtual-manualTable {
-    border-collapse: collapse !important;
+	border-collapse: collapse !important;
 }
 
 table#virtual-manualTable th {
-    border-top: none !important;
+	border-top: none !important;
 }
 
-table#virtual-manualTable th:nth-child(3) {
-    text-align: start;
+table#virtual-manualTable > tbody > tr {
+	cursor: grab;
 }
-
-table#virtual-manualTable>tbody>tr {
-    cursor: grab;
-}
-
+table#virtual-manualTable th:nth-child(1),
+table#virtual-manualTable th:nth-child(2),
+table#virtual-manualTable th:nth-child(4),
+table#virtual-manualTable th:nth-child(5),
 table#virtual-manualTable td:nth-child(1),
 table#virtual-manualTable td:nth-child(2),
 table#virtual-manualTable td:nth-child(4),
 table#virtual-manualTable td:nth-child(5) {
-    text-align: center;
+	text-align: center;
 }
 
-table#virtual-manualTable tbody>tr[changed] {
-    background-color: #b4dcf0;
+table#virtual-manualTable tbody > tr[changed] {
+	background-color: #b4dcf0;
 }
 
-table#virtual-manualTable tbody>tr[dragging] {
-    background-color: antiquewhite;
+table#virtual-manualTable tbody > tr[dragging] {
+	background-color: antiquewhite;
 }
 
-table#virtual-manualTable tbody>tr[hidden] {
-    display: none;
+table#virtual-manualTable tbody > tr[hidden] {
+	display: none;
 }
 
-span.icon {
-    margin-left: 0;
-}
-
-span.up-icon {
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath d='M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z'/%3E%3C/svg%3E") no-repeat center;
-    background-size: 15px;
-}
-
-span.top-icon {
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath d='M246.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L224 109.3 361.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160zm160 352l-160-160c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L224 301.3 361.4 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3z'/%3E%3C/svg%3E") no-repeat center;
-    background-size: 15px;
-}
-
-span.down-icon {
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath d='M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z'/%3E%3C/svg%3E") no-repeat center;
-    background-size: 15px;
-}
-
-span.bottom-icon {
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath d='M246.6 470.6c-12.5 12.5-32.8 12.5-45.3 0l-160-160c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L224 402.7 361.4 265.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3l-160 160zm160-352l-160 160c-12.5 12.5-32.8 12.5-45.3 0l-160-160c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L224 210.7 361.4 73.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3z'/%3E%3C/svg%3E") no-repeat center;
-    background-size: 15px;
-}
-
-span.undo-icon {
-    margin-right: 8px;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%23fff' d='M48.5 224H40c-13.3 0-24-10.7-24-24V72c0-9.7 5.8-18.5 14.8-22.2s19.3-1.7 26.2 5.2L98.6 96.6c87.6-86.5 228.7-86.2 315.8 1c87.5 87.5 87.5 229.3 0 316.8s-229.3 87.5-316.8 0c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0c62.5 62.5 163.8 62.5 226.3 0s62.5-163.8 0-226.3c-62.2-62.2-162.7-62.5-225.3-1L185 183c6.9 6.9 8.9 17.2 5.2 26.2s-12.5 14.8-22.2 14.8H48.5z'/%3E%3C/svg%3E") no-repeat center;
-    background-size: 15px;
+span[is='ldod-span-icon'] {
+	height: 18px;
 }
 
 button[disabled],
 button:disabled {
-    cursor: not-allowed;
-    pointer-events: none;
-    opacity: 0.65;
+	cursor: not-allowed;
+	pointer-events: none;
+	opacity: 0.65;
 }
 
 .button-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+	display: flex;
+	justify-content: center;
+	margin-bottom: 20px;
 }

@@ -1,4 +1,7 @@
 /** @format */
+// Include the typedefs file
+/// <reference path="../../typedef.js" />
+
 import { getUsersList, removeUserRequest, updateUserRequest } from '../../api-requests';
 import ManageUsersTable from './manage-users-table';
 import { exportButton, uploadButton } from '@ui/buttons.js';
@@ -11,6 +14,7 @@ import buttonsCss from '@ui/bootstrap/buttons-css.js';
 import switchCss from './switch.css?inline';
 import constants from './constants';
 import { errorPublisher, messagePublisher } from '../../events-modules';
+import { getUser, setState } from '../../store';
 
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(rootCss + formsCss + buttonsCss + switchCss + style);
@@ -48,7 +52,7 @@ export class LdodManageUsers extends HTMLElement {
 	getData() {
 		return Promise.resolve(
 			getUsersList()
-				.then(data => (this.usersData = data))
+				.then(users => (this.usersData = users))
 				.catch(e => console.error(e))
 		);
 	}
@@ -156,12 +160,17 @@ export class LdodManageUsers extends HTMLElement {
 			.catch(e => console.error(e));
 	};
 
+	/**
+	 *
+	 * @param {SubmitEvent} e
+	 */
 	onUpdate = e => {
 		e.preventDefault();
 		const userData = Object.fromEntries(new FormData(e.target));
 		updateUserRequest(userData)
-			.then(data => {
-				this.usersData.userList = data.userList;
+			.then(({ userList }) => {
+				this.usersData.userList = userList;
+				checkUserLogged(userData, userList);
 				this.usersEditModal.toggleAttribute('show');
 				this.render();
 			})
@@ -171,3 +180,13 @@ export class LdodManageUsers extends HTMLElement {
 
 !customElements.get('ldod-manage-users') &&
 	customElements.define('ldod-manage-users', LdodManageUsers);
+
+/**
+ *
+ * @param {User} userUpdated
+ * @param {Array<User>} usersList
+ */
+function checkUserLogged(userUpdated, usersList) {
+	const user = usersList.find(u => u.username === userUpdated.newUsername);
+	if (getUser().username === userUpdated.newUsername) setState(state => ({ ...state, user }));
+}

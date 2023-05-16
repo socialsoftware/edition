@@ -1,7 +1,7 @@
 /** @format */
 
 import { navigateTo } from '@core';
-import { getState, setState, userFullName } from '../store';
+import { getState, setState, store, userFullName } from '../store';
 import { userReferences } from '../user-references';
 import { loginSubscriber, logoutPublisher, logoutSubscriber } from '../events-modules';
 import authenticatedComponent from './auth-component';
@@ -33,6 +33,7 @@ export class UserComponent extends HTMLLIElement {
 	disconnectedCallback() {
 		this.loginUnsub();
 		this.logoutUnsub();
+		this.userUpdateUnsub();
 	}
 
 	attributeChangedCallback(name, oldValue, newValue) {
@@ -58,14 +59,15 @@ export class UserComponent extends HTMLLIElement {
 		this.addLogoutClickEventListener();
 	}
 
-	updateComponent() {
+	updateComponent = () => {
 		this.innerHTML = '';
 		this.render();
-	}
+	};
 
 	addListeners() {
-		this.loginUnsub = loginSubscriber(this.onUserLogin);
+		this.loginUnsub = loginSubscriber(this.updateComponent);
 		this.logoutUnsub = logoutSubscriber(this.onUserLogout);
+		this.userUpdateUnsub = store.subscribe(this.updateComponent, 'user');
 	}
 
 	addLogoutClickEventListener = () => {

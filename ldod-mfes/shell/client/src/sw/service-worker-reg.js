@@ -13,3 +13,8 @@ async function register() {
 	if (reg?.waiting) console.log('Service worker installed');
 	if (reg?.active) console.log('Service worker active');
 }
+
+navigator.serviceWorker.addEventListener('message', event => {
+	console.log('Main thread received a message:', event.data);
+	location.reload();
+});

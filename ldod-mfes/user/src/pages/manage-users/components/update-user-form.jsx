@@ -27,17 +27,17 @@ export default ({ user, root }) => {
 					<label data-users-key="lastName">{root.getConstant('lastName')}</label>
 				</div>
 				<div class="form-floating">
-					<input type="hidden" value={user.userName} name="oldUsername" />
+					<input type="hidden" value={user.username} name="oldUsername" />
 					<input
 						class="form-control"
 						id="username"
 						type="text"
 						name="newUsername"
 						placeholder="username"
-						value={user.userName}
+						value={user.username}
 					/>
-					<label for="username" data-users-key="userName">
-						{root.getConstant('userName')}
+					<label for="username" data-users-key="username">
+						{root.getConstant('username')}
 					</label>
 				</div>
 				<div class="form-floating">
@@ -75,7 +75,7 @@ export default ({ user, root }) => {
 									name="user"
 									type="checkbox"
 									value="true"
-									checked={user.listOfRoles.includes('ROLE_USER')}
+									checked={user.roles.includes('ROLE_USER')}
 								/>
 								<span class="slider round"></span>
 							</label>
@@ -89,7 +89,7 @@ export default ({ user, root }) => {
 									name="admin"
 									value="true"
 									type="checkbox"
-									checked={user.listOfRoles.includes('ROLE_ADMIN')}
+									checked={user.roles.includes('ROLE_ADMIN')}
 								/>
 								<span class="slider round"></span>
 							</label>

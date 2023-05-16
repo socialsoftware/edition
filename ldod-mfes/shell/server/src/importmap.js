@@ -11,7 +11,7 @@ export function createOrUpdateImportmap() {
 		addToImportmap({ name: '@core-ui', entry: '/ldod-mfes/shared/core-ui/ldod-core-ui.js' });
 	if (!('@ui' in importmap)) addToImportmap({ name: '@ui/', entry: '/ldod-mfes/shared/ui/' });
 	if (!('@vendor/' in importmap))
-		addToImportmap({ name: '@vendor/', entry: '/ldod-mfes/vendor/' });
+		addToImportmap({ name: '@vendor/', entry: '/ldod-mfes/shared/node_modules/' });
 }
 
 export function loadImportmap() {

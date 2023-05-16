@@ -72,7 +72,7 @@ export class LdodVeAssisted extends HTMLElement {
 	render() {
 		this.shadowRoot.appendChild(
 			<ldod-bs-modal id="virtual-veAssisted" dialog-class="modal-fullscreen">
-				<h6 slot="header-slot">{this.edition?.title}</h6>
+				<h5 slot="header-slot">{this.edition?.title}</h5>
 				<div slot="body-slot">
 					<properties-form parent={this}></properties-form>
 					<AssistedTable node={this} />

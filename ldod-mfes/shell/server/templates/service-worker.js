@@ -3,13 +3,26 @@
 let CACHE_VERSION = '6dd2649c-c81b-494b-b58e-001c54411077';
 
 self.addEventListener('install', e => {
-	e.waitUntil(deleteOldCaches());
 	self.skipWaiting();
 });
 
 self.addEventListener('activate', e => {
 	e.waitUntil(enableNavigationPreload());
 	self.skipWaiting();
+});
+
+self.addEventListener('activate', e => {
+	e.waitUntil(
+		deleteOldCaches().then(() => {
+			self.clients.matchAll().then(clients => {
+				clients.forEach(client =>
+					client.postMessage({
+						msg: 'Cache deleted',
+					})
+				);
+			});
+		})
+	);
 });
 
 self.addEventListener('fetch', e => {
@@ -58,10 +71,12 @@ function deleteCache(key) {
 	caches.delete(key);
 }
 
-function deleteOldCaches() {
-	caches
-		.keys()
-		.then(keys => keys.filter(key => key !== `v${CACHE_VERSION}`).forEach(deleteCache));
+async function deleteOldCaches() {
+	return Promise.resolve(
+		caches
+			.keys()
+			.then(keys => keys.filter(key => key !== `v${CACHE_VERSION}`).forEach(deleteCache))
+	);
 }
 
 async function enableNavigationPreload() {

@@ -30,7 +30,10 @@
 		"shared": "file:../shell/shared",
 		"vite": "latest"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"lit-element-state_1.7.0": "npm:lit-element-state@1.7.0",
+		"zustand_4.3.8": "npm:zustand@4.3.8"
+	},
 	"importmaps": {
 		"@lit-bundle": "https://cdn.jsdelivr.net/gh/lit/dist@2.7.4/core/lit-core.min.js"
 	}

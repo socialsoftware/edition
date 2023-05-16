@@ -46,21 +46,33 @@ export const addTableRow = (node, inter, index) => {
 					gap: '8px',
 				}}>
 				<span
-					class="icon top-icon"
+					is="ldod-span-icon"
+					icon="angles-up"
+					size="14px"
+					fill="#333"
 					title="Move to top"
 					onClick={() => onTop(node, id)}></span>
 				<span
-					class="icon bottom-icon"
+					is="ldod-span-icon"
+					icon="angles-down"
+					size="14px"
+					fill="#333"
 					title="Move to bottom"
 					onClick={() => onTop(node, id, true)}></span>
 				<span
-					class="icon up-icon"
+					is="ldod-span-icon"
+					icon="arrow-up"
+					size="14px"
+					fill="#333"
 					title="Move up"
 					onClick={() =>
 						node.changePosition(id, getCurrIndex(node, id), getNewIndex(node, id, true))
 					}></span>
 				<span
-					class="icon down-icon"
+					is="ldod-span-icon"
+					icon="arrow-down"
+					size="14px"
+					fill="#333"
 					title="Move down"
 					onClick={() =>
 						node.changePosition(
@@ -70,7 +82,10 @@ export const addTableRow = (node, inter, index) => {
 						)
 					}></span>
 				<span
-					class="icon icon-trash"
+					is="ldod-span-icon"
+					icon="trash"
+					size="14px"
+					fill="#dc3545"
 					title="Remove fragment"
 					onClick={() => onRemove(node, id)}></span>
 			</div>

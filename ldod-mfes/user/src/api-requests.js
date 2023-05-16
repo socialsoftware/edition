@@ -1,4 +1,6 @@
 /** @format */
+// Include the typedefs file
+/// <reference path="typedef.js" />
 
 import { fetcher } from '@core';
 import { getState } from './store';
@@ -42,6 +44,10 @@ export const tokenAuthRequest = async path => {
 export const changePasswordRequest = async data =>
 	fetcher.post(`/user/change-password`, data, getState().token);
 
+/**
+ *
+ * @returns {Promise<?Array<User>>}
+ */
 export const getUsersList = async () => {
 	if (!getState().token) {
 		errorPublisher('Not authorized to access resource');
@@ -62,7 +68,11 @@ export const changeActiveRequest = async externalId =>
 export const removeUserRequest = async externalId =>
 	await fetcher.post(`/admin/user/delete/${externalId}`);
 
-export const updateUserRequest = async data => await fetcher.post(`/admin/user/edit`, data);
+export const updateUserRequest = async data =>
+	await fetcher
+		.post(`/admin/user/edit`, data)
+		.then(requestInterceptorMiddleware)
+		.catch(console.error);
 
 function isAccessToken(response) {
 	return Object.keys(response).some(key => key === 'accessToken' || key === 'tokenType');
@@ -70,4 +80,15 @@ function isAccessToken(response) {
 
 function isFormState(object) {
 	return object && 'socialId' in object;
+}
+
+function requestInterceptorMiddleware(response) {
+	return new Promise((resolve, reject) => {
+		if (response.ok === 'false') {
+			const message = response.message;
+			errorPublisher(message);
+			return reject(message);
+		}
+		return resolve(response);
+	});
 }

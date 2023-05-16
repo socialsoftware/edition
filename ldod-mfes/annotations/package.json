@@ -11,7 +11,7 @@
 	},
 	"scripts": {
 		"dev": "vite",
-		"build": " yarn build:manifest && vite build",
+		"build": " yarn vite build && yarn build:manifest",
 		"build:manifest": "node ./scripts/manifest-deps.js",
 		"build:dev": "vite --config vite.config.dev.js build",
 		"prepreview": "vite --config vite.config.dev.js build",

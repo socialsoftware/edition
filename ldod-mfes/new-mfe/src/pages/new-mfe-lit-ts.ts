@@ -1,27 +1,18 @@
 /** @format */
 
 import { LitElement, html } from '@lit-bundle';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement } from 'lit/decorators.js';
 import sheet from './style-css';
-
+import { myState } from './my-state';
+import { observeState } from '@vendor/lit-element-state_1.7.0/lit-state.js';
 @customElement('new-mfe-lit-ts')
-export class NewMfeLitTs extends LitElement {
+export class NewMfeLitTs extends observeState(LitElement) {
 	static override styles = sheet;
-
-	@property()
-	title = 'Hey There';
-
-	@property({ type: Number })
-	counter = 0;
-
-	private __increment() {
-		this.counter++;
-	}
 
 	override render() {
 		return html`
-			<h2>${this.title} Nr. ${this.counter}!</h2>
-			<button @click=${this.__increment}>increment</button>
+			<h2>Hey there Nr. ${myState.counter}!</h2>
+			<button @click=${() => myState.counter++}>increment</button>
 		`;
 	}
 }

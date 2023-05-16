@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => {
 				output: {
 					plugins: [terser()],
 				},
-				external: [/^@ui/, /^@core/, /^@lit-bundle/],
+				external: [/^@ui/, /^@core/, /^@lit-bundle/, /^@vendor/],
 			},
 		},
 		esbuild: {
@@ -30,6 +30,10 @@ export default defineConfig(({ mode }) => {
 		},
 		resolve: {
 			alias: [
+				{
+					find: '@vendor/',
+					replacement: '/node_modules/',
+				},
 				{
 					find: '@core',
 					replacement: './node_modules/shared/dist/core/ldod-core.js',

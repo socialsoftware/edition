@@ -1,6 +1,7 @@
 /** @format */
 
-const getAddFragsModal = node => node.querySelector('ldod-bs-modal#virtual-add-fragments-modal');
+const getAddFragsModal = node =>
+	node.shadowRoot.querySelector('ldod-bs-modal#virtual-add-fragments-modal');
 
 const getLdodSearchSimple = node => getAddFragsModal(node)?.querySelector('ldod-search-simple');
 
@@ -21,9 +22,9 @@ const renderLdodSearchSimple = node => (
 export default ({ node }) => {
 	return (
 		<ldod-bs-modal id="virtual-add-fragments-modal" dialog-class="modal-xl">
-			<h4 slot="header-slot" style={{ margin: '0' }}>
+			<h5 slot="header-slot" style={{ margin: '0' }}>
 				{node.getConstants('addFrags')}
-			</h4>
+			</h5>
 			<div slot="body-slot" style={{ margin: 'auto 30px' }}>
 				{renderLdodSearchSimple(node)}
 			</div>
