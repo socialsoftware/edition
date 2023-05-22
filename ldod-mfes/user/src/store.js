@@ -1,10 +1,11 @@
 /** @format */
 
 import { getPartialStorage, Store } from '@core';
-const storage = () => getPartialStorage('ldod-store', ['token', 'language']);
+
 export let storageState;
+
 const getStorageState = () => {
-	storageState = storage();
+	storageState = getPartialStorage('ldod-store', ['token', 'language']);
 	return {
 		token: storageState?.token,
 		language: storageState?.language,
@@ -14,14 +15,20 @@ const getStorageState = () => {
 export const store = new Store({ ...getStorageState(), user: undefined });
 export const getState = () => store.getState();
 export const setState = state => store.setState(state);
-export const userFullName = () => `${getState().user.firstName} ${getState().user.lastName}`;
+export const userFullName = () => `${getState().user?.firstName} ${getState().user?.lastName}`;
 export const getUser = () => getState().user;
+export const getToken = () => getState().token;
 
 export function isAdmin() {
 	const user = getUser();
 	return user && user.roles.includes('ROLE_ADMIN');
 }
 
-window.addEventListener('storage', () => {
+export function isAuth() {
+	return getUser() && getToken();
+}
+
+window.addEventListener('storage', e => {
+	console.log(e);
 	setState({ ...getState(), ...getStorageState() });
 });

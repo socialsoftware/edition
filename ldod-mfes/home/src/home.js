@@ -2,7 +2,12 @@
 
 let home;
 
-if (typeof window !== 'undefined') {
+const isBrowserEnv =
+	typeof window !== 'undefined' &&
+	typeof document !== 'undefined' &&
+	typeof navigator !== 'undefined';
+
+if (isBrowserEnv) {
 	import('./nav-bar/nav-bar.js');
 	import('./home/home-info.js');
 }

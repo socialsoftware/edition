@@ -1,7 +1,7 @@
 /** @format */
 
-import { virtualReferences } from './virtual';
-import { ldodEventPublisher, ldodEventSubscriber } from '@core';
+import { references } from './virtual';
+import { ldodEventPublisher, ldodEventSubscriber, ldodEventBus } from '@core';
 export let selectedVEs = ['LdoD-Arquivo'];
 const errorPublisher = error => ldodEventPublisher('error', error);
 const selectedVePublisher = ve => ldodEventPublisher('selected-ve', ve);
@@ -20,11 +20,12 @@ ldodEventSubscriber('logout', () => {
 	updateEditions();
 });
 
-const veManagement = {
+const virtualEditionAdminMenuLinks = {
 	name: 'admin',
+	hidden: true,
 	data: {
 		name: 'admin',
-		pages: [{ id: 've_management', route: virtualReferences.manageVirtualEditions() }],
+		links: [{ key: 've_management', route: references.manageVirtualEditions() }],
 	},
 	constants: {
 		pt: {
@@ -41,7 +42,7 @@ const veManagement = {
 
 customElements.whenDefined('nav-bar').then(() => {
 	updateEditions();
-	ldodEventPublisher('header', veManagement);
+	ldodEventBus.publish('ldod:header', virtualEditionAdminMenuLinks);
 });
 
 function selectedVeHandler({ payload }) {
@@ -51,19 +52,10 @@ function selectedVeHandler({ payload }) {
 	selectedVEs = [...new Set(selectedVEs)];
 	updateEditions();
 }
+
 function updateEditions() {
-	ldodEventPublisher('header', {
-		replace: true,
-		name: 'editions',
-		data: {
-			name: 'editions',
-			pages: selectedVEs.map(ed => ({ id: ed, route: `/virtual/edition/acronym/${ed}` })),
-		},
-		constants: {
-			pt: {},
-			en: {},
-			es: {},
-		},
+	ldodEventBus.publish('text:editions-menu-links', {
+		links: selectedVEs.map(ed => ({ key: ed, route: `/virtual/edition/acronym/${ed}` })),
 	});
 }
 

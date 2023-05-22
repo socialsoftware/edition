@@ -6,13 +6,13 @@ export const headerData = {
 	name: 'reading',
 	data: {
 		name: 'reading',
-		pages: [
+		links: [
 			{
-				id: 'general_reading_sequences',
+				key: 'general_reading_sequences',
 				route: readingReferences.index(),
 			},
 			{
-				id: 'general_reading_visual_external',
+				key: 'general_reading_visual_external',
 				link: `${import.meta.env.VITE_NODE_HOST}/ldod-visual`,
 			},
 		],

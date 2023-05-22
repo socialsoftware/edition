@@ -24,7 +24,7 @@ export default async language => {
                 <div class="navbar-collapse user-lg">
                     <ul class="navbar-nav ml-auto">
                         <div id="user-lg">
-                            <li is="user-component" language="${language}" key="user"></li>
+                            <li is="user-auth-menu" language="${language}" key="user"></li>
                         </div>
                     </ul>
                 </div>
@@ -35,7 +35,7 @@ export default async language => {
                     <ul class="navbar-nav">
                         <div id="reference" hidden></div>
                         <div id="user-md">
-                            <li is="user-component" language="${language}" key="user"></li>
+                            <li is="user-auth-menu" language="${language}" key="user"></li>
                         </div>
                         <li is="lang-drop" class="nav-item dropdown nav-drop">
                             <a role="button" id="pt" class="nav-link">PT</a>

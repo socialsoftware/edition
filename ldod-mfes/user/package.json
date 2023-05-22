@@ -24,7 +24,6 @@
 	"devDependencies": {
 		"@rollup/plugin-terser": "latest",
 		"cypress": "^10.10.0",
-		"shared": "file:../shell/shared",
 		"vite": "latest"
 	}
 }

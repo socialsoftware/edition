@@ -3,6 +3,7 @@
 import { ldodEventPublisher, ldodEventSubscriber } from '../../ldod-event-bus/src/helpers';
 import { addEndSlash, addStartSlash, isSlash, PATH_PATTERN, removeEndSlash } from './utils';
 
+export let BASE_PATH;
 export default class LdodRouter extends HTMLElement {
 	constructor() {
 		super();
@@ -11,7 +12,7 @@ export default class LdodRouter extends HTMLElement {
 	}
 
 	static get observedAttributes() {
-		return ['language'];
+		return ['language', 'base'];
 	}
 
 	get shadow() {
@@ -31,7 +32,7 @@ export default class LdodRouter extends HTMLElement {
 	}
 
 	get base() {
-		return addStartSlash(removeEndSlash(this.getAttribute('base'))) || '';
+		return addStartSlash(removeEndSlash(BASE_PATH)) || '';
 	}
 
 	get routerPathname() {
@@ -90,8 +91,15 @@ export default class LdodRouter extends HTMLElement {
 	}
 
 	attributeChangedCallback(name, oldV, newV) {
-		if (name === 'language' && oldV && oldV !== newV) this.handleLanguageChange(newV);
+		this.onAttributeChange[name](oldV, newV);
 	}
+
+	onAttributeChange = {
+		language: (oldV, newV) => oldV && oldV !== newV && this.handleLanguageChange(newV),
+		base: (_, basePath) => {
+			if (!BASE_PATH && basePath) BASE_PATH = basePath;
+		},
+	};
 
 	handleLanguageChange(language) {
 		this.self
@@ -156,21 +164,26 @@ export default class LdodRouter extends HTMLElement {
 	}
 
 	updateRoutingParameters = api => {
-		const subPaths = api.path.split('/');
-		const newState = subPaths.reduce(
-			(state, subPath, index) => {
-				if (subPath.startsWith(':')) {
-					const key = subPath.replace(':', '');
-					const value = addStartSlash(
-						this.location.replace(this.routerPathname, '')
-					).split('/')[index];
-					return { ...state, [key]: value };
-				}
-				return state;
-			},
-			{ ...history.state }
-		);
+		const newState = this.updateHistoryState(api.path.split('/'));
 		if (newState) history.replaceState(newState, '');
+	};
+
+	/**
+	 *
+	 * @param {Array<string>} subPaths
+	 * @returns
+	 */
+	updateHistoryState = subPaths => {
+		let updatedHistoryState = { ...history.state };
+		subPaths.forEach((subPath, index) => {
+			if (!subPath.startsWith(':')) return;
+			const key = subPath.replace(':', '');
+			const value = addStartSlash(this.location.replace(this.routerPathname, '')).split('/')[
+				index
+			];
+			updatedHistoryState = { ...updatedHistoryState, [key]: value };
+		});
+		return updatedHistoryState;
 	};
 
 	async appendMFE(route) {

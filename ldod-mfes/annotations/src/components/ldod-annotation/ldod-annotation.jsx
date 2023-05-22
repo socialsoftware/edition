@@ -260,7 +260,7 @@ export class LdodAnnotation extends HTMLElement {
 
 	dispatchAnnotationEvent = () => {
 		this.dispatchEvent(
-			new CustomEvent('ldod-annotation', {
+			new CustomEvent('annotator:annotation-update', {
 				bubbles: true,
 				composed: true,
 			})

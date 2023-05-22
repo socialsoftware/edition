@@ -1,32 +1,29 @@
 /** @format */
 
-const userReferences = (await import('./user-references')).userReferences;
+const logError = console.error;
 
 let user;
+const isBrowserEnv =
+	typeof window !== 'undefined' &&
+	typeof document !== 'undefined' &&
+	typeof navigator !== 'undefined';
 
-if (typeof window !== 'undefined') {
-	await import('./events-modules').catch(e => console.error(e));
-	await import('./store').catch(e => console.error(e));
-	await import('./bootstrap').catch(e => console.error(e));
-	import('./components/admin-header');
-	import('./components/user-component');
+if (isBrowserEnv) {
+	await import('./events-modules').catch(logError);
+	await import('./store').catch(logError);
+	await import('./bootstrap').catch(logError);
+	import('./admin-header').catch(logError);
+	import('./auth-menu-component').catch(logError);
 }
 
 const loadUser = async () => {
-	if (user) return;
-	user = await import('./user-router.js');
+	if (!user) user = await import('./user-router.js');
+	return user;
 };
 
 export default {
 	path: '/user',
-	references: userReferences,
-	mount: async (lang, ref) => {
-		await loadUser();
-		await user.mount(lang, ref);
-	},
-	unMount: async () => {
-		await loadUser();
-		await user.unMount();
-	},
-	preRender: async (dom, lang) => (await import('./headerSSR')).default(dom, lang),
+	mount: async (lang, ref) => (await loadUser()).mount(lang, ref),
+	unMount: async () => (await loadUser()).unMount(),
+	preRender: async (dom, lang) => (await import('./pre-render-navbar-menu')).default(dom, lang),
 };

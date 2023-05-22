@@ -4,6 +4,7 @@ import { deleteVE, getVirtualEditions4Manage } from './api-requests';
 import constants from '../constants';
 import VeManageTable from './ve-manage-table';
 import { errorPublisher, messagePublisher } from '../../event-module';
+import manageVeComponent from './manage-ve-component';
 
 import.meta.env.DEV ? await import('@ui/table-dev.js') : await import('@ui/table.js');
 
@@ -54,44 +55,7 @@ export class LdodManageVE extends HTMLElement {
 
 	render() {
 		this.wrapper.innerHTML = '';
-		this.wrapper.appendChild(
-			<>
-				<h3 class="text-center" data-virtual-key="manageVE">
-					{this.getConstants('manageVE')}
-					<span>{` (${this.virtualEditions.length})`}</span>
-				</h3>
-				<div class="flex-row">
-					<div class="flex-column">
-						<ldod-upload
-							id="corpus"
-							width="600px"
-							data-virtual-button-key="uploadVeCorpus"
-							title={this.getConstants('uploadVeCorpus')}
-							data-url={`/virtual/admin/upload-virtual-corpus`}></ldod-upload>
-						<ldod-upload
-							id="fragments"
-							width="600px"
-							data-virtual-button-key="uploadVeFragments"
-							multiple
-							title={this.getConstants('uploadVeFragments')}
-							data-url={`/virtual/admin/upload-virtual-fragments`}></ldod-upload>
-					</div>
-					<div class="flex-column">
-						<ldod-export
-							width="350px"
-							file-type="zip"
-							data-virtual-button-key="exportVe"
-							title={this.getConstants('exportVe')}
-							file-prefix="VirtualEditionsFragments"
-							data-url={`/virtual/admin/export-virtual-editions`}
-							method="GET"></ldod-export>
-					</div>
-				</div>
-				<div>
-					<VeManageTable node={this} />
-				</div>
-			</>
-		);
+		this.wrapper.appendChild(manageVeComponent(this));
 	}
 
 	attributeChangedCallback(name, oldV, newV) {
@@ -101,17 +65,9 @@ export class LdodManageVE extends HTMLElement {
 	handleChangedAttribute = {
 		language: (oldV, newV) => {
 			if (oldV && oldV !== newV) {
-				this.querySelectorAll('[data-virtual-key]').forEach(node => {
-					return (node.firstChild.textContent = node.dataset.args
-						? this.getConstants(node.dataset.virtualKey, JSON.parse(node.dataset.args))
-						: this.getConstants(node.dataset.virtualKey));
-				});
-				this.querySelectorAll('[data-virtual-tooltip-key]').forEach(ele => {
-					ele.setAttribute('content', this.getConstants(ele.dataset.virtualTooltipKey));
-				});
-				this.querySelectorAll('[data-virtual-button-key]').forEach(btn => {
-					btn.setAttribute('title', this.getConstants(btn.dataset.virtualButtonKey));
-				});
+				this.updateElementContent();
+				this.updateTooltipContent();
+				this.updateButtonContent();
 			}
 		},
 	};
@@ -138,16 +94,33 @@ export class LdodManageVE extends HTMLElement {
 	};
 
 	handleRemoveVE = async ({ target }) => {
-		const isToBeRemoved = confirm(
-			`Are you sure you want to remove the Virtual Edition ${target.dataset.acrn} ?`
-		);
-		if (!isToBeRemoved) return;
-		deleteVE(target.id)
-			.then(data => {
-				this.virtualEditions = data || [];
-				this.render();
-			})
-			.catch(error => console.error(error));
+		confirm(`Are you sure you want to remove the Virtual Edition ${target.dataset.acrn} ?`) &&
+			deleteVE(target.id)
+				.then(data => {
+					this.virtualEditions = data || [];
+					this.render();
+				})
+				.catch(console.error);
+	};
+
+	updateElementContent = () => {
+		this.querySelectorAll('[data-virtual-key]').forEach(node => {
+			return (node.firstChild.textContent = node.dataset.args
+				? this.getConstants(node.dataset.virtualKey, JSON.parse(node.dataset.args))
+				: this.getConstants(node.dataset.virtualKey));
+		});
+	};
+
+	updateButtonContent = () => {
+		this.querySelectorAll('[data-virtual-button-key]').forEach(btn => {
+			btn.setAttribute('title', this.getConstants(btn.dataset.virtualButtonKey));
+		});
+	};
+
+	updateTooltipContent = () => {
+		this.querySelectorAll('[data-virtual-tooltip-key]').forEach(ele => {
+			ele.setAttribute('content', this.getConstants(ele.dataset.virtualTooltipKey));
+		});
 	};
 }
 

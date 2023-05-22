@@ -1,7 +1,7 @@
 /** @format */
 
 import { isDev } from '@src/utils';
-import { virtualReferences } from '@src/references';
+import references from '@src/references';
 import { DeleteButton, MergeButton } from './merge-delete-buttons';
 import TaxonomyTable from './taxonomy-table';
 
@@ -15,7 +15,7 @@ const onPublicContent = (target, node) => {
 						target="_blank"
 						class="drop-item"
 						is="nav-to"
-						to={`${isDev() ? '' : '/ldod-mfes'}${virtualReferences.virtualEdition(
+						to={`${isDev() ? '' : '/ldod-mfes'}${references.virtualEdition(
 							node.taxonomy.veAcronym
 						)}`}>
 						{node.taxonomy.veAcronym}
@@ -40,9 +40,7 @@ const onUsedIn = (target, node) => {
 							target="_blank"
 							class="drop-item"
 							is="nav-to"
-							to={`${isDev() ? '' : '/ldod-mfes'}${virtualReferences.virtualEdition(
-								ed
-							)}`}>
+							to={`${isDev() ? '' : '/ldod-mfes'}${references.virtualEdition(ed)}`}>
 							{ed}
 						</a>
 					</li>

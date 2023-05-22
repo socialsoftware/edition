@@ -16,11 +16,7 @@ export default defineConfig(({ mode }) => {
 			},
 			rollupOptions: {
 				output: {
-					plugins: [
-						terser({
-							ecma: '2016',
-						}),
-					],
+					plugins: [terser()],
 				},
 				external: [/^@core/],
 			},
@@ -33,12 +29,8 @@ export default defineConfig(({ mode }) => {
 		resolve: {
 			alias: [
 				{
-					find: 'shared/',
-					replacement: `${env.VITE_NODE_HOST}/shared/`,
-				},
-				{
-					find: '@src/',
-					replacement: '/src/',
+					find: '@core/',
+					replacement: '/node_modules/',
 				},
 			],
 		},

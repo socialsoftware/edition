@@ -62,10 +62,11 @@ export class NavDropdown extends HTMLLIElement {
 
 	render = async () => {
 		if (!this.data) return;
+		this.hidden = this.data.hidden;
 		if (!this.innerHTML) this.innerHTML = createDropdownRawHTML(this.data, this.language);
 		this.toggler = this.querySelector('a.dropdown-toggle');
 		this.menu = this.querySelector('ul.dropdown-menu');
-		this.externalLinks = this.menu.querySelector('div#external-links');
+		this.containerLinks = this.menu.querySelector('div.container-links');
 		this.addEventListeners();
 	};
 
@@ -81,34 +82,28 @@ export class NavDropdown extends HTMLLIElement {
 		if (!payload) return;
 		const { replace = false, name, data, constants } = payload;
 		if (name !== this.key) return;
-		Object.entries(constants || {}).reduce((prev, [key, val]) => {
-			prev[key] = { ...prev[key], ...val };
-			return prev;
-		}, this.constants);
+		this.setConstants(constants);
+
 		const itemsHTML = /*html*/ `
-			${data.pages.reduce((html, page) => {
+			${data.links.reduce((html, page) => {
 				return html + addLiItem(page, this.language, this.constants);
 			}, '')}
 		`;
-		if (replace) this.replaceExternalLinks(itemsHTML);
-		else this.addMenuLinks(itemsHTML);
-	};
 
-	replaceExternalLinks = html => {
-		this.externalLinks.innerHTML = html;
-	};
-
-	addMenuLinks = html => {
-		const template = document.createElement('template');
-		template.innerHTML = html;
-		[...template.content.cloneNode(true).children].forEach(node => {
-			this.externalLinks.insertAdjacentElement('beforebegin', node);
-		});
+		if (replace) this.containerLinks.innerHTML = '';
+		this.containerLinks.insertAdjacentHTML('beforeend', itemsHTML);
 	};
 
 	loadDropdownModule = async () => {
 		await loadDropdownJSModule();
 		this.dropdown = new DropdownBS(this.querySelector('.dropdown-toggle'));
 	};
+
+	setConstants(constants = {}) {
+		Object.entries(constants).reduce((prev, [key, val]) => {
+			prev[key] = { ...prev[key], ...val };
+			return prev;
+		}, this.constants);
+	}
 }
 customElements.define('nav-dropdown', NavDropdown, { extends: 'li' });

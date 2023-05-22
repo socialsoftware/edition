@@ -2,9 +2,8 @@
 // Include the typedefs file
 /// <reference path="typedef.js" />
 
-import { fetcher } from '@core';
+import { fetcher, navigateTo } from '@core';
 import { getState } from './store';
-import { navigateTo } from '@core';
 import { errorPublisher } from './events-modules';
 import { userReferences } from './user-references.js';
 

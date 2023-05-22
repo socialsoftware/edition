@@ -1,6 +1,6 @@
 /** @format */
 
-import { virtualReferences } from '@src/references';
+import references from '@src/references';
 import { textFragmentInter } from '../../../external-deps';
 
 import.meta.env.DEV ? await import('@ui/table-dev.js') : await import('@ui/table.js');
@@ -20,7 +20,7 @@ export default ({ node }) => {
 						<>
 							<a
 								is="nav-to"
-								to={virtualReferences.user(
+								to={references.user(
 									editor.username
 								)}>{`${editor.firstname} ${editor.lastname}`}</a>
 							{index === node.participants.length - 1 ? '' : ', '}
@@ -35,7 +35,7 @@ export default ({ node }) => {
 				<p id="taxonomy">
 					<strong data-virtual-key="taxonomy">{node.getConstants('taxonomy')}</strong>
 					<span>: </span>
-					<a is="nav-to" to={virtualReferences.taxonomy(node.virtualEdition?.acronym)}>
+					<a is="nav-to" to={references.taxonomy(node.virtualEdition?.acronym)}>
 						{node.virtualEdition?.title}
 					</a>
 				</p>
@@ -64,9 +64,7 @@ export default ({ node }) => {
 							),
 							category: inter.categories.map((cat, i) => (
 								<div key={crypto.randomUUID()}>
-									<a
-										is="nav-to"
-										to={virtualReferences.category(inter.shortName, cat)}>
+									<a is="nav-to" to={references.category(inter.shortName, cat)}>
 										{cat}
 									</a>
 								</div>

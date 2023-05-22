@@ -1,10 +1,10 @@
 /** @format */
 
-import { virtualReferences } from '../../references';
+import references from '../../references';
 
 const getTag = (acrn, urlId, name) => (
 	<div>
-		<a is="nav-to" to={virtualReferences.category(acrn, urlId)}>
+		<a is="nav-to" to={references.category(acrn, urlId)}>
 			{name}
 		</a>
 	</div>
@@ -60,9 +60,7 @@ export default ({ root }) => {
 											'---'
 										),
 										user: (
-											<a
-												is="nav-to"
-												to={virtualReferences.user(row.username)}>
+											<a is="nav-to" to={references.user(row.username)}>
 												{row.username}
 											</a>
 										),

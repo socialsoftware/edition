@@ -1,7 +1,7 @@
 /** @format */
 
 import { removeClassGame } from '@src/restricted-api-requests';
-import { virtualReferences } from '@src/references';
+import references from '@src/references';
 import constants from './constants';
 
 const onRemove = async (id, gameId, node) => {
@@ -29,7 +29,7 @@ const getTableData = node => {
 						<a
 							is="nav-to"
 							target="_blank"
-							to={virtualReferences.game(game.veExternalId, game.externalId)}>
+							to={references.game(game.veExternalId, game.externalId)}>
 							{game.title}
 						</a>
 					</>
@@ -44,7 +44,7 @@ const getTableData = node => {
 						<a
 							key={crypto.randomUUID()}
 							is="nav-to"
-							to={virtualReferences.user(player.username)}>
+							to={references.user(player.username)}>
 							{player.firstname} ${player.lastname}
 						</a>
 					);

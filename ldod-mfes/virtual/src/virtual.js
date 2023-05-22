@@ -1,27 +1,29 @@
 /** @format */
 
-const virtualReferences = (await import('./references')).virtualReferences;
-export { virtualReferences };
+import references from './references';
+export { references };
 
-if (typeof window !== 'undefined') import('./event-module');
+const isBrowserEnv =
+	typeof window !== 'undefined' &&
+	typeof document !== 'undefined' &&
+	typeof navigator !== 'undefined';
+
+if (isBrowserEnv) {
+	import('./event-module');
+}
 
 let virtual;
 
 const loadVirtual = async () => {
-	virtual = await import('./virtual-router.jsx');
+	if (!virtual) virtual = await import('./virtual-router.jsx');
+	return virtual;
 };
 
 export default {
 	path: '/virtual',
-	references: virtualReferences,
-	mount: async (lang, ref) => {
-		if (!virtual) await loadVirtual();
-		await virtual.mount(lang, ref);
-	},
-	unMount: async () => {
-		if (!virtual) await loadVirtual();
-		await virtual.unMount();
-	},
+	references,
+	mount: async (lang, ref) => (await loadVirtual()).mount(lang, ref),
+	unMount: async () => (await loadVirtual()).unMount(),
 	preRender: async (dom, lang) => (await import('./headerSSR.js')).default(dom, lang),
 };
 

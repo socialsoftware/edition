@@ -11,7 +11,7 @@ import {
 import style from './style.css?inline';
 import constants from './constants';
 
-let annotatorService;
+const annotatorService = new (await customElements.whenDefined('annotator-service'))();
 export class VirtualTranscription extends HTMLElement {
 	constructor() {
 		super();
@@ -100,16 +100,17 @@ export class VirtualTranscription extends HTMLElement {
 			this.wrapper.appendChild(
 				await getInterTranscription(this, this.singleInter, this.taxonomy)
 			);
-			await loadAnnotator(
-				this.singleInter.externalId,
-				this.wrapper.querySelector('div#virtual-nodeReference')
-			);
+			if (!annotatorService) return;
+			annotatorService.annotate({
+				id: this.singleInter.externalId,
+				selector: 'div#virtual-nodeReference',
+			});
 		}
 	}
 
 	addEventListeners() {
-		this.addEventListener('virtual:associate-tag', this.handleAssociateTag);
-		this.addEventListener('ldod-annotation', async () => {
+		this.addEventListener('virtual:associate-tag', this.associateTag);
+		this.addEventListener('annotator:annotation-update', async () => {
 			await this.fetchData();
 			this.render();
 		});

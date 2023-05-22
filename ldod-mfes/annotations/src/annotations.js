@@ -1,20 +1,17 @@
-let annotator;
+/** @format */
+
+const isBrowserEnv =
+	typeof window !== 'undefined' &&
+	typeof document !== 'undefined' &&
+	typeof navigator !== 'undefined';
+
+if (isBrowserEnv) window.onpointermove = async () => import('./annotator-service');
 
 export default {
-  path: '',
-  mount: () => {},
-  unMount: () => {},
-  bootstrap: async ({ interId, referenceNode }) => {
-    if (!annotator) annotator = (await import('./annotator')).default;
-    annotator({ interId, referenceNode });
-  },
-};
-
-export const annotatorService = async ({ interId, referenceNode }) => {
-  if (!annotator)
-    await import('./annotator')
-      .then((mod) => (annotator = mod.default))
-      .catch((e) => console.error(e));
-
-  annotator?.({ interId, referenceNode });
+	path: '',
+	mount: () => {},
+	unMount: () => {},
+	annotator: async ({ id, element }) => {
+		new (await customElements.whenDefined('annotator-service'))().annotate({ id, element });
+	},
 };

@@ -67,7 +67,7 @@ export class LdodBsModal extends HTMLElement {
 	}
 
 	disconnectedCallback() {
-		this.hideModal();
+		this.removeEventListeners();
 	}
 
 	addEventListeners() {
@@ -77,7 +77,7 @@ export class LdodBsModal extends HTMLElement {
 	}
 
 	removeEventListeners() {
-		this.closeBtn.addEventListener('click', this.toggle);
+		this.closeBtn.removeEventListener('click', this.toggle);
 		this.removeEventListener('click', this.toggle);
 		document.removeEventListener('keydown', this.onEscape);
 	}

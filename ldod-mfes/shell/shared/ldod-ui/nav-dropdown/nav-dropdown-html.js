@@ -1,7 +1,7 @@
 /** @format */
 
-export function createDropdownRawHTML({ replace, name, data, constants }, lang = 'en') {
-	const pages = data.pages.map(page => addLiItem(page, lang, constants)).join('');
+export function createDropdownRawHTML({ name, data, constants }, lang = 'en') {
+	const links = data.links.map(link => addLiItem(link, lang, constants)).join('');
 	return /*html*/ `
         <a
             class="nav-link dropdown-toggle"
@@ -14,24 +14,25 @@ export function createDropdownRawHTML({ replace, name, data, constants }, lang =
         </a>
         <ul class="dropdown-menu">
             <div class="dropdown-menu-bg"></div>
-            ${replace ? '' : pages}
-            <div id="external-links">${replace ? pages : ''}</div>            
+            <div class="container-links">
+            ${links}
+            </div>
         </ul>
     `;
 }
 
 export function addLiItem(page, lang, constants) {
-	const { id, route, link } = page;
+	const { key, route, link } = page;
 	return /*html*/ `<li>${
-		id === 'divider' ? divider() : dropdownItem(id, route, link, lang, constants)
+		key === 'divider' ? divider() : dropdownItem(key, route, link, lang, constants)
 	}</li>`;
 }
 
-function dropdownItem(id, route, link, lang, constants) {
+function dropdownItem(key, route, link, lang, constants) {
 	const a = /* html*/ `
     <a class="dropdown-item" ${route ? `to="${route}"` : 'to'} ${
 		link ? `href="${link}" target="_blank"` : 'is="nav-to"'
-	} data-dropdown-key="${id}" >${constants[lang][id] || id}</a>
+	} data-dropdown-key="${key}" >${constants[lang][key] || key}</a>
     `;
 	return a;
 }

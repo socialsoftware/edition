@@ -4,9 +4,10 @@ import { userReferences } from './user-references';
 
 export default {
 	name: 'admin',
+	hidden: true,
 	data: {
 		name: 'admin',
-		pages: [{ id: 'users_management', route: userReferences.manageUsers() }],
+		links: [{ key: 'users_management', route: userReferences.manageUsers() }],
 	},
 	constants: {
 		pt: {

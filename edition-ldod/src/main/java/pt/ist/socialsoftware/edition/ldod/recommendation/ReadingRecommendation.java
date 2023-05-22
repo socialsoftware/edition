@@ -98,7 +98,10 @@ public class ReadingRecommendation implements Serializable {
 
         // if all fragments minus 50 were already suggested clear the first 50
         // recommendations
-        if (readFragments.size() == LdoD.getInstance().getFragmentsSet().size() - 50) {
+        // TODO: if number of fragments in system equals 50 and readFragments size equals 0 we have an out of bounds fault
+        if (readFragments.size() > 0 && readFragments.size() == LdoD.getInstance().getFragmentsSet().size() - 50) {
+            System.out.println(readFragments.size());
+            System.out.println(LdoD.getInstance().getFragmentsSet().size() - 50);
             readFragments.subList(0, 50).clear();
             this.read.subList(0, 50).clear();
         }

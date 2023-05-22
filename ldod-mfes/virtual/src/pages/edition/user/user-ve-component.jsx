@@ -1,6 +1,6 @@
 /** @format */
 
-import { virtualReferences } from '@src/references';
+import references from '@src/references';
 import { textFragmentInter } from '../../../external-deps';
 
 import.meta.env.DEV ? await import('@ui/table-dev.js') : await import('@ui/table.js');
@@ -17,7 +17,7 @@ export default ({ node }) => {
 					<span>: </span>
 					{node.veUser.publicVirtualEditions.map(({ acronym, title }, index) => (
 						<>
-							<a is="nav-to" to={virtualReferences.virtualEdition(acronym)}>
+							<a is="nav-to" to={references.virtualEdition(acronym)}>
 								{title}
 							</a>
 							{index === node.veUser.publicVirtualEditions.length - 1 ? '' : ', '}
@@ -35,10 +35,7 @@ export default ({ node }) => {
 								<>
 									<a
 										is="nav-to"
-										to={virtualReferences.game(
-											game.veExternalId,
-											game.externalId
-										)}>
+										to={references.game(game.veExternalId, game.externalId)}>
 										{`${game.veTitle} - ${game.title}`}
 									</a>
 									{index === node.veUser.gameDtos.length - 1 ? '' : ', '}
@@ -84,17 +81,13 @@ export default ({ node }) => {
 								</a>
 							),
 							edition: (
-								<a
-									is="nav-to"
-									to={virtualReferences.virtualEdition(inter.shortName)}>
+								<a is="nav-to" to={references.virtualEdition(inter.shortName)}>
 									{inter.shortName}
 								</a>
 							),
 							category: inter.categories.map((cat, index, arr) => (
 								<>
-									<a
-										is="nav-to"
-										to={virtualReferences.category(inter.shortName, cat)}>
+									<a is="nav-to" to={references.category(inter.shortName, cat)}>
 										{cat}
 									</a>
 									{index === arr.length - 1 ? '' : ', '}

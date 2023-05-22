@@ -90,28 +90,27 @@ export function updateFetchedData(res) {
 	if (!data.contributor && popover) popover.remove();
 }
 
-export default async ({ interId, referenceNode }) => {
-	checkArgs(interId, referenceNode);
-	refNode = referenceNode;
-	referenceNode.appendChild(selectionStyle());
+export async function annotatorService({ id, element }) {
+	checkArgs(id, element);
+	refNode = element;
+	element.appendChild(selectionStyle());
 
 	ldodAnnotationComponent && ldodAnnotationComponent.remove();
-	ldodAnnotationComponent = refNode.parentElement.appendChild(new LdodAnnotation(interId));
+	ldodAnnotationComponent = refNode.parentElement.appendChild(new LdodAnnotation(id));
 
-	await fetchAnnotations(interId)
+	await fetchAnnotations(id)
 		.then(updateFetchedData)
 		.catch(error => console.error(error));
 
 	popover && popover.remove();
 	if (data.contributor)
 		popover = refNode.parentElement.appendChild(
-			new NewAnnPopover(refNode, ldodAnnotationComponent, interId)
+			new NewAnnPopover(refNode, ldodAnnotationComponent, id)
 		);
-};
+}
 
-function checkArgs(interId, referenceNode) {
-	if (!interId || !referenceNode || !referenceNode.isConnected)
-		throw new Error('Invalid arguments');
+function checkArgs(id, element) {
+	if (!id || !element || !element.isConnected) throw new Error('Invalid arguments');
 }
 
 function isNotHumanAnn(ann) {

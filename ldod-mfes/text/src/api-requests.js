@@ -1,14 +1,23 @@
 /** @format */
 
-import { fetcher } from '@core';
-
+import { fetcher, fetchProxy } from '@core';
+const BASE_URL = `${import.meta.env.VITE_HOST}`;
 const PATH = '/text';
-const ADMIN_PATH = '/text/admin';
+const ADMIN_PATH = PATH + '/admin';
 
 export const API = {
-	fragments: async () => await fetcher.get(`${PATH}/fragments`, null),
-	sources: async () => await fetcher.get(`${PATH}/sources`, null),
-	adminFragments: async () => await fetcher.get(`${ADMIN_PATH}/fragments`, null),
+	fragments: async () =>
+		(await fetchProxy(`${BASE_URL + PATH}/fragments`, { method: 'GET' }))
+			.json()
+			.catch(console.error),
+	sources: async () =>
+		(await fetchProxy(`${BASE_URL + PATH}/sources`, { method: 'GET' }))
+			.json()
+			.catch(console.error),
+	adminFragments: async () =>
+		(await fetchProxy(`${BASE_URL + ADMIN_PATH}/fragments`, { method: 'GET' }))
+			.json()
+			.catch(console.error),
 };
 const data = {};
 

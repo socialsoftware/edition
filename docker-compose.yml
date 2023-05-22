@@ -1,3 +1,5 @@
+# @format
+
 services:
     nginx-reverse-proxy:
         build: ./proxy-server

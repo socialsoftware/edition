@@ -7,6 +7,7 @@ import { isDev } from './utils.js';
 
 const routes = {
 	'/signin': async () => await import('./pages/signin/signin.js'),
+	'/signout': async () => await import('./pages/signout/signout.js'),
 	'/signup': async () => await import('./pages/signup/signup.js'),
 	'/change-password': async () => await import('./pages/change-password/change-password.js'),
 	'/sign-up-authorization': async () => await import('./pages/authorization.js'),
@@ -27,9 +28,7 @@ export const mount = (lang, ref) => {
 	refElement.firstElementChild.appendChild(userRouter(lang));
 };
 
-export const unMount = () => {
-	document.querySelector(userMfeSelector)?.remove();
-};
+export const unMount = () => document.querySelector(userMfeSelector)?.remove();
 
 const userRouter = language => {
 	const router = document.createElement('ldod-router');

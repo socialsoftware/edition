@@ -15,6 +15,7 @@ const routes = await Object.keys(modules)
 			.then(async mod => {
 				const api = mod.default;
 				const mfePath = api.path;
+
 				if (mfePath === '/') router.index = () => api;
 				else if (mfePath) (await prev)[mfePath] = () => api;
 			})

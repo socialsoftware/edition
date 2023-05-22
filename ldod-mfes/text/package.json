@@ -24,7 +24,6 @@
 	"devDependencies": {
 		"@rollup/plugin-terser": "latest",
 		"@types/openseadragon": "^3.0.3",
-		"shared": "file:../shell/shared",
 		"vite": "latest"
 	},
 	"dependencies": {

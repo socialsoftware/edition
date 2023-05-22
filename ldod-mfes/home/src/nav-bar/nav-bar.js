@@ -3,8 +3,9 @@
 import './li-lang-drop';
 import '@ui/nav-dropdown.js';
 import transitionsCss from '@ui/bootstrap/transitions-css.js';
-import headerSchema from './data-schema.json';
+import navbarMenuSchema from './json-schemas/navbar-menu-schema';
 import { ldodEventBus } from './ldod-event-bus';
+import './auth-menu/auth-menu';
 
 const constants = {
 	en: {
@@ -30,12 +31,12 @@ class NavBar extends HTMLElement {
 	constructor() {
 		super();
 		this.isRendered = this.shadowRoot?.innerHTML;
-		ldodEventBus.register(`ldod:header`, headerSchema);
-		ldodEventBus.subscribe(`ldod:header`, this.onHeader);
+		ldodEventBus.register(`ldod:header`, navbarMenuSchema);
+		ldodEventBus.subscribe(`ldod:header`, this.onMenuCallback);
 		if (!this.isRendered) this.attachShadow({ mode: 'open' });
 		this.headersToConsume = [];
-		if (NavBar.instance) return NavBar.instance;
-		NavBar.instance = this;
+		if (!NavBar.instance) NavBar.instance = this;
+		return NavBar.instance;
 	}
 
 	static get observedAttributes() {
@@ -50,7 +51,7 @@ class NavBar extends HTMLElement {
 	}
 
 	get userComponents() {
-		return this.shadowRoot.querySelectorAll("li[is='user-component']");
+		return this.shadowRoot.querySelectorAll("li[is='user-auth-menu']");
 	}
 
 	get collapseToggler() {
@@ -145,9 +146,9 @@ class NavBar extends HTMLElement {
 
 	toggleUserComponentMenu = (userC, force = undefined) => {
 		if (force === undefined)
-			return userC
-				.querySelectorAll('a.dropdown-toggle, ul.dropdown-menu')
-				.forEach(ele => ele.classList.toggle('show'));
+			return userC.querySelectorAll('a.dropdown-toggle, ul.dropdown-menu').forEach(ele => {
+				ele.classList.toggle('show');
+			});
 
 		userC
 			.querySelectorAll('a.dropdown-toggle, ul.dropdown-menu')
@@ -167,19 +168,20 @@ class NavBar extends HTMLElement {
 		});
 	}
 
-	onHeader = ({ payload }) => {
-		const drop = this.getHeader(payload.name);
+	onMenuCallback = ({ payload }) => {
+		const drop = this.getNavbarMenuByKey(payload.name);
 		if (drop) drop.onNewLink({ payload });
 		else {
-			const header = this.newHeader(payload);
-			this.addHeader(header);
+			const header = this.newMenu(payload);
+			this.addMenu(header);
 		}
 	};
 
-	newHeader = payload => {
+	newMenu = payload => {
 		const template = document.createElement('template');
 		template.innerHTML = /*html*/ `
 		<li
+			${payload.hidden ? 'hidden' : ''} 
 			is="nav-dropdown"
 			key="${payload.name}"
 			language="${this.language}"
@@ -188,25 +190,33 @@ class NavBar extends HTMLElement {
 		return template.content.firstElementChild.cloneNode(true);
 	};
 
-	addHeader(liDropdownNode) {
+	addMenu(liDropdownNode) {
 		if (!this.checkNavBarRenderedAndValid(liDropdownNode)) return;
 		const key = liDropdownNode.getAttribute('key');
-		const where = key === 'admin' ? 'afterbegin' : 'beforebegin';
-		(this.getHeader(key) || this.reference).insertAdjacentElement(where, liDropdownNode);
+		const where = key === 'admin' ? 'afterend' : 'beforebegin';
+		(this.getNavbarMenuByKey(key) || this.reference).insertAdjacentElement(
+			where,
+			liDropdownNode
+		);
 	}
 
 	consumeHeaders() {
-		while (this.headersToConsume.length) this.addHeader(this.headersToConsume.pop());
-	}
-
-	getHeader(name) {
-		return [...this.dropdowns].find(d => d.key === name);
+		while (this.headersToConsume.length) this.addMenu(this.headersToConsume.pop());
 	}
 
 	checkNavBarRenderedAndValid(liDropdownNode) {
 		if (!this.isRendered) this.headersToConsume.push(liDropdownNode);
 		return this.isRendered && liDropdownNode instanceof HTMLLIElement && this.dropdownSize < 10;
 	}
+
+	getNavbarMenuByKey = key =>
+		this.shadowRoot.querySelector(`li[is='nav-dropdown'][key='${key}']`);
+
+	setMenuVis = (key, hidden) => {
+		const menu = this.getNavbarMenuByKey(key);
+		if (!menu) return;
+		menu.hidden = hidden;
+	};
 }
 
 !customElements.get('nav-bar') && customElements.define('nav-bar', NavBar);

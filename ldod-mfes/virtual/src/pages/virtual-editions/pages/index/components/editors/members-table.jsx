@@ -1,7 +1,7 @@
 /** @format */
 
 import { switchMemberRole, removeParticipant } from '@src/restricted-api-requests';
-import { virtualReferences } from '@src/references';
+import references from '@src/references';
 import constants from './constants';
 const isAdmin = node => node.edition?.member?.admin;
 
@@ -22,7 +22,7 @@ const getTableData = node => {
 			return {
 				externalId: participant.externalId,
 				username: (
-					<a is="nav-to" to={virtualReferences.user(participant.username)}>
+					<a is="nav-to" to={references.user(participant.username)}>
 						{participant.username}
 					</a>
 				),

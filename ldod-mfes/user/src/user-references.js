@@ -5,4 +5,5 @@ export const userReferences = {
 	signin: () => '/user/signin',
 	signup: () => '/user/signup',
 	password: () => '/user/change-password',
+	logout: () => '/user/signout',
 };

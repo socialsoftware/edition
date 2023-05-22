@@ -1,6 +1,6 @@
 /** @format */
 
-export const virtualReferences = {
+export default {
 	virtualEditions: () => '/virtual/virtual-editions',
 	virtualEdition: acrn => `/virtual/edition/acronym/${acrn}`,
 	manageVirtualEditions: () => '/virtual/manage-virtual-editions',

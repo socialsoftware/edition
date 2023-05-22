@@ -1,7 +1,6 @@
 /** @format */
 
-const references = (await import('./references')).default;
-
+import references from './references';
 let reading;
 
 const loadReading = async () => {

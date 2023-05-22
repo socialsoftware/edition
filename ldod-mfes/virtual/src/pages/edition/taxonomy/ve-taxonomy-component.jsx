@@ -1,6 +1,6 @@
 /** @format */
 
-import { virtualReferences } from '@src/references';
+import references from '@src/references';
 import { textFragmentInter } from '../../../external-deps';
 
 import.meta.env.DEV ? await import('@ui/table-dev.js') : await import('@ui/table.js');
@@ -20,7 +20,7 @@ export default ({ node }) => {
 					</strong>
 					<span>: </span>
 					{
-						<a is="nav-to" to={virtualReferences.virtualEdition(data.veAcronym)}>
+						<a is="nav-to" to={references.virtualEdition(data.veAcronym)}>
 							{data.veTitle}
 						</a>
 					}
@@ -42,7 +42,7 @@ export default ({ node }) => {
 							category: (
 								<a
 									is="nav-to"
-									to={virtualReferences.category(inter.veAcronym, inter.name)}>
+									to={references.category(inter.veAcronym, inter.name)}>
 									{inter.name}
 								</a>
 							),
@@ -51,16 +51,14 @@ export default ({ node }) => {
 								<div>
 									<a
 										is="nav-to"
-										to={virtualReferences.user(
+										to={references.user(
 											user.username
 										)}>{`${user.firstname} ${user.lastname} (${user.username})`}</a>
 								</div>
 							)),
 							editions: inter.editions.map(edition => (
 								<div>
-									<a
-										is="nav-to"
-										to={virtualReferences.virtualEdition(edition.acronym)}>
+									<a is="nav-to" to={references.virtualEdition(edition.acronym)}>
 										{edition.title}
 									</a>
 								</div>

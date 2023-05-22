@@ -3,11 +3,11 @@
 import FragsTable from './components/fragments-table.jsx';
 import Title from './components/title.jsx';
 import constants from './constants.js';
+import { ldodEventBus } from '@core';
 import { removeFragmentById, removeAllFragments, dataProxy } from '@src/api-requests';
 
 import UploadButtons from './components/upload-buttons.jsx';
 import ExportButtons from './components/export-buttons.jsx';
-import { ldodEventPublisher } from '../../events-module.js';
 
 import('@ui/buttons.js').then(({ ldodButton }) => ldodButton());
 
@@ -172,26 +172,29 @@ export class LdodManageFragments extends HTMLElement {
 			},
 			`\nAlready uploaded fragments: ${notUploadedFrags.length}`
 		);
-		ldodEventPublisher('message', uploadedFragsResult.concat(`${p}`, notUploadedFragsResult));
+		ldodEventBus.publish(
+			'ldod:message',
+			uploadedFragsResult.concat(`${p}`, notUploadedFragsResult)
+		);
 	};
 
 	handleMessageOnUploadedFile = (ok, message) => {
-		ldodEventPublisher(ok ? 'message' : 'error', message);
+		ldodEventBus.publish(ok ? 'ldod:message' : 'ldod:error', message);
 	};
 
 	handleRemoveAll = async () => {
 		if (!confirm('Are you sure you want to remove all fragments?')) return;
 		const res = await removeAllFragments();
 		if (res.ok) this.mutateFragments([]);
-		const type = res.ok ? 'message' : 'error';
-		ldodEventPublisher(type, res.message);
+		const type = res.ok ? 'ldod:message' : 'ldod:error';
+		ldodEventBus.publish(type, res.message);
 	};
 
 	handleRemoveFragment = async ({ target }) => {
 		const id = target.dataset.id;
 		const res = await removeFragmentById(target.dataset.id);
 		if (res.ok) return this.mutateFragments(this.removeFragmentById(id));
-		ldodEventPublisher('error', res.message);
+		ldodEventBus.publish('ldod:error', res.message);
 	};
 
 	removeFragmentById(id) {

@@ -1,17 +1,26 @@
 /** @format */
 
-import { ldodEventPublisher } from '@core';
+import { ldodEventBus } from '@core';
 import references from './references';
+import { editionsMenuLinks } from './header-data';
+import linksSchema from './json-schemas/links-schema';
 
-export const loadingPublisher = isLoading => ldodEventPublisher('loading', isLoading);
+ldodEventBus.register('text:editions-menu-links', linksSchema);
 
-export { ldodEventPublisher };
+ldodEventBus.subscribe('text:editions-menu-links', updateEditionsMenu);
 
-const fragmentsManagement = {
+function updateEditionsMenu({ payload }) {
+	ldodEventBus.publish('ldod:header', editionsMenuLinks(payload.links));
+}
+
+export const loadingPublisher = isLoading => ldodEventBus.publish('ldod:loading', isLoading);
+
+const fragmentAdminMenuLinks = {
 	name: 'admin',
+	hidden: true,
 	data: {
 		name: 'admin',
-		pages: [{ id: 'fragments_management', route: references.manageFragments() }],
+		links: [{ key: 'fragments_management', route: references.manageFragments() }],
 	},
 	constants: {
 		pt: {
@@ -26,4 +35,6 @@ const fragmentsManagement = {
 	},
 };
 
-customElements.whenDefined('nav-bar').then(() => ldodEventPublisher('header', fragmentsManagement));
+customElements
+	.whenDefined('nav-bar')
+	.then(() => ldodEventBus.publish('ldod:header', fragmentAdminMenuLinks));

@@ -1,19 +1,19 @@
 /** @format */
 
-import { virtualReferences } from './references';
+import references from './references';
 
 export default {
 	name: 'virtual',
 	data: {
 		name: 'virtual',
-		pages: [
+		links: [
 			{
-				id: 'header_virtualeditions',
-				route: virtualReferences.virtualEditions(),
+				key: 'header_virtualeditions',
+				route: references.virtualEditions(),
 			},
 			{
-				id: 'general_classificationGame',
-				route: virtualReferences.classificationGames(),
+				key: 'general_classificationGame',
+				route: references.classificationGames(),
 			},
 		],
 	},

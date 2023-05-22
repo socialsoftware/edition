@@ -1,6 +1,6 @@
 /** @format */
 
-import { virtualReferences } from '../../references';
+import references from '../../references';
 
 try {
 	await import('@ui/table.js');
@@ -12,7 +12,7 @@ const getTableData = (inter, root) => {
 	return inter.categories.map(cat => ({
 		tag: (
 			<div style={{ display: 'flex', gap: '5px' }}>
-				<a is="nav-to" to={virtualReferences.category(cat.veAcronym, cat.name)}>
+				<a is="nav-to" to={references.category(cat.veAcronym, cat.name)}>
 					{cat.name}
 				</a>
 				{cat.canBeDissociated && (
@@ -30,7 +30,7 @@ const getTableData = (inter, root) => {
 			<>
 				<a
 					is="nav-to"
-					to={virtualReferences.user(
+					to={references.user(
 						user.username
 					)}>{`${user.firstname} ${user.lastname} (${user.username})`}</a>
 				{i !== arr.length - 1 ? ', ' : ''}

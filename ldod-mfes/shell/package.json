@@ -20,9 +20,9 @@
 		"build:client": "yarn --cwd client && yarn --cwd client build && mkdir -p server/static/shell && cp -r client/dist/* server/static/shell/",
 		"build:shared": "yarn --cwd shared && yarn --cwd shared build && rm -rf server/static/shared/*  && cp -r shared/dist/* server/static/shared/",
 		"build:vendor": "mkdir -p server/static/shared/node_modules &&  yarn --cwd vendor && cp -r vendor/node_modules server/static/shared",
-		"build": "mkdir -p server/static/shared/node_modules  server/temp && yarn build:client && yarn build:shared && yarn build:vendor",
+		"build": "mkdir -p server/static/shared/node_modules  server/temp && yarn build:vendor && yarn build:client && yarn build:shared",
 		"dev": "yarn && yarn build && nodemon -r dotenv/config server/src/server.js dotenv_config_path=.env.dev",
-		"docker": "yarn install && yarn build && forever -c 'node -r dotenv/config' server/src/server.js dotenv_config_path=.env"
+		"docker": "yarn && yarn build && forever -c 'node -r dotenv/config' server/src/server.js dotenv_config_path=.env"
 	},
 	"_moduleAliases": {
 		"shared": "server/static/shared/"

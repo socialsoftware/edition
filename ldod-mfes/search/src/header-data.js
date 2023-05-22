@@ -6,9 +6,9 @@ export default {
 	name: 'search',
 	data: {
 		name: 'search',
-		pages: [
-			{ id: 'search_simple', route: references.simple() },
-			{ id: 'search_advanced', route: references.advanced() },
+		links: [
+			{ key: 'search_simple', route: references.simple() },
+			{ key: 'search_advanced', route: references.advanced() },
 		],
 	},
 	constants: {

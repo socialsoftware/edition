@@ -32,9 +32,7 @@ function reduceElementsToRawHTML(elements) {
 }
 
 export function createLiDropdownHTML(data, lang) {
-	return /*html*/ `<li key="${
-		data.name
-	}" is="nav-dropdown" language="${lang}" data-headers='${JSON.stringify(
-		data
-	)}'>${createDropdownRawHTML(data, lang)}</li>`;
+	return /*html*/ `<li key="${data.name}" is="nav-dropdown" language="${lang}" ${
+		data.hidden ? 'hidden' : ''
+	}  data-headers='${JSON.stringify(data)}'>${createDropdownRawHTML(data, lang)}</li>`;
 }

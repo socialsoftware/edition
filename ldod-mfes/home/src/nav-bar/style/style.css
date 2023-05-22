@@ -383,12 +383,12 @@ li[is='nav-dropdown'] > a.nav-link {
 		text-align: end;
 	}
 
-	li[is='user-component'] > a.dropdown-toggle {
+	li[is='user-auth-menu'] > a.dropdown-toggle {
 		line-height: 46px;
 		color: var(--ldod-primary);
 	}
 
-	li[is='user-component'] ul.dropdown-menu {
+	li[is='user-auth-menu'] ul.dropdown-menu {
 		background-color: white;
 		border-radius: 0;
 		border: 1px solid var(--ldod-primary);

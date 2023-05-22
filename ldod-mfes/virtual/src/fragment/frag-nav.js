@@ -1,11 +1,11 @@
 /** @format */
-import { virtualReferences } from '../references';
+import references from '../references';
 import constants from './constants';
 const dataArray = {
 	virtual: (data, inters) =>
 		data.map(entry => ({
 			name: entry.acronym,
-			url: virtualReferences.virtualEdition(entry.acronym),
+			url: references.virtualEdition(entry.acronym),
 			add: entry.canAddInter && entry.member,
 			interId: entry.interExternalId,
 			veId: entry.veExternalId,

@@ -2,7 +2,7 @@
 
 export default {
 	pt: {
-		about: 'O Arquivo LdoD é um arquivo digital colaborativo do Livro do Desassossego de Fernando Pessoa. Contém imagens dos documentos autógrafos, novas transcriçõesdesses documentos e ainda transcrições de quatro edições da obra. Além da leitura e comparação das transcrições, o Arquivo LdoD permite que os utilizadores colaborem na criação de edições virtuais do Livro do sassossego.',
+		about: 'O Arquivo LdoD é um arquivo digital colaborativo do Livro do Desassossego de Fernando Pessoa. Contém imagens dos documentos autógrafos, novas transcriçõesdesses documentos e ainda transcrições de quatro edições da obra. Além da leitura e comparação das transcrições, o Arquivo LdoD permite que os utilizadores colaborem na criação de edições virtuais do Livro do Desassossego.',
 		info: /*html*/ ` <p>
 			O <em>Arquivo LdoD</em> foi desenvolvido no &acirc;mbito do projeto de
 			investiga&ccedil;&atilde;o &ldquo; Nenhum Problema Tem Solu&ccedil;&atilde;o: Um Arquivo

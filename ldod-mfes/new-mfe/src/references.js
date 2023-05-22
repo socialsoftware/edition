@@ -10,10 +10,10 @@ const headerData = {
 	name: 'new-mfe',
 	data: {
 		name: 'new-mfe',
-		pages: [
-			{ id: 'lit', route: headers.lit() },
-			{ id: 'lit-ts', route: headers.litTs() },
-			{ id: 'pure', route: headers.pure() },
+		links: [
+			{ key: 'lit', route: headers.lit() },
+			{ key: 'lit-ts', route: headers.litTs() },
+			{ key: 'pure', route: headers.pure() },
 		],
 	},
 	constants: {

@@ -1,9 +1,10 @@
 #! /bin/sh
 
-dirs="ldod-ui bootstrap ldod-core ldod-core-ui"
+dirs="event-bus ldod-ui bootstrap ldod-core ldod-core-ui"
 
 rm -r dist
 mkdir dist
+cp ./scripts/package.json dist
 
 for dir in $dirs
 do

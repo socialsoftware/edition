@@ -11,13 +11,15 @@ import pt.ist.socialsoftware.edition.ldod.social.aware.FetchCitationsFromTwitter
 import pt.ist.socialsoftware.edition.ldod.social.aware.TweetFactory;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
 public class SocialService {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss");
 
     private final AwareAnnotationFactory awareFactory = new AwareAnnotationFactory();
 
@@ -40,9 +42,8 @@ public class SocialService {
         return LdoD.getInstance()
                 .getAllTwitterCitation()
                 .stream()
-                .sorted((c1, c2) -> java.time.LocalDateTime.parse(c2.getDate(), formatter).compareTo(java.time.LocalDateTime.parse(c1.getDate(), formatter)))
+                .sorted((c1, c2) -> parseDate(c2.getDate()).compareTo(parseDate(c1.getDate())))
                 .collect(Collectors.toList());
-
     }
 
     public TweetListDto removeTweets() {
@@ -62,5 +63,15 @@ public class SocialService {
         awareFactory.generate();
 
         return this.getTweetsToManage();
+    }
+
+    public LocalDateTime parseDate(String dateStr) {
+        DateTimeFormatter formatterEnglish = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH);
+        DateTimeFormatter formatterPortuguese = DateTimeFormatter.ofPattern("dd-MMM-yyyy HH:mm:ss", new Locale("pt", "BR"));
+        try {
+            return LocalDateTime.parse(dateStr, formatterEnglish);
+        } catch (DateTimeParseException e) {
+            return LocalDateTime.parse(dateStr, formatterPortuguese);
+        }
     }
 }

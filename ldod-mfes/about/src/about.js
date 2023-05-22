@@ -1,5 +1,4 @@
 /** @format */
-const references = (await import('./references.js')).default;
 let about;
 
 async function loadAbout() {
@@ -13,8 +12,7 @@ export function loadConductCode() {
 
 export default {
 	path: '/about',
-	references,
-	preRender: async (dom, lang) => (await import('./headerSSR.js')).default(dom, lang),
+	preRender: async (dom, lang) => (await import('./navbar-menu-prerender.js')).default(dom, lang),
 	mount: async (lang, ref) => (await loadAbout()).mount(lang, ref),
 	unMount: async () => (await loadAbout()).unMount(),
 };

@@ -1,13 +1,10 @@
 /** @format */
 
-import references from './references';
-
 let search;
 let searchSimple;
 
 export default {
 	path: '/search',
-	references,
 	mount: async (lang, ref) => (await loadSearch()).mount(lang, ref),
 	unMount: async () => (await loadSearch()).unMount(),
 	preRender: async (dom, lang) => (await import('./headerSSR.js')).default(dom, lang),

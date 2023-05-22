@@ -1,6 +1,6 @@
 /** @format */
 
-import { virtualReferences } from '@src/references';
+import references from '@src/references';
 import { textFragmentInter } from '../../../../../../external-deps';
 
 export default ({ node }) => {
@@ -19,7 +19,7 @@ export default ({ node }) => {
 							<a
 								is="nav-to"
 								target="_blank"
-								to={virtualReferences.category(cat.veAcronym, cat.name)}>
+								to={references.category(cat.veAcronym, cat.name)}>
 								{cat.name}
 							</a>
 						),

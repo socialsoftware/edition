@@ -1,7 +1,7 @@
 /** @format */
 
 import { ldodEventPublisher } from '../../ldod-event-bus/src/helpers';
-
+import { BASE_PATH } from './ldod-router';
 export default class NavTo extends HTMLAnchorElement {
 	get to() {
 		const toAttr = this.getAttribute('to');
@@ -41,7 +41,7 @@ export default class NavTo extends HTMLAnchorElement {
 		if (!this.target && this.hasTo) this.interceptBehavior();
 		if (this.target) {
 			this.handleMfePublishState();
-			if (this.hasTo) this.href = `/ldod-mfes${this.to}`;
+			if (this.hasTo) this.href = `${BASE_PATH}${this.to}`;
 		}
 	}
 
