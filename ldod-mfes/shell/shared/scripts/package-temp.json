@@ -1,0 +1,7 @@
+{
+	"name": "unify-mfe",
+	"version": "1.0.0",
+	"description": "core package for LdoD MFEs",
+	"main": "esm",
+	"license": "MIT"
+}

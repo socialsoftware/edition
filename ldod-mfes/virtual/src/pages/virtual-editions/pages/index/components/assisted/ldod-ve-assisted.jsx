@@ -104,13 +104,11 @@ export class LdodVeAssisted extends HTMLElement {
 	};
 
 	reRenderTable() {
-		console.log(this.table);
 		this.table?.replaceWith(<AssistedTable node={this} />);
 	}
 
 	onChangedAttribute = {
 		show: () => {
-			console.log('show');
 			this.show && this.render();
 			this.modal?.toggleAttribute('show', this.show);
 		},

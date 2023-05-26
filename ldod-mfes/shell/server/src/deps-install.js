@@ -5,13 +5,11 @@ import { resolve } from 'path';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { staticPath } from './constants.js';
 import { execSync } from 'child_process';
-import { addStaticAssets } from './static.js';
 import { addToImportmap } from './importmap.js';
 
 emitter.on('mfe:published', e => setImmediate(() => installDeps(e)));
 
 const vendor = resolve(process.cwd(), 'vendor');
-const vendorModules = `${vendor}/node_modules`;
 const vendorPkgFile = `${vendor}/package.json`;
 const vendorPkg = JSON.parse(readFileSync(vendorPkgFile));
 

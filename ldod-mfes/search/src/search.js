@@ -5,8 +5,8 @@ let searchSimple;
 
 export default {
 	path: '/search',
-	mount: async (lang, ref) => (await loadSearch()).mount(lang, ref),
-	unMount: async () => (await loadSearch()).unMount(),
+	mount: async (lang, ref) => await (await loadSearch()).mount(lang, ref),
+	unMount: async () => await (await loadSearch()).unMount(),
 	preRender: async (dom, lang) => (await import('./headerSSR.js')).default(dom, lang),
 };
 

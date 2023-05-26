@@ -1,0 +1,7 @@
+{
+	"type": "module",
+	"name": "create-ldod-mfe",
+	"version": "1.0.0",
+	"license": "MIT",
+	"bin": "index.js"
+}

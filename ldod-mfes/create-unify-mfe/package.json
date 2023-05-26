@@ -1,7 +1,0 @@
-{
-	"type": "module",
-	"name": "create-unify-mfe",
-	"version": "1.0.0",
-	"license": "MIT",
-	"bin": "index.js"
-}

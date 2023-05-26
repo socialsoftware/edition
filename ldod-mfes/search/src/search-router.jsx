@@ -13,11 +13,11 @@ const routes = {
 	'/advanced': async () => await import('./pages/search-advanced/search-advanced'),
 };
 
-export const mount = (lang, ref) => {
+export const mount = async (lang, ref) => {
 	document.querySelector(ref).appendChild(<SearchRouter language={lang} />);
 };
 
-export const unMount = () => {
+export const unMount = async () => {
 	document.querySelector(SEARCH_SELECTOR)?.remove();
 };
 

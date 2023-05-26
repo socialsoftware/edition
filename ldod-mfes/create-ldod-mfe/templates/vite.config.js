@@ -2,6 +2,7 @@
 
 import { defineConfig, loadEnv } from 'vite';
 import terser from '@rollup/plugin-terser';
+
 export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), '');
 	return {
@@ -9,10 +10,11 @@ export default defineConfig(({ mode }) => {
 			target: 'esnext',
 			outDir: 'build',
 			sourcemap: true,
+			manifest: true,
 			lib: {
-				entry: 'src/about.js',
+				entry: `src/${env.VITE_MFE_NAME}.js`,
 				formats: ['es'],
-				fileName: 'about',
+				fileName: env.VITE_MFE_NAME,
 			},
 			rollupOptions: {
 				output: {
@@ -29,12 +31,8 @@ export default defineConfig(({ mode }) => {
 		resolve: {
 			alias: [
 				{
-					find: '@core/',
-					replacement: '/node_modules/',
-				},
-				{
-					find: '@src/',
-					replacement: '/src/',
+					find: '@core',
+					replacement: '/node_modules/@core/core/ldod-core.js',
 				},
 			],
 		},

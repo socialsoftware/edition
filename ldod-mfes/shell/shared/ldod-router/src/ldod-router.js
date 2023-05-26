@@ -1,6 +1,7 @@
 /** @format */
 
 import { ldodEventPublisher, ldodEventSubscriber } from '../../ldod-event-bus/src/helpers';
+import { navigateTo } from './nav-to';
 import { addEndSlash, addStartSlash, isSlash, PATH_PATTERN, removeEndSlash } from './utils';
 
 export let BASE_PATH;
@@ -78,16 +79,16 @@ export default class LdodRouter extends HTMLElement {
 		this.addEventListeners();
 		if (!this.id) throw new Error('Each router must have an unique ID');
 		this.self.append(this.outlet);
-		this.processRoutes();
+		await this.processRoutes();
 	}
 
-	processRoutes(routes = this.routes) {
+	async processRoutes(routes = this.routes) {
 		this.routes = Object.entries(routes).reduce((prev, [key, api]) => {
 			let path = removeEndSlash(`/${this.base}/${this.route}/${key}`.replace(/\/\/+/g, '/'));
 			prev[path] = api;
 			return prev;
 		}, {});
-		this.navigate();
+		await this.navigate();
 	}
 
 	attributeChangedCallback(name, oldV, newV) {
@@ -113,27 +114,34 @@ export default class LdodRouter extends HTMLElement {
 	}
 
 	addEventListeners() {
+		this.addEventListener('error', onError);
 		this.unsubURL = ldodEventSubscriber('url-changed', this.handleURLChanged);
 		window.addEventListener('popstate', this.handlePopstate);
 	}
 
-	navigate = (path = this.location, state = {}) => {
+	navigate = async (path = this.location, state = {}) => {
 		if (this.isPathActive(path)) return;
 		if (this.location !== path) history.pushState(state, undefined, path);
-		this.render();
+		await this.render();
 	};
 
-	handleURLChanged = ({ payload: { path, state } }) => {
-		if (path && this.isFromThisRouter(path)) this.navigate(this.getFullPath(path), state);
+	handleURLChanged = async ({ payload: { path, state } }) => {
+		if (path && this.isFromThisRouter(path)) await this.navigate(this.getFullPath(path), state);
 	};
 
-	handlePopstate = () => this.isFromThisRouter(this.location) && this.navigate(this.location);
+	handlePopstate = async () =>
+		this.isFromThisRouter(this.location) && (await this.navigate(this.location));
 
 	async render() {
 		let route = await this.getRoute();
 		ldodEventPublisher('loading', true);
-		await this.appendMFE(route).catch(console.error);
-		ldodEventPublisher('loading', false);
+		try {
+			await this.appendMFE(route);
+		} catch (error) {
+			onError(error);
+		} finally {
+			ldodEventPublisher('loading', false);
+		}
 	}
 
 	isARouteMatch = path => {
@@ -200,3 +208,9 @@ export default class LdodRouter extends HTMLElement {
 }
 
 !customElements.get('ldod-router') && customElements.define('ldod-router', LdodRouter);
+
+function onError(e) {
+	console.error(e);
+	ldodEventPublisher('error');
+	navigateTo('/');
+}

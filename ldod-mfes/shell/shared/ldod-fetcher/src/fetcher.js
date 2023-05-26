@@ -2,37 +2,13 @@
 
 import { ldodEventPublisher } from '../../ldod-event-bus/src/helpers';
 import { getPartialStorage } from '../../ldod-store/index';
-import { navigateTo } from '../../ldod-router/index';
+import { handleRequest } from './handlers';
 
 const HOST = window.process?.apiHost || 'http://localhost:8000/api';
 
 const handleLoading = isLoading => ldodEventPublisher('loading', isLoading);
-const handleLogout = () => ldodEventPublisher('logout');
-const handleError = message => ldodEventPublisher('error', message || 'Something went wrong');
 
 const getStorageToken = () => getPartialStorage('ldod-store', ['token'])?.token;
-
-const fetchRequest = async (url, options) => {
-	try {
-		const res = await fetch(url, options);
-		if (res.status === 401) {
-			handleLogout();
-			return Promise.reject(res);
-		}
-		const resData = await res.json();
-		if (!res.ok) {
-			handleError(resData?.message);
-			return Promise.reject(resData || res);
-		}
-		return resData;
-	} catch (error) {
-		console.error('FETCH ERROR: ', error?.stack ?? error);
-		handleError();
-		navigateTo('/');
-	} finally {
-		handleLoading(false);
-	}
-};
 
 const request = async (method, path, data, token, signal) => {
 	handleLoading(true);
@@ -51,7 +27,7 @@ const request = async (method, path, data, token, signal) => {
 	options.method = method;
 	if (signal) options.signal = signal;
 	if (data) options.body = JSON.stringify(data);
-	return await fetchRequest(HOST.concat(path), options);
+	return await handleRequest(HOST.concat(path), options);
 };
 
 export const fetcher = ['get', 'post', 'put', 'delete'].reduce((fetcher, method) => {
@@ -81,7 +57,7 @@ export const xmlFileFetcher = async ({
 	options.method = method;
 	if (signal) options.signal = signal;
 	if (body) options.body = body;
-	return await fetchRequest(HOST.concat(url), options);
+	return await handleRequest(HOST.concat(url), options);
 };
 
 export default fetcher;

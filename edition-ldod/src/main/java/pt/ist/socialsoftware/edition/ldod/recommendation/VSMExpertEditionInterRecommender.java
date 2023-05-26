@@ -1,8 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.recommendation;
 
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEdition;
 import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
-import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.recommendation.properties.Property;
 
 public class VSMExpertEditionInterRecommender extends VSMRecommender<ExpertEditionInter> {

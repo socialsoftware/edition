@@ -1,9 +1,0 @@
-/** @format */
-
-[ldod-popover] {
-	display: none;
-}
-
-[ldod-popover][show] {
-	display: block;
-}
