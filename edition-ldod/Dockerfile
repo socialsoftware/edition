@@ -1,20 +1,8 @@
-# Multistage dockerfile to take advantage of caching
-FROM maven:3.6.3-jdk-11-slim as DEPS
-WORKDIR /opt
-COPY pom.xml /opt
-RUN mvn dependency:go-offline
+# Compile the project first with war profile
+# mvn clean package -DskipTests=true -P war
 
-
-FROM maven:3.6.3-jdk-11-slim as COMPILER
-WORKDIR /opt
-COPY --from=deps /root/.m2 /root/.m2
-COPY --from=deps /opt /opt
-COPY .  /opt/edition-ldod
-WORKDIR /opt/edition-ldod
-RUN mvn clean package -DskipTests=true -P war
-
-FROM openjdk:18-alpine as BUILDER
-COPY --from=compiler  /opt/edition-ldod/target/ldod.war ./ldod.war
+FROM openjdk:18-alpine as builder
+COPY target/ldod.war ./ldod.war
 RUN java -Djarmode=layertools -jar ldod.war extract
 
 FROM openjdk:18-alpine
