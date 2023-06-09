@@ -123,7 +123,7 @@ export class LdodAnnotation extends HTMLElement {
 
 	initPopper = (ref = this.ref) => {
 		this.hideNow();
-		this.popper && this.popper.destroy();
+		this.popper?.destroy();
 		this.popper = createPopper(ref, this);
 		this.show();
 	};

@@ -1,14 +1,14 @@
 /** @format */
 
 import { getPartialStorage, Store } from '@core';
+import { logoutSubscriber } from './event-bus';
 
 export let storageState;
 
 const getStorageState = () => {
-	storageState = getPartialStorage('ldod-store', ['token', 'language']);
+	storageState = getPartialStorage('ldod-store', ['token']);
 	return {
 		token: storageState?.token,
-		language: storageState?.language,
 	};
 };
 
@@ -28,6 +28,8 @@ export function isAdmin() {
 export function isAuth() {
 	return getUser() && getToken() ? true : false;
 }
+
+logoutSubscriber(() => setState({ ...getState(), user: undefined }));
 
 window.addEventListener('storage', e => {
 	setState({ ...getState(), ...getStorageState() });

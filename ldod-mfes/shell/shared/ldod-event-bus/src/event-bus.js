@@ -3,7 +3,6 @@
 import 'event-bus/dist/index.umd.min.js';
 
 import userSchema from './user.schema.json';
-import veSchema from './ve.schema.json';
 import urlSchema from './url.schema.json';
 
 export const ldodEventBus = eventBus;
@@ -18,4 +17,3 @@ ldodEventBus.register('ldod:message', { type: 'string', required: true });
 ldodEventBus.register('ldod:token', { type: 'string' });
 ldodEventBus.register('ldod:logout');
 ldodEventBus.register('ldod:login', userSchema);
-ldodEventBus.register('ldod:selected-ve', veSchema);

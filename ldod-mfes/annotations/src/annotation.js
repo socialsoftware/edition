@@ -2,7 +2,6 @@
 
 import { highlightText } from '@apache-annotator/dom_0.3.0-dev.23';
 import { toRange } from 'xpath-range_1.1.1';
-import { ldodAnnotationComponent } from './annotator';
 
 const defaultAnnotation = {
 	human: true,
@@ -25,6 +24,10 @@ export class Annotation {
 		return Array.from(this.refNode.querySelectorAll(`mark[id="${this.id}"]`)).filter(node =>
 			node.innerHTML.trim()
 		);
+	}
+
+	get ldodAnnotation() {
+		return document.body.querySelector('ldod-annotation');
 	}
 
 	toRange() {
@@ -64,6 +67,6 @@ export class Annotation {
 	}
 
 	addHoverHandler = ({ target }) => {
-		ldodAnnotationComponent.handleHover(target, this);
+		this.ldodAnnotation.handleHover(target, this);
 	};
 }

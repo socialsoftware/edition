@@ -1,7 +1,7 @@
 /** @format */
 
 import { userRequest } from './api-requests';
-import { loginPublisher, logoutPublisher } from './events-modules';
+import { loginPublisher, logoutPublisher } from './event-bus';
 import { getState, setState, storageState } from './store';
 
 if (storageState?.token) {

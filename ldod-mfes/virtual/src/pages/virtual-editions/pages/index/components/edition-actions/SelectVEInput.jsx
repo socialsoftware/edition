@@ -1,8 +1,11 @@
 /** @format */
 
 import { toggleSelectedVE } from '@src/restricted-api-requests';
-import { errorPublisher, selectedVePublisher } from '@src/event-module';
-import { selectedVEs } from '../../../../../../event-module';
+import { errorPublisher } from '../../../../../../event-bus/event-bus.js';
+import {
+	selectedVirtualEditions,
+	updateVeSelection,
+} from '../../../../../../store/selected-ve-store';
 
 const onCheckboxChange = async (node, edition, target) => {
 	const ed = {
@@ -20,7 +23,7 @@ const onCheckboxChange = async (node, edition, target) => {
 		  });
 
 	if (vEdition) {
-		selectedVePublisher(ed);
+		updateVeSelection(ed);
 		node.updateEdition(vEdition);
 	}
 };
@@ -32,7 +35,7 @@ export default ({ node, edition }) => {
 				id="action_1"
 				type="checkbox"
 				style={{ height: '15px', width: '15px' }}
-				checked={edition.selected || selectedVEs.includes(edition.acronym)}
+				checked={edition.selected || selectedVirtualEditions.includes(edition.acronym)}
 				onChange={({ target }) => onCheckboxChange(node, edition, target)}
 			/>
 			<ldod-tooltip

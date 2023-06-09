@@ -1,6 +1,6 @@
 /** @format */
 
-import { ldodEventBus, loginSubscriber, logoutSubscriber } from './events-modules';
+import { ldodEventBus, loginSubscriber, logoutSubscriber } from './event-bus';
 import { isAuth, userFullName } from './store';
 import { userReferences } from './user-references';
 

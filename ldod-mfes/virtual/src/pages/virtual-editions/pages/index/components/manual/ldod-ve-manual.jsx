@@ -2,7 +2,7 @@
 
 import constants from '@src/pages/constants';
 import { saveReorderedVEInters } from '@src/restricted-api-requests';
-import { errorPublisher } from '../../../../../../event-module';
+import { errorPublisher } from '../../../../../../event-bus/event-bus';
 import assistedContants from '../assisted/constants';
 import AddFragmentsModal from './add-fragments';
 import thisConstants from './constants';
@@ -405,7 +405,6 @@ export class LdodVeManual extends HTMLElement {
 
 	//Add fragments
 	onAddFragments = inters => {
-		console.log(inters);
 		const duplicatedFrags = getDuplicatedFrags(this, inters);
 		const fragsToAdd = getFragsToAdd(this, inters);
 		if (duplicatedFrags.length) notifyForDuplicatedFrags(duplicatedFrags);

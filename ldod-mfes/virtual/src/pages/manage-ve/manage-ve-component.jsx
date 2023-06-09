@@ -1,11 +1,7 @@
 /** @format */
 
-import { LdodManageVE } from './ldod-manage-ve';
 import VeManageTable from './ve-manage-table';
 
-/**
- * @param {LdodManageVE} root
- */
 export default root => {
 	return (
 		<>

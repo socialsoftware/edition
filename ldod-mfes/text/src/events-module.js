@@ -7,10 +7,10 @@ import linksSchema from './json-schemas/links-schema';
 
 ldodEventBus.register('text:editions-menu-links', linksSchema);
 
-ldodEventBus.subscribe('text:editions-menu-links', updateEditionsMenu);
+ldodEventBus.subscribe('text:editions-menu-links', true, updateEditionsMenu);
 
 function updateEditionsMenu({ payload }) {
-	ldodEventBus.publish('ldod:header', editionsMenuLinks(payload.links));
+	ldodEventBus.publish('ldod:header', editionsMenuLinks(payload));
 }
 
 export const loadingPublisher = isLoading => ldodEventBus.publish('ldod:loading', isLoading);

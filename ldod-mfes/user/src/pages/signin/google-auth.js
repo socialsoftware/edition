@@ -1,7 +1,7 @@
 /** @format */
 
 import { socialAuthRequest } from '../../api-requests';
-import { errorPublisher, messagePublisher } from '../../events-modules';
+import { errorPublisher, messagePublisher } from '../../event-bus';
 import { onAuthSuccess } from '../common-functions';
 import constants from '../constants';
 

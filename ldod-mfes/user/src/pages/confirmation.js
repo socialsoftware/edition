@@ -3,7 +3,7 @@
 import { navigateTo } from '@core';
 import { tokenConfirmRequest } from '../api-requests.js';
 import { userReferences } from '../user-references';
-import { errorPublisher, messagePublisher } from '../events-modules.js';
+import { errorPublisher, messagePublisher } from '../event-bus';
 
 const mount = async () => {
 	let params = new URL(document.location).searchParams;

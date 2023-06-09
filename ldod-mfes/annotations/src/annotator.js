@@ -6,7 +6,7 @@ import { LdodAnnotation } from './components/ldod-annotation/ldod-annotation';
 import { Annotation } from './annotation';
 import { annotationsList, mutateAnnotationsList } from './ldod-annotations.js';
 
-export let ldodAnnotationComponent;
+let ldodAnnotationComponent;
 let refNode;
 let data;
 let popover;
@@ -95,18 +95,16 @@ export async function annotatorService({ id, element }) {
 	refNode = element;
 	element.appendChild(selectionStyle());
 
-	ldodAnnotationComponent && ldodAnnotationComponent.remove();
-	ldodAnnotationComponent = refNode.parentElement.appendChild(new LdodAnnotation(id));
+	ldodAnnotationComponent?.remove();
+	ldodAnnotationComponent = document.body.appendChild(new LdodAnnotation(id));
 
 	await fetchAnnotations(id)
 		.then(updateFetchedData)
 		.catch(error => console.error(error));
 
-	popover && popover.remove();
+	popover?.remove();
 	if (data.contributor)
-		popover = refNode.parentElement.appendChild(
-			new NewAnnPopover(refNode, ldodAnnotationComponent, id)
-		);
+		popover = refNode.parentElement.appendChild(new NewAnnPopover(refNode, id));
 }
 
 function checkArgs(id, element) {

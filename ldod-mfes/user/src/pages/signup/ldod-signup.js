@@ -9,7 +9,7 @@ import style from './style.css?inline';
 
 import '@core-ui';
 import { signupRequest } from '../../api-requests';
-import { errorPublisher } from '../../events-modules';
+import { errorPublisher } from '../../event-bus';
 import { onSignup, resetForm } from '../common-functions';
 
 const sheet = new CSSStyleSheet();

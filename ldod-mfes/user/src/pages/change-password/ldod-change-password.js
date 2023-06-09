@@ -8,7 +8,7 @@ import hostCss from '../host.css?inline';
 
 import '@core-ui';
 
-import { errorPublisher } from '../../events-modules';
+import { errorPublisher } from '../../event-bus';
 import { changePasswordRequest } from '../../api-requests';
 import { onChangePassword, onChangePasswordFail, redirectToHome } from '../common-functions';
 import { getState } from '../../store';

@@ -7,7 +7,7 @@ import {
 	logoutPublisher,
 	messagePublisher,
 	tokenPublisher,
-} from '../events-modules';
+} from '../event-bus';
 import { getState, setState } from '../store';
 import { navigateTo } from '@core';
 import { userReferences } from '../user-references';

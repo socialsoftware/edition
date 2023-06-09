@@ -5,7 +5,7 @@ import { editVE } from '@src/restricted-api-requests';
 import constants from '@src/pages/constants';
 import thisConstants from './constants';
 import EditionEditForm from './edition-edit-form';
-import { errorPublisher } from '../../../../../../event-module';
+import { errorPublisher } from '../../../../../../event-bus/event-bus';
 import style from '../style.css?inline';
 import formStyle from '@ui/bootstrap/forms-css.js';
 import buttonsStyle from '@ui/bootstrap/buttons-css.js';

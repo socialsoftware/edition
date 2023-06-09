@@ -6,9 +6,9 @@ import MembersTable from './members-table';
 import style from './editors.css?inline';
 import PendentTable from './pendent-table';
 import { addParticipant } from '@src/restricted-api-requests';
-import { errorPublisher } from '../../../../../../event-module';
 import formsCss from '@ui/bootstrap/forms-css.js';
 import buttonsCss from '@ui/bootstrap/buttons-css.js';
+import { errorPublisher } from '../../../../../../event-bus/event-bus';
 
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(style + formsCss + buttonsCss);

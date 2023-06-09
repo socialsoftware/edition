@@ -1,10 +1,9 @@
 /** @format */
-// Include the typedefs file
 /// <reference path="typedef.js" />
 
 import { fetcher, navigateTo } from '@core';
 import { getState } from './store';
-import { errorPublisher } from './events-modules';
+import { errorPublisher } from './event-bus';
 import { userReferences } from './user-references.js';
 
 export const signinRequest = async data => await fetcher.post(`/auth/sign-in`, data);

@@ -11,6 +11,7 @@ export default ({ root }) => {
 				headers={constants.sessionListHeaders}
 				data={root.usersData.sessionList.map(row => ({
 					...row,
+					username: row.userName,
 					search: Object.values(row).reduce((prev, curr) => {
 						return prev.concat(String(curr), ',');
 					}, ''),

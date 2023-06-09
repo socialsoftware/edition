@@ -35,7 +35,6 @@ document.querySelector('button#fragment-container-button').addEventListener('cli
 });
 
 document.body.addEventListener('ldod-virtual-selected', ({ detail }) => {
-	console.log(detail);
 	const vt = document.querySelector('virtual-transcription').cloneNode();
 	document.querySelector('virtual-transcription').replaceWith(vt);
 });

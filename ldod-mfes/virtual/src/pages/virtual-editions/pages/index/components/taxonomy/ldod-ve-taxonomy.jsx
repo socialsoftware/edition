@@ -16,7 +16,8 @@ import {
 	getVeTaxonomy,
 	mergeCategories,
 } from './taxonomy-api-requests';
-import { errorPublisher, loadingPublisher } from '../../../../../../event-module';
+
+import { loadingPublisher, errorPublisher } from '../../../../../../event-bus/event-bus';
 
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(style + taxonomyStyle + buttonsStyle + formStyle);

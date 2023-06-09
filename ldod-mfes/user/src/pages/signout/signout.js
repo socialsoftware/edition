@@ -1,6 +1,6 @@
 /** @format */
 
-import { logoutPublisher } from '../../events-modules';
+import { logoutPublisher } from '../../event-bus';
 import { getState, setState } from '../../store';
 import { navigateTo } from '@core';
 import { userReferences } from '../../user-references';

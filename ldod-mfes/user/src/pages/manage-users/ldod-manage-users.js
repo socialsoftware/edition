@@ -13,7 +13,7 @@ import formsCss from '@ui/bootstrap/forms-css.js';
 import buttonsCss from '@ui/bootstrap/buttons-css.js';
 import switchCss from './switch.css?inline';
 import constants from './constants';
-import { errorPublisher, messagePublisher } from '../../events-modules';
+import { errorPublisher, messagePublisher } from '../../event-bus';
 import { getUser, setState } from '../../store';
 
 const sheet = new CSSStyleSheet();

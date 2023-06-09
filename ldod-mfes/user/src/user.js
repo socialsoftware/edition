@@ -9,11 +9,11 @@ const isBrowserEnv =
 	typeof navigator !== 'undefined';
 
 if (isBrowserEnv) {
-	await import('./events-modules').catch(logError);
-	await import('./store').catch(logError);
-	await import('./bootstrap').catch(logError);
+	await import('./event-bus.js').catch(logError);
+	await import('./store.js').catch(logError);
+	await import('./on-start.js').catch(logError);
 	import('./admin-header').catch(logError);
-	import('./auth-menu-component').catch(logError);
+	import('./auth-menu-component.js').catch(logError);
 }
 
 const loadUser = async () => {

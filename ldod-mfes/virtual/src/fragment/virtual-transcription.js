@@ -1,6 +1,5 @@
 /** @format */
 
-import { errorPublisher } from '../event-module';
 import { computeSelectPureHeight } from '../utils';
 import {
 	associateTagsRequest,
@@ -10,6 +9,7 @@ import {
 } from './api-requests';
 import style from './style.css?inline';
 import constants from './constants';
+import { errorPublisher } from '../event-bus/event-bus';
 
 const annotatorService = new (await customElements.whenDefined('annotator-service'))();
 export class VirtualTranscription extends HTMLElement {
@@ -110,7 +110,8 @@ export class VirtualTranscription extends HTMLElement {
 
 	addEventListeners() {
 		this.addEventListener('virtual:associate-tag', this.associateTag);
-		this.addEventListener('annotator:annotation-update', async () => {
+		window.addEventListener('annotator:annotation-update', async e => {
+			e.stopPropagation();
 			await this.fetchData();
 			this.render();
 		});

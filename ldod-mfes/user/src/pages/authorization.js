@@ -2,7 +2,7 @@
 
 import { navigateTo } from '@core';
 import { tokenAuthRequest } from '../api-requests.js';
-import { errorPublisher, messagePublisher } from '../events-modules.js';
+import { errorPublisher, messagePublisher } from '../event-bus.js';
 
 const mount = async (lang, ref) => {
 	let params = new URL(document.location).searchParams;

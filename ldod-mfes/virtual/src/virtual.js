@@ -1,7 +1,6 @@
 /** @format */
 
 import references from './references';
-export { references };
 
 const isBrowserEnv =
 	typeof window !== 'undefined' &&
@@ -9,7 +8,8 @@ const isBrowserEnv =
 	typeof navigator !== 'undefined';
 
 if (isBrowserEnv) {
-	import('./event-module');
+	import('./event-bus/event-bus.js');
+	import('./store/selected-ve-store.js');
 }
 
 let virtual;

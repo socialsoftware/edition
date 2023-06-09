@@ -2,8 +2,7 @@
 
 import { deleteVE, getVirtualEditions4Manage } from './api-requests';
 import constants from '../constants';
-import VeManageTable from './ve-manage-table';
-import { errorPublisher, messagePublisher } from '../../event-module';
+import { errorPublisher, messagePublisher } from '../../event-bus/event-bus';
 import manageVeComponent from './manage-ve-component';
 
 import.meta.env.DEV ? await import('@ui/table-dev.js') : await import('@ui/table.js');

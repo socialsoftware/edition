@@ -3,7 +3,7 @@
 import { ldodEventBus } from '../ldod-event-bus';
 import { getPartialStorage } from '../ldod-store';
 
-export const mergeHeaders = request => {
+const mergeHeaders = request => {
 	const headers = new Request(request).headers;
 
 	return new Headers({

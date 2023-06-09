@@ -141,8 +141,6 @@ export class LdodManageFragments extends HTMLElement {
 		if (!payload) return;
 		if ('ok' in payload) return this.handleMessageOnUploadedFile(payload.ok, payload.message);
 		dataProxy.reset = true;
-		const nl = document.createElement('br').outerHTML;
-		const p = document.createElement('p').outerHTML;
 
 		payload.forEach(fragment => {
 			const { xmlId, uploaded, overwritten } = fragment;
@@ -157,24 +155,20 @@ export class LdodManageFragments extends HTMLElement {
 
 		const uploadedFragsResult = uploadedFrags.reduce(
 			(accumulated, { xmlId, title, overwritten }) => {
-				return `${accumulated}${nl}[${xmlId}(${title})]${
-					overwritten ? ' (overwritten)' : ''
-				}`;
+				return `${accumulated}\n[${xmlId}(${title})]${overwritten ? ' (overwritten)' : ''}`;
 			},
 			`New uploaded fragments: ${uploadedFrags.length}`
 		);
 
 		const notUploadedFragsResult = notUploadedFrags.reduce(
 			(accumulated, { xmlId, title, overwritten }) => {
-				return `${accumulated}${nl}[${xmlId}(${title})]${
-					overwritten ? ' (overwritten)' : ''
-				}`;
+				return `${accumulated}\n[${xmlId}(${title})]${overwritten ? ' (overwritten)' : ''}`;
 			},
 			`\nAlready uploaded fragments: ${notUploadedFrags.length}`
 		);
 		ldodEventBus.publish(
 			'ldod:message',
-			uploadedFragsResult.concat(`${p}`, notUploadedFragsResult)
+			uploadedFragsResult.concat('\n', notUploadedFragsResult)
 		);
 	};
 

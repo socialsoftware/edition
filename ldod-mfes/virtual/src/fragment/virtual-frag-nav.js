@@ -1,7 +1,6 @@
 /** @format */
 
 import constants from './constants';
-import { selectedVEs, updateSelecteVEs } from '../event-module';
 import {
 	addInterRequest,
 	getVirtualFragmentNavInters as getNavigationFragmentData,
@@ -9,6 +8,7 @@ import {
 import fragNav from './frag-nav';
 
 import style from './style.css?inline';
+import { selectedVirtualEditions, updateVeSelection } from '../store/selected-ve-store';
 const sheet = new CSSStyleSheet();
 sheet.replaceSync(style);
 
@@ -60,13 +60,13 @@ export class VirtualFragNav extends HTMLElement {
 
 	navDataRequest = async () => {
 		await getNavigationFragmentData(this.fragment, {
-			veIds: selectedVEs,
+			veIds: selectedVirtualEditions,
 			currentInterId:
 				this.intersChecked?.length === 1 ? this.intersChecked[0].externalId : null,
 			urlId: this.urlId,
 		})
 			.then(data => {
-				updateSelecteVEs(data.map(ved => ({ name: ved.acronym, selected: true })));
+				updateVeSelection(data.map(ved => ({ name: ved.acronym, selected: true })));
 				this.virtualEditions = data;
 			})
 			.catch(error => console.error(error));
@@ -74,7 +74,7 @@ export class VirtualFragNav extends HTMLElement {
 
 	interAddRequest = async () => {
 		await addInterRequest(this.fragment, this.veId, this.interId, {
-			veIds: selectedVEs,
+			veIds: selectedVirtualEditions,
 			currentInterId: this.intersChecked.length === 1 && this.intersChecked[0].externalId,
 		})
 			.then(data => (this.virtualEditions = data))

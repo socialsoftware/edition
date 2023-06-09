@@ -19,15 +19,15 @@
 	"scripts": {
 		"build:client": "yarn --cwd client && yarn --cwd client build && mkdir -p server/static/shell && cp -r client/dist/* server/static/shell/",
 		"build:shared": "yarn --cwd shared && yarn --cwd shared build && rm -rf server/static/shared/*  && cp -r shared/dist/* server/static/shared/",
-		"build:vendor": "mkdir -p server/static/shared/node_modules &&  yarn --cwd vendor && cp -r vendor/node_modules server/static/shared",
-		"build": "mkdir -p server/static/shared/node_modules  server/temp && yarn build:client && yarn build:shared && yarn build:vendor",
+		"build:vendor": "mkdir -p server/static/node_modules &&  yarn --cwd vendor && cp -r vendor/node_modules server/static/",
+		"build": "mkdir -p server/static/shared server/temp && yarn build:vendor && yarn build:client && yarn build:shared",
 		"dev": "yarn && yarn build && nodemon -r dotenv/config server/src/server.js dotenv_config_path=.env.dev",
 		"docker": "yarn && yarn build && forever -c 'node -r dotenv/config' server/src/server.js dotenv_config_path=.env"
 	},
 	"_moduleAliases": {
 		"shared": "server/static/shared/"
 	},
-	"dependencies": {
+	"devDependencies": {
 		"async-express-decorator": "^1.1.0",
 		"clear-module": "^4.1.2",
 		"cors": "^2.8.5",
@@ -35,6 +35,7 @@
 		"express": "^4.18.1",
 		"forever": "^4.0.3",
 		"html-minifier": "^4.0.0",
+		"lighthouse": "^10.2.0",
 		"module-alias": "^2.2.2",
 		"multer": "latest",
 		"node-html-parser": "latest",

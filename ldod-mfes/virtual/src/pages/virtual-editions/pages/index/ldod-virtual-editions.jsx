@@ -13,12 +13,13 @@ import constants from '../../../constants';
 import CreateButton from './components/create-ve/create-button';
 import VETable from './components/ve-table';
 import Title from './components/title';
-import { errorPublisher, selectedVEs } from '../../../../event-module';
+
+import { selectedVirtualEditions } from '../../../../store/selected-ve-store';
+import { errorPublisher } from '../../../../event-bus/event-bus';
 import.meta.env.DEV ? await import('@ui/table-dev.js') : await import('@ui/table.js');
 
 let gamesModal;
 let taxonomy;
-
 export class LdodVirtualEditions extends HTMLElement {
 	constructor() {
 		super();
@@ -88,8 +89,8 @@ export class LdodVirtualEditions extends HTMLElement {
 			.sort((ed1, ed2) => +ed2.member?.active - +ed1.member?.active)
 			.sort(
 				(ed1, ed2) =>
-					+(ed2.selected || selectedVEs.includes(ed2.acronym)) -
-					(+ed1.selected || selectedVEs.includes(ed1.acronym))
+					+(ed2.selected || selectedVirtualEditions.includes(ed2.acronym)) -
+					(+ed1.selected || selectedVirtualEditions.includes(ed1.acronym))
 			);
 		this.render();
 		this.addEventListeners();
