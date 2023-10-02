@@ -119,7 +119,7 @@ public class TaxonomyDto {
 	}
 
 	@JsonIgnore
-	public void createGeneratedCategories(TopicListDTO topicList) {
+	public void createGeneratedCategories(TopicListDto topicList) {
 		webClientVirtual.build()
 				.post()
 				.uri(uriBuilder -> uriBuilder

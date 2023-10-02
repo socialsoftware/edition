@@ -2,12 +2,12 @@ package pt.ist.socialsoftware.edition.notification.dtos.virtual;
 
 import java.util.List;
 
-public class TopicListDTO {
+public class TopicListDto {
 	private String taxonomyExternalId;
 	private String username;
-	private List<TopicDTO> topics;
+	private List<TopicDto> topics;
 
-	public TopicListDTO() {}
+	public TopicListDto() {}
 
 	public String getTaxonomyExternalId() {
 		return taxonomyExternalId;
@@ -25,11 +25,11 @@ public class TopicListDTO {
 		this.username = username;
 	}
 
-	public List<TopicDTO> getTopics() {
+	public List<TopicDto> getTopics() {
 		return topics;
 	}
 
-	public void setTopics(List<TopicDTO> topics) {
+	public void setTopics(List<TopicDto> topics) {
 		this.topics = topics;
 	}
 

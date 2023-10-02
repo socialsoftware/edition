@@ -181,7 +181,7 @@ public class VirtualEditionInterDto {
     }
 
     @JsonIgnore
-    public List<CategoryDTO> getAllDepthCategoriesAccessibleByUser(String username) {
+    public List<CategoryDto> getAllDepthCategoriesAccessibleByUser(String username) {
         return webClientVirtual.build()
                 .get()
                 .uri(uriBuilder -> uriBuilder
@@ -189,7 +189,7 @@ public class VirtualEditionInterDto {
                     .queryParam("username", username)
                     .build())
                 .retrieve()
-                .bodyToFlux(CategoryDTO.class)
+                .bodyToFlux(CategoryDto.class)
                 .collectList()
                 .block();
         //        return this.virtualProvidesInterface.getVirtualEditionInterAllDepthCategoriesAccessibleByUser(this.xmlId, username);

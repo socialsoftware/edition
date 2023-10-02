@@ -2,11 +2,11 @@ package pt.ist.socialsoftware.edition.notification.dtos.virtual;
 
 import java.util.List;
 
-public class TopicDTO {
+public class TopicDto {
 	private String name;
 	private List<TopicInterPercentageDTO> inters;
 
-	public TopicDTO() {
+	public TopicDto() {
 
 	}
 
