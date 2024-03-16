@@ -227,20 +227,28 @@
 	Portela, Manuel (2022). &ldquo;Literary Fields Forever: Playing with the <em>Book of Disquiet</em>.&rdquo; <em>Textual Cultures</em> 15.1: 135-154. 
 	DOI: <a href="https://doi.org/10.14434/tc.v15i1.34506" target="_new">https://doi.org/10.14434/tc.v15i1.34506</a></p>
 
-<p>&nbsp;</p>
+&nbsp;</p>
 <p><strong>2023</strong></p>
 <p>
 	Marques, Ana (2023). &ldquo;Processos de cita&ccedil;&atilde;o e produ&ccedil;&atilde;o de argumentos em textos cr&iacute;ticos e ensa&iacute;sticos.&rdquo;
-	<em>Discurso Acad&eacute;mico: Conhecimento Disciplinar e Apropria&ccedil;&atilde;o Did&aacute;tica.</em> Ed. Joana Vieira Santos. Coimbra: CELGA-ILTEC. [forthcoming]</p>
+	<em>Discurso Acad&eacute;mico: Conhecimento Disciplinar e Apropria&ccedil;&atilde;o Did&aacute;tica.</em> Eds. Paulo Nunes da Silva, Alexandra Guedes Pinto, 
+	Carla Marques. Coimbra: Gr&aacute;cio Editor. 183-195.</p>
+
+<p>&nbsp;</p>
+<p><strong>2024</strong></p>
+<p>
+	Faustino, Diogo; Nuno Gon&ccedil;alves; Manuel Portela; Ant&oacute;nio Rito Silva (2024). &ldquo;Stepwise migration of a monolith to a microservice architecture: 
+	Performance and migration effort evaluation.&rdquo; <em>Performance Evaluation</em>, Volume 164 (May 2024), Article 102411. 
+	DOI: <a href="https://doi.org/10.1016/j.peva.2024.102411" target="_new">https://doi.org/10.1016/j.peva.2024.102411</a>
 <p> 
-	Portela, Manuel (2023). &ldquo;Alucinar Fragmentos, Escrever Imagens: A Montagem do Livro no <em>Filme do Desassossego</em>.&rdquo; Ed. Golgona Anghel. 
+	Portela, Manuel (2024). &ldquo;Alucinar Fragmentos, Escrever Imagens: A Montagem do Livro no <em>Filme do Desassossego</em>.&rdquo; Ed. Golgona Anghel. 
 	<em>Jo&atilde;o Botelho: &lsquo;filmo um texto como se fosse um rosto&rsquo;&rdquo;</em>. Lisboa: Sistema Solar/Documenta. [forthcoming]</p>
 <p>	
-	Portela, Manuel (2023). &ldquo;Text Mining the <em>Book of Disquiet</em> for Critical and Creative Explorations&rdquo;. 
+	Portela, Manuel (2024). &ldquo;Text Mining the <em>Book of Disquiet</em> for Critical and Creative Explorations&rdquo;. 
 	Eds. Ulrike Henny-Krahmer and Bernhard Geiger. <em>Machine Learning and Data Mining for Digital Scholarly Editions</em>. 
 	Norderstedt: Books on Demand/ Rostock: Institut f&uuml;r Dokumentologie und Editorik. [forthcoming]</p>
 <p>	
-	Portela, Manuel (2023). &ldquo;From Meta-Editing to Virtual Editing: The <em>LdoD Archive</em> as a Computer-Assisted Editorial Space.&rdquo; 
+	Portela, Manuel (2024). &ldquo;From Meta-Editing to Virtual Editing: The <em>LdoD Archive</em> as a Computer-Assisted Editorial Space.&rdquo; 
 	<em>Approaches to Teaching The Book of Disquiet.</em> Eds. Paulo de Medeiros and Jer&oacute;nimo Pizarro. 
 	New York: Modern Language Association. [forthcoming]</p>
 
@@ -944,4 +952,4 @@
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p>[actualizaci&oacute;n 22-01-2023]</p>
+<p>[actualizaci&oacute;n 16-03-2024]</p>
