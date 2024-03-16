@@ -244,5 +244,8 @@ a better understanding of the materials and interactions available in each inter
          <p>Manuel Portela, &ldquo;Oficina de Cria&ccedil;&atilde;o e Intera&ccedil;&atilde;o Digital.&rdquo; Teatro da Rainha, Caldas da Rainha, 18-19/12/2021.</p>
 
 <p>&nbsp;</p>
+<p><strong>2023</strong> </p>
+	<p>Manuel Portela, &ldquo;Desassossego Remix&rdquo;, Biblioteca Municipal de Beja, 21/10/2023.</p>
 <p>&nbsp;</p>
-<p>[updated 31-12-2021]</p>
+<p>&nbsp;</p>
+<p>[updated 16-03-2024]</p>
