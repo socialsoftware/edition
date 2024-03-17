@@ -88,6 +88,7 @@
 	Centro de Literatura Portuguesa da Universidade de Coimbra. URL: <a
 		href="https://ldod.uc.pt/">https://ldod.uc.pt/</a>
 </p>
+<p>&nbsp;</p>
 <p class="ldod-about semibold">
 	Como citar uma edi&ccedil;&atilde;o virtual do <em>Arquivo LdoD?</em>
 </p>
@@ -99,4 +100,4 @@
 </p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p>[atualiza&ccedil;&atilde;o 31-12-2021]</p>
+<p>[atualiza&ccedil;&atilde;o 22-01-2023]</p>

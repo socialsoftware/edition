@@ -16,7 +16,7 @@
       Utilizando el archivo digital de la obra maestra modernista <em>Libro del desasosiego</em>, del escritor portugu&eacute;s Fernando Pessoa (1888-1935),
       como caso de estudio y lugar para simulaci&oacute;n y experimento pr&aacute;ctico, <em>Literary Simulation and the Digital Humanities</em> demuestra c&oacute;mo
       los modelos computacionales de la textualidad pueden asimilar plenamente las complejidades de la teor&iacute;a literaria contempor&aacute;nea. A trav&eacute;s de una 
-      una combinaci&oacute;n &uacute;nica de especulaci&oacute;n te&oacute;rica, an&aacute;lisis literario e imaginaci&oacute;n humana, la obra representa una 
+      una combinaci&oacute;n &uacute;nica de especulaci&oacute;n te&oacute;rica, an&aacute;lisis literario e imaginaci&oacute;n, la obra representa una 
       importante intervenci&oacute;n cr&iacute;tica y un avance clave en el uso de m&eacute;todos digitales para repensar los procesos de lectura y 
       escritura literaria.</p>
 
@@ -40,4 +40,4 @@
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p>[actualizaci&oacute;n 31-12-2021]</p>
+<p>[actualizaci&oacute;n 16-03-2024]</p>
