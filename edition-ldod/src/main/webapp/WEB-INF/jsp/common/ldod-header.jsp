@@ -104,6 +104,8 @@
                             code="general.reading.visual"/></a></li>
                     <li><a href="${contentPath}/citations"><spring:message
                             code="general.citations.twitter"/></a></li>
+                    <li><a href="https://criticalreading.ldod.uc.pt/"><spring:message
+                            code="general.reading.critical"/></a></li>
 
                 </ul>
             </li>
