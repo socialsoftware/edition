@@ -1,7 +1,6 @@
 package pt.ist.socialsoftware.edition.ldod.dto;
 
 import pt.ist.socialsoftware.edition.ldod.domain.Annotation;
-import pt.ist.socialsoftware.edition.ldod.domain.ExpertEditionInter;
 import pt.ist.socialsoftware.edition.ldod.domain.FragInter;
 import pt.ist.socialsoftware.edition.ldod.domain.VirtualEditionInter;
 import pt.ist.socialsoftware.edition.ldod.utils.AnnotationDTO;
@@ -20,7 +19,7 @@ public class Fragment2CriticalDto {
 
 	public Fragment2CriticalDto(VirtualEditionInter inter) {
 		this.urlId = inter.getUrlId();
-		this.title = inter.getFragment().getTitle();
+		this.title = inter.getTitle();
 		this.categories = inter.getCategories().stream().map(c -> c.getName()).sorted().collect(Collectors.toList());
 		this.editions = inter.getListUsed().stream().map(FragInter::getShortName).collect(Collectors.toList());
 	}
