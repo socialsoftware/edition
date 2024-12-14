@@ -478,7 +478,7 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <!-- use this version to be compatible with fenix mysql lib -->
-            <version>5.1.49</version>
+            <version>8.0.28</version>
         </dependency>
 
         <!-- Logging -->
