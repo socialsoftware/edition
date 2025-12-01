@@ -242,7 +242,7 @@
 	DOI: <a href="https://doi.org/10.1016/j.peva.2024.102411" target="_new">https://doi.org/10.1016/j.peva.2024.102411</a></p>
 <p>
 	Portela, Manuel; Marques, Ana; Pereira, Lucas Lu&iacute;s (2024). &ldquo;Modelling and Visualising Critical Reading through an Intertextual Interface.&rdquo; 
-	<em>Umanistica Digitale</em> 17 (2024): 121-142. DOI: <a href="http://doi.org/10.6092/issn.2532-8816/19462" target="_new">http://doi.org/10.6092/issn.2532-8816/19462</a></p>
+	<em>Umanistica Digitale</em> 17 (July 2024): 121-142. DOI: <a href="http://doi.org/10.6092/issn.2532-8816/19462" target="_new">http://doi.org/10.6092/issn.2532-8816/19462</a></p>
 
 
 <p>&nbsp;</p>
