@@ -971,7 +971,7 @@
 <p><strong>2025</strong></p>
 <p> 
 
-    Gim&eacute;nez, Diego. &ldquo;O Livro Do Desassossego, Modos De Leitura.&rdquo; <em> Terra Roxa e Outras Terras: Revista de Estudos Liter&aacute;rios</em>, vol. 45, nº 1 (June 2025): 26-41.
+    Gim&eacute;nez, Diego. &ldquo;O Livro do Desassossego, Modos de Leitura.&rdquo; <em> Terra Roxa e Outras Terras: Revista de Estudos Liter&aacute;rios</em>, vol. 45, nº 1 (June 2025): 26-41.
 DOI: <a href="https://doi.org/10.5433/1678-2054.2025vol45n1p26" target="_new">https://doi.org/10.5433/1678-2054.2025vol45n1p26</a> </p> 
 
 <p>
