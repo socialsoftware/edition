@@ -960,6 +960,24 @@
 	Dion&iacute;sio, Jo&atilde;o (2021). &ldquo;Fazer Edi&ccedil;&otilde;es com Edi&ccedil;&otilde;es: Peritos e Comunidades.&rdquo; 
 	<em>Todas as Letras: Revista de L&iacute;ngua e Literatura </em> 23.1: 1-17. URL: <a href="https://doi.org/10.5935/1980-6914/eLETDO2114243" target="_new">
 	https://doi.org/10.5935/1980-6914/eLETDO2114243</a></p> 
+<p>&nbsp;</p>
+<p><strong>2024</strong></p>
+<p> 
+
+	Gim&eacute;nez, Diego. &ldquo;<em>LdoD Leitura Cr&iacute;tica </em>, uma resenha.&rdquo; <em>Texto Digital</em>, Volume 20.2: 295-300. 
+	DOI: <a href="https://doi.org/10.5007/1807-9288.2024.e104139" target="_new">https://doi.org/10.5007/1807-9288.2024.e104139</a> </p>
+
+<p>&nbsp;</p>
+<p><strong>2025</strong></p>
+<p> 
+
+    Gim&eacute;nez, Diego. &ldquo;O Livro Do Desassossego, Modos De Leitura.&rdquo; <em> Terra Roxa e Outras Terras: Revista de Estudos Liter&aacute;rios</em>, vol. 45, nº 1 (June 2025): 26-41.
+DOI: <a href="https://doi.org/10.5433/1678-2054.2025vol45n1p26" target="_new">https://doi.org/10.5433/1678-2054.2025vol45n1p26</a> </p> 
+
+<p>
+	Sa&eacute;z Delgado, Ant&oacute;nio. &ldquo;<em>LdoD Leitura Cr&iacute;tica </em>: Mosaico plural.&rdquo; <em>Pessoa Plural―A Journal of Fernando Pessoa Studies</em>, Issue 27 (June 2025): 256-258. 
+	DOI: <a href="https://doi.org/10.5007/1807-9288.2024.e104139" target="_new">https://doi.org/10.5007/1807-9288.2024.e104139</a> </p>
+
 
 <p>&nbsp;</p>
 <p>&nbsp;</p>
